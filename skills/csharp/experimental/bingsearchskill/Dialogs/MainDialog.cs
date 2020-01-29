@@ -14,12 +14,13 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using SkillServiceLibrary.Utilities;
 
 namespace BingSearchSkill.Dialogs
 {
@@ -29,7 +30,6 @@ namespace BingSearchSkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
-        private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
             BotSettings settings,
@@ -48,7 +48,6 @@ namespace BingSearchSkill.Dialogs
 
             // Initialize state accessor
             _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
-            _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
             AddDialog(sampleDialog);
@@ -64,9 +63,6 @@ namespace BingSearchSkill.Dialogs
         {
             // get current activity locale
             var localeConfig = _services.GetCognitiveModels();
-
-            // Populate state from SkillContext slots as required
-            await PopulateStateFromSkillContext(dc.Context);
 
             // Get skill LUIS model from configuration
             localeConfig.LuisServices.TryGetValue("BingSearchSkill", out var luisService);
@@ -103,14 +99,15 @@ namespace BingSearchSkill.Dialogs
         protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
-            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            if (dc.Context.IsSkill() || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.Handoff;
+                response.Type = ActivityTypes.EndOfConversation;
 
                 await dc.Context.SendActivityAsync(response);
             }
 
+            // End active dialog.
             await dc.EndDialogAsync(result);
         }
 
@@ -238,23 +235,6 @@ namespace BingSearchSkill.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
             return InterruptionAction.End;
-        }
-
-        private async Task PopulateStateFromSkillContext(ITurnContext context)
-        {
-            // If we have a SkillContext object populated from the SkillMiddleware we can retrieve requests slot (parameter) data
-            // and make available in local state as appropriate.
-            var skillContext = await _contextAccessor.GetAsync(context, () => new SkillContext());
-            if (skillContext != null)
-            {
-                // Example of populating local state with data passed through Skill Context
-                // if (skillContext.ContainsKey("Location"))
-                // {
-                //    // Add to your local state
-                //    var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-                //    state.Location = skillContext["Location"];
-                // }
-            }
         }
 
         private class Events

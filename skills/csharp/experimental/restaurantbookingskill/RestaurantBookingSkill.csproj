@@ -61,19 +61,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.8.0-daily210" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.2" />
     <PackageReference Include="Microsoft.Recognizers.Text" Version="1.2.9" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.2.9" />
     <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.2.9" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\shared\SkillServiceLibrary\SkillServiceLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

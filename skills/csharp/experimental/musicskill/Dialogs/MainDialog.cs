@@ -9,16 +9,19 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Models;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Bot.Schema;
 using MusicSkill.Models;
 using MusicSkill.Responses.Main;
 using MusicSkill.Responses.Shared;
 using MusicSkill.Services;
+using SkillServiceLibrary.Utilities;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
 
 namespace MusicSkill.Dialogs
 {
@@ -28,7 +31,6 @@ namespace MusicSkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
-        private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
             BotSettings settings,
@@ -47,7 +49,6 @@ namespace MusicSkill.Dialogs
 
             // Initialize state accessor
             _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
-            _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
             AddDialog(playMusicDialog);
@@ -106,9 +107,16 @@ namespace MusicSkill.Dialogs
 
         protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var response = dc.Context.Activity.CreateReply();
-            response.Type = ActivityTypes.Handoff;
-            await dc.Context.SendActivityAsync(response);
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.IsSkill() || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            {
+                var response = dc.Context.Activity.CreateReply();
+                response.Type = ActivityTypes.EndOfConversation;
+
+                await dc.Context.SendActivityAsync(response);
+            }
+
+            // End active dialog.
             await dc.EndDialogAsync(result);
         }
 
