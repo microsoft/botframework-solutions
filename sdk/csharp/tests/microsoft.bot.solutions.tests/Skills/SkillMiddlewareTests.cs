@@ -15,6 +15,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Solutions.Tests.Skills
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class SkillMiddlewareTests
     {
         private ServiceCollection _serviceCollection;

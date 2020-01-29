@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class LanguageGenerationTests
     {
         private Dictionary<string, List<string>> localeLgFiles;
