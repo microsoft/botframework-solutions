@@ -76,7 +76,7 @@ foreach ($langCode in $languageMap.Keys) {
         dispatch init `
             -n $dispatch.name `
             --luisAuthoringKey $dispatch.authoringkey `
-            --luisAuthoringRegion $dispatch.region `
+            --luisAuthoringRegion $dispatch.authoringRegion `
             --culture $langCode `
             --gov $useGov `
             --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
@@ -98,7 +98,7 @@ foreach ($langCode in $languageMap.Keys) {
                 --type "luis" `
                 --name $luisApp.name `
                 --id $luisApp.appid  `
-                --region $luisApp.region `
+                --region $luisApp.authoringRegion `
                 --intentName "l_$($luisApp.id)" `
                 --dispatch $dispatchFile `
                 --dataFolder $(Join-Path $dispatchFolder $langCode) --verbose 2>> $logFile | Out-Null
