@@ -14,6 +14,7 @@ namespace CalendarSkill.Test.API
     // only have success test now
     // todo: add more error test
     [TestClass]
+    [TestCategory("UnitTests")]
     public class CalendarServiceBaseTests
     {
         private static ICalendarService calendarService;

@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Solutions.Tests.Feedback
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class FeedbackMiddlewareTests
     {
         private readonly string positiveFeedback = "positive";

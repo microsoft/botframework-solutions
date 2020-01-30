@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkill.Test.API
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ServiceManagerTests
     {
         private static IServiceManager serviceManager;

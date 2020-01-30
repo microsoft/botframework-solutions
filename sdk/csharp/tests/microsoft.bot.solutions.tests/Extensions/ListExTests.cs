@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ListExTests
     {
         [TestMethod]
