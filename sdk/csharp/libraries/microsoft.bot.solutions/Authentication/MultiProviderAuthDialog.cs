@@ -51,14 +51,16 @@ namespace Microsoft.Bot.Solutions.Authentication
 
             AddDialog(new WaterfallDialog(DialogIds.FirstStepPrompt, firstStep));
 
-            if (_authenticationConnections != null && _authenticationConnections.Any())
+            if (_authenticationConnections != null &&
+                _authenticationConnections.Count > 0 &&
+                _authenticationConnections.Any(c => !string.IsNullOrWhiteSpace(c.Name)))
             {
                 for (int i = 0; i < _authenticationConnections.Count; ++i)
                 {
                     var connection = _authenticationConnections[i];
 
                     // We ignore placeholder connections in config that don't have a Name
-                    if (!string.IsNullOrEmpty(connection.Name))
+                    if (!string.IsNullOrWhiteSpace(connection.Name))
                     {
                         var settings = promptSettings?[i] ?? new OAuthPromptSettings
                         {
