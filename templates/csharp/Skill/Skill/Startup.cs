@@ -13,12 +13,10 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -71,7 +69,10 @@ namespace $safeprojectname$
             services.AddSingleton(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
-            // Configure credentials
+            // Configure channel provider
+            services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
+
+            // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Configure telemetry
@@ -123,9 +124,9 @@ namespace $safeprojectname$
             services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register dialogs
-            services.AddTransient<MainDialog>();
             services.AddTransient<SampleDialog>();
             services.AddTransient<SampleAction>();
+            services.AddTransient<MainDialog>();
 
             // Configure adapter
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

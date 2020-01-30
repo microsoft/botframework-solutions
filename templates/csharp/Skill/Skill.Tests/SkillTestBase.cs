@@ -1,22 +1,24 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Security.Claims;
 using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Testing;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using $ext_safeprojectname$.Bots;
-using $ext_safeprojectname$.Dialogs;
-using $ext_safeprojectname$.Services;
+using SkillSample.Bots;
+using SkillSample.Dialogs;
+using SkillSample.Services;
 using $safeprojectname$.Utilities;
 
 namespace $safeprojectname$
@@ -42,7 +44,7 @@ namespace $safeprojectname$
                             LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() },
-                                { "$ext_safeprojectname$", SkillTestUtil.CreateRecognizer() }
+                                { "SkillSample", SkillTestUtil.CreateRecognizer() }
                             }
                         }
                     }
@@ -85,16 +87,12 @@ namespace $safeprojectname$
 
             TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
             System.Threading.Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-us");
-
             Services.AddSingleton(TemplateEngine);
             Services.AddTransient<MainDialog>();
             Services.AddTransient<SampleDialog>();
             Services.AddTransient<SampleAction>();
-
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
-
-
         }
 
         public TestFlow GetTestFlow()
@@ -104,6 +102,27 @@ namespace $safeprojectname$
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
+                var bot = sp.GetService<IBot>();
+                await bot.OnTurnAsync(context, CancellationToken.None);
+            });
+
+            return testFlow;
+        }
+
+        public TestFlow GetSkillTestFlow()
+        {
+            var sp = Services.BuildServiceProvider();
+            var adapter = sp.GetService<TestAdapter>();
+
+            var testFlow = new TestFlow(adapter, async (context, token) =>
+            {
+                // Set claims in turn state to simulate skill mode
+                var claims = new List<Claim>();
+                claims.Add(new Claim(AuthenticationConstants.VersionClaim, "1.0"));
+                claims.Add(new Claim(AuthenticationConstants.AudienceClaim, Guid.NewGuid().ToString()));
+                claims.Add(new Claim(AuthenticationConstants.AppIdClaim, Guid.NewGuid().ToString()));
+                context.TurnState.Add("BotIdentity", new ClaimsIdentity(claims));
+
                 var bot = sp.GetService<IBot>();
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });

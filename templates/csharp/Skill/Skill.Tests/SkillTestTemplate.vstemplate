@@ -30,6 +30,7 @@
       <ProjectItem ReplaceParameters="true" TargetFileName="LocalizationTests.cs">LocalizationTests.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="MainDialogTests.cs">MainDialogTests.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialogTests.cs">SampleDialogTests.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="SkillModeTests.cs">SkillModeTests.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="SkillTestBase.cs">SkillTestBase.cs</ProjectItem>
     </Project>
   </TemplateContent>

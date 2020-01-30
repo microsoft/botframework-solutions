@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace $safeprojectname$
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class LocalizationTests : SkillTestBase
     {
         [TestMethod]
