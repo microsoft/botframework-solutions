@@ -2,27 +2,23 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Globalization;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
+using $safeprojectname$.Extensions;
 using $safeprojectname$.Models;
 using $safeprojectname$.Services;
-using Newtonsoft.Json.Linq;
 
 namespace $safeprojectname$.Dialogs
 {
     // Dialog providing activity routing and message/event processing.
-    public class MainDialog : ActivityHandlerDialog
+    public class MainDialog : ComponentDialog
     {
         private BotServices _services;
         private SampleDialog _sampleDialog;
@@ -33,7 +29,7 @@ namespace $safeprojectname$.Dialogs
         public MainDialog(
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MainDialog), telemetryClient)
+            : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
             _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
@@ -43,12 +39,51 @@ namespace $safeprojectname$.Dialogs
             var conversationState = serviceProvider.GetService<ConversationState>();
             _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
 
+            var steps = new WaterfallStep[]
+            {
+                IntroStepAsync,
+                RouteStepAsync,
+                FinalStepAsync,
+            };
+
+            AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            InitialDialogId = nameof(MainDialog);
+
             // Register dialogs
             _sampleDialog = serviceProvider.GetService<SampleDialog>();
-            AddDialog(_sampleDialog);
-
             _sampleAction = serviceProvider.GetService<SampleAction>();
+            AddDialog(_sampleDialog);
             AddDialog(_sampleAction);
+        }
+
+        // Runs when the dialog is started.
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                var skillResult = await localizedServices.LuisServices["$safeprojectname$"].RecognizeAsync<SkillSampleLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
+
+                // Run LUIS recognition on General model and store result in turn state.
+                var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
+            }
+
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
         }
 
         // Runs on every turn of the conversation.
@@ -66,20 +101,30 @@ namespace $safeprojectname$.Dialogs
                 // Run LUIS recognition on General model and store result in turn state.
                 var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
             }
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
         // Runs on every turn of the conversation to check if the conversation should be interrupted.
-        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
+        protected async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
         {
-            var activity = dc.Context.Activity;
+            var interrupted = false;
+            var activity = innerDc.Context.Activity;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Get connected LUIS result from turn state.
-                var generalResult = dc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralLuisResult);
+                var generalResult = innerDc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralLuisResult);
                 (var generalIntent, var generalScore) = generalResult.TopIntent();
 
                 if (generalScore > 0.5)
@@ -88,44 +133,65 @@ namespace $safeprojectname$.Dialogs
                     {
                         case GeneralLuis.Intent.Cancel:
                             {
-                                await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage"));
-                                await dc.CancelAllDialogsAsync();
-                                return InterruptionAction.End;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage"));
+                                await innerDc.CancelAllDialogsAsync();
+                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                interrupted = true;
+                                break;
                             }
 
                         case GeneralLuis.Intent.Help:
                             {
-                                await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpMessage"));
-                                return InterruptionAction.Resume;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpCard"));
+                                await innerDc.RepromptDialogAsync();
+                                interrupted = true;
+                                break;
                             }
 
                         case GeneralLuis.Intent.Logout:
                             {
                                 // Log user out of all accounts.
-                                await LogUserOut(dc);
+                                await LogUserOut(innerDc);
 
-                                await dc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage"));
-                                return InterruptionAction.End;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage"));
+                                await innerDc.CancelAllDialogsAsync();
+                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                interrupted = true;
+                                break;
                             }
                     }
                 }
             }
 
-            return InterruptionAction.NoAction;
+            return interrupted;
         }
 
-        // Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
-        protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        // Handles introduction/continuation prompt logic.
+        private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("IntroMessage"));
+            if (stepContext.Context.IsSkill())
+            {
+                // If the bot is in skill mode, skip directly to route and do not prompt
+                return await stepContext.NextAsync();
+            }
+            else
+            {
+                // If bot is in local mode, prompt with intro or continuation message
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale("FirstPromptMessage")
+                };
+
+                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            }
         }
 
-        // Runs when the dialog stack is empty, and a new message activity comes in.
-        protected override async Task OnMessageActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        // Handles routing to additional dialogs logic.
+        private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var activity = innerDc.Context.Activity.AsMessageActivity();
+            var activity = stepContext.Context.Activity;
 
-            if (!string.IsNullOrEmpty(activity.Text))
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Get current cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
@@ -135,23 +201,22 @@ namespace $safeprojectname$.Dialogs
 
                 if (luisService != null)
                 {
-                    var result = innerDc.Context.TurnState.Get<$safeprojectname$Luis>(StateProperties.SkillLuisResult);
+                    var result = stepContext.Context.TurnState.Get<$safeprojectname$Luis>(StateProperties.SkillLuisResult);
                     var intent = result?.TopIntent().intent;
 
                     switch (intent)
                     {
                         case $safeprojectname$Luis.Intent.Sample:
                             {
-                                await innerDc.BeginDialogAsync(_sampleDialog.Id);
-                                break;
+                                return await stepContext.BeginDialogAsync(_sampleDialog.Id);
                             }
 
                         case $safeprojectname$Luis.Intent.None:
                         default:
                             {
                                 // intent was identified but not yet implemented
-                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage"));
-                                break;
+                                await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage"));
+                                return await stepContext.NextAsync();
                             }
                     }
                 }
@@ -160,66 +225,64 @@ namespace $safeprojectname$.Dialogs
                     throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
                 }
             }
+            else if (activity.Type == ActivityTypes.Event)
+            {
+                var ev = activity.AsEventActivity();
+
+                if (!string.IsNullOrEmpty(ev.Name))
+                {
+                    switch (ev.Name)
+                    {
+                        case "SampleAction":
+
+                            SampleActionInput actionData = null;
+
+                            var eventValue = ev.Value as JObject;
+                            if (eventValue != null)
+                            {
+                                actionData = eventValue.ToObject<SampleActionInput>();
+                            }
+
+                            // Invoke the SampleAction dialog passing input data if available
+                            return await stepContext.BeginDialogAsync(nameof(SampleAction), actionData);
+
+                        default:
+
+                            await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+
+                            break;
+
+                    }
+                }
+                else
+                {
+                    await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"An event with no name was received but not processed."));
+                }
+            }
+
+            // If activity was unhandled, flow should continue to next step
+            return await stepContext.NextAsync();
         }
 
-        // Runs when a new event activity comes in.
-        protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default)
+        // Handles conversation cleanup.
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var eventActivity = dc.Context.Activity.AsEventActivity();
-
-            if (!string.IsNullOrEmpty(eventActivity.Name))
+            if (stepContext.Context.IsSkill())
             {
-                switch (eventActivity.Name)
+                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
+                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
                 {
-                    // Each Action in the Manifest will have an associated Name which will be on incoming Event activities
-                    case "SampleAction":
+                    Code = EndOfConversationCodes.CompletedSuccessfully,
+                    Value = stepContext.Result,
+                };
 
-                        SampleActionInput actionData = null;
-
-                        var eventValue = dc.Context.Activity.Value as JObject;
-                        if (eventValue != null)
-                        {
-                            actionData = eventValue.ToObject<SampleActionInput>();
-                        }
-
-                        // Invoke the SampleAction dialog passing input data if available
-                        await dc.BeginDialogAsync(nameof(SampleAction), actionData);
-
-                        break;
-
-                    default:
-
-                        await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{eventActivity.Name ?? "undefined"}' was received but not processed."));
-
-                        break;
-                }
+                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
+                return await stepContext.EndDialogAsync();
             }
             else
             {
-                await dc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"An event with no name was received but not processed."));
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
             }
-        }
-
-        // Runs when an activity with an unknown type is received.
-        protected override async Task OnUnhandledActivityTypeAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
-        {
-            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown activity was received but not processed."));
-        }
-
-        // Runs when the dialog stack completes.
-        protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            // Retrieve the prior dialogs result if provided to return on the Skill EndOfConversation event.
-            ObjectPath.TryGetPathValue<object>(outerDc.Context.TurnState, TurnPath.LASTRESULT, out object dialogResult);
-
-            var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
-            {
-                Code = EndOfConversationCodes.CompletedSuccessfully,
-                Value = dialogResult
-            };
-
-            await outerDc.Context.SendActivityAsync(endOfConversation, cancellationToken);
-            await outerDc.EndDialogAsync(result);
         }
 
         private async Task LogUserOut(DialogContext dc)

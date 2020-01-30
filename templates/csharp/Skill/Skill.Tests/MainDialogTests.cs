@@ -10,6 +10,7 @@ using $safeprojectname$.Utterances;
 namespace $safeprojectname$
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class MainDialogTests : SkillTestBase
     {
         [TestMethod]
@@ -38,18 +39,10 @@ namespace $safeprojectname$
         public async Task Test_Unhandled_Message()
         {
             await GetTestFlow()
+                .Send(SampleDialogUtterances.Trigger)
+                .AssertReplyOneOf(GetTemplates("FirstPromptText"))
                 .Send(GeneralUtterances.None)
                 .AssertReplyOneOf(GetTemplates("UnsupportedText"))
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_Single_Turn()
-        {
-            await GetTestFlow()
-                .Send(GeneralUtterances.None)
-                .AssertReplyOneOf(GetTemplates("UnsupportedText"))
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
         }
     }

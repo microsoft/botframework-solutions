@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace $safeprojectname$.Bots
@@ -19,6 +20,7 @@ namespace $safeprojectname$.Bots
         private readonly BotState _conversationState;
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private LocaleTemplateEngineManager _templateEngine;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -26,6 +28,7 @@ namespace $safeprojectname$.Bots
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -37,9 +40,10 @@ namespace $safeprojectname$.Bots
             await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        protected override Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+            await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("IntroMessage"));
+            await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
         protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)

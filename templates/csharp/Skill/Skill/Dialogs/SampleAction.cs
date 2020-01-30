@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Newtonsoft.Json;
 
-namespace SkillSample.Dialogs
+namespace $safeprojectname$.Dialogs
 {
     public class SampleActionInput
     {

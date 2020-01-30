@@ -27,11 +27,15 @@
       <Folder Name="Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
       </Folder>
+      <Folder Name="Authentication" TargetFolderName="Authentication">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AllowedCallersClaimsValidator.cs">AllowedCallersClaimsValidator.cs</ProjectItem>
+      </Folder>
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultActivityHandler.cs">DefaultActivityHandler.cs</ProjectItem>
       </Folder>
       <Folder Name="Controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="SkillController.cs">SkillController.cs</ProjectItem>
       </Folder>
       <Folder Name="Deployment" TargetFolderName="Deployment">
         <Folder Name="Resources" TargetFolderName="Resources">
@@ -57,28 +61,28 @@
           </Folder>
           <Folder Name="QnA" TargetFolderName="QnA">
             <Folder Name="de-de" TargetFolderName="de-de">
-              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
             </Folder>
             <Folder Name="en-us" TargetFolderName="en-us">
-              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
             </Folder>
             <Folder Name="es-es" TargetFolderName="es-es">
-              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
             </Folder>
             <Folder Name="fr-fr" TargetFolderName="fr-fr">
-              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
             </Folder>
             <Folder Name="it-it" TargetFolderName="it-it">
-              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
             </Folder>
             <Folder Name="zh-cn" TargetFolderName="zh-cn">
-              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.lu">Chitchat.lu</ProjectItem>
-              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.lu">Faq.lu</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
             </Folder>
           </Folder>
           <ProjectItem ReplaceParameters="true" TargetFileName="parameters.template.json">parameters.template.json</ProjectItem>
@@ -86,9 +90,9 @@
         </Folder>
         <Folder Name="Scripts" TargetFolderName="Scripts">
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy.ps1">deploy.ps1</ProjectItem>
-          <ProjectItem ReplaceParameters="false" TargetFileName="publish.ps1">publish.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="deploy_cognitive_models.ps1">deploy_cognitive_models.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="luis_functions.ps1">luis_functions.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="publish.ps1">publish.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="qna_functions.ps1">qna_functions.ps1</ProjectItem>
           <ProjectItem ReplaceParameters="false" TargetFileName="update_cognitive_models.ps1">update_cognitive_models.ps1</ProjectItem>
         </Folder>
@@ -98,6 +102,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
       </Folder>
       <Folder Name="Models" TargetFolderName="Models">
+        <ProjectItem ReplaceParameters="true" TargetFileName="StateProperties.cs">StateProperties.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="UserProfileState.cs">UserProfileState.cs</ProjectItem>
       </Folder>
       <Folder Name="Pipeline" TargetFolderName="Pipeline">
