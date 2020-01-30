@@ -72,12 +72,34 @@ The other LUIS models (`contactSelection` and `phoneNumberSelection`) are used t
 |phoneNumberSpelledOut| A literal phone number specified by the user in the query, in words |
 |phoneNumberType| Identifies a certain phone number of the contact by its type (for example, "home", "business", "mobile") |
 
+## Deployment
+{:.no_toc}
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.
+
 ## Configuration 
 
 ### Supported content providers
 {:.no_toc}
 
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
+
+#### Authentication connection settings
+{:.no_toc}
+
+##### Office 365
+
+This skill uses the following authentication scopes:
+
+- `User.ReadBasic.All`
+- `User.Read`
+- `People.Read`
+- `Contacts.Read`
+
+You must use [these steps]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to manually configure Authentication for the Calendar Skill. Due to a change in the Skill architecture this is not currently automated.
+
+> Ensure you configure all of the scopes detailed above.
+
+#### Google Account
 
 To use Google account in skill you need to follow these steps:
 1. Create your Gmail API credential in [Google developers console](https://console.developers.google.com).
@@ -87,19 +109,6 @@ To use Google account in skill you need to follow these steps:
     - Client id and secret are generated in step 1
     - Scopes: `"https://www.googleapis.com/auth/contacts"`.
 3. Add the connection name, client id, secret and scopes in appsetting.json file.
-
-##### Authentication connection settings
-{:.no_toc}
-
-If you plan to use the skill as part of a Virtual Assistant, the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes, which are registered automatically:
-- `User.ReadBasic.All`
-- `User.Read`
-- `People.Read`
-- `Contacts.Read`
-
-**However**, if you wish to use the Skill directly without using a Virtual Assistant, please use the following steps to manually configure Authentication for the Phone Skill. This is **not** required when using the Skill with a Virtual Assistant.
-
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps.md) to configure this using the scopes shown above.
 
 ## Events
 

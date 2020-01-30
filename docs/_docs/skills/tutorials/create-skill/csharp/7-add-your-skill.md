@@ -2,9 +2,9 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: C#
+language: csharp
 title: Add your skill to a Virtual Assistant
-order: 6
+order: 7
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
@@ -13,7 +13,7 @@ order: 6
 
 ## Validate the Skill manifest endpoint
 
-- To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest (`/api/skill/manifest endpoint`). e.g.  `http://localhost:3978/api/skill/manifest`
+- To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest. e.g.  `http://localhost:3978/manifest/manifest.json`
 
 ## Adding your skill to an assistant
 

@@ -10,400 +10,229 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The Skill manifest enables Skills to be self-describing in that they communicate the name and description of a Skill, it's authentication requirements if appropriate along with the discrete actions that it exposes. Each action provides utterances that the caller can use to identify when an utterance should be passed across to a skill along with slots (parameters) that it can accept for slot-filling if required.
+The [Skill manifest](https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json) enables Skills to be self-describing in that they communicate the name and description of a Skill, it's authentication requirements if appropriate along with the discrete actions that it exposes. Each action provides utterances that the caller can use to identify when an utterance should be passed across to a skill along with slots (parameters) that it can accept for slot-filling if required.
 
 This manifest provides all of the metadata required for a calling Bot to know when to trigger invoking a skill and what actions it provides. The manifest is used by the Skill command-line tool to configure a Bot to make use of a Skill.
 
-Each skill exposes a manifest endpoint enabling easy retrieval of a manifest, this can be found on the following URI path of your skill: **/api/skill/manifest**
+Each skill exposes a manifest endpoint enabling easy retrieval of a manifest, this is typically found at the `/manifest/manifest.json` of your Skill URI.
 
 ## Manifest structure
 
 A manifest is made up of the following structure:
 
-- Manifest Header
-- Authentication Connections
-- Actions
-  - Definition
-    - Slot
-  - Trigger
-    - UtteranceSources
-    - Utterance
+- Description
+- Endpoints
+- DispatchModels
+- Activities
+- Definitions
+- ResponseObject
 
-### Manifest Header
+### Description
 {:.no_toc}
 
-The manifest header provides high level information relating to your skill, the table below provides more information on each item. Note that items marked as automatic should not be provided in your manifest file as they are automatically provided at runtime as part of the manifest generation.
+The top level section of your Manifest provides high level information relating to your skill, the table below provides more information on each item. Note that items marked as automatic should not be provided in your manifest file as they are automatically provided at runtime as part of the manifest generation.
 
  Parameter  | Description | Required
  ---------  | ----------- | --------
  id         | Identifier for your skill, no spaces or special characters | **Yes**
  name       | Display name for your skill | **Yes**
  description| Description of the capabilities your Skill provides | **Yes**
+ publisherName | Publisher name | **Yes**
+ version | Version number for your skill | **Yes**
  iconUrl    | Icon Uri representing your skill, potentially used to show the skills registered with a Bot. | No
- msaAppId   | Microsoft App Id value of your skill | Automatic
- endpoint   | Exposed entrypoint for communicating with your skill | Automatic
+ copyright   | Copyright message | No
+ license   | License information | No
+ privacyUrl   | Exposed entrypoint for communicating with your skill | No
+ tags   | Exposed entrypoint for communicating with your skill | No
 
 ```json
-  "id": "calendarSkill",
-  "name": "Calendar Skill",
-  "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
-  "iconUrl": "calendarSkill.png",
-  "msaAppId": "10101010-1010-1010-1010-101010101010",
-  "endpoint": "http://localhost:3980/api/skill/messages",
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "SampleSkill",
+  "name": "SampleSkill",
+  "description": "SampleSkill description",
+  "publisherName": "Your Company",
+  "version": "1.0",
+  "iconUrl": "https://{YOUR_SKILL_URL}/SampleSkill.png",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
+  "tags": [
+    "sample",
+    "skill"
+  ]
+}
 ```
 
-### Authentication Connections
-{:.no_toc}
+### Endpoints
 
-The **authenticationConnections** section communicates which authentication providers your skill supports, if any. For example, a Calendar skill might support both Outlook and Google enabling it to function with either provider depending on the users choice. The caller can then use this information to automatically configure the Authentication connection or as required enable a manual step to be performed.
+The Endpoints section details 1 or more endpoints that your Skill will accept messages from.
 
- Parameter  | Description | Required
- ---------  | ----------- | --------
- id                 | Identifier for the authentication connection, no spaces or special characters | **Yes**
- serverProviderId   | The Service Provider identifier to help the client understand which identity provider it should use | **Yes**
- scopes             | The authentication scopes required for this skill to operate. Space or comma separated | **Yes**
+- `EndpointUrl` must be manually updated to reflect the deployed location of your Skill
+- `msAppId` must be manually updated to reflect the Azure AD Application ID of your deployed skill, this can be found in your `appSettings.json` file.
 
 ```json
-"authenticationConnections": [
-  {
-    "id": "Outlook",
-    "serviceProviderId": "Azure Active Directory v2",
-    "scopes": "User.ReadBasic.All, Calendars.ReadWrite, People.Read, Contacts.Read"
+  "endpoints": [
+    {
+      "name": "production",
+      "protocol": "BotFrameworkV3",
+      "description": "Production endpoint for the SampleSkill",
+      "endpointUrl": "https://{YOUR_SKILL_URL}/api/messages",
+      "msAppId": "{YOUR_SKILL_APPID}"
+    }
+  ]
+```
+
+### Dispatch Models
+
+The Dispatch model section provides pointers to accompanying language understanding data enabling a caller to train a local dispatcher to identify utterances that should be routed to the skill. The `languages` section supports multiple locales enabling a Skill to surface LU sources for each supported language.
+
+The `url` property enables the manifest to point at a variety of locations including file, http and luis endpoints.
+
+The `intents` section provides an optional mapping of Intents to the default message routing address. This enables a caller to only retrieve the LU data for the supported intents rather than the entire LU model.
+
+```json
+"dispatchModels": {
+  "languages": {
+    "en-us": [
+      {
+        "id": "SampleSkillLuModel-en",
+        "name": "SampleSkill LU (English)",
+        "contentType": "application/lu",
+        "url": "",
+        "description": "English language model for the skill"
+      }
+    ]
   },
-  {
-    "id": "Google",
-    "serviceProviderId": "Google",
-    "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+  "intents": {
+    "SampleIntent": "#/activities/message",
   }
-]
+}
 ```
 
-### Actions
-{:.no_toc}
+### Activities
 
-The **actions** section describes the discrete actions (features) that a given Skill supports. Each action can optionally provide slots (parameters) that the caller may choose to pass or alternatively omit and pass the utterance for the Skill to perform it's own slot filling. Slot filling on the client side can enable a Skill to be invoked and not require any further input or turns from the end user.
+The Activities section optionally defines a set of actions that the Skill supports. In assistant scenarios, utterance based triggering is typically used whereby an utterance is passed across to the Skill for intent detection and processing - the client's responsibility is purely to detect the question is within the domain of a Skill.
 
-Parameter  | Description | Required
- ---------  | ----------- | --------
- id                     | Identifier for the action. No spaces or special characters | **Yes**
- definition/description | Description of what the action provides | **Yes**
- definition/slots       | A name/types collection of each slot | **Yes**
+Action based invocation is analagous to a function call. It enables the caller to invoke a specific capability of a Skill optionally passing input data (slots) in the form of an input object (`value`) and receiving data back through the form of an output object (`resultValue`). This invocation is performed through an Activity of type `Event` with the `Name` property set to the required Action name.
+
+The `Value` property is used on the incoming event used to indicate an action and also the final `EndOfConversation` activity sent from the Skill to a calling Bot.
+
+If data isn't provided, the Skill can prompt for missing information as usual using Prompts. A Skill can also send response activities in addition to any result object.
+
+The example activity definition below shows a `SampleAction` action being defined with `value` and `resultValue` types being specified in addition to a general message handler.
 
 ```json
-"actions": [
-  {
-    "id": "calendarskill_createEvent",
-    "definition": {
-      "description": "Create a new event",
-      "slots": [
-        {
-          "name": "title",
-          "types": [
-            "string"
-          ]
-        },
-        {
-          "name": "content",
-          "types": [
-            "string"
-          ]
+"activities": {
+    "sampleAction": {
+      "description": "Sample action which accepts an input object and returns an object back.",
+      "type": "event",
+      "name": "SampleAction",
+      "value": {
+        "$ref": "#/definitions/inputObject"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/responseObject"
+      }
+    },
+    "message": {
+      "type": "message",
+      "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  }
+```
+
+### Definitions
+
+The `definitions` section provides the definitions for any types referenced in the preceding `activities` section. An example below defines two example objects.
+
+```json
+"definitions": {
+    "inputObject": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The users name."
         }
-      ]
+      }
+    },
+     "responseObject": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "integer",
+          "description": "A customer identifier."
+        }
+      }
     }
-  }
-]
-```
-
-### Trigger
-{:.no_toc}
-
-A given action can be trigged through different mechanisms or an utterance. Example triggering utterances must be provided by a skill to enable a caller to train a natural language dispatcher so it can identify utterances that should be routed to a skill.
-
-References to an source of utterances can be provided through the (`utteranceSource`) element.
-
-> At this time we only support a LU file reference which the Skill CLI parses and resolves the LU file locally meaning the developer must have the LU file available. Moving forward we plan to add a reference to a deployed LUIS model meaning this can be retrieved dynamically.
-
-```json
-"triggers": {
-  "utteranceSources": [
-    {
-      "locale": "en",
-      "source": [
-        "Calendar#AcceptEventEntry",
-        "Calendar#DeleteCalendarEntry"
-      ]
-    }
-  ]
 }
 ```
-
-Utterances can also be provided in-line with the skill manifest as shown below. Unlike with `utteranceSource` all utterances are provided as part of the manifest providing the Skill CLI everything it needs for trigger utterances.
-
-```json
-"triggers": {
-  "utterances": [
-    {
-      "locale": "en",
-      "text": [
-        "2 hour meeting with darren at 5 on tuesday",
-        "add a meeting with darren to my calendar"
-      ]
-    }
-  ]
-}
-```
-
-Both **utteranceSources** and **utterances** support multiple-locales enabling you to express the locales your Skill supports.
 
 ### Example Skill Manifest
 {:.no_toc}
 
 ```json
 {
-  "id": "calendarSkill",
-  "name": "Calendar Skill",
-  "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
-  "iconUrl": "calendarSkill.png",
-  "authenticationConnections": [
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "SampleSkill",
+  "name": "SampleSkill",
+  "description": "Sample Skill description",
+  "publisherName": "Your Company",
+  "version": "1.0",
+  "iconUrl": "https://{YOUR_SKILL_URL}/sampleSkill.png",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
+  "tags": [
+    "sample",
+    "skill"
+  ],
+  "endpoints": [
     {
-      "id": "Outlook",
-      "serviceProviderId": "Azure Active Directory v2",
-      "scopes": "User.ReadBasic.All, Calendars.ReadWrite, People.Read, Contacts.Read"
-    },
-    {
-      "id": "Google",
-      "serviceProviderId": "Google",
-      "scopes": "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts"
+      "name": "production",
+      "protocol": "BotFrameworkV3",
+      "description": "Production endpoint for the Sample Skill",
+      "endpointUrl": "https://{YOUR_SKILL_URL}/api/messages",
+      "msAppId": "{YOUR_SKILL_APPID}"
     }
   ],
-  "actions": [
-    {
-      "id": "calendarskill_createEvent",
-      "definition": {
-        "description": "Create a new event",
-        "slots": [
-          {
-            "name": "title",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "content",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "attendees",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "startDate",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "startTime",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "duration",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "location",
-            "types": [
-              "string"
-            ]
-          }
-        ],
-        "triggers": {
-          "utteranceSources": [
-            {
-              "locale": "en",
-              "source": [
-                "Calendar#CreateCalendarEntry",
-                "Calendar#FindMeetingRoom"
-              ]
-            }
-          ]
+  "activities": {
+    "sampleAction": {
+      "description": "Sample action which accepts an input object and returns an object back.",
+      "type": "event",
+      "name": "SampleAction",
+      "value": {
+        "$ref": "#/definitions/inputObject"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/responseObject"
+      }
+    },
+    "message": {
+      "type": "message",
+      "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  },
+  "definitions": {
+    "inputObject": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The users name."
         }
       }
     },
-    {
-      "id": "calendarskill_changeEventStatus",
-      "definition": {
-        "description": "Change the status of an event (accept/decline).",
-        "slots": [
-          {
-            "name": "startDate",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "startTime",
-            "types": [
-              "string"
-            ]
-          }
-        ],
-        "triggers": {
-          "utteranceSources": [
-            {
-              "locale": "en",
-              "source": [
-                "Calendar#AcceptEventEntry",
-                "Calendar#DeleteCalendarEntry"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "calendarskill_joinEvent",
-      "definition": {
-        "description": "Join the upcoming meeting",
-        "slots": [],
-        "triggers": {
-          "utteranceSources": [
-            {
-              "locale": "en",
-              "source": [
-                "Calendar#ConnectToMeeting"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "calendarskill_timeRemaining",
-      "definition": {
-        "description": "Find out how long until the next event",
-        "slots": [],
-        "triggers": {
-          "utteranceSources": [
-            {
-              "locale": "en",
-              "source": [
-                "Calendar#TimeRemaining"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "calendarskill_summary",
-      "definition": {
-        "description": "Find an upcoming event",
-        "slots": [
-          {
-            "name": "startDate",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "startTime",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "endDate",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "endTime",
-            "types": [
-              "string"
-            ]
-          }
-        ],
-        "triggers": {
-          "utteranceSources": [
-            {
-              "locale": "en",
-              "source": [
-                "Calendar#FindCalendarDetail",
-                "Calendar#FindCalendarEntry",
-                "Calendar#FindCalendarWhen",
-                "Calendar#FindCalendarWhere",
-                "Calendar#FindCalendarWho",
-                "Calendar#FindDuration"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "id": "calendarskill_updateEvent",
-      "definition": {
-        "description": "Update an existing event.",
-        "slots": [
-          {
-            "name": "startDate",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "startTime",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "endDate",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "endTime",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "newStartDate",
-            "types": [
-              "string"
-            ]
-          },
-          {
-            "name": "newStartTime",
-            "types": [
-              "string"
-            ]
-          }
-        ],
-        "triggers": {
-          "utteranceSources": [
-            {
-              "locale": "en",
-              "source": [
-                "Calendar#ChangeCalendarEntry"
-              ]
-            }
-          ]
+     "responseObject": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "integer",
+          "description": "A customer identifier."
         }
       }
     }
-  ]
+  }
 }
 ```
