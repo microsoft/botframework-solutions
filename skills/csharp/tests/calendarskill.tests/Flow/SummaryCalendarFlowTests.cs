@@ -20,6 +20,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkill.Test.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class SummaryCalendarFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]

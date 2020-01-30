@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class LuisRecognizeExTest
     {
         private const string _sentiment = "sentiment";

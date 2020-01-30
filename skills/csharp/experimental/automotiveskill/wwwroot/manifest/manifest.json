@@ -29,7 +29,7 @@
           "id": "AutomotiveSkillLuModel-en",
           "name": "SettingsDispatch LU (English)",
           "contentType": "application/lu",
-          "url": "file://SettingsDispatch-en.lu",
+          "url": "file://SettingsDispatch.lu",
           "description": "English language model for the skill"
         }
       ]

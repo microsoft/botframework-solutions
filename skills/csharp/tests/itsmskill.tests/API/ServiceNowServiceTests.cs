@@ -13,6 +13,7 @@ using RestSharp;
 namespace ITSMSkill.Tests.API
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ServiceNowServiceTests
     {
         private MockServiceNowRestClient mockServiceNowRestClient;

@@ -14,6 +14,7 @@ using ToDoSkill.Tests.Flow.Utterances;
 namespace ToDoSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class GeneralSkillFlowTests : ToDoSkillTestBase
     {
         [TestMethod]

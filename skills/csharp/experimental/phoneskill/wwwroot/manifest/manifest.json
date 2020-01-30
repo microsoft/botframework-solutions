@@ -29,7 +29,7 @@
           "id": "PhoneSkillLuModel-en",
           "name": "Phone LU (English)",
           "contentType": "application/lu",
-          "url": "file://Phone-en.lu",
+          "url": "file://Phone.lu",
           "description": "English language model for the skill"
         }
       ]

@@ -10,6 +10,7 @@ using PhoneSkill.Models;
 namespace PhoneSkill.Tests.Common
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ContactDeduplicatorTests
     {
         [TestMethod]

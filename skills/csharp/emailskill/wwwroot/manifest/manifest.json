@@ -29,7 +29,7 @@
           "id": "EmailLuModel-en",
           "name": "EmailSkill LU (English)",
           "contentType": "application/lu",
-          "url": "file://Email-en.lu",
+          "url": "file://Email.lu",
           "description": "English language model for the skill"
         }
       ],
@@ -38,7 +38,7 @@
           "id": "EmailLuModel-de",
           "name": "EmailSkill LU (German)",
           "contentType": "application/lu",
-          "url": "file://Email-de.lu",
+          "url": "file://Email.lu",
           "description": "German language model for the skill"
         }
       ],
@@ -47,7 +47,7 @@
           "id": "EmailLuModel-es",
           "name": "EmailSkill LU (Spanish)",
           "contentType": "application/lu",
-          "url": "file://Email-es.lu",
+          "url": "file://Email.lu",
           "description": "Spanish language model for the skill"
         }
       ],
@@ -56,7 +56,7 @@
           "id": "EmailLuModel-fr",
           "name": "EmailSkill LU (French)",
           "contentType": "application/lu",
-          "url": "file://Email-fr.lu",
+          "url": "file://Email.lu",
           "description": "French language model for the skill"
         }
       ],
@@ -65,7 +65,7 @@
           "id": "EmailLuModel-it",
           "name": "EmailSkill LU (Italian)",
           "contentType": "application/lu",
-          "url": "file://Email-it.lu",
+          "url": "file://Email.lu",
           "description": "Italian language model for the skill"
         }
       ],
@@ -74,7 +74,7 @@
           "id": "EmailLuModel-zh",
           "name": "EmailSkill LU (Chinese)",
           "contentType": "application/lu",
-          "url": "file://Email-zh.lu",
+          "url": "file://Email.lu",
           "description": "Chinese language model for the skill"
         }
       ]

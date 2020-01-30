@@ -30,7 +30,7 @@
           "id": "ToDoLuModel-en",
           "name": "ToDoSkill LU (English)",
           "contentType": "application/lu",
-          "url": "file://ToDo-en.lu",
+          "url": "file://ToDo.lu",
           "description": "English language model for the skill"
         }
       ],
@@ -39,7 +39,7 @@
           "id": "ToDoLuModel-de",
           "name": "ToDoSkill LU (German)",
           "contentType": "application/lu",
-          "url": "file://ToDo-de.lu",
+          "url": "file://ToDo.lu",
           "description": "German language model for the skill"
         }
       ],
@@ -48,7 +48,7 @@
           "id": "ToDoLuModel-es",
           "name": "ToDoSkill LU (Spanish)",
           "contentType": "application/lu",
-          "url": "file://ToDo-es.lu",
+          "url": "file://ToDo.lu",
           "description": "Spanish language model for the skill"
         }
       ],
@@ -57,7 +57,7 @@
           "id": "ToDoLuModel-fr",
           "name": "ToDoSkill LU (French)",
           "contentType": "application/lu",
-          "url": "file://ToDo-fr.lu",
+          "url": "file://ToDo.lu",
           "description": "French language model for the skill"
         }
       ],
@@ -66,7 +66,7 @@
           "id": "ToDoLuModel-it",
           "name": "ToDoSkill LU (Italian)",
           "contentType": "application/lu",
-          "url": "file://ToDo-it.lu",
+          "url": "file://ToDo.lu",
           "description": "Italian language model for the skill"
         }
       ],
@@ -75,7 +75,7 @@
           "id": "ToDoLuModel-zh",
           "name": "ToDoSkill LU (Chinese)",
           "contentType": "application/lu",
-          "url": "file://ToDo-zh.lu",
+          "url": "file://ToDo.lu",
           "description": "Chinese language model for the skill"
         }
       ]

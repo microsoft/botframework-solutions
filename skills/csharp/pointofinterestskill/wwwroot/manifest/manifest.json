@@ -29,7 +29,7 @@
           "id": "PointOfInterestSkillLuModel-en",
           "name": "PoISkill LU (English)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest-en.lu",
+          "url": "file://PointOfInterest.lu",
           "description": "English language model for the skill"
         }
       ],
@@ -38,7 +38,7 @@
           "id": "PointOfInterestSkillLuModel-de",
           "name": "PoISkill LU (German)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest-de.lu",
+          "url": "file://PointOfInterest.lu",
           "description": "German language model for the skill"
         }
       ],
@@ -47,7 +47,7 @@
           "id": "PointOfInterestSkillLuModel-es",
           "name": "PoISkill LU (Spanish)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest-es.lu",
+          "url": "file://PointOfInterest.lu",
           "description": "Spanish language model for the skill"
         }
       ],
@@ -56,7 +56,7 @@
           "id": "PointOfInterestSkillLuModel-fr",
           "name": "PoISkill LU (French)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest-fr.lu",
+          "url": "file://PointOfInterest.lu",
           "description": "French language model for the skill"
         }
       ],
@@ -65,7 +65,7 @@
           "id": "PointOfInterestSkillLuModel-it",
           "name": "PoISkill LU (Italian)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest-it.lu",
+          "url": "file://PointOfInterest.lu",
           "description": "Italian language model for the skill"
         }
       ],
@@ -74,7 +74,7 @@
           "id": "PointOfInterestSkillLuModel-zh",
           "name": "PoISkill LU (Chinese)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest-zh.lu",
+          "url": "file://PointOfInterest.lu",
           "description": "Chinese language model for the skill"
         }
       ]

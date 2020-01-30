@@ -2,9 +2,9 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: C#
+language: csharp
 title: Invoke your skill
-order: 7
+order: 8
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})

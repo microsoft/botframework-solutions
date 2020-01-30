@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: C#
+language: csharp
 title: Provision your Azure resources
 order: 4
 ---
@@ -27,8 +27,7 @@ The Virtual Assistant require the following dependencies for end to end operatio
     ```shell
     ./Deployment/Scripts/deploy.ps1
     ```
-
-    ### What do these parameters mean?
+### What do these parameters mean?
 
     Parameter | Description | Required
     --------- | ----------- | --------

@@ -22,6 +22,10 @@ This skill demonstrates the following scenarios:
 
 An example transcript file demonstrating the Skill in action can be found [here]({{site.baseurl}}/assets/transcripts/skills-itsm.transcript), you can use the Bot Framework Emulator to open transcripts.
 
+## Deployment
+{:.no_toc}
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.
+
 ## Configuration
 {:.no_toc}
 
