@@ -5,7 +5,7 @@ using System.Security.Claims;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector.Authentication;
 
-namespace SkillSample.Extensions
+namespace $safeprojectname$.Extensions
 {
     public static class ITurnContextEx
     {

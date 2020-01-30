@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using $safeprojectname$.Models;
 using $safeprojectname$.Services;
@@ -95,9 +94,6 @@ namespace $safeprojectname$.Dialogs
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
             await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
-            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("FirstPromptMessage", userProfile));
-
-            sc.SuppressCompletionMessage(true);
 
             return await sc.EndDialogAsync();
         }

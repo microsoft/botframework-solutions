@@ -22,10 +22,10 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
       </Folder>
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
-        <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
         <Folder Name="manifest" TargetFolderName="manifest">
           <ProjectItem ReplaceParameters="true" TargetFileName="manifest.json">manifest.json</ProjectItem>
         </Folder>
+        <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
       </Folder>
       <Folder Name="Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
@@ -78,9 +78,12 @@
       </Folder>
       <Folder Name="Dialogs" TargetFolderName="Dialogs">
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
-        <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialog.cs">SampleDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="SampleAction.cs">SampleAction.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="SampleDialog.cs">SampleDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="SkillDialogBase.cs">SkillDialogBase.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Extensions" TargetFolderName="Extensions">
+        <ProjectItem ReplaceParameters="true" TargetFileName="ITurnContextEx.cs">ITurnContextEx.cs</ProjectItem>
       </Folder>
       <Folder Name="Models" TargetFolderName="Models">
         <ProjectItem ReplaceParameters="true" TargetFileName="SkillState.cs">SkillState.cs</ProjectItem>

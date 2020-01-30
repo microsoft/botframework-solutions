@@ -11,6 +11,7 @@ using $safeprojectname$.Utterances;
 namespace $safeprojectname$
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class MainDialogTests : BotTestBase
     {
         [TestMethod]
@@ -29,7 +30,11 @@ namespace $safeprojectname$
         [TestMethod]
         public async Task Test_Help_Intent()
         {
+            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
                 .Send(GeneralUtterances.Help)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
@@ -38,7 +43,11 @@ namespace $safeprojectname$
         [TestMethod]
         public async Task Test_Escalate_Intent()
         {
+            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
                 .Send(GeneralUtterances.Escalate)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
@@ -47,9 +56,12 @@ namespace $safeprojectname$
         [TestMethod]
         public async Task Test_Unhandled_Message()
         {
-            var allResponseVariations = TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnsupportedMessage", TestUserProfileState);
+            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allResponseVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnsupportedMessage", TestUserProfileState);
 
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
                 .Send("Unhandled message")
                 .AssertReplyOneOf(allResponseVariations.ToArray())
                 .StartTestAsync();
