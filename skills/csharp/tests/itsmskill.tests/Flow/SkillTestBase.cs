@@ -20,12 +20,11 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
-using Microsoft.Bot.Builder.Solutions.Testing;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -134,9 +133,6 @@ namespace ITSMSkill.Tests.Flow
             // Configure adapters
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
 
-            // Register WhiteListAuthProvider
-            Services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
-
             // Configure bot
             Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
@@ -160,7 +156,7 @@ namespace ITSMSkill.Tests.Flow
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
 

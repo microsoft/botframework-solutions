@@ -20,7 +20,7 @@ namespace PhoneSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send(GeneralUtterances.Incomprehensible)
                 .AssertReplyOneOf(this.ConfusedResponse())
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
+                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
         }
 

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
 namespace CalendarSkill.Test.Flow.Utterances
 {

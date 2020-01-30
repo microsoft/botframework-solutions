@@ -6,15 +6,11 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Solutions.Models;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Dialogs;
-using PointOfInterestSkill.Models;
-using PointOfInterestSkill.Responses.FindPointOfInterest;
-using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Tests.Flow.Strings;
 using PointOfInterestSkill.Tests.Flow.Utterances;
@@ -396,7 +392,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
 

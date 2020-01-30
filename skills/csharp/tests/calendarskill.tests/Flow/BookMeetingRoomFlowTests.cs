@@ -3,9 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Models;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.FindMeetingRoom;
@@ -14,13 +12,10 @@ using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.Flow
@@ -915,11 +910,28 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForConfirmMeetingRoomPrompt(int roomNumber = 1, string dateTime = "right now")
         {
-            return GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
+            // check for both passed dateTime (if it exists) AND "right now" date time to support dateTime difference on CI machines
+            string[] acceptableResponseOne = GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
             {
                 MeetingRoom = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
                 DateTime = dateTime
             });
+
+            if (dateTime == "right now")
+            {
+                return acceptableResponseOne;
+            }
+
+            string[] acceptableResponseTwo = GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
+            {
+                MeetingRoom = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
+                DateTime = "right now"
+            });
+
+            string[] combined = new string[acceptableResponseOne.Length + acceptableResponseTwo.Length];
+            Array.Copy(acceptableResponseOne, combined, acceptableResponseOne.Length);
+            Array.Copy(acceptableResponseTwo, 0, combined, acceptableResponseOne.Length, acceptableResponseTwo.Length);
+            return combined;
         }
 
         private string[] AskForRecreateMeetingRoomPrompt()
@@ -1003,7 +1015,7 @@ namespace CalendarSkill.Test.Flow
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }
