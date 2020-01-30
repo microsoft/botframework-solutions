@@ -25,7 +25,7 @@
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Connector" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.8.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.8.0-preview1" />
     <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
   </ItemGroup>
 
