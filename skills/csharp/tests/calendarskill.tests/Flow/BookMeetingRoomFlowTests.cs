@@ -909,11 +909,28 @@ namespace CalendarSkill.Test.Flow
 
         private string[] AskForConfirmMeetingRoomPrompt(int roomNumber = 1, string dateTime = "right now")
         {
-            return GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
+            // check for both passed dateTime (if it exists) AND "right now" date time to support dateTime difference on CI machines
+            string[] acceptableResponseOne = GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
             {
                 MeetingRoom = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
                 DateTime = dateTime
             });
+
+            if (dateTime == "right now")
+            {
+                return acceptableResponseOne;
+            }
+
+            string[] acceptableResponseTwo = GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
+            {
+                MeetingRoom = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
+                DateTime = "right now"
+            });
+
+            string[] combined = new string[acceptableResponseOne.Length + acceptableResponseTwo.Length];
+            Array.Copy(acceptableResponseOne, combined, acceptableResponseOne.Length);
+            Array.Copy(acceptableResponseTwo, 0, combined, acceptableResponseOne.Length, acceptableResponseTwo.Length);
+            return combined;
         }
 
         private string[] AskForRecreateMeetingRoomPrompt()
