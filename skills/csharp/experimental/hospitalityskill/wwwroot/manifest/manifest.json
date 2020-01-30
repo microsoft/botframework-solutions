@@ -29,7 +29,7 @@
           "id": "HospitalitySkillLuModel-en",
           "name": "Hospitality LU (English)",
           "contentType": "application/lu",
-          "url": "file://Hospitality-en.lu",
+          "url": "file://Hospitality.lu",
           "description": "English language model for the skill"
         }
       ]

@@ -29,7 +29,7 @@
           "id": "CalendarLuModel-en",
           "name": "CalendarSkill LU (English)",
           "contentType": "application/lu",
-          "url": "file://Calendar-en.lu",
+          "url": "file://Calendar.lu",
           "description": "English language model for the skill"
         }
       ],
@@ -38,7 +38,7 @@
           "id": "CalendarLuModel-de",
           "name": "CalendarSkill LU (German)",
           "contentType": "application/lu",
-          "url": "file://Calendar-de.lu",
+          "url": "file://Calendar.lu",
           "description": "German language model for the skill"
         }
       ],
@@ -47,7 +47,7 @@
           "id": "CalendarLuModel-es",
           "name": "CalendarSkill LU (Spanish)",
           "contentType": "application/lu",
-          "url": "file://Calendar-es.lu",
+          "url": "file://Calendar.lu",
           "description": "Spanish language model for the skill"
         }
       ],
@@ -56,7 +56,7 @@
           "id": "CalendarLuModel-fr",
           "name": "CalendarSkill LU (French)",
           "contentType": "application/lu",
-          "url": "file://Calendar-fr.lu",
+          "url": "file://Calendar.lu",
           "description": "French language model for the skill"
         }
       ],
@@ -65,7 +65,7 @@
           "id": "CalendarLuModel-it",
           "name": "CalendarSkill LU (Italian)",
           "contentType": "application/lu",
-          "url": "file://Calendar-it.lu",
+          "url": "file://Calendar.lu",
           "description": "Italian language model for the skill"
         }
       ],
@@ -74,7 +74,7 @@
           "id": "CalendarLuModel-zh",
           "name": "CalendarSkill LU (Chinese)",
           "contentType": "application/lu",
-          "url": "file://Calendar-zh.lu",
+          "url": "file://Calendar.lu",
           "description": "Chinese language model for the skill"
         }
       ]

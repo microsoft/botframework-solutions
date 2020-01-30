@@ -29,7 +29,7 @@
           "id": "RestaurantSkillLuModel-en",
           "name": "Restaurant LU (English)",
           "contentType": "application/lu",
-          "url": "file://restaurant-en.lu",
+          "url": "file://restaurant.lu",
           "description": "English language model for the skill"
         }
       ]
