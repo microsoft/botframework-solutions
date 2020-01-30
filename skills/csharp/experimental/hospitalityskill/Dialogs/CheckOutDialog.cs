@@ -10,7 +10,7 @@ using HospitalitySkill.Responses.CheckOut;
 using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace HospitalitySkill.Dialogs
 {

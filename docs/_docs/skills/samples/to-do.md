@@ -89,15 +89,15 @@ Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/
 ### Authentication connection settings
 {:.no_toc}
 
-If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
+This skill uses the following authentication scopes:
 - **Notes.ReadWrite** 
 - **User.Read**
 - **User.ReadBasic.All**
 - **Tasks.ReadWrite**
 
-**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
+You must use [these steps]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to manually configure Authentication for the ToDo Skill. Due to a change in the Skill architecture this is not currently automated.
 
-Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to configure this using the scopes shown above.
+> Ensure you configure all of the scopes detailed above.
 
 ### Add customized to do lists
 {:.no_toc}

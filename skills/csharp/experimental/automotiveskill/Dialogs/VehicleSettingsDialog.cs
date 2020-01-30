@@ -18,11 +18,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Recognizers.Text;
+using SkillServiceLibrary.Utilities;
 
 namespace AutomotiveSkill.Dialogs
 {
@@ -486,7 +487,7 @@ namespace AutomotiveSkill.Dialogs
         private async Task SendActionToDevice(WaterfallStepContext sc, SettingChange change)
         {
             // workaround. if connect skill directly to teams, the following reply does not work.
-            if (!(sc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter) && Channel.GetChannelId(sc.Context) == Channels.Msteams)
+            if (!sc.Context.IsSkill() && Channel.GetChannelId(sc.Context) == Channels.Msteams)
             {
                 return;
             }

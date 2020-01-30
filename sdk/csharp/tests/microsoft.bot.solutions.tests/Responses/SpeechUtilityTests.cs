@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Solutions.Tests
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class SpeechUtilityTests
     {
         private Activity _activity;

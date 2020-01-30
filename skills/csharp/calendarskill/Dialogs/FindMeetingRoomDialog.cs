@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
-using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Prompts;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.FindMeetingRoom;
@@ -17,13 +14,12 @@ using Luis;
 using Microsoft.Azure.Search;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Graph;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text.Number;
-using static Microsoft.Recognizers.Text.Culture;
 using static CalendarSkill.Models.CreateEventStateModel;
+using static Microsoft.Recognizers.Text.Culture;
 
 namespace CalendarSkill.Dialogs
 {

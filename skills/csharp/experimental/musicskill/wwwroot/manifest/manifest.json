@@ -29,7 +29,7 @@
           "id": "MusicSkillLuModel-en",
           "name": "Music LU (English)",
           "contentType": "application/lu",
-          "url": "file://MusicSkill-en.lu",
+          "url": "file://MusicSkill.lu",
           "description": "English language model for the skill"
         }
       ]

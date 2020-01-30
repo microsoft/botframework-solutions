@@ -10,6 +10,7 @@ using SkillServiceLibrary.Services.FoursquareAPI;
 namespace SkillServiceLibrary.Tests.FoursquareAPI
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class FoursquareGeoSpatialServiceTests
     {
         private HttpClient mockClient;

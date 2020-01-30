@@ -108,6 +108,25 @@ Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/
 {:.no_toc}
 > Office 365 and Outlook.com through the Microsoft Graph is supported along with support for Google accounts.
 
+### Authentication connection Settings
+{:.no_toc}
+
+#### Office 365
+
+This skill uses the following authentication scopes:
+
+- **User.ReadBasic.All**
+- **Mail.ReadWrite**
+- **Mail.Send**
+- **People.Read**
+- **Contacts.Read**
+
+You must use [these steps]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to manually configure Authentication for the Email Skill. Due to a change in the Skill architecture this is not currently automated. 
+
+> Ensure you configure all of the scopes detailed above.
+
+#### Google Account
+
 To use Google account skill you need follow these steps:
 1. Enable Gmail API in [Google API library](https://console.developers.google.com/apis/library)
 1. Create your Gmail API credential in [Google developers console](https://console.developers.google.com/apis/credentials).
@@ -120,19 +139,6 @@ To use Google account skill you need follow these steps:
     - Client id and secret are generated in step 2
     - Scopes: **https://mail.google.com/ https://www.googleapis.com/auth/contacts**.
 1. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
-
-### Authentication connection Settings
-{:.no_toc}
-If you plan to use the skill as part of a Virtual Assistant the process of registering a skill with your Virtual Assistant will create the supporting authentication connection information automatically for your Virtual Assistant. This skill uses the following authentication scopes which are registered automatically:
-- **User.ReadBasic.All**
-- **Mail.ReadWrite**
-- **Mail.Send**
-- **People.Read**
-- **Contacts.Read**
-
-**However**, if you wish to use the Skill directly without using a Virtual Assistant please use the following steps to manually configure Authentication for the Calendar Skill. This is **not** required when using the Skill with a Virtual Assistant.
-
-Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to configure this using the scopes shown above.
 
 ## Events
 {:.toc}

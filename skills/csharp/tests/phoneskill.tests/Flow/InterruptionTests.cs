@@ -10,6 +10,7 @@ using PhoneSkill.Tests.Flow.Utterances;
 namespace PhoneSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class InterruptionTests : PhoneSkillTestBase
     {
         [TestMethod]

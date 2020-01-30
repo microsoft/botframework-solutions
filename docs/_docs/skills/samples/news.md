@@ -22,6 +22,10 @@ This skill supports the following scenarios:
 
 ![News Example]({{site.baseurl}}/assets/images/skills-news-transcript.png)
 
+## Deployment
+{:.no_toc}
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.
+
 ## Configuration
 {:.no_toc}
 

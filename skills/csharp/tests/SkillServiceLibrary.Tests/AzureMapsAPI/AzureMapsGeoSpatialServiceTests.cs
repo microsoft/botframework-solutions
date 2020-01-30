@@ -10,6 +10,7 @@ using SkillServiceLibrary.Services.AzureMapsAPI;
 namespace SkillServiceLibrary.Tests.AzureMapsAPI
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class AzureMapsGeoSpatialServiceTests
     {
         private HttpClient mockClient;

@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkill.Test.Common
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class TimeConverterTests
     {
         [ClassInitialize]

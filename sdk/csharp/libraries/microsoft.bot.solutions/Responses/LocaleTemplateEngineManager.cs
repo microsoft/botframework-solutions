@@ -56,6 +56,10 @@ namespace Microsoft.Bot.Solutions.Responses
         /// <param name="data">Data for Language Generation to use during response generation.</param>
         /// <param name="localeOverride">Optional override for locale.</param>
         /// <returns>Activity.</returns>
+        /// <remarks>
+        /// The InputHint property of the returning activity is set to be null if it's acceptingInput so
+        /// when the activity is being used in a prompt it'll be set to expectingInput.
+        /// </remarks>
         public Activity GenerateActivityForLocale(string templateName, object data = null, string localeOverride = null)
         {
             if (templateName == null)
@@ -69,7 +73,15 @@ namespace Microsoft.Bot.Solutions.Responses
             // Do we have a template engine for this locale?
             if (TemplateEnginesPerLocale.ContainsKey(locale))
             {
-                return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data).ToString());
+                var activity = ActivityFactory.CreateActivity(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data).ToString());
+
+                // Set the inputHint to null when it's acceptingInput so prompt can override it when expectingInput
+                if (activity.InputHint == InputHints.AcceptingInput)
+                {
+                    activity.InputHint = null;
+                }
+
+                return activity;
             }
             else
             {
@@ -88,7 +100,15 @@ namespace Microsoft.Bot.Solutions.Responses
                 {
                     if (TemplateEnginesPerLocale.ContainsKey(fallBackLocale))
                     {
-                        return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data).ToString());
+                        var activity = ActivityFactory.CreateActivity(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data).ToString());
+
+                        // Set the inputHint to null when it's acceptingInput so prompt can override it when expectingInput
+                        if (activity.InputHint == InputHints.AcceptingInput)
+                        {
+                            activity.InputHint = null;
+                        }
+
+                        return activity;
                     }
                 }
             }

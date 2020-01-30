@@ -29,7 +29,7 @@
           "id": "WeatherSkillLuModel-en",
           "name": "Weather LU (English)",
           "contentType": "application/lu",
-          "url": "file://WeatherSkill-en.lu",
+          "url": "file://WeatherSkill.lu",
           "description": "English language model for the skill"
         }
       ]

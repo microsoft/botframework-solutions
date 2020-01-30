@@ -16,6 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace HospitalitySkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class LateCheckOutFlowTests : HospitalitySkillTestBase
     {
         [TestMethod]

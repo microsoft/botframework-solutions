@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using AdaptiveCards;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace RestaurantBookingSkill.Models
 {
