@@ -22,6 +22,68 @@
       "msAppId": "{YOUR_SKILL_APPID}"
     }
   ],
+  "dispatchModels": {
+    "languages": {
+      "en-us": [
+        {
+          "id": "SampleSkillLuModel-en",
+          "name": "CalendarSkill LU (English)",
+          "contentType": "application/lu",
+          "url": "file://SkillSample.lu",
+          "description": "English language model for the skill"
+        }
+      ],
+      "de-de": [
+        {
+          "id": "SampleSkillLuModel-de",
+          "name": "CalendarSkill LU (German)",
+          "contentType": "application/lu",
+          "url": "file://SkillSample.lu",
+          "description": "German language model for the skill"
+        }
+      ],
+      "es-es": [
+        {
+          "id": "SampleSkillLuModel-es",
+          "name": "CalendarSkill LU (Spanish)",
+          "contentType": "application/lu",
+          "url": "file://SkillSample.lu",
+          "description": "Spanish language model for the skill"
+        }
+      ],
+      "fr-fr": [
+        {
+          "id": "SampleSkillLuModel-fr",
+          "name": "CalendarSkill LU (French)",
+          "contentType": "application/lu",
+          "url": "file://SkillSample.lu",
+          "description": "French language model for the skill"
+        }
+      ],
+      "it-it": [
+        {
+          "id": "SampleSkillLuModel-it",
+          "name": "CalendarSkill LU (Italian)",
+          "contentType": "application/lu",
+          "url": "file://SkillSample.lu",
+          "description": "Italian language model for the skill"
+        }
+      ],
+      "zh-cn": [
+        {
+          "id": "SampleSkillLuModel-zh",
+          "name": "CalendarSkill LU (Chinese)",
+          "contentType": "application/lu",
+          "url": "file://SkillSample.lu",
+          "description": "Chinese language model for the skill"
+        }
+      ]
+    },
+    "intents": {
+      "Sample": "#/activities/message",
+      "*": "#/activities/message"
+    }
+  },
   "activities": {
     "sampleAction": {
       "description": "Sample action which accepts an input object and returns an object back.",

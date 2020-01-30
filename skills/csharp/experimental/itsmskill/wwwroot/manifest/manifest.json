@@ -29,7 +29,7 @@
           "id": "ITSMSkillLuModel-en",
           "name": "ITSM LU (English)",
           "contentType": "application/lu",
-          "url": "file://ITSM-en.lu",
+          "url": "file://ITSM.lu",
           "description": "English language model for the skill"
         }
       ]

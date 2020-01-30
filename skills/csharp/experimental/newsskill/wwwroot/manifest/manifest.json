@@ -29,7 +29,7 @@
           "id": "NewsSkillLuModel-en",
           "name": "News LU (English)",
           "contentType": "application/lu",
-          "url": "file://news-en.lu",
+          "url": "file://news.lu",
           "description": "English language model for the skill"
         }
       ]

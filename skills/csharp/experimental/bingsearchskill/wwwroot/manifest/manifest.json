@@ -29,7 +29,7 @@
           "id": "BingSkillLuModel-en",
           "name": "BingSearchSkill LU (English)",
           "contentType": "application/lu",
-          "url": "file://BingSearchSkill-en.lu",
+          "url": "file://BingSearchSkill.lu",
           "description": "English language model for the skill"
         }
       ]
