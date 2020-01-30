@@ -28,6 +28,7 @@ using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Utilities;
 using SkillServiceLibrary.Models;
 using SkillServiceLibrary.Services;
+using SkillServiceLibrary.Utilities;
 using static Microsoft.Recognizers.Text.Culture;
 
 namespace PointOfInterestSkill.Dialogs
@@ -913,7 +914,7 @@ namespace PointOfInterestSkill.Dialogs
         // workaround. if connect skill directly to teams, the following response does not work.
         protected bool SupportOpenDefaultAppReply(ITurnContext turnContext)
         {
-            return turnContext.Adapter is IRemoteUserTokenProvider || Channel.GetChannelId(turnContext) != Channels.Msteams;
+            return turnContext.IsSkill() || Channel.GetChannelId(turnContext) != Channels.Msteams;
         }
 
         private string GetCardImageUri(string imagePath)
