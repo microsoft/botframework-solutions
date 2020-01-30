@@ -286,16 +286,6 @@
         "name": "s1",
         "tier": "Standard"
       }
-    },
-    {
-      "type": "Microsoft.Maps/accounts",
-      "apiVersion": "2018-05-01",
-      "name": "[parameters('azureMapsServiceName')]",
-      "location": "global",
-      "sku": {
-        "name": "s1",
-        "tier": "Standard"
-      }
     }
   ],
   "outputs": {
