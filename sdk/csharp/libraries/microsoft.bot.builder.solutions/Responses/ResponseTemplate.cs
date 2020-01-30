@@ -7,6 +7,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
     using Microsoft.Bot.Schema;
     using Newtonsoft.Json;
 
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class ResponseTemplate
     {
         private string inputHint;

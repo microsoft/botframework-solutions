@@ -21,6 +21,7 @@ using RichardSzalay.MockHttp;
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class ManifestTests
     {
         private BotSettingsBase _botSettings;

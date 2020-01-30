@@ -21,6 +21,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// <summary>
     /// The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot). The dialog name is that of the underlying Skill it's wrapping.
     /// </summary>
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class SkillDialog : ComponentDialog
     {
         private readonly MultiProviderAuthDialog _authDialog;

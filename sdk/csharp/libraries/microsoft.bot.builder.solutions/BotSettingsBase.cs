@@ -3,6 +3,7 @@
 
 namespace Microsoft.Bot.Builder.Solutions
 {
+    using System;
     using System.Collections.Generic;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Bot.Builder.Azure;
@@ -12,6 +13,7 @@ namespace Microsoft.Bot.Builder.Solutions
     /// <summary>
     /// Base class representing the configuration for a bot.
     /// </summary>
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class BotSettingsBase
     {
         /// <summary>

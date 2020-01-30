@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Bot.Builder.Solutions.Extensions;
 using Microsoft.Bot.Builder.Solutions.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class LuisRecognizeExTest
     {
         private const string _sentiment = "sentiment";

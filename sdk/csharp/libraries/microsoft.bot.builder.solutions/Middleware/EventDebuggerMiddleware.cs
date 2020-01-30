@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Solutions.Middleware
 {
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class EventDebuggerMiddleware : IMiddleware
     {
         public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))

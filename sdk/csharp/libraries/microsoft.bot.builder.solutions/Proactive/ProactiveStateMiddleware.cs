@@ -13,6 +13,7 @@ namespace Microsoft.Bot.Builder.Solutions.Proactive
     /// A Middleware for saving the proactive model data
     /// This middleware will refresh user's latest conversation reference and save it to state.
     /// </summary>
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class ProactiveStateMiddleware : IMiddleware
     {
         private ProactiveState _proactiveState;

@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Solutions.Extensions
 {
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public static class DialogContextEx
     {
         private const string SuppressDialogCompletionKey = "SuppressDialogCompletionMessage";

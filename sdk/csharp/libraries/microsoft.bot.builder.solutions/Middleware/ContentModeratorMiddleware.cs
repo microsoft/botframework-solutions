@@ -15,6 +15,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
     /// <summary>
     /// Middleware component to run Content Moderator Service on all incoming activities.
     /// </summary>
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class ContentModeratorMiddleware : IMiddleware
     {
         /// <summary>

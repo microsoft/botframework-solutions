@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Utilities
 {
+    [Obsolete("This type is being deprecated.", false)]
     public static class ManifestUtilities
     {
         public static SkillManifest CreateSkill(string id, string name, string endpoint, string actionId, List<Slot> slots = null)

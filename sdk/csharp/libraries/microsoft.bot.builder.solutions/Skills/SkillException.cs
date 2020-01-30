@@ -5,6 +5,7 @@ using System;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
 {
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public enum SkillExceptionType
     {
         /// <summary>
@@ -38,6 +39,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
         Other,
     }
 
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8")]
     public class SkillException : Exception
     {
         public SkillException(SkillExceptionType exceptionType, string message, Exception innerException)

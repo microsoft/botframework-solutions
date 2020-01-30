@@ -11,6 +11,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest
     /// The SkillManifest class models the Skill Manifest which is used to express the capabilities
     /// of a skill and used to drive Skill configuration and orchestration.
     /// </summary>
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class SkillManifest
     {
         [JsonProperty(PropertyName = "id")]

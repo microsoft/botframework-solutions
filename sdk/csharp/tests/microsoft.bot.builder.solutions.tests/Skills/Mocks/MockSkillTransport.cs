@@ -10,6 +10,7 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Mocks
 {
+    [Obsolete("This type is being deprecated.", false)]
     public class MockSkillTransport : ISkillTransport
     {
         private Activity _activityForwarded;

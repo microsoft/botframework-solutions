@@ -10,6 +10,7 @@ namespace Microsoft.Bot.Builder.Solutions.Testing
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Schema;
 
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class ConsoleOutputMiddleware : IMiddleware
     {
         public async Task OnTurnAsync(ITurnContext context, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))

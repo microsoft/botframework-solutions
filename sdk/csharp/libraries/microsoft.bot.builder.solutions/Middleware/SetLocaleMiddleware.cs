@@ -12,6 +12,7 @@ namespace Microsoft.Bot.Builder.Solutions.Middleware
     /// <summary>
     /// Set locale by user input locale.
     /// </summary>
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class SetLocaleMiddleware : IMiddleware
     {
         private readonly string _defaultLocale;

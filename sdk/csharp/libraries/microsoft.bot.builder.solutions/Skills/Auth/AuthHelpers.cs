@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills.Auth
 {
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public static class AuthHelpers
     {
         public static string GetAppIdClaimName(ClaimsIdentity claimsIdentity)

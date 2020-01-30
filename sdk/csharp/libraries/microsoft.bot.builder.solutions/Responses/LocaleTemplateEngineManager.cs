@@ -15,6 +15,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
     /// Multi locale Template Manager for language generation. This template manager will enumerate multi-locale LG files and will select
     /// the appropriate template using the current culture to perform template evaluation.
     /// </summary>
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class LocaleTemplateEngineManager
     {
         private readonly LanguagePolicy languageFallbackPolicy;

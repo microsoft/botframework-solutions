@@ -14,6 +14,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
     /// <summary>
     /// Read order of list items.
     /// </summary>
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public enum ReadPreference
     {
         /// <summary>First item, second item, third item, etc.</summary>
@@ -23,6 +24,7 @@ namespace Microsoft.Bot.Builder.Solutions.Responses
         Chronological,
     }
 
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class SpeechUtility
     {
         /// <summary>

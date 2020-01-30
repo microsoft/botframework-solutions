@@ -5,6 +5,7 @@ using System;
 
 namespace Microsoft.Bot.Builder.Solutions.Authentication
 {
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public static class OAuthProviderExtensions
     {
         public static OAuthProvider GetAuthenticationProvider(this string providerString)

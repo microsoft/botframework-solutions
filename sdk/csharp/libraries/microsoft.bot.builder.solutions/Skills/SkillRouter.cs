@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
@@ -10,6 +11,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// <summary>
     /// Skill Router class that helps Bots identify if a registered Skill matches the identified dispatch intent.
     /// </summary>
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public static class SkillRouter
     {
         /// <summary>

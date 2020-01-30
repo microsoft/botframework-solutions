@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.Bot.Builder.Solutions.Extensions;
@@ -10,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class ListExTests
     {
         [TestMethod]

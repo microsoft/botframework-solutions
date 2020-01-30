@@ -18,6 +18,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// This is the default Controller that contains APIs for handling
     /// calls from a channel and calls from a parent bot (to a skill bot).
     /// </summary>
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public abstract class SkillController : ControllerBase
     {
         private readonly IBot _bot;

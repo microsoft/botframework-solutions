@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Solutions.Responses
 {
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class ResponseManager
     {
         private const string _defaultLocaleKey = "default";

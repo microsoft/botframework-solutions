@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 using Microsoft.Bot.Builder.Solutions.Skills.Models.Manifest;
@@ -15,6 +16,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
     /// Test basic invocation of Skills through the SkillDialog.
     /// </summary>
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class SkillDialogInvocationTests : SkillDialogTestBase
     {
         private SkillManifest _skillManifest;

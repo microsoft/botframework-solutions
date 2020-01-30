@@ -9,6 +9,7 @@ using NCrontab;
 
 namespace Microsoft.Bot.Builder.Solutions.TaskExtensions
 {
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public abstract class ScheduledProcessor : BackgroundService
     {
         private const int DelayBetweenTasks = 100;

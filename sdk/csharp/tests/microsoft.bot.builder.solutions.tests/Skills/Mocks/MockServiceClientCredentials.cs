@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Solutions.Skills.Auth;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Mocks
 {
+    [Obsolete("This type is being deprecated.", false)]
     public class MockServiceClientCredentials : IServiceClientCredentials
     {
         public string MicrosoftAppId { get; set; } = Guid.NewGuid().ToString();

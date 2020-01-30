@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using AdaptiveCards;
 using Microsoft.Bot.Builder.Dialogs;
@@ -13,6 +14,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Builder.Solutions.Tests
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class SpeechUtilityTests
     {
         private Activity _activity;

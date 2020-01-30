@@ -22,6 +22,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// 1. Process the incoming activity by calling into pipeline.
     /// 2. Implement BotAdapter protocol. Each method will send the activity back to calling bot using websocket.
     /// </summary>
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class SkillWebSocketBotAdapter : BotAdapter, IActivityHandler, IRemoteUserTokenProvider
     {
         private readonly IBotTelemetryClient _botTelemetryClient;

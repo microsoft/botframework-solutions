@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -11,6 +12,7 @@ using Newtonsoft.Json.Linq;
 namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class LanguageGenerationTests
     {
         private Dictionary<string, List<string>> localeLgFiles;

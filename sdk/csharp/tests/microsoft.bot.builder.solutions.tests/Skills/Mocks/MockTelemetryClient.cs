@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills.Mocks
 {
+    [Obsolete("This type is being deprecated.", false)]
     public class MockTelemetryClient : IBotTelemetryClient
     {
         public void Flush()

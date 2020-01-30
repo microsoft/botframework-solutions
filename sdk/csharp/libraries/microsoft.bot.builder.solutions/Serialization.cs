@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Solutions
 {
+    [Obsolete("This type is being deprecated. It's moved to the assembly Microsoft.Bot.Solutions. Please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class Serialization
     {
         private static JsonSerializerSettings settings = new JsonSerializerSettings

@@ -24,6 +24,7 @@ namespace Microsoft.Bot.Builder.Solutions.Skills
     /// 2. Create RequestHandler to handle follow-up websocket frames.
     /// 3. Start listening on the websocket connection.
     /// </summary>
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public class SkillWebSocketAdapter : IBotFrameworkHttpAdapter
     {
         private readonly IBotTelemetryClient _botTelemetryClient;

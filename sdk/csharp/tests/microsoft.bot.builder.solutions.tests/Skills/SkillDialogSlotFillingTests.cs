@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
     /// Test basic invocation of Skills that have slots configured and ensure the slots are filled as expected.
     /// </summary>
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class SkillDialogSlotFillingTests : SkillDialogTestBase
     {
         private List<SkillManifest> _skillManifests = new List<SkillManifest>();

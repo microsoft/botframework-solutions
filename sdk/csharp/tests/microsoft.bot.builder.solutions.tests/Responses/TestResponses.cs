@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder.Solutions.Responses;
 
 namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
@@ -9,6 +10,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
     /// <summary>
     /// Contains bot responses.
     /// </summary>
+    [Obsolete("This type is being deprecated.", false)]
     public class TestResponses : IResponseIdCollection
     {
         // Generated accessors

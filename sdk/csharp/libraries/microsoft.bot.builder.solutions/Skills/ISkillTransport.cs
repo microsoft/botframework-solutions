@@ -9,6 +9,7 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Builder.Solutions.Skills
 {
+    [Obsolete("This type is being deprecated. To continue using Skill capability please refer to https://aka.ms/botframework-solutions/releases/0_8", false)]
     public interface ISkillTransport
     {
         Task<Activity> ForwardToSkillAsync(SkillManifest skillManifest, IServiceClientCredentials serviceClientCredentials, ITurnContext dialogContext, Activity activity, Action<Activity> tokenRequestHandler = null);

@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Builder.Solutions.Tests.Extensions
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class DateTimeExTests
     {
         private CultureInfo _currentUICulture = CultureInfo.CurrentUICulture;

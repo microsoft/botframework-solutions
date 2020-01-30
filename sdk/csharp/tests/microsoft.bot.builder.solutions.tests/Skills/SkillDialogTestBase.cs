@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
@@ -13,6 +14,7 @@ using Newtonsoft.Json.Linq;
 namespace Microsoft.Bot.Builder.Solutions.Skills.Tests
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class SkillDialogTestBase : BotTestBase
     {
         public IServiceCollection Services { get; set; }

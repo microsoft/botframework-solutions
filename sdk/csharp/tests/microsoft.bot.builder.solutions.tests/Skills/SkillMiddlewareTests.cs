@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Adapters;
@@ -15,6 +16,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Microsoft.Bot.Builder.Solutions.Tests.Skills
 {
     [TestClass]
+    [Obsolete("This type is being deprecated.", false)]
     public class SkillMiddlewareTests
     {
         private ServiceCollection _serviceCollection;
