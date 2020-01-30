@@ -94,7 +94,7 @@ namespace VirtualAssistantSample.Tests
                 var localeTemplateFiles = new List<string>();
                 foreach (var template in templateFiles)
                 {
-                    // LG template for default locale should not include locale in file extension.
+                    // LG template for en-us does not include locale in file extension.
                     if (locale.Equals("en-us"))
                     {
                         localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
