@@ -19,7 +19,7 @@ The Hospitality Sample builds off of the [Virtual Assistant Template]({{site.bas
 
 ## Supported scenarios
 
-The majority of the skills connected to this sample are [experimental skills]({{site.baseurl}}/skills/samples/experimental), which means they are early prototypes of Skills and are likely to have rudimentary language models, limited language support and limited testing. These skills demonstrate a variety of skill concepts and provide great examples to get you started. This sample demonstrates the following scenarios:
+The majority of the skills connected to this sample are [experimental skills]({{site.baseurl}}/overview/skills/#experimental-skills), which means they are early prototypes of Skills and are likely to have rudimentary language models, limited language support and limited testing. These skills demonstrate a variety of skill concepts and provide great examples to get you started. This sample demonstrates the following scenarios:
 
 #### Hotel FAQ
 {:.no_toc}
