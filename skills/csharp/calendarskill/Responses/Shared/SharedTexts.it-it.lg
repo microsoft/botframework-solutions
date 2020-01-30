@@ -1,33 +1,23 @@
 # DidntUnderstandMessage.Text
-- Scusa, non capivo cosa intendevi.
-- Non ho capito, forse riprovare in un modo diverso.
-- Puoi provare a chiedere in un modo diverso?
-- Non ho capito quello che vuoi dire, puoi provare in un modo diverso?
-- Potresti spiegarmi meglio?
-- Si prega di dirlo di nuovo in un modo diverso.
-- Non l'ho capito bene.
-- Puoi dirlo in un modo diverso?
-- Puoi provare a chiedermelo di nuovo? Non ho capito quello che intendevi.
+- Scusa, non ho capito. Prova a riformulare la tua domanda e riprovare.
+- Scusa, non capisco. Riprovare.
+- Non l'ho capito. Prova a chiedere di nuovo.
+
 
 # CalendarErrorMessage.Text
-- Mi dispiace, sembra che qualcosa sia andato storto!
-- Si è verificato un errore, riprovare più tardi.
-- Qualcosa è andato storto, scusa!
-- Sembra che qualcosa sia andato storto. Puoi riprovarci più tardi?
-- Scusa se non posso aiutarti in questo momento. Riprova più tardi.
+- Mi dispiace, sembra che sia successo qualcosa e non riesco a completarlo in questo momento. Riprova più tardi.
+- Spiacenti, al momento non riesco a completare l'operazione. Riprova più tardi.
+> Comment: When is this used? Is it a generic catch all message or are there specific error scenarios? The message indicates that trying again later will succeed. Do we know whether or not that will be true?
 
 # RetryTooManyResponse.Text
-- Scusa se non posso aiutarti. Proviamo più tardi.
+- Scusa, non posso aiutarti con questo adesso. Proviamo di nuovo più tardi.
 
 # CalendarErrorMessageAccountProblem.Text
-- Mi dispiace, non riesco ad accedere al tuo account in questo momento.
+- Spiacente, non riesco ad accedere al tuo account in questo momento. Riprova più tardi.
 
 # ActionEnded.Text
-- Fammi sapere se hai bisogno del mio aiuto con qualcos'altro.
-- Sono qui se hai bisogno di me.
+- Fammi sapere se posso aiutarti con qualsiasi altra cosa.
 
 # MultipleEventsFound.Text
-- Più eventi trovati, si prega di selezionare quello che ti serve.
-- Ho trovato più eventi, puoi selezionare l'evento preferito.
-- Ci sono più eventi, si prega di selezionare l'evento pertinente.
-
+- Ho trovato più di un evento che potrebbe corrispondere. Si prega di selezionare quello che si desidera.
+- Ci sono più eventi sul tuo calendario che potrebbero corrispondere. Quale vuoi recensire?

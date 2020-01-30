@@ -10,6 +10,8 @@ import { ConsoleLogger, ILogger} from './logger';
 import { IDisconnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
+const logger: ILogger = new ConsoleLogger();
+
 function showErrorHelp(): void {
     program.outputHelp((str: string): string => {
         logger.error(str);
@@ -19,10 +21,8 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-const logger: ILogger = new ConsoleLogger();
-
 program.Command.prototype.unknownOption = (flag: string): void => {
-    logger.error(`Unknown arguments: ${flag}`);
+    logger.error(`Unknown arguments: ${ flag }`);
     showErrorHelp();
 };
 
@@ -51,7 +51,7 @@ if (process.argv.length < 3) {
 
 let skillId: string = '';
 let outFolder: string;
-let noRefresh: boolean = false;
+let noRefresh = false;
 let cognitiveModelsFile: string;
 let languages: string[];
 let dispatchFolder: string;
@@ -127,4 +127,4 @@ const configuration: IDisconnectConfiguration = {
     logger: logger,
     appSettingsFile: appSettingsFile
 };
-new DisconnectSkill(<IDisconnectConfiguration> configuration, logger).disconnectSkill();
+new DisconnectSkill(configuration as IDisconnectConfiguration, logger).disconnectSkill();

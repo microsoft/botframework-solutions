@@ -12,6 +12,7 @@ export interface IUpdateConfiguration {
     remoteManifest: string;
     endpointName: string;
     noRefresh: boolean;
+    inlineUtterances: boolean;
     languages: string[];
     luisFolder: string;
     dispatchFolder: string;

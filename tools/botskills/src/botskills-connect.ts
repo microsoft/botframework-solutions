@@ -11,6 +11,8 @@ import { ConsoleLogger, ILogger } from './logger';
 import { IAppSetting, IConnectConfiguration } from './models';
 import { sanitizePath, validatePairOfArgs } from './utils';
 
+const logger: ILogger = new ConsoleLogger();
+
 function showErrorHelp(): void {
     program.outputHelp((str: string): string => {
         logger.error(str);
@@ -20,10 +22,9 @@ function showErrorHelp(): void {
     process.exit(1);
 }
 
-const logger: ILogger = new ConsoleLogger();
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    logger.error(`Unknown arguments: ${flag}`);
+    logger.error(`Unknown arguments: ${ flag }`);
     showErrorHelp();
 };
 
@@ -35,7 +36,7 @@ program
     .option('-e, --endpointName <name>', '[OPTIONAL]Name of the endpoint to connect to your assistant (case sensitive)(defaults to using the first endpoint)')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
-    .option('--noRefresh', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
+    .option('--noRefresh [true|FALSE]', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
     .option('--languages [languages]', '[OPTIONAL] Comma separated list of locales used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills\' inside your assistant folder)')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch\' inside your assistant folder)')
@@ -54,7 +55,7 @@ if (process.argv.length < 3) {
     process.exit(0);
 }
 
-let botName: string = '';
+let botName = '';
 let localManifest: string;
 let remoteManifest: string;
 let endpointName: string;
@@ -160,4 +161,4 @@ const configuration: IConnectConfiguration = {
 };
 
 // End of arguments validation
-new ConnectSkill((<IConnectConfiguration> configuration), logger).connectSkill();
+new ConnectSkill((configuration as IConnectConfiguration), logger).connectSkill();

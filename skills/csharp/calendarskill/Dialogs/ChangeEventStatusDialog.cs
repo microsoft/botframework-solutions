@@ -83,7 +83,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-                var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                var deleteEvent = state.ShowMeetingInfo.FocusedEvents[0];
                 string replyResponse;
                 string retryResponse;
                 if (options.NewEventStatus == EventStatus.Cancelled)
@@ -136,8 +136,8 @@ namespace CalendarSkill.Dialogs
                 {
                     if (options.SubFlowMode)
                     {
-                        state.MeetingInfor.ClearTimes();
-                        state.MeetingInfor.ClearTitle();
+                        state.MeetingInfo.ClearTimes();
+                        state.MeetingInfo.ClearTitle();
                     }
                     else
                     {
@@ -163,7 +163,7 @@ namespace CalendarSkill.Dialogs
                 sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
 
                 var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
-                var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                var deleteEvent = state.ShowMeetingInfo.FocusedEvents[0];
                 if (options.NewEventStatus == EventStatus.Cancelled)
                 {
                     if (deleteEvent.IsOrganizer)
@@ -188,8 +188,8 @@ namespace CalendarSkill.Dialogs
 
                 if (options.SubFlowMode)
                 {
-                    state.MeetingInfor.ClearTimes();
-                    state.MeetingInfor.ClearTitle();
+                    state.MeetingInfo.ClearTimes();
+                    state.MeetingInfo.ClearTitle();
                 }
                 else
                 {
@@ -217,11 +217,11 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                if (state.ShowMeetingInfo.FocusedEvents.Any())
                 {
                     return await sc.EndDialogAsync();
                 }
-                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                else if (state.ShowMeetingInfo.ShowingMeetings.Any())
                 {
                     return await sc.NextAsync();
                 }

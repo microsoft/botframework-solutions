@@ -45,7 +45,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while listing the Skills connected to your assistant:\n ${err}`);
+            this.logger.error(`There was an error while listing the Skills connected to your assistant:\n ${ err }`);
 
             return false;
         }

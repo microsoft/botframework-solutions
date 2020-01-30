@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-const regexTrailingBackslash: RegExp = /.*?(\\)+$/;
+const regexTrailingBackslash = /.*?(\\)+$/;
 
 /**
  * @param path Path to sanitize.
@@ -22,5 +22,30 @@ export function sanitizePath(path: string): string {
  * @returns Returns a path with quotes
  */
 export function wrapPathWithQuotes(path: string): string {
-    return `"${path}"`;
+    return `"${ path }"`;
+}
+
+/**
+ * @param endpoint URL of the remote manifest endpoint.
+ * @param isInlineUtterances Value of the --inlineUtterances parameter.
+ * @returns Returns an endpoint based on the --inlineUtterances parameter.
+ */
+export function sanitizeInlineUtterancesEndpoint(endpoint: string, isInlineUtterances: boolean): string {
+    let url: string = endpoint.split('?')[0];
+    const paramName = 'inlineTriggerUtterances';
+    const urlParams: URLSearchParams = new URL(endpoint).searchParams;
+    const hasParam: boolean = urlParams.has(paramName);
+  
+    if (isInlineUtterances) {
+        url += '?';
+        if (hasParam) {
+            urlParams.set(paramName, 'true');
+        } else {
+            urlParams.append(paramName, 'true');
+        }
+    } else if (hasParam) {
+        urlParams.delete(paramName);
+    }
+  
+    return url + urlParams.toString();
 }

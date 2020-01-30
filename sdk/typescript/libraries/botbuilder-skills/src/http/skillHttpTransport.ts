@@ -52,13 +52,12 @@ export class SkillHttpTransport implements ISkillTransport {
         // - We have to cast "request as any" to avoid a build break relating to different versions
         //   of @azure/ms-rest-js being used by botframework-connector. This is just a build issue and
         //   shouldn't effect production bots.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-any
-        const signedRequest: WebResource = await this.appCredentials.signRequest(<any>request);
+        const signedRequest: WebResource = await this.appCredentials.signRequest(request);
 
         const response: HttpOperationResponse = await this.httpClient.sendRequest(signedRequest);
 
         if (response.status < 200 || response.status >= 300) {
-            const result: string = `HTTP error when forwarding activity to the skill: Status Code:${
+            const result = `HTTP error when forwarding activity to the skill: Status Code:${
                 response.status
             }, Message: '${
                 response.bodyAsText
@@ -77,7 +76,7 @@ export class SkillHttpTransport implements ISkillTransport {
         // Retrieve Activity responses
         const skillResponses: Activity[] = responseBody.map(fixActivityTimestamp);
         const filteredResponses: Activity[] = [];
-        let endOfConversation: boolean = false;
+        let endOfConversation = false;
 
         skillResponses.forEach(async (skillResponse: Activity): Promise<void> => {
             // Once a Skill has finished it signals that it's handing back control to the parent through a

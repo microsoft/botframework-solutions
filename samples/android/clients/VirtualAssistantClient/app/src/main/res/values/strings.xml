@@ -25,6 +25,8 @@
     <string name="nav_menu_restart_conversation" translatable="false">Restart conversation</string>
     <string name="nav_menu_settings" translatable="false">Settings</string>
     <string name="nav_menu_set_as_default_assistant" translatable="false">Set as default assistant</string>
+    <string name="nav_menu_sign_in" translatable="false">Sign in</string>
+    <string name="nav_menu_sign_out" translatable="false">Sign out</string>
     <!--
     <string name="nav_menu_show_full_conversation" translatable="false">Show full conversation</string>
     <string name="nav_menu_enable_dark_mode" translatable="false">Enable dark mode</string>

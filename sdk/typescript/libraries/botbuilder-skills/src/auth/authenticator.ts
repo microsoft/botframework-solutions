@@ -18,7 +18,7 @@ export class Authenticator implements IAuthenticator {
     private readonly authenticationProvider: IAuthenticationProvider;
     private readonly whiteListAuthenticationProvider: IWhitelistAuthenticationProvider;
 
-    public constructor (
+    public constructor(
         authenticationProvider: IAuthenticationProvider,
         whitelistAuthenticationProvider: IWhitelistAuthenticationProvider
     ) {

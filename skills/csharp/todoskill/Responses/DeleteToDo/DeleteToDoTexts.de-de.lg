@@ -1,30 +1,29 @@
 # AskDeletionAllConfirmation.Text(ListType)
-- Möchten Sie wirklich alle Aufgaben aus Ihrem @{ListType} liste?
+- Sind Sie sicher, dass Sie alles aus Ihrem @{ListType} Liste?
 
 # AskDeletionAllConfirmationFailed.Text(ListType)
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie wirklich alle Aufgaben aus Ihrem @{ListType} liste?
+- Tut mir leid, ich habe es nicht verstanden. Möchten Sie alles aus Ihrem @{ListType} Liste?
 
 # AfterAllTasksDeleted.Text(ListType)
-- Ich habe Ihre @{ListType} liste.
+- Ich habe Ihre @{ListType} Liste.
 
 # AfterTaskDeleted.Text(TaskContent, ListType)
-- ich habe gelöscht @{TaskContent} von Ihrem @{ListType} liste.
+- Ich habe gelöscht @{TaskContent} von Ihrem @{ListType} Liste.
 
 # DeletionAllConfirmationRefused.Text(TaskCount, ListType)
-- Okay, ich habe nicht alle Ihre Aufgaben gelöscht. Sie haben noch @{TaskCount} Aufgabe(en) auf Ihrem @{ListType} Liste heute.
+- OK, ich habe nichts gelöscht. Es gibt @{TaskCount} Artikel auf Ihrem @{ListType} Liste.
 
 # ListTypePromptForDelete.Text
-- Können Sie spezifisch aus der Liste sein, die Sie eine Aufgabe löschen möchten? Ist es Ihre To-Do-Liste, Einkaufsliste oder Lebensmittelliste?
+- Möchten Sie etwas aus Ihrer To-Do-, Shopping- oder Lebensmittelliste löschen?
 
 # AskTaskIndexForDelete.Text
-- Welche Aufgabe möchten Sie löschen? Es ist auch möglich, alle Ihre Aufgaben zu löschen, indem Sie alle löschen.
+- Welches Element möchten Sie löschen? Sie können auch alle löschen, um Ihre Liste zu löschen.
 
 # AskTaskIndexRetryForDelete.Text
-- Es tut mir leid, ich konnte diese Aufgabe nicht finden. Bitte versuchen Sie es erneut. Welche Aufgabe möchten Sie löschen?
+- Es tut mir leid, ich konnte den Artikel nicht finden. Versuchen wir es noch einmal, was möchten Sie löschen?
 
 # DeleteAnotherTaskPrompt.Text
-- Möchten Sie eine andere Aufgabe löschen?
+- Möchten Sie ein anderes Element löschen?
 
 # DeleteAnotherTaskConfirmFailed.Text
-- Tut mir leid, ich habe nicht verstanden, was Sie meinten. Möchten Sie eine andere Aufgabe löschen?
-
+- Tut mir leid, ich habe es nicht verstanden. Möchten Sie ein anderes Element löschen?

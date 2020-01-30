@@ -1,0 +1,10 @@
+{
+  "SkillHostEndpoint": "TODO: Add here the endpoint on the VA that accepts callback from Skill i.e. http://localhost:3978/api/skills/",
+  "BotFrameworkSkills": [
+    {
+      "Id": "TODO: Add here the id/name for the skill i.e. CalendarSkill",
+      "AppId": "TODO: Add here the App ID for the skill i.e. the MsAppId of the skill",
+      "SkillEndpoint": "TODO: Add here the endpoint on the skill that accepts forwarded activities from VA i.e. http://localhost:39783/api/messages"
+    }
+  ]
+}

@@ -21,7 +21,7 @@ export class SkillRouter {
         if (this.registeredSkills !== undefined) {
             // Identify a skill by taking the LUIS model name identified by the dispatcher and matching to the skill luis model name
             // Bug raised on dispatcher to move towards LuisModelId instead perhaps?
-            matchedSkill = <SkillDefinition>this.registeredSkills.find((s: SkillDefinition): boolean => s.dispatchIntent === skillName);
+            matchedSkill = this.registeredSkills.find((s: SkillDefinition): boolean => s.dispatchIntent === skillName) as SkillDefinition;
 
             return matchedSkill;
         } else {

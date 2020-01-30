@@ -67,19 +67,19 @@ namespace CalendarSkill.Dialogs
                     var itemUserTimeZoneTime = TimeZoneInfo.ConvertTime(item.StartTime, TimeZoneInfo.Utc, state.GetUserTimeZone());
                     if (item.IsCancelled != true && nextEventList.Count == 0)
                     {
-                        if (state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
+                        if (state.MeetingInfo.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.MeetingInfor.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.MeetingInfor.StartDate[0].DayOfYear)
+                        else if (state.MeetingInfo.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.MeetingInfo.StartDate[0].DayOfYear)
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.MeetingInfor.StartTime.Any() && itemUserTimeZoneTime == state.MeetingInfor.StartTime[0])
+                        else if (state.MeetingInfo.StartTime.Any() && itemUserTimeZoneTime == state.MeetingInfo.StartTime[0])
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.MeetingInfor.Title != null && item.Title.Equals(state.MeetingInfor.Title, StringComparison.CurrentCultureIgnoreCase))
+                        else if (state.MeetingInfo.Title != null && item.Title.Equals(state.MeetingInfo.Title, StringComparison.CurrentCultureIgnoreCase))
                         {
                             nextEventList.Add(item);
                         }
@@ -142,7 +142,7 @@ namespace CalendarSkill.Dialogs
                     }
 
                     var remainingTime = $"{remainingDays}{remainingHours}{remainingMinutes}";
-                    if (state.MeetingInfor.OrderReference == "next")
+                    if (state.MeetingInfo.OrderReference == "next")
                     {
                         var tokens = new
                         {
@@ -157,16 +157,16 @@ namespace CalendarSkill.Dialogs
                         var timeToken = string.Empty;
                         var timeSpeakToken = string.Empty;
 
-                        if (state.MeetingInfor.StartDate.Any())
+                        if (state.MeetingInfo.StartDate.Any())
                         {
-                            timeSpeakToken += $"{state.MeetingInfor.StartDate[0].ToSpeechDateString()} ";
-                            timeToken += $"{state.MeetingInfor.StartDate[0].ToShortDateString()} ";
+                            timeSpeakToken += $"{state.MeetingInfo.StartDate[0].ToSpeechDateString()} ";
+                            timeToken += $"{state.MeetingInfo.StartDate[0].ToShortDateString()} ";
                         }
 
-                        if (state.MeetingInfor.StartTime.Any())
+                        if (state.MeetingInfo.StartTime.Any())
                         {
-                            timeSpeakToken += $"{state.MeetingInfor.StartTime[0].ToSpeechTimeString()}";
-                            timeToken += $"{state.MeetingInfor.StartTime[0].ToShortTimeString()}";
+                            timeSpeakToken += $"{state.MeetingInfo.StartTime[0].ToSpeechTimeString()}";
+                            timeToken += $"{state.MeetingInfo.StartTime[0].ToShortTimeString()}";
                         }
 
                         var tokens = new
@@ -174,7 +174,7 @@ namespace CalendarSkill.Dialogs
                             RemainingTime = remainingTime,
                             TimeSpeak = timeSpeakToken.Length > 0 ? CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken : string.Empty,
                             Time = timeToken.Length > 0 ? CommonStrings.SpokenTimePrefix_One + " " + timeToken : string.Empty,
-                            Title = state.MeetingInfor.Title != null ? string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfor.Title) : string.Empty
+                            Title = state.MeetingInfo.Title != null ? string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfo.Title) : string.Empty
                         };
 
                         var prompt = TemplateEngine.GenerateActivityForLocale(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);

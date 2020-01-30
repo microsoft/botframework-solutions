@@ -12,6 +12,7 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.7" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Azure.Search" Version="10.0.1" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.1" />
@@ -43,10 +44,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\CheckAvailable\CheckAvailableResponses.cs">
+    <Compile Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>CheckAvailableResponses.tt</DependentUpon>
+      <DependentUpon>CheckPersonAvailableResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\CreateEvent\CreateEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -57,6 +58,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FindContactResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\FindMeetingRoom\FindMeetingRoomResponses.cs">
+      <DependentUpon>FindMeetingRoomResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Responses\JoinEvent\JoinEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -148,49 +154,45 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.de-de.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.es-es.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.es-es.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.fr-fr.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.fr-fr.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.it-it.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.it-it.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.zh-cn.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableResponses.tt">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CheckAvailableResponses.cs</LastGenOutput>
+      <LastGenOutput>CheckPersonAvailableResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.de-de.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.es-es.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.es-es.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.fr-fr.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.fr-fr.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.it-it.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.it-it.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.zh-cn.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CheckAvailable\CreateEventResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\CreateEvent\CreateEventDialogActivities.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -271,6 +273,46 @@
     <None Update="Responses\FindContact\FindContactResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FindContactResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomResponses.tt">
+      <LastGenOutput>FindMeetingRoomResponses.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\JoinEvent\JoinEventDialogActivities.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

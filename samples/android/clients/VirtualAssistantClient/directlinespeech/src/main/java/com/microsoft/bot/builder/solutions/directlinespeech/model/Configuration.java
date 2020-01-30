@@ -36,4 +36,12 @@ public class Configuration {
     @SerializedName("enableKWS")
     @Expose
     public Boolean enableKWS;
+
+    @SerializedName("signedIn")
+    @Expose
+    public Boolean signedIn;
+
+    @SerializedName("linkedAccountEndpoint")
+    @Expose
+    public String linkedAccountEndpoint;
 }

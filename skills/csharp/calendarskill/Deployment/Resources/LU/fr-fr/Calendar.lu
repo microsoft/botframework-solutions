@@ -30,6 +30,47 @@
 - je vais assister à la réunion {FromTime=cet après-midi}.
 
 
+## AddCalendarEntryAttribute
+- Ajouter  {ContactName=Carlos} à la réunion
+- Ajouter  {ContactName=Chelsea} 
+- Ajouter  {ContactName=Enrique} 
+- Ajouter  {ContactName=Eric} à la réunion
+- Ajouter  {ContactName=hazem} 
+- Ajouter  {ContactName=Jackie} 
+- Ajouter  {ContactName=John} 
+- Ajouter  {ContactName=kerry clarkson} 
+- Ajouter  {ContactName=Lisa} 
+- Ajouter  {ContactName=mohamed} à la réunion
+- Ajouter  {ContactName=Omar} 
+- Ajouter  {ContactName=Tammy} 
+- Demander  {ContactName=John}  à venir à  {MeetingRoom=Entreprise} .
+- Demander  {ContactName=Robert} d'assister à la réunion de ce soir à 18 h
+-  {ContactName=Bob} pouvez-vous assister à la réunion de ce soir à 6
+- pouvez-vous demander  {ContactName=Jane} pour assister à la réunion?
+- pouvez-vous inviter  {ContactName=Paula} pour une réuni on au Smith ce mercredi à 10h
+- Je voudrais inviter  {ContactName=m. tout à coup} d'assister à la réunion d'aujourd'hui.
+- Inviter  {ContactName=Andy} 
+- Inviter  {ContactName=Cheryl} à la réuni on de cet après-midi
+- Inviter  {ContactName=Frank} à la réunion de vendredi à 14h30.
+- Inviter  {ContactName=jeff matthews} 
+- Inviter  {ContactName=john malkovich} à la réunion.
+- Inviter  {ContactName=Kathy} à la réuni on de cet après-midi
+- Inviter  {ContactName=Paul} à la réunion
+- Inviter  {ContactName=Sophia} à la réunion
+-  {ContactName=Patrick} , je souhaite vous inviter à la prochaine réunion.
+- s'il vous plaît ajouter  {ContactName=Eileen} à l'invitation à la réunion.
+- s'il vous plaît puis-je ajouter  {ContactName=johnathon kelly} à la réunion
+- s'il vous plaît puis-je inviter  {ContactName=Khaleesi} à la réunion
+- s'il vous plaît inviter  {ContactName=kathy rood} à la réunion d'aujourd'hui.
+- envoyer une invitation à  {ContactName=Jane} 
+- envoyer une invitation à  {ContactName=jerry seinfeld} 
+- s'il vous plaît ajouter une chambre à mon  {ToTime=19h00} Réunion
+- ajouter un  {SlotAttribute=Chambre}  à mon  {ToTime=15h00} Réunion
+- ajouter le centre-ville  {MeetingRoom=2122}  À  {ToTime=10h00} Réunion
+- pouvez-vous ajouter un  {SlotAttribute=Chambre}  À  {ToDate=Demain} Est  {Subject=réunion dev} 
+- s'il vous plaît ajouter un  {SlotAttribute=salle de réunion}  à la  {Subject=réunion de mêlée quotidienne} 
+
+
 ## ChangeCalendarEntry
 - avancer de 2 heures ma réunion de {MoveEarlierTimeSpan={FromTime=douze heures} pm} .
 - avancer de {MoveEarlierTimeSpan=2h} mon rendez-vous de {FromTime=4h}.
@@ -139,6 +180,11 @@
 - retarder la {OrderReference=prochaine} réunion de {MoveLaterTimeSpan=30 minutes}.
 - retarder l'événement de la réunion d'{MoveLaterTimeSpan=1 heure}.
 - s'il vous plaît déplacer ça à {ToTime=15 h}.
+- changer le  {SlotAttribute=salle de réunion}  À  {MeetingRoom=london confroom excalibur} 
+- trouver un nouveau  {SlotAttribute=Chambre}  pour mon  {FromTime=15h00} Réunion
+- Je veux passer à un autre  {SlotAttribute=salle de réunion} 
+- Je voudrais changer le  {SlotAttribute=salle de réunion} 
+- s'il vous plaît changer le  {SlotAttribute=salle de réunion}  À  {MeetingRoom=2212} 
 
 
 ## CheckAvailability
@@ -189,6 +235,57 @@
 - suis-je libre pour les {Subject=boissons} {FromDate=lundi} à {FromTime=5} ?
 - suis-je occupé {FromDate=ce week-end} ?
 - suis-je occupé le {FromDate=6 février}?
+- puis-je réserver une chambre dans le bâtiment  {Building=5} pour une réuni on?
+- puis-je réserver une chambre sur  {FloorNumber=étage 7}  Dans  {Building=bâtiment 8} pour une réuni on demain?
+- puis-je réserver  {MeetingRoom=Alderaan}  Oui  {FromTime=Maintenant?} 
+- puis-je réserver  {MeetingRoom=Excalibur}  Pour  {FromTime=14h00} ou n'est-il pas disponible?
+- puis-je réserver chambre  {MeetingRoom=Gandhi} pour toute la semaine?
+- puis-je réserver le  {MeetingRoom=Entreprise}  chambre sur  {FloorNumber=étage 6}  de la  {Building=Bob} bâtiment pour une réunion?
+- puis-je réserver la salle de réunion  {MeetingRoom=Bespin} ?
+- puis-je réserver la salle de réunion qui est libre sur le  {FloorNumber=21e étage} ?
+- puis-je réserver le  {MeetingRoom=Williams} salle pour une réunion?
+- pouvez-vous dire si la salle de réunion  {MeetingRoom=Bespin} est maintenant disponible pour moi?
+- pouvez-vous me dire si la salle de réuni on  {MeetingRoom=pas 20}  est disponible à  {FromTime=Midi} ?
+- bonjour, suis-je en mesure de réserver  {MeetingRoom=Hoth}   {FromTime=Tout de suite} ?
+- Je me demandais si vous avez une salle de réunion disponible dans votre  {Building=Atlantique}  bâtiment pour le  {FromDate=4 décembre} ?
+- Je voudrais réserver un  {FloorNumber=Rez-de-chaussée}   {MeetingRoom=salle de conférence}  dans le  {Building=bâtiment delta} , y en a-t-il un disponible?
+- Est  {MeetingRoom=Coruscant}  disponible à  {FromTime=14h00} 
+- Est  {MeetingRoom=Entreprise} Disponible?
+- Est  {MeetingRoom=Excalibur}  Disponible  {FromTime=Maintenant} ?
+- Est  {MeetingRoom=Hoth} actuellement disponible pour une utilisation?
+- est-il possible de réserver une chambre dans le  {Building=Redmond} Bâtiment?
+- se réunit  {MeetingRoom=chambre 201} Disponible?
+- est salle de réunion  {MeetingRoom=Kamino} disponible pour tout l'après-midi?
+- Est  {MeetingRoom=chambre 224} disponible aujourd'hui?
+- Est  {MeetingRoom=Tatooine}  disponible dans le  {FromTime=Soir} ?
+- est le  {MeetingRoom=Alderaan}  chambre sur le  {FloorNumber=plancher du hall}  à la  {Building=Centre-ville} Disponible?
+- est le  {MeetingRoom=Bespin}  salle de réunion disponible à  {FromTime=14h00} ?
+- est le  {MeetingRoom=Charpentier} salle disponible pour une réunion
+- est le  {MeetingRoom=Gandhi} chambre libre maintenant?
+- est la salle de réunion  {MeetingRoom=Endor} Disponible
+- est la salle de réunion sur le  {FloorNumber=4ème étage} Disponible?
+- est le  {MeetingRoom=chambre 1192}  disponible pour  {FromTime=14h00 demain} ?
+- est la salle  {MeetingRoom=2211}  disponible pour une réunion à  {FromTime=6} 
+- y a-t-il une salle de réunion sur le  {FloorNumber=5ème étage} actuellement disponibles pour réserver?
+- y a-t-il une chambre disponible au  {FloorNumber=premier étage}  Pour  {FromTime=Soir} ?
+- y a-t-il une chambre disponible sur  {FloorNumber=étage 6}   {FromTime=Maintenant} ?
+- y a-t-il une pièce sur le  {FloorNumber=3e étage} que je peux réserver?
+- s'il vous plaît puis-je réserver une salle de réunion dans  {Building=Centre-ville} ?
+- s'il vous plaît je réserve  {MeetingRoom=Kamino} ?
+- s'il vous plaît puis-je réserver la salle de réunion sur  {FloorNumber=étage 6}  À  {Building=maison d'arbre de chaux} ?
+- s'il vous plaît vérifier et voir si la salle de réunion  {MeetingRoom=2}  est disponible à  {FromTime=12} Demain.
+- voir si la salle de réunion  {MeetingRoom=3} disponible mardi à 11h30 pour la réunion.
+- dites-moi si  {MeetingRoom=Kamino}  est ouvert à  {FromTime=11h00} .
+- sera la salle de réunion  {MeetingRoom=2b (en)}  être disponible à  {FromTime=14h00} 
+- sera le  {MeetingRoom=Tatooine}  chambre disponible  {FromTime=Demain} ?
+- voulez-vous s'il vous plaît vérifier la disponibilité de la chambre sur le  {FloorNumber=troisième étage}  À  {FromTime=15h00} Demain?
+- est conférence  {MeetingRoom=chambre xi} gratuit à 10 heures?
+- se réunit  {MeetingRoom=chambre 345} ouvert à 15h?
+- se réunit  {MeetingRoom=gâteau de pièce} disponible maintenant?
+- Est  {MeetingRoom=chambre 235} gratuit à 15h?
+- Est  {MeetingRoom=chambre 246} ouvert en ce moment?
+- Est  {MeetingRoom=chambre 63}  Disponible  {FromDate=Demain}   {FromTime=16h00} 
+- Est  {MeetingRoom=chambre alpha} ouvert à 15h?
 
 
 ## ConnectToMeeting
@@ -584,6 +681,11 @@
 - supprimer mon emploi du temps pour {FromDate=aujourd'hui}.
 - supprimer mon planning.
 - supprimer un rendez-vous.
+- annuler le  {SlotAttribute=salle de réunion} 
+- annuler le  {SlotAttribute=Chambre}  Pour  {Subject=réunion de mêlée quotidienne} 
+- supprimer le  {SlotAttribute=Chambre}  pour mon  {FromTime=16h00} Réunion
+- supprimer le  {SlotAttribute=salle de réunion}  de mon  {FromTime=18h00} Réunion
+- s'il vous plaît annuler le  {SlotAttribute=Chambre}  de mon  {FromTime=19h00} Réunion
 
 
 ## FindCalendarDetail
@@ -946,37 +1048,628 @@
 
 
 ## FindMeetingRoom
-- aidez-moi à réserver la {MeetingRoom=chambre 102}-
-- aidez-moi à réserver une salle de réunion de {FromTime=10h} à {ToTime=15h}.
-- aidez-moi à trouver une salle de réunion.
-- bing me trouver une salle de conférence dans le {Location=bravern} {FromTime=cet après-midi}.
-- est-ce que cette chambre est occupée à {FromTime=17h} ?
-- est-ce que cette salle est occupée {FromDate=demain} ?
-- j'ai besoin de vous pour trouver un nouveau lieu de réunion.
-- je suis à la recherche d'une salle de conférence.
-- je veux rencontrer bruce lee, alors réservez la salle de conférence pour {FromDate=jeudi} à {FromTime=13 h}.
-- je veux rencontrer donna, s'il vous plaît, réservez pour {FromDate=jeudi} la salle de conférence à {FromTime=13h}.
-- livre {MeetingRoom=bleu salle de réunion}
-- localiser un autre lieu de réunion.
-- m'aider à réserver une salle de conférence.
-- me trouver une salle de conférence vide.
-- où nous rencontrerons-nous ?
-- planifier salle de conférence avec mary cooper pour {FromDate=jeudi} à {FromTime=un}
-- pouvez-vous réserver la {MeetingRoom=chambre 258} tout de suite ?
-- quelles salles de réunion ai-je ?
-- reserver la {MeetingRoom=salle 258} maintenant.
-- reserver la {MeetingRoom=salle 258} tout de suite.
-- reserver la {MeetingRoom=salle 258}.
-- réserver la salle de conférence pour {FromTime=13h} {FromDate=jeudi} parce que j'ai besoin d'avoir une réunion avec amber.
-- réserver la salle de conférence pour {FromTime=15h} {FromDate=demain}.
-- réserver la salle de conférence pour {FromDate=jeudi} à {FromTime=un} je veux rencontrer benjamin.
-- réserver une réunion.
-- réserver une salle de conférence.
-- trouver un nouveau lieu de réunion.
-- trouver une salle de réunion disponible de {FromTime=3} à {ToTime=5} {FromDate=demain}.
-- trouver une salle de réunion libre pour {FromDate=mardi prochain}.
-- trouvons un nouveau lieu de rencontre.
-- vérifier la salle de réunion pour {FromDate=demain}.
+- un nouveau lieu de réunion trouver un
+- ajouter un  {SlotAttribute=Chambre}  à mon  {FromTime=15h00} Réunion
+- suis goin travailler demain sur un autre état, j'ai besoin de réserver une chambre dans  {MeetingRoom=Johan} Rue
+- Un  {MeetingRoom=Chambre} .
+- Sont  {MeetingRoom=Chambre} 
+- en tant que client,  {MeetingRoom=Alicia} est laid, je ne vais jamais prendre une chambre là-bas à nouveau
+- bloquer une salle de conférence à  {MeetingRoom=troisième niveau}  Dans  {MeetingRoom=Eureka} Bâtiment
+- booh la salle conford dans le palais  {MeetingRoom=2} / {MeetingRoom=76} 
+- livre 3  {MeetingRoom=Chambres} dans le centre-ville
+- réserver un  {MeetingRoom=salle de banquet} pour la réunion
+- réserver une salle de conférence
+- réserver une salle de conférence  {MeetingRoom=(centre-ville/320-gc)} 
+- réserver un double  {MeetingRoom=4/22} près du centre-ville pour moi
+- réserver une chambre d'hôtel  {MeetingRoom=2/110} pour une semaine prochaine.
+- réserver une réunion
+- réserver une réunion dans le  {MeetingRoom=salle de conférence endor} 
+- réserver une salle de réunion à la  {FloorNumber=4ème étage}  dans le  {Building=Redmond} Bâtiment
+- réserver un  {MeetingRoom=salle de réunion} À Fisketorvet
+- réserver un  {MeetingRoom=salle de réunion} à frederiksberg
+- réserver une salle de réunion sur  {FloorNumber=étage 1} 
+- réserver une salle de réunion sur  {FloorNumber=étage 5} 
+- réserver une place sur le  {FloorNumber=7e}  plancher dans  {Building=lloyds bâtiment} 
+- réserver un  {MeetingRoom=salle de la présidence} à l'hôtel h10.
+- réserver un  {MeetingRoom=Chambre} 
+- réserver un  {MeetingRoom=chambre 1} 
+- réserver un  {MeetingRoom=chambre 2} 
+- réserver un  {MeetingRoom=chambre 210} au pavillon de l'océan austral
+- réserver une chambre  {MeetingRoom=217 au 2ème étage} dans un hôtel.
+- réserver un  {MeetingRoom=chambre 3} 
+- réserver un  {MeetingRoom=chambre 4} 
+- réserver un  {MeetingRoom=chambre 5} 
+- réserver une chambre  {MeetingRoom=577 au 5ème étage} dans un hôtel.
+- réserver un  {MeetingRoom=chambre 6} 
+- réserver un  {MeetingRoom=chambre 7} 
+- réserver un  {MeetingRoom=chambre 9} 
+- réserver une chambre à  {FloorNumber=étage 4} 
+- réserver une chambre à  {MeetingRoom=taj banjara} pour la conférence de demain
+- réserver une chambre près de ma femme  {MeetingRoom=chambre de sandra} .
+- réserver une chambre pour  {Duration=30 min} 
+- réserver une chambre pour toute la semaine prochaine dans le  {MeetingRoom=zeus hôtel} 
+- réserver une chambre pour moi à  {MeetingRoom=centre-ville} Soir
+- réserver une chambre hôtel madrid  {MeetingRoom=309} Pour moi
+- réserver une chambre hôtel sun sai  {MeetingRoom=103} Pour moi
+- réserver une chambre immédiatement dans  {MeetingRoom=evm hôtel} pour ce soir.
+- réserver une chambre dans un hôtel  {MeetingRoom=au 2ème étage avec des fenêtres à la cour} 
+- réserver une chambre dans un  {MeetingRoom=plancher bas} pour quatre personnes
+- réserver une chambre dans  {MeetingRoom=Basell} pour la nuit de demain au dernier étage
+- réserver une chambre dans  {MeetingRoom=Californie} 405 pour aujourd'hui, s'il vous plaît
+- réserver une chambre dans  {MeetingRoom=Gallois} pour aujourd'hui à 18h200
+- réserver une chambre dans il  {MeetingRoom=bâtiment 2 a3} 
+- réserver une chambre dans  {MeetingRoom=Fichier} st. au plancher 2 pour la semaine prochaine
+- réserver une chambre dans  {MeetingRoom=Miraflores} suite b pour demain
+- réserver une chambre dans l'après-midi pour  {MeetingRoom=Euphorie} Bâtiment
+- réserver une chambre dans le  {MeetingRoom=bâtiment 6} 
+- réserver une chambre dans le  {MeetingRoom=bâtiment 8 b23} 
+- réserver une chambre dans le  {MeetingRoom=hôtel de palais} pour demain s'il vous plaît
+- réserver une chambre dans le  {MeetingRoom=deuxième étage} pour le week-end
+- réserver une chambre mumai hôtel  {MeetingRoom=1104} Pour moi
+- réserver une chambre pal hauteurs  {MeetingRoom=308} Pour moi
+- réserver un espace dans  {Building=centre de redmond} 
+- Livre  {MeetingRoom=salle adams} pour demain soir.
+- Livre  {MeetingRoom=salle de réunion bleue} 
+- Livre  {MeetingRoom=chambre bleue} Soir
+- Livre  {MeetingRoom=salle d'ordinateur} pour cet après-midi
+- livre conf rm  {MeetingRoom=(cr zamalek/mercure-2119)} 
+- livre conf rm  {MeetingRoom=corniche/maadi-39} à 7 o horloge
+- Livre  {MeetingRoom=conf chambre 333} pour mon entreprise
+- Livre  {MeetingRoom=conf chambre 654} sur la place.
+- livre conf chambre à biance  {MeetingRoom=21} Pour moi
+- livre conf chambre centre-ville / {MeetingRoom=13} (1) pour moi
+- livre conf chambre ville centre/2228 (6) pour  {MeetingRoom=claudio reinous} 
+- livre conf chambre  {MeetingRoom=hollywood / 2782} Pour moi
+- livre conf chambre dans holliday dans  {MeetingRoom=45} pour cet afthernoon
+- livre conf chambre  {MeetingRoom=miami / 2379} 
+- livre conf chambre  {MeetingRoom=sunxhi allié c9} pour nous
+- livre conf chambre  {MeetingRoom=sunzing p33} Maintenant
+- Livre  {MeetingRoom=salle de conférence} pour la réunion du conseil d'administration
+- Livre  {MeetingRoom=salle de conférence 1} au palais taj mahal
+- salle de conférence de livre  {MeetingRoom=alphaville/a1} Pour moi
+- salle de conférence de livre  {MeetingRoom=conf-882 (en)} dans le bâtiment 4
+- salle de conférence livre à  {MeetingRoom=Melia} Hôtel
+- livre dthe conf in paris hilton  {MeetingRoom=2} / {MeetingRoom=473} Maintenant
+- Livre  {MeetingRoom=Duplex} chambre à l'hôtel hilton
+- Livre  {MeetingRoom=Excalibur} S'il vous plaît
+- Livre  {MeetingRoom=salle exécutive}   {MeetingRoom=lasilas ville} pour le dimanche
+- Livre  {MeetingRoom=salle exécutive}   {MeetingRoom=nadilom ville} pour le vendredi
+- Livre  {MeetingRoom=suite exécutive}   {MeetingRoom=tour viatique} pour demain
+- Livre  {MeetingRoom=chambre familiale}   {MeetingRoom=delio ville} pour demain
+- Livre  {MeetingRoom=flezzi (flezzi)} chambre numéro cinq pour moi s'il vous plaît
+- livre pour moi  {MeetingRoom=conf salle grande salle 3} 
+- livre pour moi pour demain le  {MeetingRoom=numéro de chambre 25} 
+- livre pour moi  {MeetingRoom=salle de costume} pour 4 personnes
+- livre pour moi le  {MeetingRoom=chambre n 2} 
+- Livre  {MeetingRoom=grande chambre} pour les jours de remorquage
+- Livre  {MeetingRoom=Confiture} chambre pour moi s'il vous plaît
+- Livre  {MeetingRoom=Jason} chambre numéro deux s'il vous plaît
+- Livre  {MeetingRoom=Kamino} pour moi s'il vous plaît
+- Livre  {MeetingRoom=Kamino} Demain
+- Livre  {MeetingRoom=Noyau} chambre deux s'il vous plaît
+- Livre  {MeetingRoom=King Apartment Plaza hôtel 123654} Pour moi.
+- réservez-moi une chambre  {MeetingRoom=À proximité de Trg Republike} 
+- réservez-moi  {MeetingRoom=conf salle royal club 333} 
+- me réserver maintenant le  {MeetingRoom=chambre 125} 
+- Livre  {MeetingRoom=salle de musique} pour la concurrence
+- Livre  {MeetingRoom=chambre nixon} pour ce vendredi soir.
+- Livre  {MeetingRoom=auditorium nobel} pour mardi soir prochain.
+- livre un  {MeetingRoom=chambre familiale} pour lundi la semaine prochaine
+- Livre  {MeetingRoom=salon de fête} dans l'hôtel hilton
+- Livre  {MeetingRoom=chambre premium}   {MeetingRoom=tour kijubuto} pour le vendredi
+- Livre  {MeetingRoom=suite premium}   {MeetingRoom=bâtiment oklanda} pour le vendredi
+- Livre  {MeetingRoom=salle du président}   {MeetingRoom=masterium ville} 
+- Livre  {MeetingRoom=Présidentielle} Chambre
+- Livre  {MeetingRoom=salle présidentielle} cette nuit
+- Livre  {MeetingRoom=salle principale}   {MeetingRoom=tour zasasae} pour ce soir
+- Livre  {MeetingRoom=suite principale}   {MeetingRoom=tour doolter} 
+- Livre  {MeetingRoom=suite principale}   {MeetingRoom=tour fundana} pour ce soir
+- Livre  {MeetingRoom=lapint} chambre pour moi
+- livre rm  {MeetingRoom=starwars 7-33} 
+-  {MeetingRoom=Livre} Chambre
+- Livre  {MeetingRoom=chambre 1} au premier étage
+- Livre  {MeetingRoom=chambre 12} 
+- Livre  {MeetingRoom=chambre 12} pour cet après-midi
+- Livre  {MeetingRoom=chambre 12} ,  {MeetingRoom=dernier étage} pour lundi
+- salle de livre  {MeetingRoom=14b 14b} dans le premier flooor
+- Livre  {MeetingRoom=chambre 2} pour cet après-midi
+- Livre  {MeetingRoom=chambre 2} ,  {MeetingRoom=suite verte} ce soir
+- Livre  {MeetingRoom=chambre 232} pour 18h-20h demain.
+- Livre  {MeetingRoom=chambre 24 au 1er étage} .
+- Livre  {MeetingRoom=chambre 3} pour cet après-midi
+- Livre  {MeetingRoom=chambre 3} ,  {MeetingRoom=suite rouge} pour demain
+- Livre  {MeetingRoom=chambre 37} 
+- Livre  {MeetingRoom=chambre 4} au deuxième étage
+- Livre  {MeetingRoom=chambre 4} ,  {MeetingRoom=étage 8} pour ce soir
+- Livre  {MeetingRoom=chambre 45} pour demain
+- Livre  {MeetingRoom=chambre 5 alef} pour la réuni on de dimanche prochain.
+- Livre  {MeetingRoom=chambre 5/10} pour moi cette nuit s'il vous plaît.
+- Livre  {MeetingRoom=chambre 56} ,  {MeetingRoom=suite rouge} pour le vendredi
+- Livre  {MeetingRoom=chambre 70} pour la grande famille
+- Livre  {MeetingRoom=chambre 88} pour la lune de miel
+- Livre  {MeetingRoom=chambre 987} pour cet été
+- Livre  {MeetingRoom=chambre a50} à l'hôtel quatre saisons
+- Livre  {MeetingRoom=chambre b10} au bristol
+- Livre  {MeetingRoom=chambre c100} à l'hôtel shangri-la
+- salle de livre  {MeetingRoom=Fleur}   {MeetingRoom=1267} pour demain.
+- salle de livre  {MeetingRoom=microsoft-233/cj} à la fin de la journée
+- salle de livre à côté de  {MeetingRoom=chambre d'adam} pour mon ami James.
+- Livre  {MeetingRoom=chambre numéro 3} pour ce soir
+- salle de lecture numéro huit de  {MeetingRoom=fginn (fginn)} Hôtel
+- salle de lecture numéro cinquante-six de  {MeetingRoom=Avilon} hôtel s'il vous plaît
+- salle de lecture numéro cinq de  {MeetingRoom=Cellules} Hôtel
+- salle de lecture numéro sept de  {MeetingRoom=Grizzly} Hôtel
+- salle de lecture numéro soixante et un de  {MeetingRoom=rearches} hôtel s'il vous plaît
+- salle de lecture numéro dix de  {MeetingRoom=Wilson} Hôtel
+- salle de lecture numéro trois de  {MeetingRoom=waldorf astoria} S'il vous plaît
+- salle de livre de  {MeetingRoom=Lumineux} hôtel s'il vous plaît numéro soixante six
+- chambre à livres de l'hôtel  {MeetingRoom=agillum (agillum)} S'il vous plaît
+- salle de livre de  {MeetingRoom=Paresseux} hôtel s'il vous plaît
+- salle de livre  {MeetingRoom=rose}  Villa  {MeetingRoom=151} ce matin.
+- salle de livre  {MeetingRoom=tatouage-771} par 17h
+- salle de livre de la  {MeetingRoom=21} 
+-  {MeetingRoom=Livre} chambre de cette
+- Livre  {MeetingRoom=salle de vue sur la mer} en face de l'hôtel
+- réserver chambre senior  {MeetingRoom=gerculio ville} pour le vendredi
+- réserver chambre senior  {MeetingRoom=juldertu ville} pour ce soir
+- réserver chambre senior  {MeetingRoom=tour kalanedol} pour demain
+- réserver chambre senior  {MeetingRoom=tour kintader} 
+- réserver chambre senior  {MeetingRoom=tour lokhydel} pour demain
+- réserver chambre senior  {MeetingRoom=lomacheri ville} 
+- réservez suite senior  {MeetingRoom=ville falnyli} pour demain
+- réservez suite senior  {MeetingRoom=fujawase ville} pour ce soir
+- réservez suite senior  {MeetingRoom=ville likaster} pour demain
+- réservez suite senior  {MeetingRoom=tour radelto} pour ce soir
+- Livre  {MeetingRoom=suite} au dernier étage
+- réserver le  {MeetingRoom=Salle de conférence 2/64} Pour moi
+- Livre  {MeetingRoom=la chambre 8899} au marriott pour ce week-end.
+- réserver le  {MeetingRoom=auditorium #2042} pour demain matin
+- réserver le  {MeetingRoom=salle d'auditorium} dans le forum
+- Livre  {MeetingRoom=la grande chambre dans l'hôtel de canot} .
+- réserver le  {MeetingRoom=chambre de confort 569} 
+- réserver le conf en vepelia  {MeetingRoom=3} / {MeetingRoom=67} Pour moi
+- réserver le conf rm  {MeetingRoom=pomme spot/2211 (4)} à 21 heures s'il vous plaît
+- réserver le conf rm  {MeetingRoom=ayy tableau de bord 3} 
+- réserver le conf rm  {MeetingRoom=bjp 2/6} Pour moi
+- réserver le conf rm bjw 2/64 pour  {MeetingRoom=lac susan} 
+- réserver le conf rm bjw 2/ {MeetingRoom=88} Pour moi
+- réserver le conf rm  {MeetingRoom=caroline/ 1526} Pour moi
+- réserver le conf rm  {MeetingRoom=Chels x3233} 
+- réserver le conf rm  {MeetingRoom=cjp 3-9} Veux-tu
+- réserver le conf rm  {MeetingRoom=kow 2/84} pour un ami
+- réserver le conf rm  {MeetingRoom=london cp232} à 17 heures aujourd'hui
+- réserver le conf rm  {MeetingRoom=marin/233} 
+- réserver le conf rm  {MeetingRoom=ooojw 094} pour ma mère
+- réserver le conf rm  {MeetingRoom=sellez j11} Aujourd'hui
+- réserver le conf rm  {MeetingRoom=ensemble 64} pour mon chat
+- réserver le conf rm  {MeetingRoom=eau sudan} dans le bâtiment 5
+- réserver le conf rm suhou f84 maintenant pour  {MeetingRoom=peter nevada} 
+- réserver le conf rm  {MeetingRoom=tom 4} pour mon yak
+- réserver le  {MeetingRoom=conf chambre bjw 6/46} Pour moi
+- réserver le conf  {MeetingRoom=chambre bs8} cet après-midi
+- réserver le  {MeetingRoom=conf chambre ville barcelone f32} Pour moi
+- réserver le  {MeetingRoom=conf chambre ville barcelona f64} Pour moi
+- réserver le  {MeetingRoom=conf chambre ville madrid f34} Pour moi
+- réserver le  {MeetingRoom=conf chambre ville madrid f67} Pour moi
+- réserver le  {MeetingRoom=conf chambre ville madrid g67} Pour moi
+- réserver le  {MeetingRoom=conf chambre f22} 
+- réserver la salle conf  {MeetingRoom=lincoln 563} Maintenant
+- réserver la salle conf suzhou  {MeetingRoom=a28 Annonces} S'il vous plaît
+- réserver le  {MeetingRoom=conf/r1} chambre maintenant
+- réserver le  {MeetingRoom=salle de conférence} pour lundi après-midi
+- réserver la salle de conférence  {MeetingRoom=étoile de ville} t 123 ce midi
+- réserver le  {MeetingRoom=salle de conférence} pour la réunion
+- réserver le  {MeetingRoom=salle de conférence} dans le centre bella
+- réserver le confirmer  {MeetingRoom=bjw 3/65} Pour moi
+- réserver le confirmer  {MeetingRoom=dfg 4/54} Pour moi
+- réserver le confirmer  {MeetingRoom=dfv 6/98} 
+- réserver la chambre de confirmation dans mayuri chaud  {MeetingRoom=2ème étage} Pour moi
+- réserver la chambre de confirmation dans le lodge udipi  {MeetingRoom=5ème chambre de fenêtre} Pour moi
+- réserver la salle de confirmation mayuri bâtiment  {MeetingRoom=52ème chambre} Pour moi
+- réserver la salle de confirmation ns plaza  {MeetingRoom=202e} chambre pour moi
+- réserver la salle de confirmation centre royal  {MeetingRoom=8/421} pour nous
+- réserver le confirmer  {MeetingRoom=sxc 2/76} pour moi s'il vous plaît
+- réserver la salle conford en hespérie  {MeetingRoom=12/76} Maintenant
+- réserver le confort à Paris  {MeetingRoom=2} / {MeetingRoom=678} Pour moi
+- réserver le  {MeetingRoom=chambre dolly} pour ma sœur
+- réserver le  {MeetingRoom=f86 palais} conf maintenant
+- réserver le  {MeetingRoom=salle de branchie} ce matin
+- réserver le  {MeetingRoom=salle verte} pour cet après-midi
+- réserver le  {MeetingRoom=chambre jose} b7/2784 cet afternoom
+- réserver le  {MeetingRoom=Lecta (12)} chambre pour ce lundi
+- réserver le  {MeetingRoom=salle de conférence #15} pour mercredi pour moi
+- réserver le  {MeetingRoom=chambre mariale} b3/2257 ce matin
+- réserver le  {MeetingRoom=chambre matrimoniale 456} pour demain
+- réserver la salle de réunion  {MeetingRoom=Or} 223 ce soir
+- réserver le  {MeetingRoom=mting rm/mt1} Pour moi
+- réserver le  {MeetingRoom=#5 de bureau} Pour moi
+- réserver le  {MeetingRoom=salle paris} Pour moi
+- réserver le  {MeetingRoom=salle des fêtes} pour demain soir
+- réserver le  {MeetingRoom=salle présidentielle 789} pour aujourd'hui
+- réserver le  {MeetingRoom=salle prinston 1} en ce moment s'il vous plaît.
+- réserver le  {MeetingRoom=chambre corbeau 3/5} maintenant s'il vous plaît.
+- réserver la chambre  {MeetingRoom=#1011f} pour moi maintenant
+- réserver la chambre  {MeetingRoom=123a} pour johana.
+- réserver le  {MeetingRoom=chambre 17} Maintenant
+- réserver la chambre  {MeetingRoom=204} Pour moi
+- réserver la chambre  {MeetingRoom=2075} Pour moi
+- réserver la chambre  {MeetingRoom=2164} Pour moi
+- réserver la chambre  {MeetingRoom=2456} Pour moi
+- réserver le  {MeetingRoom=chambre 26} pour demain
+- réserver le  {MeetingRoom=chambre 3}  et le  {MeetingRoom=chambre 2} pour moi maintenant s'il vous plaît.
+- réserver la chambre  {MeetingRoom=304} Pour moi
+- réserver le  {MeetingRoom=chambre 32} 
+- réserver le  {MeetingRoom=chambre 35} ce matin
+- réserver la chambre  {MeetingRoom=4 premier étage} 
+- réserver le  {MeetingRoom=chambre 40} au dernier étage
+- réserver la chambre  {MeetingRoom=6b (en)} avec deux lits
+- réserver le  {MeetingRoom=chambre 754} Pour moi
+- réserver le  {MeetingRoom=chambre 8} Pour moi
+- réserver le  {MeetingRoom=chambre 9c} Pour moi
+- réserver le  {MeetingRoom=chambre a765} pour quatre personnes
+- réserver la chambre  {MeetingRoom=aj6548 (en)} pour la réunion
+- réserver la chambre alex hôtel  {MeetingRoom=7/fl7} 
+- réserver la chambre  {MeetingRoom=Alfa} 
+- réserver la chambre  {MeetingRoom=baliaer g12} de la conférence
+- réserver la chambre  {MeetingRoom=boston 225 Annonces} ce matin.
+- réserver la ville cactus chambre  {MeetingRoom=c4/3305} pour demain
+- réserver la chambre  {MeetingRoom=césar 319b} S'il vous plaît
+- réserver la chambre candelaria hôtel  {MeetingRoom=h8/fl10} 
+- réserver la chambre  {MeetingRoom=ville de caracas} ,  {MeetingRoom=p5/3566} 
+- réserver la chambre  {MeetingRoom=chat palais b4/0414} 
+- réserver la chambre  {MeetingRoom=chelsea c5/8833} plus tard aujourd'hui
+- réserver la chambre  {MeetingRoom=davinci a1/01} 
+- réserver la chambre  {MeetingRoom=diamant 212} cet après-midi
+- réserver la chambre  {MeetingRoom=faile bl22} du forum
+- réserver la chambre  {MeetingRoom=ville de floride}   {MeetingRoom=b5/1388} 
+- réserver la chambre frent day rock  {MeetingRoom=325 costume} Maintenant
+- réserver la chambre  {MeetingRoom=g4/445 G4/445 G4/445} 
+- réserver la chambre  {MeetingRoom=gris a1/03} 
+- réserver la chambre  {MeetingRoom=h3/445} 
+- réserver la chambre  {MeetingRoom=h5/332} 
+- réserver la chambre soleil heureux  {MeetingRoom=218}  costume et  {MeetingRoom=312} dans la nuit
+- réserver la chambre  {MeetingRoom=hellena b7/2234} cet après-midi
+- réserver le  {MeetingRoom=chambre hilton 67} Maintenant
+- réserver la chambre  {MeetingRoom=horus a1/01} 
+- réserver le  {MeetingRoom=chambre au rez-de-chaussée 3} .
+- réserver la chambre dans  {MeetingRoom=raintree hôtel} 
+- réserver la chambre dans le  {MeetingRoom=bâtiment 7} 
+- réserver la chambre dans le  {MeetingRoom=bâtiment 9} 22/12
+- réserver la chambre dans la place mastranto  {MeetingRoom=21} Du matin
+- réserver la chambre dans le  {MeetingRoom=dernier étage} 
+- réserver la chambre  {MeetingRoom=Lili} 
+- réserver la chambre  {MeetingRoom=chance 04} 
+- réserver la chambre  {MeetingRoom=lune a1/04} 
+- réserver la chambre  {MeetingRoom=Lusy Lusy} 
+- réserver la chambre  {MeetingRoom=manchester hauteurs cc/1111} cet après-midi
+- réserver la chambre  {MeetingRoom=marina/3d3} à 12 h pendant 3 heures
+- réserver la chambre  {MeetingRoom=Moni} 
+- réserver la chambre  {MeetingRoom=Monica} 
+- réserver la chambre  {MeetingRoom=Lune} 
+- réserver le  {MeetingRoom=chambre no 27} 
+- réserver le  {MeetingRoom=chambre no 305} 
+- réserver la chambre  {MeetingRoom=ville de ny} ,  {MeetingRoom=p3/25} 
+- réserver la chambre oasis hôtel  {MeetingRoom=23/fl4} Maintenant
+- réserver le  {MeetingRoom=chambre brise de l'océan 2/222} à l'hôtel san felice, s'il vous plaît.
+- réserver la chambre sur la plage c3/22 ce soir
+- réserver l'orientation de la chambre  {MeetingRoom=b2/2230} 
+- réserver la chambre  {MeetingRoom=jouer 12} du casino
+- réserver la chambre  {MeetingRoom=789 carrés} ensuite faible.
+- réserver l'arc-en-ciel de la chambre  {MeetingRoom=r1/flr1} cet après-midi
+- réserver la chambre redmon ville b4/2245 cet après-midi pour  {MeetingRoom=mary blanc} 
+- réserver la chambre redmond ville  {MeetingRoom=a2/1223} 
+- réserver la chambre redmond ville  {MeetingRoom=b2/2240} 
+- réserver la chambre redmond ville  {MeetingRoom=b3/124} 
+- réserver le  {MeetingRoom=chambre redmond ville b3/32} 
+- réserver la chambre redmond ville  {MeetingRoom=b3/3244} cet après-midi
+- réserver la chambre redmond ville b4/2245 cet après-midi pour  {MeetingRoom=jhon forgeron} 
+- réserver la chambre redmond ville  {MeetingRoom=c1/223} ce matin
+- réserver la chambre redmond ville  {MeetingRoom=c3/3211} 
+- réserver la chambre redmond ville  {MeetingRoom=d2/225} ce matin
+- réserver la chambre redmond ville  {MeetingRoom=d4/4021} 
+- réserver la chambre redmond ville  {MeetingRoom=e3/432} 
+- réserver la chambre redmond ville  {MeetingRoom=f4/432} ce matin
+- réserver la chambre redmond ville  {MeetingRoom=i9/332} 
+- réserver la chambre  {MeetingRoom=ville de redmond}   {MeetingRoom=a4/2355} 
+- réserver la chambre  {MeetingRoom=ville rocheuse 3/ 3549} cet afternoom
+- réserver la chambre  {MeetingRoom=rose} 
+- réserver la chambre  {MeetingRoom=s/6} pour moi ce soir
+- réserver la chambre  {MeetingRoom=Brillant} 444 cet après-midi
+- réserver la chambre  {MeetingRoom=Pierre} 221 ce midi
+- réserver la chambre  {MeetingRoom=soleil a/1} ce soir
+- réserver la chambre  {MeetingRoom=tour f20} 
+- réserver la chambre waldorf  {MeetingRoom=ha/b5} 
+- réserver le  {MeetingRoom=chambre simple b12} pour cette semaine.
+- réserver le  {MeetingRoom=chambre simple b22} pour cette semaine.
+- réserver le  {MeetingRoom=chambre simple b23} pour cette semaine.
+- réserver le  {MeetingRoom=chambre simple b42} pour cette semaine.
+- réserver le  {MeetingRoom=chambre simple b7} pour cette semaine.
+- réserver le  {MeetingRoom=chambre plus petite 896} 
+- réserver le  {MeetingRoom=Terrasse} ce soir pour le dîner
+- réserver le  {MeetingRoom=deuxn b5/3354} chambre cet après-midi
+- réserver le  {MeetingRoom=ville de valence} ,  {MeetingRoom=p8/8566} 
+- réserver le  {MeetingRoom=salle de mariage 125} Maintenant
+- réserver le  {MeetingRoom=chambre ouest 3} cet aftenoon pour moi s'il vous plaît.
+-  {MeetingRoom=Livre} ce livre de chambre
+-  {MeetingRoom=Livre} cette salle de livre
+-  {MeetingRoom=Livre} cette pièce
+- livre à la salle d'écriture  {MeetingRoom=43} 
+- réservation de toute la chambre sur  {MeetingRoom=Suite} plancher pour l'assemblée annuelle
+- boor le  {MeetingRoom=chambre 78} Pour moi.
+- puis-je réserver le  {MeetingRoom=chambre des reines a1/1657} pour tommorow?
+- puis-je envoyer pour réserver le  {MeetingRoom=grande salle 4} ?
+- puis-je rester ce lundi à la  {MeetingRoom=Nuptiale} ?
+- pouvez-vous ajouter un  {SlotAttribute=Chambre}  À  {FromDate=Demain} Est  {Subject=réunion dev} 
+- pouvez-vous réserver un  {MeetingRoom=salle de conférence} près du centre-ville
+- pouvez-vous réserver une chambre  {MeetingRoom=4/3342} à proximité de l'hôtel du centre-ville
+- pouvez-vous réserver  {MeetingRoom=chambre 258} Tout de suite
+- pouvez-vous réserver la chambre  {MeetingRoom=7552} pour moi s'il vous plaît?
+- vérifier la salle de réunion à  {FloorNumber=2ème étage} 
+- Vérifier  {SlotAttribute=salle de réunion}  Pour  {FromDate=Demain} 
+- Vérifier  {MeetingRoom=chambre chanceux} 
+- confirmer la réservation de la chambre  {MeetingRoom=h6 (h6)} de 16h à 17h le 10 février
+- avez-vous un  {SlotAttribute=Chambre}  disponible à  {FromTime=15h00}  Dans  {Building=Centre-ville} 
+- trouver une salle de conférence à  {FloorNumber=deuxième étage}  Dans  {Building=bâtiment 34} 
+- trouver un libre  {SlotAttribute=salle de réunion}  Pour  {FromDate=mardi prochain} 
+- trouver un nouvel emplacement de réunion
+- trouver une chambre à la  {FloorNumber=25ème étage} 
+- trouver une chambre entre les  {Duration=toute la journée} S'il vous plaît
+- trouver une chambre pour  {Duration=1 heure} S'il vous plaît
+- trouver une chambre sur  {Building=manque de bâtiment} 
+- trouver un  {SlotAttribute=Chambre}  Sur  {FromDate=Vendredi} 
+- trouver un disponible  {SlotAttribute=salle de réunion}  De  {FromTime=3}  À  {ToTime=5}   {FromDate=Demain} 
+- trouver une salle de conférence vide
+- bon afternon, vous pouvez réserver la chambre  {MeetingRoom=conf rm bjw 264} pour aujourd'hui
+- Bonne après-midi. Je veux réserver le  {MeetingRoom=salle de conformité bjw 3/13} fot aujourd'hui.
+- bonjour, pourriez-vous réserver le  {MeetingRoom=conf rm zoshou f84} chambre pendant trois jours?
+- avoir la réunion en  {MeetingRoom=Hoth} 
+- bonjour se débarrasse de la salle  {MeetingRoom=ville de redmond b24/2245} ?
+- bonjour je veux réserve  {MeetingRoom=15 chambres} 
+- bonjour je voudrais réserver  {MeetingRoom=3 chambres} dans votre hôtel
+- Bonjour, comment vas-tu? Je serais si gentil que de réserver  {MeetingRoom=conf chambre centre-ville / 2228} (6) pour moi
+- bonjour, ma chambre est  {MeetingRoom=ville de redmond b4 / 2245} Prêt?
+- m'aider à réserver une salle de conférence
+- m'aider à réserver un  {SlotAttribute=salle de réunion}  De  {FromTime=10h00}  À  {ToTime=15h00} 
+- m'aider à réserver une salle de réunion à  {FloorNumber=3e étage} 
+- m'aider à réserver le  {MeetingRoom=chambre 102} 
+- m'aider à réserver le  {MeetingRoom=chambre 34b} 
+- aidez-moi à trouver une salle de réunion
+- m'aider à trouver une chambre dans  {Building=Centre-ville} 
+- Salut je désir de réserver  {MeetingRoom=5 chambres} avec accès à la piscine
+- Salut je veux juste réserver  {MeetingRoom=2 chambres} dans votre hôtel
+- Salut je voudrais réserver  {MeetingRoom=1 chambre} S'il vous plaît
+- tenir une réunion sur le  {FloorNumber=1er étage} 
+- que diriez-vous  {Building=bâtiment 99} 
+- que diriez-vous  {MeetingRoom=entreprise salle de réunion} 
+- que diriez-vous  {MeetingRoom=chambre 2213} 
+- que diriez-vous de la  {FloorNumber=4ème étage} 
+- Je réserve la chambre  {MeetingRoom=g454 (en)} pour l'ensemble de la semaine prochaine
+- J'ai une réuni on. s'il vous plaît réserver une chambre dans le  {MeetingRoom=aladdin hôtel} 
+- Je dois réserver le  {MeetingRoom=Obama}  Et  {MeetingRoom=atout salles de conférence} pendant 2 heures aujourd'hui
+- J'ai du mal avec ma chambre sur  {MeetingRoom=Charles} dernier étage
+- J'espère qu'il reviendra à  {MeetingRoom=Steve} chambre du premier étage
+- J'aime passer de  {MeetingRoom=chambre 45} À  {MeetingRoom=chambre 63} .
+- J'ai besoin d'un double  {MeetingRoom=numéro de chambre 44 ou 46} radisson au 3d étage.
+- J'ai besoin  {MeetingRoom=chambre 1001} réservé pour une semaine.
+- J'ai besoin de place  {MeetingRoom=jb452 (en)} pour le dimanche si elle est disponible
+- J'ai besoin que vous une conférence  {MeetingRoom=Chambre} dans lisbon
+- J'ai besoin de réserver une salle de réunion sur le  {FloorNumber=2ème étage} avec un projecteur en elle
+- J'ai besoin de réserver une chambre dans le  {MeetingRoom=bâtiment en euros}   {MeetingRoom=c3} La nuit
+- J'ai besoin de faire une réservation pour une réunion, s'il vous plaît réserver chambre  {MeetingRoom=Imperial} 
+- J'ai besoin de réserver  {MeetingRoom=Endor}  sur le  {FloorNumber=1er étage}  dans le  {Building=bâtiment de hall de vaisselle} .
+- J'ai besoin de réserver  {MeetingRoom=mustafar, Nouveau}  pour un client à  {FromTime=17h00} .
+- J'ai besoin de réserver le  {MeetingRoom=22-a} chambre à l'hôtel continental
+- J'ai besoin de réserver le  {MeetingRoom=salle de conférence alderaan} pour une réuni on.
+- J'ai besoin de réserver le  {Building=Bespin} salle de réunion.
+- J'ai besoin de réserver la chambre  {MeetingRoom=2-a} à pensilvania hotel
+- J'ai besoin de réserver la chambre  {MeetingRoom=345} à l'hôtel tamanaco
+- J'ai besoin de réserver le numéro de chambre  {MeetingRoom=100-b} à l'hôtel torino
+- J'ai besoin de réserver le numéro de chambre  {MeetingRoom=243} à l'hôtel ritz
+- J'ai besoin de me reposer. réserver une chambre dans  {MeetingRoom=ce bâti ment} 
+- J'ai besoin de dormir, mais pour cela j'ai besoin d'une chambre sur  {MeetingRoom=Steve} Étage
+- J'ai besoin de vous pour trouver un nouvel emplacement de réunion
+- J'ai besoin de vous pour réserver la salle de réuni on sur  {FloorNumber=étage 2} .
+- Je veux  {MeetingRoom=55} 
+- Je veux réserver une chambre à la  {MeetingRoom=deuxième étage} 
+- Je veux réserver la chambre  {MeetingRoom=métro 193} 
+- Je veux  {MeetingRoom=chambre 102} réservé pour moi .
+- Je veux  {MeetingRoom=chambre 4} 
+- Je veux le  {MeetingRoom=petite chambre} jusqu'à 12
+- Je veux réserver un  {MeetingRoom=lit double} Chambre
+- Je veux réserver une chambre à  {FloorNumber=23ème}  plancher dans  {Building=Centre-ville} 
+- Je veux réserver une chambre à l'hôtel  {MeetingRoom=Pacifique 102}  Pour  {MeetingRoom=1 heure} .
+- Je veux réserver une chambre dans le  {MeetingRoom=jardin magique}  dans l'intrigue  {MeetingRoom=24/2} 
+- Je veux réserver une chambre  {MeetingRoom=avec une vue} 
+- Je veux réserver conf chambre  {MeetingRoom=halbert 29} 
+- Je veux réserver  {MeetingRoom=salle de conférence 2} .
+- Je veux réserver  {MeetingRoom=double chambre centre-ville 1000/1.} 
+- Je veux réserver  {MeetingRoom=chambre king} 
+- Je veux réserver  {MeetingRoom=suite présidentielle numéro 1} 
+- Je veux réserver  {MeetingRoom=chambre 1} 
+- Je veux réserver  {MeetingRoom=chambre 2} 
+- Je veux réserver  {MeetingRoom=chambre 3} 
+- Je veux réserver  {MeetingRoom=salle numéro 5} .
+- Je veux réserver le numéro de chambre  {MeetingRoom=c4856} pour ce soir
+- Je veux réserver  {MeetingRoom=Tatooine} 
+- Je veux réserver le conf  {MeetingRoom=rm 2} 
+- Je veux réserver  {MeetingRoom=deux chambres} 
+- Je veux avoir une réuni on dans  {MeetingRoom=mustafar, Nouveau} 
+- Je veux louer le  {MeetingRoom=salle de conférence anna} pour aujourd'hui
+- Je veux réserver  {MeetingRoom=Gandhi}  À  {FromTime=18h00} 
+- Je veux réserver  {MeetingRoom=chambre 131} pour l'après-midi
+- Je veux réserver le  {MeetingRoom=salle principale} pour le midi aujourd'hui
+- Je veux réserver le  {MeetingRoom=chambre 44} pour moi et ma femme
+- Je veux  {MeetingRoom=chambre 5} 
+- Je veux voir les gens dans  {MeetingRoom=Tatooine}  dans le hall  {FloorNumber=étage 4} .
+- Je veux dormir dans  {MeetingRoom=Joshua} dernière chambre ce soir
+- Je whs pour réserver le  {MeetingRoom=salle lincoln} pour aujourd'hui entre 15h et 17h.
+- Je vais réserver le  {MeetingRoom=chambre dorée} Pour moi
+- Je souhaite réserver un  {SlotAttribute=salle de réunion}  à la  {Building=bâtiment london}  Pour  {FromDate=janvier le 9}  À  {FromTime=13h00} 
+- Je souhaite réserver une chambre au deuxième étage, préférable  {MeetingRoom=12}  Ou  {MeetingRoom=13 chambres} car ils ont une vue vers la banque jp
+- Je souhaite réserver une chambre maintenant à la  {Building=Bellevue} Bâtiment.
+- Je me demande puis-je réserver un  {MeetingRoom=salle royale c10.} 
+- Je me demande si je peux réserver le  {MeetingRoom=salle g10 pour aujourd'hui.} 
+- Je voudrais réserver une réunion dans le  {Building=Hitchcock}  s'appuyant sur le  {FloorNumber=23ème étage} .
+- Je voudrais réserver  {MeetingRoom=chambre 205} 
+- Je voudrais réserver le  {MeetingRoom=tesla chambre 33} à l'hôtel conrad s'il vous plaît.
+- Je voudrais réserver salle de réunion  {MeetingRoom=Excalibur}  sur le  {FloorNumber=premier étage}  de la  {Building=bâtiment alfred} 
+- Je voudrais réserver une de vos salles de réunion sur le  {FloorNumber=2ème}  plancher de la  {Building=Langham} bâtiment s'il vous plaît
+- Je voudrais réserver chambre  {MeetingRoom=2289} pour cette semaine
+- J'aimerais réserver le  {MeetingRoom=chambre à 3/333} À l'hôtel Mantras pour le week-end, s'il vous plaît.
+- Je voudrais réserver  {MeetingRoom=chambre bleue} pour deux nuits, s'il vous plaît
+- Je voudrais réserver  {MeetingRoom=salle conrad} pour deux nuits, s'il vous plaît
+- Je voudrais réserver  {MeetingRoom=chambre orange} pour deux nuits, heureux
+- Je voudrais réserver  {MeetingRoom=Chambre Oxford} pour deux nuits, s'il vous plaît
+- Je voudrais réserver  {MeetingRoom=salle du président} pour deux nuits, s'il vous plaît
+- Je voudrais réserver  {MeetingRoom=chambre 45} Au lieu de  {MeetingRoom=chambre 66} .
+- Je voudrais réserver un  {MeetingRoom=chambre d'hôtel 677} comme je l'ai déjà réservé.
+- Je voudrais réserver une chambre sur le  {FloorNumber=2ème étage}  de la  {Building=hall albert} S'il vous plaît.
+- Je suis à la recherche d'une salle de conférence
+- Je suis à la recherche d'un  {SlotAttribute=Chambre}  Disponible  {FromDate=cet après-midi}  Dans  {Building=studiox} 
+- y a-t-il une chambre disponible à 15h aujourd'hui
+- y a-t-il une chambre disponible sur  {Building=bâtiment 1} 
+- y at-il une chambre disponible au troisième étage dans  {MeetingRoom=hôtel ambiance} ?
+- y at-il une pièce disponible le  {Duration=toute la journée} ?
+- Est  {MeetingRoom=cette pièce}  occupé à  {FromTime=17h00} 
+- Est  {MeetingRoom=cette pièce}  Occupé  {FromDate=Demain} 
+- Il  {MeetingRoom=Chambre} 
+- les enfants sont fatigués s'il vous plaît réserver le numéro de la chambre  {MeetingRoom=40} 
+- les enfants sont fatigués. réserver le numéro de chambre  {MeetingRoom=20} S'il vous plaît
+- localiser un autre lieu de réunion
+- Chercher  {MeetingRoom=chambre bonjour} 
+- puis-je réserver une chambre dans  {MeetingRoom=Sixième} plancher pour ce soir?
+-  {MeetingRoom=doit faire partie de la phrase} 
+- ma réservation a été faite pour  {MeetingRoom=Imperial} chambre au dernier étage
+- mon vol est demain . s'il vous plaît réserver une chambre dans le  {MeetingRoom=hôtel king} 
+- mon vol est demain. s'il vous plaît réserver le numéro de chambre  {MeetingRoom=44} 
+- mon girlfirend veulent la meilleure chambre dans  {MeetingRoom=Mary} 
+- ma femme veut une chambre sur  {MeetingRoom=Mary} 
+- besoin d'une chambre réservée à  {MeetingRoom=hyderabad central} dans la soirée
+- besoin de réserver chambre  {MeetingRoom=Corail} au 2ème étage pour la seconde moitié aujourd'hui
+- vacances netx je vais réserver mon single  {MeetingRoom=Chambre} dans l'Internet
+- week-end prochain, j'ai besoin de réserver un  {MeetingRoom=Chambre} dans l'auberge oporto
+-  {MeetingRoom=ne changer le nom de la chambre} 
+- commander un  {MeetingRoom=chambre 669}  Dans  {MeetingRoom=Aile} pour 16h00
+- organiser une réunion dans le  {MeetingRoom=Gandhi}  chambre dans le  {FloorNumber=3e étage}  sur le  {Building=hôtel greenpark} 
+- s'il vous plaît ajouter un  {SlotAttribute=salle de réunion}  à la  {Subject=réunion de mêlée quotidienne} 
+- s'il vous plaît ajouter une réservation à  {MeetingRoom=salle de conférence 2} 
+- s'il vous plaît réserver 2 chambres qui ne sont pas loin de  {MeetingRoom=chambre de stella} .
+- s'il vous plaît réserver une chambre à taj banjaraa  {MeetingRoom=2/2241} au 2ème étage.
+- s'il vous plaît réserver une chambre  {MeetingRoom=près de l'ascenseur} 
+- s'il vous plaît réserver  {MeetingRoom=Lotus}  Chambre  {MeetingRoom=101} pour ce soir.
+- s'il vous plaît réservez-moi une conférence  {MeetingRoom=Chambre} dans un hôtel du centre-ville
+- s'il vous plaît réserver  {SlotAttribute=salle de réunion}   {MeetingRoom=Excalibur}  Sur  {FromDate=Vendredi} 
+- s'il vous plaît réserver  {MeetingRoom=pars (en)}  Chambre  {MeetingRoom=178} Pour moi.
+- s'il vous plaît réserver la chambre  {MeetingRoom=2345} au dernier étage de l'hôtel.
+- s'il vous plaît réserver la chambre  {MeetingRoom=Gemini} à 14h
+- s'il vous plaît réserver la chambre a sur le  {MeetingRoom=Penthouse} pour deux nuits
+- s'il vous plaît réserver la chambre  {MeetingRoom=conf. chambre} .
+- s'il vous plaît réserver le  {MeetingRoom=chambre de luxe 4} ce vendredi.
+- s'il vous plaît réserver la place morgan chambre  {MeetingRoom=d2/3338} 
+- s'il vous plaît réserver la chambre  {MeetingRoom=bois de sandle}  Ville  {MeetingRoom=189} Pour moi.
+- s'il vous plaît appelez pour confirmer ma réservation sur  {MeetingRoom=chambre de luxe rouge} 
+- s'il vous plaît je réserver salle de réunion  {MeetingRoom=Excalibur}  sur le  {FloorNumber=premier étage}  De  {Building=maison de webb} 
+- s'il vous plaît confirmer la réservation des chambres  {MeetingRoom=21a Annonces} ,  {MeetingRoom=21b (en)}  Et  {MeetingRoom=21c} de la maison refoulée
+- s'il vous plaît confirmer la réservation de la  {MeetingRoom=chalet lolita}  Et  {MeetingRoom=chalet paty} 
+- s'il vous plaît confirmer la réservation d'aujourd'hui de  {MeetingRoom=salle présidentielle un}  Et  {MeetingRoom=salle présidentielle b} 
+- s'il vous plaît réserver une salle de réunion dans le bâtiment  {Building=3} .
+- s'il vous plaît réserver une salle de réunion sur le  {FloorNumber=1er étage} .
+- s'il vous plaît réserver une salle de réunion sur le  {FloorNumber=3e étage}  De  {Building=tour terman} .
+- s'il vous plaît réserver une chambre  {MeetingRoom=1} 
+- s'il vous plaît réserver une chambre  {MeetingRoom=2} 
+- s'il vous plaît réserver une chambre  {MeetingRoom=3} 
+- s'il vous plaît réserver une chambre  {MeetingRoom=4} 
+- s'il vous plaît réserver une chambre  {MeetingRoom=5} 
+- s'il vous plaît réserver  {MeetingRoom=Excalibur} pour la réuni on du matin.
+- s'il vous plaît réserver pour moi le  {MeetingRoom=salle de conférence} 
+- s'il vous plaît réserver pour cet après-midi le  {MeetingRoom=salle de petit déjeuner} 
+- s'il vous plaît me réserver le  {MeetingRoom=chambre de suite} 
+- s'il vous plaît réserver  {SlotAttribute=salle de réunion}   {MeetingRoom=Hoth}  Sur  {FloorNumber=étage 10}  de la  {Building=bâtiment london}  Pour  {FromDate=vendredi après-midi} .
+- s'il vous plaît réserver le  {MeetingRoom=salle verte}  sur le  {FloorNumber=2ème étage}  de la  {Building=Hewitt} Bâtiment.
+- s'il vous plaît réserver le  {FloorNumber=deuxième étage}  salle de réunion à  {Building=bâtiment 5} pour demain.
+- s'il vous plaît valider la réservation de la  {MeetingRoom=cabine double}  Et  {MeetingRoom=cabine individuelle} pour le vendredi
+- s'il vous plaît valider que demain réservation est faite, c'est le  {MeetingRoom=chambre rouge}  et le  {MeetingRoom=chambre magenta} 
+- s'il vous plaît vous réservez un  {SlotAttribute=salle de réunion} pour moi à  {Building=Centre-ville}  sur le  {FromDate=23 janvier} .
+-  {MeetingRoom=Lire} 
+-  {MeetingRoom=Lire} Dans
+-  {MeetingRoom=Lire} Nom
+-  {MeetingRoom=Lire} Ensemble
+-  {MeetingRoom=Lire} Lla
+- réserver une salle de conférence à la  {Building=redmond bâtiment} 
+- réserver une salle de réunion dans le  {Building=Redmond} Bâtiment
+- réserver une salle de réunion sur  {FloorNumber=étage 1}  de la  {Building=centre mercator} 
+- réserver une salle de réunion sur le  {FloorNumber=3e étage} 
+- réserver une chambre dans le  {Building=Londres} bâtiment pour la réunion
+- Réserve  {MeetingRoom=chambre bleue} pour 2 nuits
+- Réserve  {MeetingRoom=Entreprise} pour une réuni on
+- réservez-moi un  {SlotAttribute=salle de réunion}  à la  {Building=bâtiment london} ,  {FloorNumber=étage 5}  pour samedi à  {FromTime=13h00} 
+- salle de réunion de réserve  {MeetingRoom=Coruscant} S'il vous plaît
+- salle de réunion de réserve  {MeetingRoom=Gandhi} pour lundi matin.
+- Réserve  {MeetingRoom=chambre 258} 
+- Réserve  {MeetingRoom=chambre 258} Maintenant
+- Réserve  {MeetingRoom=chambre 258} Tout de suite
+- Réserve  {MeetingRoom=chambre 313} Tout de suite
+- Réserve  {MeetingRoom=chambre 7/154} S'il vous plaît
+- salle de réserve  {MeetingRoom=f5 (en)} au 3ème étage de 14h à 16h
+- salle de réserve dans  {MeetingRoom=hôtel 4 saisons} 
+- salle de réserve no.  {MeetingRoom=t65 (en)} de 15h à 17h le vendredi 15 janvier
+- réservez le  {MeetingRoom=Réseau 2/56} conf pour moi
+- réservez le  {MeetingRoom=salle alejandra} pour ce soir
+- réserver la salle de réunion  {MeetingRoom=Entreprise}  Sur  {FloorNumber=étage 2}  de la  {Building=centre mercator} 
+- réserver la salle de réunion sur le  {FloorNumber=12ème étage}  à la  {Building=Ferry} 
+- réservez le  {MeetingRoom=mond valle 3/45} Pour moi
+- réservez le  {MeetingRoom=mustafar, Nouveau}  chambre dans le  {Building=École}   {FloorNumber=quatrième étage} pour la réunion
+- réserver la chambre  {MeetingRoom=abc-3d} plus tard ce soir
+- réserver la chambre  {MeetingRoom=tatouage} entre 3 et 5
+- réservez le  {MeetingRoom=Tatooine}  salle de réunion sur le  {FloorNumber=2ème étage} .
+- réservez le  {FloorNumber=troisième étage} pour la réunion
+- Réserve  {MeetingRoom=conférence sur les eaux de la virginie} plus tard ce soir
+- chambre de la  {MeetingRoom=34} 
+- chambre où vous commandez  {MeetingRoom=56} 
+- planifier la plus grande salle dans  {MeetingRoom=le centre de conférence} 
+- la salle de bain est affreux dans  {MeetingRoom=Angeline} Chambre
+- le lit était durty, je ne prendrai jamais une chambre sur  {MeetingRoom=Ben} 
+- la réuni on est là. réserver une chambre dans  {MeetingRoom=ce bâti ment} S'il vous plaît
+- la réuni on est là. réserver le numéro de chambre  {MeetingRoom=100} S'il vous plaît
+- Lla  {MeetingRoom=Chambre} 
+-  {MeetingRoom=la chambre 9700} devrait être réservé à notre entreprise pendant 3 jours.
+- le livre de la chambre  {MeetingRoom=21} 
+-  {MeetingRoom=le nom/numéro de la chambre doit faire partie de la phrase} 23
+-  {MeetingRoom=le nom/numéro de la chambre doit faire partie de la phrase} f2 (en)
+- la pièce que vous écrivez chambre  {MeetingRoom=67} 
+- pour réserver le  {MeetingRoom=chambre matrimoniale} jusqu'à demain
+- Essayer  {MeetingRoom=2312} 
+- Essayer  {FloorNumber=8ème étage} 
+- essayez buillding  {Building=bjw2 (en)} 
+- Essayer  {MeetingRoom=Excalibur} 
+- Essayer  {FloorNumber=étage 2} 
+- Essayer  {MeetingRoom=jupyter chambre} 
+- Essayer  {Building=studiox} 
+- essayer le  {FloorNumber=3e étage} 
+- Essayer  {FloorNumber=le plancher 23} 
+- Utiliser  {MeetingRoom=chambre wender} 
+- veulent réserver chambre  {MeetingRoom=g5 (en)} pour une journée complète le 15 janvier
+- vous voulez réserver le  {MeetingRoom=lodge chambre 4} à l'hôtel du château.
+- veulent réserver la chambre  {MeetingRoom=numéro 11} au deuxième étage pour l'ensemble de la semaine prochaine.
+- voulait réserver le  {MeetingRoom=chambre biscocho 1/11} à l'hôtel cienaga.
+- nous avons besoin d'une chambre dans  {MeetingRoom=hôtel taj} pendant deux jours.
+- nous avons besoin d'une chambre au cinquième étage dans  {MeetingRoom=l'hôtel des hommes} .
+- nous avons fortement besoin de la  {MeetingRoom=chambre 888} à réserver à notre conférence.
+- nous voulons réserver le  {FloorNumber=deuxième étage}  dans le  {Building=bâtiment principal} pour notre salle de réunion
+- ce que les salles de réunion ai-je
+- où allons-nous rencontrer
+- blanc vous commandez la chambre  {MeetingRoom=21} 
+-  {MeetingRoom=écrire une phrase où vous commandez de réserver une chambre} 
+- vous réservez une chambre  {MeetingRoom=76} 
+- vous où chambre  {MeetingRoom=41} 
+- (trouver le livre de réserve) [ {MeetingRoomKeywordsDesc} [MeetingRoomKeywordsDesc {MeetingRoom}] MeetingRoom [(à l'on-for)]  {FromTime}  [(à l'on-pour)]  {FromDate} ^
+- (trouver le livre de réserve)  {MeetingRoom}  [ {MeetingRoomKeywordsDesc} ] [à l'on'for)] [ {FromDate} ] [à l'on'for)] [ {FromTime} ]^
+- (trouver le livre de réserve)  {MeetingRoom}  [ {MeetingRoomKeywordsDesc} ] [à l'on'for)]  {FromTime}  [(à l'on-pour)]  {FromDate} ^
+- (trouver le livre de réserve) [ {MeetingRoomKeywordsDesc} [MeetingRoomKeywordsDesc {MeetingRoom}] MeetingRoom [(à l'on-for)] [ {FromDate} ] [à l'on'for)] [ {FromTime} ]^
+- (trouver le livre de réserve) [le] [(conférence-conf-confer)] (chambre-rmrom)  {MeetingRoomPatternAny}  (maintenant)  {AfterAny} [.]
+- (trouver le livre de réserve) [le] [(conférence-conf-confer)] (chambre-rmrom)  {MeetingRoomPatternAny}  (plus tard aujourd'hui-demain)  {AfterAny} [.]
+- (trouver le livre de réserve) [le] [(conférence-conf-confer)] (chambre-rmrom)  {MeetingRoomPatternAny}  (pour 'à 'par) {AfterAny} [.]
+- La salle (disponible) [à l'on'pour)] [ {FromDate} ] [à l'on'for)] [ {FromTime} ]^
 
 
 ## None
@@ -1150,6 +1843,12 @@ $FromTime:simple
 
 $Subject:simple
 
+$Building:simple
+
+$ContactName:simple
+
+$FloorNumber:simple
+
 
 > # PREBUILT Entity definitions
 
@@ -1305,8 +2004,14 @@ $RelationshipName:oncles=
 
 $RelationshipName:femme=
 
+$SlotAttributeName:room=
+- Chambre
+- salle de réunion
+- salle de conférence
 
+$SlotAttributeName:time=
+- Temps
 
 > # RegEx entities
-
+$MeetingRoomKeywordsDesc:/((conf|conference|meeting)\s+)?(room|rm|office)/
 

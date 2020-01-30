@@ -106,20 +106,20 @@ export class ConnectSkill {
 
         // Validate 'ludown' arguments
         if (!existsSync(this.configuration.luisFolder)) {
-            throw new Error(`Path to the LUIS folder (${this.configuration.luisFolder}) leads to a nonexistent folder.
+            throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
 Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
-        } else if (!existsSync(luFilePath)) {
-            throw new Error(`Path to the ${luisApp}.lu file leads to a nonexistent file.
+            } else if (!existsSync(luFilePath)) {
+                throw new Error(`Path to the ${ luisApp }.lu file leads to a nonexistent file.
 Make sure your Skill's .lu file's name matches your Skill's manifest id`);
-        }
-
+            }
+        
         // Validate 'dispatch add' arguments
         if (!existsSync(dispatchFolderPath)) {
             throw new Error(
-                `Path to the Dispatch folder (${dispatchFolderPath}) leads to a nonexistent folder.
+                `Path to the Dispatch folder (${ dispatchFolderPath }) leads to a nonexistent folder.
 Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         } else if (!existsSync(dispatchFilePath)) {
-            throw new Error(`Path to the ${dispatchFile} file leads to a nonexistent file.`);
+            throw new Error(`Path to the ${ dispatchFile } file leads to a nonexistent file.`);
         }
 
         const executionModelMap: Map<string, string> = new Map();
@@ -162,7 +162,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         try {
             return await this.childProcessUtils.execute(cmd, commandArgs);
         } catch (err) {
-            throw new Error(`The execution of the ${cmd} command failed with the following error:\n${err}`);
+            throw new Error(`The execution of the ${ cmd } command failed with the following error:\n${ err }`);
         }
     }
 
@@ -180,7 +180,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 json: true
             });
         } catch (err) {
-            throw new Error(`There was a problem while getting the remote manifest:\n${err}`);
+            throw new Error(`There was a problem while getting the remote manifest:\n${ err }`);
         }
     }
 
@@ -230,37 +230,37 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
     private async executeLudownParse(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
         const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
         try {
-            const luisApp: string = <string> executionModelByCulture.get('luisApp');
-            const luisFile: string = <string> executionModelByCulture.get('luisFile');
-            const luisFilePath: string = <string> executionModelByCulture.get('luisFilePath');
+            const luisApp: string = executionModelByCulture.get('luisApp') as string;
+            const luisFile: string = executionModelByCulture.get('luisFile') as string;
+            const luisFilePath: string = executionModelByCulture.get('luisFilePath') as string;
             // Parse LU file
             const ludownParseCommandArguments: string[] = ['--in', '--luis_culture', '--out_folder', '--out'];
             ludownParseCommandArguments.forEach((argument: string): void => {
-                const argumentValue: string = <string> executionModelByCulture.get(argument);
+                const argumentValue: string = executionModelByCulture.get(argument) as string;
                 ludownParseCommand.push(...[argument, argumentValue]);
             });
-            await this.runCommand(ludownParseCommand, `Parsing ${culture} ${luisApp} LU file`);
+            await this.runCommand(ludownParseCommand, `Parsing ${ culture } ${ luisApp } LU file`);
             if (!existsSync(luisFilePath)) {
-                throw new Error(`Path to ${luisFile} (${luisFilePath}) leads to a nonexistent file.`);
+                throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the ludown parse command:\nCommand: ${ludownParseCommand.join(' ')}\n${err}`);
+            throw new Error(`There was an error in the ludown parse command:\nCommand: ${ ludownParseCommand.join(' ') }\n${ err }`);
         }
     }
 
     private async executeDispatchAdd(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
         const dispatchAddCommand: string[] = ['dispatch', 'add'];
         try {
-            const luisApp: string = <string> executionModelByCulture.get('luisApp');
+            const luisApp: string = executionModelByCulture.get('luisApp') as string;
             // Update Dispatch file
             const dispatchAddCommandArguments: string[] = ['--type', '--name', '--filePath', '--intentName', '--dataFolder', '--dispatch'];
             dispatchAddCommandArguments.forEach((argument: string): void => {
-                const argumentValue: string = <string> executionModelByCulture.get(argument);
+                const argumentValue: string = executionModelByCulture.get(argument) as string;
                 dispatchAddCommand.push(...[argument, argumentValue]);
             });
-            await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${culture} ${luisApp} LU file`);
+            await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${ culture } ${ luisApp } LU file`);
         } catch (err) {
-            throw new Error(`There was an error in the dispatch add command:\nCommand: ${dispatchAddCommand.join(' ')}\n${err}`);
+            throw new Error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -303,10 +303,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             if (!this.configuration.noRefresh) {
                 await this.executeRefresh();
             } else {
-                this.logger.warning(`Run 'botskills refresh --${this.configuration.lgLanguage}' command to refresh your connected skills`);
+                this.logger.warning(`Run 'botskills refresh --${ this.configuration.lgLanguage }' command to refresh your connected skills`);
             }
         } catch (err) {
-            throw new Error(`An error ocurred while updating the Dispatch model:\n${err}`);
+            throw new Error(`An error ocurred while updating the Dispatch model:\n${ err }`);
         }
     }
 
@@ -320,7 +320,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Validate if cognitiveModels files doesn't exist
             if (!existsSync(this.configuration.cognitiveModelsFile)) {
                 throw new Error(`Could not find the cognitiveModels file (${
-                    this.configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
+                    this.configuration.cognitiveModelsFile }). Please provide the '--cognitiveModelsFile' argument.`);
             }
             
             // Take cognitiveModels

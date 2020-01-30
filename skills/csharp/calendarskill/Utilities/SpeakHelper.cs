@@ -29,7 +29,7 @@ namespace CalendarSkill.Utilities
             }
         }
 
-        public static string ToSpeechMeetingTime(DateTime dateTime, bool isAllDay)
+        public static string ToSpeechMeetingTime(DateTime dateTime, bool isAllDay, bool isRightNow = false)
         {
             // All day: "all day"
             // Time: "at h:mm tt"
@@ -41,6 +41,10 @@ namespace CalendarSkill.Utilities
             if (isAllDay)
             {
                 return CalendarCommonStrings.AllDayLower;
+            }
+            else if (isRightNow)
+            {
+                return CalendarCommonStrings.RightNow;
             }
             else
             {

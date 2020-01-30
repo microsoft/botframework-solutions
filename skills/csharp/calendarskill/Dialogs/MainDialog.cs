@@ -47,7 +47,10 @@ namespace CalendarSkill.Dialogs
             UpdateEventDialog updateEventDialog,
             JoinEventDialog connectToMeetingDialog,
             UpcomingEventDialog upcomingEventDialog,
-            CheckAvailableDialog checkAvailableDialog,
+            CheckPersonAvailableDialog checkPersonAvailableDialog,
+            FindMeetingRoomDialog findMeetingRoomDialog,
+            UpdateMeetingRoomDialog updateMeetingRoomDialog,
+            BookMeetingRoomDialog bookMeetingRoomDialog,
             IBotTelemetryClient telemetryClient)
             : base(nameof(MainDialog), telemetryClient)
         {
@@ -69,7 +72,10 @@ namespace CalendarSkill.Dialogs
             AddDialog(updateEventDialog ?? throw new ArgumentNullException(nameof(updateEventDialog)));
             AddDialog(connectToMeetingDialog ?? throw new ArgumentNullException(nameof(connectToMeetingDialog)));
             AddDialog(upcomingEventDialog ?? throw new ArgumentNullException(nameof(upcomingEventDialog)));
-            AddDialog(checkAvailableDialog ?? throw new ArgumentNullException(nameof(checkAvailableDialog)));
+            AddDialog(checkPersonAvailableDialog ?? throw new ArgumentNullException(nameof(checkPersonAvailableDialog)));
+            AddDialog(findMeetingRoomDialog ?? throw new ArgumentNullException(nameof(findMeetingRoomDialog)));
+            AddDialog(updateMeetingRoomDialog ?? throw new ArgumentNullException(nameof(updateMeetingRoomDialog)));
+            AddDialog(bookMeetingRoomDialog ?? throw new ArgumentNullException(nameof(bookMeetingRoomDialog)));
         }
 
         private LocaleTemplateEngineManager TemplateEngine { get; set; }
@@ -106,6 +112,45 @@ namespace CalendarSkill.Dialogs
             switch (intent)
             {
                 case CalendarLuis.Intent.FindMeetingRoom:
+                    {
+                        // check whether the meeting room feature supported.
+                        if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                        {
+                            await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                        }
+                        else
+                        {
+                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                            await dc.Context.SendActivityAsync(activity);
+                        }
+
+                        break;
+                    }
+
+                case CalendarLuis.Intent.AddCalendarEntryAttribute:
+                    {
+                        // Determine the exact intent using entities
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        {
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
+                        }
+                        else
+                        {
+                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                            await dc.Context.SendActivityAsync(activity);
+                        }
+
+                        break;
+                    }
+
                 case CalendarLuis.Intent.CreateCalendarEntry:
                     {
                         await dc.BeginDialogAsync(nameof(CreateEventDialog), options);
@@ -120,13 +165,45 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.DeleteCalendarEntry:
                     {
-                        await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        {
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
+                        }
+                        else
+                        {
+                            await dc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(options, EventStatus.Cancelled));
+                        }
+
                         break;
                     }
 
                 case CalendarLuis.Intent.ChangeCalendarEntry:
                     {
-                        await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        {
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                await dc.BeginDialogAsync(nameof(UpdateMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
+                        }
+                        else
+                        {
+                            await dc.BeginDialogAsync(nameof(UpdateEventDialog), options);
+                        }
+
                         break;
                     }
 
@@ -155,7 +232,24 @@ namespace CalendarSkill.Dialogs
 
                 case CalendarLuis.Intent.CheckAvailability:
                     {
-                        await dc.BeginDialogAsync(nameof(CheckAvailableDialog));
+                        if (luisResult.Entities.MeetingRoom != null || luisResult.Entities.MeetingRoomPatternAny != null || CalendarCommonUtil.ContainMeetingRoomSlot(luisResult))
+                        {
+                            if (!string.IsNullOrEmpty(_settings.AzureSearch?.SearchServiceName))
+                            {
+                                state.InitialIntent = CalendarLuis.Intent.FindMeetingRoom;
+                                await dc.BeginDialogAsync(nameof(BookMeetingRoomDialog), options);
+                            }
+                            else
+                            {
+                                var activity = TemplateEngine.GenerateActivityForLocale(CalendarMainResponses.FeatureNotAvailable);
+                                await dc.Context.SendActivityAsync(activity);
+                            }
+                        }
+                        else
+                        {
+                            await dc.BeginDialogAsync(nameof(CheckPersonAvailableDialog));
+                        }
+
                         break;
                     }
 
@@ -242,17 +336,20 @@ namespace CalendarSkill.Dialogs
             {
                 // Get cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
-
-                // Run LUIS recognition on Skill model and store result in turn state.
-                localizedServices.LuisServices.TryGetValue("Calendar", out var skillLuisService);
-                if (skillLuisService != null)
+                var skillResult = innerDc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+                if (skillResult == null)
                 {
-                    var skillResult = await skillLuisService.RecognizeAsync<CalendarLuis>(innerDc.Context, cancellationToken);
-                    innerDc.Context.TurnState.Add(StateProperties.CalendarLuisResultKey, skillResult);
-                }
-                else
-                {
-                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                    // Run LUIS recognition on Skill model and store result in turn state.
+                    localizedServices.LuisServices.TryGetValue("Calendar", out var skillLuisService);
+                    if (skillLuisService != null)
+                    {
+                        skillResult = await skillLuisService.RecognizeAsync<CalendarLuis>(innerDc.Context, cancellationToken);
+                        innerDc.Context.TurnState.Add(StateProperties.CalendarLuisResultKey, skillResult);
+                    }
+                    else
+                    {
+                        throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                    }
                 }
 
                 // Run LUIS recognition on General model and store result in turn state.
@@ -337,7 +434,7 @@ namespace CalendarSkill.Dialogs
                                         await dc.BeginDialogAsync(nameof(UpdateEventDialog), newFlowOptions);
                                         break;
                                     case CalendarLuis.Intent.CheckAvailability:
-                                        await dc.BeginDialogAsync(nameof(CheckAvailableDialog), newFlowOptions);
+                                        await dc.BeginDialogAsync(nameof(CheckPersonAvailableDialog), newFlowOptions);
                                         break;
                                     case CalendarLuis.Intent.ConnectToMeeting:
                                         await dc.BeginDialogAsync(nameof(JoinEventDialog), newFlowOptions);

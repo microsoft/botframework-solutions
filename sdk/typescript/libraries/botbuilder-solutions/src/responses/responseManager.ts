@@ -146,7 +146,7 @@ export class ResponseManager {
             const itemContainer: ICardElement | undefined = mainCard.body.find((item: ICardElement): boolean => {
                 return item.type === 'Container' && item.id === containerName;
             });
-            const itemsAdaptiveContainer: IContainer = <IContainer> itemContainer;
+            const itemsAdaptiveContainer: IContainer = itemContainer as IContainer;
             if (itemsAdaptiveContainer !== undefined) {
                 if (containerItems !== undefined) {
                     containerItems.forEach((cardItem: Card): void => {
@@ -201,7 +201,7 @@ export class ResponseManager {
         // Get the bot response from the .json file
         const responseLocale: Map<string, ResponseTemplate> | undefined = this.jsonResponses.get(localeKey);
         if (!responseLocale || !responseLocale.has(key)) {
-            throw new Error(`Unable to find response ${templateId}`);
+            throw new Error(`Unable to find response ${ templateId }`);
         }
 
         const response: ResponseTemplate | undefined = responseLocale.get(key);
@@ -238,18 +238,18 @@ export class ResponseManager {
         // if locale is not set, add resources under the default key.
         const localeKey: string = (locale !== undefined) ? locale : this.defaultLocaleKey;
 
-        let jsonPath: string = join(resourcePath, `${resourceName}.${localeKey}.json`);
+        let jsonPath: string = join(resourcePath, `${ resourceName }.${ localeKey }.json`);
 
         try {
             require.resolve(jsonPath);
         } catch (errLocale) {
-            jsonPath = join(resourcePath, `${resourceName}.json`);
+            jsonPath = join(resourcePath, `${ resourceName }.json`);
 
             // Search for the common resource
             try {
                 require.resolve(jsonPath);
             } catch (err) {
-                throw new Error(`Unable to find '${resourceName}' in '${resourcePath}'`);
+                throw new Error(`Unable to find '${ resourceName }' in '${ resourcePath }'`);
             }
         }
 
@@ -261,14 +261,14 @@ export class ResponseManager {
             Object.entries(content)
                 .forEach((val: [string, Object]): void => {
                     const key: string = val[0];
-                    const value: ITemplate = <ITemplate>val[1];
+                    const value: ITemplate = val[1] as ITemplate;
                     const template: ResponseTemplate = Object.assign(new ResponseTemplate(), value);
                     localeResponses.set(key, template);
                 });
 
             this.jsonResponses.set(localeKey, localeResponses);
         } catch (err) {
-            throw new Error(`Error deserializing ${jsonPath}`);
+            throw new Error(`Error deserializing ${ jsonPath }`);
         }
     }
 
@@ -327,16 +327,16 @@ export class ResponseManager {
     }
 
     private loadCardJson(cardName: string, locale: string, resourcePath: string): string {
-        let jsonFile: string = join(resourcePath, `${cardName}.${locale}.json`);
+        let jsonFile: string = join(resourcePath, `${ cardName }.${ locale }.json`);
 
         try {
             require.resolve(jsonFile);
         } catch (errLocale) {
             try {
-                jsonFile = join(resourcePath, `${cardName}.json`);
+                jsonFile = join(resourcePath, `${ cardName }.json`);
                 require.resolve(jsonFile);
             } catch (error) {
-                throw new Error(`Could not file Adaptive Card resource ${jsonFile}`);
+                throw new Error(`Could not file Adaptive Card resource ${ jsonFile }`);
             }
         }
 

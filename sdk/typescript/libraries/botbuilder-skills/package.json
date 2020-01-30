@@ -45,6 +45,7 @@
         "@typescript-eslint/parser": "^1.10.2",
         "copyfiles": "^2.1.0",
         "eslint": "^5.16.0",
+        "eslint-plugin-only-warn": "^1.0.1",
         "mocha": "^6.1.4",
         "mocha-junit-reporter": "^1.22.0",
         "nock": "^11.7.0",

@@ -8,7 +8,7 @@ using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
 using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CheckAvailable;
+using CalendarSkill.Responses.CheckPersonAvailable;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
 using CalendarSkill.Responses.JoinEvent;
@@ -18,6 +18,7 @@ using CalendarSkill.Responses.Summary;
 using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Services.AzureSearchAPI;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -104,7 +105,7 @@ namespace CalendarSkill
             var templateFiles = new Dictionary<string, string>
             {
                 { "ChangeEventStatus", "ChangeEventStatusDialogActivities" },
-                { "CheckAvailable", "CheckAvailableActivities" },
+                { "CheckPersonAvailable", "CheckPersonAvailableActivities" },
                 { "CreateEvent", "CreateEventDialogActivities" },
                 { "FindContact", "FindContactDialogActivities" },
                 { "JoinEvent", "JoinEventDialogActivities" },
@@ -114,6 +115,7 @@ namespace CalendarSkill
                 { "TimeRemaining", "TimeRemainingDialogActivities" },
                 { "UpcomingEvent", "UpcomingEventDialogActivities" },
                 { "UpdateEvent", "UpdateEventDialogActivities" },
+                { "FindMeetingRoom", "FindMeetingRoomDialogActivities" },
             };
 
             var localizedTemplates = new Dictionary<string, List<string>>();
@@ -137,6 +139,14 @@ namespace CalendarSkill
             }
 
             services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            if (!string.IsNullOrEmpty(settings.AzureSearch?.SearchServiceName))
+            {
+                services.AddSingleton<ISearchService>(new AzureSearchClient(settings.AzureSearch?.SearchServiceName, settings.AzureSearch?.SearchServiceAdminApiKey, settings.AzureSearch?.SearchIndexName));
+            }
+            else
+            {
+                services.AddSingleton<ISearchService, DefaultSearchClient>();
+            }
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
@@ -166,7 +176,10 @@ namespace CalendarSkill
             services.AddTransient<TimeRemainingDialog>();
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();
-            services.AddTransient<CheckAvailableDialog>();
+            services.AddTransient<CheckPersonAvailableDialog>();
+            services.AddTransient<FindMeetingRoomDialog>();
+            services.AddTransient<UpdateMeetingRoomDialog>();
+            services.AddTransient<BookMeetingRoomDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

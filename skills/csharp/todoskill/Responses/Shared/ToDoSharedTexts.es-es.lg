@@ -1,32 +1,23 @@
 # NoAuth.Text
-- Inicie sesión antes de tomar medidas adicionales.
-- Por favor, inicie sesión para que pueda ayudar.
-- Por favor, inicie sesión para que pueda continuar con su solicitud.
-- ¿Puedes iniciar sesión para que pueda ayudarte más?
-- Tienes que iniciar sesión para que pueda tomar medidas.
+- Para empezar, inicia sesión en tu cuenta.
 
 # ActionEnded.Text
-- Avísame si necesitas mi ayuda con otra cosa.
-- Bien, estoy aquí si me necesitas.
+- Bien, avísame si necesitas ayuda con otra cosa.
 
 # ToDoErrorMessage.Text
-- Lo siento, parece que algo salió mal!
-- Se ha producido un error, inténtelo de nuevo más tarde.
-- ¡Algo salió mal, lo siento!
-- Parece que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?
-- Siento no poder ayudar ahora. Inténtelo de nuevo más tarde.
+- Lo siento, no puedo ayudar con tus listas ahora mismo. Inténtelo de nuevo más tarde.
 
 # ToDoErrorMessageBotProblem.Text
-- Lo siento, hay algo mal con el bot en este momento. El desarrollador ha sido notificado al respecto por lo que será capaz de realizar la acción de nuevo muy pronto.
+- Lo sentimos, esta función no funciona correctamente en este momento. Inténtelo de nuevo más tarde.
 
 # ToDoErrorMessageAccountProblem.Text
-- Lo sentimos, parece que algo salió mal con su cuenta de correo electrónico. Sigue las instrucciones de tu Bandeja de entrada para verificar tu cuenta.
+- Lo sentimos, no puedo acceder a tu cuenta de correo electrónico en este momento. Es posible que hayas recibido un correo electrónico con instrucciones para verificar tu cuenta.
 
 # SettingUpOneNoteMessage.Text
 - Me di cuenta de que ya no tienes un OneNote. Estoy creando una nueva OneNote para ti, incluyendo una lista de tareas pendientes.
 
 # AfterOneNoteSetupMessage.Text
-- Todo listo. Te he enviado un correo electrónico con un enlace a tu nueva OneNote. Estoy listo para anotar tu To Do Do.
+- Todo listo. Te envié un correo electrónico con un enlace a tu nuevo OneNote. Estoy listo para anotar tu To Do Do.
 
 # SettingUpOutlookMessage.Text
 - Me di cuenta de que ya no tiene ninguna carpeta de tareas de Outlook. Estoy creando nuevas carpetas de tareas para usted, incluida una carpeta Tareas pendientes.
@@ -36,4 +27,3 @@
 
 # NoTasksInList.Text
 - Tu lista está vacía.
-

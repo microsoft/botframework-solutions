@@ -7,7 +7,7 @@ trigger:
 
   paths:
     include:
-    - 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill/*'
+    - 'templates/typescript/samples/sample-skill/*'
 
 # By default will disable PR builds
 pr: none
@@ -24,14 +24,14 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill'
+    workingDir: 'templates/typescript/samples/sample-skill'
     verbose: false
 
 - task: Npm@1
   displayName: 'npm build'
   inputs:
     command: custom
-    workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill'
+    workingDir: 'templates/typescript/samples/sample-skill'
     verbose: false
     customCommand: 'run build'
 
@@ -39,7 +39,7 @@ steps:
   displayName: 'test with coverage'
   inputs:
     command: custom
-    workingDir: 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill'
+    workingDir: 'templates/typescript/samples/sample-skill'
     verbose: false
     customCommand: 'run test-coverage-ci'
 
@@ -47,13 +47,13 @@ steps:
   displayName: 'publish test results'
   inputs:
     testResultsFiles: 'test-results.xml'
-    searchFolder: 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill'
+    searchFolder: 'templates/typescript/samples/sample-skill'
     failTaskOnFailedTests: true
 
 - task: PublishCodeCoverageResults@1
   displayName: 'publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill/coverage/cobertura-coverage.xml'
-    reportDirectory: 'templates/Virtual-Assistant-Template/typescript/samples/sample-skill/coverage/'
+    summaryFileLocation: 'templates/typescript/samples/sample-skill/coverage/cobertura-coverage.xml'
+    reportDirectory: 'templates/typescript/samples/sample-skill/coverage/'
 

@@ -1,32 +1,30 @@
 # EmailWelcomeMessage.Text
-- Bienvenue! Je suis la compétence e-mail. Je peux vous aider à gérer votre e-mail Office 365, à afficher votre e-mail non lu, répondre ou transmettre vos e-mails pour vous.
+- Bonjour! Je peux vous aider à gérer votre e-mail dans Office 365, y compris l'affichage de votre e-mail non lu, et la réponse ou le courriel de diffusion pour vous.
 
 # EmailWelcomeMessage.S1
-- Afficher les derniers e-mails
+- Afficher les e-mails les plus récents.
 
 # EmailWelcomeMessage.S2
-- Envoyer un e-mail à quelqu'un
+- Envoyez un e-mail à quelqu'un.
 
 # FeatureNotAvailable.Text
-- Cette fonctionnalité n'est pas encore disponible dans la compétence d'email. S'il vous plaît essayer de demander autre chose.
+- La fonctionnalité que vous posez n'est pas disponible. S'il vous plaît essayer de poser des questions sur autre chose.
 
 # CancelMessage.Text
-- Ok, recommençons à tout recommencer.
+- OK, recommençons à tout recommencer.
 
 # HelpMessage.Text
-- Je peux vous fournir un aperçu de vos derniers e-mails, lire des e-mails importants pour vous, ou créer et transmettre un nouvel e-mail pour vous.
+- Je peux vous fournir un aperçu des courriels récents que vous avez reçus, lire les détails d'un message et envoyer ou répondre à un courriel.
 
 # HelpMessage.S1
-- Afficher le dernier e-mail
+- Afficher les e-mails les plus récents.
 
 # HelpMessage.S2
-- Envoyer un e-mail à quelqu'un
+- Envoyez un e-mail à quelqu'un.
 
 # HelpMessage.S3
-- Transmettre le deuxième courriel à quelqu'un
+- Envoyez le deuxième e-mail à quelqu'un.
 
 # LogOut.Text
-- Votre signature a été un succès.
-- Vous avez réussi à vous déconnecter.
-- Vous avez été déconnecté.
+- Vous avez été signé.
 

@@ -1,51 +1,50 @@
 # NoSubject.Text
-- What is the email subject?
+- What's the subject of the email?
 
 # RetryNoSubject.Text
-- Including a subject is often appreciated by contacts. Want to add a subject? Or you can input skip to bypass it.
+- Adding a subject will give recipients an idea of what your email is about at a glance. You can also choose to skip it.
 
 # NoMessageBody.Text
-- What would you like to say in the body of the email? Say skip if you want to keep it blank.
+- What content do you want in your email? 
 
 # CheckContent.Text
 - Do you want to include this in the email?
 
 # CheckContent.Speak
-- You can try Participants, Subject, or Content. Or say cancel.
+- You can try Recipients, Subject, Content, or Cancel.
 
 # CheckContent.S1
-- Yes
+- Yes.
 
 # CheckContent.S2
-- No
+- No.
 
 # ConfirmMessageRetry.Text
-- Please confirm this message. You can input yes or no.
-- Please confirm this message.
+- Do you want to send this email?
 
 # ConfirmMessageRetry.Speak
-- Please confirm this message. You can say yes or no.
+- Do you want to send this email?
 
 # RetryContent.Text
-- Got it, this email will not be sent yet.
+- OK, I won't send this email yet.
 
 # GetRecreateInfo.Text
-- Would you like to change the Recipients, Subject or the Body?
+- Do you want to change the Recipients, Subject, or Content for the email?
 
 # GetRecreateInfo.S1
-- Recipients
+- Recipients.
 
 # GetRecreateInfo.S2
-- Subject
+- Subject.
 
 # GetRecreateInfo.S3
-- Body
+- Content.
 
 # GetRecreateInfoRetry.Text
-- You can try Recipients, Subject, or Body. Or say cancel.
+- You can try Recipients, Subject, Content, or you can Cancel.
 
 # PlayBackMessage.Text(emailContent)
-- Okay, here's what I've got. Do you want to include it in the email? \n @{emailContent}
+- OK, here's the content of your email. Do you want to include it in the email? \n @{emailContent}
 
 # PlayBackMessage.Speak(emailContent)
-- Okay, here's what I've got. Do you want to include it in the email? @{emailContent}
+- OK, here's the content of your email. Do you want to include it in the email? @{emailContent}

@@ -33,7 +33,7 @@ export class UpdateSkill {
                 json: true
             });
         } catch (err) {
-            throw new Error(`There was a problem while getting the remote manifest:\n${err}`);
+            throw new Error(`There was a problem while getting the remote manifest:\n${ err }`);
         }
     }
 
@@ -112,6 +112,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
     private async executeConnectSkill(): Promise<void> {
         const connectConfiguration: IConnectConfiguration = {...{}, ...this.configuration};
         connectConfiguration.noRefresh = this.configuration.noRefresh;
+        connectConfiguration.inlineUtterances = this.configuration.inlineUtterances;
         await new ConnectSkill(connectConfiguration, this.logger).connectSkill();
     }
 
@@ -121,17 +122,17 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 await this.executeDisconnectSkill();
                 await this.executeConnectSkill();
                 this.logger.success(
-                    `Successfully updated '${this.configuration.skillId}' skill from your assistant's skills configuration file.`);
+                    `Successfully updated '${ this.configuration.skillId }' skill from your assistant's skills configuration file.`);
             } else {
                 const manifestParameter: string = this.configuration.localManifest
-                    ? `--localManifest "${this.configuration.localManifest}"`
-                    : `--remoteManifest "${this.configuration.remoteManifest}"`;
-                throw new Error(`The Skill doesn't exist in the Assistant, run 'botskills connect ${manifestParameter} --luisFolder "${this.configuration.luisFolder}" --${this.configuration.lgLanguage}'`);
+                    ? `--localManifest "${ this.configuration.localManifest }"`
+                    : `--remoteManifest "${ this.configuration.remoteManifest }"`;
+                throw new Error(`The Skill doesn't exist in the Assistant, run 'botskills connect ${ manifestParameter } --luisFolder "${ this.configuration.luisFolder }" --${ this.configuration.lgLanguage }'`);
             }
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while updating the Skill from the Assistant:\n${err}`);
+            this.logger.error(`There was an error while updating the Skill from the Assistant:\n${ err }`);
 
             return false;
         }

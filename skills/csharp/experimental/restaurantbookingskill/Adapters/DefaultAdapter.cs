@@ -27,6 +27,7 @@ namespace RestaurantBookingSkill.Adapters
         {
             OnTurnError = async (context, exception) =>
             {
+                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale ?? "en-us");
                 await context.SendActivityAsync(responseManager.GetResponse(RestaurantBookingSharedResponses.ErrorMessage));
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Restaurant Booking Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);

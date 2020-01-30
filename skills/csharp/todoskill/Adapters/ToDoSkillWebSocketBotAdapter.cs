@@ -28,10 +28,7 @@ namespace ToDoSkill.Adapters
         {
             OnTurnError = async (context, exception) =>
             {
-                CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale);
-
                 var activity = localeTemplateEngineManager.GenerateActivityForLocale(ToDoSharedResponses.ToDoErrorMessage, context);
-
                 await context.SendActivityAsync(activity);
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"To Do Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);

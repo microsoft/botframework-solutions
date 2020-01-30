@@ -30,7 +30,7 @@ export class DisconnectSkill {
     private removeSkill(): void {
         if (!existsSync(this.configuration.cognitiveModelsFile)) {
             throw new Error(`Could not find the cognitiveModels file (${
-                this.configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
+                this.configuration.cognitiveModelsFile }). Please provide the '--cognitiveModelsFile' argument.`);
         }
         const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
         const dispatchNames: Map<string, string> = getDispatchNames(cognitiveModelsFile);
@@ -38,7 +38,7 @@ export class DisconnectSkill {
             .map((item: [string, string]): void => {
                 const culture: string = item[0];
                 const dispatchName: string = item[1];
-                const dispatchFilePath: string = join(this.configuration.dispatchFolder, culture, `${dispatchName}.dispatch`);
+                const dispatchFilePath: string = join(this.configuration.dispatchFolder, culture, `${ dispatchName }.dispatch`);
                 if (existsSync(dispatchFilePath)) {
                     const dispatchData: IDispatchFile = JSON.parse(
                         readFileSync(dispatchFilePath)
@@ -58,7 +58,7 @@ export class DisconnectSkill {
                         writeFileSync(dispatchFilePath, JSON.stringify(dispatchData, undefined, 4));
                     }
                 } else {
-                    throw new Error(`The path to the dispatch file doesn't exists: ${dispatchFilePath}`);
+                    throw new Error(`The path to the dispatch file doesn't exists: ${ dispatchFilePath }`);
                 }
             });
     }
@@ -79,10 +79,10 @@ export class DisconnectSkill {
             if (!this.configuration.noRefresh) {
                 await this.executeRefresh();
             } else {
-                this.logger.warning(`Run 'botskills refresh --${this.configuration.lgLanguage}' command to refresh your connected skills`);
+                this.logger.warning(`Run 'botskills refresh --${ this.configuration.lgLanguage }' command to refresh your connected skills`);
             }
         } catch (err) {
-            throw new Error(`An error ocurred while updating the Dispatch model:\n${err}`);
+            throw new Error(`An error ocurred while updating the Dispatch model:\n${ err }`);
         }
     }
 
@@ -106,7 +106,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             );
 
             if (!skillToRemove) {
-                this.logger.warning(`The skill '${this.configuration.skillId}' is not present in the assistant Skills configuration file.
+                this.logger.warning(`The skill '${ this.configuration.skillId }' is not present in the assistant Skills configuration file.
 Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 
                 return false;
@@ -124,7 +124,7 @@ Please make sure to provide a valid path to your LUISGen output folder using the
                 await this.updateDispatch();
 
                 // Removing the skill manifest from the assistant skills array
-                this.logger.message(`Removing the '${this.configuration.skillId}' skill from your assistant's skills configuration file.`);
+                this.logger.message(`Removing the '${ this.configuration.skillId }' skill from your assistant's skills configuration file.`);
                 assistantSkills.splice(assistantSkills.indexOf(skillToRemove), 1);
 
                 // Updating the assistant skills file's skills property with the assistant skills array
@@ -133,12 +133,12 @@ Please make sure to provide a valid path to your LUISGen output folder using the
                 // Writing (and overriding) the assistant skills file
                 writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
                 this.logger.success(
-                    `Successfully removed '${this.configuration.skillId}' skill from your assistant's skills configuration file.`);
+                    `Successfully removed '${ this.configuration.skillId }' skill from your assistant's skills configuration file.`);
 
                 return true;
             }
         } catch (err) {
-            this.logger.error(`There was an error while disconnecting the Skill ${this.configuration.skillId} from the Assistant:\n${err}`);
+            this.logger.error(`There was an error while disconnecting the Skill ${ this.configuration.skillId } from the Assistant:\n${ err }`);
 
             return false;
         }
