@@ -57,7 +57,8 @@ namespace Microsoft.Bot.Solutions.Responses
         /// <param name="localeOverride">Optional override for locale.</param>
         /// <returns>Activity.</returns>
         /// <remarks>
-        /// The InputHint property of the returning activity is set to be null so caller will have to assign the InputHint explicitly.
+        /// The InputHint property of the returning activity is set to be null if it's acceptingInput so
+        /// when the activity is being used in a prompt it'll be set to expectingInput.
         /// </remarks>
         public Activity GenerateActivityForLocale(string templateName, object data = null, string localeOverride = null)
         {
@@ -74,7 +75,11 @@ namespace Microsoft.Bot.Solutions.Responses
             {
                 var activity = ActivityFactory.CreateActivity(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data).ToString());
 
-                activity.InputHint = null;
+                // Set the inputHint to null when it's acceptingInput so prompt can override it when expectingInput
+                if (activity.InputHint == InputHints.AcceptingInput)
+                {
+                    activity.InputHint = null;
+                }
 
                 return activity;
             }
@@ -97,7 +102,11 @@ namespace Microsoft.Bot.Solutions.Responses
                     {
                         var activity = ActivityFactory.CreateActivity(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data).ToString());
 
-                        activity.InputHint = null;
+                        // Set the inputHint to null when it's acceptingInput so prompt can override it when expectingInput
+                        if (activity.InputHint == InputHints.AcceptingInput)
+                        {
+                            activity.InputHint = null;
+                        }
 
                         return activity;
                     }
