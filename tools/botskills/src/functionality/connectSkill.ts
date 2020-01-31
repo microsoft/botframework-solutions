@@ -80,7 +80,7 @@ export class ConnectSkill {
                     luFilePath = currentApp.url.split('file://')[1];
                     if(!existsSync(luFilePath)) {
                         luFile = luFilePath;
-                        luisFile = `${luFile}is`;
+                        luisFile = `${luFile.toLowerCase()}is`;
                         luFilePath = join(this.configuration.luisFolder, culture, luFile);
                     }
                 } else {
@@ -93,7 +93,7 @@ export class ConnectSkill {
 
                 if (luFile.trim.length === 0) {
                     luFile = luFilePath.split('\\').reverse()[0];
-                    luisFile = `${luFile}is`;
+                    luisFile = `${luFile.toLowerCase()}is`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);
                 dispatchFile = `${dispatchName}.dispatch`;
