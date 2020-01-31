@@ -50,7 +50,7 @@ export class ConnectSkill {
         let luFile: string = '';
         let luisFile: string = '';
         let luFilePath: string = '';
-        let luisFolderPath: string = '';
+        let luisFolderPath: string = join(this.configuration.luisFolder, culture);
         let luisFilePath: string = '';
         let dispatchFile: string = '';
         let dispatchFolderPath: string = '';
@@ -61,7 +61,6 @@ export class ConnectSkill {
             luFile = `${luisApp}.lu`;
             luisFile = `${luisApp}.luis`;
             luFilePath = join(this.configuration.luisFolder, culture, luFile);
-            luisFolderPath = join(this.configuration.luisFolder, culture);
             luisFilePath = join(luisFolderPath, luisFile);
             dispatchFile = `${dispatchName}.dispatch`;
             dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
@@ -77,30 +76,25 @@ export class ConnectSkill {
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
                 
-                const isLocalLu: boolean = currentApp.url.startsWith('file');
-                let filePath: string = '';
-                let fileName: string = '';
-                if (isLocalLu){
-                    filePath = currentApp.url.split('file://')[1];
-                    if(!existsSync(filePath)) {
-                        filePath = join(this.configuration.luisFolder, culture, filePath);
+                if (currentApp.url.startsWith('file')) {
+                    luFilePath = currentApp.url.split('file://')[1];
+                    if(!existsSync(luFilePath)) {
+                        luFile = luFilePath;
+                        luisFile = `${luFile}'is'`;
+                        luFilePath = join(this.configuration.luisFolder, culture, luFile);
                     }
-                }
-                else {
-                    filePath = currentApp.url;
+                } else {
+                    luFilePath = currentApp.url;
                 }
                 
-                if(!existsSync(filePath)){
-                    throw new Error(`Path to the LU file (${filePath}) leads to a nonexistent file.`);
+                if(!existsSync(luFilePath)) {
+                    throw new Error(`Path to the LU file (${luFilePath}) leads to a nonexistent file.`);
                 }
 
-
-                let directoryToFile: string[] = filePath.split('\\');
-                fileName = directoryToFile[directoryToFile.length - 1];
-                
-                luisFile = fileName.endsWith('.lu') ? fileName + `is` : `${fileName}.luis`;
-                luFilePath = join(filePath);
-                luisFolderPath = join(this.configuration.luisFolder, culture);
+                if (luFile.trim.length === 0) {
+                    luFile = luFilePath.split('\\').reverse()[0];
+                    luisFile = `${luFile}'is'`;
+                }
                 luisFilePath = join(luisFolderPath, luisFile);
                 dispatchFile = `${dispatchName}.dispatch`;
                 dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
@@ -113,7 +107,7 @@ export class ConnectSkill {
             throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
 Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
             } else if (!existsSync(luFilePath)) {
-                throw new Error(`Path to the ${ luisApp }.lu file leads to a nonexistent file.
+                throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.
 Make sure your Skill's .lu file's name matches your Skill's manifest id`);
             }
         
