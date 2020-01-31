@@ -386,6 +386,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             assistantSkillsFile.BotFrameworkSkills = assistantSkills;
         }
         
+        
+        if (assistantSkillsFile.SkillHostEndpoint === undefined || assistantSkillsFile.SkillHostEndpoint.trim().length === 0) {
+            assistantSkillsFile.SkillHostEndpoint = `${this.configuration.botName}.azurewebsites.net/api/skills`;
+        }
         writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     }
 
