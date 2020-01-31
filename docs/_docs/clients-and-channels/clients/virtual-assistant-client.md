@@ -22,6 +22,8 @@ toc: true
 
 1. If you want to capture analytics, get started with [Visual Studio App Center](https://docs.microsoft.com/en-us/appcenter/sdk/getting-started/android) and register a new app.
 
+1. If you want to enable authentication, get started with the [Linked Accounts solution accelerator]({{site.baseurl}}/solution-accelerators/samples/linked-accounts/).
+
 ## Build and run
 
 ### Add your application settings
@@ -39,7 +41,8 @@ There are two configuration files used to provide your environment settings.
   "user_id": "android",
   "user_name": "Android",
   "locale": "en-us",
-  "keyword": "computer"
+  "keyword": "computer",
+  "linkedAccountEndpoint": "" // Optional if you enabled the Linked Accounts solution in the prerequisites
 }
 ```
 
@@ -104,6 +107,10 @@ Swipe from the left to access the menu.
 
 ![Side menu]({{site.baseurl}}/assets/images/android-virtual-assistant-client-side-menu.png)
 
+### Sign in
+{:.no_toc}
+If you enabled the Linked Accounts solution, the optional **Sign in** option will appear.
+
 ### Restart conversation
 {:.no_toc}
 Restart the conversation with a Virtual Assistant with a new conversation id.
@@ -114,7 +121,7 @@ Access the same settings from the configuration files.
 
 ![Settings]({{site.baseurl}}/assets/images/android-virtual-assistant-client-settings.png)
 
-### Set as default assistant
+## Set as default assistant
 {:.no_toc}
 
 Set your Virtual Assistant as the device's default assist app.
@@ -127,6 +134,22 @@ Set your Virtual Assistant as the device's default assist app.
 
 1. Select **Virtual Assistant**
 ![Settings]({{site.baseurl}}/assets/images/android-virtual-assistant-client-device-assistance-app-2.png)
+
+## Authenticating users
+
+If you provided a [Linked Accounts solution]({{site.baseurl}}/solution-accelerators/samples/linked-accounts/) endpoint in the app's configuration settings, a **Sign in** option will be available on the side menu.
+
+1. Select **Sign in** and authenticate with the Linked Accounts app.
+![Side menu with sign-in]({{site.baseurl}}/assets/images/android-virtual-assistant-client-side-menu-signin.png)
+
+1. The user id that will be used in each outgoing Activity is highglighted at the top, next to a **Sign out all** button that will unlink all of your accounts with a bot. There is a row for each authentication provider enabled on your bot, select **Link** to sign in with that specific account.
+![Linked accounts with unlinked account]({{site.baseurl}}/assets/images/linked-accounts-unlinked.jpg)
+
+1. After linking an account, the button will change to **Unlink**. SelecT **Complete and return to app** to pass the user id back to the Android app.
+![Linked accounts with linked account]({{site.baseurl}}/assets/images/linked-accounts-linked.jpg)
+
+1. Return to the app and the side menu now shows **Sign out**. Any future conversations with your Virtual Assistant will now pass the linked user id.
+![Side menu with sign-out]({{site.baseurl}}/assets/images/android-virtual-assistant-client-side-menu-signout.png)
 
 ## Events
 The **Virtual Assistant Client** is enabled to work with [events used in the sample Skills]({{site.baseurl}}/virtual-assistant/handbook/events/). 
