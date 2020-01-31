@@ -366,7 +366,8 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             assistantSkills.push({
                 Id: skillManifestV1.id,
                 AppId: skillManifestV1.msaAppId,
-                SkillEndpoint: skillManifestV1.endpoint
+                SkillEndpoint: skillManifestV1.endpoint,
+                Name: skillManifestV1.name
             })
             assistantSkillsFile.BotFrameworkSkills = assistantSkills;
         }
@@ -380,6 +381,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 Id: skillManifestV2.$id,
                 AppId: endpoint.msAppId,
                 SkillEndpoint: endpoint.endpointUrl,
+                Name: skillManifestV2.name,
             })
             assistantSkillsFile.BotFrameworkSkills = assistantSkills;
         }
