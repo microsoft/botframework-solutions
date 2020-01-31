@@ -79,6 +79,7 @@ export class ConnectSkill {
                 
                 const isLocalLu: boolean = currentApp.url.startsWith('file');
                 let filePath: string = '';
+                let fileName: string = '';
                 if (isLocalLu){
                     filePath = currentApp.url.split('file://')[1];
                     if(!existsSync(filePath)) {
@@ -92,9 +93,12 @@ export class ConnectSkill {
                 if(!existsSync(filePath)){
                     throw new Error(`Path to the LU file (${filePath}) leads to a nonexistent file.`);
                 }
-    
-                luFile = `${luisApp}.lu`;
-                luisFile = `${luisApp}.luis`;
+
+
+                let directoryToFile: string[] = filePath.split('\\');
+                fileName = directoryToFile[directoryToFile.length - 1];
+                
+                luisFile = fileName.endsWith('.lu') ? fileName + `is` : `${fileName}.luis`;
                 luFilePath = join(filePath);
                 luisFolderPath = join(this.configuration.luisFolder, culture);
                 luisFilePath = join(luisFolderPath, luisFile);
