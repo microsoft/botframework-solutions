@@ -66,7 +66,7 @@ namespace $safeprojectname$.Dialogs
                 var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
-                var skillResult = await localizedServices.LuisServices["$safeprojectname$"].RecognizeAsync<SkillSampleLuis>(innerDc.Context, cancellationToken);
+                var skillResult = await localizedServices.LuisServices["$safeprojectname$"].RecognizeAsync<$safeprojectname$Luis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
 
                 // Run LUIS recognition on General model and store result in turn state.

@@ -16,9 +16,9 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkillSample.Bots;
-using SkillSample.Dialogs;
-using SkillSample.Services;
+using $ext_safeprojectname$.Bots;
+using $ext_safeprojectname$.Dialogs;
+using $ext_safeprojectname$.Services;
 using $safeprojectname$.Utilities;
 
 namespace $safeprojectname$
@@ -44,7 +44,7 @@ namespace $safeprojectname$
                             LuisServices = new Dictionary<string, LuisRecognizer>
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() },
-                                { "SkillSample", SkillTestUtil.CreateRecognizer() }
+                                { "$ext_safeprojectname$", SkillTestUtil.CreateRecognizer() }
                             }
                         }
                     }

@@ -6,7 +6,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SkillSample.Dialogs;
+using $ext_safeprojectname$.Dialogs;
 using $safeprojectname$.Utterances;
 
 namespace $safeprojectname$
