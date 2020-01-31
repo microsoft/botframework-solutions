@@ -23,7 +23,8 @@
       </Folder>
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <Folder Name="manifest" TargetFolderName="manifest">
-          <ProjectItem ReplaceParameters="true" TargetFileName="manifest.json">manifest.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="manifest-1.0.json">manifest-1.0.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="manifest-1.1.json">manifest-1.1.json</ProjectItem>
         </Folder>
         <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
       </Folder>
