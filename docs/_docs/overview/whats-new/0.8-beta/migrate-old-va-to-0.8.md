@@ -62,7 +62,7 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
 ```
 
-5. Change the Microsoft.Bot.Builder.Solutions package to Microsoft.Bot.Solutions with the version 0.8.0-preview. If your Virtual Assistant project has a reference to the package Microsoft.Bot.Builder.Skills, please remove it
+5. Change the Microsoft.Bot.Builder.Solutions package to Microsoft.Bot.Solutions with the version 0.8.0-preview1. If your Virtual Assistant project has a reference to the package Microsoft.Bot.Builder.Skills, please remove it
 
 ```xml
 
@@ -70,7 +70,9 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
 ```
 
-6. Under Adapters/DefaultAdapter.cs, add SetSpeakMiddleware into the middleware list of the adapter
+6. Change all the namespace statements across the whole project to use Microsoft.Bot.Solutions instead of Microsoft.Bot.Builder.Solutions
+
+7. Under Adapters/DefaultAdapter.cs, add SetSpeakMiddleware into the middleware list of the adapter
 
 ```csharp
 
@@ -78,7 +80,7 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
 ```
 
-7. Add AllowedCallersClaimsValidator.cs under Authentication folder.
+8. Add AllowedCallersClaimsValidator.cs under Authentication folder.
 
 ```csharp
 
@@ -128,7 +130,7 @@ namespace {YourVirtualAssistant}.Authentication
     }
 }
 
-8. Under Bots folder, change the existing IBot implementation to DefaultActivityHandler.cs 
+9. Under Bots folder, change the existing IBot implementation to DefaultActivityHandler.cs 
 
 ```csharp
 
@@ -230,7 +232,34 @@ namespace {YourVirtualAssistant}.Bots
 
 ```
 
-9. Under Controllers folder, add a class SkillController.cs
+10. Under Controllers folder, change all occurances of IBotFrameworkHttpAdapter to BotFrameworkHttpAdapter
+
+```csharp
+
+    [Route("api/messages")]
+    [ApiController]
+    public class BotController : ControllerBase
+    {
+        private readonly IBotFrameworkHttpAdapter -> BotFrameworkHttpAdapter _adapter;
+        private readonly IBot _bot;
+
+        public BotController(IBotFrameworkHttpAdapter -> BotFrameworkHttpAdapter httpAdapter, IBot bot)
+        {
+            _adapter = httpAdapter;
+            _bot = bot;
+        }
+
+        [HttpPost]
+        [HttpGet]
+        public async Task PostAsync()
+        {
+            await _adapter.ProcessAsync(Request, Response, _bot);
+        }
+    }
+
+```
+
+11. Under Controllers folder, add a class SkillController.cs
 
 ```csharp
 
@@ -289,9 +318,9 @@ namespace {YourVirtualAssistant}.Controllers
 
 ```
 
-10. Under Dialogs/MainDialog.cs, considering that you probably have local changes, please refer to the latest of MainDialog.cs: https://github.com/microsoft/botframework-solutions/blob/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs to make corresponding changes.
+12. Under Dialogs/MainDialog.cs, considering that you probably have local changes, please refer to the latest of MainDialog.cs: https://github.com/microsoft/botframework-solutions/blob/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs to make corresponding changes.
 
-11. In Startup.cs, add these changes
+13. In Startup.cs, add these changes
 
 ```csharp
 
@@ -354,3 +383,40 @@ add these for skill capabilities
     }
 
 ```
+
+and make sure you have these lines. Make sure you register DefaultAdapter for the type BotFrameworkHttpAdapter, instead of the interface IBotFrameworkHttpAdapter
+
+```csharp
+
+    // Register the Bot Framework Adapter with error handling enabled.
+    // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
+    services.AddSingleton<BotFrameworkHttpAdapter, DefaultAdapter>();
+    services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
+
+```
+
+14. If you have already added skills which means the skills.json file has content, you need to change it to a new and simpler format
+
+```json
+
+  "SkillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
+  "BotFrameworkSkills": [
+    {
+      "Id": "{Skill1}",
+      "Name": "{Skill1}",
+      "AppId": "{Skill1MsAppId}",
+      "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+    },
+    {
+      "Id": "{Skill2}",
+      "Name": "{Skill2}",
+      "AppId": "{Skill2MsAppId}",
+      "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+    }
+  ]
+
+```json
+
+With all these changes, your Virtual Assistant will be good to go to support skill scenarios with BotBuilder Skill capabilities.
+
+Please also refer to the documentation to migrate an existing skill to 4.7 BotBuilder Skill: https://microsoft.github.io/botframework-solutions/skills/tutorials/migrate-to-new-skill/csharp/1-how-to/
