@@ -18,9 +18,9 @@ namespace ToDoSkill.Tests.Flow
     public class GeneralSkillFlowTests : ToDoSkillTestBase
     {
         [TestMethod]
-        public async Task Test_SingleTurnCompletion()
+        public async Task Test_SkillModeCompletion()
         {
-            await this.GetTestFlow()
+            await this.GetSkillTestFlow()
                 .Send(GeneralTestUtterances.UnknownIntent)
                 .AssertReplyOneOf(this.ConfusedResponse())
                 .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Responses.DeleteToDo;
+using ToDoSkill.Responses.Main;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Tests.Flow.Fakes;
 using ToDoSkill.Tests.Flow.Utterances;
@@ -22,6 +23,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
@@ -38,6 +41,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(DeleteToDoFlowTestUtterances.DeleteAllTasks)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
