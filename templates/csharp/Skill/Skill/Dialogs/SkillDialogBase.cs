@@ -3,15 +3,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using $safeprojectname$.Models;
 using $safeprojectname$.Services;
@@ -36,12 +37,12 @@ namespace $safeprojectname$.Dialogs
             StateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
 
             // NOTE: Uncomment the following if your skill requires authentication
-            // if (!settings.OAuthConnections.Any())
+            // if (!Settings.OAuthConnections.Any())
             // {
             //    throw new Exception("You must configure an authentication connection before using this component.");
             // }
 
-            // AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
+            // AddDialog(new MultiProviderAuthDialog(Settings.OAuthConnections));
         }
 
         protected BotSettings Settings { get; set; }
