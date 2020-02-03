@@ -1,3 +1,5 @@
+[import](UpcomingEventDialogActivities.lg)
+
 # UpcomingEventMessage.Text(Minutes, Attendees, Title)
 - @{Title} está en @{Minutes} minutos con @{Attendees}.
 

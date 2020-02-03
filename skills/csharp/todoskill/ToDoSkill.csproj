@@ -99,22 +99,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Responses\AddToDo\AddToDoActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\AddToDo\AddToDoActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\AddToDo\AddToDoActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\AddToDo\AddToDoActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\AddToDo\AddToDoActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\AddToDo\AddToDoActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\AddToDo\AddToDoResponses.tt">
@@ -139,22 +124,7 @@
     <None Update="Responses\AddToDo\AddToDoTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\DeleteToDo\DeleteToDoActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\DeleteToDo\DeleteToDoActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\DeleteToDo\DeleteToDoActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\DeleteToDo\DeleteToDoActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\DeleteToDo\DeleteToDoActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\DeleteToDo\DeleteToDoActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\DeleteToDo\DeleteToDoResponses.tt">
@@ -179,22 +149,7 @@
     <None Update="Responses\DeleteToDo\DeleteToDoTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Main\ToDoMainActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\ToDoMainActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\ToDoMainActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\ToDoMainActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\Main\ToDoMainActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Main\ToDoMainActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Main\ToDoMainResponses.tt">
@@ -219,22 +174,7 @@
     <None Update="Responses\Main\ToDoMainTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\MarkToDo\MarkToDoActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\MarkToDo\MarkToDoActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\MarkToDo\MarkToDoActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\MarkToDo\MarkToDoActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\MarkToDo\MarkToDoActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\MarkToDo\MarkToDoActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\MarkToDo\MarkToDoResponses.tt">
@@ -265,22 +205,25 @@
     <None Update="Responses\Shared\ResponseIdCollection.t4">
       <Generator></Generator>
     </None>
-    <None Update="Responses\Shared\ToDoSharedActivities.de-de.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Shared\ToDoSharedActivities.es-es.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.es-es.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Shared\ToDoSharedActivities.fr-fr.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.fr-fr.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\Shared\ToDoSharedActivities.it-it.lg">
+    <None Update="Responses\Shared\ResponsesAndTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Shared\ToDoSharedActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\Shared\ToDoSharedActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\Shared\ToDoSharedResponses.tt">
@@ -305,22 +248,7 @@
     <None Update="Responses\Shared\ToDoSharedTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\ShowToDo\ShowToDoActivities.de-de.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ShowToDo\ShowToDoActivities.es-es.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ShowToDo\ShowToDoActivities.fr-fr.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ShowToDo\ShowToDoActivities.it-it.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Update="Responses\ShowToDo\ShowToDoActivities.lg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\ShowToDo\ShowToDoActivities.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\ShowToDo\ShowToDoResponses.tt">

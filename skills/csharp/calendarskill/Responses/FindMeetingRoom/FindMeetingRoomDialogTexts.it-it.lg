@@ -1,3 +1,5 @@
+ï»¿[import](FindMeetingRoomDialogActivities.lg)
+
 # NoBuilding.Text
 - Ok, quale edificio?
 
@@ -8,10 +10,10 @@
 - Sembra @{MeetingRoom} non esiste.
 
 # ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
-- @{MeetingRoom} è disponibile @{DateTime}, vuoi prenotarlo?
+- @{MeetingRoom} Ã¨ disponibile @{DateTime}, vuoi prenotarlo?
 
 # MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
-- Sembra @{MeetingRoom} non è disponibile @{DateTime}.
+- Sembra @{MeetingRoom} non Ã¨ disponibile @{DateTime}.
 
 # FloorNumberRetry.Text
 - Scusa, non l'ho capito. Puoi dirlo in modo diverso?
@@ -26,7 +28,7 @@
 - Non sembra che ci siano camere disponibili @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # IgnoreMeetingRoom.Text
-- Non c'è problema.
+- Non c'Ã¨ problema.
 
 # RecreateMeetingRoomAgain.Text
 - Non ho capito, forse riprovare in un modo diverso.
@@ -35,7 +37,7 @@
 - Puoi cercare un orario diverso, un'altra stanza oppure puoi annullare la tua richiesta.
 
 # CancelRequest.Text
-- Okey, la tua richiesta è stata annullata.
+- Okey, la tua richiesta Ã¨ stata annullata.
 
 # ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
 - Va bene, sei confermato in @{MeetingRoom} @{DateTime}@{ForSubject(subject)}.
@@ -47,7 +49,7 @@
 - Va bene, ho il tuo incontro @{Subject} passare a @{MeetingRoom}.
 
 # ConfirmedMeetingRoom.Text
-- Okey, creerò un nuovo incontro con quella stanza.
+- Okey, creerÃ² un nuovo incontro con quella stanza.
 
 # ConfirmBeforCreatePrompt.Text
 - Vuoi confermare?

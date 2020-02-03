@@ -1,7 +1,4 @@
-﻿[import](../Shared/Card.lg)
-[import](DeleteToDoTexts.lg)
-
-# AskDeletionAllConfirmation
+﻿# AskDeletionAllConfirmation
 [Activity
     Text = @{AskDeletionAllConfirmation.Text(ListType)}
     Speak = @{AskDeletionAllConfirmation.Text(ListType)}

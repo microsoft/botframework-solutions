@@ -1,4 +1,6 @@
-﻿# ReadOutForOneEmail.Text
+﻿[import](ShowEmailActivities.lg)
+
+# ReadOutForOneEmail.Text
 - Do you want to read this email?
 
 # ReadOutForMultiEmails.Text

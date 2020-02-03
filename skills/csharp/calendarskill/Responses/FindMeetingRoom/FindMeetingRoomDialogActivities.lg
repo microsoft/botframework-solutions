@@ -1,6 +1,4 @@
-﻿[import](FindMeetingRoomDialogTexts.lg)
-
-# NoBuilding
+﻿# NoBuilding
 [Activity
     Text = @{NoBuilding.Text()}
     Speak = @{NoBuilding.Text()}

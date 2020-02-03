@@ -1,4 +1,6 @@
-﻿# AskAddOrCompleteTaskMessage.Text
+﻿[import](ShowToDoActivities.lg)
+
+# AskAddOrCompleteTaskMessage.Text
 - Let me know if you want to add an item or mark one as complete.
 
 # ReadMoreTasksPrompt.Text

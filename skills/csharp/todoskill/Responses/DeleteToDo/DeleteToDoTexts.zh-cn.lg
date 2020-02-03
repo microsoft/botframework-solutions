@@ -1,3 +1,5 @@
+[import](DeleteToDoActivities.lg)
+
 # AskDeletionAllConfirmation.Text(ListType)
 - 是否确实要删除@{ListType}列表？
 

@@ -1,3 +1,5 @@
+[import](ChangeEventStatusDialogActivities.lg)
+
 # ConfirmDelete.Text
 - 是否确实要从日历中删除此事件？
 

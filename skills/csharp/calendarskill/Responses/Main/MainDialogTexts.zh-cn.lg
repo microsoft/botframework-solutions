@@ -1,3 +1,5 @@
+[import](MainDialogActivities.lg)
+
 # CalendarWelcomeMessage.Text
 - 你好，我能帮你什么？以下是我能做的几件事：概述您今天的会议，阅读您即将召开的会议，或创建新会议。
 

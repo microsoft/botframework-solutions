@@ -1,3 +1,5 @@
+[import](DeleteEmailActivities.lg)
+
 # DeletePrompt.Text
 - 您要删除哪一个？
 - 您要删除哪些电子邮件？

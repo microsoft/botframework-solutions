@@ -1,3 +1,5 @@
+[import](UpcomingEventDialogActivities.lg)
+
 # UpcomingEventMessage.Text(Minutes, Attendees, Title)
 - @{Title}是在@{Minutes}分钟与@{Attendees}.
 

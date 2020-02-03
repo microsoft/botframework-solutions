@@ -1,8 +1,4 @@
-﻿[import](../Shared/Card.lg)
-[import](MarkToDoTexts.lg)
-[import](../ShowToDo/ShowToDoActivities.lg)
-
-# ListTypePromptForComplete
+﻿# ListTypePromptForComplete
 [Activity
     Text = @{ListTypePromptForComplete.Text()}
     Speak = @{ListTypePromptForComplete.Text()}

@@ -1,6 +1,4 @@
-﻿[import](FindContactDialogTexts.lg)
-
-# NoAttendees
+﻿# NoAttendees
 [Activity
     Text = @{NoAttendees.Text()}
     Speak = @{NoAttendees.Text()}

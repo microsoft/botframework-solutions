@@ -1,6 +1,4 @@
-﻿[import](UpcomingEventDialogTexts.lg)
-
-# UpcomingEventMessage
+﻿# UpcomingEventMessage
 [Activity
     Text = @{UpcomingEventMessage.Text(Minutes, Attendees, Title)}
     Speak = @{UpcomingEventMessage.Text(Minutes, Attendees, Title)}

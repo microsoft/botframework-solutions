@@ -1,3 +1,5 @@
+[import](ChangeEventStatusDialogActivities.lg)
+
 # ConfirmDelete.Text
 - ¿Está seguro de que desea eliminar este evento de su calendario?
 

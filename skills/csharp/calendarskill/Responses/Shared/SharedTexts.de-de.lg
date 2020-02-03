@@ -1,13 +1,13 @@
+[import](SharedActivities.lg)
+
 # DidntUnderstandMessage.Text
 - Tut mir leid, ich habe es nicht verstanden. Bitte versuchen Sie, Ihre Frage umzuformulieren und erneut zu fragen.
 - Tut mir leid, ich verstehe es nicht. Bitte versuchen Sie es erneut.
 - Das habe ich nicht bekommen. Bitte versuchen Sie es erneut zu fragen.
 
-
 # CalendarErrorMessage.Text
 - Es tut mir leid, es sieht so aus, als ob etwas passiert ist, und ich kann das im Moment nicht abschließen. Versuchen Sie es später erneut.
 - Es tut mir leid, ich kann die Aufgabe im Moment nicht abschließen. Versuchen Sie es später erneut.
-> Comment: When is this used? Is it a generic catch all message or are there specific error scenarios? The message indicates that trying again later will succeed. Do we know whether or not that will be true?
 
 # RetryTooManyResponse.Text
 - Tut mir leid, ich kann Ihnen jetzt nicht helfen. Versuchen wir es später noch einmal.

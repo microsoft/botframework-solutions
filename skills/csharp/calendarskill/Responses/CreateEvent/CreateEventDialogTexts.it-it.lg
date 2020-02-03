@@ -1,3 +1,5 @@
+[import](CreateEventDialogActivities.lg)
+
 # NoTitle.Text(UserName)
 - OK, invierò un invito a @{UserName}. Qual è l'oggetto della riunione?
 

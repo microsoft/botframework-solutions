@@ -1,6 +1,4 @@
-﻿[import](ToDoSharedTexts.lg)
-
-# NoAuth
+﻿# NoAuth
 [Activity
     Text = @{NoAuth.Text()}
     Speak = @{NoAuth.Text()}

@@ -1,7 +1,4 @@
-﻿[import](DeleteEmailTexts.lg)
-[import](../Cards/EmailDetailCard.lg)
-
-# DeleteSuccessfully
+﻿# DeleteSuccessfully
 [Activity
     Text = @{DeleteSuccessfully.Text()}
     Speak = @{DeleteSuccessfully.Text()}

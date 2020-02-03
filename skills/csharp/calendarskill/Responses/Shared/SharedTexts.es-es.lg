@@ -1,13 +1,13 @@
+[import](SharedActivities.lg)
+
 # DidntUnderstandMessage.Text
 - Lo siento, no lo entendí. Por favor, intente reformular su pregunta y pregunte de nuevo.
 - Lo siento, no lo entiendo. Por favor, inténtelo de nuevo.
 - No entendí eso. Por favor, intente preguntar de nuevo.
 
-
 # CalendarErrorMessage.Text
 - Lo siento, parece que algo pasó y no puedo completar eso ahora. Inténtelo de nuevo más tarde.
 - Lo siento, no puedo completar la tarea ahora mismo. Inténtelo de nuevo más tarde.
-> Comment: When is this used? Is it a generic catch all message or are there specific error scenarios? The message indicates that trying again later will succeed. Do we know whether or not that will be true?
 
 # RetryTooManyResponse.Text
 - Lo siento, no puedo ayudarte con esto ahora. Intentémoslo de nuevo más tarde.

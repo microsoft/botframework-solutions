@@ -1,3 +1,5 @@
+[import](CreateEventDialogActivities.lg)
+
 # NoTitle.Text(UserName)
 - OK, I'll send an invite to @{UserName}. What's the subject of the meeting?
 

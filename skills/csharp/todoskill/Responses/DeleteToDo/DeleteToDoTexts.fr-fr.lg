@@ -1,3 +1,5 @@
+[import](DeleteToDoActivities.lg)
+
 # AskDeletionAllConfirmation.Text(ListType)
 - Etes-vous sûr que vous voulez supprimer tout de votre @{ListType} Liste?
 

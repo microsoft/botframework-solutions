@@ -1,6 +1,4 @@
-﻿[import](MainDialogTexts.lg)
-
-# EmailWelcomeMessage
+﻿# EmailWelcomeMessage
 [Activity
     Text = @{EmailWelcomeMessage.Text()}
     Speak = @{EmailWelcomeMessage.Text()}

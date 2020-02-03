@@ -1,6 +1,4 @@
-﻿[import](ChangeEventStatusDialogTexts.lg)
-
-# EventDeleted
+﻿# EventDeleted
 [Activity
     Text = @{EventDeleted.Text()}
     Speak = @{EventDeleted.Text()}

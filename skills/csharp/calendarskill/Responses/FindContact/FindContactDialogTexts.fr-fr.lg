@@ -1,3 +1,5 @@
+[import](FindContactDialogActivities.lg)
+
 # AddMoreAttendees.Text
 - Qui voulez-vous ajouter?
 - Qui aimeriez-vous ajouter?
@@ -13,11 +15,9 @@
 
 # AlreadyFirstPage.Text
 - C'est déjà la première page.
-> Comment: I'm not sure how this is used. The current text seems a bit abrupt/not friendly, but some additional context is necessary to create a replacement string.
 
 # AlreadyLastPage.Text
 - C'est déjà la dernière page.
-> Comment: Similar to the previous comment, some additional context would be helpful to create a new string.
 
 # AddMoreUserPrompt.Text
 - Voulez-vous inviter quelqu'un d'autre?

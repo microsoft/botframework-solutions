@@ -1,23 +1,25 @@
+ï»¿[import](FindMeetingRoomDialogActivities.lg)
+
 # NoBuilding.Text
-- Ok, quel bâti ment ?
+- Ok, quel bÃ¢ti ment ?
 
 # BuildingNonexistent.Text
-- Désolé, je n'ai pas trouvé ce bâti ment. Pouvez-vous dis-le différemment, ou choisir un autre bâtiment?
+- DÃ©solÃ©, je n'ai pas trouvÃ© ce bÃ¢ti ment. Pouvez-vous dis-le diffÃ©remment, ou choisir un autre bÃ¢timent?
 
 # MeetingRoomNotFoundByName.Text(MeetingRoom)
 - On dirait @{MeetingRoom} n'existe pas.
 
 # ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
-- @{MeetingRoom} est disponible @{DateTime}, voulez-vous le réserver?
+- @{MeetingRoom} est disponible @{DateTime}, voulez-vous le rÃ©server?
 
 # MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
 - On dirait @{MeetingRoom} n'est pas disponible @{DateTime}.
 
 # FloorNumberRetry.Text
-- Désolé, je n'ai pas eu ça. Pouvez-vous dis-le différemment?
+- DÃ©solÃ©, je n'ai pas eu Ã§a. Pouvez-vous dis-le diffÃ©remment?
 
 # NoFloorNumber.Text
-- D'accord, avez-vous une préférence pour le plancher ?
+- D'accord, avez-vous une prÃ©fÃ©rence pour le plancher ?
 
 # CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
 - Il ne semble pas qu'il y ait d'autres chambres disponibles @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
@@ -26,40 +28,40 @@
 - Il ne semble pas que toutes les chambres sont disponibles @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # IgnoreMeetingRoom.Text
-- aucun problème.
+- aucun problÃ¨me.
 
 # RecreateMeetingRoomAgain.Text
-- Je ne comprenais pas, peut-être essayer à nouveau d'une manière différente.
+- Je ne comprenais pas, peut-Ãªtre essayer Ã  nouveau d'une maniÃ¨re diffÃ©rente.
 
 # RecreateMeetingRoom.Text
-- Vous pouvez chercher une heure différente, une chambre différente, ou vous pouvez annuler votre demande.
+- Vous pouvez chercher une heure diffÃ©rente, une chambre diffÃ©rente, ou vous pouvez annuler votre demande.
 
 # CancelRequest.Text
-- Okey, ta demande a été annulée.
+- Okey, ta demande a Ã©tÃ© annulÃ©e.
 
 # ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
-- D'accord, vous êtes confirmé dans @{MeetingRoom} @{DateTime}@{ForSubject(subject)}.
+- D'accord, vous Ãªtes confirmÃ© dans @{MeetingRoom} @{DateTime}@{ForSubject(subject)}.
 
 # ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
-- D'accord, j'ai ajouté @{MeetingRoom} à votre réunion @{Subject}.
+- D'accord, j'ai ajoutÃ© @{MeetingRoom} Ã  votre rÃ©union @{Subject}.
 
 # ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)
-- D'accord, j'ai votre réuni on. @{Subject} changement à @{MeetingRoom}.
+- D'accord, j'ai votre rÃ©uni on. @{Subject} changement Ã  @{MeetingRoom}.
 
 # ConfirmedMeetingRoom.Text
-- Okey, je vais créer une nouvelle réuni on avec cette salle.
+- Okey, je vais crÃ©er une nouvelle rÃ©uni on avec cette salle.
 
 # ConfirmBeforCreatePrompt.Text
 - Voulez-vous confirmer?
 
 # MeetingRoomAdded.Text(MeetingRoom, Subject)
-- D'accord, j'ai ajouté @{MeetingRoom} à votre réunion@{FixSubject(Subject)}.
+- D'accord, j'ai ajoutÃ© @{MeetingRoom} Ã  votre rÃ©union@{FixSubject(Subject)}.
 
 # MeetingRoomChanged.Text(MeetingRoom, Subject)
-- D'accord, j'ai votre réuni on.@{FixSubject(Subject)} changement à @{MeetingRoom}.
+- D'accord, j'ai votre rÃ©uni on.@{FixSubject(Subject)} changement Ã  @{MeetingRoom}.
 
 # MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
-- D'accord, j'ai annulé la chambre @{MeetingRoom} pour votre réunion@{FixSubject(Subject)} @{DateTime}.
+- D'accord, j'ai annulÃ© la chambre @{MeetingRoom} pour votre rÃ©union@{FixSubject(Subject)} @{DateTime}.
 
 # InBuilding(Building)
 - IF: @{Building && Building != "*"}

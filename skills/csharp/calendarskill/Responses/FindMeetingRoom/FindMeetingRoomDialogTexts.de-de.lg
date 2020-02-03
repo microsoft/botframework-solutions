@@ -1,29 +1,31 @@
+ï»¿[import](FindMeetingRoomDialogActivities.lg)
+
 # NoBuilding.Text
-- Okay, welches Gebäude?
+- Okay, welches GebÃ¤ude?
 
 # BuildingNonexistent.Text
-- Es tut mir leid, ich konnte dieses Gebäude nicht finden. Können Sie es anders sagen oder ein anderes Gebäude wählen?
+- Es tut mir leid, ich konnte dieses GebÃ¤ude nicht finden. KÃ¶nnen Sie es anders sagen oder ein anderes GebÃ¤ude wÃ¤hlen?
 
 # MeetingRoomNotFoundByName.Text(MeetingRoom)
 - Es sieht aus wie @{MeetingRoom} ist nicht vorhanden.
 
 # ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
-- @{MeetingRoom} ist verfügbar @{DateTime}, möchten Sie es reservieren?
+- @{MeetingRoom} ist verfÃ¼gbar @{DateTime}, mÃ¶chten Sie es reservieren?
 
 # MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
-- Es sieht aus wie @{MeetingRoom} ist nicht verfügbar @{DateTime}.
+- Es sieht aus wie @{MeetingRoom} ist nicht verfÃ¼gbar @{DateTime}.
 
 # FloorNumberRetry.Text
-- Tut mir leid, das habe ich nicht bekommen. Können Sie es anders sagen?
+- Tut mir leid, das habe ich nicht bekommen. KÃ¶nnen Sie es anders sagen?
 
 # NoFloorNumber.Text
-- In Ordnung, haben Sie eine Bodenpräferenz?
+- In Ordnung, haben Sie eine BodenprÃ¤ferenz?
 
 # CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
-- Es sieht nicht so aus, als ob andere Zimmer zur Verfügung stehen @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
+- Es sieht nicht so aus, als ob andere Zimmer zur VerfÃ¼gung stehen @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)
-- Es sieht nicht so aus, als ob irgendwelche Zimmer verfügbar sind @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
+- Es sieht nicht so aus, als ob irgendwelche Zimmer verfÃ¼gbar sind @{InBuilding(Building)}@{OnFloorNumber(FloorNumber)} @{DateTime}.
 
 # IgnoreMeetingRoom.Text
 - Kein Problem.
@@ -32,16 +34,16 @@
 - Ich habe es nicht verstanden, vielleicht noch einmal auf eine andere Art und Weise versuchen.
 
 # RecreateMeetingRoom.Text
-- Sie können nach einer anderen Zeit, einem anderen Raum suchen oder Ihre Anfrage stornieren.
+- Sie kÃ¶nnen nach einer anderen Zeit, einem anderen Raum suchen oder Ihre Anfrage stornieren.
 
 # CancelRequest.Text
 - Okey, Ihre Anfrage wurde abgebrochen.
 
 # ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
-- In Ordnung, Sie sind in bestätigt @{MeetingRoom} @{DateTime}@{ForSubject(subject)}.
+- In Ordnung, Sie sind in bestÃ¤tigt @{MeetingRoom} @{DateTime}@{ForSubject(subject)}.
 
 # ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
-- In Ordnung, ich habe hinzugefügt @{MeetingRoom} zu Ihrem Meeting @{Subject}.
+- In Ordnung, ich habe hinzugefÃ¼gt @{MeetingRoom} zu Ihrem Meeting @{Subject}.
 
 # ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)
 - In Ordnung, ich habe Ihr Treffen @{Subject} wechseln zu @{MeetingRoom}.
@@ -50,16 +52,16 @@
 - Okey, ich erstelle eine neue Besprechung mit diesem Raum.
 
 # ConfirmBeforCreatePrompt.Text
-- Möchten Sie dies bestätigen?
+- MÃ¶chten Sie dies bestÃ¤tigen?
 
 # MeetingRoomAdded.Text(MeetingRoom, Subject)
-- In Ordnung, ich habe hinzugefügt @{MeetingRoom} zu Ihrem Meeting@{FixSubject(Subject)}.
+- In Ordnung, ich habe hinzugefÃ¼gt @{MeetingRoom} zu Ihrem Meeting@{FixSubject(Subject)}.
 
 # MeetingRoomChanged.Text(MeetingRoom, Subject)
 - In Ordnung, ich habe Ihr Treffen@{FixSubject(Subject)} wechseln zu @{MeetingRoom}.
 
 # MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
-- Gut, ich habe das Zimmer abgesagt @{MeetingRoom} für Ihr Meeting@{FixSubject(Subject)} @{DateTime}.
+- Gut, ich habe das Zimmer abgesagt @{MeetingRoom} fÃ¼r Ihr Meeting@{FixSubject(Subject)} @{DateTime}.
 
 # InBuilding(Building)
 - IF: @{Building && Building != "*"}
