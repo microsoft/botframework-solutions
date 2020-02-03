@@ -234,23 +234,23 @@ namespace $safeprojectname$.Dialogs
                     switch (ev.Name)
                     {
                         case "SampleAction":
-
-                            SampleActionInput actionData = null;
-
-                            var eventValue = ev.Value as JObject;
-                            if (eventValue != null)
                             {
-                                actionData = eventValue.ToObject<SampleActionInput>();
+                                SampleActionInput actionData = null;
+
+                                if (ev.Value is JObject eventValue)
+                                {
+                                    actionData = eventValue.ToObject<SampleActionInput>();
+                                }
+
+                                // Invoke the SampleAction dialog passing input data if available
+                                return await stepContext.BeginDialogAsync(nameof(SampleAction), actionData);
                             }
 
-                            // Invoke the SampleAction dialog passing input data if available
-                            return await stepContext.BeginDialogAsync(nameof(SampleAction), actionData);
-
                         default:
-
-                            await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
-
-                            break;
+                            {
+                                await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                                break;
+                            }
 
                     }
                 }
