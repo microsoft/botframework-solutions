@@ -7,6 +7,5 @@ export { AuthenticationUtils } from './authenticationUtils';
 export { isAzPreviewMessage, isValidAzVersion } from './azUtils';
 export { ChildProcessUtils } from './childProcessUtils';
 export { getDispatchNames } from './dispatchUtils';
-export { sanitizePath, wrapPathWithQuotes, sanitizeInlineUtterancesEndpoint } from './sanitizationUtils';
-export { isValidCultures, validatePairOfArgs } from './validationUtils';
-export { deleteFiles } from './filesUtils';
+export { sanitizePath, wrapPathWithQuotes } from './sanitizationUtils';
+export { isValidCultures, validatePairOfArgs, isInstanceOfISkillManifestV1, isInstanceOfISkillManifestV2 } from './validationUtils';

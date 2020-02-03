@@ -3,6 +3,9 @@
  * Licensed under the MIT License.
  */
 
+import { ISkillManifestV1 } from '../models/manifestV1/skillManifestV1';
+import { ISkillManifestV2 } from '../models/manifestV2/skillManifestV2';
+
 /**
  * @param arg1 First argument of the pair of arguments.
  * @param arg2 Second argument of the pair of arguments.
@@ -34,6 +37,31 @@ export function isValidCultures(availableCultures: string[], targetedCultures: s
         []);
 
     if (unavailableCulture !== undefined && unavailableCulture.length > 0) {
+        return false;
+    }
+
+    return true;
+}
+
+export function isInstanceOfISkillManifestV1(skillManifest: ISkillManifestV1): boolean {
+    if (skillManifest.name === undefined ||
+        skillManifest.id === undefined ||
+        skillManifest.endpoint === undefined ||
+        skillManifest.authenticationConnections === undefined ||
+        skillManifest.actions === undefined ||
+        skillManifest.actions[0] === undefined) {
+        return false;
+    }
+
+    return true;
+}
+
+export function isInstanceOfISkillManifestV2(skillManifest: ISkillManifestV2): boolean {
+    if (skillManifest.$schema === undefined ||
+        skillManifest.$id === undefined ||
+        skillManifest.endpoints === undefined ||
+        skillManifest.dispatchModels === undefined ||
+        skillManifest.activities === undefined || skillManifest.activities.size === 0) {
         return false;
     }
 

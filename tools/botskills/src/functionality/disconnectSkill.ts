@@ -13,8 +13,8 @@ import {
     IDispatchFile,
     IDispatchService,
     IRefreshConfiguration,
-    ISkillFile,
-    ISkillManifest
+    IAppSetting,
+    ISkill
 } from '../models';
 import { getDispatchNames } from '../utils';
 
@@ -89,7 +89,7 @@ export class DisconnectSkill {
     public async disconnectSkill(): Promise<boolean> {
         try {
             // Validate configuration.skillsFile
-            if (!existsSync(this.configuration.skillsFile)) {
+            if (!existsSync(this.configuration.appSettingsFile)) {
                 this.logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
 Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
 
@@ -97,12 +97,12 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             }
 
             // Take VA Skills configurations
-            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(this.configuration.skillsFile, 'UTF8'));
-            const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills !== undefined ? assistantSkillsFile.skills : [];
+            const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
 
             // Check if the skill is present in the assistant
-            const skillToRemove: ISkillManifest | undefined = assistantSkills.find((assistantSkill: ISkillManifest): boolean =>
-                assistantSkill.id === this.configuration.skillId
+            const skillToRemove: ISkill | undefined = assistantSkills.find((assistantSkill: ISkill): boolean =>
+                assistantSkill.Id === this.configuration.skillId
             );
 
             if (!skillToRemove) {
@@ -128,10 +128,10 @@ Please make sure to provide a valid path to your LUISGen output folder using the
                 assistantSkills.splice(assistantSkills.indexOf(skillToRemove), 1);
 
                 // Updating the assistant skills file's skills property with the assistant skills array
-                assistantSkillsFile.skills = assistantSkills;
+                assistantSkillsFile.BotFrameworkSkills = assistantSkills;
 
                 // Writing (and overriding) the assistant skills file
-                writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
+                writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
                 this.logger.success(
                     `Successfully removed '${ this.configuration.skillId }' skill from your assistant's skills configuration file.`);
 

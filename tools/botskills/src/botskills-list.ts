@@ -39,43 +39,43 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills list')
     .description('List all the Skills connected to your assistant')
-    .option('-f, --skillsFile [path]', '[OPTIONAL] Path to assistant Skills configuration file')
+    .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command): undefined => undefined);
 
 const args: program.Command = program.parse(process.argv);
 
-let skillsFile = '';
+let appSettingsFile: string = '';
 
 logger.isVerbose = args.verbose;
 
-// skillsFile validation
-if (!args.skillsFile) {
-    args.skillsFile = join('src', 'skills.json');
-    if (!existFile(args.skillsFile)) {
-        args.skillsFile = 'skills.json';
-        if (!existFile(args.skillsFile)) {
-            logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
+// appSettingsFile validation
+if (!args.appSettingsFile) {
+    args.appSettingsFile = join('src', 'appsettings.json');
+    if (!existFile(args.appSettingsFile)) {
+        args.appSettingsFile = 'appsettings.json';
+        if (!existFile(args.appSettingsFile)) {
+            logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
             process.exit(1);
         }
     }
-} else if (extname(args.skillsFile) !== '.json') {
-    logger.error(`The 'skillsFile' argument should be a JSON file.`);
+} else if (extname(args.appSettingsFile) !== '.json') {
+    logger.error(`The 'appSettingsFile' argument should be a JSON file.`);
     process.exit(1);
 } else {
-    if (!existFile(args.skillsFile)) {
-        logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
+    if (!existFile(args.appSettingsFile)) {
+        logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
         process.exit(1);
     }
 }
 
-skillsFile = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
+appSettingsFile = isAbsolute(args.appSettingsFile) ? args.appSettingsFile : join(resolve('./'), args.appSettingsFile);
 
 // Initialize an instance of IListConfiguration to send the needed arguments to the listSkill function
 const configuration: IListConfiguration = {
-    skillsFile: skillsFile,
+    appSettingsFile: appSettingsFile,
     logger: logger
 };
 new ListSkill(logger).listSkill(configuration);

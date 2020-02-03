@@ -13,7 +13,7 @@ import {
     IConnectConfiguration,
     IOauthConnection,
     IScopeManifest,
-    ISkillManifest
+    ISkillManifestV1
 } from '../models';
 import { ChildProcessUtils, isValidAzVersion } from './';
 
@@ -122,7 +122,7 @@ export class AuthenticationUtils {
         }
     }
 
-    public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifest, logger: ILogger): Promise<boolean> {
+    public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifestV1, logger: ILogger): Promise<boolean> {
         let currentCommand: string[] = [];
         try {
             // configuring bot auth settings

@@ -4,12 +4,12 @@
  */
 
 import * as program from 'commander';
-import { existsSync, readFileSync } from 'fs';
-import { extname, isAbsolute, join, resolve } from 'path';
+import { readFileSync } from 'fs';
+import { extname, join, resolve } from 'path';
 import { ConnectSkill } from './functionality';
 import { ConsoleLogger, ILogger } from './logger';
 import { IAppSetting, IConnectConfiguration } from './models';
-import { sanitizePath, validatePairOfArgs, sanitizeInlineUtterancesEndpoint } from './utils';
+import { sanitizePath, validatePairOfArgs } from './utils';
 
 const logger: ILogger = new ConsoleLogger();
 
@@ -33,16 +33,15 @@ program
     .description('Connect a skill to your assistant bot. Only one of both path or URL to Skill is needed.')
     .option('-l, --localManifest <path>', 'Path to local Skill Manifest file')
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
+    .option('-e, --endpointName <name>', '[OPTIONAL]Name of the endpoint to connect to your assistant (case sensitive)(defaults to using the first endpoint)')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
     .option('--noRefresh [true|FALSE]', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
     .option('--languages [languages]', '[OPTIONAL] Comma separated list of locales used for LUIS culture (defaults to \'en-us\')')
-    .option('--inlineUtterances [true|FALSE]', '[OPTIONAL] Determine whether the tool looks for the utterances described in the manifest or in the .lu file (by default they are taken from the .lu file)')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills\' inside your assistant folder)')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
     .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
-    .option('--skillsFile [path]', '[OPTIONAL] Path to your assistant Skills configuration file (defaults to the \'skills.json\' inside your assistant\'s folder)')
     .option('--resourceGroup [path]', '[OPTIONAL] Name of your assistant\'s resource group in Azure (defaults to your assistant\'s bot name)')
     .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
@@ -59,15 +58,14 @@ if (process.argv.length < 3) {
 let botName = '';
 let localManifest: string;
 let remoteManifest: string;
-let noRefresh = false;
+let endpointName: string;
+let noRefresh: boolean = false;
 let languages: string[];
-let inlineUtterances = false;
 let luisFolder: string;
 let dispatchFolder: string;
 let outFolder: string;
 let lgOutFolder: string;
-let skillsFile = '';
-let resourceGroup = '';
+let resourceGroup: string = '';
 let appSettingsFile: string;
 let cognitiveModelsFile: string;
 let lgLanguage: string;
@@ -92,11 +90,6 @@ if (args.noRefresh) {
     noRefresh = true;
 }
 
-// inlineUtterances validation
-if (args.inlineUtterances) {
-    inlineUtterances = true;
-}
-
 // localManifest && remoteManifest validation
 const manifestValidationResult: string = validatePairOfArgs(args.localManifest, args.remoteManifest);
 if (manifestValidationResult) {
@@ -112,26 +105,11 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
 }
 
 localManifest = args.localManifest;
-remoteManifest = sanitizeInlineUtterancesEndpoint(args.remoteManifest, inlineUtterances);
+remoteManifest = args.remoteManifest;
+endpointName = args.endpointName;
 
 // outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
 outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
-
-// skillsFile validation
-if (!args.skillsFile) {
-    skillsFile = join(outFolder, (args.ts ? join('src', 'skills.json') : 'skills.json'));
-} else if (extname(args.skillsFile) !== '.json') {
-    logger.error(`The 'skillsFile' argument should be a JSON file.`);
-    process.exit(1);
-} else {
-    const skillsFilePath: string = isAbsolute(args.skillsFile) ? args.skillsFile : join(resolve('./'), args.skillsFile);
-    if (!existsSync(skillsFilePath)) {
-        logger.error(`The 'skillsFile' argument leads to a non-existing file.
-            Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
-        process.exit(1);
-    }
-    skillsFile = skillsFilePath;
-}
 
 // appSettingsFile validation
 appSettingsFile = args.appSettingsFile || join(outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
@@ -168,14 +146,13 @@ const configuration: IConnectConfiguration = {
     botName: botName,
     localManifest: localManifest,
     remoteManifest: remoteManifest,
+    endpointName: endpointName,
     noRefresh: noRefresh,
-    inlineUtterances: inlineUtterances,
     languages: languages,
     luisFolder: luisFolder,
     dispatchFolder: dispatchFolder,
     outFolder: outFolder,
     lgOutFolder: lgOutFolder,
-    skillsFile: skillsFile,
     resourceGroup: resourceGroup,
     appSettingsFile: appSettingsFile,
     cognitiveModelsFile: cognitiveModelsFile,
