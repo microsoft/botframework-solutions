@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using EmailSkill.Models;
+using EmailSkill.Services;
+using EmailSkill.Services.AzureMapsAPI;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -18,14 +21,18 @@ namespace EmailSkill.Bots
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
+        private BotSettings _settings;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
             _dialog = dialog;
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
+            _settings = serviceProvider.GetService<BotSettings>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -47,9 +54,43 @@ namespace EmailSkill.Bots
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
-        protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+            var ev = turnContext.Activity.AsEventActivity();
+            var value = ev.Value?.ToString();
+
+            switch (ev.Name)
+            {
+                case Events.TimezoneEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(turnContext, () => new EmailSkillState());
+                        state.UserInfo.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(value);
+
+                        break;
+                    }
+
+                case Events.LocationEvent:
+                    {
+                        var state = await _stateAccessor.GetAsync(turnContext, () => new EmailSkillState());
+
+                        var azureMapsClient = new AzureMapsClient(_settings);
+                        state.UserInfo.TimeZone = await azureMapsClient.GetTimeZoneInfoByCoordinates(value);
+
+                        break;
+                    }
+
+                default:
+                    {
+                        await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+                        break;
+                    }
+            }
+        }
+
+        private class Events
+        {
+            public const string TimezoneEvent = "Timezone";
+            public const string LocationEvent = "Location";
         }
     }
 }
