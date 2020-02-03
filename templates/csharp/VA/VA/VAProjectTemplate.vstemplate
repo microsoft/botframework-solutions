@@ -1,5 +1,5 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
-  <TemplateData>
+    <TemplateData>
     <Name>Virtual Assistant Template</Name>
     <Description>Project template for assistant scenarios using the Bot Builder SDK V4 (including Unit Test project).</Description>
     <SortOrder>1000</SortOrder>
@@ -106,7 +106,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="UserProfileState.cs">UserProfileState.cs</ProjectItem>
       </Folder>
       <Folder Name="Pipeline" TargetFolderName="Pipeline">
-        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantTemplate.yml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantSample.yml</ProjectItem>
       </Folder>
       <Folder Name="Responses" TargetFolderName="Responses">
         <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.lg">MainResponses.lg</ProjectItem>
