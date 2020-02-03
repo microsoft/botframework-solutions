@@ -16,6 +16,7 @@ export { IDisconnectConfiguration } from './disconnectConfiguration';
 export { IUpdateConfiguration } from './updateConfiguration';
 export { IDispatchFile, IDispatchService } from './dispatchFile';
 export { IListConfiguration } from './listConfiguration';
+export { IMigrateConfiguration } from './migrateConfiguration';
 export { ISkillFileV1 } from './manifestV1/skillFileV1';
 export {
     IAction,
