@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EmailSkill.Tests.API.Service
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class GoogleMailServiceTests
     {
         public static IMailService MailService { get; set; }

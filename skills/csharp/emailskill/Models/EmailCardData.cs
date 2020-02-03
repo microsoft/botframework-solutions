@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using EmailSkill.Utilities;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Models
 {

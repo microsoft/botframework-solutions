@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: C#
+language: csharp
 title: Create your skill project
 order: 3
 ---
@@ -19,7 +19,6 @@ order: 3
 ## What files were created?
 ```
 | - Adapters                           // BotAdapter implementations for configuring Middleware
-    | - CustomSkillAdapter.cs               // Configures middleware for skill mode
     | - DefaultAdapter.cs                   // Configures basic middleware for local mode
 | - Bots                               // ActivityHandler implementations for initializing dialog stack
     | - DefaultActivityHandler.cs                       // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
@@ -41,6 +40,7 @@ order: 3
 | - Dialogs                            // Bot Framework Dialogs
     | - MainDialog.cs                      // Dialog for routing incoming messages
     | - SampleDialog.cs                    // Sample dialog which prompts user for name
+    | - SampleAction.cs                    // Sample action which prompts user for name
     | - SkillDialogBase.cs                 // Dialog base class for shared steps and config
 | - Models                             // Data models
     | - SkillState.cs                      // Model for storing skill state

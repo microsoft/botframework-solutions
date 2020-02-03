@@ -12,12 +12,14 @@ using HospitalitySkill.Services;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using SkillServiceLibrary.Utilities;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 
 namespace HospitalitySkill.Dialogs
 {
@@ -27,7 +29,6 @@ namespace HospitalitySkill.Dialogs
         private BotServices _services;
         private ResponseManager _responseManager;
         private IStatePropertyAccessor<HospitalitySkillState> _stateAccessor;
-        private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
             BotSettings settings,
@@ -51,7 +52,6 @@ namespace HospitalitySkill.Dialogs
 
             // Initialize state accessor
             _stateAccessor = conversationState.CreateProperty<HospitalitySkillState>(nameof(HospitalitySkillState));
-            _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
             AddDialog(checkOutDialog ?? throw new ArgumentNullException(nameof(checkOutDialog)));
@@ -176,13 +176,15 @@ namespace HospitalitySkill.Dialogs
 
         protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (dc.Context.Adapter is IRemoteUserTokenProvider || dc.Context.Activity.ChannelId != Channels.Msteams)
+            // workaround. if connect skill directly to teams, the following response does not work.
+            if (dc.Context.IsSkill() || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.Handoff;
+                response.Type = ActivityTypes.EndOfConversation;
                 await dc.Context.SendActivityAsync(response);
             }
 
+            // End active dialog.
             await dc.EndDialogAsync(result);
         }
 

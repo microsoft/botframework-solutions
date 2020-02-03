@@ -7,6 +7,7 @@ Param(
 	[string] $appId,
     [string] $appPassword,
     [string] $parametersFile,
+	[switch] $createLuisAuthoring,
     [string] $luisAuthoringKey,
     [string] $luisAuthoringRegion,
     [string] $armLuisAuthoringRegion,
@@ -77,18 +78,20 @@ if (-not $appPassword) {
 }
 
 if (-not $luisAuthoringKey) {
-    $confirmCreateKey = Read-Host "? Create a new LUIS Authoring Resource? [y/n]"
+    if (-not $PSBoundParameters.ContainsKey("createLuisAuthoring")) {
+        $confirmCreateKey = Read-Host "? Create a new LUIS Authoring Resource? [y/n]"
 
-    if ($confirmCreateKey -ne 'y') {
-        $luisAuthoringKey = Read-Host "? LUIS Authoring Key"
-        $createLuisAuthoring = "false"
-    }
-    else {
-        $createLuisAuthoring = "true"
-    }
+        if ($confirmCreateKey -ne 'y') {
+            $luisAuthoringKey = Read-Host "? LUIS Authoring Key"
+            $createLuisAuthoring = $false
+        }
+        else {
+            $createLuisAuthoring = $true
+        }
+    } 
 }
 else {
-    $createLuisAuthoring = "false"
+    $createLuisAuthoring = $false
 }
 
 if (-not $luisAuthoringRegion) {
@@ -215,6 +218,9 @@ if ($outputs)
 	$outputMap = @{}
 	$outputs.PSObject.Properties | Foreach-Object { $outputMap[$_.Name] = $_.Value }
 
+    # Update AD app with homepage
+    az ad app update --id $appId --homepage "https://$($outputs.botWebAppName.value).azurewebsites.net"
+
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..." -NoNewline
 	if (Test-Path $(Join-Path $projDir appsettings.json)) {
@@ -226,7 +232,15 @@ if ($outputs)
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
+
+    if ($useGov) {
+        $settings | Add-Member -Type NoteProperty -Force -Name 'ChannelService' -Value "https://botframework.azure.us"
+    }
+
+	foreach ($key in $outputMap.Keys) {
+        $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value
+    }
+
 	$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $projDir appsettings.json)
 	
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }

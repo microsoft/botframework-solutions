@@ -32,6 +32,46 @@
 - ^i (want to|would like to|'d like to) (join|attend) the {Subject}^
 
 
+## AddCalendarEntryAttribute
+- add {ContactName=carlos} to the meeting
+- add {ContactName=chelsea}
+- add {ContactName=enrique}
+- add {ContactName=eric} to the meeting
+- add {ContactName=hazem}
+- add {ContactName=jackie}
+- add {ContactName=john}
+- add {ContactName=kerry clarkson}
+- add {ContactName=lisa}
+- add {ContactName=mohamed} to the meeting
+- add {ContactName=omar}
+- add {ContactName=tammy}
+- ask {ContactName=john} to come to {MeetingRoom=enterprise}.
+- ask {ContactName=robert} to attend tonight's meeting at 6
+- {ContactName=bob} can you attend tonight's meeting at 6
+- can you ask {ContactName=jane} to attend the meeting?
+- can you invite {ContactName=paula} for a meeting at the smith building this wednesday at 10am
+- i would like to invite {ContactName=mr. birden} to attend today's meeting.
+- invite {ContactName=andy}
+- invite {ContactName=cheryl} to the meeting this afternoon
+- invite {ContactName=frank} to friday's meeting at 2:30.
+- invite {ContactName=jeff matthews}
+- invite {ContactName=john malkovich} to the meeting.
+- invite {ContactName=kathy} to the meeting this afternoon
+- invite {ContactName=paul} to the meeting
+- invite {ContactName=sophia} to the meeting
+- {ContactName=patrick}, i wish to invite you to the next meeting.
+- please add {ContactName=eileen} to the meeting invite.
+- please can i add {ContactName=johnathon kelly} to the meeting
+- please can i invite {ContactName=khaleesi} to the meeting
+- please invite {ContactName=kathy rood} to the meeting today.
+- send an invitation to {ContactName=jane}
+- send an invitation to {ContactName=jerry seinfeld}
+- add a {SlotAttribute=room} to my {ToTime=3pm} meeting
+- add city center {MeetingRoom=2122} to {ToTime=10am} meeting
+- can you add a {SlotAttribute=room} to {ToDate=tomorrow}'s {Subject=dev meeting}
+- please add a {SlotAttribute=meeting room} to the {Subject=daily scrum meeting}
+
+
 ## CancelCalendar
 - cancel it, i don't want to create the meeting
 - cancel the creating process
@@ -167,7 +207,13 @@
 - update my {OrderReference=next} appointment
 - update my {FromTime=tomorrow} {FromTime=6pm} meeting to {ToTime=7pm}
 - update {Subject=party}
+- change the {SlotAttribute=meeting room} to {MeetingRoom=london confroom excalibur}
+- find a new {SlotAttribute=room} for my {FromTime=3pm} meeting
+- i want to change to another {SlotAttribute=meeting room}
+- i'd like to change the {SlotAttribute=meeting room}
+- please change the {SlotAttribute=meeting room} to {MeetingRoom=2212}
 - ^[(would|can|could) you] [please] (change|reschedule) [the] ({Subject}|meeting) to {ToTime}^
+
 
 
 ## CheckAvailability
@@ -195,22 +241,74 @@
 - am i free {FromDate=tuesday} at {FromTime=7 am}
 - can you check my dad 's calendar for free time {FromDate=this week}
 - can you tell me if my husband is free on {FromDate=sunday}
+- can i reserve a room in building {Building=5} for a meeting?
+- can i reserve a room on {FloorNumber=floor 7} in {Building=building 8} for a meeting tomorrow?
+- can i reserve {MeetingRoom=alderaan} right {FromTime=now?}
+- can i reserve {MeetingRoom=excalibur} for {FromTime=2pm} or is it not available?
+- can i reserve room {MeetingRoom=gandhi} for the whole week?
+- can i reserve the {MeetingRoom=enterprise} room on {FloorNumber=floor 6} of the {Building=bob} building for a meeting?
+- can i reserve the meeting room {MeetingRoom=bespin}?
+- can i reserve the meeting room that's free on the {FloorNumber=21st floor}?
+- can i reserve the {MeetingRoom=williams} room for a meeting?
+- can you tell if if the meeting room {MeetingRoom=bespin} is now available for me?
+- can you tell me if the meeting room {MeetingRoom=no 20} is available at {FromTime=noon}?
+- hello, am i able to reserve {MeetingRoom=hoth} {FromTime=right now}?
+- i was wondering if you have a meeting room available in your {Building=atlantic} building for the {FromDate=4th of december}?
+- i would like to reserve a {FloorNumber=ground floor} {MeetingRoom=conference room} in the {Building=delta building}, is there one available?
+- is {MeetingRoom=coruscant} available at {FromTime=2 pm}
+- is {MeetingRoom=enterprise} available?
+- is {MeetingRoom=excalibur} available {FromTime=now}?
+- is {MeetingRoom=hoth} currently available for use?
+- is it at all possible to reserve a room in the {Building=redmond} building?
+- is meeting {MeetingRoom=room 201} available?
+- is meeting room {MeetingRoom=kamino} available for the whole afternoon?
+- is {MeetingRoom=room 224} available today?
+- is {MeetingRoom=tatooine} available in the {FromTime=evening}?
+- is the {MeetingRoom=alderaan} room on the {FloorNumber=lobby floor} at the {Building=city center} available?
+- is the {MeetingRoom=bespin} meeting room available at {FromTime=2:00 pm}?
+- is the {MeetingRoom=carpenter} room available for a meeting
+- is the {MeetingRoom=gandhi} room free now?
+- is the meeting room {MeetingRoom=endor} available
+- is the meeting room on the {FloorNumber=4th floor} available?
+- is the {MeetingRoom=room 1192} available for {FromTime=2:00pm tomorrow}?
+- is the room {MeetingRoom=2211} available for a meeting at {FromTime=6}
+- is there a meeting room on the {FloorNumber=5th floor} currently available to reserve?
+- is there a room available at the {FloorNumber=first floor} for {FromTime=tonight}?
+- is there a room available on {FloorNumber=floor 6} {FromTime=now}?
+- is there a room on the {FloorNumber=3rd floor} that i can reserve?
+- please can i reserve a meeting room in {Building=city center}?
+- please can i reserve {MeetingRoom=kamino}?
+- please can i reserve the meeting room on {FloorNumber=floor 6} at {Building=lime tree house}?
+- please check and see if meeting room {MeetingRoom=2} is available at {FromTime=12} tomorrow.
+- see if meeting room {MeetingRoom=3} available tuesday at 11:30 for the meeting.
+- tell me if {MeetingRoom=kamino} is open at {FromTime=11:00am}.
+- will the meeting room {MeetingRoom=2b} be available at {FromTime=2 pm}
+- will the {MeetingRoom=tatooine} room be available {FromTime=tomorrow}?
+- would you please check availability of the room on the {FloorNumber=third floor} at {FromTime=3 p.m.} tomorrow?
 - display olivia 's availability
 - do i have any free time {FromDate=this weekend}
 - i would like to know if my mother is available {FromDate=today}
 - is carolyn available {FromDate=tuesday} {FromTime=afternoon}
+- is conference {MeetingRoom=room xi} free on 10 am?
 - is debra available on {FromDate=saturday}
 - is gerald busy {FromDate=this weekend}
 - is grace available for the {Subject=daily scrum meeting} with engineering team from {FromTime=10} to {ToTime=11}
 - is madison busy
+- is meeting {MeetingRoom=room 345} open on 3pm?
+- is meeting {MeetingRoom=room cake} available now?
 - is nicholas available {FromDate=friday}
 - is raymond free on {FromDate=monday} {FromTime=evening}
 - is rebecca busy {FromDate=thursday} at {FromTime=4}
+- is {MeetingRoom=room 235} free on 3pm?
+- is {MeetingRoom=room 246} open right now?
+- is {MeetingRoom=room 63} available {FromDate=tomorrow} {FromTime=4pm}
+- is {MeetingRoom=room alpha} open on 3pm?
 - is russell free on {FromDate=friday} at {FromTime=4pm}
 - is {FromDate=saturday} free
 - is theresa free {FromDate=october 9th}
 - is virginia free on {FromDate=monday}
 - search jesse 's calendar for availability
+- what else is available
 - what is anna 's availability {FromDate=next tuesday}
 - when am i free
 - when am i free {FromDate=today}
@@ -224,9 +322,9 @@
 - when is samuel available {FromDate=tomorrow}
 - when will jordan be free
 - will tyler be free on {FromDate=friday}
-- ^do i have time (at|on|for) {FromTime} [on] {FromDate}
-- ^does {personName} have time at {FromTime}
 - ^is {personName} (available|free) from {FromTime} to {ToTime} [on {FromDate}]
+- ^does {personName} have time at {FromTime}
+- ^do i have time (at|on|for) {FromTime} [on] {FromDate}
 
 
 ## ConnectToMeeting
@@ -657,6 +755,11 @@
 - i want to delete an appointment
 - remove {Subject=dentist appointment}
 - remove {Subject=final tutoring} from my calendar
+- cancel the {SlotAttribute=meeting room}
+- cancel the {SlotAttribute=room} for {Subject=daily scrum meeting}
+- delete the {SlotAttribute=room} for my {FromTime=4pm} meeting
+- delete the {SlotAttribute=meeting room} of my {FromTime=6pm} meeting
+- please cancel the {SlotAttribute=room} of my {FromTime=7pm} meeting
 - ^(clear|delete|remove) (my|the) calendar from {FromTime} to {ToTime}^
 - ^(remove|cancel|delete) (the|my) {Subject} [at {FromTime}] [{FromDate}]^
 
@@ -1034,37 +1137,627 @@
 
 
 ## FindMeetingRoom
-- find a new meeting location
-- bing find me a conference room in the {Location=bravern} {FromTime=this afternoon}
+- a new meeting location find one
+- add a {SlotAttribute=room} to my {FromTime=3pm} meeting
+- am goin to work tomorrow on another state, i need to book a room in {MeetingRoom=johan} street
+- an {MeetingRoom=room}.
+- are {MeetingRoom=room}
+- as a client, {MeetingRoom=alicia} is ugly, i will never take a room there again
+- block a conference room at {MeetingRoom=third level} in {MeetingRoom=eureka} building
+- booh the conford room in palace {MeetingRoom=2}/{MeetingRoom=76}
+- book 3 {MeetingRoom=rooms} in the city center
+- book a {MeetingRoom=banquet hall} for meeting
 - book a conference room
+- book a conference room {MeetingRoom=(city-center/320-gc)}
+- book a double {MeetingRoom=4/22} near city center for me
+- book a hotel room {MeetingRoom=2/110} for a next week.
 - book a meeting
+- book a meeting in the {MeetingRoom=endor conference room}
+- book a meeting room at the {FloorNumber=4th floor} in the {Building=redmond} building
+- book a {MeetingRoom=meeting room} in fisketorvet
+- book a {MeetingRoom=meeting room} in frederiksberg
+- book a meeting room on {FloorNumber=floor 1}
+- book a meeting room on {FloorNumber=floor 5}
+- book a place on the {FloorNumber=7th} floor in {Building=lloyds building}
+- book a {MeetingRoom=presidental room} at the h10 hotel.
+- book a {MeetingRoom=room}
+- book a {MeetingRoom=room 1}
+- book a {MeetingRoom=room 2}
+- book a {MeetingRoom=room 210} at the southern ocean lodge
+- book a room {MeetingRoom=217 on 2nd floor} in a hotel.
+- book a {MeetingRoom=room 3}
+- book a {MeetingRoom=room 4}
+- book a {MeetingRoom=room 5}
+- book a room {MeetingRoom=577 on 5st floor} in a hotel.
+- book a {MeetingRoom=room 6}
+- book a {MeetingRoom=room 7}
+- book a {MeetingRoom=room 9}
+- book a room at {FloorNumber=floor 4}
+- book a room at {MeetingRoom=taj banjara} for tomorrow conference
+- book a room close to my wife {MeetingRoom=sandra's room}.
+- book a room for {Duration=30 min}
+- book a room for all the next week in the {MeetingRoom=zeus hotel}
+- book a room for me at {MeetingRoom=city central} tonight
+- book a room hotel madrid {MeetingRoom=309} for me
+- book a room hotel sun sai {MeetingRoom=103} for me
+- book a room immediately in {MeetingRoom=evm hotel} for this evening.
+- book a room in a hotel {MeetingRoom=on the 2nd floor with windows to the courtyard}
+- book a room in a {MeetingRoom=low floor} for four persons
+- book a room in {MeetingRoom=basell} for tomorrow's night at the top floor
+- book a room in {MeetingRoom=california} 405 for today, please
+- book a room in {MeetingRoom=gales} for today at 6 pm 200
+- book a room in he {MeetingRoom=building 2 a3}
+- book a room in {MeetingRoom=lima} st. at floor 2 for next week
+- book a room in {MeetingRoom=miraflores} suite b for tomorrow
+- book a room in the afternoon for {MeetingRoom=euphoria} building
+- book a room in the {MeetingRoom=building 6}
+- book a room in the {MeetingRoom=building 8 b23}
+- book a room in the {MeetingRoom=palace hotel} for tomorrow please
+- book a room in the {MeetingRoom=second floor} for the weekend
+- book a room mumai hotel {MeetingRoom=1104} for me
+- book a room pal heights {MeetingRoom=308} for me
+- book a space in {Building=redmond center}
+- book {MeetingRoom=adams room} for tomorrow night.
 - book {MeetingRoom=blue meeting room}
-- book the conference room for {FromDate=thursday} at {FromTime=one} i want to meet with benjamin
-- can you reserve {MeetingRoom=room 649} right away
-- check meeting room for {FromDate=tomorrow}
-- find a free meeting room for {FromDate=next tuesday}
-- find an available meeting room from {FromTime=3} to {ToTime=5} {FromDate=tomorrow}
+- book {MeetingRoom=blue room} tonight
+- book {MeetingRoom=computer room} for this afternoon
+- book conf rm {MeetingRoom=(cr zamalek/mercury-2119)}
+- book conf rm {MeetingRoom=corniche/maadi-39} at 7 o clock
+- book {MeetingRoom=conf room 333} for my company
+- book {MeetingRoom=conf room 654} in plaza.
+- book conf room at biance {MeetingRoom=21} for me
+- book conf room city center/{MeetingRoom=13} (1) for me
+- book conf room city center/2228 (6) for {MeetingRoom=claudio reinosa}
+- book conf room {MeetingRoom=hollywood / 2782} for me
+- book conf room in holliday in {MeetingRoom=45} for this afthernoon
+- book conf room {MeetingRoom=miami / 2379}
+- book conf room {MeetingRoom=sunxhi ally c9} for us
+- book conf room {MeetingRoom=sunzing p33} now
+- book {MeetingRoom=conference hall} for board meeting
+- book {MeetingRoom=conference room 1} at the taj mahal palace
+- book conference room {MeetingRoom=alphaville/a1} for me
+- book conference room {MeetingRoom=conf-882} in building 4
+- book conference room in {MeetingRoom=melia} hotel
+- book dthe conf in paris hilton {MeetingRoom=2}/{MeetingRoom=473} now
+- book {MeetingRoom=duplex} room in hilton hotel
+- book {MeetingRoom=excalibur} please
+- book {MeetingRoom=executive room} {MeetingRoom=lasilas town} for sunday
+- book {MeetingRoom=executive room} {MeetingRoom=nadilom town} for friday
+- book {MeetingRoom=executive suite} {MeetingRoom=viatic tower} for tomorrow
+- book {MeetingRoom=family room} {MeetingRoom=delio town} for tomorrow
+- book {MeetingRoom=flezzi} room number five for me please
+- book for me {MeetingRoom=conf room big hall 3}
+- book for me for tomorrow the {MeetingRoom=room number 25}
+- book for me {MeetingRoom=suit room} for 4 persons
+- book for me the {MeetingRoom=room n 2}
+- book {MeetingRoom=great room} for tow days
+- book {MeetingRoom=jam} room for me please
+- book {MeetingRoom=jason} room number two please
+- book {MeetingRoom=kamino} for me please
+- book {MeetingRoom=kamino} tomorrow
+- book {MeetingRoom=kernel} room two please
+- book {MeetingRoom=king apartman plaza hotel 123654} for me.
+- book me a room {MeetingRoom=near trg republike}
+- book me {MeetingRoom=conf room royal club 333}
+- book me now the {MeetingRoom=room 125}
+- book {MeetingRoom=music room} for competition
+- book {MeetingRoom=nixon room} for this friday night.
+- book {MeetingRoom=nobel auditorium} for next tuesday night.
+- book one {MeetingRoom=family room} for monday next week
+- book {MeetingRoom=party salon} in hilton hotel
+- book {MeetingRoom=premium room} {MeetingRoom=kijubuto tower} for friday
+- book {MeetingRoom=premium suite} {MeetingRoom=oklanda building} for friday
+- book {MeetingRoom=president room} {MeetingRoom=masterium town}
+- book {MeetingRoom=presidential} room
+- book {MeetingRoom=presidential room} this night
+- book {MeetingRoom=prime room} {MeetingRoom=zasasae tower} for tonight
+- book {MeetingRoom=prime suite} {MeetingRoom=doolter tower}
+- book {MeetingRoom=prime suite} {MeetingRoom=fundana tower} for tonight
+- book {MeetingRoom=rabbitt} room for me
+- book rm {MeetingRoom=starwars 7-33}
+- {MeetingRoom=book} room
+- book {MeetingRoom=room 1} in the first floor
+- book {MeetingRoom=room 12}
+- book {MeetingRoom=room 12} for this afternoon
+- book {MeetingRoom=room 12}, {MeetingRoom=top floor} for monday
+- book room {MeetingRoom=14b} in first flooor
+- book {MeetingRoom=room 2} for this afternoon
+- book {MeetingRoom=room 2}, {MeetingRoom=green suite} this evening
+- book {MeetingRoom=room 232} for 6-8 p.m. tomorrow.
+- book {MeetingRoom=room 24 in 1st floor} .
+- book {MeetingRoom=room 3} for this afternoon
+- book {MeetingRoom=room 3}, {MeetingRoom=red suite} for tomorrow
+- book {MeetingRoom=room 37}
+- book {MeetingRoom=room 4} in the second floor
+- book {MeetingRoom=room 4}, {MeetingRoom=floor 8} for tonight
+- book {MeetingRoom=room 45} for tomorrow
+- book {MeetingRoom=room 5 alef} for the meeting next sunday.
+- book {MeetingRoom=room 5/10} for me this night please.
+- book {MeetingRoom=room 56}, {MeetingRoom=red suite} for friday
+- book {MeetingRoom=room 70} for big family
+- book {MeetingRoom=room 88} for honeymoon
+- book {MeetingRoom=room 987} for this summer
+- book {MeetingRoom=room a50} at the four seasons hotel
+- book {MeetingRoom=room b10} at le bristol
+- book {MeetingRoom=room c100} at shangri-la hotel
+- book room {MeetingRoom=flower} {MeetingRoom=1267} for tomorrow.
+- book room {MeetingRoom=microsoft-233/cj} at the end of the day
+- book room next to {MeetingRoom=adam's room} for my friend james.
+- book {MeetingRoom=room number 3} for tonight
+- book room number eight of {MeetingRoom=fginn} hotel
+- book room number fifty six of {MeetingRoom=avilon} hotel please
+- book room number five of {MeetingRoom=zellen} hotel
+- book room number seven of {MeetingRoom=grizzly} hotel
+- book room number sixty one of {MeetingRoom=rearches} hotel please
+- book room number ten of {MeetingRoom=wilson} hotel
+- book room number three of {MeetingRoom=waldorf astoria} please
+- book room of {MeetingRoom=hellen} hotel please number sixty six
+- book room of hotel {MeetingRoom=agillum} please
+- book room of {MeetingRoom=lazy} hotel please
+- book room {MeetingRoom=rose} villa {MeetingRoom=151} this morning.
+- book room {MeetingRoom=tattoo-771} by 5pm
+- book room the {MeetingRoom=21}
+- {MeetingRoom=book} room this
+- book {MeetingRoom=sea view room} in front hotel
+- book senior room {MeetingRoom=gerculio town} for friday
+- book senior room {MeetingRoom=juldertu town} for tonight
+- book senior room {MeetingRoom=kalanedol tower} for tomorrow
+- book senior room {MeetingRoom=kintader tower}
+- book senior room {MeetingRoom=lokhydel tower} for tomorrow
+- book senior room {MeetingRoom=lomacheri town}
+- book senior suite {MeetingRoom=falnyli town} for tomorrow
+- book senior suite {MeetingRoom=fujawase town} for tonight
+- book senior suite {MeetingRoom=likaster town} for tomorrow
+- book senior suite {MeetingRoom=radelto tower} for tonight
+- book {MeetingRoom=suite} at the top floor
+- book the {MeetingRoom=2/64 conference room}, for me
+- book {MeetingRoom=the 8899 room} at marriott for this weekend.
+- book the {MeetingRoom=auditorium #2042} for tomorrow morning
+- book the {MeetingRoom=auditorium room} in forum
+- book {MeetingRoom=the big room in canoe hotel}.
+- book the {MeetingRoom=comfort room 569}
+- book the conf in vepelia {MeetingRoom=3}/{MeetingRoom=67} for me
+- book the conf rm {MeetingRoom=apple spot/2211 (4)} at 9 pm please
+- book the conf rm {MeetingRoom=ayy dash 3}
+- book the conf rm {MeetingRoom=bjp 2/6} for me
+- book the conf rm bjw 2/64 for {MeetingRoom=susan lake}
+- book the conf rm bjw 2/{MeetingRoom=88} for me
+- book the conf rm {MeetingRoom=caroline/ 1526} for me
+- book the conf rm {MeetingRoom=chels x3233}
+- book the conf rm {MeetingRoom=cjp 3-9} will you
+- book the conf rm {MeetingRoom=kow 2/84} for friend
+- book the conf rm {MeetingRoom=london cp232} at 5 pm today
+- book the conf rm {MeetingRoom=mariner/233}
+- book the conf rm {MeetingRoom=ooojw 094} for my mother
+- book the conf rm {MeetingRoom=sellez j11} today
+- book the conf rm {MeetingRoom=set 64} for my cat
+- book the conf rm {MeetingRoom=sudan water} in building 5
+- book the conf rm suhou f84 now for {MeetingRoom=peter nevada}
+- book the conf rm {MeetingRoom=tom 4} for my yak
+- book the {MeetingRoom=conf room bjw 6/46} for me
+- book the conf {MeetingRoom=room bs8} this afternoon
+- book the {MeetingRoom=conf room city barcelona f32} for me
+- book the {MeetingRoom=conf room city barcelona f64} for me
+- book the {MeetingRoom=conf room city madrid f34} for me
+- book the {MeetingRoom=conf room city madrid f67} for me
+- book the {MeetingRoom=conf room city madrid g67} for me
+- book the {MeetingRoom=conf room f22}
+- book the conf room {MeetingRoom=lincoln 563} now
+- book the conf room suzhou {MeetingRoom=a28} please
+- book the {MeetingRoom=conf/r1} room now
+- book the {MeetingRoom=conference hall} for monday afternoon
+- book the conference room {MeetingRoom=city star}t 123 this noon
+- book the {MeetingRoom=conference room} for meeting
+- book the {MeetingRoom=conference room} in bella center
+- book the confirm {MeetingRoom=bjw 3/65} for me
+- book the confirm {MeetingRoom=dfg 4/54} for me
+- book the confirm {MeetingRoom=dfv 6/98}
+- book the confirm room in hotal mayuri {MeetingRoom=2nd floor} for me
+- book the confirm room in udipi lodge {MeetingRoom=5th window room} for me
+- book the confirm room mayuri building {MeetingRoom=52nd room} for me
+- book the confirm room ns plaza {MeetingRoom=202nd} room for me
+- book the confirm room royal centre {MeetingRoom=8/421} for us
+- book the confirm {MeetingRoom=sxc 2/76} for me please
+- book the conford room in hesperia {MeetingRoom=12/76} now
+- book the confort in paris {MeetingRoom=2}/{MeetingRoom=678} for me
+- book the {MeetingRoom=dolly room} for my sister
+- book the {MeetingRoom=f86 palace} conf now
+- book the {MeetingRoom=gill room} this morning
+- book the {MeetingRoom=green room} for this afternoon
+- book the {MeetingRoom=jose room} b7/2784 this afternoom
+- book the {MeetingRoom=lecta(12)} room for this monday
+- book the {MeetingRoom=lecture hall #15} for wednesday for me
+- book the {MeetingRoom=marian room} b3/2257 this morning
+- book the {MeetingRoom=matrimonial room 456} for tomorrow
+- book the meeting room {MeetingRoom=gold} 223 this evening
+- book the {MeetingRoom=mting rm/mt1} for me
+- book the {MeetingRoom=office room #5} for me
+- book the {MeetingRoom=paris room} for me
+- book the {MeetingRoom=party hall} for tomorrow evening
+- book the {MeetingRoom=presidential room 789} for today
+- book the {MeetingRoom=prinston room 1} right now please.
+- book the {MeetingRoom=raven room 3/5} now please.
+- book the room {MeetingRoom=#1011f} for me now
+- book the room {MeetingRoom=123a} for johana.
+- book the {MeetingRoom=room 17} now
+- book the room {MeetingRoom=204} for me
+- book the room {MeetingRoom=2075} for me
+- book the room {MeetingRoom=2164} for me
+- book the room {MeetingRoom=2456} for me
+- book the {MeetingRoom=room 26} for tomorrow
+- book the {MeetingRoom=room 3} and the {MeetingRoom=room 2} for me now please.
+- book the room {MeetingRoom=304} for me
+- book the {MeetingRoom=room 32}
+- book the {MeetingRoom=room 35} this morning
+- book the room {MeetingRoom=4 first floor}
+- book the {MeetingRoom=room 40} on top floor
+- book the room {MeetingRoom=6b} with two beds
+- book the {MeetingRoom=room 754} for me
+- book the {MeetingRoom=room 8} for me
+- book the {MeetingRoom=room 9c} for me
+- book the {MeetingRoom=room a765} for four people
+- book the room {MeetingRoom=aj6548} for meeting
+- book the room alex hotel {MeetingRoom=7/fl7}
+- book the room {MeetingRoom=alfa}
+- book the room {MeetingRoom=baliaer g12} of the conference
+- book the room {MeetingRoom=boston 225} this morning.
+- book the room cactus town {MeetingRoom=c4/3305} for tomorrow
+- book the room {MeetingRoom=caesar 319b} please
+- book the room candelaria hotel {MeetingRoom=h8/fl10}
+- book the room {MeetingRoom=caracas town}, {MeetingRoom=p5/3566}
+- book the room {MeetingRoom=cats palace b4/0414}
+- book the room {MeetingRoom=chelsea c5/8833} later today
+- book the room {MeetingRoom=davinci a1/01}
+- book the room {MeetingRoom=diamond 212} this afternoon
+- book the room {MeetingRoom=faile bl22} of the forum
+- book the room {MeetingRoom=florida town} {MeetingRoom=b5/1388}
+- book the room frent day rock {MeetingRoom=325 suit} now
+- book the room {MeetingRoom=g4/445}
+- book the room {MeetingRoom=grey a1/03}
+- book the room {MeetingRoom=h3/445}
+- book the room {MeetingRoom=h5/332}
+- book the room happy sun {MeetingRoom=218} suit and {MeetingRoom=312} in the night
+- book the room {MeetingRoom=hellena b7/2234} this afternoon
+- book the {MeetingRoom=room hilton 67} now
+- book the room {MeetingRoom=horus a1/01}
+- book the {MeetingRoom=room in floor 3}.
+- book the room in {MeetingRoom=hotel raintree}
+- book the room in the {MeetingRoom=building 7}
+- book the room in the {MeetingRoom=building 9} 22/12
+- book the room in the mastranto place {MeetingRoom=21} in the morning
+- book the room in the {MeetingRoom=top floor}
+- book the room {MeetingRoom=lili}
+- book the room {MeetingRoom=lucky 04}
+- book the room {MeetingRoom=luna a1/04}
+- book the room {MeetingRoom=lusy}
+- book the room {MeetingRoom=manchester heights cc/1111} this afternoon
+- book the room {MeetingRoom=marina/3d3} at 12 am for 3 hours
+- book the room {MeetingRoom=moni}
+- book the room {MeetingRoom=monica}
+- book the room {MeetingRoom=moon}
+- book the {MeetingRoom=room no 27}
+- book the {MeetingRoom=room no 305}
+- book the room {MeetingRoom=ny town}, {MeetingRoom=p3/25}
+- book the room oasis hotel {MeetingRoom=23/fl4} now
+- book the {MeetingRoom=room ocean breeze 2/222} at san felice hotel, please.
+- book the room on the beach c3/22 this evening
+- book the room orient {MeetingRoom=b2/2230}
+- book the room {MeetingRoom=play 12} of the casino
+- book the room {MeetingRoom=plaza 789} next weak.
+- book the room rainbow {MeetingRoom=r1/flr1} this afternoon
+- book the room redmon town b4/2245 this afternoon for {MeetingRoom=mary white}
+- book the room redmond town {MeetingRoom=a2/1223}
+- book the room redmond town {MeetingRoom=b2/2240}
+- book the room redmond town {MeetingRoom=b3/124}
+- book the {MeetingRoom=room redmond town b3/32}
+- book the room redmond town {MeetingRoom=b3/3244} this afternoon
+- book the room redmond town b4/2245 this afternoon for {MeetingRoom=jhon smith}
+- book the room redmond town {MeetingRoom=c1/223} this morning
+- book the room redmond town {MeetingRoom=c3/3211}
+- book the room redmond town {MeetingRoom=d2/225} this morning
+- book the room redmond town {MeetingRoom=d4/4021}
+- book the room redmond town {MeetingRoom=e3/432}
+- book the room redmond town {MeetingRoom=f4/432} this morning
+- book the room redmond town {MeetingRoom=i9/332}
+- book the room {MeetingRoom=redmond town} {MeetingRoom=a4/2355}
+- book the room {MeetingRoom=rock city 3/ 3549} this afternoom
+- book the room {MeetingRoom=rose}
+- book the room {MeetingRoom=s/6} for me this evening
+- book the room {MeetingRoom=shiny} 444 this afternoon
+- book the room {MeetingRoom=stone} 221 this noon
+- book the room {MeetingRoom=sunshine a/1} this evening
+- book the room {MeetingRoom=turne f20}
+- book the room waldorf {MeetingRoom=ha/b5}
+- book the {MeetingRoom=single room b12} for this week.
+- book the {MeetingRoom=single room b22} for this week.
+- book the {MeetingRoom=single room b23} for this week.
+- book the {MeetingRoom=single room b42} for this week.
+- book the {MeetingRoom=single room b7} for this week.
+- book the {MeetingRoom=smaller room 896}
+- book the {MeetingRoom=terrace} tonight for dinner
+- book the {MeetingRoom=twon b5/3354} room this afternoon
+- book the {MeetingRoom=valencia town}, {MeetingRoom=p8/8566}
+- book the {MeetingRoom=wedding room 125} now
+- book the {MeetingRoom=western room 3} this aftenoon for me please.
+- {MeetingRoom=book} this book room book
+- {MeetingRoom=book} this book room room
+- {MeetingRoom=book} this room
+- book to the write room {MeetingRoom=43}
+- booking all room on {MeetingRoom=forth} floor for annual meeting
+- boor the {MeetingRoom=room 78} for me.
+- can i book the {MeetingRoom=queens room a1/1657} for tommorow?
+- can i send to reserve the {MeetingRoom=big room 4}?
+- can i stay this monday to the {MeetingRoom=honeymoon suite}?
+- can you add a {SlotAttribute=room} to {FromDate=tomorrow}'s {Subject=dev meeting}
+- can you book a {MeetingRoom=conference room} near to city center
+- can you book a room {MeetingRoom=4/3342} near to city center hotel
+- can you reserve {MeetingRoom=room 258} right away
+- can you reserve room {MeetingRoom=7552} for me please?
+- check meeting room at {FloorNumber=2nd floor}
+- check {SlotAttribute=meeting room} for {FromDate=tomorrow}
+- check {MeetingRoom=room lucky}
+- confirm booking of room {MeetingRoom=h6} from 4pm to 5pm on 10th february
+- do you have a {SlotAttribute=room} available at {FromTime=3pm} in {Building=city center}
+- find a conference room at {FloorNumber=second floor} in {Building=building 34}
+- find a free {SlotAttribute=meeting room} for {FromDate=next tuesday}
+- find a new meeting location
+- find a room at the {FloorNumber=25th floor}
+- find a room between for {Duration=all day} please
+- find a room for {Duration=1 hour} please
+- find a room on {Building=building lack}
+- find a {SlotAttribute=room} on {FromDate=friday}
+- find an available {SlotAttribute=meeting room} from {FromTime=3} to {ToTime=5} {FromDate=tomorrow}
 - find me an empty conference room
+- good afternon, you can reserve the room {MeetingRoom=conf rm bjw 264} for today
+- good afternoon. i want to book the {MeetingRoom=conform room bjw 3/13} fot today.
+- good morning, could you reserve the {MeetingRoom=conf rm zoshou f84} room for three days?
+- have the meeting in {MeetingRoom=hoth}
+- hello disposses of the room {MeetingRoom=redmond town b24/2245}?
+- hello i want reserve {MeetingRoom=15 rooms}
+- hello i would like to reserve {MeetingRoom=3 rooms} in your hotel
+- hello, how are you? i would be soo kind as to book {MeetingRoom=conf room city center / 2228} (6) for me
+- hello, my room is {MeetingRoom=redmond town b4 / 2245} ready?
 - help me to book a conference room
-- help me to book a meeting room from {FromTime=10 am} to {ToTime=3 pm}
+- help me to book a {SlotAttribute=meeting room} from {FromTime=10 am} to {ToTime=3 pm}
+- help me to book meeting room at {FloorNumber=3rd floor}
 - help me to book the {MeetingRoom=room 102}
+- help me to book the {MeetingRoom=room 34b}
 - help me to find a meeting room
+- help me to find a room in {Building=city center}
+- hi i desire to reserve {MeetingRoom=5 rooms} with access to the pool
+- hi i just want to reserve {MeetingRoom=2 rooms} in your hotel
+- hi i would like to reserve {MeetingRoom=1 room} please
+- hold a meeting on the {FloorNumber=1st floor}
+- how about {Building=building 99}
+- how about {MeetingRoom=meeting room enterprise}
+- how about {MeetingRoom=room 2213}
+- how about the {FloorNumber=4th floor}
+- i am booking room {MeetingRoom=g454} for the entire next week
+- i have a meeting. please book a room in the {MeetingRoom=aladdin hotel}
+- i have to book the {MeetingRoom=obama} and {MeetingRoom=trump conference rooms} for 2 hours today
+- i have trouble with my room on {MeetingRoom=charles} last floor
+- i hope will go back to {MeetingRoom=steve} first floor room
+- i like to switch from {MeetingRoom=room 45}, to {MeetingRoom=room 63}.
+- i need a double {MeetingRoom=room number 44 or 46} in radisson on the 3d floor.
+- i need {MeetingRoom=room 1001} booked for one week.
+- i need room {MeetingRoom=jb452} for sunday if it's available
+- i need that you a conference {MeetingRoom=room} in lisbon
+- i need to book a meeting room on the {FloorNumber=2nd floor} with a projector in it
+- i need to book a room in the {MeetingRoom=euro building} {MeetingRoom=c3} at night
+- i need to make a booking for a meeting, please book room {MeetingRoom=imperial}
+- i need to reserve {MeetingRoom=endor} on the {FloorNumber=1st floor} in the {Building=crocker hall building}.
+- i need to reserve {MeetingRoom=mustafar} for a client at {FromTime=5pm}.
+- i need to reserve the {MeetingRoom=22-a} room at continental hotel
+- i need to reserve the {MeetingRoom=alderaan conference room} for a meeting.
+- i need to reserve the {Building=bespin} meeting room.
+- i need to reserve the room {MeetingRoom=2-a} at pensilvania hotel
+- i need to reserve the room {MeetingRoom=345} at the tamanaco hotel
+- i need to reserve the room number {MeetingRoom=100-b} at torino hotel
+- i need to reserve the room number {MeetingRoom=243} at the ritz hotel
+- i need to rest. book a room in {MeetingRoom=this building}
+- i need to sleep but for that i need a room on {MeetingRoom=steve} floor
 - i need you to find a new meeting location
-- i want to meet with bruce lee so book the conference room for {FromDate=thursday} at {FromTime=one}
-- i want to meet with donna please book for {FromDate=thursday} the conference room at {FromTime=one}
+- i need you to reserve the meeting room on {FloorNumber=floor 2}.
+- i want {MeetingRoom=55}
+- i want book a room at the {MeetingRoom=second floor}
+- i want book the room {MeetingRoom=subway 193}
+- i want {MeetingRoom=room 102} booked for me .
+- i want {MeetingRoom=room 4}
+- i want the {MeetingRoom=small room} until 12
+- i want to book a {MeetingRoom=double bed} room
+- i want to book a room at {FloorNumber=23th} floor in {Building=city center}
+- i want to book a room in hotel {MeetingRoom=pacific 102} for {MeetingRoom=1 hour}.
+- i want to book a room in the {MeetingRoom=magic garden} in the plot {MeetingRoom=24/2}
+- i want to book a room {MeetingRoom=with a view}
+- i want to book conf room {MeetingRoom=halbert 29}
+- i want to book {MeetingRoom=conference room 2}.
+- i want to book {MeetingRoom=double room city center 1000/1.}
+- i want to book {MeetingRoom=king room}
+- i want to book {MeetingRoom=presidential suite number 1}
+- i want to book {MeetingRoom=room 1}
+- i want to book {MeetingRoom=room 2}
+- i want to book {MeetingRoom=room 3}
+- i want to book {MeetingRoom=room number 5}.
+- i want to book room number {MeetingRoom=c4856} for tonight
+- i want to book {MeetingRoom=tatooine}
+- i want to book the conf {MeetingRoom=rm 2}
+- i want to book {MeetingRoom=two room}
+- i want to have a meeting in {MeetingRoom=mustafar}
+- i want to rent the {MeetingRoom=anna conference room} for today
+- i want to reserve {MeetingRoom=gandhi} at {FromTime=6pm}
+- i want to reserve {MeetingRoom=room 131} for the afternoon
+- i want to reserve the {MeetingRoom=main room} for the noon today
+- i want to reserve the {MeetingRoom=room 44} for me and my wife
+- i want to {MeetingRoom=room 5}
+- i want to see people in {MeetingRoom=tatooine} in the hall {FloorNumber=floor 4}.
+- i want to sleep in {MeetingRoom=joshua} last room tonight
+- i whs to book the {MeetingRoom=lincoln room} for today between 3 and 5 pm.
+- i will reserve the {MeetingRoom=golden room} for me
+- i wish to book a {SlotAttribute=meeting room} at the {Building=london building} for {FromDate=january the 9th} at {FromTime=1pm}
+- i wish to reserve a room at the second floor, preferable {MeetingRoom=12} or {MeetingRoom=13 room} since they have a view towards the jp bank
+- i wish to reserve a room now at the {Building=bellevue} building.
+- i wonder can i book a {MeetingRoom=royal room c10.}
+- i wonder if i can book the {MeetingRoom=room g10 for today.}
+- i would like to book a meeting in the {Building=hitchcock} building on the {FloorNumber=23rd floor}.
+- i would like to book {MeetingRoom=room 205}
+- i would like to book the {MeetingRoom=tesla room 33} at conrad hotel please.
+- i would like to reserve meeting room {MeetingRoom=excalibur} on the {FloorNumber=first floor} of the {Building=alfred building}
+- i would like to reserve one of your meeting rooms on the {FloorNumber=2nd} floor of the {Building=langham} building please
+- i would like to reserve room {MeetingRoom=2289} for this week
+- i would love to book the {MeetingRoom=room om 3/333} at mantre hotel for the weekend, please.
+- i'd like to book {MeetingRoom=blue room} for two nights, please
+- i'd like to book {MeetingRoom=conrad room} for two nights, please
+- i'd like to book {MeetingRoom=orange room} for two nights, pleased
+- i'd like to book {MeetingRoom=oxford room} for two nights, please
+- i'd like to book {MeetingRoom=president room} for two nights, please
+- i'd like to book {MeetingRoom=room 45}, instead of {MeetingRoom=room 66}.
+- i'd like to reserve a {MeetingRoom=hotel room 677} as i've booked already.
+- i'd like to reserve a room on the {FloorNumber=2nd floor} of the {Building=albert hall}, please.
 - i'm looking for a conference room
-- is this room busy at {FromTime=5 pm}
-- is this room busy {FromDate=tomorrow}
-- let's find a new meeting location
+- i'm looking for a {SlotAttribute=room} available {FromDate=this afternoon} in {Building=studiox}
+- is there a room available at 3pm today
+- is there a room available on {Building=building 1}
+- is there any room available on the third floor in {MeetingRoom=ambience hotel}?
+- is there any room available the {Duration=whole day}?
+- is {MeetingRoom=this room} busy at {FromTime=5 pm}
+- is {MeetingRoom=this room} busy {FromDate=tomorrow}
+- it {MeetingRoom=room}
+- kids are tired please book the room number {MeetingRoom=40}
+- kids are tired. book the room number {MeetingRoom=20} please
 - locate another meeting location
+- look for {MeetingRoom=room hello}
+- may i book a room in {MeetingRoom=sixth} floor for tonight?
+- {MeetingRoom=must be part of the sentence}
+- my booking was made for {MeetingRoom=imperial} room on top floor
+- my flight is tomorrow . please book a room in the {MeetingRoom=king hotel}
+- my flight is tomorrow. please book the room number {MeetingRoom=44}
+- my girlfirend want the best room in {MeetingRoom=mary}
+- my wife want a room on {MeetingRoom=mary}
+- need a room booked at {MeetingRoom=hyderabad central} in the evening
+- need to book room {MeetingRoom=coral} on 2nd floor for second half today
+- netx vacations i will book my single {MeetingRoom=room} in the internet
+- next weekend i need to book a {MeetingRoom=room} in oporto hostel
+- {MeetingRoom=only change the room name}
+- order a {MeetingRoom=room 669} in {MeetingRoom=east wing} for 4 pm
+- organize a meeting in the {MeetingRoom=gandhi} room in the {FloorNumber=3rd floor} on the {Building=greenpark hotel}
+- please add a {SlotAttribute=meeting room} to the {Subject=daily scrum meeting}
+- please add a reservation to {MeetingRoom=conference room 2}
+- please book 2 rooms which are not far away from {MeetingRoom=stella's room}.
+- please book a room at taj banjaraa {MeetingRoom=2/2241} at 2nd floor.
+- please book a room {MeetingRoom=near the elevator}
+- please book {MeetingRoom=lotus} room {MeetingRoom=101} for tonight.
+- please book me a conference {MeetingRoom=room} in a city center hotel
+- please book {SlotAttribute=meeting room} {MeetingRoom=excalibur} on {FromDate=friday}
+- please book {MeetingRoom=pars} room {MeetingRoom=178} for me.
+- please book room {MeetingRoom=2345} on the top floor of the hotel.
+- please book room {MeetingRoom=gemini} at 2 pm
+- please book the a room on the {MeetingRoom=penthouse} for two nights
+- please book the room {MeetingRoom=conf. room}.
+- please book the {MeetingRoom=room deluxe 4} this friday.
+- please book the room morgan plaza {MeetingRoom=d2/3338}
+- please book the room {MeetingRoom=sandlewood} town {MeetingRoom=189} for me.
+- please call to confirm my reservation on {MeetingRoom=deluxe room red}
+- please can i reserve meeting room {MeetingRoom=excalibur} on the {FloorNumber=first floor} of {Building=webb house}
+- please confirm reservation of rooms {MeetingRoom=21a}, {MeetingRoom=21b} and {MeetingRoom=21c} of the pent house
+- please confirm reservation of the {MeetingRoom=lolita chalet} and {MeetingRoom=paty chalet}
+- please confirm todays reservation of {MeetingRoom=presidential room a} and {MeetingRoom=presidential room b}
+- please reserve a meeting room in building {Building=3}.
+- please reserve a meeting room on the {FloorNumber=1st floor}.
+- please reserve a meeting room on the {FloorNumber=3rd floor} of {Building=terman tower}.
+- please reserve a room # {MeetingRoom=1}
+- please reserve a room {MeetingRoom=2}
+- please reserve a room {MeetingRoom=3}
+- please reserve a room {MeetingRoom=4}
+- please reserve a room {MeetingRoom=5}
+- please reserve {MeetingRoom=excalibur} for the morning meeting.
+- please reserve for me the {MeetingRoom=conference room}
+- please reserve for this afternoon the {MeetingRoom=breakfast room}
+- please reserve me the {MeetingRoom=suite room}
+- please reserve {SlotAttribute=meeting room} {MeetingRoom=hoth} on {FloorNumber=floor 10} of the {Building=london building} for {FromDate=friday afternoon}.
+- please reserve the {MeetingRoom=green room} on the {FloorNumber=2nd floor} of the {Building=hewitt} building.
+- please reserve the {FloorNumber=second floor} meeting room at {Building=building 5} for tomorrow.
+- please validate reservation of the {MeetingRoom=double cabin} and {MeetingRoom=individual cabin} for friday
+- please validate that tomorrow reservation is made, it is the {MeetingRoom=red room} and the {MeetingRoom=magenta room}
+- please will you reserve a {SlotAttribute=meeting room}for me at {Building=city center} on the {FromDate=23rd of january}.
+- {MeetingRoom=read}
+- {MeetingRoom=read} in
+- {MeetingRoom=read} name
+- {MeetingRoom=read} set
+- {MeetingRoom=read} the
+- reserve a conference room at the {Building=redmond building}
+- reserve a meeting room in the {Building=redmond} building
+- reserve a meeting room on {FloorNumber=floor 1} of the {Building=mercator center}
+- reserve a meeting room on the {FloorNumber=3rd floor}
+- reserve a room in the {Building=london} building for the meeting
+- reserve {MeetingRoom=blue room} for 2 nights
+- reserve {MeetingRoom=enterprise} for a meeting
+- reserve me a {SlotAttribute=meeting room} at the {Building=london building}, {FloorNumber=floor 5} for saturday at {FromTime=1 p.m.}
+- reserve meeting room {MeetingRoom=coruscant} please
+- reserve meeting room {MeetingRoom=gandhi} for monday morning.
 - reserve {MeetingRoom=room 258}
-- reserve {MeetingRoom=room 101} now
-- reserve {MeetingRoom=room 313} right away
-- reserve the conference room for {FromTime=1 pm} {FromDate=thursday} because i need to have a meeting with amber
-- reserve the conference room for {FromTime=3pm} {FromDate=tomorrow}
-- schedule conference room with mary cooper for {FromDate=thursday} at {FromTime=one}
+- reserve {MeetingRoom=room 258} now
+- reserve {MeetingRoom=room 258} right away
+- reserve {MeetingRoom=room 313} right now
+- reserve {MeetingRoom=room 7/154} please
+- reserve room {MeetingRoom=f5} on 3rd floor from 2pm to 4pm
+- reserve room in {MeetingRoom=hotel 4 seasons}
+- reserve room no. {MeetingRoom=t65} from 3pm to 5pm on friday 15th january
+- reserve the {MeetingRoom=2/56 network} conf for me
+- reserve the {MeetingRoom=alejandra room} for tonight
+- reserve the meeting room {MeetingRoom=enterprise} on {FloorNumber=floor 2} of the {Building=mercator center}
+- reserve the meeting room on the {FloorNumber=12th floor} at the {Building=ferry}
+- reserve the {MeetingRoom=mond valle 3/45} for me
+- reserve the {MeetingRoom=mustafar} room in the {Building=school} {FloorNumber=fourth floor} for the meeting
+- reserve the room {MeetingRoom=abc-3d} later tonight
+- reserve the room {MeetingRoom=tattooine} between 3 and 5
+- reserve the {MeetingRoom=tatooine} meeting room on the {FloorNumber=2nd floor}.
+- reserve the {FloorNumber=third floor} for the meeting
+- reserve {MeetingRoom=virginia waters conference} later this evening
+- room the {MeetingRoom=34}
+- room where you order {MeetingRoom=56}
+- schedule largest room in {MeetingRoom=the conference center}
+- the bathroom is awfull in {MeetingRoom=angeline} room
+- the bed was durty, i will never take a room on {MeetingRoom=ben}
+- the meeting is here. book a room in {MeetingRoom=this building} please
+- the meeting is here. book the room number {MeetingRoom=100} please
+- the {MeetingRoom=room}
+- {MeetingRoom=the room 9700} should be reserved to our company for 3 days.
+- the room book {MeetingRoom=21}
+- {MeetingRoom=the room name/number must be part of the sentence} 23
+- {MeetingRoom=the room name/number must be part of the sentence} f2
+- the room you write room {MeetingRoom=67}
+- to reserve the {MeetingRoom=matrimonial room} until tomorrow
+- try {MeetingRoom=2312}
+- try {FloorNumber=8th floor}
+- try buillding {Building=bjw2}
+- try {MeetingRoom=excalibur}
+- try {FloorNumber=floor 2}
+- try {MeetingRoom=room jupyter}
+- try {Building=studiox}
+- try the {FloorNumber=3rd floor}
+- try {FloorNumber=the floor 23}
+- use {MeetingRoom=room wender}
+- want to book room {MeetingRoom=g5} for full day on 15th january
+- want to book the {MeetingRoom=lodge room 4} at castle hotel.
+- want to reserve the room {MeetingRoom=number 11} on the second floor for the whole next week.
+- wanted to book the {MeetingRoom=room biscocho 1/11} at hotel cienaga.
+- we need a room in {MeetingRoom=taj hotel} for two days.
+- we require a room on the fifth floor in {MeetingRoom=the men hotel}.
+- we strongly need the {MeetingRoom=room 888} to be reserved for our conference.
+- we want to reserve the {FloorNumber=second floor} in the {Building=main building} for our meeting room
 - what meet rooms do i have
 - where shall we meet
+- white you order room {MeetingRoom=21}
+- {MeetingRoom=write a sentence where you order to book a room}
+- you book a room {MeetingRoom=76}
+- you where room {MeetingRoom=41}
+- (find|reserve|book) [{MeetingRoomKeywordsDesc}] {MeetingRoom} [(at|on|for)] {FromTime} [(at|on|for)] {FromDate}^
+- (find|reserve|book) {MeetingRoom} [{MeetingRoomKeywordsDesc}] [(at|on|for)] [{FromDate}] [(at|on|for)] [{FromTime}]^
+- (find|reserve|book) {MeetingRoom} [{MeetingRoomKeywordsDesc}] [(at|on|for)] {FromTime} [(at|on|for)] {FromDate}^
+- (find|reserve|book) [{MeetingRoomKeywordsDesc}] {MeetingRoom} [(at|on|for)] [{FromDate}] [(at|on|for)] [{FromTime}]^
+- (find|reserve|book) [the] [(conference|conf|confer)] (room|rm|rom) {MeetingRoomPatternAny} (now|right now) {AfterAny}[.]
+- (find|reserve|book) [the] [(conference|conf|confer)] (room|rm|rom) {MeetingRoomPatternAny} (later|today|tomorrow) {AfterAny}[.]
+- (find|reserve|book) [the] [(conference|conf|confer)] (room|rm|rom) {MeetingRoomPatternAny} (for|at|by){AfterAny}[.]
 - ^is (this|the|that) (meeting|conference) room (available|booked) [(at|on|for)] [{FromDate}] [(at|on|for)] [{FromTime}]^
 
 
@@ -1093,6 +1786,18 @@
 - not for me, thanks
 - not him
 - not now
+- negative
+- neither
+- no
+- no no
+- no thank you
+- no thanks
+- no way
+- no, i won't
+- no, i'd like to meet her manager
+- no, please don't
+- none
+- nope
 - not right, schedule it as {Subject=1x1 meeting} with yolanda
 - not that time
 - not this {MeetingRoom=conference room}, please change
@@ -1178,9 +1883,15 @@
 
 > # Entity definitions
 
+$Building:simple
+
+$ContactName:simple
+
 $DestinationCalendar:simple
 
 $Duration:simple
+
+$FloorNumber:simple
 
 $ToDate:simple
 
@@ -1380,7 +2091,14 @@ $RelationshipName:wife=
 $RelationshipName:manager=
 
 
+$SlotAttributeName:room=
+- meeting room
+- conference room
+- confroom
+
+$SlotAttributeName:time=
+
 
 > # RegEx entities
-
+$MeetingRoomKeywordsDesc:/((conf|conference|meeting)\s+)?(room|rm|office)/
 

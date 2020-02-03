@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,17 +9,16 @@ using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace CalendarSkill.Dialogs
 {
@@ -83,7 +80,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-                var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                var deleteEvent = state.ShowMeetingInfo.FocusedEvents[0];
                 string replyResponse;
                 string retryResponse;
                 if (options.NewEventStatus == EventStatus.Cancelled)
@@ -136,8 +133,8 @@ namespace CalendarSkill.Dialogs
                 {
                     if (options.SubFlowMode)
                     {
-                        state.MeetingInfor.ClearTimes();
-                        state.MeetingInfor.ClearTitle();
+                        state.MeetingInfo.ClearTimes();
+                        state.MeetingInfo.ClearTitle();
                     }
                     else
                     {
@@ -163,7 +160,7 @@ namespace CalendarSkill.Dialogs
                 sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
 
                 var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
-                var deleteEvent = state.ShowMeetingInfor.FocusedEvents[0];
+                var deleteEvent = state.ShowMeetingInfo.FocusedEvents[0];
                 if (options.NewEventStatus == EventStatus.Cancelled)
                 {
                     if (deleteEvent.IsOrganizer)
@@ -188,8 +185,8 @@ namespace CalendarSkill.Dialogs
 
                 if (options.SubFlowMode)
                 {
-                    state.MeetingInfor.ClearTimes();
-                    state.MeetingInfor.ClearTitle();
+                    state.MeetingInfo.ClearTimes();
+                    state.MeetingInfo.ClearTitle();
                 }
                 else
                 {
@@ -217,11 +214,11 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
                 var options = (ChangeEventStatusDialogOptions)sc.Options;
 
-                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                if (state.ShowMeetingInfo.FocusedEvents.Any())
                 {
                     return await sc.EndDialogAsync();
                 }
-                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                else if (state.ShowMeetingInfo.ShowingMeetings.Any())
                 {
                     return await sc.NextAsync();
                 }

@@ -11,6 +11,7 @@ using ToDoSkill.Tests.API.Fakes;
 namespace ToDoSkill.Tests.API
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class OneNoteServiceTests
     {
         private HttpClient mockClient;

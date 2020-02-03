@@ -1,0 +1,105 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "CalendarSkill",
+  "name": "Calendar Skill",
+  "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+  "publisherName": "Microsoft",
+  "version": "0.8",
+  "iconUrl": "https://{YOUR_SKILL_URL}/images/CalendarSkill.png",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
+  "tags": [
+    "calendar",
+    "skill"
+  ],
+  "endpoints": [
+    {
+      "name": "production",
+      "protocol": "BotFrameworkV3",
+      "description": "Production endpoint for the Calendar Skill",
+      "endpointUrl": "https://{YOUR_SKILL_URL}/api/messages",
+      "msAppId": "{YOUR_SKILL_APPID}"
+    }
+  ],
+  "dispatchModels": {
+    "languages": {
+      "en-us": [
+        {
+          "id": "CalendarLuModel-en",
+          "name": "CalendarSkill LU (English)",
+          "contentType": "application/lu",
+          "url": "file://Calendar.lu",
+          "description": "English language model for the skill"
+        }
+      ],
+      "de-de": [
+        {
+          "id": "CalendarLuModel-de",
+          "name": "CalendarSkill LU (German)",
+          "contentType": "application/lu",
+          "url": "file://Calendar.lu",
+          "description": "German language model for the skill"
+        }
+      ],
+      "es-es": [
+        {
+          "id": "CalendarLuModel-es",
+          "name": "CalendarSkill LU (Spanish)",
+          "contentType": "application/lu",
+          "url": "file://Calendar.lu",
+          "description": "Spanish language model for the skill"
+        }
+      ],
+      "fr-fr": [
+        {
+          "id": "CalendarLuModel-fr",
+          "name": "CalendarSkill LU (French)",
+          "contentType": "application/lu",
+          "url": "file://Calendar.lu",
+          "description": "French language model for the skill"
+        }
+      ],
+      "it-it": [
+        {
+          "id": "CalendarLuModel-it",
+          "name": "CalendarSkill LU (Italian)",
+          "contentType": "application/lu",
+          "url": "file://Calendar.lu",
+          "description": "Italian language model for the skill"
+        }
+      ],
+      "zh-cn": [
+        {
+          "id": "CalendarLuModel-zh",
+          "name": "CalendarSkill LU (Chinese)",
+          "contentType": "application/lu",
+          "url": "file://Calendar.lu",
+          "description": "Chinese language model for the skill"
+        }
+      ]
+    },
+    "intents": {
+      "CreateCalendarEntry": "#/activities/message",
+      "FindMeetingRoom": "#/activities/message",
+      "AcceptEventEntry": "#/activities/message",
+      "DeleteCalendarEntry": "#/activities/message",
+      "ConnectToMeeting": "#/activities/message",
+      "TimeRemaining": "#/activities/message",
+      "FindCalendarDetail": "#/activities/message",
+      "FindCalendarEntry": "#/activities/message",
+      "FindCalendarWhen": "#/activities/message",
+      "FindCalendarWhere": "#/activities/message",
+      "FindCalendarWho": "#/activities/message",
+      "FindDuration": "#/activities/message",
+      "ChangeCalendarEntry": "#/activities/message",
+      "*": "#/activities/message"
+    }
+  },
+  "activities": {
+    "message": {
+      "type": "message",
+      "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  }
+}

@@ -10,12 +10,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 namespace Luis
 {
-    public partial class CalendarLuis: IRecognizerConvert
+    public partial class CalendarLuis : IRecognizerConvert
     {
         public string Text;
         public string AlteredText;
         public enum Intent {
             AcceptEventEntry, 
+            AddCalendarEntryAttribute, 
             CancelCalendar, 
             ChangeCalendarEntry, 
             CheckAvailability, 
@@ -47,12 +48,15 @@ namespace Luis
             public string[] ToTime;
             public string[] MeetingRoom;
             public string[] Location;
+            public string[] ContactName;
+            public string[] SlotAttribute;
+            public string[] ToDate;
             public string[] MoveEarlierTimeSpan;
             public string[] MoveLaterTimeSpan;
-            public string[] ToDate;
-            public string[] SlotAttribute;
             public string[] OrderReference;
             public string[] PositionReference;
+            public string[] Building;
+            public string[] FloorNumber;
             public string[] Message;
             public string[] Duration;
             public string[] DestinationCalendar;
@@ -65,6 +69,14 @@ namespace Luis
             // Lists
             public string[][] PossessivePronoun;
             public string[][] RelationshipName;
+            public string[][] SlotAttributeName;
+
+            // Regex entities
+            public string[] MeetingRoomKeywordsDesc;
+
+            // Pattern.any
+            public string[] MeetingRoomPatternAny;
+            public string[] AfterAny;
 
             // Instance
             public class _Instance
@@ -75,12 +87,15 @@ namespace Luis
                 public InstanceData[] ToTime;
                 public InstanceData[] MeetingRoom;
                 public InstanceData[] Location;
+                public InstanceData[] ContactName;
+                public InstanceData[] SlotAttribute;
+                public InstanceData[] ToDate;
                 public InstanceData[] MoveEarlierTimeSpan;
                 public InstanceData[] MoveLaterTimeSpan;
-                public InstanceData[] ToDate;
-                public InstanceData[] SlotAttribute;
                 public InstanceData[] OrderReference;
                 public InstanceData[] PositionReference;
+                public InstanceData[] Building;
+                public InstanceData[] FloorNumber;
                 public InstanceData[] Message;
                 public InstanceData[] Duration;
                 public InstanceData[] DestinationCalendar;
@@ -89,6 +104,10 @@ namespace Luis
                 public InstanceData[] ordinal;
                 public InstanceData[] PossessivePronoun;
                 public InstanceData[] RelationshipName;
+                public InstanceData[] SlotAttributeName;
+                public InstanceData[] MeetingRoomKeywordsDesc;
+                public InstanceData[] MeetingRoomPatternAny;
+                public InstanceData[] AfterAny;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

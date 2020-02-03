@@ -12,24 +12,29 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.7" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.7.0-rc0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.7.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.1" />
+    <PackageReference Include="Microsoft.Azure.Search" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.2-preview" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.8.0-preview1" />
     <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Utilities\WindowsIanaMapping" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\shared\SkillServiceLibrary\SkillServiceLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,10 +48,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\CheckAvailable\CheckAvailableResponses.cs">
+    <Compile Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>CheckAvailableResponses.tt</DependentUpon>
+      <DependentUpon>CheckPersonAvailableResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\CreateEvent\CreateEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -57,6 +62,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FindContactResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\FindMeetingRoom\FindMeetingRoomResponses.cs">
+      <DependentUpon>FindMeetingRoomResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Responses\JoinEvent\JoinEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -133,34 +143,30 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableActivities.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableResponses.tt">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CheckAvailableResponses.cs</LastGenOutput>
+      <LastGenOutput>CheckPersonAvailableResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.de-de.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.de-de.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.es-es.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.es-es.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.fr-fr.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.fr-fr.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.it-it.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.it-it.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableTexts.zh-cn.lg">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Responses\CheckAvailable\CreateEventResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
     <None Update="Responses\CreateEvent\CreateEventDialogActivities.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -211,6 +217,27 @@
     <None Update="Responses\FindContact\FindContactResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FindContactResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\JoinEvent\JoinEventDialogActivities.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

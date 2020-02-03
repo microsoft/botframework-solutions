@@ -94,12 +94,12 @@ export class FeedbackMiddleware implements Middleware {
             // if activity text matches a feedback action
             // save feedback in state
             const feedback: CardAction | undefined = FeedbackMiddleware.options.feedbackActions.find((cardAction: CardAction): boolean => {
-                return (context.activity.text === <string> cardAction.value || context.activity.text === cardAction.title);
+                return (context.activity.text === cardAction.value as string || context.activity.text === cardAction.title);
             });
 
             if (feedback !== undefined) {
                 // Set the feedback to the action value for consistency
-                record.feedback = <string> feedback.value;
+                record.feedback = feedback.value as string;
                 await FeedbackMiddleware.feedbackAccessor.set(context, record);
 
                 if (FeedbackMiddleware.options.commentsEnabled) {
@@ -108,7 +108,7 @@ export class FeedbackMiddleware implements Middleware {
                     if (supportsSuggestedActions(context.activity.channelId)) {
                         const commentPrompt: Partial<Activity> = MessageFactory.suggestedActions(
                             [FeedbackMiddleware.options.dismissAction],
-                            `${ FeedbackMiddleware.options.feedbackReceivedMessage } ${FeedbackMiddleware.options.commentPrompt}`
+                            `${ FeedbackMiddleware.options.feedbackReceivedMessage } ${ FeedbackMiddleware.options.commentPrompt }`
                         );
 
                         // prompt for comment
@@ -132,7 +132,7 @@ export class FeedbackMiddleware implements Middleware {
                     await FeedbackMiddleware.feedbackAccessor.delete(context);
                 }
             } else if (context.activity.text !== undefined
-                    && (context.activity.text === <string> FeedbackMiddleware.options.dismissAction.value
+                    && (context.activity.text === FeedbackMiddleware.options.dismissAction.value as string
                     || context.activity.text === FeedbackMiddleware.options.dismissAction.title)) {
                 // if user dismissed
                 // log existing feedback

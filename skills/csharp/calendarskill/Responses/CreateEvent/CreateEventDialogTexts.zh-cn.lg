@@ -77,3 +77,9 @@
 
 # GetRecreateInfoRetry.Text
 - 对不起，我不明白。您可以更改的一些内容包括活动的时间、持续时间、位置、参与者、主题和说明。
+
+# NoMeetingRoom.Text
+- 您要添加房间吗？
+
+# MeetingBooked.Text
+- 好的，您的会议已经确认。

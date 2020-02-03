@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace CalendarSkill.Responses.CreateEvent
 {
@@ -40,5 +40,7 @@ namespace CalendarSkill.Responses.CreateEvent
         public const string GetRecreateInfoRetry = "GetRecreateInfoRetry";
         public const string ConfirmRecipient = "ConfirmRecipient";
         public const string InvaildDuration = "InvaildDuration";
+        public const string NoMeetingRoom = "NoMeetingRoom";
+        public const string MeetingBooked = "MeetingBooked";
     }
 }

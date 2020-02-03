@@ -58,7 +58,7 @@ export abstract class RouterDialog extends InterruptableDialog {
                             }
                             case DialogTurnStatus.complete: {
                                 // tslint:disable-next-line:no-unsafe-any
-                                const routerDialogTurnResult: RouterDialogTurnResult = <RouterDialogTurnResult> result.result;
+                                const routerDialogTurnResult: RouterDialogTurnResult = result.result as RouterDialogTurnResult;
                                 if (routerDialogTurnResult !== undefined
                                     && routerDialogTurnResult.status === RouterDialogTurnStatus.Restart) {
                                     await this.route(innerDc);

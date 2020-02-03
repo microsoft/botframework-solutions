@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace CalendarSkill.Test.API
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class UserServiceGoogleTests
     {
         private static IUserService userService;

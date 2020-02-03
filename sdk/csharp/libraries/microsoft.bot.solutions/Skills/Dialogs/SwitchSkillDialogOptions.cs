@@ -4,7 +4,6 @@
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills.Models;
-using Microsoft.Bot.Solutions.Skills.Models.Manifest;
 
 namespace Microsoft.Bot.Solutions.Skills.Dialogs
 {
