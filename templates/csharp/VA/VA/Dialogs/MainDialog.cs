@@ -177,21 +177,18 @@ namespace $safeprojectname$.Dialogs
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
                 // Check if we need to switch skills.
-                if (isSkill)
+                if (isSkill && IsSkillIntent(dispatchIntent) && dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                 {
-                    if (dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
+                    EnhancedBotFrameworkSkill identifiedSkill;
+                    if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out identifiedSkill))
                     {
-                        EnhancedBotFrameworkSkill identifiedSkill;
-                        if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out identifiedSkill))
-                        {
-                            var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
-                            await innerDc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
-                            interrupted = true;
-                        }
-                        else
-                        {
-                            throw new ArgumentException($"{dispatchIntent.ToString()} is not in the skills configuration");
-                        }
+                        var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
+                        await innerDc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
+                        interrupted = true;
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"{dispatchIntent.ToString()} is not in the skills configuration");
                     }
                 }
 
@@ -323,7 +320,15 @@ namespace $safeprojectname$.Dialogs
                 var dispatchResult = stepContext.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                if (dispatchIntent == DispatchLuis.Intent.q_Faq)
+                if (IsSkillIntent(dispatchIntent))
+                {
+                    var dispatchIntentSkill = dispatchIntent.ToString();
+                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+
+                    // Start the skill dialog.
+                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
+                }
+                else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
@@ -334,14 +339,6 @@ namespace $safeprojectname$.Dialogs
                     stepContext.SuppressCompletionMessage(true);
 
                     return await stepContext.BeginDialogAsync("Chitchat");
-                }
-                else if (!dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
-                {
-                    var dispatchIntentSkill = dispatchIntent.ToString();
-                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
-
-                    // Start the skill dialog.
-                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
                 }
                 else
                 {
@@ -408,6 +405,19 @@ namespace $safeprojectname$.Dialogs
             }
 
             return await next();
+        }
+
+        private bool IsSkillIntent(DispatchLuis.Intent dispatchIntent)
+        {
+            if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_General.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Chitchat.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
