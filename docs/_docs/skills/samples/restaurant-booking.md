@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Restaurant Booking Skill
 description: Restaurant Booking Skill provides the ability to find and book a restaurant reservation.
 order: 10

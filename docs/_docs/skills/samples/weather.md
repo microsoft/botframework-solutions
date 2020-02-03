@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Weather Skill
 description: Weather Skill provides the ability to look up the weather for a location.
 order: 11

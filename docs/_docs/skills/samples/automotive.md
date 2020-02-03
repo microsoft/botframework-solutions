@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Automotive Skill
 description: Automotive Skill provides the ability to issue comands to vehicles to control settings in a vehicle.
 order: 2

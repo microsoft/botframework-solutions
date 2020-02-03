@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Phone Skill
 description: Phone Skill provides the ability to find and call a person or a number.
 order: 9

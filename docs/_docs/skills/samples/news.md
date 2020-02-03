@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: News Skill
 description: News Skill provides the ability to find and review news articles.
 order: 8

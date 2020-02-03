@@ -44,6 +44,7 @@
                                     {% endif %}
 
                                     <ul id="subcategory{{index}}_{{index2}}" class="{{ collapse }}  mb-2">
+                                        {% assign items = items | sort: "date" | reverse %}                                       
                                         {% assign languages = items | group_by: 'language' %}
                                         {% assign nolang = languages | where: "name", "" | first %}
                                         {% if nolang %}

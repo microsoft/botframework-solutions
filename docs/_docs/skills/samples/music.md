@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Music Skill
 description: Music Skill provides the ability to select music to be played from Spotify.
 order: 7

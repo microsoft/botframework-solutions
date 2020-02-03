@@ -2,13 +2,14 @@
 category: Overview
 subcategory: What's New
 language: 0_7_release
-title: Beta Release 0.7
+title: Release Notes
 date: 2019-11-26
 order: 1
 toc: true
 ---
 
-# {{ page.title }} - {{ page.date | date: "%D" }}
+# Beta Release 0.7
+## {{ page.title }} - {{ page.date | date: "%D" }}
 
 ## Intro
 This document describes the new features available in the **0.7-beta release** version of the Virtual Assistant across the following categories:
