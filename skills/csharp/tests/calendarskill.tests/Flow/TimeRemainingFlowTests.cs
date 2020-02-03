@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
@@ -40,9 +41,10 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>() { MockServiceManager.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(TimeRemainingUtterances.NextMeetingTimeRemaining)
                 .AssertReplyOneOf(this.ShowNextMeetingRemainingTime())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -52,14 +54,6 @@ namespace CalendarSkill.Test.Flow
             {
                 RemainingTime = "23 hours 59 minutes "
             });
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
-            };
         }
     }
 }

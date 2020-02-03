@@ -79,7 +79,7 @@ namespace CalendarSkill.Prompts
                     if (skillLuisService != null)
                     {
                         luisResult = await skillLuisService.RecognizeAsync<CalendarLuis>(turnContext, default);
-                        turnContext.TurnState.Add(StateProperties.CalendarLuisResultKey, luisResult);
+                        turnContext.TurnState[StateProperties.CalendarLuisResultKey] = luisResult;
                     }
                     else
                     {

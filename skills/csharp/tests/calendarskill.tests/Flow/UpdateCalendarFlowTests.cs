@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
@@ -38,11 +39,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarUpdateWithNewStartDateEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithNewStartDate)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -50,13 +52,14 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarUpdateWithTitleEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithTitle)
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
                 .Send("tomorrow 9 pm")
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -64,11 +67,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarUpdateWithMoveEarlierTimeSpan()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveEarlierTimeSpan)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -76,11 +80,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarUpdateWithMoveLaterTimeSpan()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveLaterTimeSpan)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -90,6 +95,8 @@ namespace CalendarSkill.Test.Flow
             int eventCount = 3;
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
@@ -98,7 +105,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.UpdateEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -119,14 +125,6 @@ namespace CalendarSkill.Test.Flow
         private string[] UpdateEventPrompt()
         {
             return GetTemplates(UpdateEventResponses.EventUpdated);
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
-            };
         }
     }
 }
