@@ -28,7 +28,7 @@ In the Bot Framework 4.7 release, the Bot Framework Skills capability was transi
 
     In the latest Skill Template, the version of the BotBuilder libraries will be 4.6.2 or below. These need to be updated to 4.7.1. The easiest way to do this is right click the Solution and choose `Edit Project File` and replace with the fragment below. The accompanying test project also needs one library version update.
 
-    ```json
+    ```xml
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.1" />
