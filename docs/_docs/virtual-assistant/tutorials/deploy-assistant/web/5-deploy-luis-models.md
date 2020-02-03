@@ -13,11 +13,10 @@ order: 5
 
 1. Run the following command for each .lu file in `\Deployment\Resources\LU` to parse the files to .json files that can be imported into the LUIS portal:
     ```
-    ludown parse toluis `
+    bf luis:convert `
         --in "path-to-lu-file" `
-        --luis_culture "culture-code" `
-        --out_folder "output-folder" `
-        --out "output-file-name.json"
+        --culture "culture-code" `
+        --out "output-file-name.luis or folder name"
     ```
 1. In the LUIS portal, click "Create new app"
 1. Provide a name, culture, and description for your app.

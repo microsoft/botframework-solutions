@@ -24,7 +24,7 @@ toc: true
 
 To add your new Skill to your assistant/Bot we provide a [botskills](https://www.npmjs.com/package/botskills) command line tool to automate the process of adding the Skill to your dispatch model and creating authentication connections where needed. The CLI performs the following operations on your behalf:
 
-1. Retrieve the Skill Manifest from the remote Skill through the `/api/skill/manifest` endpoint.
+1. Retrieve the Skill Manifest from the remote Skill through the `/manifest/manifest-1.1.json` endpoint.
 1. Identify which Language Models are used by the Skill and resolve the triggering utterances either through local LU file resolution or through inline trigger utterances if requested.
 1. Add a new dispatch target using the `dispatch` tool using the trigger utterances retrieved in the previous step.
 1. Refresh the dispatch LUIS model with the new utterances
@@ -49,7 +49,7 @@ Run the following command to add each Skill to your Virtual Assistant. This assu
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest" --cs
+botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --cs
 ```
 
 See the [Skill CLI documentation]({{site.baseurl}}/skills/handbook/botskills) for detailed CLI documentation.
