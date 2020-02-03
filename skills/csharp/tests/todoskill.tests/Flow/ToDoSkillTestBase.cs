@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Security.Claims;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
@@ -34,6 +37,8 @@ namespace ToDoSkill.Tests.Flow
         public IServiceCollection Services { get; set; }
 
         public MockServiceManager ServiceManager { get; set; }
+
+        public LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         [TestInitialize]
         public override void Initialize()
@@ -132,7 +137,8 @@ namespace ToDoSkill.Tests.Flow
                 localizedTemplates.Add(locale, localeTemplateFiles);
             }
 
-            Services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, "en-us"));
+            TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
+            Services.AddSingleton(TemplateEngine);
 
             // Configure files for generating all responses. Response from bot should equal one of them.
             var engineAll = new TemplateEngine().AddFile(Path.Combine("Responses", "Shared", "ResponsesAndTexts.lg"));
@@ -156,6 +162,27 @@ namespace ToDoSkill.Tests.Flow
 
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
+                var bot = sp.GetService<IBot>();
+                await bot.OnTurnAsync(context, CancellationToken.None);
+            });
+
+            return testFlow;
+        }
+
+        public TestFlow GetSkillTestFlow()
+        {
+            var sp = Services.BuildServiceProvider();
+            var adapter = sp.GetService<TestAdapter>();
+
+            var testFlow = new TestFlow(adapter, async (context, token) =>
+            {
+                // Set claims in turn state to simulate skill mode
+                var claims = new List<Claim>();
+                claims.Add(new Claim(AuthenticationConstants.VersionClaim, "1.0"));
+                claims.Add(new Claim(AuthenticationConstants.AudienceClaim, Guid.NewGuid().ToString()));
+                claims.Add(new Claim(AuthenticationConstants.AppIdClaim, Guid.NewGuid().ToString()));
+                context.TurnState.Add("BotIdentity", new ClaimsIdentity(claims));
+
                 var bot = sp.GetService<IBot>();
                 await bot.OnTurnAsync(context, CancellationToken.None);
             });

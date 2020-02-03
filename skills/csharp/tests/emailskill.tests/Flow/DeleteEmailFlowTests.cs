@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using EmailSkill.Responses.DeleteEmail;
+using EmailSkill.Responses.Main;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Tests.Flow.Fakes;
 using EmailSkill.Tests.Flow.Utterances;
@@ -22,6 +23,8 @@ namespace EmailSkill.Tests.Flow
         public async Task Test_NotDeleteEmail()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(DeleteEmailUtterances.DeleteEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
@@ -29,7 +32,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -37,6 +39,8 @@ namespace EmailSkill.Tests.Flow
         public async Task Test_DeleteEmail()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(DeleteEmailUtterances.DeleteEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
@@ -44,7 +48,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.DeleteSuccess())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -71,14 +74,6 @@ namespace EmailSkill.Tests.Flow
 
                 CollectionAssert.Contains(GetTemplates(DeleteEmailResponses.DeleteConfirm), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
 

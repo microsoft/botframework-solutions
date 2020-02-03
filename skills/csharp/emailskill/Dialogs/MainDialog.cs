@@ -1,21 +1,14 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
 using EmailSkill.Responses.Main;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
-using EmailSkill.Services.AzureMapsAPI;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,50 +16,102 @@ using SkillServiceLibrary.Utilities;
 
 namespace EmailSkill.Dialogs
 {
-    public class MainDialog : ActivityHandlerDialog
+    public class MainDialog : ComponentDialog
     {
         private BotSettings _settings;
         private BotServices _services;
-        private UserState _userState;
-        private ConversationState _conversationState;
+        private LocaleTemplateEngineManager _templateEngine;
         private IStatePropertyAccessor<EmailSkillState> _stateAccessor;
-        private ForwardEmailDialog _forwardEmailDialog;
-        private SendEmailDialog _sendEmailDialog;
-        private ShowEmailDialog _showEmailDialog;
-        private ReplyEmailDialog _replyEmailDialog;
-        private DeleteEmailDialog _deleteEmailDialog;
+        private Dialog _forwardEmailDialog;
+        private Dialog _sendEmailDialog;
+        private Dialog _showEmailDialog;
+        private Dialog _replyEmailDialog;
+        private Dialog _deleteEmailDialog;
 
         public MainDialog(
-            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MainDialog), telemetryClient)
+            : base(nameof(MainDialog))
         {
-            TemplateEngine = localeTemplateEngineManager;
-
             _settings = serviceProvider.GetService<BotSettings>();
             _services = serviceProvider.GetService<BotServices>();
-            _userState = serviceProvider.GetService<UserState>();
-            _conversationState = serviceProvider.GetService<ConversationState>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
             TelemetryClient = telemetryClient;
-            _stateAccessor = _conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
-            _forwardEmailDialog = serviceProvider.GetService<ForwardEmailDialog>();
-            _sendEmailDialog = serviceProvider.GetService<SendEmailDialog>();
-            _showEmailDialog = serviceProvider.GetService<ShowEmailDialog>();
-            _replyEmailDialog = serviceProvider.GetService<ReplyEmailDialog>();
-            _deleteEmailDialog = serviceProvider.GetService<DeleteEmailDialog>();
+            // Create conversation state properties
+            var conversationState = serviceProvider.GetService<ConversationState>();
+            _stateAccessor = conversationState.CreateProperty<EmailSkillState>(nameof(EmailSkillState));
 
-            AddDialog(_forwardEmailDialog ?? throw new ArgumentNullException(nameof(_forwardEmailDialog)));
-            AddDialog(_sendEmailDialog ?? throw new ArgumentNullException(nameof(_sendEmailDialog)));
-            AddDialog(_showEmailDialog ?? throw new ArgumentNullException(nameof(_showEmailDialog)));
-            AddDialog(_replyEmailDialog ?? throw new ArgumentNullException(nameof(_replyEmailDialog)));
-            AddDialog(_deleteEmailDialog ?? throw new ArgumentNullException(nameof(_deleteEmailDialog)));
+            var steps = new WaterfallStep[]
+            {
+                IntroStepAsync,
+                RouteStepAsync,
+                FinalStepAsync,
+            };
+
+            AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            InitialDialogId = nameof(MainDialog);
+
+            // Register dialogs
+            _forwardEmailDialog = serviceProvider.GetService<ForwardEmailDialog>() ?? throw new ArgumentNullException(nameof(_forwardEmailDialog));
+            _sendEmailDialog = serviceProvider.GetService<SendEmailDialog>() ?? throw new ArgumentNullException(nameof(_sendEmailDialog));
+            _showEmailDialog = serviceProvider.GetService<ShowEmailDialog>() ?? throw new ArgumentNullException(nameof(_showEmailDialog));
+            _replyEmailDialog = serviceProvider.GetService<ReplyEmailDialog>() ?? throw new ArgumentNullException(nameof(_replyEmailDialog));
+            _deleteEmailDialog = serviceProvider.GetService<DeleteEmailDialog>() ?? throw new ArgumentNullException(nameof(_deleteEmailDialog));
+            AddDialog(_forwardEmailDialog);
+            AddDialog(_sendEmailDialog);
+            AddDialog(_showEmailDialog);
+            AddDialog(_replyEmailDialog);
+            AddDialog(_deleteEmailDialog);
 
             GetReadingDisplayConfig();
         }
 
-        private LocaleTemplateEngineManager TemplateEngine { get; set; }
+        // Runs when the dialog is started.
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on Skill model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("Email", out var skillLuisService);
+                if (skillLuisService != null)
+                {
+                    var skillResult = await skillLuisService.RecognizeAsync<EmailLuis>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.EmailLuisResult, skillResult);
+                }
+                else
+                {
+                    throw new Exception("The skill LUIS Model could not be found in your Bot Services configuration.");
+                }
+
+                // Run LUIS recognition on General model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("General", out var generalLuisService);
+                if (generalLuisService != null)
+                {
+                    var generalResult = await generalLuisService.RecognizeAsync<General>(innerDc.Context, cancellationToken);
+                    innerDc.Context.TurnState.Add(StateProperties.GeneralLuisResult, generalResult);
+                }
+                else
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
+
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
+            }
+
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
+        }
 
         // Runs on every turn of the conversation.
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
@@ -99,20 +144,30 @@ namespace EmailSkill.Dialogs
                 {
                     throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
                 }
+
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
             }
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
         // Runs on every turn of the conversation to check if the conversation should be interrupted.
-        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken)
+        protected async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
         {
-            var activity = dc.Context.Activity;
+            var interrupted = false;
+            var activity = innerDc.Context.Activity;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Get connected LUIS result from turn state.
-                var generalResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
+                var generalResult = innerDc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 (var generalIntent, var generalScore) = generalResult.TopIntent();
 
                 if (generalScore > 0.5)
@@ -121,53 +176,70 @@ namespace EmailSkill.Dialogs
                     {
                         case General.Intent.Cancel:
                             {
-                                await dc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.CancelMessage));
-                                await dc.CancelAllDialogsAsync();
-                                return InterruptionAction.End;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage));
+                                await innerDc.CancelAllDialogsAsync();
+                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                interrupted = true;
+                                break;
                             }
 
                         case General.Intent.Help:
                             {
-                                await dc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.HelpMessage));
-                                return InterruptionAction.Resume;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(EmailMainResponses.HelpMessage));
+                                await innerDc.RepromptDialogAsync();
+                                interrupted = true;
+                                break;
                             }
 
                         case General.Intent.Logout:
                             {
                                 // Log user out of all accounts.
-                                await LogUserOut(dc);
+                                await LogUserOut(innerDc);
 
-                                await dc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.LogOut));
-                                return InterruptionAction.End;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(EmailMainResponses.LogOut));
+                                await innerDc.CancelAllDialogsAsync();
+                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                interrupted = true;
+                                break;
                             }
                     }
                 }
             }
 
-            return InterruptionAction.NoAction;
+            return interrupted;
         }
 
-        // Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
-        protected override async Task OnMembersAddedAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        // Handles introduction/continuation prompt logic.
+        private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // send a greeting if we're in local mode
-            await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.EmailWelcomeMessage));
-        }
-
-        // Runs when the dialog stack is empty, and a new message activity comes in.
-        protected override async Task OnMessageActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
-        {
-            var activity = innerDc.Context.Activity.AsMessageActivity();
-
-            if (!string.IsNullOrEmpty(activity.Text))
+            if (stepContext.Context.IsSkill())
             {
-                // Populate state from activity as required.
-                await PopulateStateFromActivity(innerDc.Context);
+                // If the bot is in skill mode, skip directly to route and do not prompt
+                return await stepContext.NextAsync();
+            }
+            else
+            {
+                // If bot is in local mode, prompt with intro or continuation message
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(EmailMainResponses.EmailWelcomeMessage)
+                };
 
-                var result = innerDc.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
+                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            }
+        }
+
+        // Handles routing to additional dialogs logic.
+        private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var activity = stepContext.Context.Activity;
+
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
+            {
+                var result = stepContext.Context.TurnState.Get<EmailLuis>(StateProperties.EmailLuisResult);
                 var intent = result?.TopIntent().intent;
 
-                var generalResult = innerDc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
+                var generalResult = stepContext.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalIntent = generalResult?.TopIntent().intent;
 
                 var skillOptions = new EmailSkillDialogOptions
@@ -179,20 +251,17 @@ namespace EmailSkill.Dialogs
                 {
                     case EmailLuis.Intent.SendEmail:
                         {
-                            await innerDc.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
-                            break;
+                            return await stepContext.BeginDialogAsync(nameof(SendEmailDialog), skillOptions);
                         }
 
                     case EmailLuis.Intent.Forward:
                         {
-                            await innerDc.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
-                            break;
+                            return await stepContext.BeginDialogAsync(nameof(ForwardEmailDialog), skillOptions);
                         }
 
                     case EmailLuis.Intent.Reply:
                         {
-                            await innerDc.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
-                            break;
+                            return await stepContext.BeginDialogAsync(nameof(ReplyEmailDialog), skillOptions);
                         }
 
                     case EmailLuis.Intent.SearchMessages:
@@ -200,14 +269,12 @@ namespace EmailSkill.Dialogs
                     case EmailLuis.Intent.ReadAloud:
                     case EmailLuis.Intent.QueryLastText:
                         {
-                            await innerDc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
-                            break;
+                            return await stepContext.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                         }
 
                     case EmailLuis.Intent.Delete:
                         {
-                            await innerDc.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
-                            break;
+                            return await stepContext.BeginDialogAsync(nameof(DeleteEmailDialog), skillOptions);
                         }
 
                     case EmailLuis.Intent.ShowNext:
@@ -219,11 +286,11 @@ namespace EmailSkill.Dialogs
                                 || generalIntent == General.Intent.ShowNext
                                 || generalIntent == General.Intent.ShowPrevious)
                             {
-                                await innerDc.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
+                                return await stepContext.BeginDialogAsync(nameof(ShowEmailDialog), skillOptions);
                             }
                             else
                             {
-                                await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.DidntUnderstandMessage));
+                                await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(EmailSharedResponses.DidntUnderstandMessage));
                             }
 
                             break;
@@ -231,96 +298,38 @@ namespace EmailSkill.Dialogs
 
                     default:
                         {
-                            await innerDc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale(EmailMainResponses.FeatureNotAvailable));
+                            await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(EmailMainResponses.FeatureNotAvailable));
                             break;
                         }
                 }
             }
-        }
-
-        // Runs when a new event activity comes in.
-        protected override async Task OnEventActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
-        {
-            var ev = innerDc.Context.Activity.AsEventActivity();
-            var value = ev.Value?.ToString();
-
-            switch (ev.Name)
+            else if (activity.Type == ActivityTypes.Event)
             {
-                case TokenEvents.TokenResponseEventName:
-                    {
-                        // Forward the token response activity to the dialog waiting on the stack.
-                        await innerDc.ContinueDialogAsync();
-                        break;
-                    }
-
-                case Events.TimezoneEvent:
-                    {
-                        var state = await _stateAccessor.GetAsync(innerDc.Context, () => new EmailSkillState());
-                        state.UserInfo.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(value);
-
-                        break;
-                    }
-
-                case Events.LocationEvent:
-                    {
-                        var state = await _stateAccessor.GetAsync(innerDc.Context, () => new EmailSkillState());
-
-                        var azureMapsClient = new AzureMapsClient(_settings);
-                        state.UserInfo.TimeZone = await azureMapsClient.GetTimeZoneInfoByCoordinates(value);
-
-                        break;
-                    }
-
-                default:
-                    {
-                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
-                        break;
-                    }
-            }
-        }
-
-        // Runs when an activity with an unknown type is received.
-        protected override async Task OnUnhandledActivityTypeAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
-        {
-            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown activity was received but not processed."));
-        }
-
-        // Runs when the dialog stack completes.
-        protected override async Task OnDialogCompleteAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
-        {
-            if (outerDc.Context.IsSkill() || outerDc.Context.Activity.ChannelId != Channels.Msteams)
-            {
-                var response = outerDc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
-                await outerDc.Context.SendActivityAsync(response);
+                // Handle skill actions here
             }
 
-            await outerDc.EndDialogAsync(result);
+            // If activity was unhandled, flow should continue to next step
+            return await stepContext.NextAsync();
         }
 
-        private async Task PopulateStateFromActivity(ITurnContext context)
+        // Handles conversation cleanup.
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var activity = context.Activity;
-            var semanticAction = activity.SemanticAction;
-
-            if (semanticAction != null && semanticAction.Entities.ContainsKey(StateProperties.TimeZone))
+            if (stepContext.Context.IsSkill())
             {
-                var timezone = semanticAction.Entities[StateProperties.TimeZone];
-                var timezoneObj = timezone.Properties[StateProperties.TimeZone].ToObject<TimeZoneInfo>();
-                var state = await _stateAccessor.GetAsync(context, () => new EmailSkillState());
-                state.UserInfo.TimeZone = timezoneObj;
+                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
+                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
+                {
+                    Code = EndOfConversationCodes.CompletedSuccessfully,
+                    Value = stepContext.Result,
+                };
+
+                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
+                return await stepContext.EndDialogAsync();
             }
-
-            if (semanticAction != null && semanticAction.Entities.ContainsKey(StateProperties.Location))
+            else
             {
-                var location = semanticAction.Entities[StateProperties.Location];
-                var locationString = location.Properties[StateProperties.Location].ToString();
-                var state = await _stateAccessor.GetAsync(context, () => new EmailSkillState());
-
-                var azureMapsClient = new AzureMapsClient(_settings);
-                var timezone = await azureMapsClient.GetTimeZoneInfoByCoordinates(locationString);
-
-                state.UserInfo.TimeZone = timezone;
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(EmailMainResponses.EmailWelcomeMessage), cancellationToken);
             }
         }
 
@@ -354,12 +363,6 @@ namespace EmailSkill.Dialogs
             {
                 ConfigData.GetInstance().MaxDisplaySize = _settings.DisplaySize;
             }
-        }
-
-        private class Events
-        {
-            public const string TimezoneEvent = "Timezone";
-            public const string LocationEvent = "Location";
         }
     }
 }

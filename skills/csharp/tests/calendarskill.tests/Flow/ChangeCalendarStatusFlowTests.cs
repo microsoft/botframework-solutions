@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Responses.ChangeEventStatus;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
@@ -38,11 +39,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarDeleteWithStartTimeEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -50,11 +52,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarDeleteWithTitleEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -64,13 +67,14 @@ namespace CalendarSkill.Test.Flow
             int eventCount = 3;
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -78,11 +82,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarAcceptWithStartTimeEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.AcceptMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AcceptEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Responses.FindMeetingRoom;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
@@ -38,6 +39,8 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetMeetingWithMeetingRoom();
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingRoomTestUtterances.ChangeMeetingRoomWithStartTime)
                 .AssertReplyOneOf(AskForBuildingPrompt())
                 .Send(Strings.Strings.DefaultBuilding)
@@ -46,7 +49,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForConfirmMeetingRoomPrompt(dateTime: "at 6:00 PM"))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(ReplyMeetingRoomChanged(dateTime: "at 6:00 PM"))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -55,6 +57,8 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetMeetingWithMeetingRoom();
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingRoomTestUtterances.AddMeetingRoomWithStartTime)
                 .AssertReplyOneOf(AskForBuildingPrompt())
                 .Send(Strings.Strings.DefaultBuilding)
@@ -63,7 +67,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForConfirmMeetingRoomPrompt(dateTime: "at 6:00 PM"))
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(ReplyMeetingRoomAdded(dateTime: "at 6:00 PM"))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -72,9 +75,10 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetMeetingWithMeetingRoom();
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(UpdateMeetingRoomTestUtterances.CancelMeetingRoomWithStartTime)
                 .AssertReplyOneOf(ReplyMeetingRoomCanceled(dateTime: "at 6:00 PM"))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -148,14 +152,6 @@ namespace CalendarSkill.Test.Flow
         private string[] UpdateEventPrompt()
         {
             return GetTemplates(UpdateEventResponses.EventUpdated);
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
-            };
         }
     }
 }

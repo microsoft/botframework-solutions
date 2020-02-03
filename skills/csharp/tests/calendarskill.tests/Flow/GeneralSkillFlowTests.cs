@@ -40,7 +40,7 @@ namespace CalendarSkill.Test.Flow
         [TestMethod]
         public async Task Test_SingleTurnCompletion()
         {
-            await this.GetTestFlow()
+            await this.GetSkillTestFlow()
                 .Send(GeneralTestUtterances.UnknownIntent)
                 .AssertReplyOneOf(this.ConfusedResponse())
                 .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })

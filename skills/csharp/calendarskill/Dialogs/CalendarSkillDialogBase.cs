@@ -144,7 +144,7 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        sc.Context.TurnState.Add(StateProperties.APITokenKey, providerTokenResponse.TokenResponse.Token);
+                        sc.Context.TurnState[StateProperties.APITokenKey] = providerTokenResponse.TokenResponse.Token;
                     }
 
                     var provider = providerTokenResponse.AuthenticationProvider;

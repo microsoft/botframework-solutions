@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.JoinEvent;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
@@ -50,12 +51,13 @@ namespace CalendarSkill.Test.Flow
                     content: "<a href=\"tel:12345678 \">12345678</a>")
             });
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
                 .AssertReplyOneOf(this.ConfirmPhoneNumberPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.JoinMeetingResponse())
                 .AssertReply(this.JoinMeetingEvent())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -74,12 +76,13 @@ namespace CalendarSkill.Test.Flow
                     content: "<a href=\"meetinglink\">Join Microsoft Teams Meeting</a>")
             });
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
                 .AssertReplyOneOf(this.ConfirmMeetingLinkPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.JoinMeetingResponse())
                 .AssertReply(this.JoinMeetingEvent())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -109,14 +112,6 @@ namespace CalendarSkill.Test.Flow
             return activity =>
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.Event);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }
