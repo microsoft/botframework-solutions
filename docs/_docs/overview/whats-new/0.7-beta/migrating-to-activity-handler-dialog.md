@@ -9,11 +9,12 @@ order: 2
 toc: true
 ---
 
-# {{ page.title }}
+# Beta Release 0.7
+## {{ page.title }}
 {:.no_toc}
 {{ page.description }}
 
-## Instructions
+### Instructions
 
 1. Change MainDialog to derive from `ActivityHandlerDialog`
 1. Rename `RouteAsync` method to `OnMessageActivityAsync` 

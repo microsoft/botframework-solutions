@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: IT Service Managment (ITSM) Skill
 description: IT Service Management Skill provides ability to work with typical Help Desk Ticketing scenarios for ServiceNow.
 order: 6

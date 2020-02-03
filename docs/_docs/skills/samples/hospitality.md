@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Hospitality Skill
 description: Hospitality Skill provides ability to do common tasks for hotel and other hospitality scenarios.
 order: 5

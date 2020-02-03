@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Bing Search Skill
 description: Bing Search Skill provides the ability to use Bing to provide answers to common search questions.
 order: 3
