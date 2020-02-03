@@ -1,0 +1,36 @@
+﻿# CalendarWelcomeMessage
+[Activity
+    Text = @{CalendarWelcomeMessage.Text()}
+    Speak = @{CalendarWelcomeMessage.Text()}
+    SuggestedActions = @{CalendarWelcomeMessage.S1()} | @{CalendarWelcomeMessage.S2()}| @{CalendarWelcomeMessage.S3()}| @{CalendarWelcomeMessage.S4()}| @{CalendarWelcomeMessage.S5()}
+    InputHint = expectingInput
+]
+
+# FeatureNotAvailable
+[Activity
+    Text = @{FeatureNotAvailable.Text()}
+    Speak = @{FeatureNotAvailable.Text()}
+    InputHint = acceptingInput
+]
+
+# CancelMessage
+[Activity
+    Text = @{CancelMessage.Text()}
+    Speak = @{CancelMessage.Text()}
+    InputHint = acceptingInput
+]
+
+# HelpMessage
+[Activity
+    Text = @{HelpMessage.Text()}
+    Speak = @{HelpMessage.Text()}
+    SuggestedActions = @{HelpMessage.S1()} | @{HelpMessage.S2()}| @{HelpMessage.S3()}| @{HelpMessage.S4()}| @{HelpMessage.S5()}
+    InputHint = expectingInput
+]
+
+# LogOut
+[Activity
+    Text = @{LogOut.Text()}
+    Speak = @{LogOut.Text()}
+    InputHint = acceptingInput
+]

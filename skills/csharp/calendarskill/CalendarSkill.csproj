@@ -7,197 +7,34 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Content\CalendarCard.json" />
-    <Content Remove="Content\CalendarCardNoJoinButton.json" />
-    <Content Remove="Content\CalendarDate.json" />
-    <Content Remove="Content\CalendarDetail.json" />
-    <Content Remove="Content\CalendarDetailContainerNoParticipants.1.0.json" />
-    <Content Remove="Content\CalendarDetailContainerNoParticipants.json" />
-    <Content Remove="Content\CalendarDetailContainerParticipantsLess.1.0.json" />
-    <Content Remove="Content\CalendarDetailContainerParticipantsLess.json" />
-    <Content Remove="Content\CalendarDetailContainerParticipantsMore.1.0.json" />
-    <Content Remove="Content\CalendarDetailContainerParticipantsMore.json" />
-    <Content Remove="Content\CalendarDetailNoJoinButton.json" />
-    <Content Remove="Content\CalendarGeneralMeetingList.1.0.json" />
-    <Content Remove="Content\CalendarGeneralMeetingList.json" />
-    <Content Remove="Content\CalendarItem.json" />
-    <Content Remove="Content\CalendarOverview.1.0.json" />
-    <Content Remove="Content\CalendarOverview.json" />
-    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.de.json" />
-    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.es.json" />
-    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.fr.json" />
-    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.it.json" />
-    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.json" />
-    <Content Remove="Responses\ChangeEventStatus\ChangeEventStatusResponses.zh.json" />
-    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.de.json" />
-    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.es.json" />
-    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.fr.json" />
-    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.it.json" />
-    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.json" />
-    <Content Remove="Responses\CheckAvailable\CheckAvailableResponses.zh.json" />
-    <Content Remove="Responses\CreateEvent\CreateEventResponses.de.json" />
-    <Content Remove="Responses\CreateEvent\CreateEventResponses.es.json" />
-    <Content Remove="Responses\CreateEvent\CreateEventResponses.fr.json" />
-    <Content Remove="Responses\CreateEvent\CreateEventResponses.it.json" />
-    <Content Remove="Responses\CreateEvent\CreateEventResponses.json" />
-    <Content Remove="Responses\CreateEvent\CreateEventResponses.zh.json" />
-    <Content Remove="Responses\FindContact\FindContactResponses.de.json" />
-    <Content Remove="Responses\FindContact\FindContactResponses.es.json" />
-    <Content Remove="Responses\FindContact\FindContactResponses.fr.json" />
-    <Content Remove="Responses\FindContact\FindContactResponses.it.json" />
-    <Content Remove="Responses\FindContact\FindContactResponses.json" />
-    <Content Remove="Responses\FindContact\FindContactResponses.zh.json" />
-    <Content Remove="Responses\JoinEvent\JoinEventResponses.de.json" />
-    <Content Remove="Responses\JoinEvent\JoinEventResponses.es.json" />
-    <Content Remove="Responses\JoinEvent\JoinEventResponses.fr.json" />
-    <Content Remove="Responses\JoinEvent\JoinEventResponses.it.json" />
-    <Content Remove="Responses\JoinEvent\JoinEventResponses.json" />
-    <Content Remove="Responses\JoinEvent\JoinEventResponses.zh.json" />
-    <Content Remove="Responses\Main\CalendarMainResponses.de.json" />
-    <Content Remove="Responses\Main\CalendarMainResponses.es.json" />
-    <Content Remove="Responses\Main\CalendarMainResponses.fr.json" />
-    <Content Remove="Responses\Main\CalendarMainResponses.it.json" />
-    <Content Remove="Responses\Main\CalendarMainResponses.json" />
-    <Content Remove="Responses\Main\CalendarMainResponses.zh.json" />
-    <Content Remove="Responses\Shared\CalendarSharedResponses.de.json" />
-    <Content Remove="Responses\Shared\CalendarSharedResponses.es.json" />
-    <Content Remove="Responses\Shared\CalendarSharedResponses.fr.json" />
-    <Content Remove="Responses\Shared\CalendarSharedResponses.it.json" />
-    <Content Remove="Responses\Shared\CalendarSharedResponses.json" />
-    <Content Remove="Responses\Shared\CalendarSharedResponses.zh.json" />
-    <Content Remove="Responses\Summary\SummaryResponses.de.json" />
-    <Content Remove="Responses\Summary\SummaryResponses.es.json" />
-    <Content Remove="Responses\Summary\SummaryResponses.fr.json" />
-    <Content Remove="Responses\Summary\SummaryResponses.it.json" />
-    <Content Remove="Responses\Summary\SummaryResponses.json" />
-    <Content Remove="Responses\Summary\SummaryResponses.zh.json" />
-    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.de.json" />
-    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.es.json" />
-    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.fr.json" />
-    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.it.json" />
-    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.json" />
-    <Content Remove="Responses\TimeRemaining\TimeRemainingResponses.zh.json" />
-    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.de.json" />
-    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.es.json" />
-    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.fr.json" />
-    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.it.json" />
-    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.json" />
-    <Content Remove="Responses\UpcomingEvent\UpcomingEventResponses.zh.json" />
-    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.de.json" />
-    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.es.json" />
-    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.fr.json" />
-    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.it.json" />
-    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.json" />
-    <Content Remove="Responses\UpdateEvent\UpdateEventResponses.zh.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.40.2.1620" />
     <PackageReference Include="Google.Apis.People.v1" Version="1.25.0.830" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.7" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.NewsSearch" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Solutions" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Azure.Search" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.2-preview" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.8.0-preview1" />
     <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
-    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.2.6.1" />
-    <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.2.6.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Content\CalendarCard.json" />
-    <EmbeddedResource Include="Content\CalendarCardNoJoinButton.json" />
-    <EmbeddedResource Include="Content\CalendarDate.json" />
-    <EmbeddedResource Include="Content\CalendarDetail.json" />
-    <EmbeddedResource Include="Content\CalendarDetailContainerNoParticipants.1.0.json" />
-    <EmbeddedResource Include="Content\CalendarDetailContainerNoParticipants.json" />
-    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsLess.1.0.json" />
-    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsLess.json" />
-    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsMore.1.0.json" />
-    <EmbeddedResource Include="Content\CalendarDetailContainerParticipantsMore.json" />
-    <EmbeddedResource Include="Content\CalendarDetailNoJoinButton.json" />
-    <EmbeddedResource Include="Content\CalendarGeneralMeetingList.1.0.json" />
-    <EmbeddedResource Include="Content\CalendarGeneralMeetingList.json" />
-    <EmbeddedResource Include="Content\CalendarItem.json" />
-    <EmbeddedResource Include="Content\CalendarOverview.1.0.json" />
-    <EmbeddedResource Include="Content\CalendarOverview.json" />
-    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.de.json" />
-    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.es.json" />
-    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.fr.json" />
-    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.it.json" />
-    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.json" />
-    <EmbeddedResource Include="Responses\ChangeEventStatus\ChangeEventStatusResponses.zh.json" />
-    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.de.json" />
-    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.es.json" />
-    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.fr.json" />
-    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.it.json" />
-    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.json" />
-    <EmbeddedResource Include="Responses\CheckAvailable\CheckAvailableResponses.zh.json" />
-    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.de.json" />
-    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.es.json" />
-    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.fr.json" />
-    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.it.json" />
-    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.json" />
-    <EmbeddedResource Include="Responses\CreateEvent\CreateEventResponses.zh.json" />
-    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.de.json" />
-    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.es.json" />
-    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.fr.json" />
-    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.it.json" />
-    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.json" />
-    <EmbeddedResource Include="Responses\FindContact\FindContactResponses.zh.json" />
-    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.de.json" />
-    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.es.json" />
-    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.fr.json" />
-    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.it.json" />
-    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.json" />
-    <EmbeddedResource Include="Responses\JoinEvent\JoinEventResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.de.json" />
-    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.es.json" />
-    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.it.json" />
-    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.json" />
-    <EmbeddedResource Include="Responses\Main\CalendarMainResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.de.json" />
-    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.es.json" />
-    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.it.json" />
-    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.json" />
-    <EmbeddedResource Include="Responses\Shared\CalendarSharedResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Summary\SummaryResponses.de.json" />
-    <EmbeddedResource Include="Responses\Summary\SummaryResponses.es.json" />
-    <EmbeddedResource Include="Responses\Summary\SummaryResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Summary\SummaryResponses.it.json" />
-    <EmbeddedResource Include="Responses\Summary\SummaryResponses.json" />
-    <EmbeddedResource Include="Responses\Summary\SummaryResponses.zh.json" />
-    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.de.json" />
-    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.es.json" />
-    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.fr.json" />
-    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.it.json" />
-    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.json" />
-    <EmbeddedResource Include="Responses\TimeRemaining\TimeRemainingResponses.zh.json" />
-    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.de.json" />
-    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.es.json" />
-    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.fr.json" />
-    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.it.json" />
-    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.json" />
-    <EmbeddedResource Include="Responses\UpcomingEvent\UpcomingEventResponses.zh.json" />
-    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.de.json" />
-    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.es.json" />
-    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.fr.json" />
-    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.it.json" />
-    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.json" />
-    <EmbeddedResource Include="Responses\UpdateEvent\UpdateEventResponses.zh.json" />
     <EmbeddedResource Include="Utilities\WindowsIanaMapping" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\shared\SkillServiceLibrary\SkillServiceLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -211,10 +48,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ChangeEventStatusResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\CheckAvailable\CheckAvailableResponses.cs">
+    <Compile Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>CheckAvailableResponses.tt</DependentUpon>
+      <DependentUpon>CheckPersonAvailableResponses.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\CreateEvent\CreateEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -225,6 +62,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>FindContactResponses.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Responses\FindMeetingRoom\FindMeetingRoomResponses.cs">
+      <DependentUpon>FindMeetingRoomResponses.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="Responses\JoinEvent\JoinEventResponses.cs">
       <DesignTime>True</DesignTime>
@@ -273,25 +115,150 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
+    <None Update="Responses\Card\Card.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ChangeEventStatus\ChangeEventStatusDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\ChangeEventStatus\ChangeEventStatusResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ChangeEventStatusResponses.cs</LastGenOutput>
     </None>
-    <None Update="Responses\CheckAvailable\CheckAvailableResponses.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CheckAvailableResponses.cs</LastGenOutput>
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Responses\CheckAvailable\CreateEventResponses.tt">
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
+      <LastGenOutput>CheckPersonAvailableResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CheckPersonAvailable\CheckPersonAvailableTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CreateEvent\CreateEventDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\CreateEvent\CreateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CreateEventResponses.cs</LastGenOutput>
     </None>
+    <None Update="Responses\FindContact\FindContactDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindContact\FindContactDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindContact\FindContactDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindContact\FindContactDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindContact\FindContactDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindContact\FindContactDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindContact\FindContactDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\FindContact\FindContactResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FindContactResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindMeetingRoom\FindMeetingRoomDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\JoinEvent\JoinEventDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\JoinEvent\JoinEventResponses.tt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -302,6 +269,27 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarMainResponses.cs</LastGenOutput>
     </None>
+    <None Update="Responses\Main\MainDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\MainDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\MainDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\MainDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\MainDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\MainDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\MainDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\Shared\CalendarSharedResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CalendarSharedResponses.cs</LastGenOutput>
@@ -309,17 +297,140 @@
     <None Update="Responses\Shared\ResponseIdCollection.t4">
       <Generator></Generator>
     </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\ResponsesAndTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\SharedActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\SharedTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\SharedTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\SharedTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\SharedTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\SharedTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\SharedTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Summary\SummaryDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Summary\SummaryDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Summary\SummaryDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Summary\SummaryDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Summary\SummaryDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Summary\SummaryDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Summary\SummaryDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\Summary\SummaryResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SummaryResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\TimeRemaining\TimeRemainingDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\TimeRemaining\TimeRemainingResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TimeRemainingResponses.cs</LastGenOutput>
     </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpcomingEvent\UpcomingEventDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Responses\UpcomingEvent\UpcomingEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>UpcomingEventResponses.cs</LastGenOutput>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventDialogActivities.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventDialogTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventDialogTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventDialogTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventDialogTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventDialogTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\UpdateEvent\UpdateEventDialogTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Responses\UpdateEvent\UpdateEventResponses.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -332,7 +443,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CalendarCommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>  
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="*.bot">
@@ -342,7 +453,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
+
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>

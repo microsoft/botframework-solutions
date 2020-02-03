@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Services;
+using Luis;
 
 namespace CalendarSkill.Utilities
 {
@@ -17,6 +18,7 @@ namespace CalendarSkill.Utilities
         public const int MaxRepromptCount = 3;
 
         public const int AvailabilityViewInterval = 5;
+
 
         public static async Task<List<EventModel>> GetEventsByTime(List<DateTime> startDateList, List<DateTime> startTimeList, List<DateTime> endDateList, List<DateTime> endTimeList, TimeZoneInfo userTimeZone, ICalendarService calendarService)
         {
@@ -122,6 +124,89 @@ namespace CalendarSkill.Utilities
         public static bool ContainsTime(string timex)
         {
             return timex.Contains("T");
+        }
+
+        public static CalendarLuis.Intent CheckIntentSwitching(CalendarLuis.Intent intent)
+        {
+            switch (intent)
+            {
+                case CalendarLuis.Intent.AcceptEventEntry:
+                case CalendarLuis.Intent.ChangeCalendarEntry:
+                case CalendarLuis.Intent.CheckAvailability:
+                case CalendarLuis.Intent.ConnectToMeeting:
+                case CalendarLuis.Intent.CreateCalendarEntry:
+                case CalendarLuis.Intent.DeleteCalendarEntry:
+                case CalendarLuis.Intent.FindCalendarDetail:
+                case CalendarLuis.Intent.FindCalendarEntry:
+                case CalendarLuis.Intent.FindCalendarWhen:
+                case CalendarLuis.Intent.FindCalendarWhere:
+                case CalendarLuis.Intent.FindCalendarWho:
+                case CalendarLuis.Intent.FindDuration:
+                case CalendarLuis.Intent.TimeRemaining:
+                    return intent;
+                default:
+                    return CalendarLuis.Intent.None;
+            }
+        }
+
+        public static bool IsFindEventsDialog(CalendarLuis.Intent intent)
+        {
+            switch (intent)
+            {
+                case CalendarLuis.Intent.FindCalendarDetail:
+                case CalendarLuis.Intent.FindCalendarEntry:
+                case CalendarLuis.Intent.FindCalendarWhen:
+                case CalendarLuis.Intent.FindCalendarWhere:
+                case CalendarLuis.Intent.FindCalendarWho:
+                case CalendarLuis.Intent.FindDuration:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        public static bool ContainMeetingRoomSlot(CalendarLuis luis)
+        {
+            return ContainSlot(luis, SlotNames.Room);
+        }
+
+        public static bool ContainTimeSlot(CalendarLuis luis)
+        {
+            return ContainSlot(luis, SlotNames.Time);
+        }
+
+        /*
+         SlotAttributeName is entity list, while SlotAttribute is simple entity. SlotAttributeName is the canonical form of SlotAttribute.
+         When both SlotAttributeName and SlotAttribute are recognized, this entity is confirmed.
+         */
+        private static bool ContainSlot(CalendarLuis luis, string slotName)
+        {
+            if (luis == null || luis.Entities == null || luis.Entities.SlotAttributeName == null || luis.Entities.SlotAttribute == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < luis.Entities.SlotAttributeName.Length; i++)
+            {
+                for (int j = 0; j < luis.Entities.SlotAttribute.Length; j++)
+                {
+                    if (luis.Entities.SlotAttributeName[i][0] == slotName &&
+                        luis.Entities._instance.SlotAttributeName[i].Text == luis.Entities._instance.SlotAttribute[j].Text &&
+                        luis.Entities._instance.SlotAttributeName[i].StartIndex == luis.Entities._instance.SlotAttribute[j].StartIndex &&
+                        luis.Entities._instance.SlotAttributeName[i].EndIndex == luis.Entities._instance.SlotAttribute[j].EndIndex)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private class SlotNames
+        {
+            public const string Time = "time";
+            public const string Room = "room";
         }
     }
 }

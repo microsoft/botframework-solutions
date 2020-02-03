@@ -16,12 +16,12 @@ const pkg: IPackage = JSON.parse(readFileSync(join(__dirname, '..', 'package.jso
 
 const requiredVersion: string = pkg.engines.node;
 if (!semver.satisfies(process.version, requiredVersion)) {
-    logger.error(`Required node version ${requiredVersion} not satisfied with current version ${process.version}.`);
+    logger.error(`Required node version ${ requiredVersion } not satisfied with current version ${ process.version }.`);
     process.exit(1);
 }
 
 program.Command.prototype.unknownOption = (flag: string): void => {
-    logger.error(`Unknown arguments: ${flag}`);
+    logger.error(`Unknown arguments: ${ flag }`);
     program.outputHelp((str: string): string => {
         logger.error(str);
 
@@ -45,7 +45,7 @@ const args: program.Command = program.parse(process.argv);
 // args should be undefined is subcommand is executed
 if (args !== undefined) {
     const unknownArgs: string[] = process.argv.slice(2);
-    logger.error(`Unknown arguments: ${unknownArgs.join(' ')}`);
+    logger.error(`Unknown arguments: ${ unknownArgs.join(' ') }`);
     program.outputHelp((str: string): string => {
         logger.error(str);
 

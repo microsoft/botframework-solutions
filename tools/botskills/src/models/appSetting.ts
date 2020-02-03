@@ -4,6 +4,7 @@
  */
 
 import { IOauthConnection } from './authentication';
+import { ISkill } from './skill';
 
 export interface IAppSetting {
     oauthConnections: IOauthConnection[];
@@ -11,4 +12,6 @@ export interface IAppSetting {
     microsoftAppPassword: string;
     botWebAppName: string;
     resourceGroupName: string;
+    BotFrameworkSkills?: ISkill[];
+    SkillHostEndpoint?: string;
 }

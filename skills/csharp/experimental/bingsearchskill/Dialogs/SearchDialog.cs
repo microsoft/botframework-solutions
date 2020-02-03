@@ -13,7 +13,7 @@ using BingSearchSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -110,6 +110,11 @@ namespace BingSearchSkill.Dialogs
                         Year = movieInfo.Year,
                     };
 
+                    if (Channel.GetChannelId(stepContext.Context) == Channels.DirectlineSpeech || Channel.GetChannelId(stepContext.Context) == Channels.Msteams)
+                    {
+                        movieData.Image = ImageToDataUri(movieInfo.Image);
+                    }
+
                     tokens.Add("Speak", movieInfo.Description);
 
                     prompt = ResponseManager.GetCardResponse(
@@ -128,9 +133,9 @@ namespace BingSearchSkill.Dialogs
                         EntityTypeDisplayHint = entitiesResult[0].EntityTypeDisplayHint
                     };
 
-                    if (Channel.GetChannelId(stepContext.Context) == Channels.Msteams && !string.IsNullOrEmpty(entitiesResult[0].ThumbnailUrl))
+                    if (Channel.GetChannelId(stepContext.Context) == Channels.DirectlineSpeech || Channel.GetChannelId(stepContext.Context) == Channels.Msteams)
                     {
-                        celebrityData.IconPath = entitiesResult[0].ThumbnailUrl;
+                        celebrityData.IconPath = ImageToDataUri(entitiesResult[0].ImageUrl);
                     }
 
                     tokens.Add("Speak", entitiesResult[0].Description);

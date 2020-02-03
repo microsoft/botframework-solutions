@@ -3,7 +3,7 @@
 
 using System;
 using Google;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills;
 
 namespace CalendarSkill.Services.GoogleAPI
 {

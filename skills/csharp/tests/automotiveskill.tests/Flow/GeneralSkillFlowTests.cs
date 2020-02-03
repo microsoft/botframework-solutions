@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutomotiveSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class GeneralSkillFlowTests : AutomotiveSkillTestBase
     {
         [TestMethod]
@@ -18,7 +19,7 @@ namespace AutomotiveSkill.Tests.Flow
             await this.GetTestFlow()
                 .Send("what's the weather?")
                 .AssertReplyOneOf(this.ConfusedResponse())
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
+                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
         }
 

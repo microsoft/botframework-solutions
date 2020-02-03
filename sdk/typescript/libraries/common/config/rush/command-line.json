@@ -11,7 +11,7 @@
         {
             "commandKind": "bulk",
             "name": "lint",
-            "summary": "Run tslint",
+            "summary": "Run eslint",
             "safeForSimultaneousRushProcesses": true,
             "enableParallelism": true
         },

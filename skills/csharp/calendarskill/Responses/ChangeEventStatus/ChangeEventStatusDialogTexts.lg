@@ -1,0 +1,29 @@
+[import](ChangeEventStatusDialogActivities.lg)
+
+# ConfirmDelete.Text
+- Are you sure you want to delete this event from your calendar?
+
+# ConfirmDeleteFailed.Text(Title, Time)
+- Are you sure you want to cancel "@{Title}" at @{Time}? 
+
+# ConfirmAccept.Text
+- Are you sure you want to accept this event?
+
+# ConfirmAcceptFailed.Text(Title, Time)
+- Are you sure you want to accept the @{Time} "@{Title}" meeting? 
+
+# EventDeleted.Text
+- I deleted the event from your calendar.
+
+# EventAccepted.Text
+- I added the event to your calendar. 
+
+# EventWithStartTimeNotFound.Text
+- I couldn't find the event you asked about, please try again.
+- I can't find that event, please try again.
+
+# NoDeleteStartTime.Text
+- What's the start time or title of the event you want to delete?
+
+# NoAcceptStartTime.Text
+- What's the start time or title of the event you want to accept?

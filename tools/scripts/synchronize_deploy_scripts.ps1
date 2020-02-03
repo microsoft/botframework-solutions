@@ -28,18 +28,18 @@ function Synchronize
 
 # synchronize VAs
 
-$src = GetSrc "templates" "Virtual-Assistant-Template" "csharp" "Sample" "VirtualAssistantSample"
+$src = GetSrc "samples" "csharp" "assistants" "virtual-assistant" "VirtualAssistantSample"
 $dsts = [System.Collections.ArrayList]@()
-AddPath $dsts "templates" "Virtual-Assistant-Template" "csharp" "Template" "VA"
+AddPath $dsts "templates" "csharp" "VA" "VA"
 AddPath $dsts "samples" "csharp" "assistants" "enterprise-assistant" "VirtualAssistantSample"
-AddPath $dsts "samples" "csharp" "assistants" "hospitality-assistant"
+AddPath $dsts "samples" "csharp" "assistants" "hospitality-assistant" "VirtualAssistantSample"
 Synchronize $src $dsts
 
 # synchronize skills
 
-$src = GetSrc "templates" "Skill-Template" "csharp" "Sample" "SkillSample"
+$src = GetSrc "samples" "csharp" "skill" "SkillSample"
 $dsts = [System.Collections.ArrayList]@()
-AddPath $dsts "templates" "Skill-Template" "csharp" "Template" "Skill"
+AddPath $dsts "templates" "csharp" "Skill" "Skill"
 $skills = @("calendarskill", "emailskill", "pointofinterestskill", "todoskill")
 foreach ($skill in $skills)
 {

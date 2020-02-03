@@ -1,0 +1,16 @@
+[import](JoinEventDialogActivities.lg)
+
+# JoinMeeting.Text
+- 好的，我打电话参加会议。
+
+# NotJoinMeeting.Text
+- 好的，我不会参加即将召开的会议。
+
+# NoMeetingToConnect.Text
+- 您要加入的活动的开始时间或标题是什么？
+
+# ConfirmPhoneNumber.Text(PhoneNumber)
+- 以下是我要拨打的电话号码：@{PhoneNumber}.请注意，可能需要支付额外费用。是否要继续？
+
+# ConfirmMeetingLink.Text(MeetingLink)
+- 以下是我将要加入的链接：@{MeetingLink}.请注意，可能需要支付额外费用。是否要继续？

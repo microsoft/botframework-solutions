@@ -1,8 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using EmailSkill.Responses.Shared;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Models
 {
@@ -25,5 +26,7 @@ namespace EmailSkill.Models
         public string ImportantMessagesDescription { get; } = EmailCommonStrings.ImportantMessages;
 
         public string EmailIndexer { get; set; }
+
+        public List<EmailCardData> EmailList { get; set; }
     }
 }

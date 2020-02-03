@@ -2,26 +2,29 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.DeleteEmail;
+using EmailSkill.Responses.Main;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Tests.Flow.Fakes;
 using EmailSkill.Tests.Flow.Utterances;
 using EmailSkill.Utilities;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EmailSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class DeleteEmailFlowTests : EmailSkillTestBase
     {
         [TestMethod]
         public async Task Test_NotDeleteEmail()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(DeleteEmailUtterances.DeleteEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
@@ -29,7 +32,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
                 .AssertReplyOneOf(this.NotSendingMessage())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -37,6 +39,8 @@ namespace EmailSkill.Tests.Flow
         public async Task Test_DeleteEmail()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(DeleteEmailUtterances.DeleteEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.NoFocusMessage())
@@ -44,23 +48,22 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReplyOneOf(this.DeleteSuccess())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         private string[] NotSendingMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.CancellingMessage, new StringDictionary());
+            return GetTemplates(EmailSharedResponses.CancellingMessage);
         }
 
         private string[] NoFocusMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.NoFocusMessage, new StringDictionary());
+            return GetTemplates(EmailSharedResponses.NoFocusMessage);
         }
 
         private string[] DeleteSuccess()
         {
-            return this.ParseReplies(DeleteEmailResponses.DeleteSuccessfully, new StringDictionary());
+            return GetTemplates(DeleteEmailResponses.DeleteSuccessfully);
         }
 
         private Action<IActivity> DeleteConfirm()
@@ -69,16 +72,8 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(this.ParseReplies(DeleteEmailResponses.DeleteConfirm, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(DeleteEmailResponses.DeleteConfirm), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
             };
         }
 
@@ -88,7 +83,7 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                CollectionAssert.Contains(this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary()), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(EmailSharedResponses.ConfirmSend), messageActivity.Text);
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
         }
@@ -102,11 +97,13 @@ namespace EmailSkill.Tests.Flow
                 // Get showed mails:
                 var showedItems = ((MockServiceManager)this.ServiceManager).MailService.MyMessages;
 
-                var replies = this.ParseReplies(EmailSharedResponses.ShowEmailPrompt, new StringDictionary()
-                {
-                    { "TotalCount", showedItems.Count.ToString() },
-                    { "EmailListDetails", SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize) },
-                });
+                var replies = GetTemplates(
+                    EmailSharedResponses.ShowEmailPrompt,
+                    new
+                    {
+                        TotalCount = showedItems.Count.ToString(),
+                        EmailListDetails = SpeakHelper.ToSpeechEmailListString(showedItems, TimeZoneInfo.Local, ConfigData.GetInstance().MaxReadSize)
+                    });
 
                 CollectionAssert.Contains(replies, messageActivity.Text);
                 Assert.AreNotEqual(messageActivity.Attachments.Count, 0);

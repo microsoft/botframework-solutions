@@ -14,7 +14,7 @@ using ITSMSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -64,7 +64,7 @@ namespace ITSMSkill.Dialogs
         protected async Task<DialogTurnResult> CloseTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
             var result = await management.CloseTicket(id: state.Id, reason: state.CloseReason);
 
             if (!result.Success)

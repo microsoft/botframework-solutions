@@ -1,0 +1,16 @@
+[import](JoinEventDialogActivities.lg)
+
+# JoinMeeting.Text
+- OK, ich rufe die Besprechung an.
+
+# NotJoinMeeting.Text
+- OK, ich werde nicht an der bevorstehenden Besprechung teilnehmen.
+
+# NoMeetingToConnect.Text
+- Wie sieht die Startzeit oder der Titel des Ereignisses aus, an dem Sie teilnehmen möchten?
+
+# ConfirmPhoneNumber.Text(PhoneNumber)
+- Hier ist die Nummer, die ich anrufen werde: @{PhoneNumber}. Bitte beachten Sie, dass möglicherweise Gebühren anfallen. Möchten Sie fortfahren?
+
+# ConfirmMeetingLink.Text(MeetingLink)
+- Hier ist der Link, dem ich beitreten werde: @{MeetingLink}. Bitte beachten Sie, dass möglicherweise Gebühren anfallen. Möchten Sie fortfahren?

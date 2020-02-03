@@ -13,7 +13,7 @@ import {
     IConnectConfiguration,
     IOauthConnection,
     IScopeManifest,
-    ISkillManifest
+    ISkillManifestV1
 } from '../models';
 import { ChildProcessUtils, isValidAzVersion } from './';
 
@@ -87,7 +87,7 @@ export class AuthenticationUtils {
         const scopesNotRecognized: string [] = [];
         // Check the scopes that are recognized and set to scopesRecognized
         // If it's not recognized, it will be set to scopesNotRecognized
-        scopes.forEach((scope: string) => {
+        scopes.forEach((scope: string): void => {
             if (scope.trim().length > 0) {
                 if (this.scopeMap.has(scope)) {
                     scopesRecognized.push(scope);
@@ -98,12 +98,15 @@ export class AuthenticationUtils {
         });
         // If any of the scopes were not recognized, it will log a warning showing the list of scopes
         if (scopesNotRecognized.length > 0) {
-            logger.warning(`The following scopes were not recognized: ${scopesNotRecognized.join(',')}`);
+            logger.warning(`The following scopes were not recognized: ${ scopesNotRecognized.join(',') }`);
         }
 
         return [{
             resourceAppId: '00000003-0000-0000-c000-000000000000',
-            resourceAccess: scopesRecognized.map((scope: string) => {
+            resourceAccess: scopesRecognized.map((scope: string): {
+                id: string;
+                type: string;
+            } => {
                 return {
                     id: this.getScopeId(scope),
                     type: 'Scope'
@@ -119,8 +122,7 @@ export class AuthenticationUtils {
         }
     }
 
-    // tslint:disable-next-line:max-func-body-length export-name
-    public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifest, logger: ILogger): Promise<boolean> {
+    public async authenticate(configuration: IConnectConfiguration, manifest: ISkillManifestV1, logger: ILogger): Promise<boolean> {
         let currentCommand: string[] = [];
         try {
             // configuring bot auth settings
@@ -146,7 +148,6 @@ export class AuthenticationUtils {
                     currentCommand = listAuthSettingsCommand;
 
                     const connectionsResult: string = await this.childProcessUtils.tryExecute(listAuthSettingsCommand);
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     const connections: IAzureAuthSetting[] = JSON.parse(connectionsResult);
                     const aadConnection: IAzureAuthSetting | undefined = connections.find(
                         (connection: IAzureAuthSetting): boolean =>
@@ -165,7 +166,6 @@ export class AuthenticationUtils {
                         currentCommand = showAuthSettingsCommand;
 
                         const botAuthSettingResult: string = await this.childProcessUtils.tryExecute(showAuthSettingsCommand);
-                        // eslint-disable-next-line @typescript-eslint/tslint/config
                         const botAuthSetting: IAzureAuthSetting = JSON.parse(botAuthSettingResult);
                         const existingScopes: string[] = botAuthSetting.properties.scopes.split(' ');
                         scopes = scopes.concat(existingScopes);
@@ -218,7 +218,6 @@ export class AuthenticationUtils {
                     currentCommand = azureAppShowCommand;
 
                     const azureAppShowResult: string = await this.childProcessUtils.tryExecute(azureAppShowCommand);
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     const azureAppReplyUrls: IAppShowReplyUrl = JSON.parse(azureAppShowResult);
 
                     // get the Reply Urls from the app
@@ -235,7 +234,7 @@ export class AuthenticationUtils {
                     azureAppUpdateCommand.push(...['--output', 'json']);
                     const scopeManifestText: string = JSON.stringify(scopeManifest)
                         .replace(/\"/g, '\'');
-                    azureAppUpdateCommand.push(...['--required-resource-accesses', `"${scopeManifestText}"`]);
+                    azureAppUpdateCommand.push(...['--required-resource-accesses', `"${ scopeManifestText }"`]);
 
                     logger.command('Updating the app information', azureAppUpdateCommand.join(' '));
                     currentCommand = azureAppUpdateCommand;
@@ -252,12 +251,12 @@ export class AuthenticationUtils {
                     authSettingCommand.push(...['--name', configuration.botName]);
                     authSettingCommand.push(...['--resource-group', configuration.resourceGroup]);
                     authSettingCommand.push(...['--setting-name', connectionName]);
-                    authSettingCommand.push(...['--client-id', `"${appSettings.microsoftAppId}"`]);
-                    authSettingCommand.push(...['--client-secret', `"${appSettings.microsoftAppPassword}"`]);
+                    authSettingCommand.push(...['--client-id', `"${ appSettings.microsoftAppId }"`]);
+                    authSettingCommand.push(...['--client-secret', `"${ appSettings.microsoftAppPassword }"`]);
                     authSettingCommand.push(...['--service', 'Aadv2']);
-                    authSettingCommand.push(...['--parameters', `clientId="${appSettings.microsoftAppId}"`]);
-                    authSettingCommand.push(...[`clientSecret="${appSettings.microsoftAppPassword}"`, 'tenantId=common']);
-                    authSettingCommand.push(...['--provider-scope-string', `"${scopes.join(' ')}"`]);
+                    authSettingCommand.push(...['--parameters', `clientId="${ appSettings.microsoftAppId }"`]);
+                    authSettingCommand.push(...[`clientSecret="${ appSettings.microsoftAppPassword }"`, 'tenantId=common']);
+                    authSettingCommand.push(...['--provider-scope-string', `"${ scopes.join(' ') }"`]);
                     authSettingCommand.push(...['--output', 'json']);
 
                     logger.command('Creating the updated bot authentication setting', authSettingCommand.join(' '));
@@ -280,17 +279,17 @@ export class AuthenticationUtils {
             logger.warning(`Could not configure authentication connection automatically.`);
             if (currentCommand.length > 0) {
                 logger.warning(
-                    `There was an error while executing the following command:\n\t${currentCommand.join(' ')}\n${err.message || err}`
+                    `There was an error while executing the following command:\n\t${ currentCommand.join(' ') }\n${ err.message || err }`
                 );
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
-        ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-        .join(', ')}`);
-                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
+        ${ manifest.authenticationConnections.map((authConn: IAuthenticationConnection): string => authConn.serviceProviderId)
+        .join(', ') }`);
+                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${ this.docLink }`);
             } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
-                logger.warning(`${err.message || err} You must configure one of the following connection types MANUALLY in the Azure Portal:
-        ${manifest.authenticationConnections.map((authConn: IAuthenticationConnection) => authConn.serviceProviderId)
-        .join(', ')}`);
-                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${this.docLink}`);
+                logger.warning(`${ err.message || err } You must configure one of the following connection types MANUALLY in the Azure Portal:
+        ${ manifest.authenticationConnections.map((authConn: IAuthenticationConnection): string => authConn.serviceProviderId)
+        .join(', ') }`);
+                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${ this.docLink }`);
             } else {
                 logger.warning(err.message || err);
             }

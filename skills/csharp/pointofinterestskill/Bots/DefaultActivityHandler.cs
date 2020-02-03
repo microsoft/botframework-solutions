@@ -9,6 +9,8 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
+using PointOfInterestSkill.Models;
+using SkillServiceLibrary.Models;
 
 namespace PointOfInterestSkill.Bots
 {
@@ -19,6 +21,7 @@ namespace PointOfInterestSkill.Bots
         private readonly BotState _conversationState;
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private IStatePropertyAccessor<PointOfInterestSkillState> _stateAccessor;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -26,6 +29,7 @@ namespace PointOfInterestSkill.Bots
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _stateAccessor = _conversationState.CreateProperty<PointOfInterestSkillState>(nameof(PointOfInterestSkillState));
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -47,9 +51,52 @@ namespace PointOfInterestSkill.Bots
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
-        protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+            var ev = turnContext.Activity.AsEventActivity();
+            var value = ev.Value?.ToString();
+
+            var state = await _stateAccessor.GetAsync(turnContext, () => new PointOfInterestSkillState());
+
+            switch (ev.Name)
+            {
+                case Events.Location:
+                    {
+                        // Test trigger with
+                        // /event:{ "Name": "Location", "Value": "34.05222222222222,-118.2427777777777" }
+                        if (!string.IsNullOrEmpty(value))
+                        {
+                            var coords = value.Split(',');
+                            if (coords.Length == 2)
+                            {
+                                if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
+                                {
+                                    var coordinates = new LatLng
+                                    {
+                                        Latitude = lat,
+                                        Longitude = lng,
+                                    };
+
+                                    state.CurrentCoordinates = coordinates;
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+
+                default:
+                    {
+                        await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+                        break;
+                    }
+            }
         }
+
+        public class Events
+        {
+            public const string Location = "Location";
+        }
+
     }
 }

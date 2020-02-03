@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace ToDoSkill.Responses.MarkToDo
 {
@@ -19,7 +19,7 @@ namespace ToDoSkill.Responses.MarkToDo
         public const string AskTaskIndexRetryForComplete = "AskTaskIndexRetryForComplete";
         public const string CompleteAnotherTaskPrompt = "CompleteAnotherTaskPrompt";
         public const string CompleteAnotherTaskConfirmFailed = "CompleteAnotherTaskConfirmFailed";
-        public const string AfterCompleteCardSummaryMessageForMultipleTasks = "AfterCompleteCardSummaryMessageForMultipleTasks";
         public const string AfterCompleteCardSummaryMessageForSingleTask = "AfterCompleteCardSummaryMessageForSingleTask";
+        public const string AfterCompleteCardSummaryMessageForMultipleTasks = "AfterCompleteCardSummaryMessageForMultipleTasks";
     }
 }

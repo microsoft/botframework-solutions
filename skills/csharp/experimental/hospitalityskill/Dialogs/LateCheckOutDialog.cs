@@ -11,7 +11,7 @@ using HospitalitySkill.Responses.Shared;
 using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 
 namespace HospitalitySkill.Dialogs

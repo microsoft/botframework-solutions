@@ -12,15 +12,15 @@ order: 2
 ## Download and install
 
 1. Download and install Visual Studio for PC or Mac.
-1. Download and install the [Virtual Assistant Template](https://marketplace.visualstudio.com/items?itemName=BotBuilder.VirtualAssistantTemplate). 
-    > Note that Visual Studio on Mac doesn't support VSIX packages, instead clone the [Virtual Assistant sample](https://github.com/microsoft/botframework-solutions/tree/master/templates/Virtual-Assistant-Template/csharp/Sample). from our repository
+1. Download and install the [Virtual Assistant and Skill Templates](https://marketplace.visualstudio.com/items?itemName=BotBuilder.VirtualAssistantTemplate). 
+    > Note that Visual Studio on Mac doesn't support VSIX packages, instead clone the [Virtual Assistant Sample](https://github.com/microsoft/botframework-solutions/tree/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample). from our repository
 1. Download and install [.NET Core SDK](https://www.microsoft.com/net/download).  
 1. Download and install [Node Package manager](https://nodejs.org/en/).
 1. Download and install [PowerShell Core](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6).
 1. Download and install the Bot Framework CLI tools:
 
    ```
-   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
+   npm install -g @microsoft/botframework-cli botdispatch luis-apis
    ```
 1. Install Botskills CLI tool:
    

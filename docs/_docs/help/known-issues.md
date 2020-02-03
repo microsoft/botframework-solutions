@@ -31,6 +31,19 @@ It's key to ensure that under Domains and permissions in the Manifest Editor tha
 
 >You cannot click the link in the Channel Page of the Bot Framework to start a conversation with your Bot through Teams.
 
+## The message contains mention from the Teams channel
+
+When a bot is called via mention(@) in Teams, the message will contain `<at>YOUR_BOT_NAME<\at>` and it will confuse LUIS sometimes. If you don't need the mention part, you could modify your bot's DefaultActivityHandler like below. The `RemoveRecipientMention()` function will remove mentions from `turnContext.Activity.Text`.
+
+```
+        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+        {
++            if (turnContext.Activity.ChannelId == Channels.Msteams)
++            {
++                turnContext.Activity.RemoveRecipientMention();
++            }
+```
+
 ## WebChat doesn't work with your Virtual Assistant / Skills
 
 Virtual Assistant's created using an earlier version of the template reference an older version of the nuget packages. Update your `Bot.Builder.Skills` and `Bot.Builder.Solutions` to the latest versions (4.4.4.1) along with the Bot Framework SDK to 4.4.5 or higher. Then apply the change in the item below.

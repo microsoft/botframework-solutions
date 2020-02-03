@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Luis;
 using Microsoft.Graph;
 using static CalendarSkill.Models.CreateEventStateModel;
 
@@ -13,19 +14,17 @@ namespace CalendarSkill.Models
     {
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
-        public Luis.CalendarLuis LuisResult { get; set; }
-
-        public Luis.General GeneralLuisResult { get; set; }
-
         public int PageSize { get; set; } = 0;
 
         public EventSource EventSource { get; set; } = EventSource.Other;
 
-        public MeetingInformation MeetingInfor { get; set; } = new MeetingInformation();
+        public CalendarLuis.Intent InitialIntent { get; set; } = CalendarLuis.Intent.None;
 
-        public ShowMeetingInformation ShowMeetingInfor { get; set; } = new ShowMeetingInformation();
+        public MeetingInfomation MeetingInfo { get; set; } = new MeetingInfomation();
 
-        public UpdateMeetingInformation UpdateMeetingInfor { get; set; } = new UpdateMeetingInformation();
+        public ShowMeetingInfomation ShowMeetingInfo { get; set; } = new ShowMeetingInfomation();
+
+        public UpdateMeetingInfomation UpdateMeetingInfo { get; set; } = new UpdateMeetingInfomation();
 
         public TimeZoneInfo GetUserTimeZone()
         {
@@ -40,13 +39,11 @@ namespace CalendarSkill.Models
         public void Clear()
         {
             UserInfo = new UserInformation();
-            LuisResult = null;
-            GeneralLuisResult = null;
-            PageSize = 0;
             EventSource = EventSource.Other;
-            MeetingInfor.Clear();
-            ShowMeetingInfor.Clear();
-            UpdateMeetingInfor.Clear();
+            InitialIntent = CalendarLuis.Intent.None;
+            MeetingInfo.Clear();
+            ShowMeetingInfo.Clear();
+            UpdateMeetingInfo.Clear();
         }
 
         public class UserInformation
@@ -81,7 +78,7 @@ namespace CalendarSkill.Models
             public string UserPrincipalName { get; set; }
         }
 
-        public class MeetingInformation
+        public class MeetingInfomation
         {
             public FindContactInformation ContactInfor { get; set; } = new FindContactInformation();
 
@@ -125,6 +122,22 @@ namespace CalendarSkill.Models
 
             public bool IsOrgnizerAvailable { get; set; }
 
+            public string MeetingRoomName { get; set; }
+
+            public RoomModel MeetingRoom { get; set; }
+
+            public List<RoomModel> UnconfirmedMeetingRoom { get; set; } = new List<RoomModel>();
+
+            public List<string> IgnoredMeetingRoom { get; set; } = new List<string>();
+
+            public int ShowMeetingRoomIndex { get; set; } = 0;
+
+            public string Building { get; set; }
+
+            public int? FloorNumber { get; set; }
+
+            public bool AllDay { get; set; } = false;
+
             public void Clear()
             {
                 ContactInfor.Clear();
@@ -143,13 +156,42 @@ namespace CalendarSkill.Models
                 CreateHasDetail = false;
                 RecreateState = null;
                 AvailabilityResult = null;
+                MeetingRoom = null;
+                MeetingRoomName = null;
+                UnconfirmedMeetingRoom.Clear();
+                IgnoredMeetingRoom.Clear();
+                ShowMeetingRoomIndex = 0;
+                Building = null;
+                FloorNumber = null;
+                AllDay = false;
             }
 
             public void ClearLocationForRecreate()
             {
+                if (MeetingRoom != null)
+                {
+                    IgnoredMeetingRoom.Add(MeetingRoom.DisplayName + StartDateTime.ToString());
+                }
+
                 Location = null;
+                MeetingRoom = null;
+                MeetingRoomName = null;
                 CreateHasDetail = true;
                 RecreateState = RecreateEventState.Location;
+            }
+
+            public void ClearMeetingRoomForRecreate()
+            {
+                if (MeetingRoom != null)
+                {
+                    IgnoredMeetingRoom.Add(MeetingRoom.DisplayName + StartDateTime.ToString());
+                }
+
+                Location = null;
+                MeetingRoom = null;
+                MeetingRoomName = null;
+                CreateHasDetail = true;
+                RecreateState = RecreateEventState.MeetingRoom;
             }
 
             public void ClearParticipantsForRecreate()
@@ -253,7 +295,7 @@ namespace CalendarSkill.Models
             public string RelationshipName { get; set; }
         }
 
-        public class ShowMeetingInformation
+        public class ShowMeetingInfomation
         {
             public enum SearchMeetingCondition
             {
@@ -314,7 +356,7 @@ namespace CalendarSkill.Models
             }
         }
 
-        public class UpdateMeetingInformation
+        public class UpdateMeetingInfomation
         {
             // user time zone
             public List<DateTime> NewStartDate { get; set; } = new List<DateTime>();

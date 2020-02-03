@@ -79,7 +79,7 @@ The following sample Skills are available out of the box, with appropriate steps
 - [Email]({{site.baseurl}}/skills/samples/email)
 - [To Do]({{site.baseurl}}/skills/samples/to-do)
 - [Point of Interest]({{site.baseurl}}/skills/samples/point-of-interest)
-- [Experimental]({{site.baseurl}}/skills/samples/experimental)
+- [Experimental]({{site.baseurl}}/overview/skills/#experimental-skills)
 
 ### How do I create a Bot Framework Skill?
 {:.no_toc}

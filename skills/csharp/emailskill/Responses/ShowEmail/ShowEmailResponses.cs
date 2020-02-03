@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace EmailSkill.Responses.ShowEmail
 {
@@ -16,5 +16,9 @@ namespace EmailSkill.Responses.ShowEmail
         public const string ReadOutMorePrompt = "ReadOutMorePrompt";
         public const string ReadOutOnlyOnePrompt = "ReadOutOnlyOnePrompt";
         public const string ReadOutPrompt = "ReadOutPrompt";
+        public const string ReadOut = "ReadOut";
+        public const string ReadOutMore = "ReadOutMore";
+        public const string ReadOutForOneEmail = "ReadOutForOneEmail";
+        public const string ReadOutForMultiEmails = "ReadOutForMultiEmails";
     }
 }

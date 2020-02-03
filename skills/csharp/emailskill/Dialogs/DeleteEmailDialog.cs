@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,23 +9,23 @@ using EmailSkill.Extensions;
 using EmailSkill.Models;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;
-using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Util;
-using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill.Dialogs
 {
     public class DeleteEmailDialog : EmailSkillDialogBase
     {
         public DeleteEmailDialog(
-             IServiceProvider serviceProvider,
-             IBotTelemetryClient telemetryClient)
-            : base(nameof(DeleteEmailDialog), serviceProvider, telemetryClient)
+            LocaleTemplateEngineManager localeTemplateEngineManager,
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(DeleteEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -39,13 +37,20 @@ namespace EmailSkill.Dialogs
                 SetDisplayConfig,
                 CollectSelectedEmail,
                 AfterCollectSelectedEmail,
+                GetAuthToken,
+                AfterGetAuthToken,
                 PromptToDelete,
+                AfterConfirmPrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 DeleteEmail,
             };
 
             var showEmail = new WaterfallStep[]
             {
                 PagingStep,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowEmails,
             };
 
@@ -90,22 +95,16 @@ namespace EmailSkill.Dialogs
                     emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, message.ToRecipients);
 
                     var speech = SpeakHelper.ToSpeechEmailSendDetailString(message.Subject, nameListString, message.BodyPreview);
-                    var tokens = new StringDictionary
-                    {
-                        { "EmailDetails", speech },
-                    };
-
-                    var recipientCard = message.ToRecipients.Count() > 5 ? GetDivergedCardName(sc.Context, "DetailCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "DetailCard_RecipientLessThanFive");
-                    var prompt = ResponseManager.GetCardResponse(
+                    var prompt = TemplateEngine.GenerateActivityForLocale(
                         DeleteEmailResponses.DeleteConfirm,
-                        new Card("EmailDetailCard", emailCard),
-                        tokens,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
+                        new
+                        {
+                            emailInfo = speech,
+                            emailDetails = emailCard
+                        });
 
-                    var retry = ResponseManager.GetResponse(EmailSharedResponses.ConfirmSendFailed);
-
-                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt, RetryPrompt = retry });
+                    var retry = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.ConfirmSendFailed);
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt as Activity, RetryPrompt = retry as Activity });
                 }
 
                 skillOptions.SubFlowMode = true;
@@ -123,19 +122,13 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var confirmResult = (bool)sc.Result;
-                if (confirmResult == true)
-                {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var mailService = this.ServiceManager.InitMailService(state.Token, state.GetUserTimeZone(), state.MailSourceType);
-                    var focusMessage = state.Message.FirstOrDefault();
-                    await mailService.DeleteMessageAsync(focusMessage.Id);
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(DeleteEmailResponses.DeleteSuccessfully));
-                }
-                else
-                {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
-                }
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+                var mailService = this.ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
+                var focusMessage = state.Message.FirstOrDefault();
+                await mailService.DeleteMessageAsync(focusMessage.Id);
+                var activity = TemplateEngine.GenerateActivityForLocale(DeleteEmailResponses.DeleteSuccessfully);
+                await sc.Context.SendActivityAsync(activity);
 
                 return await sc.EndDialogAsync();
             }

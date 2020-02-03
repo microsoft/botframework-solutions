@@ -1,0 +1,79 @@
+[import](SummaryDialogActivities.lg)
+
+# ShowNoMeetingMessage.Text
+- Sie haben keine Ereignisse geplant.
+
+# ReadOutMessage.Text(Date, Time, Participants, Subject)
+- Die Veranstaltung mit dem Titel @{Subject} ist auf @{Date} Auf @{Time} Mit @{Participants}.
+
+# CalendarNoMoreEvent.Text
+- Sie haben keine weiteren Veranstaltungen geplant.
+
+# CalendarNoPreviousEvent.Text
+- Dies ist die erste Seite.
+
+# BeforeShowEventDetails.Text(EventName)
+- Hier sind die Details für @{EventName}:
+
+# ReadTime.Text(EventStartTime, EventEndTime)
+- Es beginnt bei @{EventStartTime} und endet bei @{EventEndTime}.
+
+# ReadDuration.Text(EventDuration)
+- Es dauert für @{EventDuration}.
+
+# ReadNoLocation.Text
+- Es ist kein Speicherort aufgeführt. Es könnte sich um ein Online-Meeting handelt.
+
+# ReadLocation.Text(EventLocation)
+- Der Standort ist @{EventLocation}.
+
+# ReadStartDate.Text(EventStartDate)
+- Es beginnt am @{EventStartDate}.
+
+# ShowNextMeetingNoLocationMessage.Text
+- Sie haben das folgende Ereignis in Ihrem Kalender:
+
+# ShowNextMeetingNoLocationMessage.Speak(EventName, EventTime, PeopleCount)
+- Sie haben das folgende Ereignis in Ihrem Kalender: @{EventName} Auf @{EventTime} Mit @{PeopleCount} Menschen.
+
+# ShowNextMeetingMessage.Text
+- Sie haben das folgende Ereignis in Ihrem Kalender:
+
+# ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
+- Sie haben das folgende Ereignis in Ihrem Kalender: @{EventName} Auf @{EventTime} Mit @{PeopleCount} Menschen bei @{Location}.
+
+# ShowMultipleNextMeetingMessage.Text
+- Sie haben das folgende Ereignis in Ihrem Kalender:
+
+# AskForShowOverview.Text(DateTime)
+- Möchten Sie Ihre Kalenderübersicht noch einmal überprüfen, @{DateTime}?
+
+# ReadOutMorePrompt.Text
+- Möchten Sie, dass ich die Details für die erste Veranstaltung lese? Ich kann die Details für jede Veranstaltung lesen, lassen Sie mich einfach wissen, welche, indem Sie das Thema, Zeit oder Teilnehmer.
+
+# AskForOrgnizerAction.Text(DateTime)
+- Möchten Sie Ihre Kalenderübersicht noch einmal überprüfen, @{DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie zu aktualisieren oder abzulehnen.
+
+# AskForAction.Text(DateTime)
+- Möchten Sie zur Kalenderübersicht für @{DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie abzulehnen.
+
+# AskForChangeStatus.Text(DateTime)
+- Möchten Sie zur Kalenderübersicht für @{DateTime}? Sie können mich auch bitten, dieses Ereignis für Sie zu akzeptieren oder abzulehnen.
+
+# ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)
+- Die erste Veranstaltung ist @{EventName1} Mit @{Participants1} Auf @{EventTime1}.
+
+# ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)
+- Sie haben @{Count} Veranstaltungen geplant @{Condition}. Die erste ist @{EventName1} Mit @{Participants1} Auf @{EventTime1}. Die letzte für @{DateTime} Ist @{EventName2} Auf @{EventTime2} Mit @{Participants2}.
+
+# ShowMeetingSummaryShortMessage.Text(Count, Condition)
+- Sie haben @{Count} Veranstaltungen geplant @{Condition}.
+
+# ShowMultipleFilteredMeetings.Text(Count)
+- Ich fand @{Count} Ereignisse, die ihrem Schlüsselwort entsprechen.
+
+# ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)
+- Sie haben eine Besprechung @{Condition}: @{EventName1}. Es ist mit @{Participants1} @{EventTime1}.
+
+# ShowOneMeetingSummaryShortMessage.Text(Condition)
+- Sie haben eine Besprechung @{Condition}.

@@ -1,0 +1,79 @@
+[import](SummaryDialogActivities.lg)
+
+# ShowNoMeetingMessage.Text
+- 您没有安排任何事件。
+
+# ReadOutMessage.Text(Date, Time, Participants, Subject)
+- 标题为@{Subject}是@{Date}在@{Time}与@{Participants}.
+
+# CalendarNoMoreEvent.Text
+- 您没有计划更多的事件。
+
+# CalendarNoPreviousEvent.Text
+- 这是第一页。
+
+# BeforeShowEventDetails.Text(EventName)
+- 以下是@{EventName}:
+
+# ReadTime.Text(EventStartTime, EventEndTime)
+- 它开始于@{EventStartTime}并在@{EventEndTime}.
+
+# ReadDuration.Text(EventDuration)
+- 它持续@{EventDuration}.
+
+# ReadNoLocation.Text
+- 未列出位置。这可能是一个在线会议。
+
+# ReadLocation.Text(EventLocation)
+- 位置是@{EventLocation}.
+
+# ReadStartDate.Text(EventStartDate)
+- 它开始于@{EventStartDate}.
+
+# ShowNextMeetingNoLocationMessage.Text
+- 您的日历上有以下事件：
+
+# ShowNextMeetingNoLocationMessage.Speak(EventName, EventTime, PeopleCount)
+- 您的日历上有以下事件：@{EventName}在@{EventTime}与@{PeopleCount}人。
+
+# ShowNextMeetingMessage.Text
+- 您的日历上有以下事件：
+
+# ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)
+- 您的日历上有以下事件：@{EventName}在@{EventTime}与@{PeopleCount}人@{Location}.
+
+# ShowMultipleNextMeetingMessage.Text
+- 您的日历上有以下事件：
+
+# AskForShowOverview.Text(DateTime)
+- 是否要再次查看日历概述@{DateTime}?
+
+# ReadOutMorePrompt.Text
+- 你要我读第一次活动的细节吗？我可以阅读任何活动的详细信息，只需通过提供主题、时间或与会者来让我知道哪一个。
+
+# AskForOrgnizerAction.Text(DateTime)
+- 是否要再次查看日历概述@{DateTime}?您也可以请我为您更新或拒绝此事件。
+
+# AskForAction.Text(DateTime)
+- 是否要再次返回日历概述@{DateTime}?您也可以请我为你拒绝这次活动。
+
+# AskForChangeStatus.Text(DateTime)
+- 是否要再次返回日历概述@{DateTime}?您也可以请我为你接受或拒绝此事件。
+
+# ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)
+- 第一个事件是@{EventName1}与@{Participants1}在@{EventTime1}.
+
+# ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)
+- 你有@{Count}计划的活动@{Condition}.第一个是@{EventName1}与@{Participants1}在@{EventTime1}.最后一个@{DateTime}是@{EventName2}在@{EventTime2}与@{Participants2}.
+
+# ShowMeetingSummaryShortMessage.Text(Count, Condition)
+- 你有@{Count}计划的活动@{Condition}.
+
+# ShowMultipleFilteredMeetings.Text(Count)
+- 我发现@{Count}与您的关键字匹配的事件。
+
+# ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)
+- 您有一次会议@{Condition}:@{EventName1}.它与@{Participants1}@{EventTime1}.
+
+# ShowOneMeetingSummaryShortMessage.Text(Condition)
+- 您有一次会议@{Condition}.

@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Responses.Main;
 using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Tests.Flow.Fakes;
@@ -14,6 +15,7 @@ using ToDoSkill.Tests.Flow.Utterances;
 namespace ToDoSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class MarkAllToDosFlowTests : ToDoSkillTestBase
     {
         [TestMethod]
@@ -21,6 +23,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(MarkToDoFlowTestUtterances.MarkAllTasksAsCompleted)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
@@ -37,24 +41,31 @@ namespace ToDoSkill.Tests.Flow
                 var messageActivity = activity.AsMessageActivity();
 
                 CollectionAssert.Contains(
-                  this.ParseReplies(MarkToDoResponses.AfterAllTasksCompleted, new StringDictionary() { { MockData.ListType, MockData.ToDo } }),
-                  messageActivity.Speak);
+                 this.AfterAllTasksCompleted(new
+                 {
+                     ListType = MockData.ToDo
+                 }), messageActivity.Speak);
             };
+        }
+
+        private string[] AfterAllTasksCompleted(object data)
+        {
+            return GetTemplates(MarkToDoResponses.AfterAllTasksCompleted, data);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete);
         }
     }
 }

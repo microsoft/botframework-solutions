@@ -13,10 +13,6 @@ public class Configuration {
     @Expose
     public String serviceRegion;
 
-    @SerializedName("bot_id")
-    @Expose
-    public String botId;
-
     @SerializedName("user_id")
     @Expose
     public String userId;
@@ -36,4 +32,16 @@ public class Configuration {
     @SerializedName("keyword")
     @Expose
     public String keyword;
+
+    @SerializedName("enableKWS")
+    @Expose
+    public Boolean enableKWS;
+
+    @SerializedName("signedIn")
+    @Expose
+    public Boolean signedIn;
+
+    @SerializedName("linkedAccountEndpoint")
+    @Expose
+    public String linkedAccountEndpoint;
 }

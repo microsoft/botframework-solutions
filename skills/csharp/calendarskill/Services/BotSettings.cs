@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Solutions;
 
 namespace CalendarSkill.Services
 {
     public class BotSettings : BotSettingsBase
     {
         public string AzureMapsKey { get; set; }
-        
+
+        public AzureSearchConfiguration AzureSearch { get; set; }
+
         public string BingSpellCheckSubscriptionKey { get; set; }
 
         public string GoogleAppName { get; set; }
@@ -38,7 +40,6 @@ namespace CalendarSkill.Services
 
                 public string DefaultValue { get; set; }
             }
-
         }
 
         public class RestrictedValueConfiguration
@@ -53,6 +54,16 @@ namespace CalendarSkill.Services
 
                 public string Value { get; set; }
             }
+        }
+
+        public class AzureSearchConfiguration
+        {
+            public string SearchServiceName { get; set; }
+
+            public string SearchServiceAdminApiKey { get; set; }
+
+            public string SearchIndexName { get; set; }
+
         }
     }
 }

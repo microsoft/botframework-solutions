@@ -8,7 +8,7 @@ using CalendarSkill.Models;
 using CalendarSkill.Services;
 using CalendarSkill.Services.GoogleAPI;
 using CalendarSkill.Test.API.Fakes.MockGoogleClient;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.API
@@ -17,6 +17,7 @@ namespace CalendarSkill.Test.API
     // only have success test now
     // todo: add more error test
     [TestClass]
+    [TestCategory("UnitTests")]
     public class CalendarServiceGoogleTests
     {
         private static ICalendarService calendarService;

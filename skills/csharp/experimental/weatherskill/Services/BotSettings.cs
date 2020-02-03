@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Skills.Models.Manifest;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Solutions;
 
 namespace WeatherSkill.Services
 {

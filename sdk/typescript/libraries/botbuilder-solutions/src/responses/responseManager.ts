@@ -4,6 +4,8 @@
  */
 
 import { IAdaptiveCard, ICardElement } from 'adaptivecards';
+// tslint:disable-next-line: no-submodule-imports
+import { IContainer } from 'adaptivecards/lib/schema';
 import { ActivityTypes } from 'botbuilder';
 import { Activity, CardFactory, MessageFactory } from 'botbuilder-core';
 import { ActionTypes, Attachment } from 'botframework-schema';
@@ -52,6 +54,18 @@ export class ResponseManager {
 
         // create the response the data items
         return this.parseResponse(template, tokens);
+    }
+
+    /**
+     * Gets the Text of a response.
+     * @param templateId The name of the response template.
+     * @param tokens string map of tokens to replace in the response.
+     * @returns The response text.
+     */
+    public getResponseText(templateId: string, tokens?: Map<string, string>): string {
+        const text: string | undefined = this.getResponse(templateId, tokens).text;
+
+        return text !== undefined ? text : '';
     }
 
     /**
@@ -127,26 +141,30 @@ export class ResponseManager {
         const resourcePath: string = join(__dirname, '..', 'resources', 'cards');
         const json: string = this.loadCardJson(card.name, locale, resourcePath);
 
-        const emailOverviewCard: IAdaptiveCard = this.buildCard(json, card.data);
-        if (containerName && emailOverviewCard.body) {
-            const itemContainer: ICardElement|undefined = emailOverviewCard.body.find((item: ICardElement): boolean => {
+        const mainCard: IAdaptiveCard = this.buildCard(json, card.data);
+        if (containerName && mainCard.body) {
+            const itemContainer: ICardElement | undefined = mainCard.body.find((item: ICardElement): boolean => {
                 return item.type === 'Container' && item.id === containerName;
             });
-
-            if (itemContainer && containerItems) {
-                containerItems.forEach((cardItem: Card): void => {
-                    const itemJson: string = this.loadCardJson(cardItem.name, locale, resourcePath);
-                    const itemCard: IAdaptiveCard = this.buildCard(itemJson, cardItem.data);
-                    if (itemCard.body && itemCard.body[0]) {
-                        // eslint-disable-next-line @typescript-eslint/tslint/config
-                        const items: ICardElement[] = itemCard.body[0].items;
-                        items.push(itemContainer);
-                    }
-                });
+            const itemsAdaptiveContainer: IContainer = itemContainer as IContainer;
+            if (itemsAdaptiveContainer !== undefined) {
+                if (containerItems !== undefined) {
+                    containerItems.forEach((cardItem: Card): void => {
+                        const itemJson: string = this.loadCardJson(cardItem.name, locale, resourcePath);
+                        const itemCard: IAdaptiveCard = this.buildCard(itemJson, cardItem.data);
+                        if (itemCard.body !== undefined) {
+                            itemCard.body.forEach((body: any): void => {
+                                if (itemsAdaptiveContainer.items !== undefined) {
+                                    itemsAdaptiveContainer.items.push(body);
+                                }
+                            });
+                        }
+                    });
+                }
             }
         }
 
-        const attachment: Attachment = CardFactory.adaptiveCard(emailOverviewCard);
+        const attachment: Attachment = CardFactory.adaptiveCard(mainCard);
         if (templateId) {
             const response: Partial<Activity> = this.getResponse(templateId, tokens);
 
@@ -183,7 +201,7 @@ export class ResponseManager {
         // Get the bot response from the .json file
         const responseLocale: Map<string, ResponseTemplate> | undefined = this.jsonResponses.get(localeKey);
         if (!responseLocale || !responseLocale.has(key)) {
-            throw new Error(`Unable to find response ${templateId}`);
+            throw new Error(`Unable to find response ${ templateId }`);
         }
 
         const response: ResponseTemplate | undefined = responseLocale.get(key);
@@ -220,23 +238,22 @@ export class ResponseManager {
         // if locale is not set, add resources under the default key.
         const localeKey: string = (locale !== undefined) ? locale : this.defaultLocaleKey;
 
-        let jsonPath: string = join(resourcePath, `${resourceName}.${localeKey}.json`);
+        let jsonPath: string = join(resourcePath, `${ resourceName }.${ localeKey }.json`);
 
         try {
             require.resolve(jsonPath);
         } catch (errLocale) {
-            jsonPath = join(resourcePath, `${resourceName}.json`);
+            jsonPath = join(resourcePath, `${ resourceName }.json`);
 
             // Search for the common resource
             try {
                 require.resolve(jsonPath);
             } catch (err) {
-                throw new Error(`Unable to find '${resourceName}' in '${resourcePath}'`);
+                throw new Error(`Unable to find '${ resourceName }' in '${ resourcePath }'`);
             }
         }
 
         try {
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const content: { [key: string]: Object } = JSON.parse(this.jsonFromFile(jsonPath));
 
             const localeResponses: Map<string, ResponseTemplate> = this.jsonResponses.get(localeKey) || new Map<string, ResponseTemplate>();
@@ -244,14 +261,14 @@ export class ResponseManager {
             Object.entries(content)
                 .forEach((val: [string, Object]): void => {
                     const key: string = val[0];
-                    const value: ITemplate = <ITemplate>val[1];
+                    const value: ITemplate = val[1] as ITemplate;
                     const template: ResponseTemplate = Object.assign(new ResponseTemplate(), value);
                     localeResponses.set(key, template);
                 });
 
             this.jsonResponses.set(localeKey, localeResponses);
         } catch (err) {
-            throw new Error(`Error deserializing ${jsonPath}`);
+            throw new Error(`Error deserializing ${ jsonPath }`);
         }
     }
 
@@ -310,16 +327,16 @@ export class ResponseManager {
     }
 
     private loadCardJson(cardName: string, locale: string, resourcePath: string): string {
-        let jsonFile: string = join(resourcePath, `${cardName}.${locale}.json`);
+        let jsonFile: string = join(resourcePath, `${ cardName }.${ locale }.json`);
 
         try {
             require.resolve(jsonFile);
         } catch (errLocale) {
             try {
-                jsonFile = join(resourcePath, `${cardName}.json`);
+                jsonFile = join(resourcePath, `${ cardName }.json`);
                 require.resolve(jsonFile);
             } catch (error) {
-                throw new Error(`Could not file Adaptive Card resource ${jsonFile}`);
+                throw new Error(`Could not file Adaptive Card resource ${ jsonFile }`);
             }
         }
 
@@ -359,12 +376,10 @@ export class ResponseManager {
         }
 
         // Deserialize/Serialize logic is needed to prevent JSON exception in prompts
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         return JSON.parse(jsonOut);
     }
 
     private jsonFromFile(filePath: string): string {
-        // tslint:disable-next-line:non-literal-fs-path
         return readFileSync(filePath, 'utf8');
     }
 }

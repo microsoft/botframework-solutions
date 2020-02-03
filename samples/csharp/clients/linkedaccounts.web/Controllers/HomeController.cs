@@ -46,6 +46,7 @@ namespace LinkedAccounts.Web.Controllers
         public async Task<IActionResult> LinkedAccounts(bool companionApp = false)
         {
             this.ViewData["Message"] = "Your application description page.";
+            this.HttpContext.Session.Set("companionApp", BitConverter.GetBytes(companionApp));
 
             var secret = this.Configuration.GetSection("DirectLineSecret")?.Value;
             var endpoint = this.Configuration.GetSection("DirectLineEndpoint")?.Value;
@@ -74,6 +75,7 @@ namespace LinkedAccounts.Web.Controllers
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
                 var userId = UserId.GetUserId(this.HttpContext, this.User);
+                this.HttpContext.Session.SetString("userId", userId);
 
                 // Retrieve the status
                 TokenStatus[] tokenStatuses = await this.repository.GetTokenStatusAsync(userId, this.CredentialProvider);
@@ -97,13 +99,14 @@ namespace LinkedAccounts.Web.Controllers
         /// <summary>
         /// Retrieve a URL for the user to link a given connection name to their Bot.
         /// </summary>
-        /// <param name="account">TokenStatus information.</param>
+        /// <param name="connectionName">Connection Name.</param>
+        /// <param name="companionApp">From companion app.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> SignIn(TokenStatus account)
+        public async Task<IActionResult> SignIn(string connectionName, bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
-            string link = await this.repository.GetSignInLinkAsync(userId, this.CredentialProvider, account.ConnectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts");
+            string link = await this.repository.GetSignInLinkAsync(userId, this.CredentialProvider, connectionName, $"{this.Request.Scheme}://{this.Request.Host.Value}/Home/LinkedAccounts?companionApp={companionApp.ToString()}");
 
             return this.Redirect(link);
         }
@@ -111,37 +114,25 @@ namespace LinkedAccounts.Web.Controllers
         /// <summary>
         /// Sign a user out of a given connection name previously linked to their Bot.
         /// </summary>
-        /// <param name="account">TokenStatus information.</param>
+        /// <param name="connectionName">Connection Name.</param>
+        /// <param name="companionApp">From companion app.</param>
         /// <returns>IActionResult.</returns>
-        public async Task<IActionResult> SignOut(TokenStatus account)
+        public async Task<IActionResult> SignOut(string connectionName, bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
-            await this.repository.SignOutAsync(userId, this.CredentialProvider, account.ConnectionName);
+            await this.repository.SignOutAsync(userId, this.CredentialProvider, connectionName);
 
-            return this.RedirectToAction("LinkedAccounts");
+            return this.RedirectToAction("LinkedAccounts", new { companionApp });
         }
 
-        public async Task<IActionResult> SignOutAll()
+        public async Task<IActionResult> SignOutAll(bool companionApp)
         {
             var userId = UserId.GetUserId(this.HttpContext, this.User);
 
             await this.repository.SignOutAsync(userId, this.CredentialProvider);
 
-            return this.RedirectToAction("LinkedAccounts");
-        }
-
-        [HttpPost]
-#pragma warning disable CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
-        public async Task<IActionResult> ChangeUserId(LinkedAccountsViewModel model)
-#pragma warning restore CS1998 // This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread.
-        {
-            if (this.ModelState.IsValid)
-            {
-                this.HttpContext.Session.SetString("ChangedUserId", model.UserId);
-            }
-
-            return this.RedirectToAction("LinkedAccounts");
+            return this.RedirectToAction("LinkedAccounts", new { companionApp });
         }
 
         public IActionResult About()

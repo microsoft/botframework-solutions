@@ -1,0 +1,46 @@
+[import](MainDialogActivities.lg)
+
+# CalendarWelcomeMessage.Text
+- Hola, ¿en qué puedo ayudarte? Aquí hay algunas cosas que puedo hacer: proporcionar una visión general de sus reuniones hoy, leer sus próximas reuniones, o crear una nueva reunión.
+
+# CalendarWelcomeMessage.S1
+- ¿Qué reuniones tengo hoy?
+
+# CalendarWelcomeMessage.S2
+- ¿Cuál es mi próxima reunión?
+
+# CalendarWelcomeMessage.S3
+- Quiero una reunión.
+
+# CalendarWelcomeMessage.S4
+- ¿Puede actualizar una reunión?
+
+# CalendarWelcomeMessage.S5
+- ¿Puedes cancelar mi evento?
+
+# FeatureNotAvailable.Text
+- La función que estás preguntando no está disponible. Intenta preguntar por otra cosa.
+
+# CancelMessage.Text
+- Bien, empecemos de nuevo.
+
+# HelpMessage.Text
+- Puedo proporcionar una visión general de sus reuniones hoy, leer detalles sobre una próxima reunión o crear una nueva reunión para usted.
+
+# HelpMessage.S1
+- ¿Qué reuniones tengo hoy?
+
+# HelpMessage.S2
+- ¿Cuál es mi próxima reunión?
+
+# HelpMessage.S3
+- Quiero una reunión.
+
+# HelpMessage.S4
+- ¿Puede actualizar una reunión?
+
+# HelpMessage.S5
+- ¿Puedes cancelar mi evento?
+
+# LogOut.Text
+- Te han cerrado la sesión.

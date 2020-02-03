@@ -1,0 +1,46 @@
+[import](MainDialogActivities.lg)
+
+# CalendarWelcomeMessage.Text
+- 你好，我能帮你什么？以下是我能做的几件事：概述您今天的会议，阅读您即将召开的会议，或创建新会议。
+
+# CalendarWelcomeMessage.S1
+- 我今天有什么会议？
+
+# CalendarWelcomeMessage.S2
+- 我的下一次会议是什么？
+
+# CalendarWelcomeMessage.S3
+- 我想安排一个会议。
+
+# CalendarWelcomeMessage.S4
+- 您能更新会议吗？
+
+# CalendarWelcomeMessage.S5
+- 你能取消我的活动吗？
+
+# FeatureNotAvailable.Text
+- 您询问的功能不可用。试着问别的事情。
+
+# CancelMessage.Text
+- 好，我们重新开始吧。
+
+# HelpMessage.Text
+- 我可以概述您今天的会议，阅读有关即将召开的会议的详细信息，或者为您创建一个新会议。
+
+# HelpMessage.S1
+- 我今天有什么会议？
+
+# HelpMessage.S2
+- 我的下一次会议是什么？
+
+# HelpMessage.S3
+- 我想安排一个会议。
+
+# HelpMessage.S4
+- 您能更新会议吗？
+
+# HelpMessage.S5
+- 你能取消我的活动吗？
+
+# LogOut.Text
+- 您已注销。

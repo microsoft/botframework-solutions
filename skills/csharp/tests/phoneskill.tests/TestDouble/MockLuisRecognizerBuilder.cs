@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions.Testing.Mocks;
+using Microsoft.Bot.Solutions.Testing.Mocks;
 
 namespace PhoneSkill.Tests.TestDouble
 {

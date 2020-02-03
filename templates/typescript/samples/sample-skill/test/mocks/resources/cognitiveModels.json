@@ -1,0 +1,38 @@
+{
+  "cognitiveModels": {
+    "en-us": {
+      "dispatchModel": {
+        "subscriptionKey":  "<--MOCK-VALUE-->",
+        "name": "Dispatch",
+        "region": "westus",
+        "authoringKey":  "<--MOCK-VALUE-->",
+        "type": "dispatch",
+        "authoringRegion": "westus",
+        "appId": "00000002-0000-0000-0000-000000000001"
+      },
+      "languageModels": [
+        {
+          "id": "general",
+          "authoringRegion": "westus",
+          "authoringKey":  "<--MOCK-VALUE-->",
+          "version": "0.1",
+          "subscriptionKey":  "<--MOCK-VALUE-->",
+          "region": "westus",
+          "appId": "00000002-0000-0000-0000-000000000001",
+          "name": "general"
+        },
+        {
+          "id": "sampleSkill",
+          "authoringRegion": "westus",
+          "appId": "00000002-0000-0000-0000-000000000001",
+          "authoringKey": "<--MOCK-VALUE-->",
+          "version": "0.1",
+          "subscriptionKey": "<--MOCK-VALUE-->",
+          "name": "sampleSkill",
+          "region": "westus"
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}

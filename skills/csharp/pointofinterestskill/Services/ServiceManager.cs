@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 using System;
+using SkillServiceLibrary.Services;
+using SkillServiceLibrary.Services.AzureMapsAPI;
+using SkillServiceLibrary.Services.FoursquareAPI;
 
 namespace PointOfInterestSkill.Services
 {

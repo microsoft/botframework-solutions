@@ -5,7 +5,7 @@ namespace EmailSkill.Extensions
 {
     using System;
     using EmailSkill.Responses.Shared;
-    using Microsoft.Bot.Builder.Solutions.Resources;
+    using Microsoft.Bot.Solutions.Resources;
 
     /// <summary>
     /// Date time extension to format date time.

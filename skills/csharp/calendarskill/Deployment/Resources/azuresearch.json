@@ -1,0 +1,58 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]"
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "suffix": {
+      "type": "string",
+      "defaultValue": "[take(uniqueString(resourceGroup().id), 7)]"
+    },
+    "useAzureSearch": {
+      "type": "bool",
+      "defaultValue": true
+    },    
+    "azureSearchName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+    }
+  },
+  "variables": {
+    "azureSearchAccountName": "[toLower(take(replace(parameters('azureSearchName'), '_', ''), 60))]"
+  },
+  "resources": [
+    {
+      "comments": "Azure search for meeting room.",
+      "type": "Microsoft.Search/searchServices",
+      "apiVersion": "2015-08-19",
+      "name": "[variables('azureSearchAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+          "name": "standard"
+      },
+      "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "hostingMode": "Default"
+      },
+      "condition": "[parameters('useAzureSearch')]"
+    }
+  ],
+  "outputs": {
+    "azureSearch": {
+      "type": "object",
+      "value": {
+        "databaseId": "azuresearch",
+        "collectionId": "azuresearchid",
+        "azureSearchAccount": "[variables('azureSearchAccountName')]",
+        "apiKey": "[listAdminKeys(resourceId('Microsoft.Search/searchServices', variables('azureSearchAccountName')), '2015-08-19').primaryKey]"
+      }
+    }
+  }
+}
