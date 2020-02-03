@@ -2,8 +2,8 @@
 category: Overview
 subcategory: What's New
 language: 0_8_release
-title: Template updates
-description: Summarizes key updates made to the Virtual Assistant enabling you to easily update parts of your existing Assistant
+title: QnAMaker updates
+description: Update your Virtual Assistant to use the new QnAMakerDialog capabilities including Active Learning.
 order: 2
 toc: true
 ---

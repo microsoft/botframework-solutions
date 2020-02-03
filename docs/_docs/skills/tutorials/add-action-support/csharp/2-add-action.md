@@ -1,10 +1,10 @@
 ---
 layout: tutorial
 category: Skills
-subcategory: Migrate to GA Bot Framework Skills
+subcategory: Add action support
 language: csharp
 title: Add action handling code
-order: 3
+order: 2
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
@@ -15,13 +15,15 @@ order: 3
 
 In addition to utterance based invocation of your Skill, we have now introduced action based invocation similar to a method call whereby a client can invoke a specific function of your Skill passing data (slots) and receive response data back. The skill can still prompt as usual in a conversational manner for missing slots and other needs.
 
-Follow this part of the tutorial if you wish to extend your Skill to add action capabilities.
+Follow this part of the tutorial to wire up the action you created as part of the previous step.
 
 ### Steps
 
-1. Create a new class called `SampleAction` within your Dialogs folder and paste in the class definitions shown below. This class is based on the existing `SampleDialog` and shows some extensions to handle an incoming object containing data and how to return an object back to the caller as part the end dialog operation.
+1. Create a new class called to represent the new Action within your Dialogs folder and paste in the example class definition shown below. This class is based on the existing `SampleAction` and shows some extensions to handle an incoming object containing data and how to return an object back to the caller as part the end dialog operation.
 
-Note that action processing can send activities just like any Dialog and prompt for missing data or confirmation.
+Note that action processing can send activities just like any Dialog and prompt for missing data or confirmation. Update the input and output types as per the previous step along with validation steps.
+
+Note that an output object can be returned to a caller by passing it on the call to `EndDialogAsync`. This is then automatically added to the `EndOfConversation` event and accessible by the caller.
 
 ```csharp
     public class SampleActionInput
@@ -112,7 +114,7 @@ Note that action processing can send activities just like any Dialog and prompt 
     AddDialog(_sampleAction);
 ```
 
-1. Within your `MainDialog` class you need to handle a handler for each incoming Action your Skill supports. As per the example Manifest in Step 2, an action called `SampleAction` was defined which will result in an Event Activity being received by teh Skill. In the example below any input data is retrieved from the `Value` property of the Activity and passed into the dialog.
+1. Within your `MainDialog` class you need to handle a handler for each incoming Action your Skill supports. The name of your action specified within the `name` property of your Action definition is mapped to the `Name` property of the incoming activity.
 
 ```csharp
 protected override async Task OnEventActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken)
@@ -153,3 +155,4 @@ protected override async Task OnEventActivityAsync(DialogContext dc, Cancellatio
 }
 ```
 
+1. Build and deploy your updated Skill. You have now added an additional Action to your Skill which should be visible within a client application such as Power Virtual Agent.
