@@ -53,7 +53,7 @@ namespace EmailSkill.Dialogs
             TelemetryClient = telemetryClient;
 
             var appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
-            AddDialog(new MultiProviderAuthDialog(Settings.OAuthConnections, appCredentials));
+            AddDialog(new MultiProviderAuthDialog(Settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
         }

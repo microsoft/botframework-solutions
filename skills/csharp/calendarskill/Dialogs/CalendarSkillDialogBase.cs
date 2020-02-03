@@ -63,7 +63,7 @@ namespace CalendarSkill.Dialogs
             TelemetryClient = telemetryClient;
             TemplateEngine = localeTemplateEngineManager;
 
-            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections, appCredentials));
+            AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
             AddDialog(new TextPrompt(Actions.Prompt));
             AddDialog(new ConfirmPrompt(Actions.TakeFurtherAction, null, Culture.English) { Style = ListStyle.SuggestedAction });
             AddDialog(new ChoicePrompt(Actions.Choice, ChoiceValidator, Culture.English) { Style = ListStyle.None, });
