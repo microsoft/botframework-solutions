@@ -12,7 +12,7 @@ using HospitalitySkill.Responses.RequestItem;
 using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using static Luis.HospitalityLuis._Entities;
 
 namespace HospitalitySkill.Dialogs

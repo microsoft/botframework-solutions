@@ -2,29 +2,27 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
-using EmailSkill.Services;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Util;
-using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill.Dialogs
 {
     public class ReplyEmailDialog : EmailSkillDialogBase
     {
         public ReplyEmailDialog(
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(ReplyEmailDialog), serviceProvider, telemetryClient)
+            : base(nameof(ReplyEmailDialog), localeTemplateEngineManager, serviceProvider, telemetryClient)
         {
             TelemetryClient = telemetryClient;
 
@@ -38,13 +36,20 @@ namespace EmailSkill.Dialogs
                 AfterCollectSelectedEmail,
                 CollectAdditionalText,
                 AfterCollectAdditionalText,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ConfirmBeforeSending,
+                AfterConfirmPrompt,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ReplyEmail,
             };
 
             var showEmail = new WaterfallStep[]
             {
                 PagingStep,
+                GetAuthToken,
+                AfterGetAuthToken,
                 ShowEmails,
             };
 
@@ -67,48 +72,40 @@ namespace EmailSkill.Dialogs
         {
             try
             {
-                var confirmResult = (bool)sc.Result;
-                if (confirmResult)
+                var state = await EmailStateAccessor.GetAsync(sc.Context);
+                sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+                var message = state.Message.FirstOrDefault();
+
+                var service = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
+
+                // reply user message.
+                if (message != null)
                 {
-                    var state = await EmailStateAccessor.GetAsync(sc.Context);
-                    var token = state.Token;
-                    var message = state.Message.FirstOrDefault();
-
-                    var service = ServiceManager.InitMailService(token, state.GetUserTimeZone(), state.MailSourceType);
-
-                    // reply user message.
-                    if (message != null)
-                    {
-                        var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
-                        await service.ReplyToMessageAsync(message.Id, content);
-                    }
-
-                    var emailCard = new EmailCardData
-                    {
-                        Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
-                        EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
-                    };
-                    emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
-
-                    var stringToken = new StringDictionary
-                    {
-                        { "Subject", state.Subject },
-                    };
-
-                    var recipientCard = state.FindContactInfor.Contacts.Count() > 5 ? GetDivergedCardName(sc.Context, "ConfirmCard_RecipientMoreThanFive") : GetDivergedCardName(sc.Context, "ConfirmCard_RecipientLessThanFive");
-                    var reply = ResponseManager.GetCardResponse(
-                        EmailSharedResponses.SentSuccessfully,
-                        new Card("EmailWithOutButtonCard", emailCard),
-                        stringToken,
-                        "items",
-                        new List<Card>().Append(new Card(recipientCard, emailCard)));
-
-                    await sc.Context.SendActivityAsync(reply);
+                    var content = state.Content.Equals(EmailCommonStrings.EmptyContent) ? string.Empty : state.Content;
+                    await service.ReplyToMessageAsync(message.Id, content);
                 }
-                else
+
+                var emailCard = new EmailCardData
                 {
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(EmailSharedResponses.CancellingMessage));
-                }
+                    Subject = state.Subject.Equals(EmailCommonStrings.EmptySubject) ? null : state.Subject,
+                    EmailContent = state.Content.Equals(EmailCommonStrings.EmptyContent) ? null : state.Content,
+                };
+                emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
+
+                var stringToken = new StringDictionary
+                {
+                    { "Subject", state.Subject },
+                };
+
+                var reply = TemplateEngine.GenerateActivityForLocale(
+                EmailSharedResponses.SentSuccessfully,
+                new
+                {
+                    subject = state.Subject,
+                    emailDetails = emailCard
+                });
+
+                await sc.Context.SendActivityAsync(reply);
             }
             catch (Exception ex)
             {

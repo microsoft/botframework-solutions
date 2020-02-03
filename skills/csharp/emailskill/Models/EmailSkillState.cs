@@ -28,7 +28,6 @@ namespace EmailSkill.Models
             IsUnreadOnly = true;
             IsImportant = false;
             ShowEmailIndex = 0;
-            Token = null;
             DirectlyToMe = false;
             StartDateTime = DateTime.UtcNow.Add(new TimeSpan(-7, 0, 0, 0));
             EndDateTime = DateTime.UtcNow;
@@ -74,8 +73,6 @@ namespace EmailSkill.Models
         public DateTime StartDateTime { get; set; }
 
         public DateTime EndDateTime { get; set; }
-
-        public string Token { get; set; }
 
         public bool DirectlyToMe { get; set; }
 

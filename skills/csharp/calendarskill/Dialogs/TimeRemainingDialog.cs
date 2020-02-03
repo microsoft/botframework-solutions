@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,12 +12,12 @@ using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 
 namespace CalendarSkill.Dialogs
 {
@@ -27,12 +26,12 @@ namespace CalendarSkill.Dialogs
         public TimeRemainingDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(TimeRemainingDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(TimeRemainingDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -55,9 +54,9 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
 
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
 
                 var eventList = await calendarService.GetUpcomingEventsAsync();
                 var nextEventList = new List<EventModel>();
@@ -66,19 +65,19 @@ namespace CalendarSkill.Dialogs
                     var itemUserTimeZoneTime = TimeZoneInfo.ConvertTime(item.StartTime, TimeZoneInfo.Utc, state.GetUserTimeZone());
                     if (item.IsCancelled != true && nextEventList.Count == 0)
                     {
-                        if (state.MeetingInfor.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
+                        if (state.MeetingInfo.OrderReference.ToLower().Contains(CalendarCommonStrings.Next))
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.MeetingInfor.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.MeetingInfor.StartDate[0].DayOfYear)
+                        else if (state.MeetingInfo.StartDate.Any() && itemUserTimeZoneTime.DayOfYear == state.MeetingInfo.StartDate[0].DayOfYear)
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.MeetingInfor.StartTime.Any() && itemUserTimeZoneTime == state.MeetingInfor.StartTime[0])
+                        else if (state.MeetingInfo.StartTime.Any() && itemUserTimeZoneTime == state.MeetingInfo.StartTime[0])
                         {
                             nextEventList.Add(item);
                         }
-                        else if (state.MeetingInfor.Title != null && item.Title.Equals(state.MeetingInfor.Title, StringComparison.CurrentCultureIgnoreCase))
+                        else if (state.MeetingInfo.Title != null && item.Title.Equals(state.MeetingInfo.Title, StringComparison.CurrentCultureIgnoreCase))
                         {
                             nextEventList.Add(item);
                         }
@@ -87,7 +86,7 @@ namespace CalendarSkill.Dialogs
 
                 if (nextEventList.Count == 0)
                 {
-                    var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNoMeetingMessage);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(TimeRemainingResponses.ShowNoMeetingMessage);
                     await sc.Context.SendActivityAsync(prompt);
                     return await sc.EndDialogAsync();
                 }
@@ -99,14 +98,6 @@ namespace CalendarSkill.Dialogs
                     var timeDiffMinutes = (int)timeDiff.TotalMinutes % 60;
                     var timeDiffHours = (int)timeDiff.TotalMinutes / 60;
                     var timeDiffDays = timeDiff.Days;
-
-                    var tokens = new StringDictionary()
-                    {
-                        { "RemainingTime", string.Empty },
-                        { "Title", string.Empty },
-                        { "Time", string.Empty },
-                        { "TimeSpeak", string.Empty }
-                    };
 
                     var remainingMinutes = string.Empty;
                     var remainingHours = string.Empty;
@@ -149,10 +140,13 @@ namespace CalendarSkill.Dialogs
                     }
 
                     var remainingTime = $"{remainingDays}{remainingHours}{remainingMinutes}";
-                    tokens["RemainingTime"] = remainingTime;
-                    if (state.MeetingInfor.OrderReference == "next")
+                    if (state.MeetingInfo.OrderReference == "next")
                     {
-                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
+                        var tokens = new
+                        {
+                            RemainingTime = remainingTime
+                        };
+                        var prompt = TemplateEngine.GenerateActivityForLocale(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
                         return await sc.EndDialogAsync();
                     }
@@ -161,34 +155,27 @@ namespace CalendarSkill.Dialogs
                         var timeToken = string.Empty;
                         var timeSpeakToken = string.Empty;
 
-                        if (state.MeetingInfor.StartDate.Any())
+                        if (state.MeetingInfo.StartDate.Any())
                         {
-                            timeSpeakToken += $"{state.MeetingInfor.StartDate[0].ToSpeechDateString()} ";
-                            timeToken += $"{state.MeetingInfor.StartDate[0].ToShortDateString()} ";
+                            timeSpeakToken += $"{state.MeetingInfo.StartDate[0].ToSpeechDateString()} ";
+                            timeToken += $"{state.MeetingInfo.StartDate[0].ToShortDateString()} ";
                         }
 
-                        if (state.MeetingInfor.StartTime.Any())
+                        if (state.MeetingInfo.StartTime.Any())
                         {
-                            timeSpeakToken += $"{state.MeetingInfor.StartTime[0].ToSpeechTimeString()}";
-                            timeToken += $"{state.MeetingInfor.StartTime[0].ToShortTimeString()}";
+                            timeSpeakToken += $"{state.MeetingInfo.StartTime[0].ToSpeechTimeString()}";
+                            timeToken += $"{state.MeetingInfo.StartTime[0].ToShortTimeString()}";
                         }
 
-                        if (timeSpeakToken.Length > 0)
+                        var tokens = new
                         {
-                            tokens["TimeSpeak"] = CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken;
-                        }
+                            RemainingTime = remainingTime,
+                            TimeSpeak = timeSpeakToken.Length > 0 ? CommonStrings.SpokenTimePrefix_One + " " + timeSpeakToken : string.Empty,
+                            Time = timeToken.Length > 0 ? CommonStrings.SpokenTimePrefix_One + " " + timeToken : string.Empty,
+                            Title = state.MeetingInfo.Title != null ? string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfo.Title) : string.Empty
+                        };
 
-                        if (timeToken.Length > 0)
-                        {
-                            tokens["Time"] = CommonStrings.SpokenTimePrefix_One + " " + timeToken;
-                        }
-
-                        if (state.MeetingInfor.Title != null)
-                        {
-                            tokens["Title"] = string.Format(CalendarCommonStrings.WithTheSubject, state.MeetingInfor.Title);
-                        }
-
-                        var prompt = ResponseManager.GetResponse(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
+                        var prompt = TemplateEngine.GenerateActivityForLocale(TimeRemainingResponses.ShowTimeRemainingMessage, tokens);
                         await sc.Context.SendActivityAsync(prompt);
                         return await sc.EndDialogAsync();
                     }

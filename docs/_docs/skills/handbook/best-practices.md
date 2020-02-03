@@ -68,59 +68,72 @@ Consider the multiple layers of communication a user may have with a Skill on th
 #### Speech & Text
 {:.no_toc}
 
-Speech & Text responses are stored in **.json** files, and offer the ability to provide a variety of responses and set the input hint on each Activity.
+Speech & Text responses are stored as part of the provided LG files for each provided Skill. These offer the ability to provide a variety of responses and set the input hint on each Activity as required.
 
-```json
-{
-  "NamePrompt": {
-    "replies": [
-      {
-        "text": "What is your name?",
-        "speak": "What is your name?"
-      }
-    ],
-    "inputHint": "expectingInput"
-  },
-  "HaveNameMessage": {
-    "replies": [
-      {
-        "text": "Hi, {Name}!",
-        "speak": "Hi, {Name}!"
-      },
-      {
-        "text": "Nice to meet you, {Name}!",
-        "speak": "Nice to meet you, {Name}!"
-      }
-    ],
-    "inputHint": "acceptingInput"
-  }
-}
+```markdown
+# NoTitle
+[Activity
+    Text = @{NoTitle.Text}
+    Speak = @{NoTitle.Text}
+    InputHint = expectingInput
+]
+
+# NoTitle.Text
+- What's the subject of the meeting?
+- What is the subject of the meeting?
+- Let me know what subject you want to provide for the meeting?
 ```
 
-Vary your responses. By providing additional utterances to the **replies** array, your Skill will sound more natural and provide a dynamic conversation.
+Vary your responses, by providing additional responses to each LG element, your Skill will sound more natural and provide a dynamic conversation. This is shown above.
 
 Write how people speak. A skill should only provide relevant context when read aloud. Use visual aids to offer more data to a user.
-
-#### Common string
-{:.no_toc}
-
-Some common strings shouldn't save in response file. Suggest you to save them in **.resx** file. It is easy to be localized.
 
 #### Visual
 {:.no_toc}
 
-Use [Adaptive Cards](https://adaptivecards.io/) to deliver rich cards as visual clues to a Skill's content.
+Use [Adaptive Cards](https://adaptivecards.io/) to deliver rich cards as visual clues to a Skill's content. These can be added to your Skill's LG files through additional LG elements as shown below.
 
-You can use variables to map data to a card's content. For example, the JSON below describes an Adaptive Card showing points of interest.
+The example below shows two key concepts:
+- Text blocks in the Card can reference other LG elements to provide a variety of responses, in the example below one of two responses will be randomly selected.
+- Data can be passed in to the LG rendering, in this case the `title` parameter is used within the second `TextBlock` element. When generating an activity you can pass data items - e.g. `var response = TemplateEngine.GenerateActivityForLocale("HaveNameMessage", data);`
 
+# ExampleAdaptiveCard.Text
+- Hello World
+- Hello There
+
+# ExampleAdaptiveCard(title)
 ```json
 {
-	"type": "AdaptiveCard",
-	"id": "PointOfInterestViewCard",
+    "type": "AdaptiveCard",
+    "id":"ExampleAdaptiveCard",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "@{ExampleAdaptiveCard.Text}",
+                    "size": "Medium",
+                    "wrap": true
+                }
+            ],
+            "style": "good",
+            "bleed": true
+        },
+        {
+            "type": "TextBlock",
+            "size": "Medium",
+            "weight": "Bolder",
+            "text": "{title}"
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
 }
 ```
 
 ## Support skill fallback
+
 Currently if you want to support skill switching scenarios like this in Virtual Assistant:
 ```
 - User: What's my meetings today?

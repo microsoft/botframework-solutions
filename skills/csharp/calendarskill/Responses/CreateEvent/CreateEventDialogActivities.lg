@@ -1,0 +1,174 @@
+﻿# NoTitleShort
+[Activity
+    Text = @{NoTitleShort.Text()}
+    Speak = @{NoTitleShort.Text()}
+    InputHint = expectingInput
+]
+
+# NoTitle
+[Activity
+    Text = @{NoTitle.Text(UserName)}
+    Speak = @{NoTitle.Text(UserName)}
+    InputHint = expectingInput
+]
+
+# NoContent
+[Activity
+    Text = @{NoContent.Text()}
+    Speak = @{NoContent.Text()}
+    InputHint = expectingInput
+]
+
+# NoLocation
+[Activity
+    Text = @{NoLocation.Text()}
+    Speak = @{NoLocation.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmCreate
+[Activity
+    Text = @{ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)}
+    Speak = @{ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)}
+    InputHint = acceptingInput
+]
+
+# ConfirmCreateAttendees
+[Activity
+    Text = @{ConfirmCreateAttendees.Text(Attendees)}
+    Speak = @{ConfirmCreateAttendees.Text(Attendees)}
+    InputHint = acceptingInput
+]
+
+# ConfirmCreateSubject
+[Activity
+    Text = @{ConfirmCreateSubject.Text(Subject)}
+    Speak = @{ConfirmCreateSubject.Text(Subject)}
+    InputHint = acceptingInput
+]
+
+# ConfirmCreateLocation
+[Activity
+    Text = @{ConfirmCreateLocation.Text(Location)}
+    Speak = @{ConfirmCreateLocation.Text(Location)}
+    InputHint = acceptingInput
+]
+
+# ConfirmCreateContent
+[Activity
+    Text = @{ConfirmCreateContent.Text(Content)}
+    Speak = @{ConfirmCreateContent.Text(Content)}
+    InputHint = acceptingInput
+]
+
+# ConfirmCreatePrompt
+[Activity
+    Text = @{ConfirmCreatePrompt.Text()}
+    Speak = @{ConfirmCreatePrompt.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmCreateFailed
+[Activity
+    Text = @{ConfirmCreateFailed.Text()}
+    Speak = @{ConfirmCreateFailed.Text()}
+    InputHint = expectingInput
+]
+
+# EventCreated
+[Activity
+    Text = @{EventCreated.Text(Subject)}
+    Speak = @{EventCreated.Text(Subject)}
+    InputHint = acceptingInput
+]
+
+# EventCreationFailed
+[Activity
+    Text = @{EventCreationFailed.Text()}
+    Speak = @{EventCreationFailed.Text()}
+    InputHint = acceptingInput
+]
+
+# NoStartDate
+[Activity
+    Text = @{NoStartDate.Text()}
+    Speak = @{NoStartDate.Text()}
+    InputHint = expectingInput
+]
+
+# NoStartDateRetry
+[Activity
+    Text = @{NoStartDateRetry.Text()}
+    Speak = @{NoStartDateRetry.Text()}
+    InputHint = expectingInput
+]
+
+# NoStartTime
+[Activity
+    Text = @{NoStartTime.Text()}
+    Speak = @{NoStartTime.Text()}
+    InputHint = expectingInput
+]
+
+# NoStartTimeRetry
+[Activity
+    Text = @{NoStartTimeRetry.Text()}
+    Speak = @{NoStartTimeRetry.Text()}
+    InputHint = expectingInput
+]
+
+# NoStartTimeNoSkip
+[Activity
+    Text = @{NoStartTimeNoSkip.Text()}
+    Speak = @{NoStartTimeNoSkip.Text()}
+    InputHint = expectingInput
+]
+
+# NoDuration
+[Activity
+    Text = @{NoDuration.Text()}
+    Speak = @{NoDuration.Text()}
+    InputHint = expectingInput
+]
+
+# NoDurationRetry
+[Activity
+    Text = @{NoDurationRetry.Text()}
+    Speak = @{NoDurationRetry.Text()}
+    InputHint = expectingInput
+]
+
+# GetRecreateInfo
+[Activity
+    Text = @{GetRecreateInfo.Text()}
+    Speak = @{GetRecreateInfo.Text()}
+    InputHint = expectingInput
+]
+
+# GetRecreateInfoRetry
+[Activity
+    Text = @{GetRecreateInfoRetry.Text()}
+    Speak = @{GetRecreateInfoRetry.Text()}
+    InputHint = expectingInput
+]
+
+# ShowRestParticipantsPrompt
+[Activity
+    Text = @{ShowRestParticipantsPrompt.Text()}
+    Speak = @{ShowRestParticipantsPrompt.Text()}
+    InputHint = expectingInput
+]
+
+# NoMeetingRoom
+[Activity
+    Text = @{NoMeetingRoom.Text()}
+    Speak = @{NoMeetingRoom.Text()}
+    InputHint = expectingInput
+]
+
+# MeetingBooked
+[Activity
+    Text = @{MeetingBooked.Text()}
+    Speak = @{MeetingBooked.Text()}
+    InputHint = expectingInput
+]

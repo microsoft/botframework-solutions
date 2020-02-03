@@ -44,16 +44,6 @@ The following Skill samples are available out of the box, each with deployment s
 </div>
 <br/>
 <div class="card-deck">
-    <a href="{{site.baseurl}}/skills/samples/point-of-interest/" class="card">
-        <div class="card-body">
-        <img src="{{site.baseurl}}/assets/images/icons/point-of-interest-skill.png" alt="Point of Interest icon" width="48px">
-            <h4 class="card-title no_toc">Point of Interest Skill</h4>
-            <p class="card-text">Get up and running with the Point of Interest Skill sample.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Learn more</div>
-        </div>
-    </a>
     <a href="{{site.baseurl}}/skills/samples/to-do/" class="card">
         <div class="card-body">
         <img src="{{site.baseurl}}/assets/images/icons/todo-skill.png" alt="To Do icon" width="48px">
@@ -64,9 +54,32 @@ The following Skill samples are available out of the box, each with deployment s
             <div class="btn btn-primary">Learn more</div>
         </div>
     </a>
+    <a href="{{site.baseurl}}/skills/samples/point-of-interest/" class="card">
+        <div class="card-body">
+        <img src="{{site.baseurl}}/assets/images/icons/point-of-interest-skill.png" alt="Point of Interest icon" width="48px">
+            <h4 class="card-title no_toc">Point of Interest Skill</h4>
+            <p class="card-text">Get up and running with the Point of Interest Skill sample.</p>
+        </div>
+        <div class="card-footer">
+            <div class="btn btn-primary">Learn more</div>
+        </div>
+    </a>
 </div>
 
+### Experimental Skills
 
+These experimental Bot Framework Skills are early prototypes to help bring Skill concepts to life for demonstrations and proof-of-concepts.
+By their very nature these Skill are not complete, with only English support. If you have any feedback on these Skills, please [open a new issue](https://github.com/microsoft/botframework-solutions/issues/new/choose) on the Bot Framework Solutions repository.
+
+- [Automotive]({{site.baseurl}}/skills/samples/automotive)
+- [Bing Search]({{site.baseurl}}/skills/samples/bing-search)
+- [Hospitality]({{site.baseurl}}/skills/samples/hospitality/)
+- [IT Service Management (ITSM)]({{site.baseurl}}/skills/samples/itsm)
+- [Music]({{site.baseurl}}/skills/samples/music)
+- [News]({{site.baseurl}}/skills/samples/news)
+- [Phone]({{site.baseurl}}/skills/samples/phone)
+- [Restaurant Booking]({{site.baseurl}}/skills/samples/restaurant-booking)
+- [Weather]({{site.baseurl}}/skills/samples/weather)
 
 ## Next steps
 

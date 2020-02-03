@@ -1,0 +1,23 @@
+[import](SharedActivities.lg)
+
+# DidntUnderstandMessage.Text
+- 对不起，我不明白。请尝试重新回答您的问题，然后再次询问。
+- 对不起，我不明白。请重试。
+- 我不明白请重试。
+
+# CalendarErrorMessage.Text
+- 对不起，看起来好像发生了一些事情，我现在无法完成。请稍后再试。
+- 对不起，我现在无法完成任务。请稍后再试。
+
+# RetryTooManyResponse.Text
+- 对不起，我现在帮不了你。我们稍后再试一次。
+
+# CalendarErrorMessageAccountProblem.Text
+- 很抱歉，我现在无法访问您的帐户。请稍后再试。
+
+# ActionEnded.Text
+- 让我知道，如果我可以帮助任何其他。
+
+# MultipleEventsFound.Text
+- 我发现了多个可能匹配的事件。请选择所需的。
+- 日历上有许多可能匹配的事件。您要查看哪一个？

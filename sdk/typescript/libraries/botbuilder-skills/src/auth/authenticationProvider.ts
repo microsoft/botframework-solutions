@@ -3,6 +3,8 @@
  * Licensed under the MIT License.
  */
 
+import { ClaimsIdentity } from 'botframework-connector';
+
 export interface IAuthenticationProvider {
-    authenticate(authHeader: string): Promise<boolean>;
+    authenticate(authHeader: string): ClaimsIdentity;
 }

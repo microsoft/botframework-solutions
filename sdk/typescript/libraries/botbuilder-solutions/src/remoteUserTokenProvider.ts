@@ -13,5 +13,5 @@ export interface IRemoteUserTokenProvider {
 }
 
 export function isRemoteUserTokenProvider(value: Object): boolean {
-    return (<IRemoteUserTokenProvider>value).sendRemoteTokenRequestEvent !== undefined;
+    return (value as IRemoteUserTokenProvider).sendRemoteTokenRequestEvent !== undefined;
 }

@@ -6,7 +6,6 @@ using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
@@ -16,14 +15,13 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WeatherSkill.Adapters;
 using WeatherSkill.Bots;
 using WeatherSkill.Dialogs;
 using WeatherSkill.Responses.Main;
@@ -113,14 +111,9 @@ namespace WeatherSkill
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillWebSocketBotAdapter, CustomSkillAdapter>();
-            services.AddTransient<SkillWebSocketAdapter>();
 
             // Configure HttpContext required for path resolution
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // Register WhiteListAuthProvider
-            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<MainDialog>();

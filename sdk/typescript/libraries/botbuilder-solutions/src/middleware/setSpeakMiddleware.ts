@@ -7,6 +7,9 @@ import { Middleware, SendActivitiesHandler, TurnContext } from 'botbuilder';
 import { Activity, ActivityTypes, ResourceResponse } from 'botframework-schema';
 import { Element, js2xml, xml2js } from 'xml-js';
 
+const DEFAULT_LOCALE = 'en-US';
+const DEFAULT_VOICE_FONT = 'Microsoft Server Speech Text to Speech Voice (en-US, JessaNeural)';
+
 /**
  * Set Speech Synthesis Markup Language (SSML) on an Activity's Speak property with locale and voice input.
  */
@@ -61,7 +64,7 @@ export class SetSpeakMiddleware implements Middleware {
             return '';
         }
 
-        let rootElement: Element|undefined = this.elementParse(activity.speak);
+        let rootElement: Element | undefined = this.elementParse(activity.speak);
 
         if (rootElement === undefined || this.getLocalName(rootElement) !== 'speak') {
             // If the text is not valid XML, or if it's not a <speak> node, treat it as plain text.
@@ -69,7 +72,7 @@ export class SetSpeakMiddleware implements Middleware {
         }
 
         this.addAttributeIfMissing(rootElement, 'version', '1.0');
-        this.addAttributeIfMissing(rootElement, 'xml:lang', `lang${this.locale}`);
+        this.addAttributeIfMissing(rootElement, 'xml:lang', `lang${ this.locale }`);
         this.addAttributeIfMissing(rootElement, 'xmlns:mstts', 'https://www.w3.org/2001/mstts');
 
         // Fix issue with 'number_digit' interpreter
@@ -86,15 +89,15 @@ export class SetSpeakMiddleware implements Middleware {
         return js2xml(rootElement, { compact: false });
     }
 
-    private elementParse(value: string): Element|undefined {
+    private elementParse(value: string): Element | undefined {
         try {
-            return <Element> xml2js(value, { compact: false });
+            return xml2js(value, { compact: false }) as Element;
         } catch (error) {
             return undefined;
         }
     }
 
-    private getLocalName(element: Element): string|undefined {
+    private getLocalName(element: Element): string | undefined {
         if (element.elements !== undefined && element.elements.length === 1) {
             return element.elements[0].name;
         }
@@ -147,11 +150,10 @@ export class SetSpeakMiddleware implements Middleware {
             if (element.elements === undefined || element.elements[0].elements === undefined) {
                 throw new Error('rootElement undefined');
             }
-            const existingVoiceElement: Element|undefined = element.elements[0].elements.find((e: Element): boolean => e.name === 'voice');
+            const existingVoiceElement: Element | undefined = element.elements[0].elements.find((e: Element): boolean => e.name === 'voice');
 
             // If an existing voice element is undefined (absent), then add it. Otherwise, assume the author has set it correctly.
             if (existingVoiceElement === undefined) {
-                // tslint:disable-next-line:no-unsafe-any
                 const oldElements: Element[] = JSON.parse(JSON.stringify(element.elements[0].elements));
                 element.elements[0].elements = [
                     {
@@ -165,16 +167,12 @@ export class SetSpeakMiddleware implements Middleware {
                 ];
             } else {
                 if (existingVoiceElement.attributes !== undefined) {
-                    // tslint:disable-next-line:no-string-literal
                     existingVoiceElement.attributes['name'] = attValue;
                 }
             }
         } catch (error) {
-            // tslint:disable-next-line:no-unsafe-any
-            throw new Error(`Could not add voice element to speak property: ${error.message}`);
+            throw new Error(`Could not add voice element to speak property: ${ error.message }`);
         }
     }
 }
 
-const DEFAULT_LOCALE: string = 'en-US';
-const DEFAULT_VOICE_FONT: string = 'Microsoft Server Speech Text to Speech Voice (en-US, JessaNeural)';

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using EmailSkill.Extensions;
 using EmailSkill.Responses.Shared;
-using Microsoft.Bot.Builder.Solutions.Resources;
+using Microsoft.Bot.Solutions.Resources;
 using Microsoft.Graph;
 
 namespace EmailSkill.Utilities

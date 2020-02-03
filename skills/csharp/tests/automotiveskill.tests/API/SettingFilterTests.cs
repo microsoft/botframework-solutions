@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace AutomotiveSkill.Tests.API
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class SettingFilterTests : AutomotiveSkillTestBase
     {
         private SettingList settingList;

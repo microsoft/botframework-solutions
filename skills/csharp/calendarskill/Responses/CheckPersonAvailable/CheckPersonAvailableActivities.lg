@@ -1,0 +1,76 @@
+﻿# AskForCheckAvailableTime
+[Activity
+    Text = @{AskForCheckAvailableTime.Text()}
+    Speak = @{AskForCheckAvailableTime.Text()}
+    InputHint = expectingInput
+]
+
+# AskForCheckAvailableUserName
+[Activity
+    Text = @{AskForCheckAvailableUserName.Text()}
+    Speak = @{AskForCheckAvailableUserName.Text()}
+    InputHint = expectingInput
+]
+
+# NotAvailable
+[Activity
+    Text = @{NotAvailable.Text(UserName, Time, Date)}
+    Speak = @{NotAvailable.Text(UserName, Time, Date)}
+    InputHint = acceptingInput
+]
+
+# AttendeeIsAvailable
+[Activity
+    Text = @{AttendeeIsAvailable.Text(UserName, StartTime, EndTime, Date)}
+    Speak = @{AttendeeIsAvailable.Text(UserName, StartTime, EndTime, Date)}
+    InputHint = expectingInput
+]
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict
+[Activity
+    Text = @{AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict.Text(UserName, StartTime, EndTime, Date, Title, EventStartTime, EventEndTime)}
+    Speak = @{AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict.Text(UserName, StartTime, EndTime, Date, Title, EventStartTime, EventEndTime)}
+    InputHint = acceptingInput
+]
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts
+[Activity
+    Text = @{AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts.Text(UserName, StartTime, EndTime, Date, ConflictEventsCount)}
+    Speak = @{AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts.Text(UserName, StartTime, EndTime, Date, ConflictEventsCount)}
+    InputHint = acceptingInput
+]
+
+# AskForCreateNewMeeting
+[Activity
+    Text = @{AskForCreateNewMeeting.Text()}
+    Speak = @{AskForCreateNewMeeting.Text()}
+    InputHint = expectingInput
+]
+
+# AskForCreateNewMeetingAnyway
+[Activity
+    Text = @{AskForCreateNewMeetingAnyway.Text(UserName, StartTime)}
+    Speak = @{AskForCreateNewMeetingAnyway.Text(UserName, StartTime)}
+    InputHint = expectingInput
+]
+
+# AskForNextAvailableTime
+[Activity
+    Text = @{AskForNextAvailableTime.Text(UserName)}
+    Speak = @{AskForNextAvailableTime.Text(UserName)}
+    InputHint = expectingInput
+]
+
+# NextBothAvailableTime
+[Activity
+    Text = @{NextBothAvailableTime.Text(UserName, StartTime, EndTime, EndDate)}
+    Speak = @{NextBothAvailableTime.Text(UserName, StartTime, EndTime, EndDate)}
+    InputHint = acceptingInput
+]
+
+# NoNextBothAvailableTime
+[Activity
+    Text = @{NoNextBothAvailableTime.Text(UserName)}
+    Speak = @{NoNextBothAvailableTime.Text(UserName)}
+    InputHint = acceptingInput
+]

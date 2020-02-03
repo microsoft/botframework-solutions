@@ -1,0 +1,41 @@
+﻿# NoUpdateStartTime
+[Activity
+    Text = @{NoUpdateStartTime.Text()}
+    Speak = @{NoUpdateStartTime.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmUpdateFailed
+[Activity
+    Text = @{ConfirmUpdateFailed.Text()}
+    Speak = @{ConfirmUpdateFailed.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmUpdate
+[Activity
+    Text = @{ConfirmUpdate.Text()}
+    Speak = @{ConfirmUpdate.Text()}
+    InputHint = expectingInput
+]
+
+# EventUpdated
+[Activity
+    Text = @{EventUpdated.Text()}
+    Speak = @{EventUpdated.Text()}
+    InputHint = expectingInput
+]
+
+# NoNewTime
+[Activity
+    Text = @{NoNewTime.Text()}
+    Speak = @{NoNewTime.Text()}
+    InputHint = expectingInput
+]
+
+# NoNewTimeRetry
+[Activity
+    Text = @{NoNewTimeRetry.Text()}
+    Speak = @{NoNewTimeRetry.Text()}
+    InputHint = expectingInput
+]

@@ -5,6 +5,7 @@
 
 import { Activity, ActivityTypes, ChannelAccount, ConversationReference } from 'botframework-schema';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ActivityExtensions {
     export function createReply(source: Activity, text?: string, local?: string): Activity {
         const reply: string = text || '';
@@ -42,7 +43,7 @@ export namespace ActivityExtensions {
             conversation: source.conversation,
             recipient: source.bot,
             from: source.user,
-            relatesTo: <ConversationReference> source
+            relatesTo: source as ConversationReference
         };
     }
 

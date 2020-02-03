@@ -5,25 +5,24 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using CalendarSkill.Models;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.FindContact;
+using CalendarSkill.Responses.FindMeetingRoom;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Graph;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class CreateCalendarFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
@@ -44,6 +43,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -60,13 +61,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -74,6 +76,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate_ConfirmNo_RetryTooMany()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -88,6 +92,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -102,7 +108,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForRecreateInfoReprompt())
                 .Send("test")
                 .AssertReplyOneOf(RetryTooManyResponse())
-                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -110,6 +115,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate_ConfirmNo_ChangeTime()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -124,6 +131,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -142,8 +151,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -151,6 +159,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate_ConfirmNo_ChangeDuration()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -165,6 +175,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -179,8 +191,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -188,6 +199,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate_ConfirmNo_ChangeLocation()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -202,6 +215,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -211,13 +226,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.RecreateWithLocation)
 
                 // test limitation for now. need to do further investigate.
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -225,6 +241,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate_ConfirmNo_ChangeParticipants()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -239,6 +257,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -256,8 +276,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -265,6 +284,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate_ConfirmNo_ChangeSubject()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -279,6 +300,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -293,8 +316,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -302,6 +324,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreate_ConfirmNo_ChangeContent()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -316,6 +340,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -330,8 +356,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -339,6 +364,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateWithEmailAddress()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
@@ -355,13 +382,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -379,11 +407,13 @@ namespace CalendarSkill.Test.Flow
             ServiceManager = MockServiceManager.SetPeopleToMultiple(peopleCount);
 
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
                 .AssertReplyOneOf(FoundMultiContactResponse(testRecipient))
-                .AssertReply(ShowContactsList())
+                .AssertReply(ShowContactsList(Strings.Strings.DefaultUserName))
                 .Send(CreateMeetingTestUtterances.ChooseFirstUser)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress(testDupRecipient, testDupEmailAddress))
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -398,13 +428,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -417,6 +448,8 @@ namespace CalendarSkill.Test.Flow
             var testEmailAddress = string.Format(Strings.Strings.UserEmailAddress, 0);
 
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send("wrong name")
@@ -438,13 +471,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -454,6 +488,8 @@ namespace CalendarSkill.Test.Flow
             ServiceManager = MockServiceManager.SetOnePeopleEmailsToMultiple(3);
 
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -473,13 +509,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -487,6 +524,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateWithTitleEntity()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithTitleEntity)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -501,13 +540,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -515,6 +555,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateWithOneContactEntity()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithOneContactEntity)
                 .AssertReplyOneOf(ConfirmOneNameOneAddress())
                 .AssertReplyOneOf(AddMoreUserPrompt())
@@ -529,13 +571,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -543,6 +586,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateWithDateTimeEntity()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDateTimeEntity)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -553,13 +598,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultEventName)
                 .AssertReplyOneOf(AskForContentPrompt())
                 .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -567,6 +613,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateWithLocationEntity()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithLocationEntity)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -586,8 +634,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -595,6 +642,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateWithDurationEntity()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.CreateMeetingWithDurationEntity)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -609,13 +658,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartDate)
                 .AssertReplyOneOf(AskForStartTimePrompt())
                 .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -623,6 +673,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateWeekday()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserEmail)
@@ -639,13 +691,14 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(CheckCreatedMeetingInFuture())
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -653,11 +706,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarAccessDeniedException()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.ThrowErrorAccessDenied)
                 .AssertReplyOneOf(BotErrorResponse())
-                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -667,6 +721,8 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetPeopleToMultiple(6);
 
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(string.Format(Strings.Strings.UserName, 0))
@@ -708,6 +764,8 @@ namespace CalendarSkill.Test.Flow
                 .Send(Strings.Strings.DefaultStartTime)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmNo)
                 .AssertReplyOneOf(AskForLocationPrompt())
                 .Send(Strings.Strings.DefaultLocation)
                 .AssertReply(ShowCalendarList())
@@ -716,8 +774,7 @@ namespace CalendarSkill.Test.Flow
                 .AssertReply(RestParticipantsResponse(6))
                 .AssertReplyOneOf(ConfirmPrompt())
                 .Send(Strings.Strings.ConfirmYes)
-                .AssertReply(ShowCalendarList())
-                .AssertReply(ActionEndMessage())
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
@@ -725,6 +782,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateRetryDateTooMany()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -744,7 +803,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForDateReprompt())
                 .Send("test")
                 .AssertReplyOneOf(RetryTooManyResponse())
-                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -752,6 +810,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateRetryTimeTooMany()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -773,7 +833,6 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForStartTimeReprompt())
                 .Send("test")
                 .AssertReplyOneOf(RetryTooManyResponse())
-                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -781,6 +840,8 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarCreateRetryDurationTooMany()
         {
             await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
                 .AssertReplyOneOf(AskForParticpantsPrompt())
                 .Send(Strings.Strings.DefaultUserName)
@@ -804,26 +865,60 @@ namespace CalendarSkill.Test.Flow
                 .AssertReplyOneOf(AskForDurationReprompt())
                 .Send("test")
                 .AssertReplyOneOf(RetryTooManyResponse())
-                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_CalendarCreate_ConfirmBookMeetingRoom()
+        {
+            await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .Send(CreateMeetingTestUtterances.BaseCreateMeeting)
+                .AssertReplyOneOf(AskForParticpantsPrompt())
+                .Send(Strings.Strings.DefaultUserName)
+                .AssertReplyOneOf(ConfirmOneNameOneAddress())
+                .AssertReplyOneOf(AddMoreUserPrompt())
+                .Send(Strings.Strings.ConfirmNo)
+                .AssertReplyOneOf(AskForSubjectWithContactNamePrompt())
+                .Send(Strings.Strings.DefaultEventName)
+                .AssertReplyOneOf(AskForContentPrompt())
+                .Send(Strings.Strings.DefaultContent)
+                .AssertReplyOneOf(AskForDatePrompt())
+                .Send(Strings.Strings.DefaultStartDate)
+                .AssertReplyOneOf(AskForStartTimePrompt())
+                .Send(Strings.Strings.DefaultStartTime)
+                .AssertReplyOneOf(AskForDurationPrompt())
+                .Send(Strings.Strings.DefaultDuration)
+                .AssertReplyOneOf(AskForMeetingRoomPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(AskForBuildingPrompt())
+                .Send(Strings.Strings.DefaultBuilding)
+                .AssertReplyOneOf(AskForFloorNumberPrompt())
+                .Send(Strings.Strings.DefaultFloorNumber)
+                .AssertReplyOneOf(AskForConfirmMeetingRoomPrompt(dateTime: "at 9:00 AM"))
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReply(ShowCalendarList())
+                .AssertReplyOneOf(ConfirmPrompt())
+                .Send(Strings.Strings.ConfirmYes)
+                .AssertReplyOneOf(BookedMeeting())
                 .StartTestAsync();
         }
 
         private string[] ConfirmOneNameOneAddress(string address)
         {
-            var recipientDict = new StringDictionary()
+            return GetTemplates(FindContactResponses.PromptOneNameOneAddress, new
             {
-                { "User", $"{address}" }
-            };
-            return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+                User = address
+            });
         }
 
         private string[] ConfirmOneNameOneAddress(string name = Strings.Strings.DefaultUserName, string address = Strings.Strings.DefaultUserEmail)
         {
-            var recipientDict = new StringDictionary()
+            return GetTemplates(FindContactResponses.PromptOneNameOneAddress, new
             {
-                { "User", $"{name} ({address})" }
-            };
-            return ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+                User = $"{name} ({address})"
+            });
         }
 
         private string[] AddMoreUserPromptWithMultipleUsers(int count)
@@ -846,41 +941,36 @@ namespace CalendarSkill.Test.Flow
                 resultString += $"{string.Format(Strings.Strings.UserName, i)}";
             }
 
-            var responseParams = new StringDictionary()
+            return GetTemplates(FindContactResponses.AddMoreUserPrompt, new
             {
-                { "Users", resultString }
-            };
-            return ParseReplies(FindContactResponses.AddMoreUserPrompt, responseParams);
+                Users = resultString
+            });
         }
 
         private string[] AddMoreUserPrompt()
         {
-            return ParseReplies(FindContactResponses.AddMoreUserPrompt, new StringDictionary());
+            return GetTemplates(FindContactResponses.AddMoreUserPrompt);
         }
 
         private string[] AskForParticpantsPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoAttendees, new StringDictionary());
+            return GetTemplates(FindContactResponses.NoAttendees);
         }
 
         private string[] AskForSubjectWithEmailAddressPrompt()
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(CreateEventResponses.NoTitle, new
             {
-                { "UserName", $"{Strings.Strings.DefaultUserEmail}" },
-            };
-
-            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
+                UserName = Strings.Strings.DefaultUserEmail
+            });
         }
 
         private string[] AskForSubjectWithContactNamePrompt(string userName = null, string userEmail = null)
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(CreateEventResponses.NoTitle, new
             {
-                { "UserName", $"{userName ?? Strings.Strings.DefaultUserName}" },
-            };
-
-            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
+                UserName = userName ?? Strings.Strings.DefaultUserName
+            });
         }
 
         private string[] AskForSubjectWithMultipleContactNamePrompt(int count)
@@ -903,72 +993,109 @@ namespace CalendarSkill.Test.Flow
                 resultString += $"{string.Format(Strings.Strings.UserName, i)}";
             }
 
-            var responseParams = new StringDictionary()
+            return GetTemplates(CreateEventResponses.NoTitle, new
             {
-                { "UserName", resultString }
-            };
-
-            return ParseReplies(CreateEventResponses.NoTitle, responseParams);
+                UserName = resultString
+            });
         }
 
         private string[] AskForSubjectShortPrompt(string userName = null)
         {
-            return ParseReplies(CreateEventResponses.NoTitleShort, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoTitleShort);
         }
 
         private string[] AskForContentPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoContent, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoContent);
         }
 
         private string[] AskForDatePrompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartDate, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartDate);
         }
 
         private string[] AskForDateReprompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartDateRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartDateRetry);
         }
 
         private string[] AskForStartTimePrompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartTime, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartTime);
         }
 
         private string[] AskForStartTimeReprompt()
         {
-            return ParseReplies(CreateEventResponses.NoStartTimeRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoStartTimeRetry);
         }
 
         private string[] AskForDurationPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoDuration, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoDuration);
         }
 
         private string[] AskForDurationReprompt()
         {
-            return ParseReplies(CreateEventResponses.NoDurationRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoDurationRetry);
+        }
+
+        private string[] AskForMeetingRoomPrompt()
+        {
+            return GetTemplates(CreateEventResponses.NoMeetingRoom);
+        }
+
+        private string[] AskForBuildingPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.NoBuilding);
+        }
+
+        private string[] AskForBuildingRetryPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.BuildingNonexistent);
+        }
+
+        private string[] AskForFloorNumberPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.NoFloorNumber);
+        }
+
+        private string[] AskForFloorNumberRetryPrompt()
+        {
+            return GetTemplates(FindMeetingRoomResponses.FloorNumberRetry);
+        }
+
+        private string[] AskForConfirmMeetingRoomPrompt(int roomNumber = 1, string dateTime = "right now")
+        {
+            return GetTemplates(FindMeetingRoomResponses.ConfirmMeetingRoomPrompt, new
+            {
+                MeetingRoom = string.Format(Strings.Strings.MeetingRoomName, roomNumber),
+                DateTime = dateTime
+            });
         }
 
         private string[] AskForLocationPrompt()
         {
-            return ParseReplies(CreateEventResponses.NoLocation, new StringDictionary());
+            return GetTemplates(CreateEventResponses.NoLocation);
         }
 
         private string[] AskForRecreateInfoPrompt()
         {
-            return ParseReplies(CreateEventResponses.GetRecreateInfo, new StringDictionary());
+            return GetTemplates(CreateEventResponses.GetRecreateInfo);
         }
 
         private string[] AskForRecreateInfoReprompt()
         {
-            return ParseReplies(CreateEventResponses.GetRecreateInfoRetry, new StringDictionary());
+            return GetTemplates(CreateEventResponses.GetRecreateInfoRetry);
+        }
+
+        private string[] ConfirmedMeetingRoom()
+        {
+            return GetTemplates(FindMeetingRoomResponses.ConfirmedMeetingRoom);
         }
 
         private string[] RetryTooManyResponse()
         {
-            return ParseReplies(CalendarSharedResponses.RetryTooManyResponse, new StringDictionary());
+            return GetTemplates(CalendarSharedResponses.RetryTooManyResponse);
         }
 
         private Action<IActivity> ShowCalendarList()
@@ -982,7 +1109,12 @@ namespace CalendarSkill.Test.Flow
 
         private string[] ConfirmPrompt()
         {
-            return ParseReplies(CreateEventResponses.ConfirmCreatePrompt, new StringDictionary());
+            return GetTemplates(CreateEventResponses.ConfirmCreatePrompt);
+        }
+
+        private string[] BookedMeeting()
+        {
+            return GetTemplates(CreateEventResponses.MeetingBooked);
         }
 
         private Action<IActivity> CheckCreatedMeetingInFuture()
@@ -994,12 +1126,17 @@ namespace CalendarSkill.Test.Flow
             };
         }
 
-        private Action<IActivity> ShowContactsList()
+        private Action<IActivity> ShowContactsList(string ContactName)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = ParseReplies(FindContactResponses.ConfirmMultipleContactNameSinglePage);
+                var recipientConfirmedMessage = GetTemplates(
+                    FindContactResponses.ConfirmMultipleContactNameSinglePage,
+                    new
+                    {
+                        ContactName = ContactName
+                    });
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
@@ -1012,8 +1149,8 @@ namespace CalendarSkill.Test.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-
-                var confirmedMessage = new List<string>(ParseReplies(FindContactResponses.ConfirmMultiplContactEmailSinglePage));
+                var confirmedMessage = new List<string>(
+                   GetTemplates(FindContactResponses.ConfirmMultipleContactEmailSinglePage));
 
                 var messageLines = messageActivity.Text.Split("\r\n");
                 Assert.IsTrue(confirmedMessage.Contains(messageLines[0]));
@@ -1021,27 +1158,19 @@ namespace CalendarSkill.Test.Flow
             };
         }
 
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
-            };
-        }
-
         private string[] BotErrorResponse()
         {
-            return ParseReplies(CalendarSharedResponses.CalendarErrorMessageAccountProblem, new StringDictionary());
+            return GetTemplates(CalendarSharedResponses.CalendarErrorMessageAccountProblem);
         }
 
         private string[] AskForAddMoreAttendeesPrompt()
         {
-            return ParseReplies(FindContactResponses.AddMoreAttendees, new StringDictionary());
+            return GetTemplates(FindContactResponses.AddMoreAttendees);
         }
 
         private string[] AskForShowRestParticipantsPrompt()
         {
-            return ParseReplies(CreateEventResponses.ShowRestParticipantsPrompt, new StringDictionary());
+            return GetTemplates(CreateEventResponses.ShowRestParticipantsPrompt);
         }
 
         private string RestParticipantsResponse(int count)
@@ -1069,38 +1198,48 @@ namespace CalendarSkill.Test.Flow
 
         private string[] UserNotFoundPrompt(string userName)
         {
-            return ParseReplies(FindContactResponses.UserNotFound, new StringDictionary() { { "UserName", userName } });
+            return GetTemplates(FindContactResponses.UserNotFound, new
+            {
+                UserName = userName
+            });
         }
 
         private string[] UserNotFoundAgainPrompt(string userName)
         {
-            return ParseReplies(
-                FindContactResponses.UserNotFoundAgain,
-                new StringDictionary()
-                {
-                    { "source", "Outlook" },
-                    { "UserName", userName }
-                });
+            return GetTemplates(FindContactResponses.UserNotFoundAgain, new
+            {
+                source = "Outlook",
+                UserName = userName
+            });
         }
 
         private string[] FoundMultiContactResponse(string userName)
         {
-            return ParseReplies(FindContactResponses.FindMultipleContactNames, new StringDictionary() { { "UserName", userName } });
+            return GetTemplates(FindContactResponses.FindMultipleContactNames, new
+            {
+                UserName = userName
+            });
         }
 
         private string[] FoundMultiEmailResponse(string userName)
         {
-            return ParseReplies(FindContactResponses.FindMultipleEmails, new StringDictionary() { { "UserName", userName } });
+            return GetTemplates(FindContactResponses.FindMultipleEmails, new
+            {
+                UserName = userName
+            });
         }
 
         private string[] EmailChoiceConfirmationResponse(string email)
         {
-            return ParseReplies(FindContactResponses.EmailChoiceConfirmation, new StringDictionary() { { "Email", email } });
+            return GetTemplates(FindContactResponses.EmailChoiceConfirmation, new
+            {
+                Email = email
+            });
         }
 
         private string[] AskForEmailPrompt()
         {
-            return ParseReplies(FindContactResponses.AskForEmail);
+            return GetTemplates(FindContactResponses.AskForEmail);
         }
     }
 }

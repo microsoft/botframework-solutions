@@ -17,7 +17,7 @@ using ITSMSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -127,7 +127,7 @@ namespace ITSMSkill.Dialogs
                 return await sc.NextAsync();
             }
 
-            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
             var result = await management.UpdateTicket(state.Id, state.TicketTitle, state.TicketDescription, state.UrgencyLevel);
 
             if (!result.Success)

@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,12 +14,12 @@ using CalendarSkill.Utilities;
 using HtmlAgilityPack;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Models;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Models;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Newtonsoft.Json;
 
 namespace CalendarSkill.Dialogs
@@ -30,12 +29,12 @@ namespace CalendarSkill.Dialogs
         public JoinEventDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(JoinEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(JoinEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -152,22 +151,22 @@ namespace CalendarSkill.Dialogs
             try
             {
                 var state = await Accessor.GetAsync(sc.Context);
-                if (state.ShowMeetingInfor.FocusedEvents.Any())
+                if (state.ShowMeetingInfo.FocusedEvents.Any())
                 {
                     return await sc.EndDialogAsync();
                 }
-                else if (state.ShowMeetingInfor.ShowingMeetings.Any())
+                else if (state.ShowMeetingInfo.ShowingMeetings.Any())
                 {
                     return await sc.NextAsync();
                 }
                 else
                 {
-                    sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                    var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                    sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
+                    var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                     return await sc.PromptAsync(Actions.GetEventPrompt, new GetEventOptions(calendarService, state.GetUserTimeZone())
                     {
-                        Prompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
-                        RetryPrompt = ResponseManager.GetResponse(JoinEventResponses.NoMeetingToConnect),
+                        Prompt = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NoMeetingToConnect) as Activity,
+                        RetryPrompt = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NoMeetingToConnect) as Activity,
                         MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                     }, cancellationToken);
                 }
@@ -191,7 +190,7 @@ namespace CalendarSkill.Dialogs
                 var state = await Accessor.GetAsync(sc.Context);
 
                 var validEvents = new List<EventModel>();
-                foreach (var item in state.ShowMeetingInfor.ShowingMeetings)
+                foreach (var item in state.ShowMeetingInfo.ShowingMeetings)
                 {
                     if (IsValidJoinTime(state.GetUserTimeZone(), item) && (GetDialInNumberFromMeeting(item) != null || item.OnlineMeetingUrl != null || GetTeamsMeetingLinkFromMeeting(item) != null))
                     {
@@ -199,7 +198,7 @@ namespace CalendarSkill.Dialogs
                     }
                 }
 
-                state.ShowMeetingInfor.ShowingMeetings = validEvents;
+                state.ShowMeetingInfo.ShowingMeetings = validEvents;
                 if (validEvents.Any())
                 {
                     return await sc.EndDialogAsync();
@@ -222,18 +221,21 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context);
 
-                var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
+                var selectedEvent = state.ShowMeetingInfo.FocusedEvents.First();
                 var phoneNumber = GetDialInNumberFromMeeting(selectedEvent);
                 var meetingLink = selectedEvent.OnlineMeetingUrl ?? GetTeamsMeetingLinkFromMeeting(selectedEvent);
-                var responseParams = new StringDictionary()
-                {
-                    { "PhoneNumber", phoneNumber },
-                    { "MeetingLink", meetingLink }
-                };
 
+                var responseParams = new
+                {
+                    PhoneNumber = phoneNumber,
+                    MeetingLink = meetingLink
+                };
                 var responseName = phoneNumber == null ? JoinEventResponses.ConfirmMeetingLink : JoinEventResponses.ConfirmPhoneNumber;
 
-                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions() { Prompt = ResponseManager.GetResponse(responseName, responseParams) });
+                return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions()
+                {
+                    Prompt = TemplateEngine.GenerateActivityForLocale(responseName, responseParams) as Activity,
+                });
             }
             catch (Exception ex)
             {
@@ -251,8 +253,9 @@ namespace CalendarSkill.Dialogs
                 {
                     if ((bool)sc.Result)
                     {
-                        var selectedEvent = state.ShowMeetingInfor.FocusedEvents.First();
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.JoinMeeting));
+                        var selectedEvent = state.ShowMeetingInfo.FocusedEvents.First();
+                        var activity = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.JoinMeeting);
+                        await sc.Context.SendActivityAsync(activity);
                         var replyEvent = sc.Context.Activity.CreateReply();
                         replyEvent.Type = ActivityTypes.Event;
                         replyEvent.Name = "OpenDefaultApp";
@@ -266,11 +269,12 @@ namespace CalendarSkill.Dialogs
                     }
                     else
                     {
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(JoinEventResponses.NotJoinMeeting));
+                        var activity = TemplateEngine.GenerateActivityForLocale(JoinEventResponses.NotJoinMeeting);
+                        await sc.Context.SendActivityAsync(activity);
                     }
                 }
 
-                state.ShowMeetingInfor.ShowingMeetings.Clear();
+                state.ShowMeetingInfo.ShowingMeetings.Clear();
 
                 return await sc.EndDialogAsync();
             }

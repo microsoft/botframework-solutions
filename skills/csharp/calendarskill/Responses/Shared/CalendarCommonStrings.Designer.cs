@@ -88,6 +88,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (adjust|change|update|different)?.*(room).
+        /// </summary>
+        public static string AdjustMeetingRoom {
+            get {
+                return ResourceManager.GetString("AdjustMeetingRoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (adjust|change|update|add|delete)?.*(participants|attendee|attendees|people|person).
         /// </summary>
         public static string AdjustParticipants {
@@ -106,7 +115,7 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (adjust|change|update)?.*time.
+        ///   Looks up a localized string similar to (adjust|change|update|different)?.*time.
         /// </summary>
         public static string AdjustTime {
             get {
@@ -538,6 +547,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to right now.
+        /// </summary>
+        public static string RightNow {
+            get {
+                return ResourceManager.GetString("RightNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}h.
         /// </summary>
         public static string ShortDisplayDurationHour {
@@ -552,6 +570,15 @@ namespace CalendarSkill.Responses.Shared {
         public static string ShortDisplayDurationMinute {
             get {
                 return ResourceManager.GetString("ShortDisplayDurationMinute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to in {0}.
+        /// </summary>
+        public static string ShowBuildingCondition {
+            get {
+                return ResourceManager.GetString("ShowBuildingCondition", resourceCulture);
             }
         }
         
@@ -592,6 +619,15 @@ namespace CalendarSkill.Responses.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to on {0}.
+        /// </summary>
+        public static string ShowFloorNumberCondition {
+            get {
+                return ResourceManager.GetString("ShowFloorNumberCondition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to **{0}-{1}** of {2}.
         /// </summary>
         public static string ShowMeetingsIndicator {
@@ -606,6 +642,15 @@ namespace CalendarSkill.Responses.Shared {
         public static string SkipPhrases {
             get {
                 return ResourceManager.GetString("SkipPhrases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
             }
         }
         

@@ -1,0 +1,41 @@
+﻿# DidntUnderstandMessage
+[Activity
+    Text = @{DidntUnderstandMessage.Text()}
+    Speak = @{DidntUnderstandMessage.Text()}
+    InputHint = expectingInput
+]
+
+# CalendarErrorMessage
+[Activity
+    Text = @{CalendarErrorMessage.Text()}
+    Speak = @{CalendarErrorMessage.Text()}
+    InputHint = acceptingInput
+]
+
+# RetryTooManyResponse
+[Activity
+    Text = @{RetryTooManyResponse.Text()}
+    Speak = @{RetryTooManyResponse.Text()}
+    InputHint = expectingInput
+]
+
+# CalendarErrorMessageAccountProblem
+[Activity
+    Text = @{CalendarErrorMessageAccountProblem.Text()}
+    Speak = @{CalendarErrorMessageAccountProblem.Text()}
+    InputHint = acceptingInput
+]
+
+# ActionEnded
+[Activity
+    Text = @{ActionEnded.Text()}
+    Speak = @{ActionEnded.Text()}
+    InputHint = acceptingInput
+]
+
+# MultipleEventsFound
+[Activity
+    Text = @{MultipleEventsFound.Text()}
+    Speak = @{MultipleEventsFound.Text()}
+    InputHint = expectingInput
+]

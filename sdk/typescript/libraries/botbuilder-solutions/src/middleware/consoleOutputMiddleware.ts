@@ -37,18 +37,17 @@ export class ConsoleOutputMiddleware implements Middleware {
     private logActivity(prefix: string, contextActivity: Partial<Activity>): void {
         this.log('');
         if (contextActivity.type === ActivityTypes.Message) {
-            const messageActivity: IMessageActivity = <IMessageActivity>contextActivity;
-            this.log(`${prefix} [${Date.now()}] ${ConsoleOutputMiddleware.getTextOrSpeak(messageActivity)}`);
+            const messageActivity: IMessageActivity = contextActivity as IMessageActivity;
+            this.log(`${ prefix } [${ Date.now() }] ${ ConsoleOutputMiddleware.getTextOrSpeak(messageActivity) }`);
         } else if (contextActivity.type === ActivityTypes.Event) {
-            const eventActivity: IEventActivity = <IEventActivity>contextActivity;
-            this.log(`${prefix} [${Date.now()}] ${eventActivity.name}`);
+            const eventActivity: IEventActivity = contextActivity as IEventActivity;
+            this.log(`${ prefix } [${ Date.now() }] ${ eventActivity.name }`);
         } else {
-            this.log(`${prefix} ${contextActivity.type}: [${Date.now()}]`);
+            this.log(`${ prefix } ${ contextActivity.type }: [${ Date.now() }]`);
         }
     }
 
     private log(message: string): void {
-        // tslint:disable-next-line:no-console
         console.log(message);
     }
 }

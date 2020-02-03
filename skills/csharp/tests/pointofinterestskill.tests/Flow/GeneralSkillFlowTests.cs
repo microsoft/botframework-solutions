@@ -15,15 +15,16 @@ using PointOfInterestSkill.Tests.Flow.Utterances;
 namespace PointOfInterestSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class GeneralSkillFlowTests : PointOfInterestSkillTestBase
     {
         [TestMethod]
-        public async Task Test_SingleTurnCompletion()
+        public async Task Test_SkillModeCompletion()
         {
-            await this.GetTestFlow()
+            await this.GetSkillTestFlow()
                 .Send(GeneralTestUtterances.UnknownIntent)
                 .AssertReplyOneOf(this.ConfusedResponse())
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
+                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
         }
 

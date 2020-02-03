@@ -5,9 +5,8 @@
 
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStatus, FoundChoice,
-    ListStyle, OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext } from 'botbuilder-dialogs';
+    OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext } from 'botbuilder-dialogs';
 import { MicrosoftAppCredentials } from 'botframework-connector';
-// tslint:disable-next-line:no-submodule-imports
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
 import i18next from 'i18next';
@@ -18,7 +17,16 @@ import { IRemoteUserTokenProvider, isRemoteUserTokenProvider } from '../remoteUs
 import { ResponseManager } from '../responses';
 import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
-import { getAuthenticationProvider, IProviderTokenResponse } from './providerTokenResponse';
+import { OAuthProviderExtensions } from './oAuthProviderExtensions';
+import { IProviderTokenResponse } from './providerTokenResponse';
+
+export enum DialogIds {
+    providerPrompt = 'ProviderPrompt',
+    firstStepPrompt = 'FirstStep',
+    localAuthPrompt = 'LocalAuth',
+    remoteAuthPrompt = 'RemoteAuth',
+    remoteAuthEventPrompt = 'RemoteAuthEvent'
+}
 
 export class MultiProviderAuthDialog extends ComponentDialog {
     private selectedAuthType: string = '';
@@ -68,7 +76,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         // otherwise we only enable remote auth where the calling Bot handles this for us.
         if (this.authenticationConnections !== undefined && this.authenticationConnections.length > 0) {
 
-            let authDialogAdded: boolean = false;
+            let authDialogAdded = false;
             this.authenticationConnections.forEach((connection: IOAuthConnection): void => {
                 // We ignore placeholder connections in config that don't have a Name
                 if (connection.name !== '') {
@@ -91,7 +99,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             if (authDialogAdded) {
                 this.addDialog(new WaterfallDialog(DialogIds.localAuthPrompt, localAuth));
                 const prompt: ChoicePrompt = new ChoicePrompt(DialogIds.providerPrompt);
-                prompt.style = ListStyle.suggestedAction;
                 this.addDialog(prompt);
 
                 this.localAuthConfigured = true;
@@ -99,6 +106,14 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 throw new Error('Something wrong with the authentication.');
             }
         }
+    }
+
+    // Validators
+    protected async tokenResponseValidator(promptContext: PromptValidatorContext<Activity>): Promise<boolean> {
+        const activity: Activity | undefined = promptContext.recognized.value;
+        const result: boolean = activity !== undefined && activity.type === ActivityTypes.Event;
+
+        return Promise.resolve(result);
     }
 
     private async firstStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
@@ -129,7 +144,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 this.telemetryClient.trackEvent({
                     name: 'DirectLineSpeechTokenRetrievalFailure',
                     properties: {
-                        // tslint:disable-next-line:no-unsafe-any
                         Exception: error.message
                     }
                 });
@@ -166,8 +180,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     private async sendRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (isRemoteUserTokenProvider(stepContext.context.adapter)) {
-            // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-            const tokenProvider: IRemoteUserTokenProvider = <any>stepContext.context.adapter;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const tokenProvider: IRemoteUserTokenProvider = stepContext.context.adapter as any;
             await tokenProvider.sendRemoteTokenRequestEvent(stepContext.context);
 
             // Wait for the tokens/response event
@@ -179,7 +193,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     private async receiveRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (stepContext.context.activity !== undefined && stepContext.context.activity.value !== undefined) {
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const tokenResponse: IProviderTokenResponse = JSON.parse(stepContext.context.activity.value);
 
             return stepContext.endDialog(tokenResponse);
@@ -196,7 +209,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
 
         // DELTA inconsistences between IUserTokenProvider and BotFrameworkAdapter implementation
-        const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> stepContext.context.adapter;
+        const adapter: BotFrameworkAdapter = stepContext.context.adapter as BotFrameworkAdapter;
 
         if (adapter !== undefined) {
             const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(
@@ -259,7 +272,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         if (typeof stepContext.result === 'string') {
             this.selectedAuthType = stepContext.result;
         } else {
-            const choice: FoundChoice = <FoundChoice> stepContext.result;
+            const choice: FoundChoice = stepContext.result as FoundChoice;
             if (choice !== undefined && choice.value !== undefined) {
                 this.selectedAuthType = choice.value;
             }
@@ -269,7 +282,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     }
 
     private async handleTokenResponse(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        const tokenResponse: TokenResponse = <TokenResponse> stepContext.result;
+        const tokenResponse: TokenResponse = stepContext.result as TokenResponse;
 
         if (tokenResponse !== undefined && tokenResponse.token) {
             const result: IProviderTokenResponse = await this.createProviderTokenResponse(stepContext.context, tokenResponse);
@@ -293,7 +306,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
 
         const response: IProviderTokenResponse = {
-            authenticationProvider: getAuthenticationProvider(match.serviceProviderDisplayName || ''),
+            authenticationProvider: OAuthProviderExtensions.getAuthenticationProvider(match.serviceProviderDisplayName || ''),
             tokenResponse: tokenResponse
         };
 
@@ -317,21 +330,13 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             // PENDING OAuthClient // DELTA
             return [];
         } else {
-            const tokenProvider: BotFrameworkAdapter = <BotFrameworkAdapter> context.adapter;
+            const tokenProvider: BotFrameworkAdapter = context.adapter as BotFrameworkAdapter;
             if (tokenProvider !== undefined) {
                 return tokenProvider.getTokenStatus(context, userId, includeFilter);
             } else {
                 throw new Error('Adapter does not support IUserTokenProvider');
             }
         }
-    }
-
-    // Validators
-    private async tokenResponseValidator(promptContext: PromptValidatorContext<Activity>): Promise<boolean> {
-        const activity: Activity|undefined = promptContext.recognized.value;
-        const result: boolean = activity !== undefined && activity.type === ActivityTypes.Event;
-
-        return Promise.resolve(result);
     }
 
     private async authPromptValidator(promptContext: PromptValidatorContext<TokenResponse>): Promise<boolean> {
@@ -343,7 +348,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         const eventActivity: Activity = promptContext.context.activity;
 
         if (eventActivity !== undefined && eventActivity.name === 'token/response') {
-            promptContext.recognized.value = <TokenResponse> eventActivity.value;
+            promptContext.recognized.value = eventActivity.value as TokenResponse;
 
             return Promise.resolve(true);
         }
@@ -354,12 +359,4 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         return Promise.resolve(false);
     }
-}
-
-namespace DialogIds {
-    export const providerPrompt: string = 'ProviderPrompt';
-    export const firstStepPrompt: string = 'FirstStep';
-    export const localAuthPrompt: string = 'LocalAuth';
-    export const remoteAuthPrompt: string = 'RemoteAuth';
-    export const remoteAuthEventPrompt: string = 'RemoteAuthEvent';
 }

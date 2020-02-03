@@ -1,0 +1,23 @@
+[import](SharedActivities.lg)
+
+# DidntUnderstandMessage.Text
+- Scusa, non ho capito. Prova a riformulare la tua domanda e riprovare.
+- Scusa, non capisco. Riprovare.
+- Non l'ho capito. Prova a chiedere di nuovo.
+
+# CalendarErrorMessage.Text
+- Mi dispiace, sembra che sia successo qualcosa e non riesco a completarlo in questo momento. Riprova più tardi.
+- Spiacenti, al momento non riesco a completare l'operazione. Riprova più tardi.
+
+# RetryTooManyResponse.Text
+- Scusa, non posso aiutarti con questo adesso. Proviamo di nuovo più tardi.
+
+# CalendarErrorMessageAccountProblem.Text
+- Spiacente, non riesco ad accedere al tuo account in questo momento. Riprova più tardi.
+
+# ActionEnded.Text
+- Fammi sapere se posso aiutarti con qualsiasi altra cosa.
+
+# MultipleEventsFound.Text
+- Ho trovato più di un evento che potrebbe corrispondere. Si prega di selezionare quello che si desidera.
+- Ci sono più eventi sul tuo calendario che potrebbero corrispondere. Quale vuoi recensire?

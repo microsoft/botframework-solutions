@@ -1,0 +1,10 @@
+[import](TimeRemainingDialogActivities.lg)
+
+# ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)
+- Vous avez @{RemainingTime} jusqu'à votre prochain événement.
+
+# ShowTimeRemainingMessage.Text(RemainingTime, Title, Time)
+- Vous avez @{RemainingTime} Jusqu'à @{Title} À @{Time}.
+
+# ShowTimeRemainingMessage.Speak(RemainingTime, Title, TimeSpeak)
+- Vous avez @{RemainingTime} restant jusqu'à ce que @{Title} À @{TimeSpeak}.

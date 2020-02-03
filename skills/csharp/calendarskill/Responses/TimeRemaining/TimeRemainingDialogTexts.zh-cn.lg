@@ -1,0 +1,10 @@
+[import](TimeRemainingDialogActivities.lg)
+
+# ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)
+- 你有@{RemainingTime}直到你的下一个事件。
+
+# ShowTimeRemainingMessage.Text(RemainingTime, Title, Time)
+- 你有@{RemainingTime}直到@{Title}在@{Time}.
+
+# ShowTimeRemainingMessage.Speak(RemainingTime, Title, TimeSpeak)
+- 你有@{RemainingTime}直到@{Title}在@{TimeSpeak}.

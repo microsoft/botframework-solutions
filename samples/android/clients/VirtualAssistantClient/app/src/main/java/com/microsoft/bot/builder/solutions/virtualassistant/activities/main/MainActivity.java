@@ -41,8 +41,10 @@ import com.google.gson.reflect.TypeToken;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.virtualassistant.R;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.BaseActivity;
+import com.microsoft.bot.builder.solutions.virtualassistant.activities.linked_account.LinkedAccountActivity;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsAdapter;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.actionslist.ActionsViewholder;
 import com.microsoft.bot.builder.solutions.virtualassistant.activities.main.chatlist.Action;
@@ -103,6 +105,8 @@ public class MainActivity extends BaseActivity
     private static final String LOGTAG = "MainActivity";
     private static final int REQUEST_CODE_SETTINGS = 256;
     private static final int REQUEST_CODE_OVERLAY_PERMISSION = 255;
+    private static final String PARAMS_USER_ID = "userId";
+    private static final String PARAMS_SIGN_IN_STATUS = "signInStatus";
 
     // STATE
     private ChatAdapter chatAdapter;
@@ -129,7 +133,8 @@ public class MainActivity extends BaseActivity
         setupSuggestedActionsRecyclerView();
 
         // Options hidden in the nav-drawer
-        enableKws = getBooleanSharedPref(SHARED_PREF_ENABLE_KWS);
+        Configuration speechConfig = configurationManager.getConfiguration();
+        enableKws = speechConfig.enableKWS;
         switchEnableKws.setChecked(enableKws);
 
         // NAV DRAWER
@@ -137,6 +142,10 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        setSignInStatus(configurationManager.getConfiguration().signedIn);
+        if (configurationManager.getConfiguration().linkedAccountEndpoint == null || configurationManager.getConfiguration().linkedAccountEndpoint.isEmpty()) {
+            navigationView.getMenu().findItem(R.id.nav_menu_sign_in).setVisible(false);
+        }
 
         // handle dangerous permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -184,6 +193,18 @@ public class MainActivity extends BaseActivity
         if (keepScreenOn) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // to keep screen on
         }
+        Intent intent = getIntent();
+        Uri intentData = intent.getData();
+        if (intent != null && intentData != null) {
+            String userId = intentData.getQueryParameter(PARAMS_USER_ID);
+            Boolean signInStatus = Boolean.parseBoolean(intentData.getQueryParameter(PARAMS_SIGN_IN_STATUS).toLowerCase());
+
+            Configuration configuration = configurationManager.getConfiguration();
+            configuration.userId = userId;
+            configuration.signedIn = signInStatus;
+            configurationManager.setConfiguration(configuration);
+            setSignInStatus(signInStatus);
+        }
     }
 
     @Override
@@ -224,6 +245,10 @@ public class MainActivity extends BaseActivity
 
         final int spacing = getResources().getDimensionPixelOffset(R.dimen.list_item_spacing_small);
         suggActionsRecyclerView.addItemDecoration(new ItemOffsetDecoration(spacing));
+    }
+
+    private void setSignInStatus(boolean signInStatus) {
+        navigationView.getMenu().findItem(R.id.nav_menu_sign_in).setTitle(signInStatus ? R.string.nav_menu_sign_out : R.string.nav_menu_sign_in);
     }
 
     @Override
@@ -295,6 +320,8 @@ public class MainActivity extends BaseActivity
                     speechServiceBinder.clearSuggestedActions();
                     resetSpeechService();
                     break;
+                case R.id.nav_menu_sign_in:
+                    startActivity(LinkedAccountActivity.getNewIntent(this));
             }
 
         } catch (RemoteException exception){
@@ -396,7 +423,9 @@ public class MainActivity extends BaseActivity
                 enableKws = checked;
             }
 
-            putBooleanSharedPref(SHARED_PREF_ENABLE_KWS, enableKws);
+            Configuration speechConfig =  configurationManager.getConfiguration();
+            speechConfig.enableKWS = enableKws;
+            configurationManager.setConfiguration(speechConfig);
 
             if (checked && !enableKws) {
                 switchEnableKws.setChecked(false);

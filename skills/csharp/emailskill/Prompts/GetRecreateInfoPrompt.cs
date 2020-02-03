@@ -9,8 +9,8 @@ using EmailSkill.Models;
 using EmailSkill.Responses.Shared;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Util;
 
 namespace EmailSkill.Prompts
 {

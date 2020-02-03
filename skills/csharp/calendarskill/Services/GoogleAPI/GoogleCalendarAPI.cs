@@ -169,6 +169,18 @@ namespace CalendarSkill.Services.GoogleAPI
             return;
         }
 
+        // Check Available
+        public async Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            List<bool> availability = new List<bool>();
+            foreach (var user in users)
+            {
+                availability.Add(false);
+            }
+
+            return availability;
+        }
+
         public Task<AvailabilityResult> GetUserAvailabilityAsync(string userEmail, List<string> users, DateTime startTime, int availabilityViewInterval)
         {
             return null;

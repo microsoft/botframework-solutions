@@ -13,12 +13,18 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Authentication;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Util;
+using Microsoft.Bot.Solutions.Authentication;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Net.Http;
+using System.IO;
+using System.Linq;
+using System.Drawing.Drawing2D;
 
 namespace BingSearchSkill.Dialogs
 {
@@ -186,6 +192,50 @@ namespace BingSearchSkill.Dialogs
             {
                 return card;
             }
+        }
+
+        protected string ImageToDataUri(string imageUrl)
+        {
+            var httpClient = new HttpClient();
+
+            long useDataUriJpegQuality = 75;
+
+            if (useDataUriJpegQuality > 0 && !string.IsNullOrEmpty(imageUrl))
+            {
+                using (var image = Image.FromStream(httpClient.GetStreamAsync(imageUrl).Result))
+                {
+                    MemoryStream ms = new MemoryStream();
+                    var encoder = ImageCodecInfo.GetImageDecoders().Where(x => x.FormatID == ImageFormat.Jpeg.Guid).FirstOrDefault();
+                    var encoderParameters = new EncoderParameters(1);
+                    encoderParameters.Param[0] = new EncoderParameter(Encoder.Quality, useDataUriJpegQuality);
+                    var maxWidth = 200;
+                    if (image.Width > maxWidth)
+                    {
+                        var newWidth = maxWidth;
+                        var newHeight = newWidth * image.Height / image.Width;
+                        var res = new Bitmap(newWidth, newHeight);
+
+                        using (var graphic = Graphics.FromImage(res))
+                        {
+                            graphic.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            graphic.SmoothingMode = SmoothingMode.HighQuality;
+                            graphic.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                            graphic.CompositingQuality = CompositingQuality.HighQuality;
+                            graphic.DrawImage(image, 0, 0, newWidth, newHeight);
+                        }
+
+                        res.Save(ms, encoder, encoderParameters);
+                    }
+                    else
+                    {
+                        image.Save(ms, encoder, encoderParameters);
+                    }
+
+                    return $"data:image/jpeg;base64,{Convert.ToBase64String(ms.ToArray())}";
+                }
+            }
+
+            return string.Empty;
         }
 
         private class DialogIds

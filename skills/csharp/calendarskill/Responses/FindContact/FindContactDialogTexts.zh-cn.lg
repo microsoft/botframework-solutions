@@ -1,0 +1,51 @@
+[import](FindContactDialogActivities.lg)
+
+# AddMoreAttendees.Text
+- 您要添加谁？
+- 您想添加谁？
+
+# BeforeSendingMessage.Text(NameList)
+- 好的，您要向@{NameList}.
+
+# UserNotFound.Text
+- 在您的联系人列表中，我找不到与该名称匹配的任何人。
+
+# UserNotFoundAgain.Text(UserName, Source)
+- 对不起，我找不到"@{UserName}"在您的联系人列表中。如果此人已添加到您的联系人列表中，则非常有用。@{Source}.
+
+# AlreadyFirstPage.Text
+- 这已经是第一页了。
+
+# AlreadyLastPage.Text
+- 这已经是最后一页了。
+
+# AddMoreUserPrompt.Text
+- 你想邀请其他人吗？
+- 你想邀请其他人吗？
+
+# ConfirmMultipleContactEmailSinglePage.Text
+- 您要使用哪个电子邮件地址？
+
+# ConfirmMultipleContactEmailMultiPage.Text
+- 您要使用哪个电子邮件地址？您也可以让我向您展示以前的或更多的选项。
+
+# ConfirmMultipleContactNameSinglePage.Text(ContactName)
+- 哪个@{ContactName}你想邀请吗？
+
+# ConfirmMultipleContactNameMultiPage.Text(ContactName)
+- 哪个@{ContactName}你想邀请吗？您也可以让我向您展示以前的或更多的选项。
+
+# PromptOneNameOneAddress.Text(User)
+- 好吧，我加了@{User}.
+
+# AskForEmail.Text
+- 你能提供一个电子邮件地址吗？
+
+# FindMultipleEmails.Text(UserName)
+- 我找到多个电子邮件地址@{UserName}.
+
+# FindMultipleContactNames.Text(UserName)
+- 我发现多个联系人与名称@{UserName}.
+
+# EmailChoiceConfirmation.Text(Email)
+- 好的，我用@{Email}.

@@ -3,21 +3,22 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Responses.ChangeEventStatus;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ChangeCalendarStatusFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
@@ -38,11 +39,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarDeleteWithStartTimeEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -50,11 +52,12 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarDeleteWithTitleEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -64,13 +67,14 @@ namespace CalendarSkill.Test.Flow
             int eventCount = 3;
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.DeleteEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -78,22 +82,23 @@ namespace CalendarSkill.Test.Flow
         public async Task Test_CalendarAcceptWithStartTimeEntity()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ChangeMeetingStatusTestUtterances.AcceptMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.AcceptEventPrompt())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         private string[] DeleteEventPrompt()
         {
-            return this.ParseReplies(ChangeEventStatusResponses.EventDeleted, new StringDictionary());
+            return GetTemplates(ChangeEventStatusResponses.EventDeleted);
         }
 
         private string[] AcceptEventPrompt()
         {
-            return this.ParseReplies(ChangeEventStatusResponses.EventAccepted, new StringDictionary());
+            return GetTemplates(ChangeEventStatusResponses.EventAccepted);
         }
 
         private Action<IActivity> ShowCalendarList()
@@ -109,7 +114,7 @@ namespace CalendarSkill.Test.Flow
         {
             return activity =>
             {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
+                Assert.AreEqual(activity.Type, ActivityTypes.EndOfConversation);
             };
         }
     }

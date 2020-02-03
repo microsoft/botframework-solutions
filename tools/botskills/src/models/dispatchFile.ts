@@ -14,7 +14,6 @@ export interface IDispatchService {
     authoringKey: string;
     version: string;
     region: string;
-    // tslint:disable-next-line:no-reserved-keywords
     type: string;
     name: string;
     id: string;
