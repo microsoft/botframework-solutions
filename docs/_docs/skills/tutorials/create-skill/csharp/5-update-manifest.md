@@ -17,4 +17,4 @@ A default manifest describing your Skill is provided as part of the project, you
 
 1. Update `{YOUR_SKILL_APPID}` with the Active Directory AppID of your deployed Skill, you can find this within your `appSettings.json` file.
 
-1. Publish the changes to your Skill endpoint and validate that you can retrieve the manifest using the browser (`/manifest/manifest.json`)
+1. Publish the changes to your Skill endpoint and validate that you can retrieve the manifest using the browser (`/manifest/manifest-1.1.json`)

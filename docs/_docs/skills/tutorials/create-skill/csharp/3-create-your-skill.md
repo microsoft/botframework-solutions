@@ -56,7 +56,6 @@ order: 3
     | - SkillLuis.cs                       // Class representation of LUIS result from Skill language model
 | - appsettings.json                   // Configuration for application and Azure services
 | - cognitivemodels.json               // Configuration for language models, knowledgebases, and dispatch model
-| - manifestTemplate.json              // Template for generating skill manifest
 | - Program.cs                         // Default Program.cs file
 | - Startup.cs                         // Initializes dependencies
 ```
