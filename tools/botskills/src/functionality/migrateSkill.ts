@@ -5,7 +5,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IMigrateConfiguration, IAppSetting, ISkill, ISkillManifestV1, ISkillFileV1 } from '../models';
+import { IMigrateConfiguration, IAppSetting, ISkill, ISkillFileV1 } from '../models';
 import { isInstanceOfISkillManifestV1 } from '../utils/validationUtils';
 
 export class MigrateSkill {
@@ -50,15 +50,13 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                         this.logger.warning(`The skill '${ skill.name }' is already registered.`);
                         return;
                     }
-                    let migratedSkill: ISkill = 
-                    {
+
+                    destAssistantSkills.push({
                         Id: skill.id,
                         AppId: skill.msaAppId,
                         SkillEndpoint: skill.endpoint,
                         Name: skill.name
-                    };
-    
-                    destAssistantSkills.push(migratedSkill);
+                    });
                 }
                 else {
                     throw new Error(`A skill has an incorrect format, please check that all the skills intended to be migrated has the V1 format`);
