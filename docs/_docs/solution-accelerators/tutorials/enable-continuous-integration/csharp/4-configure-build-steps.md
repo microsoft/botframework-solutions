@@ -3,7 +3,7 @@ layout: tutorial
 category: Solution Accelerators
 subcategory: Enable continuous integration
 title: Configure the build steps
-language: C#
+language: csharp
 order: 4
 ---
 

@@ -127,7 +127,7 @@ References to an source of utterances can be provided through the (`utteranceSou
 "triggers": {
   "utteranceSources": [
     {
-      "locale": "en",
+      "locale": "en-us",
       "source": [
         "Calendar#AcceptEventEntry",
         "Calendar#DeleteCalendarEntry"
@@ -143,7 +143,7 @@ Utterances can also be provided in-line with the skill manifest as shown below. 
 "triggers": {
   "utterances": [
     {
-      "locale": "en",
+      "locale": "en-us",
       "text": [
         "2 hour meeting with darren at 5 on tuesday",
         "add a meeting with darren to my calendar"
@@ -228,7 +228,7 @@ Both **utteranceSources** and **utterances** support multiple-locales enabling y
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#CreateCalendarEntry",
                 "Calendar#FindMeetingRoom"
@@ -259,7 +259,7 @@ Both **utteranceSources** and **utterances** support multiple-locales enabling y
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#AcceptEventEntry",
                 "Calendar#DeleteCalendarEntry"
@@ -277,7 +277,7 @@ Both **utteranceSources** and **utterances** support multiple-locales enabling y
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#ConnectToMeeting"
               ]
@@ -294,7 +294,7 @@ Both **utteranceSources** and **utterances** support multiple-locales enabling y
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#TimeRemaining"
               ]
@@ -336,7 +336,7 @@ Both **utteranceSources** and **utterances** support multiple-locales enabling y
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#FindCalendarDetail",
                 "Calendar#FindCalendarEntry",
@@ -395,7 +395,7 @@ Both **utteranceSources** and **utterances** support multiple-locales enabling y
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "Calendar#ChangeCalendarEntry"
               ]

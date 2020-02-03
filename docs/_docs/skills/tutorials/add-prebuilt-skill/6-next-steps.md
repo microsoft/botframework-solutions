@@ -28,7 +28,7 @@ Now that you've connected a pre-built skill to your assitant, try out these othe
             <p class="card-text">Enable the Microsoft Speech Channel for your assistant.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/enable-speech/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/clients-and-channels/tutorials/enable-speech/1-intro" class="btn btn-primary">Get Started</a>
         </div>
     </div>
     <div class="card">
@@ -37,7 +37,7 @@ Now that you've connected a pre-built skill to your assitant, try out these othe
             <p class="card-text">Enable the Microsoft Teams Channel for your assistant.</p>
         </div>
         <div class="card-footer" style="display: flex; justify-content: center;">
-            <a href="{{site.baseurl}}/tutorials/enable-teams/1_intro" class="btn btn-primary">Get Started</a>
+            <a href="{{site.baseurl}}/clients-and-channels/tutorials/enable-teams/1-intro" class="btn btn-primary">Get Started</a>
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: C#
+language: csharp
 title: Create your skill project
 order: 3
 ---
@@ -12,9 +12,9 @@ order: 3
 ## {{ page.title }}
 
 1. In Visual Studio, select **File > New Project**.
-2. Search for **Skill Template** and select **Next**.
-3. Name your project and select **Create**.
-4. Build your project to restore the NuGet packages.
+1. Search for **Skill Template** and select **Next**.
+1. Name your project and select **Create**.
+1. Build your project to restore the NuGet packages.
 
 ## What files were created?
 ```

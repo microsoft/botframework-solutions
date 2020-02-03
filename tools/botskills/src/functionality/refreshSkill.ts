@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
 import { ICognitiveModel, IRefreshConfiguration } from '../models';
-import { ChildProcessUtils, getDispatchNames, wrapPathWithQuotes } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isCloudGovernment, wrapPathWithQuotes } from '../utils';
 
 export class RefreshSkill {
     public logger: ILogger;
@@ -44,6 +44,10 @@ export class RefreshSkill {
                 const argumentValue: string = <string> executionModelByCulture.get(argument);
                 dispatchRefreshCommand.push(...[argument, argumentValue]);
             });
+            // Append '--gov true' if it is a government cloud
+            if (await isCloudGovernment() === true) {
+                dispatchRefreshCommand.push('--gov', 'true');
+            }
             await this.runCommand(
                 dispatchRefreshCommand,
                 `Executing dispatch refresh for the ${dispatchName} file`);

@@ -81,12 +81,12 @@ The other LUIS models (`contactSelection` and `phoneNumberSelection`) are used t
 
 To use Google account in skill you need to follow these steps:
 1. Create your Gmail API credential in [Google developers console](https://console.developers.google.com).
-2. Create an OAuth connection setting in your Web App Bot.
+1. Create an OAuth connection setting in your Web App Bot.
     - Connection name: `googleapi`
     - Service Provider: `Google`
     - Client id and secret are generated in step 1
     - Scopes: `"https://www.googleapis.com/auth/contacts"`.
-3. Add the connection name, client id, secret and scopes in appsetting.json file.
+1. Add the connection name, client id, secret and scopes in appsetting.json file.
 
 ##### Authentication connection settings
 {:.no_toc}
@@ -99,7 +99,7 @@ If you plan to use the skill as part of a Virtual Assistant, the process of regi
 
 **However**, if you wish to use the Skill directly without using a Virtual Assistant, please use the following steps to manually configure Authentication for the Phone Skill. This is **not** required when using the Skill with a Virtual Assistant.
 
-Follow the general instructions [here]({{site.baseurl}}/howto/skills/manualauthsteps.md) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to configure this using the scopes shown above.
 
 ## Events
 

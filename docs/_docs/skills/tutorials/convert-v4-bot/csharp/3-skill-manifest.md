@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Convert a v4 Bot
-language: C#
+language: csharp
 title: Add a Skill Manifest
 order: 3
 ---
@@ -29,7 +29,7 @@ Create a `manifestTemplate.json` file in the root of your Bot. Ensure at a minim
         "triggers": {
           "utteranceSources": [
             {
-              "locale": "en",
+              "locale": "en-us",
               "source": [
                 "luisModel#intent"
               ]

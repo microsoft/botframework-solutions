@@ -23,7 +23,7 @@ Run the above deployment script again but provide two new arguments `appId` and 
 Prior versions of the BF SDK and VA template experienced issues when using Teams whereby Authentication cards (OAuthPrompt generated) did not function as expected. This required manual changes to work around the issue which are now incorporated into the BF SDK and Virtual Assistant template. If you experience these problems please:
 
 1. Update to Bot Framework SDK 4.4.5 or higher
-2. Update your `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` nuget packages to 4.4.4.1 or higher.
+1. Update your `Microsoft.Bot.Builder.Solutions` and `Microsoft.Bot.Builder.Skills` nuget packages to 4.4.4.1 or higher.
 
 Please be aware that you **must** use [App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) to create an Application Manifest when using Teams. Otherwise you won't be able to click any login buttons within Teams. 
 
@@ -62,16 +62,15 @@ QnAMaker has a central Cognitive Service resource that must be deployed in `west
 If you try to use the PowerBI analytics dashboard with your Virtual Assistant / Skills and experience a `Errors in FlowAggregates` issue or experience some telemetry not being collected this likely relates to a bug experienced in the initial version of the Virtual Assistant template and Skills which has now been addressed.
 
 1. Change `appInsights` in appSettings.config to `ApplicationInsights`
-
 ```
 "ApplicationInsights": {
     "InstrumentationKey": ""
-  }
+}
 ```
 
-2. Update your `BotServices.cs` file with the changes [here]({{site.baseurl}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services/BotServices.cs).
+2. Update your `BotServices.cs` file with the changes [here]({{site.repo}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Services/BotServices.cs).
 
-3. Update your `Startup.cs` file with the changes [here]({{site.baseurl}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Startup.cs)
+3. Update your `Startup.cs` file with the changes [here]({{site.repo}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Startup.cs)
 
 4. Existing data in your Application Insights may cause the error to persist. You can either drop and re-create your Application insights resource updating the appSettings.config file with the new Instrumentation key or follow these [purge instructions](https://docs.microsoft.com/en-us/rest/api/application-insights/components/purge).
 
@@ -82,13 +81,13 @@ Due to a limitation with the LUIS authoring APIs the original deployment scripts
 
 This may cause you to also experience `Forbidden` LUIS errors when testing your Bot as you may have exhausted the quota for your starter LUIS key, changing from your starter LUIS subscription key will resolve this.
 
-This has now been resolved in the latest deployment scripts which you can update to following [these instructions]({{site.baseurl}}/help/reference/deployment-scripts/#updating-your-deployment-scripts). If you have an existing deployment you'll have to manually perform the following steps:
+This has now been resolved in the latest deployment scripts which you can update to following [these instructions]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/#updating-your-deployment-scripts). If you have an existing deployment you'll have to manually perform the following steps:
 
 1. As shown below go through **each LUIS model including Dispatch**, click Assign Resoucre and locate the appropriate subscription key and then re-publish. 
 
 ![Assign Resource]({{site.baseurl}}/assets/images/luis-assignresource.png)
 
-2. Update the `subscriptionKey` for each LUIS model (includign Dispatch) in `cognitiveModels.json` with your new subscription key. 
+1. Update the `subscriptionKey` for each LUIS model (includign Dispatch) in `cognitiveModels.json` with your new subscription key. 
 
 
 ## The introduction card isn't displayed when a locale is missing
@@ -215,3 +214,38 @@ protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogCont
 For more information, check the following issues:
 * [#1589](https://github.com/microsoft/botframework-solutions/issues/1589) - `OnTurnError function inside DefaultAdapter doesn't end the current dialog`
 * [#2766](https://github.com/microsoft/botframework-solutions/issues/2766) - `OnTurnError is not getting called in VA`
+
+## If a resource has a firewall configured, the resource might not be reached by the bot
+There is a known issue in the Azure resources with a firewall configured when the bot is trying to reach to the resource:
+`{"code":"Forbidden","message":"Request originated from client IP <IP>. This is blocked by your <RESOURCE> firewall settings"}`
+
+You can check your network configuration in the Azure Portal as follows:
+1. Select your desired resource 
+1. Select `Firewall and virtual networks` configuration
+1. Check the configuration of the `Allow access from` to enable all or selected networks
+1. If you have selected networks, check the configured networks
+
+If you are using a C# bot and Bot Framework Emulator, you will see a trace when these kind of exceptions are caught by the `onTurnError` handler in order to identify the error.
+
+Otherwise, if you are using a TypeScript bot, you should remove the `showTypingMiddleware` and add the `onTurnError` handler in the `defaultAdapter`:
+
+[DefaultAdapter.ts](https://github.com/microsoft/botframework-solutions/blob/master/templates/Virtual-Assistant-Template/typescript/samples/sample-assistant/src/adapters/defaultAdapter.ts)
+```typescript
+    this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.message || JSON.stringify(error)
+        });
+        await context.sendActivity({
+            type: ActivityTypes.Trace,
+            text: error.stack
+        });
+        telemetryClient.trackException({ exception: error });
+    };
+```
+
+For more information, check the following issues:
+* [botbuilder-js#1599](https://github.com/microsoft/botbuilder-js/issues/1599) - `[BotBuilder-Core] Handle Uncaught Exceptions`
+* [#2766](https://github.com/microsoft/botframework-solutions/issues/2766) - `OnTurnError is not getting called in VA`
+* [botbuilder-js#726](https://github.com/microsoft/botbuilder-js/issues/726) - `ShowTypingMiddleware suppresses errors and does not allow adapter.onTurnError to handle them`
+* [botbuilder-js#1170](https://github.com/microsoft/botbuilder-js/issues/1170) - `ShowTypingMiddleware provoke silent error behaviour`

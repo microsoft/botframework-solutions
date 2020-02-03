@@ -129,7 +129,7 @@ To test your assistant with different locales, you follow these steps in the Bot
 
     ![Emulator settings screenshot]({{site.baseurl}}/assets/images/emulator_settings.png)
 
-2. Set your desired locale in the **Locale** field and click **Save**
+1. Set your desired locale in the **Locale** field and click **Save**
 
     ![Emulator locale screenshot]({{site.baseurl}}/assets/images/emulator_locale.jpg)
 

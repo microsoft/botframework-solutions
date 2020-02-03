@@ -15,14 +15,14 @@ The [Enterprise Assistant sample]({{site.repo}}/tree/master/samples/csharp/assis
 
 This sample works off the basis that the assistant would be provided through common employee channels such as Microsoft Teams, a mobile application, and Web Chat to help improve employee productivity, but also assist them in getting work tasks completed such as opening an IT Service Management (ITSM) ticket. It also provides additional capabilities that might be useful for employees, like getting the weather forecast or showing current news articles. 
 
-The Enterprise Assistant Sample is based on the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template), with the addition of a [QnA Maker knowledge base](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/knowledge-base) for answering common enterprise FAQs (such as Benefits and HR Information) and customized Adaptive Cards.  It also connects 7 different Skills; which are [Calendar]({{site.baseurl}}/skills/samples/calendar), [Email]({{site.baseurl}}/skills/samples/email), and [To Do]({{site.baseurl}}/skills/samples/to-do)  along with the experimental skills of [Weather]({{site.baseurl}}/skills/samples/weather), [News]({{site.baseurl}}/skills/samples/next), [Phone]({{site.baseurl}}/skills/samples/phone) and [ITSM]({{site.baseurl}}/skills/samples/itsm). 
+The Enterprise Assistant Sample is based on the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template), with the addition of a [QnA Maker knowledge base](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/concepts/knowledge-base) for answering common enterprise FAQs (such as Benefits and HR Information) and customized Adaptive Cards.  It also connects 7 different Skills; which are [Calendar]({{site.baseurl}}/skills/samples/calendar), [Email]({{site.baseurl}}/skills/samples/email), and [To Do]({{site.baseurl}}/skills/samples/to-do)  along with the experimental skills of [Weather]({{site.baseurl}}/skills/samples/weather), [News]({{site.baseurl}}/skills/samples/news), [Phone]({{site.baseurl}}/skills/samples/phone) and [ITSM]({{site.baseurl}}/skills/samples/itsm). 
 
 In many cases, you can leverage [Azure Active Directory (AAD)](https://azure.microsoft.com/en-us/services/active-directory/) for single sign-on (SSO), though this may be limited by the channel itself and your specific requirements. 
 
 
 ## Proactive notifications
 
-The Enterprise Assistant sample includes [proactive notifications]({{site.baseurl}}/virtual-assistant/samples/proactive-notifications), enabling scenarios such as: 
+The Enterprise Assistant sample includes [proactive notifications]({{site.baseurl}}/solution-accelerators/tutorials/enable-proactive-notifications/1-intro), enabling scenarios such as:
 
 - Send notifications to your users that the Enterprise Assistant would like to start a conversation, thus allowing the user to indicate when they are ready to have this discussion 
     - e.g., a user receives a notification "your training is due", allowing them to initiate the conversation about what training is required) 
@@ -84,7 +84,7 @@ The majority of the skills connected to this sample are [experimental skills]({{
 {:.no_toc}
 - *What’s the weather today?* 
 
-#### [News Skill]({{site.baseurl}}/skills/samples/next)
+#### [News Skill]({{site.baseurl}}/skills/samples/news)
 {:.no_toc}
 ##### Find news articles 
 {:.no_toc}

@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Customize
-language: C#
+language: csharp
 title: Publish your skill
 order: 4
 ---
