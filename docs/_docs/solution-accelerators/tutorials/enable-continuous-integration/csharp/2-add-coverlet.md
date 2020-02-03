@@ -3,7 +3,7 @@ layout: tutorial
 category: Solution Accelerators
 subcategory: Enable continuous integration
 title: Add Coverlet to the project
-language: C#
+language: csharp
 order: 2
 ---
 
@@ -23,5 +23,3 @@ First add **Coverlet** package (named **coverlet.msbuild**) to your project. Thi
 ![Add NuGet Package]({{site.baseurl}}/assets/images/add-nuget.png)
 
 1. Build the solution and **Coverlet** will be added as a dependency in the project
-
-1. 

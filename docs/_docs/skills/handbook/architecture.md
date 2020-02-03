@@ -26,7 +26,7 @@ The Skill invocation flow is documented further in this [documentation item](htt
 ### Dispatcher
 {:.no_toc}
 
-The Dispatcher plays a central role to enabling a Bot to understand how to best process a given utterance. The Dispatch through use of the [Skill CLI]({{site.baseurl}}/reference/skills/botskills) is updated with triggering utterances for a given Skill and a new Dispatch intent is created for a given Skill. An example of a Dispatch model with a point of interest skill having been added is shown below.
+The Dispatcher plays a central role to enabling a Bot to understand how to best process a given utterance. The Dispatch through use of the [Skill CLI]({{site.baseurl}}/skills/handbook/botskills) is updated with triggering utterances for a given Skill and a new Dispatch intent is created for a given Skill. An example of a Dispatch model with a point of interest skill having been added is shown below.
 
 ![Dispatch with Skill Example]({{site.baseurl}}/assets/images/skillarchitecturedispatchexample.png)
 

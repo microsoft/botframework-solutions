@@ -198,7 +198,7 @@ If you want to use an existing resource from a different resource group, follow 
         "value": false
     }
     ```
-2. Update the following properties in `appsettings.json` with your service configuration from the [Azure Portal](https://portal.azure.com):
+1. Update the following properties in `appsettings.json` with your service configuration from the [Azure Portal](https://portal.azure.com):
     ```json
     "cosmosDb": {
         "authkey": "",
@@ -216,7 +216,7 @@ If you want to use an existing resource from a different resource group, follow 
         "value": false
     }
     ```
-2. Update the following properties in `appsettings.json` with your service configuration from the [Azure Portal](https://portal.azure.com):
+1. Update the following properties in `appsettings.json` with your service configuration from the [Azure Portal](https://portal.azure.com):
     ```json
     "blobStorage": {
         "connectionString": "",
@@ -227,7 +227,7 @@ If you want to use an existing resource from a different resource group, follow 
 #### Other services
 {:.no_toc}
 1. Remove the resource from the `resources` array in `template.json`.
-2. Provide the appropriate configuration in `appsettings.json` from the [Azure Portal](https://portal.azure.com).
+1. Provide the appropriate configuration in `appsettings.json` from the [Azure Portal](https://portal.azure.com).
 
 ### How do I update my local deployment scripts with the latest?
 {:.no_toc}
@@ -253,8 +253,8 @@ Skill Template | typescript | [Sample Project Location](https://github.com/micro
 GitHub doesn't provide the ability to download folders or files interactively in the Web Browser. You must therefore clone the [Bot Framework Solutions repo]({{site.repo}}) onto your machine.
 
 1. Clone the repo locally onto your machine 
-2. Browse to the appropriate deployment scripts folder using the table above as a reference to the location
-3. Copy the entire contents of the `Deployment` folder (resources and script subdirectories) over the files in the `Deployment` folder of your Assistant or Skill project.
+1. Browse to the appropriate deployment scripts folder using the table above as a reference to the location
+1. Copy the entire contents of the `Deployment` folder (resources and script subdirectories) over the files in the `Deployment` folder of your Assistant or Skill project.
 
 You now have the latest scripts for Assistant/Skill deployment and updating of cognitive models.
 

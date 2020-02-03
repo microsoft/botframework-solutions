@@ -84,7 +84,7 @@ By their very nature these Skill are not complete, with only English support. If
 ## Next steps
 
 <div class="card-deck">
-    <a href="{{site.baseurl}}/tutorials/csharp/create-skill/1-intro/"  class="card">
+    <a href="{{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro/"  class="card">
         <div class="card-body">
             <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
             <h4 class="card-title no_toc">Create a Skill</h4>

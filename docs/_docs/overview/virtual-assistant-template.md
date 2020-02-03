@@ -18,7 +18,7 @@ To learn more about project structure, see the [Create Project]({{site.baseurl}}
 
 ## Azure resource deployment
 
-The comprehensive experience requires the following Azure resources to function properly, detailed [here]({{site.baseurl}}/help/reference/deployment-scripts/).
+The comprehensive experience requires the following Azure resources to function properly, detailed [here]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/).
 
 Resource | Description |
 -------- | ----- |
@@ -105,7 +105,7 @@ Most conversational experiences need to serve users in a variety of languages wh
 
 The Virtual Assistant addresses all of the above capabilities and assists with the deployment considerations for multi-language Dispatch, LUIS, and QNAMaker resources. Localized responses for built-in capabilities are also provided.
 
-To learn more about how multi-locale support is added, see the [localization documentation]({{site.baseurl}}/virtual-assistant/handbook/localization.md).
+To learn more about how multi-locale support is added, see the [localization documentation]({{site.baseurl}}/virtual-assistant/handbook/localization/).
 
 ### Language generation and responses
 
@@ -159,7 +159,7 @@ Within **Startup.cs** you can optionally choose to disable use of CosmosDB and s
  services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
 ```
 
-Deployment can be customized to omit deployment of CosmosDB and is covered in the [deployment documentation]({{site.baseurl}}/help/reference/deploymentscripts.md).
+Deployment can be customized to omit deployment of CosmosDB and is covered in the [deployment documentation]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/).
 
 ## Handling activities
 ### Activity processing
@@ -167,15 +167,15 @@ Deployment can be customized to omit deployment of CosmosDB and is covered in th
 
 1. Activities are first processed within your Bot through the DialogBot.cs class found in the **Bots** folder. **OnTurnAsync** is executed and **MainDialog** processing is started.
 
-2. The **MainDialog** dialog provided in the template derives from a base class called [RouterDialog]({{site.repo}}/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  **Microsoft.Bot.Builder.Solutions** NuGet library.
+1. The **MainDialog** dialog provided in the template derives from a base class called [RouterDialog]({{site.repo}}/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Dialogs/RouterDialog.cs) which can be found in the  **Microsoft.Bot.Builder.Solutions** NuGet library.
 
-3. The **OnInterruptDialogAsync** handler within **MainDialog** is executed which in-turn calls LUIS to evaluate the **General** LUIS model for top intent processing. If interruption is required it's processed at this point.
+1. The **OnInterruptDialogAsync** handler within **MainDialog** is executed which in-turn calls LUIS to evaluate the **General** LUIS model for top intent processing. If interruption is required it's processed at this point.
 
-4. Processing returns back to RouterDialog which will end the dialog if interruption has been requested.
+1. Processing returns back to RouterDialog which will end the dialog if interruption has been requested.
 
-5. If the Activity is a message and there is an active dialog, the activity is forwarded on. If there is no Active dialog then RouteAsync on MainDialog is invoked to perform "Turn 0" processing.
+1. If the Activity is a message and there is an active dialog, the activity is forwarded on. If there is no Active dialog then RouteAsync on MainDialog is invoked to perform "Turn 0" processing.
 
-6. **RouteAsync** within MainDialog invokes the Dispatch model to identify whether it should hand the utterance to:
+1. **RouteAsync** within MainDialog invokes the Dispatch model to identify whether it should hand the utterance to:
     - A dialog (mapped to a LUIS intent)
     - QnAMaker (Chitchat or QnA)
     - A Skill (mapped to a Dispatcher skill intent)
@@ -239,7 +239,7 @@ The [**Feedback Middleware**]() provides a way to collect feedback leveraging su
 
 By default, the middleware activates at the end of every dialog but you can customize this further to suit your scenario, for example only asking for feedback when LUIS or QnA prediction scores are low or perhaps at random or a limited number of times in a time period.
 
-To learn more about the Feedback capability, see the [Feedback documentation]({{site.baseurl}}/virtual-assistant/handbook/feedback.md).
+To learn more about the Feedback capability, see the [Feedback documentation]({{site.baseurl}}/virtual-assistant/handbook/feedback/).
 
 
 ### Interruptions
@@ -301,7 +301,7 @@ The Virtual Assistant has all of the pre-requisites required for a high-quality 
 
 ### Microsoft Teams
 
-The Virtual Assistant is configured out-of-the-box to integrate with [Microsoft Teams](({{site.baseurl}}/clients-and-channels/tutorials/enable-speech/1-intro/)).
+The Virtual Assistant is configured out-of-the-box to integrate with [Microsoft Teams]({{site.baseurl}}/clients-and-channels/tutorials/enable-teams/1-intro/).
 
 ## Telemetry
 
@@ -309,11 +309,11 @@ Providing insights into the user engagement of your Bot has proven to be highly 
 
 Integration of Application Insights provides significant operational/technical insight out of the box but this can also be used to capture specific Bot related events - messages sent and received along with LUIS and QnA Maker operations. Bot level telemetry is intrinsically linked to technical and operational telemetry enabling you to inspect how a given user question was answered and vice versa.
 
-A middleware component combined with a wrapper class around the QnA Maker and LuisRecognizer SDK classes provides an elegant way to collect a consistent set of events. These consistent events can then be used by the Application Insights tooling along with tools like PowerBI. An example PowerBI dashboard is as part of the Bot Framework Solutions Github repo and works right out of the box with every Virtual Assistant template. See the [Analytics]({{site.baseurl}}/overview/analytics) section for more information.
+A middleware component combined with a wrapper class around the QnA Maker and LuisRecognizer SDK classes provides an elegant way to collect a consistent set of events. These consistent events can then be used by the Application Insights tooling along with tools like PowerBI. An example PowerBI dashboard is as part of the Bot Framework Solutions Github repo and works right out of the box with every Virtual Assistant template. See the [Analytics]({{site.baseurl}}/solution-accelerators/tutorials/view-analytics/1-intro/) section for more information.
 
 ![Analytics Example]({{site.baseurl}}/assets/images/analytics/virtual-assistant-analytics-powerbi-1.png)
 
-To learn more about Telemetry, see the [Analytics tutorial]({{site.baseurl}}/virtual-assistant/tutorials/view-analytics).
+To learn more about Telemetry, see the [Analytics tutorial]({{site.baseurl}}/solution-accelerators/tutorials/view-analytics/1-intro/).
 
 
 ## Testing
@@ -327,5 +327,5 @@ You can find these tests in a companion project to your assistant or [here]({{si
 
 A [Azure DevOps](https://azure.microsoft.com/en-us/solutions/devops/) [YAML](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema?view=azure-devops&tabs=schema) file for Continuous Integration is included within the `pipeline` folder of your assistant and provides all the steps required to build your assistant project and generate code coverage results. This can be imported into your Azure DevOps environment to create a build.
 
-In addition, documentation to create a [release pipeline]({{site.baseurl}}/howto/virtual-assistant/continuousdeployment/) is also provided enabling you to continuously deploy updates to your project to your Azure test environment and also update Dispatch, LUIS and QnAMaker resources with any changes to the LU files within source control.
+In addition, documentation to create a [release pipeline]({{site.baseurl}}/solution-accelerators/tutorials/enable-continuous-deployment/1-intro/) is also provided enabling you to continuously deploy updates to your project to your Azure test environment and also update Dispatch, LUIS and QnAMaker resources with any changes to the LU files within source control.
 

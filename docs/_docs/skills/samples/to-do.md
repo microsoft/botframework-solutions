@@ -112,14 +112,14 @@ If you want to add your customized list types, for example, your homework list o
 	  "Movie"
 	]
 	```
-2. Add your list type name and its synonym in `Responses/Shared/ToDoString.resx`
+1. Add your list type name and its synonym in `Responses/Shared/ToDoString.resx`
 
 	Name | Value 
 	---- | ----- 
 	Homework | Homework 
 	HomeworkSynonym | homework, home work 
 
-3. Modify your LUIS file. Modify `Deployment/Resources/LU/en/todo.lu` so that your LUIS app can tell these new ListType entities. You can provide more utterance to make your LUIS model perform better.
+1. Modify your LUIS file. Modify `Deployment/Resources/LU/en/todo.lu` so that your LUIS app can tell these new ListType entities. You can provide more utterance to make your LUIS model perform better.
 
 	```diff
 	## AddToDo
@@ -146,7 +146,7 @@ If you want to add your customized list types, for example, your homework list o
 	    ]
 	```
 
-4. Redeploy your To Do Skill.
+1. Redeploy your To Do Skill.
 
 ## Download a transcript
 {:.toc}

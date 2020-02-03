@@ -3,7 +3,7 @@ layout: tutorial
 category: Solution Accelerators
 subcategory: Enable continuous integration
 title: Create a YAML file
-language: C#
+language: csharp
 order: 3
 ---
 

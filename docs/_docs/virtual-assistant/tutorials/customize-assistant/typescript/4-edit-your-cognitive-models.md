@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Customize
-language: TypeScript
+language: typescript
 title: Edit your cognitive models
 order: 4
 ---
@@ -15,7 +15,7 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
 
 1. Create your new knowledgebase using the QnAMaker portal. Alternatively can you create this from a new `.lu` file by adding that file to the corresponding resource folder, for example, if you are using an english resource, you should place it in the `deployment\resources\QnA\en` folder. To understand how to create a knowledgebase from a LU file using the `ludown` and `qnamaker` CLI tools please refer to [this blog post](https://blog.botframework.com/2018/06/20/qnamaker-with-the-new-botbuilder-tools-for-local-development/) for more information.
 
-3. Update the `cognitiveModels.json` file in the root of your project with a new entry for your newly created QnAMaker knowledgebase, an example is shown below:
+1. Update the `cognitiveModels.json` file in the root of your project with a new entry for your newly created QnAMaker knowledgebase, an example is shown below:
 
     ```json
     {
@@ -30,7 +30,7 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
 
     The `kbID`, `hostName` and `endpoint key` can all be found within the Publish page on the [QnAMaker portal](https://qnamaker.ai). Subscription Key is available from your QnA resource in the Azure Portal.
 
-4. The final step is to update your Dispatcher and associated strongly typed class (LuisGen). We have provided the `update_cognitive_models.ps1` script to simplify this for you. The optional `-RemoteToLocal` parameter will generate the matching LU file on disk for your new knowledgebase (if you created using portal). The script will then refresh the dispatcher. 
+1. The final step is to update your Dispatcher and associated strongly typed class (LuisGen). We have provided the `update_cognitive_models.ps1` script to simplify this for you. The optional `-RemoteToLocal` parameter will generate the matching LU file on disk for your new knowledgebase (if you created using portal). The script will then refresh the dispatcher. 
 
     Run the following command from within  Powershell (pwsh.exe) within your **project directory**.
 
@@ -38,7 +38,7 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
     .\Deployment\Scripts\update_cognitive_models.ps1 -RemoteToLocal
     ```
 
-5. Update the `./src/dialogs/mainDialog.ts` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
+1. Update the `./src/dialogs/mainDialog.ts` file to include the corresponding Dispatch intent for your new QnA source following the example provided.
  
 ## Update your local LU files for LUIS and QnAMaker
 

@@ -2,7 +2,7 @@
 layout: tutorial
 category: Virtual Assistant
 subcategory: Deploy
-language: Using the web
+language: web
 title: Deploy an Azure Resource Manager (ARM) templates
 order: 3
 ---

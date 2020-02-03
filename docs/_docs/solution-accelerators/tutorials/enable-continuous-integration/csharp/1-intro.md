@@ -3,7 +3,7 @@ layout: tutorial
 category: Solution Accelerators
 subcategory: Enable continuous integration
 title: Intro
-language: C#
+language: csharp
 order: 1
 ---
 

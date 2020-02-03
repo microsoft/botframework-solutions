@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Convert a v4 Bot
-language: TypeScript
+language: typescript
 title: Intro
 order: 1
 ---

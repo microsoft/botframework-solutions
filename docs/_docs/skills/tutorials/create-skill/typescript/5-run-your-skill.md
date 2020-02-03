@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: TypeScript
+language: typescript
 title: Run your skill
 order: 5
 ---

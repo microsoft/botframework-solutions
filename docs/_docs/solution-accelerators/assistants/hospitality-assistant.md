@@ -61,7 +61,7 @@ The majority of the skills connected to this sample are [experimental skills]({{
 {:.no_toc}
 - *Make a dinner reservation for tonight*
 
-#### [Point of Interest Skill]({{site.baseurl}}/reference/skills/point-of-interest)
+#### [Point of Interest Skill]({{site.baseurl}}/skills/samples/point-of-interest)
 {:.no_toc}
 ##### Find points of interest nearby
 {:.no_toc}
@@ -89,7 +89,7 @@ To configure this sample follow the steps below:
 
 ## Download transcripts
 
-View sample conversations Hospitality Assistant solution by downloading a transcript and opening with the [Bot Framework Emulator](https://aka.ms/botframework-emulator). For more flows of specific skills see [transcripts]({{site.baseurl}}/reference/skills/transcripts).
+View sample conversations Hospitality Assistant solution by downloading a transcript and opening with the [Bot Framework Emulator](https://aka.ms/botframework-emulator). For more flows of specific skills see [transcripts]({{site.baseurl}}/skills/samples/transcripts).
 
 <a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-faqs.transcript">Frequently asked questions</a>
 <a class="btn btn-primary" href="{{site.baseurl}}/assets/transcripts/hospitalitysample-localinfo.transcript">Local info</a>

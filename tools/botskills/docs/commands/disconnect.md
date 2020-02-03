@@ -7,7 +7,7 @@ The `disconnect` command allows you to disconnect a Skill from your Virtual Assi
 The basic command to disconnect a Skill from your Virtual Assistant:
 
 ```bash
-botskills disconnect [option]
+botskills disconnect [options]
 ```
 
 ## Options
@@ -21,7 +21,7 @@ botskills disconnect [option]
 | --languages [languages]       | (OPTIONAL) Comma separated list of locales used for LUIS culture (defaults to `en-us`)                                                                                      |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)  |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your Virtual Assistant's root folder)                                                                |
-| --lgOutFolder [path]          | (OPTIONAL) Path for the LuisGen output (defaults to a 'service' folder inside your Virtual Assistant's folder)                                                              |
+| --lgOutFolder [path]          | (OPTIONAL) Path for the LuisGen output (defaults to a `service` folder inside your Virtual Assistant's folder)                                                              |
 | --skillsFile [path]           | (OPTIONAL) Path to your Virtual Assistant Skills configuration file (defaults to the `skills.json` inside your Virtual Assistant's folder)                                  |
 | --cognitiveModelsFile [path]  | (OPTIONAL) Path to your Cognitive Models file (defaults to `cognitivemodels.json` inside your Virtual Assistant's folder)                                                   |
 | --verbose                     | (OPTIONAL) Output detailed information about the processing of the tool                                                                                                     |
@@ -30,7 +30,7 @@ botskills disconnect [option]
 An example on how to use it:
 
 ```bash
-botskills disconnect --skillId "customSkill" --skillsFile "./skills.json" --cs --verbose
+botskills disconnect --skillId "customSkill" --cs
 ```
 
 > **Note:** The path to the Virtual Assistant Skills configuration file can be relative or absolute path, and should be explicitly a `.json` file.

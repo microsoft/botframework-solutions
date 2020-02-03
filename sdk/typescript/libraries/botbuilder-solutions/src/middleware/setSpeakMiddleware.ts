@@ -107,28 +107,22 @@ export class SetSpeakMiddleware implements Middleware {
 
     private createBaseElement(value: string): Element {
         // creating simple element
-        const result: Element = {
+        return {
             elements: [
                 {
                     type: 'element',
-                    name: 'speak'
+                    name: 'speak',
+                    elements: [
+                      {
+                          type: 'text',
+                          text: value
+                      }
+                    ],
+                    attributes: {
+                      xmlns: this.namespaceURI
+                    }
                 }
-            ]
-        };
-        // adding attributes
-        result.attributes = {
-            xmlns: this.namespaceURI
-        };
-
-        // adding sub-node
-        result.elements = [
-            {
-                type: 'text',
-                text: value
-            }
-        ];
-
-        return result;
+            ]};
     }
 
     private addAttributeIfMissing(element: Element, attName: string, attValue: string): void {

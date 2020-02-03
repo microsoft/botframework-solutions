@@ -3,7 +3,7 @@ category: Skills
 subcategory: Handbook
 title: Best practices
 description: Best practices when developing a Bot Framework Skill
-order: 6
+order: 7
 toc: true
 ---
 
@@ -470,7 +470,7 @@ If you need a more complex prompt you can implement it by inheriting **Microsoft
 ### Enable long running tasks
 {:.no_toc}
 
-[Proactive scenarios]({{site.baseurl}}/howto/virtual-assistant/proactivemessaging) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
+[Proactive scenarios]({{site.baseurl}}/solution-accelerators/tutorials/enable-proactive-notifications/1-intro/) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
 This enables a Skill to have more intelligent interactions with a user, triggered by external events.
 
 ### Handle and log errors

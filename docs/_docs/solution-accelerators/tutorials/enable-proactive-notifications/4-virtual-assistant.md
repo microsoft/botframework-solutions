@@ -183,3 +183,7 @@ Add a new class named **EventData** with the following properties.
 +        public string Message { get; set; }
 +    }
 ```
+
+#### NOTE
+
+After you've made the above changes to your bot, please be sure to deploy the latest bot code to it's hosted Azure Web App. The Proactive Notification will only work on an Azure bot over the Direct Line channel (a locally-hosted bot is unable to receive the notifications).
