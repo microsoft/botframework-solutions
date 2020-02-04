@@ -433,7 +433,7 @@ Learn more on how you can [gather user input using a dialog prompt](https://docs
 #### Custom prompt dialog
 {:.no_toc}
 
-One of approach to create a custom prompt dialog is add a validator. In Calendar Skill, there is a choice validator to handle next/previous page intent.
+One of the approaches to create a custom prompt dialog is through a validator. In the Calendar Skill, there is a choice validator to handle next/previous page intent.
 
 ```csharp
 protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> pc, CancellationToken cancellationToken)
@@ -465,15 +465,14 @@ protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> p
 }
 ```
 
-If you need a more complex prompt you can implement it by inheriting **Microsoft.Bot.Builder.Dialogs.Prompt<T>**. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
+If you need a more complex prompt you can implement it through inheriting **Microsoft.Bot.Builder.Dialogs.Prompt<T>**. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
 
 ### Enable long running tasks
 {:.no_toc}
 
-[Proactive scenarios]({{site.baseurl}}/solution-accelerators/tutorials/enable-proactive-notifications/1-intro/) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users.
-This enables a Skill to have more intelligent interactions with a user, triggered by external events.
+[Proactive scenarios]({{site.baseurl}}/solution-accelerators/tutorials/enable-proactive-notifications/1-intro/) are a key part of ensuring a Skill Assistant can provide more intelligent and helpful capabilities to end users. This enables a Skill to have more intelligent interactions with a user, triggered by external events.
 
-### Handle and log errors
+### Error handling
 {:.no_toc}
 
 Use the **HandleDialogExceptions** method in [SkillDialogBase.cs]({{site.repo}}/blob/master/templates/Skill-Template/csharp/Sample/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
@@ -497,19 +496,19 @@ protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception e
 }
 ```
 
-### Manage the states
+### Manage State
 {:.no_toc}
 
 Save your data in different scope of states. Read [Save user and conversation data](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=csharp) to learn about user and conversation state.
 
 For dialog state, you can save your data in **stepContext.State.Dialog[YOUR_DIALOG_STATE_KEY]**.
 
-### Manage the dialogs
+### Manage Dialogs
 {:.no_toc}
 
 Use dialog options to transfer data among dialogs. Read [Create advanced conversation flow using branches and loops](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0&tabs=csharp) to learn more about dialog management.
 
-## Skill switching in a Virtual Assistant
+## Skill switching within a Virtual Assistant
 A commonly asked scenario is how to enable a Virtual Assistant to appropriately switch Skills if a user's utterances require it, like in the following example:
 ```
 - User: What meetings do I have today?
@@ -553,4 +552,4 @@ protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, Can
 }
 ```
 
-If it can be routed to another Skill, the Virtual Assistant will cancel the current Skill and pass user input to the proper one. Otherwise, the Virtual Assistant returns a FallbackHandledEVent to the current Skill in order to continue.
+If it can be routed to another Skill, the Virtual Assistant will cancel the current Skill and pass user input to the newly activated Skill. Otherwise, the Virtual Assistant returns a FallbackHandledEVent to the current Skill in order for it to continue.

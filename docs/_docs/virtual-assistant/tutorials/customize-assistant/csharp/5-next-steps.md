@@ -11,7 +11,7 @@ order: 5
 
 ## Next steps
 
-Now that you've learned learned how to personalize a Virtual Assistant, try one of these tutorials:
+Now that you've learned how to personalize a Virtual Assistant, try one of these tutorials:
 
 <div class="card-deck">
     <a href="{{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro/" class="card">

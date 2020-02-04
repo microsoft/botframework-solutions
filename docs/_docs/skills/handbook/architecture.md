@@ -36,16 +36,14 @@ When the user of a Virtual Assistant asks a question, the Dispatcher will proces
 
 > When testing a Virtual Assistant using the Emulator the SkillDialog surfaces Skill invocation and slot-filling telemetry.
 
-On start-up of a Virtual Assistant, each registered Skill results in a SkillDialog instance being created which is associated with a **SkillManifest** instance containing details about the Skill including it's endpoint, actions and slots.
+On start-up of a Virtual Assistant, each registered Skill results in a SkillDialog instance being created which is initialised with the configuration details of the skill (name, endpoint and AppId)
 
-All communication between a Virtual Assistant and a Skill is performed through a custom **SkillDialog**, which is started when the dispatcher identifies a Skill that maps to a users utterances. Skills are invoked through a lightweight **SkillWebSocket** or **SkillHttp** adapter, maintaining the standard Bot communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
+All communication between a Virtual Assistant and a Skill is performed through a custom **SkillDialog**, which is started when the dispatcher identifies a Skill that maps to a users utterances. Skills are invoked through the usual Bot Framework Adapter, maintaining the standard Bot communication protocol and ensuring Skills can be developed using the standard Bot Framework toolkit.
 
-The **SkillManifest** provides the endpoint for the SkillDialog to communicate with along with action and slot information. Slots are optional and a way to pass parameters to a Skill.
+When a Skill wants to terminate an ongoing dialog, it sends back an Activity with **EndOfConversation** type to signal the completion of the current dialog. This activity can also include response data through population of the `Value` property on the Activity.
 
-When a Skill wants to terminate an ongoing dialog, it sends back an Activity with **Handoff** type to signal the completion of the current dialog. 
-
-See the [SkillAuthentication]({{site.baseurl}}/skills/handbook/authentication/) section for information on how Bot->Skill invocation is secured.
+See the [Bot Framework Skills - Communication](https://docs.microsoft.com/en-us/azure/bot-service/skills-conceptual?view=azure-bot-service-4.0#bot-to-bot-communication) section for information on how Bot->Skill invocation is secured.
 
 ## Interrupting Active Skills
 
-Skills can be interrupted through a top-level interruption (e.g. "cancel"). The user is prompted to confirm before tearing down the active Skill. This requires each utterance, even during a SkillDialog to be inspected by the Bot Dispatcher to determine if cancellation is needed before then continuing. That is not shown in the above diagram for brevity reasons.
+Skills can be interrupted through a top-level interruption (e.g. "cancel"). The user is prompted to confirm before tearing down the active Skill. This requires each utterance, even during a SkillDialog to be inspected by the Bot Dispatcher to determine if cancellation is needed before then continuing. 
