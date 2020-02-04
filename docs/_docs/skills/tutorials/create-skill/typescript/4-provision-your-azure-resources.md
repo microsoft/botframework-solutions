@@ -2,7 +2,7 @@
 layout: tutorial
 category: Skills
 subcategory: Create
-language: TypeScript
+language: typeScript
 title: Provision your Azure resources
 order: 4
 ---
