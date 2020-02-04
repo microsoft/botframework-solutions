@@ -2,10 +2,10 @@
 category: Overview
 subcategory: What's New
 language: 0_8_release
-title: Template updates
+title: QnA Maker updates
 date: 2020-02-03
 description: Summarizes key updates made to the Virtual Assistant enabling you to easily update parts of your existing Assistant
-order: 2
+order: 3
 toc: true
 ---
 
