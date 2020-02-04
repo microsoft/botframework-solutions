@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Solutions.Tests.Feedback
                     Assert.AreEqual(card.Buttons.Count, 3);
                 })
                 .Send(positiveFeedback)
-                .AssertReply("Thanks for your feedback!")
+                .AssertReply("Thanks, I appreciate your feedback.")
                 .StartTestAsync();
         }
 
