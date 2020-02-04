@@ -2,7 +2,7 @@
 category: Overview
 subcategory: What's New
 language: 0_7_release
-title: Release Notes
+title: Summary
 date: 2019-11-26
 order: 1
 toc: true

@@ -2,7 +2,7 @@
 category: Overview
 subcategory: What's New
 language: 0_8_release
-title: Release Notes
+title: Summary
 date: 2020-02-03
 order: 1
 toc: true
