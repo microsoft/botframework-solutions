@@ -64,7 +64,7 @@ For more guidance on how to deploy your Virtual Assistant to Azure US Government
 ## Clients and Channels
 ### Android Virtual Assistant Client
 {:.no_toc}
-The Android client for Virtual Assistant has been updated to support authentication and custom wake words.
+The Android client for the Virtual Assistant has been updated to support both [custom wake words](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-devices-sdk-create-kws) and authentication using the [Linked Accounts solution]({{site.baseurl}}/solution-accelerators/samples/linked-accounts/). 
 
 ## Summary
 Microsoft is committed to bringing our customers the ability to bring their own unique Virtual Assistant experiences to their users by providing the tools and control that is required in a world of many Virtual Agents. We look forward to how you take these enhancements forward to enable your customers in the future. As always you can provide feature requests and/or bug reports at [https://github.com/microsoft/botframework-solutions/issues](https://github.com/microsoft/botframework-solutions/issues).
