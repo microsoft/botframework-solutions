@@ -64,7 +64,7 @@ namespace Microsoft.Bot.Solutions.Feedback
 
         /// <summary>
         /// Gets or sets message to show when a user provides some feedback.
-        /// Default value is "Thanks for your feedback!".
+        /// Default value is "Thanks, I appreciate your feedback.".
         /// </summary>
         /// <value>
         /// Message to show when a user provides some feedback.
