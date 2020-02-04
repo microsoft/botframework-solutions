@@ -22,7 +22,9 @@ This document describes the new features available in the **0.8-beta release** v
 
 The Virtual Assistant and Skill Templates have been updated to use the Bot Builder SDK v4.7 skills implementation. This marks the transition of Skills from Preview into GA as part of the core SDK. Skills are now supported across C#, Javascript/Typescript and Python with Java support to follow. 
 
-Skills are the conversational component model for Bot Framework and Power Virtual Agents now has now added support for Skills through the new manifest schema.
+Skills are the conversational component model for Bot Framework. Power Virtual Agents now has now added support for Skills through the new manifest schema.
+
+All skills have been updated to the new v4.7 SDK skills implementation and have updated manifest files. The latest botskills CLI tool also provides support for the new manifest format.
 
 For more guidance on how to update your project to use this feature, refer to the following articles:
 - [Migrate existing Virtual Assistant to Bot Framework Skills GA]({{site.baseurl}}/overview/whats-new/0.8-beta/migrate-existing-va-to-0.8)
