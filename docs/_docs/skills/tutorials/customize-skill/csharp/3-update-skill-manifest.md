@@ -11,4 +11,4 @@ order: 3
 
 ## Update your Skill manifest
 
-Your newly created Skill has a basic Skill manifest file provided in the manifest folder of the wwwroot directory (`manifest.json`), this has been pre-populated with the Skill ID and name and a sample action which you can modify at this stage if required.
+Your newly created Skill has a basic Skill manifest file provided in the manifest folder of the wwwroot directory (`manifest-1.1.json`), this has been pre-populated with the Skill ID and name and a sample action which you can modify at this stage if required. `manifest-1.0` is provided for Power Virtual Agent support only, you should use `manifest-1.1` for Virtual Assistant scenarios.

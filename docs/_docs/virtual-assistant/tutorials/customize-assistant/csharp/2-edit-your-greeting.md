@@ -13,7 +13,7 @@ order: 2
 
 The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an open framework that lets you describe your content as you see fit and deliver it beautifully wherever your customers are.
 
-1. Copy and paste the following JSON payload:
+1. Copy and paste the following JSON payload to demonstrate how you can start customizing the look and feel of your Assistant. Note the inline references (`@{NewUserIntroCardTitle()}`) to other LG elements to further adapt the contents at runtime.
 
 ```json
 {
@@ -43,7 +43,7 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
                     "size": "Large",
                     "weight": "Bolder",
                     "color": "Light",
-                    "text": "Hi, I'm **your** Virtual Assistant",
+                    "text": "@{NewUserIntroCardTitle()}",
                     "wrap": true
                 },
                 {
@@ -68,21 +68,22 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
         {
             "type": "Action.OpenUrl",
             "title": "Documentation",
-            "url": "https://aka.ms/bfvadocs"
+            "url": "https://aka.ms/virtualassistantdocs"
         },
         {
             "type": "Action.OpenUrl",
             "title": "Skills",
-            "url": "https://aka.ms/bfskills"
+            "url": "https://aka.ms/botframeworkskills"
         }
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.0",
-    "speak": "Hi, I'm **your** Virtual Assistant. Now that I'm up and running, explore the links here to learn what I can do."
+    "speak": "@{NewUserIntroCardTitle()}"
 }
 ```
 
-2. In your assistant's project, navigate to **Responses** > **MainResponses.json** and find the `NewUserIntroCardJson` section. Paste the above JSON inbetween the ``` seperators.
+2. In your assistant's project, navigate to **Responses** > **MainResponses.lg** and find the `# NewUserIntroCardJson` section. Paste the above JSON inbetween the ``` separators.
+
 3. Press **F5** to start your assistant and start a new conversation in the **Bot Framework Emulator** to see the change:
 
 <p align="center">
