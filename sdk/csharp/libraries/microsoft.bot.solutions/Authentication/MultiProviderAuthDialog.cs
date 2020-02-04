@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                         {
                             ConnectionName = connection.Name,
                             Title = "Login",
-                            Text = string.Format("Login with {0}", connection.Name),
+                            Text = string.Format("Sign in to your {0} account", connection.Name),
                         };
 
                         AddDialog(new OAuthPrompt(
