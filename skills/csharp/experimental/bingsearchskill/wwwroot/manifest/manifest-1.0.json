@@ -22,25 +22,6 @@
       "msAppId": "{YOUR_SKILL_APPID}"
     }
   ],
-  "dispatchModels": {
-    "languages": {
-      "en-us": [
-        {
-          "id": "BingSkillLuModel-en",
-          "name": "BingSearchSkill LU (English)",
-          "contentType": "application/lu",
-          "url": "file://BingSearchSkill.lu",
-          "description": "English language model for the skill"
-        }
-      ]
-    },
-    "intents": {
-      "GetCelebrityInfo": "#/activities/message",
-      "SearchMovieInfo": "#/activities/message",
-      "QueryQna": "#/activities/message",
-      "*": "#/activities/message"
-    }
-  },
   "activities": {
     "message": {
       "type": "message",

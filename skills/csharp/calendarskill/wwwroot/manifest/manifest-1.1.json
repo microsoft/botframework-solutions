@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
   "$id": "CalendarSkill",
   "name": "Calendar Skill",
   "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
