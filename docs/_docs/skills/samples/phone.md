@@ -95,7 +95,7 @@ This skill uses the following authentication scopes:
 - `People.Read`
 - `Contacts.Read`
 
-You must use [these steps]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to manually configure Authentication for the Calendar Skill. Due to a change in the Skill architecture this is not currently automated.
+You must use [these steps]({{site.baseurl}}/{{site.data.urls.SkillManualAuth}}) to manually configure Authentication for the Calendar Skill. Due to a change in the Skill architecture this is not currently automated.
 
 > Ensure you configure all of the scopes detailed above.
 

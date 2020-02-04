@@ -51,7 +51,7 @@ For further information, see the [Connect command documentation]({{site.repo}}/t
 ### Disconnect Skills
 {:.no_toc}
 
-The `disconnect` command allows you to disconnect a Skill from your Virtual Assistant. You can always check the Skills already connected to your Virtual Assistant using the [`list` command](#List-Connected-Skills). Remember to specify the coding language of your Virtual Assistant using `--cs` or `--ts`.
+The `disconnect` command allows you to disconnect a Skill from your Virtual Assistant. You can always check the Skills already connected to your Virtual Assistant using the [`list` command](#list-connected-skills). Remember to specify the coding language of your Virtual Assistant using `--cs` or `--ts`.
 
 Here is an example:
 ```bash
