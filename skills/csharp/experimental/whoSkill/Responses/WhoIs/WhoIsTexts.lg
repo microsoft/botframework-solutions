@@ -15,3 +15,21 @@
 
 # EmailAddress.Text(Person)
 - The e-mail address of '@{Person.TargetName}' is @{Person.EmailAddress}.
+
+# Me.Text()
+- I was able to look you up.
+
+# MyJobTitle.Text(Person)
+- You are a @{Person.JobTitle}.
+
+# MyDepartment.Text(Person)
+- You work in @{Person.Department}.
+
+# MyLocation.Text(Person)
+- You work in @{Person.OfficeLocation}.
+
+# MyPhoneNumber.Text(Person)
+- The phone number for you is @{Person.MobilePhone}.
+
+# MyEmailAddress.Text(Person)
+- The e-mail address of you is @{Person.EmailAddress}.

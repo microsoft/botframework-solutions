@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Luis;
@@ -307,6 +308,12 @@ namespace WhoSkill.Dialogs
 
             // Save trigger intent.
             state.TriggerIntent = topIntent;
+
+            // User searchs about current user himself.
+            if (entities != null && entities.pron != null && entities.pron.Any())
+            {
+                state.SearchCurrentUser = true;
+            }
 
             // Save the keyword that user want to search.
             if (entities != null && entities.keyword != null)

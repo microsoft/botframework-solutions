@@ -33,23 +33,6 @@ namespace WhoSkill.Dialogs
            // AddDialog(new WhoIsDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
-        protected override async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.Keyword))
-            {
-                var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
-                await sc.Context.SendActivityAsync(activity);
-                return await sc.EndDialogAsync();
-            }
-
-            List<Candidate> candidates = null;
-            candidates = await MSGraphService.GetUsers(state.Keyword);
-            state.Candidates = candidates;
-
-            return await sc.NextAsync();
-        }
-
         protected override async Task<DialogTurnResult> DisplayResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
@@ -89,12 +72,22 @@ namespace WhoSkill.Dialogs
             };
             if (templateName == OrgResponses.NoPeers)
             {
+                if (state.SearchCurrentUser)
+                {
+                    templateName = OrgResponses.MyNoPeers;
+                }
+
                 var reply = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data });
                 await sc.Context.SendActivityAsync(reply);
                 return await sc.EndDialogAsync();
             }
             else
             {
+                if (state.SearchCurrentUser)
+                {
+                    templateName = OrgResponses.MyPeers;
+                }
+
                 var reply = TemplateEngine.GenerateActivityForLocale(templateName, new { Person = data, Number = state.Results.Count });
                 await sc.Context.SendActivityAsync(reply);
 

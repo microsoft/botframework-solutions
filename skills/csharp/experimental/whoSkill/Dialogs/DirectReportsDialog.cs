@@ -33,23 +33,6 @@ namespace WhoSkill.Dialogs
             AddDialog(new WhoIsDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
-        protected override async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.Keyword))
-            {
-                var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
-                await sc.Context.SendActivityAsync(activity);
-                return await sc.EndDialogAsync();
-            }
-
-            List<Candidate> candidates = null;
-            candidates = await MSGraphService.GetUsers(state.Keyword);
-            state.Candidates = candidates;
-
-            return await sc.NextAsync();
-        }
-
         protected override async Task<DialogTurnResult> DisplayResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
@@ -71,8 +54,17 @@ namespace WhoSkill.Dialogs
                 var directReports = await MSGraphService.GetDirectReports(state.PickedPerson.Id);
                 if (directReports == null || !directReports.Any())
                 {
-                    var activity = TemplateEngine.GenerateActivityForLocale(OrgResponses.NoDirectReports, new { Person = data });
-                    await sc.Context.SendActivityAsync(activity);
+                    if (state.SearchCurrentUser)
+                    {
+                        var activity = TemplateEngine.GenerateActivityForLocale(OrgResponses.MyNoDirectReports);
+                        await sc.Context.SendActivityAsync(activity);
+                    }
+                    else
+                    {
+                        var activity = TemplateEngine.GenerateActivityForLocale(OrgResponses.NoDirectReports, new { Person = data });
+                        await sc.Context.SendActivityAsync(activity);
+                    }
+
                     return await sc.EndDialogAsync();
                 }
                 else
@@ -82,8 +74,16 @@ namespace WhoSkill.Dialogs
                 }
             }
 
-            var reply = TemplateEngine.GenerateActivityForLocale(OrgResponses.DirectReports, new { Person = data, Number = state.Results.Count });
-            await sc.Context.SendActivityAsync(reply);
+            if (state.SearchCurrentUser)
+            {
+                var reply = TemplateEngine.GenerateActivityForLocale(OrgResponses.MyDirectReports, new { Number = state.Results.Count });
+                await sc.Context.SendActivityAsync(reply);
+            }
+            else
+            {
+                var reply = TemplateEngine.GenerateActivityForLocale(OrgResponses.DirectReports, new { Person = data, Number = state.Results.Count });
+                await sc.Context.SendActivityAsync(reply);
+            }
 
             var persons = state.Results.Skip(state.PageIndex * state.PageSize).Take(state.PageSize).ToList();
             var card = await GetCardForPage(persons);

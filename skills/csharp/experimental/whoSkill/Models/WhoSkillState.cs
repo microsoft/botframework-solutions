@@ -24,6 +24,8 @@ namespace WhoSkill.Models
 
         public WhoLuis.Intent TriggerIntent { get; set; }
 
+        public bool SearchCurrentUser { get; set; }
+
         public bool Restart { get; set; }
 
         public int PageIndex { get; set; }
@@ -37,6 +39,7 @@ namespace WhoSkill.Models
             PickedPerson = null;
             Results = null;
             TriggerIntent = WhoLuis.Intent.None;
+            SearchCurrentUser = false;
             Restart = false;
             PageIndex = 0;
             Ordinal = 0;

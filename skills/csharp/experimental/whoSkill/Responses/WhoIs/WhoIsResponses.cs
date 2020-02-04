@@ -13,5 +13,11 @@ namespace WhoSkill.Responses.WhoIs
         public const string Location = "Location";
         public const string PhoneNumber = "PhoneNumber";
         public const string EmailAddress = "EmailAddress";
+        public const string Me = "Me";
+        public const string MyJobTitle = "MyJobTitle";
+        public const string MyDepartment = "MyDepartment";
+        public const string MyLocation = "MyLocation";
+        public const string MyPhoneNumber = "MyPhoneNumber";
+        public const string MyEmailAddress = "MyEmailAddress";
     }
 }

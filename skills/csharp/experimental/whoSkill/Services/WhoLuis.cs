@@ -41,11 +41,15 @@ namespace Luis
             // Built-in entities
             public double[] ordinal;
 
+            // Lists
+            public string[][] pron;
+
             // Instance
             public class _Instance
             {
                 public InstanceData[] keyword;
                 public InstanceData[] ordinal;
+                public InstanceData[] pron;
             }
             [JsonProperty("$instance")]
             public _Instance _instance;

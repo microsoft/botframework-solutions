@@ -41,3 +41,45 @@
     Speak = @{EmailAddress.Text(Person)}
     InputHint = acceptingInput
 ]
+
+# Me
+[Activity
+    Text = @{Me.Text()}
+    Speak = @{Me.Text()}
+    InputHint = acceptingInput
+]
+
+# MyJobTitle
+[Activity
+    Text = @{MyJobTitle.Text(Person)}
+    Speak = @{MyJobTitle.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# MyDepartment
+[Activity
+    Text = @{MyDepartment.Text(Person)}
+    Speak = @{MyDepartment.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# MyLocation
+[Activity
+    Text = @{MyLocation.Text(Person)}
+    Speak = @{MyLocation.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# MyPhoneNumber
+[Activity
+    Text = @{MyPhoneNumber.Text(Person)}
+    Speak = @{MyPhoneNumber.Text(Person)}
+    InputHint = acceptingInput
+]
+
+# MyEmailAddress
+[Activity
+    Text = @{MyEmailAddress.Text(Person)}
+    Speak = @{MyEmailAddress.Text(Person)}
+    InputHint = acceptingInput
+]

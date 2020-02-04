@@ -32,23 +32,6 @@ namespace WhoSkill.Dialogs
             AddDialog(new PeersDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
-        protected override async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.Keyword))
-            {
-                var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
-                await sc.Context.SendActivityAsync(activity);
-                return await sc.EndDialogAsync();
-            }
-
-            List<Candidate> candidates = null;
-            candidates = await MSGraphService.GetUsers(state.Keyword);
-            state.Candidates = candidates;
-
-            return await sc.NextAsync();
-        }
-
         protected override async Task<DialogTurnResult> DisplayResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
@@ -60,49 +43,99 @@ namespace WhoSkill.Dialogs
             }
 
             string templateName = string.Empty;
-            switch (state.TriggerIntent)
+            if (state.SearchCurrentUser)
             {
-                case WhoLuis.Intent.WhoIs:
-                    {
-                        templateName = WhoIsResponses.WhoIs;
-                        break;
-                    }
+                switch (state.TriggerIntent)
+                {
+                    case WhoLuis.Intent.WhoIs:
+                        {
+                            templateName = WhoIsResponses.Me;
+                            break;
+                        }
 
-                case WhoLuis.Intent.JobTitle:
-                    {
-                        templateName = WhoIsResponses.JobTitle;
-                        break;
-                    }
+                    case WhoLuis.Intent.JobTitle:
+                        {
+                            templateName = WhoIsResponses.MyJobTitle;
+                            break;
+                        }
 
-                case WhoLuis.Intent.Department:
-                    {
-                        templateName = WhoIsResponses.Department;
-                        break;
-                    }
+                    case WhoLuis.Intent.Department:
+                        {
+                            templateName = WhoIsResponses.MyDepartment;
+                            break;
+                        }
 
-                case WhoLuis.Intent.Location:
-                    {
-                        templateName = WhoIsResponses.Location;
-                        break;
-                    }
+                    case WhoLuis.Intent.Location:
+                        {
+                            templateName = WhoIsResponses.MyLocation;
+                            break;
+                        }
 
-                case WhoLuis.Intent.PhoneNumber:
-                    {
-                        templateName = WhoIsResponses.PhoneNumber;
-                        break;
-                    }
+                    case WhoLuis.Intent.PhoneNumber:
+                        {
+                            templateName = WhoIsResponses.MyPhoneNumber;
+                            break;
+                        }
 
-                case WhoLuis.Intent.EmailAddress:
-                    {
-                        templateName = WhoIsResponses.EmailAddress;
-                        break;
-                    }
+                    case WhoLuis.Intent.EmailAddress:
+                        {
+                            templateName = WhoIsResponses.MyEmailAddress;
+                            break;
+                        }
 
-                default:
-                    {
-                        templateName = WhoIsResponses.WhoIs;
-                        break;
-                    }
+                    default:
+                        {
+                            templateName = WhoIsResponses.Me;
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                switch (state.TriggerIntent)
+                {
+                    case WhoLuis.Intent.WhoIs:
+                        {
+                            templateName = WhoIsResponses.WhoIs;
+                            break;
+                        }
+
+                    case WhoLuis.Intent.JobTitle:
+                        {
+                            templateName = WhoIsResponses.JobTitle;
+                            break;
+                        }
+
+                    case WhoLuis.Intent.Department:
+                        {
+                            templateName = WhoIsResponses.Department;
+                            break;
+                        }
+
+                    case WhoLuis.Intent.Location:
+                        {
+                            templateName = WhoIsResponses.Location;
+                            break;
+                        }
+
+                    case WhoLuis.Intent.PhoneNumber:
+                        {
+                            templateName = WhoIsResponses.PhoneNumber;
+                            break;
+                        }
+
+                    case WhoLuis.Intent.EmailAddress:
+                        {
+                            templateName = WhoIsResponses.EmailAddress;
+                            break;
+                        }
+
+                    default:
+                        {
+                            templateName = WhoIsResponses.WhoIs;
+                            break;
+                        }
+                }
             }
 
             var data = new

@@ -31,23 +31,6 @@ namespace WhoSkill.Dialogs
         {
         }
 
-        protected override async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            if (string.IsNullOrEmpty(state.Keyword))
-            {
-                var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
-                await sc.Context.SendActivityAsync(activity);
-                return await sc.EndDialogAsync();
-            }
-
-            List<Candidate> candidates = null;
-            candidates = await MSGraphService.GetUsers(state.Keyword);
-            state.Candidates = candidates;
-
-            return await sc.NextAsync();
-        }
-
         protected override async Task<DialogTurnResult> DisplayResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
@@ -67,16 +50,33 @@ namespace WhoSkill.Dialogs
             {
                 state.Results = new List<Candidate>() { manager };
 
-                var reply = TemplateEngine.GenerateActivityForLocale(OrgResponses.Manager, new { Person = data });
-                await sc.Context.SendActivityAsync(reply);
+                if (state.SearchCurrentUser)
+                {
+                    var reply = TemplateEngine.GenerateActivityForLocale(OrgResponses.MyManager);
+                    await sc.Context.SendActivityAsync(reply);
+                }
+                else
+                {
+                    var reply = TemplateEngine.GenerateActivityForLocale(OrgResponses.Manager, new { Person = data });
+                    await sc.Context.SendActivityAsync(reply);
+                }
 
                 var card = await GetCardForDetail(state.Results[0]);
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
             }
             else
             {
-                var activity = TemplateEngine.GenerateActivityForLocale(OrgResponses.NoManager, new { Person = data });
-                await sc.Context.SendActivityAsync(activity);
+                if (state.SearchCurrentUser)
+                {
+                    var reply = TemplateEngine.GenerateActivityForLocale(OrgResponses.MyNoManager);
+                    await sc.Context.SendActivityAsync(reply);
+                }
+                else
+                {
+                    var activity = TemplateEngine.GenerateActivityForLocale(OrgResponses.NoManager, new { Person = data });
+                    await sc.Context.SendActivityAsync(activity);
+                }
+
                 return await sc.EndDialogAsync();
             }
         }

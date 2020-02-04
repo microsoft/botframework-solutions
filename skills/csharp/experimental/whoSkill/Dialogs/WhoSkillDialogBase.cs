@@ -90,7 +90,7 @@ namespace WhoSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await FillLuisResultIntoState(dc);
+            await UpdateState(dc);
             return await base.OnContinueDialogAsync(dc, cancellationToken);
         }
 
@@ -144,7 +144,26 @@ namespace WhoSkill.Dialogs
         // Search and generate result. Fill in candidates list property.
         protected virtual async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await sc.EndDialogAsync();
+            var state = await WhoStateAccessor.GetAsync(sc.Context);
+            if (state.SearchCurrentUser)
+            {
+                List<Candidate> candidates = new List<Candidate> { await MSGraphService.GetMyProfile() };
+                state.Candidates = candidates;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(state.Keyword))
+                {
+                    var activity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.NoKeyword);
+                    await sc.Context.SendActivityAsync(activity);
+                    return await sc.EndDialogAsync();
+                }
+
+                List<Candidate> candidates = await MSGraphService.GetUsers(state.Keyword);
+                state.Candidates = candidates;
+            }
+
+            return await sc.NextAsync();
         }
 
         // Display final result according to the person user picked.
@@ -372,7 +391,8 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        private async Task FillLuisResultIntoState(DialogContext dc)
+        // Update state during conversation: 1. Save restart tag. 2. Save ordinal.
+        private async Task UpdateState(DialogContext dc)
         {
             try
             {
@@ -381,7 +401,13 @@ namespace WhoSkill.Dialogs
                 var generalLuisResult = dc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResultKey);
                 var entities = luisResult.Entities;
                 var generalEntities = generalLuisResult.Entities;
-                var topIntent = luisResult.TopIntent().intent;
+
+                // User searchs about current user himself.
+                if (entities != null && entities.pron != null && entities.pron.Any())
+                {
+                    state.Restart = true;
+                    return;
+                }
 
                 // User provide a keyword.
                 if (entities != null && entities.keyword != null && !string.IsNullOrEmpty(entities.keyword[0]))
@@ -412,7 +438,7 @@ namespace WhoSkill.Dialogs
         {
             var state = await WhoStateAccessor.GetAsync(sc.Context);
 
-            // Init other properties in state before BeginDialog.
+            // Init properties in state before BeginDialog.
             await InitializeState(sc);
 
             var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
@@ -474,6 +500,12 @@ namespace WhoSkill.Dialogs
 
             // Save trigger intent.
             state.TriggerIntent = topIntent;
+
+            // User searchs about current user himself.
+            if (entities != null && entities.pron != null && entities.pron.Any())
+            {
+                state.SearchCurrentUser = true;
+            }
 
             // Save the keyword that user want to search.
             if (entities != null && entities.keyword != null)

@@ -133,6 +133,21 @@ namespace WhoSkill.Services
             }
         }
 
+        public async Task<Candidate> GetMyProfile()
+        {
+            var request = _graphClient.Me.Request();
+            try
+            {
+                var result = await request.GetAsync();
+                var me = result as User;
+                return new Candidate(me);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<string> GetUserPhotoUrlAsyc(string id)
         {
             var photoRequest = _graphClient.Users[id].Photos["64x64"].Content.Request();

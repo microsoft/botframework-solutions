@@ -41,3 +41,45 @@
     Speak = @{NoPeers.Text(Person)}
     InputHint = acceptingInput
 ]
+
+# MyManager
+[Activity
+    Text = @{MyManager.Text()}
+    Speak = @{MyManager.Text()}
+    InputHint = acceptingInput
+]
+
+# MyNoManager
+[Activity
+    Text = @{MyNoManager.Text()}
+    Speak = @{MyNoManager.Text()}
+    InputHint = acceptingInput
+]
+
+# MyDirectReports
+[Activity
+    Text = @{MyDirectReports.Text(Number)}
+    Speak = @{MyDirectReports.Text(Number)}
+    InputHint = acceptingInput
+]
+
+# MyNoDirectReports
+[Activity
+    Text = @{MyNoDirectReports.Text()}
+    Speak = @{MyNoDirectReports.Text()}
+    InputHint = acceptingInput
+]
+
+# MyPeers
+[Activity
+    Text = @{MyPeers.Text(Number)}
+    Speak = @{MyPeers.Text(Number)}
+    InputHint = acceptingInput
+]
+
+# MyNoPeers
+[Activity
+    Text = @{MyNoPeers.Text()}
+    Speak = @{MyNoPeers.Text()}
+    InputHint = acceptingInput
+]

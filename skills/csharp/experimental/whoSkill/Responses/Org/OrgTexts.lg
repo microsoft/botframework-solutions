@@ -15,3 +15,21 @@
 
 # NoPeers.Text(Person)
 - There are no other people that have the same manager as '@{Person.TargetName}'.
+
+# MyManager.Text()
+- Your manager's name is:
+
+# MyNoManager.Text()
+- You don't report to anyone.
+
+# MyDirectReports.Text(Number)
+- @{Number} people currently report to you:
+
+# MyNoDirectReports.Text()
+- I couldn't find anyone who reports to you.
+
+# MyPeers.Text(Number)
+- @{Number} people have the same manager as you.
+
+# MyNoPeers.Text()
+- I couldn't find anyone who has the same manager as you.
