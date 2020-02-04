@@ -41,6 +41,7 @@ program
     .description('Migrate all the Skills connected in your assistant to the new schema')
     .option('--sourceFile [path]', '[OPTIONAL] Path to your skills file from that you want to migrate (defaults to \'skills.json\' inside your assistant\'s folder)')
     .option('--destFile [path]', '[OPTIONAL] Path to your app settings file to migrate the skills (defaults to \'appsettings.json\' inside your assistant\'s folder)')
+    .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command): undefined => undefined);
 
 const args: program.Command = program.parse(process.argv);
