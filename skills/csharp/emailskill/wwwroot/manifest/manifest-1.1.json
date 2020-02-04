@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
   "$id": "EmailSkill",
   "name": "Email Skill",
   "description": "The Email skill provides email related capabilities and supports Office and Google calendars.",

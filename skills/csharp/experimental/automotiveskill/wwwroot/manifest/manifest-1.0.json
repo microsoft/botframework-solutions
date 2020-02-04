@@ -22,23 +22,6 @@
       "msAppId": "{YOUR_SKILL_APPID}"
     }
   ],
-  "dispatchModels": {
-    "languages": {
-      "en-us": [
-        {
-          "id": "AutomotiveSkillLuModel-en",
-          "name": "SettingsDispatch LU (English)",
-          "contentType": "application/lu",
-          "url": "file://SettingsDispatch.lu",
-          "description": "English language model for the skill"
-        }
-      ]
-    },
-    "intents": {
-      "VEHICLE_SETTINGS_CHANGE": "#/activities/message",
-      "*": "#/activities/message"
-    }
-  },
   "activities": {
     "message": {
       "type": "message",

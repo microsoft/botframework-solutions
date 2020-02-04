@@ -1,23 +1,24 @@
 {
-  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
-  "$id": "PointOfInterestSkill",
-  "name": "Point Of Interest Skill",
-  "description": "The Point of Interest skill provides PoI search capabilities leveraging Azure Maps and Foursquare.",
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
+  "$id": "ToDoSkill",
+  "name": "ToDo Skill",
+  "description": "The ToDo skill provides task related capabilities and supports Office based tasks.",
   "publisherName": "Microsoft",
   "version": "0.8",
-  "iconUrl": "https://{YOUR_SKILL_URL}/images/PointOfInterestSkill.png",
+  "iconUrl": "https://{YOUR_SKILL_URL}/images/ToDoSkill.png",
   "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
   "license": "",
   "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
   "tags": [
-    "poi",
+    "todo",
+    "task",
     "skill"
   ],
   "endpoints": [
     {
       "name": "production",
       "protocol": "BotFrameworkV3",
-      "description": "Production endpoint for the PoI Skill",
+      "description": "Production endpoint for the ToDo Skill",
       "endpointUrl": "https://{YOUR_SKILL_URL}/api/messages",
       "msAppId": "{YOUR_SKILL_APPID}"
     }
@@ -26,63 +27,64 @@
     "languages": {
       "en-us": [
         {
-          "id": "PointOfInterestSkillLuModel-en",
-          "name": "PoISkill LU (English)",
+          "id": "ToDoLuModel-en",
+          "name": "ToDoSkill LU (English)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest.lu",
+          "url": "file://ToDo.lu",
           "description": "English language model for the skill"
         }
       ],
       "de-de": [
         {
-          "id": "PointOfInterestSkillLuModel-de",
-          "name": "PoISkill LU (German)",
+          "id": "ToDoLuModel-de",
+          "name": "ToDoSkill LU (German)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest.lu",
+          "url": "file://ToDo.lu",
           "description": "German language model for the skill"
         }
       ],
       "es-es": [
         {
-          "id": "PointOfInterestSkillLuModel-es",
-          "name": "PoISkill LU (Spanish)",
+          "id": "ToDoLuModel-es",
+          "name": "ToDoSkill LU (Spanish)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest.lu",
+          "url": "file://ToDo.lu",
           "description": "Spanish language model for the skill"
         }
       ],
       "fr-fr": [
         {
-          "id": "PointOfInterestSkillLuModel-fr",
-          "name": "PoISkill LU (French)",
+          "id": "ToDoLuModel-fr",
+          "name": "ToDoSkill LU (French)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest.lu",
+          "url": "file://ToDo.lu",
           "description": "French language model for the skill"
         }
       ],
       "it-it": [
         {
-          "id": "PointOfInterestSkillLuModel-it",
-          "name": "PoISkill LU (Italian)",
+          "id": "ToDoLuModel-it",
+          "name": "ToDoSkill LU (Italian)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest.lu",
+          "url": "file://ToDo.lu",
           "description": "Italian language model for the skill"
         }
       ],
       "zh-cn": [
         {
-          "id": "PointOfInterestSkillLuModel-zh",
-          "name": "PoISkill LU (Chinese)",
+          "id": "ToDoLuModel-zh",
+          "name": "ToDoSkill LU (Chinese)",
           "contentType": "application/lu",
-          "url": "file://PointOfInterest.lu",
+          "url": "file://ToDo.lu",
           "description": "Chinese language model for the skill"
         }
       ]
     },
     "intents": {
-      "GetDirections": "#/activities/message",
-      "FindPointOfInterest": "#/activities/message",
-      "FindParking": "#/activities/message",
+      "AddToDo": "#/activities/message",
+      "ShowToDo": "#/activities/message",
+      "MarkToDo": "#/activities/message",
+      "DeleteToDo": "#/activities/message",
       "*": "#/activities/message"
     }
   },

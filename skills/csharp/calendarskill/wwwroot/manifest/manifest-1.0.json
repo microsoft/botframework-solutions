@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "CalendarSkill",
+  "name": "Calendar Skill",
+  "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+  "publisherName": "Microsoft",
+  "version": "0.8",
+  "iconUrl": "https://{YOUR_SKILL_URL}/images/CalendarSkill.png",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
+  "tags": [
+    "calendar",
+    "skill"
+  ],
+  "endpoints": [
+    {
+      "name": "production",
+      "protocol": "BotFrameworkV3",
+      "description": "Production endpoint for the Calendar Skill",
+      "endpointUrl": "https://{YOUR_SKILL_URL}/api/messages",
+      "msAppId": "{YOUR_SKILL_APPID}"
+    }
+  ],
+  "activities": {
+    "message": {
+      "type": "message",
+      "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  }
+}
