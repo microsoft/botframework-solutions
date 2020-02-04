@@ -16,11 +16,17 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
         {
             AddIntent(BaseTestUtterances.No, Intent.Reject);
             AddIntent(SelectNone, Intent.SelectNone);
+            AddIntent(Help, Intent.Help);
+            AddIntent(Cancel, Intent.Cancel);
         }
 
         public static string UnknownIntent { get; } = "what's the weather?";
 
         public static string SelectNone { get; } = "none of these";
+
+        public static string Help { get; } = "help";
+
+        public static string Cancel { get; } = "cancel";
 
         public static double TopIntentScore { get; } = 0.9;
 

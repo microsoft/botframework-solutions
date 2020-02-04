@@ -287,6 +287,47 @@ namespace PointOfInterestSkill.Tests.Flow
         }
 
         /// <summary>
+        /// Find nearest parking and cancel.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ParkingNearestAndCancelTest()
+        {
+            await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindParkingUtterances.FindParkingNearest)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(GeneralTestUtterances.Cancel)
+                .AssertReply(AssertContains(POISharedResponses.CancellingMessage, null))
+                .StartTestAsync();
+        }
+
+        /// <summary>
+        /// Find nearest parking and help.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task ParkingNearestAndHelpTest()
+        {
+            await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .Send(BaseTestUtterances.LocationEvent)
+                .Send(FindParkingUtterances.FindParkingNearest)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(GeneralTestUtterances.Help)
+                .AssertReply(AssertContains(POIMainResponses.HelpMessage, null))
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
+                .AssertReply(CheckForEvent())
+                .StartTestAsync();
+        }
+
+        /// <summary>
         /// Find parking nearby.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>

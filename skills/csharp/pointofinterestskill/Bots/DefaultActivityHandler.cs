@@ -97,6 +97,5 @@ namespace PointOfInterestSkill.Bots
         {
             public const string Location = "Location";
         }
-
     }
 }
