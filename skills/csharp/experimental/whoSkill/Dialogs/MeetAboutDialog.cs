@@ -51,7 +51,7 @@ namespace WhoSkill.Dialogs
                 }
                 else
                 {
-                    results = await MSGraphService.GetMeetingContacts(state.Keyword);
+                    results = await MSGraphService.GetEventContacts(state.Keyword);
                 }
 
                 if (results == null)

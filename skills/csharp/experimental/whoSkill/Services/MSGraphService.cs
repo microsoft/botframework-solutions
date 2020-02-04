@@ -26,7 +26,7 @@ namespace WhoSkill.Services
             InitGraphServiceClient(token);
         }
 
-        public async Task<List<Candidate>> GetMeetingContacts(string keyword)
+        public async Task<List<Candidate>> GetEventContacts(string keyword)
         {
             var selectItem = "$select=attendees,organizer";
             var filter = string.Format("$filter=contains(subject,'{0}')", keyword);
@@ -39,20 +39,15 @@ namespace WhoSkill.Services
                 + "&" + orderOption
                 + "&" + resultMaxNumber;
 
-            var result = await ExecuteGraphFetchAsync(url);
-            var searchResults = JsonConvert.DeserializeObject<List<EventSearchResult>>(result);
-
-            var candidates = new List<Candidate>();
-            foreach (var searchResult in searchResults)
+            try
             {
-                await AddSearchResult(candidates, searchResult.Organizer.EmailAddress);
-                foreach (var attendee in searchResult.Attendees)
-                {
-                    await AddSearchResult(candidates, attendee.EmailAddress);
-                }
+                var eventSearchResult = await ExecuteGraphFetchAsync(url);
+                return await GetContactsFromEventSearchResponse(eventSearchResult);
             }
-
-            return candidates;
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<Candidate>> GetEmailContacts(string keyword)
@@ -70,25 +65,15 @@ namespace WhoSkill.Services
                 + "&" + selectItem
                 + "&" + resultMaxNumber;
 
-            var result = await ExecuteGraphFetchAsync(url);
-            var searchResults = JsonConvert.DeserializeObject<List<EmailSearchResult>>(result);
-
-            var candidates = new List<Candidate>();
-            foreach (var searchResult in searchResults)
+            try
             {
-                await AddSearchResult(candidates, searchResult.Sender.EmailAddress);
-                foreach (var toRecepient in searchResult.ToRecipients)
-                {
-                    await AddSearchResult(candidates, toRecepient.EmailAddress);
-                }
-
-                foreach (var ccRecepient in searchResult.CcRecipients)
-                {
-                    await AddSearchResult(candidates, ccRecepient.EmailAddress);
-                }
+                var emailSearchResults = await ExecuteGraphFetchAsync(url);
+                return await GetContactsFromEmailSearchResponse(emailSearchResults);
             }
-
-            return candidates;
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<Candidate>> GetUsers(string keyword)
@@ -103,11 +88,20 @@ namespace WhoSkill.Services
                 + "&" + filter
                 + "&" + resultMaxNumber;
 
-            var result = await ExecuteGraphFetchAsync(url);
-            return JsonConvert.DeserializeObject<List<Candidate>>(result, new JsonSerializerSettings
+            try
             {
-                NullValueHandling = NullValueHandling.Ignore
-            });
+                var result = await ExecuteGraphFetchAsync(url);
+                return JsonConvert.DeserializeObject<List<Candidate>>(
+                    result,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore
+                    });
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<Candidate> GetManager(string id)
@@ -161,18 +155,6 @@ namespace WhoSkill.Services
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-        }
-
-        private async Task AddSearchResult(List<Candidate> candidates, Models.EmailAddress emailAddress)
-        {
-            if (candidates.Where(x => x.Mail == emailAddress.Address).Count() == 0)
-            {
-                var users = await GetUsers(emailAddress.Address);
-                if (users != null && users.Any())
-                {
-                    candidates.Add(users[0]);
-                }
-            }
         }
 
         private void InitGraphServiceClient(string token)
@@ -231,6 +213,75 @@ namespace WhoSkill.Services
             }
 
             return candidates;
+        }
+
+        private async Task<List<Candidate>> GetContactsFromEmailSearchResponse(string emailSearchResults)
+        {
+            try
+            {
+                var searchResults = JsonConvert.DeserializeObject<List<EmailSearchResult>>(emailSearchResults);
+                var candidates = new List<Candidate>();
+                foreach (var searchResult in searchResults)
+                {
+                    await AddSearchResult(candidates, searchResult.Sender.EmailAddress);
+                    foreach (var toRecepient in searchResult.ToRecipients)
+                    {
+                        await AddSearchResult(candidates, toRecepient.EmailAddress);
+                    }
+
+                    foreach (var ccRecepient in searchResult.CcRecipients)
+                    {
+                        await AddSearchResult(candidates, ccRecepient.EmailAddress);
+                    }
+                }
+
+                return candidates;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private async Task<List<Candidate>> GetContactsFromEventSearchResponse(string eventSearchResults)
+        {
+            try
+            {
+                var searchResults = JsonConvert.DeserializeObject<List<EventSearchResult>>(eventSearchResults);
+                var candidates = new List<Candidate>();
+                foreach (var searchResult in searchResults)
+                {
+                    await AddSearchResult(candidates, searchResult.Organizer.EmailAddress);
+                    foreach (var attendee in searchResult.Attendees)
+                    {
+                        await AddSearchResult(candidates, attendee.EmailAddress);
+                    }
+                }
+
+                return candidates;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private async Task AddSearchResult(List<Candidate> candidates, Models.EmailAddress emailAddress)
+        {
+            try
+            {
+                if (candidates.Where(x => x.Mail == emailAddress.Address).Count() == 0)
+                {
+                    var users = await GetUsers(emailAddress.Address);
+                    if (users != null && users.Any())
+                    {
+                        candidates.Add(users[0]);
+                    }
+                }
+            }
+            catch
+            {
+            }
         }
     }
 }
