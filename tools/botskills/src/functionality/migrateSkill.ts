@@ -31,7 +31,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             }
 
-            // Take VA Skills configurations
+            // Take source file Skills configurations
             const sourceAssistantSkills: ISkillFileV1 = JSON.parse(readFileSync(configuration.sourceFile, 'UTF8'));
             if (sourceAssistantSkills.skills === undefined || sourceAssistantSkills.skills.length === 0) {
                 this.logger.message('There are no Skills in the source file.');

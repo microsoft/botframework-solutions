@@ -99,7 +99,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
 sourceFile = isAbsolute(args.sourceFile) ? args.sourceFile : join(resolve('./'), args.sourceFile);
 
-// Initialize an instance of IListConfiguration to send the needed arguments to the listSkill function
+// Initialize an instance of IMigrateConfiguration to send the needed arguments to the migrateSkill function
 const configuration: IMigrateConfiguration = {
     destFile: destFile,
     logger: logger,
