@@ -40,7 +40,30 @@ namespace CalendarSkill.Models
             /// <summary>
             /// Change the content and recreate.
             /// </summary>
-            Content = 6
+            Content = 6,
+
+            /// <summary>
+            /// Change the MeetingRoom and recreate.
+            /// </summary>
+            MeetingRoom = 7
+        }
+
+        public enum RecreateMeetingRoomState
+        {
+            /// <summary>
+            /// Cancel the recreate
+            /// </summary>
+            Cancel = 0,
+
+            /// <summary>
+            /// Change the time and recreate.
+            /// </summary>
+            ChangeTime = 1,
+
+            /// <summary>
+            /// Change the meeting room and recreate.
+            /// </summary>
+            ChangeMeetingRoom = 2,
         }
     }
 }

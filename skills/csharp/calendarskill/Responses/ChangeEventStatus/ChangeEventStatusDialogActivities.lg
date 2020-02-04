@@ -1,0 +1,62 @@
+﻿# EventDeleted
+[Activity
+    Text = @{EventDeleted.Text()}
+    Speak = @{EventDeleted.Text()}
+    InputHint = acceptingInput
+]
+
+# EventAccepted
+[Activity
+    Text = @{EventAccepted.Text()}
+    Speak = @{EventAccepted.Text()}
+    InputHint = acceptingInput
+]
+
+# NoDeleteStartTime
+[Activity
+    Text = @{NoDeleteStartTime.Text()}
+    Speak = @{NoDeleteStartTime.Text()}
+    InputHint = expectingInput
+]
+
+# EventWithStartTimeNotFound
+[Activity
+    Text = @{EventWithStartTimeNotFound.Text()}
+    Speak = @{EventWithStartTimeNotFound.Text()}
+    InputHint = expectingInput
+]
+
+# NoAcceptStartTime
+[Activity
+    Text = @{NoAcceptStartTime.Text()}
+    Speak = @{NoAcceptStartTime.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmDelete
+[Activity
+    Text = @{ConfirmDelete.Text()}
+    Speak = @{ConfirmDelete.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmDeleteFailed
+[Activity
+    Text = @{ConfirmDeleteFailed.Text(Title, Time)}
+    Speak = @{ConfirmDeleteFailed.Text(Title, Time)}
+    InputHint = expectingInput
+]
+
+# ConfirmAccept
+[Activity
+    Text = @{ConfirmAccept.Text()}
+    Speak = @{ConfirmAccept.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmAcceptFailed
+[Activity
+    Text = @{ConfirmAcceptFailed.Text(Title, Time)}
+    Speak = @{ConfirmAcceptFailed.Text(Title, Time)}
+    InputHint = expectingInput
+]

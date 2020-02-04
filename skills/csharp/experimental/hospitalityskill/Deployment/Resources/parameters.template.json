@@ -5,7 +5,7 @@
     "appInsightsLocation": {
       "value": "westus2"
     },
-    "luisServiceLocation": {
+    "luisRuntimeLocation": {
       "value": "westus"
     }
   }

@@ -1,0 +1,46 @@
+[import](MainDialogActivities.lg)
+
+# CalendarWelcomeMessage.Text
+- Hello, how can I help you? Here are few things I can do: provide an overview of your meetings today, read out your upcoming meetings, or create a new meeting.
+
+# CalendarWelcomeMessage.S1
+- What meetings do I have today?
+
+# CalendarWelcomeMessage.S2
+- What is my next meeting?
+
+# CalendarWelcomeMessage.S3
+- I want to set up a meeting.
+
+# CalendarWelcomeMessage.S4
+- Can you update a meeting?
+
+# CalendarWelcomeMessage.S5
+- Can you cancel my event?
+
+# FeatureNotAvailable.Text
+- The feature you're asking about isn't available. Try asking about something else.
+
+# CancelMessage.Text
+- OK, let's start over.
+
+# HelpMessage.Text
+- I can provide an overview of your meetings today, read details about an upcoming meeting, or create a new meeting for you.
+
+# HelpMessage.S1
+- What meetings do I have today?
+
+# HelpMessage.S2
+- What is my next meeting?
+
+# HelpMessage.S3
+- I want to set up a meeting.
+
+# HelpMessage.S4
+- Can you update a meeting?
+
+# HelpMessage.S5
+- Can you cancel my event?
+
+# LogOut.Text
+- You've been signed out.

@@ -1,0 +1,85 @@
+[import](CreateEventDialogActivities.lg)
+
+# NoTitle.Text(UserName)
+- 好的，我会发送邀请到@{UserName}.会议的主题是什么？
+
+# NoTitleShort.Text
+- 会议的主题是什么？
+
+# NoContent.Text
+- 你能为会议提供简短的描述吗？
+
+# NoAttendees.Text
+- 你想邀请谁？
+
+# NoLocation.Text
+- 活动将在哪里举行？
+
+# ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
+- 我已准备好为@{Date}从@{Time}自@{EndTime}@{AttendeesConfirm}.@{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}
+
+# ConfirmCreateAttendees.Text(Attendees)
+- ，带@{Attendees}
+> Is starting with a comma here intentional? Unclear on context.
+
+# ConfirmCreateSubject.Text(Subject)
+- 活动的主题是@{Subject}.
+
+# ConfirmCreateLocation.Text(Location)
+- 活动将在@{Location}.
+
+# ConfirmCreateContent.Text(Content)
+- 事件的描述是@{Content}.
+
+# ConfirmCreatePrompt.Text
+- 是否要使用此信息创建事件？
+
+# ConfirmCreateFailed.Text
+- 我已准备好创建活动。请确认以下内容：
+
+# ShowRestParticipantsPrompt.Text
+- 是否要查看所有参与者？
+
+# EventCreated.Text(Subject)
+- 好的，我补充说@{Subject}到您的日历。
+
+# EventCreationFailed.Text
+- 我无法创建此事件。请稍后再试。
+- 发生了一些事件，并且未创建事件。请稍后再试。
+- 无法创建该事件，请稍后重试。
+
+
+# NoStartDate.Text
+- 您的活动日期是哪天？
+
+# NoStartDateRetry.Text
+- 我不明白你提供的日期，请再试一次。
+
+
+# NoStartTime.Text
+- 什么时候开始？
+- 开始时间是做什么的？
+
+# NoStartTimeRetry.Text
+- 我不明白你提供的时间，请再试一次。
+
+# NoStartTimeNoSkip.Text
+- 您需要添加开始时间才能创建此事件。
+
+# NoDuration.Text
+- 多久？
+
+# NoDurationRetry.Text
+- 我不明白你提供的持续时间，你能再试一次吗？
+
+# GetRecreateInfo.Text
+- 您想改变什么？
+
+# GetRecreateInfoRetry.Text
+- 对不起，我不明白。您可以更改的一些内容包括活动的时间、持续时间、位置、参与者、主题和说明。
+
+# NoMeetingRoom.Text
+- 您要添加房间吗？
+
+# MeetingBooked.Text
+- 好的，您的会议已经确认。

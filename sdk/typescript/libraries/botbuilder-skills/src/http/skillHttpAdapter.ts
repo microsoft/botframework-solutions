@@ -4,6 +4,7 @@ import { Activity } from 'botframework-schema';
 import { IActivityHandler } from '../activityHandler';
 import { IAuthenticationProvider } from '../auth';
 import { SkillHttpBotAdapter } from './skillHttpBotAdapter';
+import { ClaimsIdentity } from 'botframework-connector';
 
 /**
  * This adapter is responsible for accepting a bot-to-bot call over http transport.
@@ -28,13 +29,12 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
         this.telemetryClient = telemetryClient;
     }
 
-    // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public async processActivity(req: WebRequest, res: WebResponse, logic: (context: TurnContext) => Promise<any>): Promise<void> {
         if (this.authenticationProvider) {
             // grab the auth header from the inbound http request
-            // eslint-disable-next-line @typescript-eslint/tslint/config
             const authHeader: string = req.headers.authorization || req.headers.Authorization || '';
-            const authenticated: boolean = await this.authenticationProvider.authenticate(authHeader);
+            const authenticated: ClaimsIdentity = await this.authenticationProvider.authenticate(authHeader);
 
             if (!authenticated) {
                 res.status(401);
@@ -48,7 +48,7 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
         const activity: Activity = await parseRequest(req);
 
         if (this.telemetryClient) {
-            const message: string = `SkillHttpAdapter: Processing incoming activity. Activity id: ${activity.id}`;
+            const message = `SkillHttpAdapter: Processing incoming activity. Activity id: ${ activity.id }`;
             this.telemetryClient.trackTrace({
                 message: message,
                 severityLevel: Severity.Information
@@ -69,7 +69,6 @@ export class SkillHttpAdapter extends BotFrameworkAdapter {
 }
 
 async function parseRequest(req: WebRequest): Promise<Activity> {
-    // tslint:disable-next-line:typedef
     return new Promise((resolve, reject): void => {
         function returnActivity(activity: Activity): void {
             if (typeof activity !== 'object') { throw new Error(`BotFrameworkAdapter.parseRequest(): invalid request body.`); }
@@ -82,21 +81,18 @@ async function parseRequest(req: WebRequest): Promise<Activity> {
 
         if (req.body) {
             try {
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 returnActivity(req.body);
             } catch (err) {
                 reject(err);
             }
         } else {
-            let requestData: string = '';
+            let requestData = '';
             req.on('data', (chunk: string): void => {
                 requestData += chunk;
             });
             req.on('end', (): void => {
                 try {
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     req.body = JSON.parse(requestData);
-                    // eslint-disable-next-line @typescript-eslint/tslint/config
                     returnActivity(req.body);
                 } catch (err) {
                     reject(err);

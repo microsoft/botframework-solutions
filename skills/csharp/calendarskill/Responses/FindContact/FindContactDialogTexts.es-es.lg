@@ -1,0 +1,51 @@
+[import](FindContactDialogActivities.lg)
+
+# AddMoreAttendees.Text
+- ¿A quién quieres añadir?
+- ¿A quién le gustaría añadir?
+
+# BeforeSendingMessage.Text(NameList)
+- OK, desea enviar una invitación a @{NameList}.
+
+# UserNotFound.Text
+- No encontré a nadie que coincida con ese nombre en tu lista de contactos.
+
+# UserNotFoundAgain.Text(UserName, Source)
+- Lo siento, no puedo encontrar " @{UserName}" en su lista de contactos. Es útil si la persona ya se ha agregado a su lista de contactos en @{Source}.
+
+# AlreadyFirstPage.Text
+- Esta ya es la primera página.
+
+# AlreadyLastPage.Text
+- Esta ya es la última página.
+
+# AddMoreUserPrompt.Text
+- ¿Quieres invitar a alguien más?
+- ¿Te gustaría invitar a alguien más?
+
+# ConfirmMultipleContactEmailSinglePage.Text
+- ¿Qué dirección de correo electrónico desea utilizar?
+
+# ConfirmMultipleContactEmailMultiPage.Text
+- ¿Qué dirección de correo electrónico desea utilizar? También puede pedirme que le muestre las opciones anteriores o más.
+
+# ConfirmMultipleContactNameSinglePage.Text(ContactName)
+- Que @{ContactName} ¿Quieres invitar?
+
+# ConfirmMultipleContactNameMultiPage.Text(ContactName)
+- Que @{ContactName} ¿Quieres invitar? También puede pedirme que le muestre las opciones anteriores o más.
+
+# PromptOneNameOneAddress.Text(User)
+- Muy bien, he añadido @{User}.
+
+# AskForEmail.Text
+- ¿Puede proporcionar una dirección de correo electrónico?
+
+# FindMultipleEmails.Text(UserName)
+- Encontré más de una dirección de correo electrónico para @{UserName}.
+
+# FindMultipleContactNames.Text(UserName)
+- Encontré más de un contacto con el nombre @{UserName}.
+
+# EmailChoiceConfirmation.Text(Email)
+- Bien, usaré @{Email}.

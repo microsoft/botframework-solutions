@@ -1,0 +1,139 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+    <TemplateData>
+    <Name>Virtual Assistant Template</Name>
+    <Description>Project template for assistant scenarios using the Bot Builder SDK V4 (including Unit Test project).</Description>
+    <SortOrder>1000</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>MyAssistant</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <CreateInPlace>true</CreateInPlace>
+    <Icon>__TemplateIcon.ico</Icon>
+  </TemplateData>
+  <TemplateContent>
+    <Project TargetFileName="VA.csproj" File="VA.csproj" ReplaceParameters="true">
+      <Folder Name="Connected Services" TargetFolderName="Connected Services">
+        <Folder Name="Application Insights" TargetFolderName="Application Insights">
+          <ProjectItem ReplaceParameters="true" TargetFileName="ConnectedService.json">ConnectedService.json</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Properties" TargetFolderName="Properties">
+        <ProjectItem ReplaceParameters="true" TargetFileName="launchSettings.json">launchSettings.json</ProjectItem>
+      </Folder>
+      <Folder Name="wwwroot" TargetFolderName="wwwroot">
+        <ProjectItem ReplaceParameters="true" TargetFileName="default.htm">default.htm</ProjectItem>
+      </Folder>
+      <Folder Name="Adapters" TargetFolderName="Adapters">
+        <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Authentication" TargetFolderName="Authentication">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AllowedCallersClaimsValidator.cs">AllowedCallersClaimsValidator.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Bots" TargetFolderName="Bots">
+        <ProjectItem ReplaceParameters="true" TargetFileName="DefaultActivityHandler.cs">DefaultActivityHandler.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Controllers" TargetFolderName="Controllers">
+        <ProjectItem ReplaceParameters="true" TargetFileName="BotController.cs">BotController.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="SkillController.cs">SkillController.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Deployment" TargetFolderName="Deployment">
+        <Folder Name="Resources" TargetFolderName="Resources">
+          <Folder Name="LU" TargetFolderName="LU">
+            <Folder Name="de-de" TargetFolderName="de-de">
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
+            </Folder>
+            <Folder Name="en-us" TargetFolderName="en-us">
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
+            </Folder>
+            <Folder Name="es-es" TargetFolderName="es-es">
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
+            </Folder>
+            <Folder Name="fr-fr" TargetFolderName="fr-fr">
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
+            </Folder>
+            <Folder Name="it-it" TargetFolderName="it-it">
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
+            </Folder>
+            <Folder Name="zh-cn" TargetFolderName="zh-cn">
+              <ProjectItem ReplaceParameters="false" TargetFileName="General.lu">General.lu</ProjectItem>
+            </Folder>
+          </Folder>
+          <Folder Name="QnA" TargetFolderName="QnA">
+            <Folder Name="de-de" TargetFolderName="de-de">
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
+            </Folder>
+            <Folder Name="en-us" TargetFolderName="en-us">
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
+            </Folder>
+            <Folder Name="es-es" TargetFolderName="es-es">
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
+            </Folder>
+            <Folder Name="fr-fr" TargetFolderName="fr-fr">
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
+            </Folder>
+            <Folder Name="it-it" TargetFolderName="it-it">
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
+            </Folder>
+            <Folder Name="zh-cn" TargetFolderName="zh-cn">
+              <ProjectItem ReplaceParameters="false" TargetFileName="Chitchat.qna">Chitchat.qna</ProjectItem>
+              <ProjectItem ReplaceParameters="false" TargetFileName="Faq.qna">Faq.qna</ProjectItem>
+            </Folder>
+          </Folder>
+          <ProjectItem ReplaceParameters="true" TargetFileName="parameters.template.json">parameters.template.json</ProjectItem>
+          <ProjectItem ReplaceParameters="true" TargetFileName="template.json">template.json</ProjectItem>
+        </Folder>
+        <Folder Name="Scripts" TargetFolderName="Scripts">
+          <ProjectItem ReplaceParameters="false" TargetFileName="deploy.ps1">deploy.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="deploy_cognitive_models.ps1">deploy_cognitive_models.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="luis_functions.ps1">luis_functions.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="publish.ps1">publish.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="qna_functions.ps1">qna_functions.ps1</ProjectItem>
+          <ProjectItem ReplaceParameters="false" TargetFileName="update_cognitive_models.ps1">update_cognitive_models.ps1</ProjectItem>
+        </Folder>
+      </Folder>
+      <Folder Name="Dialogs" TargetFolderName="Dialogs">
+        <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Models" TargetFolderName="Models">
+        <ProjectItem ReplaceParameters="true" TargetFileName="StateProperties.cs">StateProperties.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="UserProfileState.cs">UserProfileState.cs</ProjectItem>
+      </Folder>
+      <Folder Name="Pipeline" TargetFolderName="Pipeline">
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantSample.yml</ProjectItem>
+      </Folder>
+      <Folder Name="Responses" TargetFolderName="Responses">
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.lg">MainResponses.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.de-de.lg">MainResponses.de-de.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.es-es.lg">MainResponses.es-es.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.fr-fr.lg">MainResponses.fr-fr.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.it-it.lg">MainResponses.it-it.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.zh-cn.lg">MainResponses.zh-cn.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.lg">OnboardingResponses.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.de-de.lg">OnboardingResponses.de-de.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.es-es.lg">OnboardingResponses.es-es.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.fr-fr.lg">OnboardingResponses.fr-fr.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.it-it.lg">OnboardingResponses.it-it.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="OnboardingResponses.zh-cn.lg">OnboardingResponses.zh-cn.lg</ProjectItem>
+      </Folder>
+      <Folder Name="Services" TargetFolderName="Services">
+        <ProjectItem ReplaceParameters="true" TargetFileName="BotServices.cs">BotServices.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
+      </Folder>
+      <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="cognitivemodels.json">cognitivemodels.json</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Program.cs">Program.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="false" TargetFileName="readme.md">readme.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true" TargetFileName="Startup.cs">Startup.cs</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

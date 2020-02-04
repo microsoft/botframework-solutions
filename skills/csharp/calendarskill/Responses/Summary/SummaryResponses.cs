@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace CalendarSkill.Responses.Summary
 {
@@ -37,5 +37,7 @@ namespace CalendarSkill.Responses.Summary
         public const string AskForAction = "AskForAction";
         public const string AskForOrgnizerAction = "AskForOrgnizerAction";
         public const string AskForShowOverview = "AskForShowOverview";
+        public const string MeetingListCard = "MeetingListCard";
+        public const string MeetingDetailCard = "MeetingDetailCard";
     }
 }

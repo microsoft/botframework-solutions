@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToDoSkill.Services;
 using ToDoSkill.Tests.API.Fakes;
@@ -12,6 +12,7 @@ using ToDoSkill.Tests.API.Fakes;
 namespace ToDoSkill.Tests.API
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class OutlookServiceTests
     {
         private HttpClient mockClient;

@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Responses.Main;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Responses.ShowToDo;
 using ToDoSkill.Tests.Flow.Fakes;
@@ -14,6 +15,7 @@ using ToDoSkill.Tests.Flow.Utterances;
 namespace ToDoSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ShowToDoFlowTests : ToDoSkillTestBase
     {
         [TestMethod]
@@ -21,6 +23,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -36,6 +40,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(ShowToDoFlowTestUtterances.ShowGroceryList)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -51,6 +57,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(ShowToDoFlowTestUtterances.ShowShoppingList)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -66,6 +74,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(ShowToDoFlowTestUtterances.ShowCustomizedListTypeList)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -81,6 +91,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -99,6 +111,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ClearAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(ShowToDoFlowTestUtterances.ShowToDoList)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -173,37 +187,37 @@ namespace ToDoSkill.Tests.Flow
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
 
         private string[] NoTasksPrompt()
         {
-            return this.ParseReplies(ShowToDoResponses.NoTasksMessage, new StringDictionary() { { MockData.ListType, MockData.ToDo } });
+            return GetTemplates(ShowToDoResponses.NoTasksMessage, new { ListType = MockData.ToDo });
         }
 
         private string[] ReadMoreTasksPrompt()
         {
-            return this.ParseReplies(ShowToDoResponses.ReadMoreTasksPrompt, new StringDictionary());
+            return GetTemplates(ShowToDoResponses.ReadMoreTasksPrompt);
         }
 
         private string[] ReadMoreTasksPrompt2()
         {
-            return this.ParseReplies(ShowToDoResponses.ReadMoreTasksPrompt2, new StringDictionary());
+            return GetTemplates(ShowToDoResponses.ReadMoreTasksPrompt2);
         }
 
         private string[] FirstReadMoreRefused()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.ActionEnded);
         }
 
         private string[] ActionEndMessage()
         {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.ActionEnded);
         }
     }
 }

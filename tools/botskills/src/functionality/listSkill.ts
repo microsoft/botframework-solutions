@@ -5,7 +5,7 @@
 
 import { existsSync, readFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
-import { IListConfiguration, ISkillFile, ISkillManifest } from '../models';
+import { IListConfiguration, IAppSetting, ISkill } from '../models';
 
 export class ListSkill {
     public logger: ILogger;
@@ -14,22 +14,21 @@ export class ListSkill {
     }
     public async listSkill(configuration: IListConfiguration): Promise<boolean> {
         try {
-            // Validate configuration.skillsFile
-            if (!existsSync(configuration.skillsFile)) {
-                this.logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
+            // Validate configuration.appSettingsFile
+            if (!existsSync(configuration.appSettingsFile)) {
+                this.logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
 
                 return false;
             }
             // Take VA Skills configurations
-            // eslint-disable-next-line @typescript-eslint/tslint/config
-            const assistantSkillsFile: ISkillFile = JSON.parse(readFileSync(configuration.skillsFile, 'UTF8'));
-            if (assistantSkillsFile.skills === undefined) {
+            const assistantAppSettingsFile: IAppSetting = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
+            if (assistantAppSettingsFile.BotFrameworkSkills === undefined) {
                 this.logger.message('There are no Skills connected to the assistant.');
 
                 return false;
             }
-            const assistantSkills: ISkillManifest[] = assistantSkillsFile.skills;
+            const assistantSkills: ISkill[] = assistantAppSettingsFile.BotFrameworkSkills;
 
             if (assistantSkills.length < 1) {
                 this.logger.message('There are no Skills connected to the assistant.');
@@ -37,8 +36,8 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             } else {
                 let message: string = `The skills already connected to the assistant are the following:`;
-                assistantSkills.forEach((skillManifest: ISkillManifest): void => {
-                    message += `\n\t- ${skillManifest.id}`;
+                assistantSkills.forEach((skillManifest: ISkill): void => {
+                    message += `\n\t- ${skillManifest.Id}`;
                 });
 
                 this.logger.message(message);
@@ -46,7 +45,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while listing the Skills connected to your assistant:\n ${err}`);
+            this.logger.error(`There was an error while listing the Skills connected to your assistant:\n ${ err }`);
 
             return false;
         }

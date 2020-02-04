@@ -5,4 +5,4 @@
 
 export * from './skillDialogOptions';
 export * from './skillEvents';
-export * from './skillManifest';
+export * from './manifest';

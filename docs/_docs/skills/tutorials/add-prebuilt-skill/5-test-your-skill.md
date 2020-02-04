@@ -18,4 +18,4 @@ Refer to the documentation page in the table below for an example question that 
 |[Email Skill]({{site.baseurl}}/skills/samples/email)|Add email capabilities to your assistant. Powered by Microsoft Graph and Google.|
 |[To Do Skill]({{site.baseurl}}/skills/samples/to-do)|Add task management capabilities to your assistant. Powered by Microsoft Graph.|
 |[Point of Interest Skill]({{site.baseurl}}/skills/samples/point-of-interest)|Find points of interest and directions. Powered by Azure Maps and FourSquare.|
-|[Experimental Skills]({{site.baseurl}}/skills/samples/experimental)|News, Search, Restaurant Booking and Weather.|
+|[Experimental Skills]({{site.baseurl}}/overview/skills/#experimental-skills)|News, Search, Restaurant Booking and Weather.|

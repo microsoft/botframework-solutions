@@ -1,0 +1,19 @@
+[import](UpdateEventDialogActivities.lg)
+
+# ConfirmUpdate.Text
+- 是否确实要更新以下内容？
+
+# ConfirmUpdateFailed.Text
+- 是否确实要更新以下内容？
+
+# EventUpdated.Text
+- 我更新了您的活动时间。
+
+# NoNewTime.Text
+- 活动的新时间是新的？
+
+# NoNewTimeRetry.Text
+- 对不起，我不明白你提供的时间。请重试。
+
+# NoUpdateStartTime.Text
+- 要更新的事件的名称或开始时间是什么？

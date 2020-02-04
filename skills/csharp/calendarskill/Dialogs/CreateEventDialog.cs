@@ -2,30 +2,28 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Models.DialogOptions;
-using CalendarSkill.Options;
 using CalendarSkill.Prompts;
 using CalendarSkill.Prompts.Options;
 using CalendarSkill.Responses.CreateEvent;
 using CalendarSkill.Responses.Shared;
 using CalendarSkill.Services;
 using CalendarSkill.Utilities;
-using Google.Apis.People.v1.Data;
+using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Resources;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Util;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Recognizers.Text.DateTime;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Resources;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Util;
+using Microsoft.Graph;
 using static CalendarSkill.Models.CreateEventStateModel;
 
 namespace CalendarSkill.Dialogs
@@ -35,13 +33,13 @@ namespace CalendarSkill.Dialogs
         public CreateEventDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
             ConversationState conversationState,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             FindContactDialog findContactDialog,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
             MicrosoftAppCredentials appCredentials)
-            : base(nameof(CreateEventDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient, appCredentials)
+            : base(nameof(CreateEventDialog), settings, services, conversationState, localeTemplateEngineManager, serviceManager, telemetryClient, appCredentials)
         {
             TelemetryClient = telemetryClient;
 
@@ -92,6 +90,8 @@ namespace CalendarSkill.Dialogs
 
             var collectLocation = new WaterfallStep[]
             {
+                CollectMeetingRoomPrompt,
+                AfterCollectMeetingRoomPrompt,
                 CollectLocationPrompt,
                 AfterCollectLocationPrompt
             };
@@ -157,25 +157,26 @@ namespace CalendarSkill.Dialogs
 
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (state.MeetingInfor.RecreateState == RecreateEventState.Subject)
+                if (state.MeetingInfo.RecreateState == RecreateEventState.Subject)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitleShort) }, cancellationToken);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.NoTitleShort) as Activity;
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                 }
-                else if (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault())
+                else if (state.MeetingInfo.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault())
                 {
                     return await sc.NextAsync(cancellationToken: cancellationToken);
                 }
-                else if (string.IsNullOrEmpty(state.MeetingInfor.Title))
+                else if (string.IsNullOrEmpty(state.MeetingInfo.Title))
                 {
-                    if (state.MeetingInfor.ContactInfor.Contacts.Count == 0 || state.MeetingInfor.ContactInfor.Contacts == null)
+                    if (state.MeetingInfo.ContactInfor.Contacts.Count == 0 || state.MeetingInfo.ContactInfor.Contacts == null)
                     {
                         state.Clear();
                         return await sc.EndDialogAsync(true);
                     }
 
-                    var userNameString = state.MeetingInfor.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}");
-                    var data = new StringDictionary() { { "UserName", userNameString } };
-                    var prompt = ResponseManager.GetResponse(CreateEventResponses.NoTitle, data);
+                    var userNameString = state.MeetingInfo.ContactInfor.Contacts.ToSpeechString(CommonStrings.And, li => $"{li.DisplayName ?? li.Address}");
+                    var data = new { UserName = userNameString };
+                    var prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.NoTitle, data) as Activity;
 
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                 }
@@ -199,13 +200,13 @@ namespace CalendarSkill.Dialogs
                 isTitleSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventTitle")?.IsSkipByDefault;
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (sc.Result != null || (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Subject)
+                if (sc.Result != null || (state.MeetingInfo.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault()) || state.MeetingInfo.RecreateState == RecreateEventState.Subject)
                 {
-                    if (string.IsNullOrEmpty(state.MeetingInfor.Title))
+                    if (string.IsNullOrEmpty(state.MeetingInfo.Title))
                     {
-                        if (state.MeetingInfor.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Subject)
+                        if (state.MeetingInfo.CreateHasDetail && isTitleSkipByDefault.GetValueOrDefault() && state.MeetingInfo.RecreateState != RecreateEventState.Subject)
                         {
-                            state.MeetingInfor.Title = CreateEventWhiteList.GetDefaultTitle();
+                            state.MeetingInfo.Title = CreateEventWhiteList.GetDefaultTitle();
                         }
                         else
                         {
@@ -213,11 +214,11 @@ namespace CalendarSkill.Dialogs
                             var title = content != null ? content.ToString() : sc.Context.Activity.Text;
                             if (CreateEventWhiteList.IsSkip(title))
                             {
-                                state.MeetingInfor.Title = CreateEventWhiteList.GetDefaultTitle();
+                                state.MeetingInfo.Title = CreateEventWhiteList.GetDefaultTitle();
                             }
                             else
                             {
-                                state.MeetingInfor.Title = title;
+                                state.MeetingInfo.Title = title;
                             }
                         }
                     }
@@ -254,9 +255,10 @@ namespace CalendarSkill.Dialogs
 
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (string.IsNullOrEmpty(state.MeetingInfor.Content) && (!(state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Content))
+                if (string.IsNullOrEmpty(state.MeetingInfo.Content) && (!(state.MeetingInfo.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfo.RecreateState == RecreateEventState.Content))
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoContent) }, cancellationToken);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.NoContent) as Activity;
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                 }
                 else
                 {
@@ -278,21 +280,21 @@ namespace CalendarSkill.Dialogs
                 isContentSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventContent")?.IsSkipByDefault;
 
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (sc.Result != null && (!(state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Content))
+                if (sc.Result != null && (!(state.MeetingInfo.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault()) || state.MeetingInfo.RecreateState == RecreateEventState.Content))
                 {
-                    if (string.IsNullOrEmpty(state.MeetingInfor.Content))
+                    if (string.IsNullOrEmpty(state.MeetingInfo.Content))
                     {
                         sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
                         var merged_content = content != null ? content.ToString() : sc.Context.Activity.Text;
                         if (!CreateEventWhiteList.IsSkip(merged_content))
                         {
-                            state.MeetingInfor.Content = merged_content;
+                            state.MeetingInfo.Content = merged_content;
                         }
                     }
                 }
-                else if (state.MeetingInfor.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
+                else if (state.MeetingInfo.CreateHasDetail && isContentSkipByDefault.GetValueOrDefault())
                 {
-                    state.MeetingInfor.Content = CalendarCommonStrings.DefaultContent;
+                    state.MeetingInfo.Content = CalendarCommonStrings.DefaultContent;
                 }
 
                 return await sc.EndDialogAsync();
@@ -310,74 +312,9 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
 
-                if (state.MeetingInfor.ContactInfor.Contacts.Count == 0 || state.MeetingInfor.RecreateState == RecreateEventState.Participants)
+                if (state.MeetingInfo.ContactInfor.Contacts.Count == 0 || state.MeetingInfo.RecreateState == RecreateEventState.Participants)
                 {
                     return await sc.BeginDialogAsync(nameof(FindContactDialog), options: new FindContactDialogOptions(sc.Options), cancellationToken: cancellationToken);
-                }
-                else
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> CollectStartDate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-
-                if (!state.MeetingInfor.StartDate.Any() && state.MeetingInfor.StartDateTime == null)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartDateForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
-                }
-                else
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> CollectStartTime(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.StartDateTime == null && (state.MeetingInfor.RecreateState == null || state.MeetingInfor.RecreateState == RecreateEventState.Time))
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateStartTimeForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
-                }
-                else
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> CollectDuration(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-
-                if (state.MeetingInfor.EndDateTime == null)
-                {
-                    return await sc.BeginDialogAsync(Actions.UpdateDurationForCreate, new UpdateDateTimeDialogOptions(UpdateDateTimeDialogOptions.UpdateReason.NotFound), cancellationToken);
                 }
                 else
                 {
@@ -395,12 +332,64 @@ namespace CalendarSkill.Dialogs
         {
             try
             {
-                return await sc.BeginDialogAsync(Actions.CollectLocation, sc.Options);
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (state.MeetingInfo.Location == null && state.MeetingInfo.MeetingRoom == null)
+                {
+                    return await sc.BeginDialogAsync(Actions.CollectLocation, sc.Options);
+                }
+                else
+                {
+                    state.MeetingInfo.Location = state.MeetingInfo.Location ?? state.MeetingInfo.MeetingRoom.DisplayName;
+                    return await sc.NextAsync(cancellationToken: cancellationToken);
+                }
             }
             catch (SkillException ex)
             {
                 await HandleDialogExceptions(sc, ex);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> CollectMeetingRoomPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (state.MeetingInfo.RecreateState == RecreateEventState.MeetingRoom || string.IsNullOrEmpty(Settings.AzureSearch?.SearchServiceName))
+                {
+                    return await sc.NextAsync();
+                }
+                else
+                {
+                    var prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.NoMeetingRoom);
+                    return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions { Prompt = prompt }, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        private async Task<DialogTurnResult> AfterCollectMeetingRoomPrompt(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                if (state.MeetingInfo.RecreateState == RecreateEventState.MeetingRoom || (sc.Result != null && (bool)sc.Result == true))
+                {
+                    return await sc.BeginDialogAsync(nameof(FindMeetingRoomDialog), options: sc.Options, cancellationToken: cancellationToken);
+                }
+                else
+                {
+                    return await sc.NextAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -417,10 +406,15 @@ namespace CalendarSkill.Dialogs
                 isLocationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventLocation")?.IsSkipByDefault;
 
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-
-                if (state.MeetingInfor.Location == null && (!(state.MeetingInfor.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Location))
+                if (state.MeetingInfo.MeetingRoom != null)
                 {
-                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = ResponseManager.GetResponse(CreateEventResponses.NoLocation) }, cancellationToken);
+                    state.MeetingInfo.Location = state.MeetingInfo.MeetingRoom.DisplayName;
+                    return await sc.EndDialogAsync();
+                }
+                else if (state.MeetingInfo.Location == null && (!(state.MeetingInfo.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.MeetingInfo.RecreateState == RecreateEventState.Location))
+                {
+                    var prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.NoLocation) as Activity;
+                    return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                 }
                 else
                 {
@@ -442,10 +436,10 @@ namespace CalendarSkill.Dialogs
                 isLocationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventLocation")?.IsSkipByDefault;
 
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.Location == null && sc.Result != null && (!(state.MeetingInfor.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.MeetingInfor.RecreateState == RecreateEventState.Location))
+                if (state.MeetingInfo.Location == null && sc.Result != null && (!(state.MeetingInfo.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault()) || state.MeetingInfo.RecreateState == RecreateEventState.Location))
                 {
                     sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-                    var luisResult = state.LuisResult;
+                    var luisResult = sc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
 
                     var userInput = content != null ? content.ToString() : sc.Context.Activity.Text;
                     var topIntent = luisResult?.TopIntent().intent.ToString();
@@ -455,16 +449,16 @@ namespace CalendarSkill.Dialogs
                     // Enable the user to skip providing the location if they say something matching the Cancel intent, say something matching the ConfirmNo recognizer or something matching the NoLocation intent
                     if (CreateEventWhiteList.IsSkip(userInput))
                     {
-                        state.MeetingInfor.Location = string.Empty;
+                        state.MeetingInfo.Location = string.Empty;
                     }
                     else
                     {
-                        state.MeetingInfor.Location = userInput;
+                        state.MeetingInfo.Location = userInput;
                     }
                 }
-                else if (state.MeetingInfor.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault())
+                else if (state.MeetingInfo.CreateHasDetail && isLocationSkipByDefault.GetValueOrDefault())
                 {
-                    state.MeetingInfor.Location = CalendarCommonStrings.DefaultLocation;
+                    state.MeetingInfo.Location = CalendarCommonStrings.DefaultLocation;
                 }
 
                 return await sc.EndDialogAsync();
@@ -486,67 +480,67 @@ namespace CalendarSkill.Dialogs
                 var source = state.EventSource;
                 var newEvent = new EventModel(source)
                 {
-                    Title = state.MeetingInfor.Title,
-                    Content = state.MeetingInfor.Content,
-                    Attendees = state.MeetingInfor.ContactInfor.Contacts,
-                    StartTime = state.MeetingInfor.StartDateTime.Value,
-                    EndTime = state.MeetingInfor.EndDateTime.Value,
+                    Title = state.MeetingInfo.Title,
+                    Content = state.MeetingInfo.Content,
+                    Attendees = state.MeetingInfo.ContactInfor.Contacts,
+                    StartTime = state.MeetingInfo.StartDateTime.Value,
+                    EndTime = state.MeetingInfo.EndDateTime.Value,
                     TimeZone = TimeZoneInfo.Utc,
-                    Location = state.MeetingInfor.Location,
-                    ContentPreview = state.MeetingInfor.Content
+                    Location = state.MeetingInfo.Location,
+                    ContentPreview = state.MeetingInfo.Content
                 };
 
                 var attendeeConfirmTextString = string.Empty;
-                if (state.MeetingInfor.ContactInfor.Contacts.Count > 0)
+                if (state.MeetingInfo.ContactInfor.Contacts.Count > 0)
                 {
-                    var attendeeConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateAttendees, new StringDictionary()
+                    var attendeeConfirmResponse = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ConfirmCreateAttendees, new
                     {
-                        { "Attendees", DisplayHelper.ToDisplayParticipantsStringSummary(state.MeetingInfor.ContactInfor.Contacts, 5) }
+                        Attendees = DisplayHelper.ToDisplayParticipantsStringSummary(state.MeetingInfo.ContactInfor.Contacts, 5)
                     });
                     attendeeConfirmTextString = attendeeConfirmResponse.Text;
                 }
 
                 var subjectConfirmString = string.Empty;
-                if (!string.IsNullOrEmpty(state.MeetingInfor.Title))
+                if (!string.IsNullOrEmpty(state.MeetingInfo.Title))
                 {
-                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateSubject, new StringDictionary()
+                    var subjectConfirmResponse = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ConfirmCreateSubject, new
                     {
-                        { "Subject", string.IsNullOrEmpty(state.MeetingInfor.Title) ? CalendarCommonStrings.Empty : state.MeetingInfor.Title }
+                        Subject = string.IsNullOrEmpty(state.MeetingInfo.Title) ? CalendarCommonStrings.Empty : state.MeetingInfo.Title
                     });
                     subjectConfirmString = subjectConfirmResponse.Text;
                 }
 
                 var locationConfirmString = string.Empty;
-                if (!string.IsNullOrEmpty(state.MeetingInfor.Location))
+                if (!string.IsNullOrEmpty(state.MeetingInfo.Location))
                 {
-                    var subjectConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateLocation, new StringDictionary()
+                    var subjectConfirmResponse = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ConfirmCreateLocation, new
                     {
-                        { "Location", string.IsNullOrEmpty(state.MeetingInfor.Location) ? CalendarCommonStrings.Empty : state.MeetingInfor.Location },
+                        Location = string.IsNullOrEmpty(state.MeetingInfo.Location) ? CalendarCommonStrings.Empty : state.MeetingInfo.Location
                     });
                     locationConfirmString = subjectConfirmResponse.Text;
                 }
 
                 var contentConfirmString = string.Empty;
-                if (!string.IsNullOrEmpty(state.MeetingInfor.Content))
+                if (!string.IsNullOrEmpty(state.MeetingInfo.Content))
                 {
-                    var contentConfirmResponse = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateContent, new StringDictionary()
+                    var contentConfirmResponse = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ConfirmCreateContent, new
                     {
-                        { "Content", string.IsNullOrEmpty(state.MeetingInfor.Content) ? CalendarCommonStrings.Empty : state.MeetingInfor.Content },
+                        Content = string.IsNullOrEmpty(state.MeetingInfo.Content) ? CalendarCommonStrings.Empty : state.MeetingInfo.Content
                     });
                     contentConfirmString = contentConfirmResponse.Text;
                 }
 
-                var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
-                var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone());
-                var tokens = new StringDictionary
+                var startDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.MeetingInfo.StartDateTime.Value, state.GetUserTimeZone());
+                var endDateTimeInUserTimeZone = TimeConverter.ConvertUtcToUserTime(state.MeetingInfo.EndDateTime.Value, state.GetUserTimeZone());
+                var tokens = new
                 {
-                    { "AttendeesConfirm", attendeeConfirmTextString },
-                    { "Date", startDateTimeInUserTimeZone.ToSpeechDateString(false) },
-                    { "Time", startDateTimeInUserTimeZone.ToSpeechTimeString(false) },
-                    { "EndTime", endDateTimeInUserTimeZone.ToSpeechTimeString(false) },
-                    { "SubjectConfirm", subjectConfirmString },
-                    { "LocationConfirm", locationConfirmString },
-                    { "ContentConfirm", contentConfirmString },
+                    AttendeesConfirm = attendeeConfirmTextString,
+                    Date = startDateTimeInUserTimeZone.ToSpeechDateString(false),
+                    Time = startDateTimeInUserTimeZone.ToSpeechTimeString(false),
+                    EndTime = endDateTimeInUserTimeZone.ToSpeechTimeString(false),
+                    SubjectConfirm = subjectConfirmString,
+                    LocationConfirm = locationConfirmString,
+                    ContentConfirm = contentConfirmString
                 };
 
                 var prompt = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.ConfirmCreate, tokens);
@@ -554,7 +548,7 @@ namespace CalendarSkill.Dialogs
                 await sc.Context.SendActivityAsync(prompt);
 
                 // show at most 5 user names, ask user show rest users
-                if (state.MeetingInfor.ContactInfor.Contacts.Count > 5)
+                if (state.MeetingInfo.ContactInfor.Contacts.Count > 5)
                 {
                     return await sc.BeginDialogAsync(Actions.ShowRestParticipants);
                 }
@@ -576,8 +570,8 @@ namespace CalendarSkill.Dialogs
             {
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreatePrompt),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ConfirmCreateFailed)
+                    Prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ConfirmCreatePrompt) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ConfirmCreateFailed) as Activity
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -618,35 +612,38 @@ namespace CalendarSkill.Dialogs
             {
                 var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                 var source = state.EventSource;
+
+                if (state.MeetingInfo.MeetingRoom != null)
+                {
+                    state.MeetingInfo.ContactInfor.Contacts.Add(new EventModel.Attendee
+                    {
+                        DisplayName = state.MeetingInfo.MeetingRoom.DisplayName,
+                        Address = state.MeetingInfo.MeetingRoom.EmailAddress,
+                        AttendeeType = AttendeeType.Resource
+                    });
+                }
+
                 var newEvent = new EventModel(source)
                 {
-                    Title = state.MeetingInfor.Title,
-                    Content = state.MeetingInfor.Content,
-                    Attendees = state.MeetingInfor.ContactInfor.Contacts,
-                    StartTime = (DateTime)state.MeetingInfor.StartDateTime,
-                    EndTime = (DateTime)state.MeetingInfor.EndDateTime,
+                    Title = state.MeetingInfo.Title,
+                    Content = state.MeetingInfo.Content,
+                    Attendees = state.MeetingInfo.ContactInfor.Contacts,
+                    StartTime = (DateTime)state.MeetingInfo.StartDateTime,
+                    EndTime = (DateTime)state.MeetingInfo.EndDateTime,
                     TimeZone = TimeZoneInfo.Utc,
-                    Location = state.MeetingInfor.Location,
+                    Location = state.MeetingInfo.MeetingRoom == null ? state.MeetingInfo.Location : null,
                 };
 
-                sc.Context.TurnState.TryGetValue(APITokenKey, out var token);
-                var calendarService = ServiceManager.InitCalendarService((string)token, state.EventSource);
+                sc.Context.TurnState.TryGetValue(StateProperties.APITokenKey, out var token);
+                var calendarService = ServiceManager.InitCalendarService(token as string, state.EventSource);
                 if (await calendarService.CreateEventAysnc(newEvent) != null)
                 {
-                    var tokens = new StringDictionary
-                    {
-                        { "Subject", state.MeetingInfor.Title },
-                    };
-
-                    newEvent.ContentPreview = state.MeetingInfor.Content;
-
-                    var replyMessage = await GetDetailMeetingResponseAsync(sc, newEvent, CreateEventResponses.EventCreated, tokens);
-
-                    await sc.Context.SendActivityAsync(replyMessage, cancellationToken);
+                    var activity = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.MeetingBooked);
+                    await sc.Context.SendActivityAsync(activity);
                 }
                 else
                 {
-                    var prompt = ResponseManager.GetResponse(CreateEventResponses.EventCreationFailed);
+                    var prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.EventCreationFailed) as Activity;
                     return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = prompt }, cancellationToken);
                 }
 
@@ -666,343 +663,14 @@ namespace CalendarSkill.Dialogs
             }
         }
 
-        // update start date waterfall steps
-        private async Task<DialogTurnResult> UpdateStartDateForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isStartDateSkipByDefault = false;
-                isStartDateSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Time)
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-
-                return await sc.PromptAsync(Actions.DatePromptForCreate, new DatePromptOptions
-                {
-                    Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDate),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartDateRetry),
-                    TimeZone = state.GetUserTimeZone(),
-                    MaxReprompt = CalendarCommonUtil.MaxRepromptCount
-                }, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> AfterUpdateStartDateForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isStartDateSkipByDefault = false;
-                isStartDateSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.CreateHasDetail && isStartDateSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Time)
-                {
-                    var datetime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, state.GetUserTimeZone());
-                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventStartDate")?.DefaultValue;
-                    if (int.TryParse(defaultValue, out var startDateOffset))
-                    {
-                        datetime = datetime.AddDays(startDateOffset);
-                    }
-
-                    state.MeetingInfor.StartDate.Add(datetime);
-                }
-                else if (sc.Result != null)
-                {
-                    IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                    foreach (var resolution in dateTimeResolutions)
-                    {
-                        var dateTimeConvertType = resolution?.Timex;
-                        var dateTimeValue = resolution?.Value;
-                        if (dateTimeValue != null)
-                        {
-                            try
-                            {
-                                var dateTime = DateTime.Parse(dateTimeValue);
-
-                                if (dateTime != null)
-                                {
-                                    if (CalendarCommonUtil.ContainsTime(dateTimeConvertType))
-                                    {
-                                        state.MeetingInfor.StartTime.Add(dateTime);
-                                    }
-
-                                    state.MeetingInfor.StartDate.Add(dateTime);
-                                }
-                            }
-                            catch (FormatException ex)
-                            {
-                                await HandleExpectedDialogExceptions(sc, ex);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    // user has tried 5 times but can't get result
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
-                    return await sc.CancelAllDialogsAsync();
-                }
-
-                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        // update start time waterfall steps
-        private async Task<DialogTurnResult> UpdateStartTimeForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (!state.MeetingInfor.StartTime.Any())
-                {
-                    return await sc.PromptAsync(Actions.TimePromptForCreate, new TimePromptOptions
-                    {
-                        Prompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTime),
-                        RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeRetry),
-                        NoSkipPrompt = ResponseManager.GetResponse(CreateEventResponses.NoStartTimeNoSkip),
-                        TimeZone = state.GetUserTimeZone(),
-                        MaxReprompt = CalendarCommonUtil.MaxRepromptCount
-                    }, cancellationToken);
-                }
-                else
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> AfterUpdateStartTimeForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (!state.MeetingInfor.StartTime.Any())
-                {
-                    if (sc.Result != null)
-                    {
-                        IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                        foreach (var resolution in dateTimeResolutions)
-                        {
-                            var dateTimeConvertType = resolution?.Timex;
-                            var dateTimeValue = resolution?.Value;
-                            if (dateTimeValue != null)
-                            {
-                                try
-                                {
-                                    var dateTime = DateTime.Parse(dateTimeValue);
-
-                                    if (dateTime != null)
-                                    {
-                                        state.MeetingInfor.StartTime.Add(dateTime);
-                                    }
-                                }
-                                catch (FormatException ex)
-                                {
-                                    await HandleExpectedDialogExceptions(sc, ex);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // user has tried 5 times but can't get result
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
-                        return await sc.CancelAllDialogsAsync();
-                    }
-                }
-
-                var userNow = TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone());
-                var startDate = state.MeetingInfor.StartDate.Last();
-                var endDate = state.MeetingInfor.EndDate.Any() ? state.MeetingInfor.EndDate.Last() : startDate;
-
-                List<DateTime> startTimes = new List<DateTime>();
-                List<DateTime> endTimes = new List<DateTime>();
-                foreach (var time in state.MeetingInfor.StartTime)
-                {
-                    startTimes.Add(startDate.AddSeconds(time.TimeOfDay.TotalSeconds));
-                }
-
-                foreach (var time in state.MeetingInfor.EndTime)
-                {
-                    endTimes.Add(endDate.AddSeconds(time.TimeOfDay.TotalSeconds));
-                }
-
-                var isStartTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.IsRestricted;
-                var isEndTimeRestricted = Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.IsRestricted;
-                DateTime baseTime = new DateTime(startDate.Year, startDate.Month, startDate.Day);
-                DateTime startTimeRestricted = isStartTimeRestricted.GetValueOrDefault() ? baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeStart")?.Value).TimeOfDay.TotalSeconds) : baseTime;
-                DateTime endTimeRestricted = isEndTimeRestricted.GetValueOrDefault() ? baseTime.AddSeconds(DateTime.Parse(Settings.RestrictedValue?.MeetingTime?.First(item => item.Name == "WorkTimeEnd")?.Value).TimeOfDay.TotalSeconds) : baseTime.AddDays(1);
-
-                state.MeetingInfor.StartDateTime = DateTimeHelper.ChooseStartTime(startTimes, endTimes, startTimeRestricted, endTimeRestricted, userNow);
-                state.MeetingInfor.StartDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.StartDateTime.Value, state.GetUserTimeZone());
-                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        // update duration waterfall steps
-        private async Task<DialogTurnResult> UpdateDurationForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isDurationSkipByDefault = false;
-                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.Duration > 0 || state.MeetingInfor.EndTime.Any() || state.MeetingInfor.EndDate.Any() || (state.MeetingInfor.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Time && state.MeetingInfor.RecreateState != RecreateEventState.Duration))
-                {
-                    return await sc.NextAsync(cancellationToken: cancellationToken);
-                }
-
-                return await sc.PromptAsync(Actions.DurationPromptForCreate, new CalendarPromptOptions
-                {
-                    Prompt = ResponseManager.GetResponse(CreateEventResponses.NoDuration),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.NoDurationRetry),
-                    MaxReprompt = CalendarCommonUtil.MaxRepromptCount
-                }, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
-        private async Task<DialogTurnResult> AfterUpdateDurationForCreate(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            try
-            {
-                bool? isDurationSkipByDefault = false;
-                isDurationSkipByDefault = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.IsSkipByDefault;
-
-                var state = await Accessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
-                if (state.MeetingInfor.EndDate.Any() || state.MeetingInfor.EndTime.Any())
-                {
-                    var startDate = !state.MeetingInfor.StartDate.Any() ? TimeConverter.ConvertUtcToUserTime(DateTime.UtcNow, state.GetUserTimeZone()) : state.MeetingInfor.StartDate.Last();
-                    var endDate = startDate;
-                    if (state.MeetingInfor.EndDate.Any())
-                    {
-                        endDate = state.MeetingInfor.EndDate.Last();
-                    }
-
-                    if (state.MeetingInfor.EndTime.Any())
-                    {
-                        foreach (var endtime in state.MeetingInfor.EndTime)
-                        {
-                            var endDateTime = new DateTime(
-                                endDate.Year,
-                                endDate.Month,
-                                endDate.Day,
-                                endtime.Hour,
-                                endtime.Minute,
-                                endtime.Second);
-                            endDateTime = TimeZoneInfo.ConvertTimeToUtc(endDateTime, state.GetUserTimeZone());
-                            if (state.MeetingInfor.EndDateTime == null)
-                            {
-                                state.MeetingInfor.EndDateTime = endDateTime;
-                            }
-
-                            if (endDateTime >= state.MeetingInfor.StartDateTime)
-                            {
-                                state.MeetingInfor.EndDateTime = endDateTime;
-                                break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        state.MeetingInfor.EndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
-                        state.MeetingInfor.EndDateTime = TimeZoneInfo.ConvertTimeToUtc(state.MeetingInfor.EndDateTime.Value, state.GetUserTimeZone());
-                    }
-
-                    var ts = state.MeetingInfor.StartDateTime.Value.Subtract(state.MeetingInfor.EndDateTime.Value).Duration();
-                    state.MeetingInfor.Duration = (int)ts.TotalSeconds;
-                }
-
-                if (state.MeetingInfor.Duration <= 0 && state.MeetingInfor.CreateHasDetail && isDurationSkipByDefault.GetValueOrDefault() && state.MeetingInfor.RecreateState != RecreateEventState.Time && state.MeetingInfor.RecreateState != RecreateEventState.Duration)
-                {
-                    var defaultValue = Settings.DefaultValue?.CreateMeeting?.First(item => item.Name == "EventDuration")?.DefaultValue;
-                    if (int.TryParse(defaultValue, out var durationMinutes))
-                    {
-                        state.MeetingInfor.Duration = durationMinutes * 60;
-                    }
-                    else
-                    {
-                        state.MeetingInfor.Duration = 1800;
-                    }
-                }
-
-                if (state.MeetingInfor.Duration <= 0)
-                {
-                    if (sc.Result != null)
-                    {
-                        sc.Context.Activity.Properties.TryGetValue("OriginText", out var content);
-
-                        IList<DateTimeResolution> dateTimeResolutions = sc.Result as List<DateTimeResolution>;
-                        if (dateTimeResolutions.First().Value != null)
-                        {
-                            int.TryParse(dateTimeResolutions.First().Value, out var duration);
-                            state.MeetingInfor.Duration = duration;
-                        }
-                    }
-                    else
-                    {
-                        // user has tried 5 times but can't get result
-                        await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
-                        return await sc.CancelAllDialogsAsync();
-                    }
-                }
-
-                if (state.MeetingInfor.Duration > 0)
-                {
-                    state.MeetingInfor.EndDateTime = state.MeetingInfor.StartDateTime.Value.AddSeconds(state.MeetingInfor.Duration);
-                }
-                else
-                {
-                    // should not go to this part in current logic.
-                    // place an error handling for save.
-                    await HandleDialogExceptions(sc, new Exception("Unexpect Error On get duration"));
-                }
-
-                return await sc.EndDialogAsync(cancellationToken: cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
         private async Task<DialogTurnResult> GetRecreateInfo(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
                 return await sc.PromptAsync(Actions.GetRecreateInfoPrompt, new CalendarPromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfo),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.GetRecreateInfoRetry),
+                    Prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.GetRecreateInfo) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.GetRecreateInfoRetry) as Activity,
                     MaxReprompt = CalendarCommonUtil.MaxRepromptCount
                 }, cancellationToken);
             }
@@ -1024,26 +692,30 @@ namespace CalendarSkill.Dialogs
                     switch (recreateState.Value)
                     {
                         case RecreateEventState.Cancel:
-                            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.ActionEnded), cancellationToken);
+                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.ActionEnded);
+                            await sc.Context.SendActivityAsync(activity);
                             state.Clear();
                             return await sc.EndDialogAsync(true, cancellationToken);
                         case RecreateEventState.Time:
-                            state.MeetingInfor.ClearTimesForRecreate();
+                            state.MeetingInfo.ClearTimesForRecreate();
                             return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
                         case RecreateEventState.Duration:
-                            state.MeetingInfor.ClearEndTimesAndDurationForRecreate();
+                            state.MeetingInfo.ClearEndTimesAndDurationForRecreate();
                             return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
                         case RecreateEventState.Location:
-                            state.MeetingInfor.ClearLocationForRecreate();
+                            state.MeetingInfo.ClearLocationForRecreate();
+                            return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
+                        case RecreateEventState.MeetingRoom:
+                            state.MeetingInfo.ClearMeetingRoomForRecreate();
                             return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
                         case RecreateEventState.Participants:
-                            state.MeetingInfor.ClearParticipantsForRecreate();
+                            state.MeetingInfo.ClearParticipantsForRecreate();
                             return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
                         case RecreateEventState.Subject:
-                            state.MeetingInfor.ClearSubjectForRecreate();
+                            state.MeetingInfo.ClearSubjectForRecreate();
                             return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
                         case RecreateEventState.Content:
-                            state.MeetingInfor.ClearContentForRecreate();
+                            state.MeetingInfo.ClearContentForRecreate();
                             return await sc.ReplaceDialogAsync(Actions.CreateEvent, options: sc.Options, cancellationToken: cancellationToken);
                         default:
                             // should not go to this part. place an error handling for save.
@@ -1054,7 +726,8 @@ namespace CalendarSkill.Dialogs
                 else
                 {
                     // user has tried 5 times but can't get result
-                    await sc.Context.SendActivityAsync(ResponseManager.GetResponse(CalendarSharedResponses.RetryTooManyResponse));
+                    var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.RetryTooManyResponse);
+                    await sc.Context.SendActivityAsync(activity);
                     return await sc.CancelAllDialogsAsync();
                 }
             }
@@ -1071,8 +744,8 @@ namespace CalendarSkill.Dialogs
             {
                 return await sc.PromptAsync(Actions.TakeFurtherAction, new PromptOptions
                 {
-                    Prompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt),
-                    RetryPrompt = ResponseManager.GetResponse(CreateEventResponses.ShowRestParticipantsPrompt)
+                    Prompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ShowRestParticipantsPrompt) as Activity,
+                    RetryPrompt = TemplateEngine.GenerateActivityForLocale(CreateEventResponses.ShowRestParticipantsPrompt) as Activity,
                 }, cancellationToken);
             }
             catch (Exception ex)
@@ -1091,7 +764,7 @@ namespace CalendarSkill.Dialogs
                 var confirmResult = (bool)sc.Result;
                 if (confirmResult)
                 {
-                    await sc.Context.SendActivityAsync(state.MeetingInfor.ContactInfor.Contacts.GetRange(5, state.MeetingInfor.ContactInfor.Contacts.Count - 5).ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address));
+                    await sc.Context.SendActivityAsync(state.MeetingInfo.ContactInfor.Contacts.GetRange(5, state.MeetingInfo.ContactInfor.Contacts.Count - 5).ToSpeechString(CommonStrings.And, li => li.DisplayName ?? li.Address));
                 }
 
                 return await sc.EndDialogAsync(true, cancellationToken);

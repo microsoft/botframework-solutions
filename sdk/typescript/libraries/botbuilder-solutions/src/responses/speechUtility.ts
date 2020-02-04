@@ -22,6 +22,7 @@ export enum ReadPreference {
     Chronological
 }
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace SpeechUtility {
 
     export function listToSpeechReadyString(
@@ -31,20 +32,19 @@ export namespace SpeechUtility {
     ): string {
 
         let speakStrings: string[] = [];
-        let parent: string = '';
+        let parent = '';
 
-        if ((<PromptOptions>toProcess).choices !== undefined) {
-            const selectOption: PromptOptions = <PromptOptions>toProcess;
+        if ((toProcess as PromptOptions).choices !== undefined) {
+            const selectOption: PromptOptions = toProcess as PromptOptions;
             const choices: (string|Choice)[] = selectOption.choices || [];
             speakStrings = choices.map((value: string|Choice): string => typeof(value) === 'string' ? value : value.value);
             parent = typeof(selectOption.prompt) === 'string'
                 ? (selectOption.prompt || '')
                 : (selectOption.prompt ? (selectOption.prompt.text || '') : '');
         } else {
-            const activity: Activity = <Activity>toProcess;
+            const activity: Activity = toProcess as Activity;
             const attachments: Attachment[] = activity.attachments || [];
-            // eslint-disable-next-line @typescript-eslint/tslint/config
-            speakStrings = attachments.map((value: Attachment): string => <string> value.content.speak);
+            speakStrings = attachments.map((value: Attachment): string => value.content.speak as string);
             parent = activity.speak || '';
         }
 
@@ -53,7 +53,7 @@ export namespace SpeechUtility {
 
     function listToSpeech(parent: string, selectionStrings: string[], readOrder: ReadPreference, maxSize: number): string {
 
-        const result: string = `${parent} ` || '';
+        const result: string = `${ parent } ` || '';
 
         const itemDetails: string[] = [];
         const readSize: number = Math.min(selectionStrings.length, maxSize);
@@ -61,8 +61,8 @@ export namespace SpeechUtility {
         if (readSize === 1) {
             itemDetails.push(selectionStrings[0]);
         } else {
-            for (let index: number = 0; index < readSize; index = index + 1) {
-                let readFormat: string = '';
+            for (let index = 0; index < readSize; index = index + 1) {
+                let readFormat = '';
                 if (index === 0) {
                     if (readOrder === ReadPreference.Chronological) {
                         readFormat = i18next.t('common:latestItem');

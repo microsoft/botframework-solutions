@@ -10,10 +10,20 @@ order: 2
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
 ## Edit default responses
-Edit the MainResponses.json and SharedResponses.json files in the Responses folder to modify the default responses used by the template.
+Edit the MainResponses.lg and SharedResponses.lg files in the Responses folder to modify the default responses used by the template.
 
 ## Add additional responses
-To add additional responses, create a new folder in the Responses directory, then copy the .tt and .json files from Responses/Sample. Rename the files to match your domain, and modify the json file as needed. Set the Build Action of the json files to `EmbeddedResource`. In the Build menu of Visual Studio, run "Transform All t4 templates" to generate the necessary .cs file. In startup, register your response class in the ResponseManager.
+If you wish to add additional responses, add an additional LG file to the directory and populate as required. See [this reference](https://github.com/microsoft/botbuilder-dotnet/tree/master/doc/LanguageGeneration) for more information on Language Generation.
+
+Within `Startup.cs` in your project root directory add the newly created LG file to the templateFiles collection.
+
+```csharp
+// Configure localized responses
+var localizedTemplates = new Dictionary<string, List<string>>();
+var templateFiles = new List<string>() { "MainResponses", "SampleResponses" };
+var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+
+```
 
 ### Learn More
 For more information, refer to the [Skill Responses reference]({{site.baseurl}}/skills/handbook/language-generation).

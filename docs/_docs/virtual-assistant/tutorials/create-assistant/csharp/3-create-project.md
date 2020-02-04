@@ -23,6 +23,7 @@ order: 3
         | - DefaultActivityHandler.cs       // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
     | - Controllers                         // API Controllers
         | - BotController.cs                // API Controller for api/messages endpoint
+        | - SkillController.cs              // API Controller for api/skills endpoint. Skills will call into this endpoint after processing
     | - Deployment                          // Files for deployment and provisioning
         | - Resources                       // Resources for deployment and provisioning.
             | - LU                          // Files for deploying LUIS language models
@@ -56,7 +57,6 @@ order: 3
         | - GeneralLuis.cs                  // Class representation of LUIS result from General language model
     | - appsettings.json                    // Configuration for application and Azure services
     | - cognitivemodels.json                // Configuration for language models, knowledgebases, and dispatch model
-    | - skills.json                         // Configuration for connected skills
     | - Program.cs                          // Default Program.cs file
     | - Startup.cs                          // Initializes dependencies
 

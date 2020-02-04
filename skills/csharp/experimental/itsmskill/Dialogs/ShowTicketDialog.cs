@@ -20,7 +20,7 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 
@@ -181,7 +181,7 @@ namespace ITSMSkill.Dialogs
                 state.PageIndex = 0;
             }
 
-            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse);
+            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
 
             var urgencies = new List<UrgencyLevel>();
             if (state.UrgencyLevel != UrgencyLevel.None)

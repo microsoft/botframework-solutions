@@ -14,21 +14,22 @@ using ToDoSkill.Tests.Flow.Utterances;
 namespace ToDoSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class GeneralSkillFlowTests : ToDoSkillTestBase
     {
         [TestMethod]
-        public async Task Test_SingleTurnCompletion()
+        public async Task Test_SkillModeCompletion()
         {
-            await this.GetTestFlow()
+            await this.GetSkillTestFlow()
                 .Send(GeneralTestUtterances.UnknownIntent)
                 .AssertReplyOneOf(this.ConfusedResponse())
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.Handoff, activity.Type); })
+                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
         }
 
         private string[] ConfusedResponse()
         {
-            return this.ParseReplies(ToDoMainResponses.DidntUnderstandMessage, new StringDictionary());
+            return GetTemplates(ToDoMainResponses.DidntUnderstandMessage);
         }
     }
 }

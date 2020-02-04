@@ -3,22 +3,23 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
 using CalendarSkill.Responses.JoinEvent;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class ConnectToMeetingFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
@@ -50,12 +51,13 @@ namespace CalendarSkill.Test.Flow
                     content: "<a href=\"tel:12345678 \">12345678</a>")
             });
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
                 .AssertReplyOneOf(this.ConfirmPhoneNumberPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.JoinMeetingResponse())
                 .AssertReply(this.JoinMeetingEvent())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -74,28 +76,35 @@ namespace CalendarSkill.Test.Flow
                     content: "<a href=\"meetinglink\">Join Microsoft Teams Meeting</a>")
             });
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
                 .AssertReplyOneOf(this.ConfirmMeetingLinkPrompt())
                 .Send(Strings.Strings.ConfirmYes)
                 .AssertReplyOneOf(this.JoinMeetingResponse())
                 .AssertReply(this.JoinMeetingEvent())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         private string[] ConfirmPhoneNumberPrompt()
         {
-            return this.ParseReplies(JoinEventResponses.ConfirmPhoneNumber, new StringDictionary() { { "PhoneNumber", "12345678" } });
+            return GetTemplates(JoinEventResponses.ConfirmPhoneNumber, new
+            {
+                PhoneNumber = "12345678"
+            });
         }
 
         private string[] ConfirmMeetingLinkPrompt()
         {
-            return this.ParseReplies(JoinEventResponses.ConfirmMeetingLink, new StringDictionary() { { "MeetingLink", "meetinglink" } });
+            return GetTemplates(JoinEventResponses.ConfirmMeetingLink, new
+            {
+                MeetingLink = "meetinglink"
+            });
         }
 
         private string[] JoinMeetingResponse()
         {
-            return this.ParseReplies(JoinEventResponses.JoinMeeting, new StringDictionary());
+            return GetTemplates(JoinEventResponses.JoinMeeting);
         }
 
         private Action<IActivity> JoinMeetingEvent()
@@ -103,14 +112,6 @@ namespace CalendarSkill.Test.Flow
             return activity =>
             {
                 Assert.AreEqual(activity.Type, ActivityTypes.Event);
-            };
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
             };
         }
     }

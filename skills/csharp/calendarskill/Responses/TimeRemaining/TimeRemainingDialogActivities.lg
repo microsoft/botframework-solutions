@@ -1,0 +1,13 @@
+﻿# ShowNextMeetingTimeRemainingMessage
+[Activity
+    Text = @{ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)}
+    Speak = @{ShowNextMeetingTimeRemainingMessage.Text(RemainingTime)}
+    InputHint = acceptingInput
+]
+
+# ShowTimeRemainingMessage
+[Activity
+    Text = @{ShowTimeRemainingMessage.Text(RemainingTime, Title, Time)}
+    Speak = @{ShowTimeRemainingMessage.Speak(RemainingTime, Title, TimeSpeak)}
+    InputHint = acceptingInput
+]

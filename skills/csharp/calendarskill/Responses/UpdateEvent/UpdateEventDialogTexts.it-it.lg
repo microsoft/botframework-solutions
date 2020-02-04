@@ -1,0 +1,19 @@
+[import](UpdateEventDialogActivities.lg)
+
+# ConfirmUpdate.Text
+- Sei sicuro di voler aggiornare quanto segue?
+
+# ConfirmUpdateFailed.Text
+- Sei sicuro di voler aggiornare quanto segue?
+
+# EventUpdated.Text
+- Ho aggiornato l'ora del tuo evento.
+
+# NoNewTime.Text
+- Qual è il nuovo momento dell'evento?
+
+# NoNewTimeRetry.Text
+- Scusa, non ho capito l'ora che hai fornito. Riprovare.
+
+# NoUpdateStartTime.Text
+- Qual è il nome o l'ora di inizio dell'evento che si desidera aggiornare?

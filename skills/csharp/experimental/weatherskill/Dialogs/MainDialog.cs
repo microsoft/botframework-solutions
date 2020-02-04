@@ -13,15 +13,16 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Dialogs;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using WeatherSkill.Models;
 using WeatherSkill.Responses.Main;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
+using SkillServiceLibrary.Utilities;
 
 namespace WeatherSkill.Dialogs
 {
@@ -110,10 +111,10 @@ namespace WeatherSkill.Dialogs
         protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // workaround. if connect skill directly to teams, the following response does not work.
-            if (dc.Context.Adapter is IRemoteUserTokenProvider remoteInvocationAdapter || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            if (dc.Context.IsSkill() || Channel.GetChannelId(dc.Context) != Channels.Msteams)
             {
                 var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.Handoff;
+                response.Type = ActivityTypes.EndOfConversation;
 
                 await dc.Context.SendActivityAsync(response);
             }
@@ -146,7 +147,7 @@ namespace WeatherSkill.Dialogs
                         if (result.Status != DialogTurnStatus.Waiting)
                         {
                             var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.Handoff;
+                            response.Type = ActivityTypes.EndOfConversation;
 
                             await dc.Context.SendActivityAsync(response);
                         }
@@ -234,13 +235,13 @@ namespace WeatherSkill.Dialogs
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.HelpMessage));
-            return InterruptionAction.MessageSentToUser;
+            return InterruptionAction.Resume;
         }
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
@@ -267,7 +268,7 @@ namespace WeatherSkill.Dialogs
 
             await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
-            return InterruptionAction.StartedDialog;
+            return InterruptionAction.End;
         }
 
         private async Task PopulateStateFromSkillContext(ITurnContext context)

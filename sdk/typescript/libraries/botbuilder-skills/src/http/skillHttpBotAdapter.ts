@@ -31,7 +31,6 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
                 // hack directly in the POST method. Replicating that here
                 // to keep the behavior as close as possible to facilitate
                 // more realistic tests.
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const delayMs: number = activity.value;
                 await sleep(delayMs);
             } else if (activity.type === ActivityTypes.Trace && activity.channelId !== 'emulator') {
@@ -62,7 +61,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
     }
 
     public async processActivity(activity: Activity, callback: BotCallbackHandler): Promise<InvokeResponse> {
-        const messageIn: string = `SkillHttpBotAdapter: Received an incoming activity. Activity id: ${activity.id}`;
+        const messageIn = `SkillHttpBotAdapter: Received an incoming activity. Activity id: ${ activity.id }`;
         this.telemetryClient.trackTrace({
             message: messageIn,
             severityLevel: Severity.Information
@@ -73,7 +72,7 @@ export class SkillHttpBotAdapter extends BotAdapter implements IActivityHandler,
 
         await this.runMiddleware(context, callback);
 
-        const messageOut: string = `SkillHttpBotAdapter: Batching activities in the response. ReplyToId: ${activity.id}`;
+        const messageOut = `SkillHttpBotAdapter: Batching activities in the response. ReplyToId: ${ activity.id }`;
         this.telemetryClient.trackTrace({
             message: messageOut,
             severityLevel: Severity.Information

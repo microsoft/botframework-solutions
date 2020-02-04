@@ -95,5 +95,10 @@ namespace CalendarSkill.Services
         {
             return await calendarAPI.GetUserAvailabilityAsync(userEmail, users, startTime, availabilityViewInterval);
         }
+
+        public async Task<List<bool>> CheckAvailable(List<string> users, DateTime startTime, int availabilityViewInterval)
+        {
+            return await calendarAPI.CheckAvailable(users, startTime, availabilityViewInterval);
+        }
     }
 }

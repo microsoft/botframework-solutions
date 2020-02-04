@@ -1,0 +1,16 @@
+[import](JoinEventDialogActivities.lg)
+
+# JoinMeeting.Text
+- OK, I'll call into the meeting.
+
+# NotJoinMeeting.Text
+- OK, I won't join the upcoming meeting. 
+
+# NoMeetingToConnect.Text
+- What's the start time or title of the event you want to join?
+
+# ConfirmPhoneNumber.Text(PhoneNumber)
+- Here's the number I'm about to call: @{PhoneNumber}. Please be aware that charges may apply. Do you want to continue?
+
+# ConfirmMeetingLink.Text(MeetingLink)
+- Here's the link I'm about to join: @{MeetingLink}. Please be aware that charges may apply. Do you want to continue?

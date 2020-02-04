@@ -3,22 +3,23 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Threading.Tasks;
 using CalendarSkill.Models;
+using CalendarSkill.Responses.Main;
 using CalendarSkill.Responses.TimeRemaining;
 using CalendarSkill.Services;
 using CalendarSkill.Test.Flow.Fakes;
 using CalendarSkill.Test.Flow.Utterances;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.Solutions;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CalendarSkill.Test.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class TimeRemainingFlowTests : CalendarSkillTestBase
     {
         [TestInitialize]
@@ -40,28 +41,19 @@ namespace CalendarSkill.Test.Flow
         {
             this.ServiceManager = MockServiceManager.SetMeetingsToSpecial(new List<EventModel>() { MockServiceManager.CreateEventModel(startDateTime: DateTime.UtcNow.AddDays(1)) });
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
                 .Send(TimeRemainingUtterances.NextMeetingTimeRemaining)
                 .AssertReplyOneOf(this.ShowNextMeetingRemainingTime())
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         private string[] ShowNextMeetingRemainingTime()
         {
-            var responseParams = new StringDictionary()
+            return GetTemplates(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, new
             {
-                { "RemainingTime", "23 hours 59 minutes " },
-            };
-
-            return this.ParseReplies(TimeRemainingResponses.ShowNextMeetingTimeRemainingMessage, responseParams);
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
-            };
+                RemainingTime = "23 hours 59 minutes "
+            });
         }
     }
 }

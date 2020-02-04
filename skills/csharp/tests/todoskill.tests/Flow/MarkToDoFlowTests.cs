@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ToDoSkill.Responses.Main;
 using ToDoSkill.Responses.MarkToDo;
 using ToDoSkill.Responses.Shared;
 using ToDoSkill.Tests.Flow.Fakes;
@@ -14,6 +15,7 @@ using ToDoSkill.Tests.Flow.Utterances;
 namespace ToDoSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class MarkToDoFlowTests : ToDoSkillTestBase
     {
         [TestMethod]
@@ -21,6 +23,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(MarkToDoFlowTestUtterances.BaseMarkTask)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
@@ -38,6 +42,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompleted)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
@@ -53,6 +59,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(MarkToDoFlowTestUtterances.MarkSpecificTaskAsCompletedWithListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -66,6 +74,8 @@ namespace ToDoSkill.Tests.Flow
         {
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
                 .Send(MarkToDoFlowTestUtterances.MarkTaskAsCompletedByContent)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(MarkToDoFlowTestUtterances.ConfirmListType)
@@ -82,10 +92,10 @@ namespace ToDoSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                    this.ParseReplies(MarkToDoResponses.AfterTaskCompleted, new StringDictionary()
+                    GetTemplates(MarkToDoResponses.AfterTaskCompleted, new
                     {
-                        { MockData.TaskContent, MockData.MockTaskItems[index].Topic },
-                        { MockData.ListType, MockData.ToDo }
+                        TaskContent = MockData.MockTaskItems[index].Topic,
+                        ListType = MockData.ToDo
                     }), messageActivity.Speak);
             };
         }
@@ -96,11 +106,11 @@ namespace ToDoSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                    this.ParseReplies(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks, new StringDictionary()
-                    {
-                        { MockData.TaskCount, (MockData.MockTaskItems.Count - 1).ToString() },
-                        { MockData.ListType, MockData.ToDo }
-                    }), messageActivity.Speak);
+                      GetTemplates(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks, new
+                      {
+                          AllTasksCount = (MockData.MockTaskItems.Count - 1).ToString(),
+                          ListType = MockData.ToDo
+                      }), messageActivity.Speak);
             };
         }
 
@@ -110,11 +120,11 @@ namespace ToDoSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                    this.ParseReplies(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks, new StringDictionary()
-                    {
-                        { MockData.TaskCount, (MockData.MockGroceryItems.Count - 1).ToString() },
-                        { MockData.ListType, MockData.Grocery }
-                    }), messageActivity.Speak);
+                      GetTemplates(MarkToDoResponses.AfterCompleteCardSummaryMessageForMultipleTasks, new
+                      {
+                          AllTasksCount = (MockData.MockGroceryItems.Count - 1).ToString(),
+                          ListType = MockData.Grocery
+                      }), messageActivity.Speak);
             };
         }
 
@@ -124,42 +134,32 @@ namespace ToDoSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
                 CollectionAssert.Contains(
-                    this.ParseReplies(MarkToDoResponses.AfterTaskCompleted, new StringDictionary()
-                    {
-                        { MockData.TaskContent, MockData.MockGroceryItems[index].Topic },
-                        { MockData.ListType, MockData.Grocery }
-                    }), messageActivity.Speak);
+                     GetTemplates(MarkToDoResponses.AfterTaskCompleted, new
+                     {
+                         TaskContent = MockData.MockGroceryItems[index].Topic,
+                         ListType = MockData.Grocery
+                     }), messageActivity.Speak);
             };
         }
 
         private string[] CollectListType()
         {
-            return this.ParseReplies(MarkToDoResponses.ListTypePromptForComplete, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.ListTypePromptForComplete);
         }
 
         private string[] CollectTaskIndex()
         {
-            return this.ParseReplies(MarkToDoResponses.AskTaskIndexForComplete, new StringDictionary());
+            return GetTemplates(MarkToDoResponses.AskTaskIndexForComplete);
         }
 
         private string[] SettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.SettingUpOutlookMessage, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.SettingUpOutlookMessage);
         }
 
         private string[] AfterSettingUpOneNote()
         {
-            return this.ParseReplies(ToDoSharedResponses.AfterOutlookSetupMessage, new StringDictionary());
-        }
-
-        private string[] CompleteAnotherTask()
-        {
-            return this.ParseReplies(MarkToDoResponses.CompleteAnotherTaskPrompt, new StringDictionary());
-        }
-
-        private string[] ActionEndMessage()
-        {
-            return this.ParseReplies(ToDoSharedResponses.ActionEnded, new StringDictionary());
+            return GetTemplates(ToDoSharedResponses.AfterOutlookSetupMessage);
         }
     }
 }

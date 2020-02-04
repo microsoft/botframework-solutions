@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using EmailSkill.Responses.FindContact;
+using EmailSkill.Responses.Main;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Tests.Flow.Strings;
@@ -16,6 +17,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace EmailSkill.Tests.Flow
 {
     [TestClass]
+    [TestCategory("UnitTests")]
     public class SendEmailFlowTests : EmailSkillTestBase
     {
         [TestMethod]
@@ -24,10 +26,25 @@ namespace EmailSkill.Tests.Flow
             string testRecipient = ContextStrings.TestRecipient;
             string testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientWithAddressDict = new
+            {
+                UserName = testRecipient + ": " + testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -52,10 +69,25 @@ namespace EmailSkill.Tests.Flow
             string testRecipient = ContextStrings.TestRecipient;
             string testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientWithAddressDict = new
+            {
+                UserName = testRecipient + ": " + testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -72,7 +104,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -82,10 +113,25 @@ namespace EmailSkill.Tests.Flow
             string testRecipient = ContextStrings.TestRecipient;
             string testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientWithAddressDict = new
+            {
+                UserName = testRecipient + ": " + testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmailToRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
@@ -100,7 +146,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -110,10 +155,20 @@ namespace EmailSkill.Tests.Flow
             string testRecipient = ContextStrings.TestRecipient;
             string testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmailToRecipientWithSubjectAndContext)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
@@ -122,7 +177,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -132,10 +186,25 @@ namespace EmailSkill.Tests.Flow
             string testRecipient = ContextStrings.TestRecipientWithDup;
             string testEmail = ContextStrings.TestDupEmail;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmail } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmail
+            };
+
+            var recipientWithAddressDict = new
+            {
+                UserName = testRecipient + ": " + testEmail
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmail
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -152,7 +221,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -161,10 +229,26 @@ namespace EmailSkill.Tests.Flow
         {
             string testRecipient = ContextStrings.TestRecipientWithDup;
             string testEmail = ContextStrings.TestDupEmail;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmail } };
+
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmail
+            };
+
+            var recipientWithAddressDict = new
+            {
+                UserName = testRecipient + ": " + testEmail
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmail
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -181,7 +265,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -189,10 +272,20 @@ namespace EmailSkill.Tests.Flow
         public async Task Test_SendEmailWithEmailAdressInput()
         {
             string testRecipient = ContextStrings.TestEmailAdress;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testRecipient } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient } };
+
+            var recipientDict = new
+            {
+                UserName = testRecipient
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmailToEmailAdress)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
@@ -205,7 +298,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -213,12 +305,26 @@ namespace EmailSkill.Tests.Flow
         public async Task Test_SendEmailWithEmailAdressConfirm()
         {
             string testRecipient = ContextStrings.Nobody;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient } };
             string testRecipientConfirm = ContextStrings.TestEmailAdress;
-            StringDictionary recipientConfirmDict = new StringDictionary() { { "UserName", testRecipientConfirm }, { "EmailAddress", testRecipientConfirm } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipientConfirm } };
+
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+            };
+
+            var recipientConfirmDict = new
+            {
+                UserName = testRecipientConfirm
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipientConfirm
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmailToNobody)
                 .AssertReply(this.CoundNotFindUser(recipientDict))
                 .Send(testRecipientConfirm)
@@ -233,29 +339,50 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_SendEmailToMultiRecipient()
         {
-            string testDupRecipient = ContextStrings.TestRecipientWithDup;
-            string testDupEmail = ContextStrings.TestDupEmail;
-            StringDictionary recipientDupDict = new StringDictionary() { { "UserName", testDupRecipient }, { "EmailAddress", testDupEmail } };
-
             string testRecipient = ContextStrings.TestRecipient;
             string testEmail = ContextStrings.TestEmailAdress;
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmail } };
+
+            string testDupRecipient = ContextStrings.TestRecipientWithDup;
+            string testDupEmail = ContextStrings.TestDupEmail;
+
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmail
+            };
+
+            var recipientDupDict = new
+            {
+                UserName = testDupRecipient,
+                EmailAddress = testDupEmail
+            };
+
+            var multiNameDict = new
+            {
+                NameList = testRecipient + " and " + testDupRecipient
+            };
+
+            var multiNameWithAddressDict = new
+            {
+                UserName = testRecipient + " and " + testDupRecipient
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmailToMultiRecipient)
-                .AssertReply(this.BeforeConfirmMultiName(recipientDict, recipientDupDict))
+                .AssertReply(this.BeforeConfirmMultiName(multiNameDict))
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.ConfirmEmailDetails(recipientDupDict))
                 .Send(BaseTestUtterances.FirstOne)
-                .AssertReply(this.CollectMultiUserSubjectMessage(recipientDict, recipientDupDict))
+                .AssertReply(this.CollectMultiUserSubjectMessage(multiNameWithAddressDict))
                 .Send(ContextStrings.TestSubject)
                 .AssertReplyOneOf(this.CollectEmailContentMessage())
                 .Send(ContextStrings.TestContent)
@@ -264,7 +391,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -274,10 +400,20 @@ namespace EmailSkill.Tests.Flow
             string testRecipient = ContextStrings.TestRecipient;
             string testEmailAddress = ContextStrings.TestEmailAdress;
 
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
+            var recipientDict = new
+            {
+                UserName = testRecipient,
+                EmailAddress = testEmailAddress
+            };
+
+            var recipientList = new
+            {
+                NameList = testRecipient + ": " + testEmailAddress
+            };
 
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestEmptyRecipient)
@@ -296,41 +432,6 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
-                .StartTestAsync();
-        }
-
-        [TestMethod]
-        public async Task Test_SendEmailToWrongUser()
-        {
-            string testRecipient = ContextStrings.TestRecipient;
-            string testEmailAddress = ContextStrings.TestEmailAdress;
-
-            StringDictionary recipientDict = new StringDictionary() { { "UserName", testRecipient }, { "EmailAddress", testEmailAddress } };
-            StringDictionary recipientList = new StringDictionary() { { "NameList", testRecipient + ": " + testEmailAddress } };
-
-            await this.GetTestFlow()
-                .Send(SendEmailUtterances.SendEmails)
-                .AssertReplyOneOf(this.CollectRecipientsMessage())
-                .Send("wrong name")
-                .AssertReplyOneOf(this.UserNotFoundPrompt("wrong name"))
-                .Send("wrong name")
-                .AssertReplyOneOf(this.UserNotFoundAgainPrompt("wrong name"))
-                .Send(ContextStrings.TestRecipient)
-                .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
-                .Send(GeneralTestUtterances.Yes)
-                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
-                .Send(GeneralTestUtterances.No)
-                .AssertReply(this.CollectSubjectMessage(recipientDict))
-                .Send(ContextStrings.TestSubject)
-                .AssertReplyOneOf(this.CollectEmailContentMessage())
-                .Send(ContextStrings.TestContent)
-                .AssertReply(this.AssertContentPlayback(ContextStrings.TestContent))
-                .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
-                .Send(GeneralTestUtterances.Yes)
-                .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
-                .AssertReply(this.ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -340,37 +441,19 @@ namespace EmailSkill.Tests.Flow
             {
                 var messageActivity = activity.AsMessageActivity();
 
-                var stringToken = new StringDictionary
-                {
-                    { "Subject", subject },
-                };
-
-                var replies = this.ParseReplies(EmailSharedResponses.SentSuccessfully, stringToken);
+                var replies = GetTemplates(EmailSharedResponses.SentSuccessfully, new { Subject = subject });
                 CollectionAssert.Contains(replies, messageActivity.Text);
             };
         }
 
-        private string[] ConfirmOneNameOneAddress(StringDictionary recipientDict)
+        private string[] ConfirmOneNameOneAddress(object recipientDict)
         {
-            return this.ParseReplies(FindContactResponses.PromptOneNameOneAddress, recipientDict);
+            return GetTemplates(FindContactResponses.PromptOneNameOneAddress, recipientDict);
         }
 
-        private string[] AddMoreContacts(StringDictionary recipientDict)
+        private string[] AddMoreContacts(object recipientDict)
         {
-            return this.ParseReplies(FindContactResponses.AddMoreContactsPrompt, recipientDict);
-        }
-
-        private string[] AfterSendingMessage()
-        {
-            return this.ParseReplies(EmailSharedResponses.SentSuccessfully, new StringDictionary());
-        }
-
-        private Action<IActivity> ActionEndMessage()
-        {
-            return activity =>
-            {
-                Assert.AreEqual(activity.Type, ActivityTypes.Handoff);
-            };
+            return GetTemplates(FindContactResponses.AddMoreContactsPrompt, recipientDict);
         }
 
         private Action<IActivity> AssertContentPlayback(string content)
@@ -378,16 +461,25 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(SendEmailResponses.PlayBackMessage, new StringDictionary() { { "EmailContent", content } }), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(SendEmailResponses.PlayBackMessage, new { emailcontent = content }), messageActivity.Text);
             };
         }
 
-        private Action<IActivity> CoundNotFindUser(StringDictionary recipient)
+        private Action<IActivity> AssertCheckContent()
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                CollectionAssert.Contains(this.ParseReplies(FindContactResponses.UserNotFound, recipient), messageActivity.Text);
+                CollectionAssert.Contains(GetTemplates(SendEmailResponses.CheckContent), messageActivity.Text);
+            };
+        }
+
+        private Action<IActivity> CoundNotFindUser(object recipient)
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+                CollectionAssert.Contains(GetTemplates(FindContactResponses.UserNotFound, recipient), messageActivity.Text);
             };
         }
 
@@ -396,7 +488,7 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var confirmSend = this.ParseReplies(EmailSharedResponses.ConfirmSend, new StringDictionary());
+                var confirmSend = GetTemplates(EmailSharedResponses.ConfirmSend);
                 Assert.IsTrue(messageActivity.Text.StartsWith(confirmSend[0]));
                 Assert.AreEqual(messageActivity.Attachments.Count, 1);
             };
@@ -404,23 +496,7 @@ namespace EmailSkill.Tests.Flow
 
         private string[] CollectRecipientsMessage()
         {
-            return this.ParseReplies(EmailSharedResponses.NoRecipients, new StringDictionary());
-        }
-
-        private string[] UserNotFoundPrompt(string userName)
-        {
-            return ParseReplies(FindContactResponses.UserNotFound, new StringDictionary() { { "UserName", userName } });
-        }
-
-        private string[] UserNotFoundAgainPrompt(string userName)
-        {
-            return ParseReplies(
-                FindContactResponses.UserNotFoundAgain,
-                new StringDictionary()
-                {
-                    { "source", "Outlook" },
-                    { "UserName", userName }
-                });
+            return GetTemplates(EmailSharedResponses.NoRecipients);
         }
 
         private Action<IActivity> CollectRecipients()
@@ -428,81 +504,57 @@ namespace EmailSkill.Tests.Flow
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultiplContactEmailMultiPage, new StringDictionary());
+                var recipientConfirmedMessage = GetTemplates(FindContactResponses.ConfirmMultiplContactEmailMultiPage);
 
                 Assert.IsTrue(recipientConfirmedMessage.Length == 1);
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
             };
         }
 
-        private Action<IActivity> BeforeConfirmMultiName(StringDictionary recipientDict, StringDictionary recipientDupDict)
+        private Action<IActivity> BeforeConfirmMultiName(object multiNameDict)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", recipientDict["UserName"] + " and " + recipientDupDict["UserName"] } });
+                var recipientConfirmedMessage = GetTemplates(FindContactResponses.BeforeSendingMessage, multiNameDict);
 
                 Assert.IsTrue(recipientConfirmedMessage.Length == 1);
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
             };
         }
 
-        private Action<IActivity> BeforeConfirmName(StringDictionary recipientDict)
+        private Action<IActivity> ConfirmEmailDetails(object recipientDict)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.BeforeSendingMessage, new StringDictionary() { { "NameList", recipientDict["UserName"] } });
+                var recipientConfirmedMessage = GetTemplates(FindContactResponses.ConfirmMultiplContactEmailMultiPage, recipientDict);
 
                 Assert.IsTrue(recipientConfirmedMessage.Length == 1);
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
             };
         }
 
-        private Action<IActivity> ConfirmtName(StringDictionary recipientDict)
+        private Action<IActivity> ConfirmEmail(object recipientDict)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultipleContactNameMultiPage, recipientDict);
+                var recipientConfirmedMessage = GetTemplates(FindContactResponses.ConfirmMultiplContactEmailMultiPage, recipientDict);
 
                 Assert.IsTrue(recipientConfirmedMessage.Length == 1);
                 Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
             };
         }
 
-        private Action<IActivity> ConfirmEmailDetails(StringDictionary recipientDict)
+        private Action<IActivity> CollectMultiUserSubjectMessage(object recipients)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultiplContactEmailMultiPage, recipientDict);
 
-                Assert.IsTrue(recipientConfirmedMessage.Length == 1);
-                Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
-            };
-        }
-
-        private Action<IActivity> ConfirmEmail(StringDictionary recipientDict)
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(FindContactResponses.ConfirmMultiplContactEmailMultiPage, recipientDict);
-
-                Assert.IsTrue(recipientConfirmedMessage.Length == 1);
-                Assert.IsTrue(messageActivity.Text.StartsWith(recipientConfirmedMessage[0]));
-            };
-        }
-
-        private Action<IActivity> CollectMultiUserSubjectMessage(StringDictionary recipients, StringDictionary multiRecipients)
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                recipients["UserName"] += " and " + multiRecipients["UserName"];
-                var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
-                var noSubjectMessage = this.ParseReplies(SendEmailResponses.NoSubject, new StringDictionary());
+                var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, recipients);
+                var noSubjectMessage = GetTemplates(SendEmailResponses.NoSubject);
 
                 string[] subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
                 int index = -1;
@@ -519,13 +571,14 @@ namespace EmailSkill.Tests.Flow
             };
         }
 
-        private Action<IActivity> CollectSubjectMessage(StringDictionary recipients)
+        private Action<IActivity> CollectSubjectMessage(object recipientList)
         {
             return activity =>
             {
                 var messageActivity = activity.AsMessageActivity();
-                var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
-                var noSubjectMessage = this.ParseReplies(SendEmailResponses.NoSubject, new StringDictionary());
+
+                var recipientConfirmedMessage = GetTemplates(EmailSharedResponses.RecipientConfirmed, recipientList);
+                var noSubjectMessage = GetTemplates(SendEmailResponses.NoSubject);
 
                 string[] subjectVerifyInfo = new string[recipientConfirmedMessage.Length * noSubjectMessage.Length];
                 int index = -1;
@@ -539,36 +592,12 @@ namespace EmailSkill.Tests.Flow
                 }
 
                 CollectionAssert.Contains(subjectVerifyInfo, messageActivity.Text);
-            };
-        }
-
-        private Action<IActivity> CollectContextMessageWithUserInfo(StringDictionary recipients)
-        {
-            return activity =>
-            {
-                var messageActivity = activity.AsMessageActivity();
-                recipients["UserName"] += ": " + recipients["EmailAddress"];
-                var recipientConfirmedMessage = this.ParseReplies(EmailSharedResponses.RecipientConfirmed, recipients);
-                var noMessage = this.ParseReplies(SendEmailResponses.NoMessageBody, new StringDictionary());
-
-                string[] verifyInfo = new string[recipientConfirmedMessage.Length * noMessage.Length];
-                int index = -1;
-                foreach (var confirmNsg in recipientConfirmedMessage)
-                {
-                    foreach (var noSubjectMsg in noMessage)
-                    {
-                        index++;
-                        verifyInfo[index] = confirmNsg + " " + noSubjectMsg;
-                    }
-                }
-
-                CollectionAssert.Contains(noMessage, messageActivity.Text);
             };
         }
 
         private string[] CollectEmailContentMessage()
         {
-            return this.ParseReplies(SendEmailResponses.NoMessageBody, new StringDictionary());
+            return GetTemplates(SendEmailResponses.NoMessageBody);
         }
     }
 }

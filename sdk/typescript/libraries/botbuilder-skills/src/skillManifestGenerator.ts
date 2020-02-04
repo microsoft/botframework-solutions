@@ -3,7 +3,7 @@ import { IBotSettingsBase, ICognitiveModelConfiguration } from 'botbuilder-solut
 import { ILuisService } from 'botframework-config';
 import { readFileSync } from 'fs';
 import { get } from 'request-promise-native';
-import { IAction, ISkillManifest, IUtteranceSources } from './models';
+import { IAction, ISkillManifest, IUtteranceSource } from './models';
 
 type LuisModelMap = Map<string, Models.VersionsExportMethodResponse>;
 
@@ -15,7 +15,6 @@ interface ILangEntry<T> {
 export class SkillManifestGenerator {
     private readonly skillRoute: string = '/api/skill/messages';
 
-    //tslint:disable-next-line: max-func-body-length
     public async generateManifest(
         manifestFile: string,
         appId: string,
@@ -29,16 +28,15 @@ export class SkillManifestGenerator {
         if (!uriBase) { throw new Error('uriBase has no value'); }
 
         // Each skill has a manifest template in the root directory and is used as foundation for the generated manifest
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const skillManifest: ISkillManifest = JSON.parse(readFileSync(manifestFile, 'UTF8'));
         if (!skillManifest.id) { throw new Error('Skill manifest ID property was not present in the template manifest file.'); }
         if (!skillManifest.name) { throw new Error('Skill manifest Name property was not present in the template manifest file.'); }
 
         skillManifest.msaAppId = appId;
-        skillManifest.endpoint = `${uriBase}${this.skillRoute}`;
+        skillManifest.endpoint = `${ uriBase }${ this.skillRoute }`;
 
         if (skillManifest.iconUrl !== undefined) {
-            skillManifest.iconUrl = `${uriBase}/${skillManifest.iconUrl}`;
+            skillManifest.iconUrl = `${ uriBase }/${ skillManifest.iconUrl }`;
         }
 
         // The manifest can either return a pointer to the triggering utterances or include them inline in the manifest
@@ -60,12 +58,10 @@ export class SkillManifestGenerator {
                     // We will retrieve all utterances from the referenced source
                     // and aggregate into one new aggregated list of utterances per action
                     action.definition.triggers.utterances = [];
-                    let utterancesToAdd: string[];
+                    const utterancesToAdd: string[] = [];
 
                     // Iterate through each utterance source, one per locale.
-                    action.definition.triggers.utteranceSources.forEach((utteranceSource: IUtteranceSources): void => {
-
-                        utterancesToAdd = [];
+                    action.definition.triggers.utteranceSources.forEach((utteranceSource: IUtteranceSource): void => {
                         // There may be multiple intents linked to this
                         utteranceSource.source.forEach((source: string): void => {
                             // Retrieve the intent mapped to this action trigger
@@ -83,7 +79,7 @@ export class SkillManifestGenerator {
                             const intentToMatch: string = source.substring(intentIndex + 1);
 
                             // Find the LUIS model from our cache by matching on the locale/modelname
-                            const modelKey: string = `${utteranceSource.locale}_${modelName}`.toLowerCase();
+                            const modelKey: string = `${ utteranceSource.locale }_${ modelName }`.toLowerCase();
                             const model: Models.VersionsExportMethodResponse | undefined = localeLuisModels.get(modelKey);
                             if (model === undefined) {
                                 throw new Error(`Utterance source (locale: ${
@@ -154,7 +150,7 @@ export class SkillManifestGenerator {
     }
 
     private async fetchLuisModelContent(luisService: ILuisService): Promise<Models.VersionsExportMethodResponse> {
-        const endpoint: string = `https://${
+        const endpoint = `https://${
             luisService.region
         }.api.cognitive.microsoft.com/luis/api/v2.0/apps/${
             luisService.appId
@@ -197,14 +193,14 @@ export class SkillManifestGenerator {
                     const luisModel: Models.VersionsExportMethodResponse = await this.fetchLuisModelContent(entry.item);
 
                     return {
-                        language: `${entry.language}_${entry.item.id}`.toLowerCase(),
+                        language: `${ entry.language }_${ entry.item.id }`.toLowerCase(),
                         item: luisModel
                     };
                 } catch (error) {
                     return {
                         language: '',
-                        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
-                        item: <any>{}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        item: {} as any
                     };
                 }
             })
@@ -212,33 +208,26 @@ export class SkillManifestGenerator {
     }
 }
 
-//tslint:disable-next-line: no-any
 export function manifestGenerator(manifestFile: string, botSettings: Partial<IBotSettingsBase>):
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 (req: any, res: any, next: any) => any {
-    //tslint:disable-next-line: no-any
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return async (req: any, res: any, next: any): Promise<any> => {
         if (manifestFile === undefined) { throw new Error('manifestFile has no value'); }
         if (botSettings.microsoftAppId === undefined) { throw new Error('botSettings.microsoftAppId has no value'); }
         if (botSettings.cognitiveModels === undefined) { throw new Error('botSettings.cognitiveModels has no value'); }
 
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const inline: boolean = (req.query.inlineTriggerUtterances || '').toLowerCase() === 'true';
-        // tslint:disable-next-line:no-unsafe-any
         const scheme: string = req.isSecure() ? 'https' : 'http';
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         const host: string = req.headers.host || '';
-        const skillUriBase: string = `${scheme}://${host}`;
+        const skillUriBase = `${ scheme }://${ host }`;
         const appId: string = botSettings.microsoftAppId;
         const cognitiveModels: Map<string, ICognitiveModelConfiguration> = botSettings.cognitiveModels;
 
         const generator: SkillManifestGenerator = new SkillManifestGenerator();
         const manifest: ISkillManifest = await generator.generateManifest(manifestFile, appId, cognitiveModels, skillUriBase, inline);
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         res.send(200, manifest);
 
-        // eslint-disable-next-line @typescript-eslint/tslint/config
         return next();
     };
 }

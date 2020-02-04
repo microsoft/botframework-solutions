@@ -4,7 +4,7 @@
 using System;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Graph;
 
 namespace PhoneSkill.Services.MSGraphAPI

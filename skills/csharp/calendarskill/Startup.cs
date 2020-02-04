@@ -1,21 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Linq;
+using System.Collections.Generic;
+using System.IO;
 using CalendarSkill.Adapters;
 using CalendarSkill.Bots;
 using CalendarSkill.Dialogs;
-using CalendarSkill.Responses.ChangeEventStatus;
-using CalendarSkill.Responses.CheckAvailable;
-using CalendarSkill.Responses.CreateEvent;
-using CalendarSkill.Responses.FindContact;
-using CalendarSkill.Responses.JoinEvent;
-using CalendarSkill.Responses.Main;
-using CalendarSkill.Responses.Shared;
-using CalendarSkill.Responses.Summary;
-using CalendarSkill.Responses.TimeRemaining;
-using CalendarSkill.Responses.UpdateEvent;
 using CalendarSkill.Services;
+using CalendarSkill.Services.AzureSearchAPI;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,13 +18,11 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
-using Microsoft.Bot.Builder.Solutions.Skills;
-using Microsoft.Bot.Builder.Solutions.Skills.Auth;
-using Microsoft.Bot.Builder.Solutions.TaskExtensions;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -97,6 +87,43 @@ namespace CalendarSkill
                 return new BotStateSet(userState, conversationState, proactiveState);
             });
 
+            // Configure localized responses
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            var templateFiles = new Dictionary<string, string>
+            {
+                { "Shared", "ResponsesAndTexts" },
+            };
+
+            var localizedTemplates = new Dictionary<string, List<string>>();
+            foreach (var locale in supportedLocales)
+            {
+                var localeTemplateFiles = new List<string>();
+                foreach (var (dialog, template) in templateFiles)
+                {
+                    // LG template for default locale should not include locale in file extension.
+                    if (locale.Equals(settings.DefaultLocale ?? "en-us"))
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.lg"));
+                    }
+                    else
+                    {
+                        localeTemplateFiles.Add(Path.Combine(".", "Responses", dialog, $"{template}.{locale}.lg"));
+                    }
+                }
+
+                localizedTemplates.Add(locale, localeTemplateFiles);
+            }
+
+            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            if (!string.IsNullOrEmpty(settings.AzureSearch?.SearchServiceName))
+            {
+                services.AddSingleton<ISearchService>(new AzureSearchClient(settings.AzureSearch?.SearchServiceName, settings.AzureSearch?.SearchServiceAdminApiKey, settings.AzureSearch?.SearchIndexName));
+            }
+            else
+            {
+                services.AddSingleton<ISearchService, DefaultSearchClient>();
+            }
+
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
             services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
@@ -115,20 +142,6 @@ namespace CalendarSkill
             // Configure service manager
             services.AddTransient<IServiceManager, ServiceManager>();
 
-            // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new FindContactResponses(),
-                new ChangeEventStatusResponses(),
-                new CreateEventResponses(),
-                new JoinEventResponses(),
-                new CalendarMainResponses(),
-                new CalendarSharedResponses(),
-                new SummaryResponses(),
-                new TimeRemainingResponses(),
-                new UpdateEventResponses(),
-                new CheckAvailableResponses()));
-
             // register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<ChangeEventStatusDialog>();
@@ -139,14 +152,13 @@ namespace CalendarSkill
             services.AddTransient<TimeRemainingDialog>();
             services.AddTransient<UpcomingEventDialog>();
             services.AddTransient<UpdateEventDialog>();
-            services.AddTransient<CheckAvailableDialog>();
+            services.AddTransient<CheckPersonAvailableDialog>();
+            services.AddTransient<FindMeetingRoomDialog>();
+            services.AddTransient<UpdateMeetingRoomDialog>();
+            services.AddTransient<BookMeetingRoomDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
-            services.AddTransient<SkillWebSocketBotAdapter, CalendarSkillWebSocketBotAdapter>();
-            services.AddTransient<SkillWebSocketAdapter>();
-
-            services.AddSingleton<IWhitelistAuthenticationProvider, WhitelistAuthenticationProvider>();
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();

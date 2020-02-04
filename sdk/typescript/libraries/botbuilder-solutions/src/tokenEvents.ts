@@ -3,7 +3,8 @@
  * Licensed under the MIT License.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace TokenEvents {
-    export const tokenRequestEventName: string = 'tokens/request';
-    export const tokenResponseEventName: string = 'tokens/response';
+    export const tokenRequestEventName = 'tokens/request';
+    export const tokenResponseEventName = 'tokens/response';
 }

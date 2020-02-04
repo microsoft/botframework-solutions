@@ -16,7 +16,6 @@ export class EventDebuggerMiddleware implements Middleware {
 
             if (text && text.startsWith('/event:')) {
                 const json: string = text.substr('/event:'.length);
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const body: Activity = JSON.parse(json);
 
                 turnContext.activity.type = ActivityTypes.Event;
@@ -26,7 +25,6 @@ export class EventDebuggerMiddleware implements Middleware {
             }
 
             if (value && value.includes('event')) {
-                // eslint-disable-next-line @typescript-eslint/tslint/config
                 const body: { event: { name: string; text: string; value: string }} = JSON.parse(value);
 
                 turnContext.activity.type = ActivityTypes.Event;

@@ -1,0 +1,46 @@
+[import](MainDialogActivities.lg)
+
+# CalendarWelcomeMessage.Text
+- Hallo, wie kann ich Ihnen helfen? Hier sind einige Dinge, die ich tun kann: Geben Sie einen Überblick über Ihre Meetings heute, lesen Sie Ihre bevorstehenden Besprechungen vor oder erstellen Sie eine neue Besprechung.
+
+# CalendarWelcomeMessage.S1
+- Welche Treffen habe ich heute?
+
+# CalendarWelcomeMessage.S2
+- Was ist mein nächstes Treffen?
+
+# CalendarWelcomeMessage.S3
+- Ich möchte eine Besprechung einrichten.
+
+# CalendarWelcomeMessage.S4
+- Können Sie eine Besprechung aktualisieren?
+
+# CalendarWelcomeMessage.S5
+- Können Sie meine Veranstaltung absagen?
+
+# FeatureNotAvailable.Text
+- Die Funktion, nach der Sie fragen, ist nicht verfügbar. Versuchen Sie, nach etwas anderem zu fragen.
+
+# CancelMessage.Text
+- OK, fangen wir von vorne an.
+
+# HelpMessage.Text
+- Ich kann Ihnen heute einen Überblick über Ihre Besprechungen geben, Details zu einer bevorstehenden Besprechung lesen oder eine neue Besprechung für Sie erstellen.
+
+# HelpMessage.S1
+- Welche Treffen habe ich heute?
+
+# HelpMessage.S2
+- Was ist mein nächstes Treffen?
+
+# HelpMessage.S3
+- Ich möchte eine Besprechung einrichten.
+
+# HelpMessage.S4
+- Können Sie eine Besprechung aktualisieren?
+
+# HelpMessage.S5
+- Können Sie meine Veranstaltung absagen?
+
+# LogOut.Text
+- Sie wurden abgemeldet.

@@ -3,17 +3,21 @@
  * Licensed under the MIT License.
  */
 
+import { TurnContext } from 'botbuilder';
 import { BotTelemetryClient } from 'botbuilder-core';
-import { Dialog, DialogContext, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
+import { Dialog, DialogContext, DialogInstance, DialogReason, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
 import { Activity, ActivityTypes } from 'botframework-schema';
 import { ActivityExtensions } from '../extensions';
 import { InterruptableDialog } from './interruptableDialog';
 import { InterruptionAction } from './interruptionAction';
+import { RouterDialogTurnResult } from './routerDialogTurnResult';
+import { RouterDialogTurnStatus } from './routerDialogTurnStatus';
 
 export abstract class RouterDialog extends InterruptableDialog {
     // Constructor
     public constructor(dialogId: string, telemetryClient: BotTelemetryClient) {
         super(dialogId, telemetryClient);
+        this.telemetryClient = telemetryClient;
     }
 
     protected async onBeginDialog(innerDc: DialogContext, options: object): Promise<DialogTurnResult> {
@@ -21,71 +25,87 @@ export abstract class RouterDialog extends InterruptableDialog {
     }
 
     protected async onContinueDialog(innerDc: DialogContext): Promise<DialogTurnResult> {
-        try {
-            const status: InterruptionAction = await this.onInterruptDialog(innerDc);
+        const status: InterruptionAction = await this.onInterruptDialog(innerDc);
 
-            if (status === InterruptionAction.MessageSentToUser) {
-                // Resume the waiting dialog after interruption
-                await innerDc.repromptDialog();
+        if (status === InterruptionAction.MessageSentToUser) {
+            // Resume the waiting dialog after interruption
+            await innerDc.repromptDialog();
 
-                return Dialog.EndOfTurn;
-            } else if (status === InterruptionAction.StartedDialog) {
-                // Stack is already waiting for a response, shelve inner stack
-                return Dialog.EndOfTurn;
-            } else {
-                const activity: Activity = innerDc.context.activity;
+            return Dialog.EndOfTurn;
+        } else if (status === InterruptionAction.StartedDialog) {
+            // Stack is already waiting for a response, shelve inner stack
+            return Dialog.EndOfTurn;
+        } else {
+            const activity: Activity = innerDc.context.activity;
 
-                if (ActivityExtensions.isStartActivity(activity)) {
-                    await this.onStart(innerDc);
-                }
+            if (ActivityExtensions.isStartActivity(activity)) {
+                await this.onStart(innerDc);
+            }
 
-                switch (activity.type) {
-                    case ActivityTypes.Message: {
-                        // Note: This check is a workaround for adaptive card buttons that should map to an event
-                        // (i.e. startOnboarding button in intro card)
-                        if (activity.value) {
-                            await this.onEvent(innerDc);
-                        } else if (activity.text !== undefined && activity.text !== '') {
-                            const result: DialogTurnResult = await innerDc.continueDialog();
-                            switch (result.status) {
-                                case DialogTurnStatus.empty: {
+            switch (activity.type) {
+                case ActivityTypes.Message: {
+                    // Note: This check is a workaround for adaptive card buttons that should map to an event
+                    // (i.e. startOnboarding button in intro card)
+                    if (activity.value) {
+                        await this.onEvent(innerDc);
+                    } else {
+                        const result: DialogTurnResult = await innerDc.continueDialog();
+
+                        switch (result.status) {
+                            case DialogTurnStatus.empty: {
+                                await this.route(innerDc);
+                                break;
+                            }
+                            case DialogTurnStatus.complete: {
+                                // tslint:disable-next-line:no-unsafe-any
+                                const routerDialogTurnResult: RouterDialogTurnResult = result.result as RouterDialogTurnResult;
+                                if (routerDialogTurnResult !== undefined
+                                    && routerDialogTurnResult.status === RouterDialogTurnStatus.Restart) {
                                     await this.route(innerDc);
                                     break;
                                 }
-                                case DialogTurnStatus.complete: {
-                                    await this.complete(innerDc, result);
-                                    // End active dialog
-                                    await innerDc.endDialog();
-                                    break;
-                                }
-                                default:
-                            }
-                        }
-                        break;
-                    }
-                    case ActivityTypes.Event: {
-                        await this.onEvent(innerDc);
-                        break;
-                    }
-                    case ActivityTypes.Invoke: {
-                        // Used by Teams for Authentication scenarios.
-                        await innerDc.continueDialog();
-                        break;
-                    }
-                    default: {
-                        await this.onSystemMessage(innerDc);
-                    }
-                }
 
-                return Dialog.EndOfTurn;
+                                // End active dialog
+                                await innerDc.endDialog();
+                                break;
+                            }
+                            default:
+                        }
+                    }
+
+                    // If the active dialog was ended on this turn (either on single-turn dialog, or on continueDialogAsync)
+                    // run CompleteAsync method.
+                    if (innerDc.activeDialog === undefined) {
+                        await this.complete(innerDc);
+                    }
+                    break;
+                }
+                case ActivityTypes.Event: {
+                    await this.onEvent(innerDc);
+                    break;
+                }
+                case ActivityTypes.Invoke: {
+                    // Used by Teams for Authentication scenarios.
+                    await innerDc.continueDialog();
+                    break;
+                }
+                default: {
+                    await this.onSystemMessage(innerDc);
+                }
             }
-        } catch (err) {
-            await innerDc.context.sendActivity({
-                type: ActivityTypes.Trace,
-                text: err.message
-            });
-            return await innerDc.endDialog();
+
+            return Dialog.EndOfTurn;
         }
+    }
+
+    // tslint:disable-next-line: no-unnecessary-override
+    protected async onEndDialog(context: TurnContext, instance: DialogInstance, reason: DialogReason): Promise<void> {
+        return super.onEndDialog(context, instance, reason);
+    }
+
+    // tslint:disable-next-line: no-unnecessary-override
+    protected async onRepromptDialog(context: TurnContext, instance: DialogInstance): Promise<void> {
+        return super.onRepromptDialog(context, instance);
     }
 
     /**
@@ -101,7 +121,7 @@ export abstract class RouterDialog extends InterruptableDialog {
      * @param result - The dialog result when inner dialog completed.
      * @returns A Promise representing the asynchronous operation.
      */
-    protected async complete(innerDc: DialogContext, result: DialogTurnResult): Promise<void> {
+    protected async complete(innerDc: DialogContext, result?: DialogTurnResult): Promise<void> {
         await innerDc.endDialog(result);
 
         return Promise.resolve();

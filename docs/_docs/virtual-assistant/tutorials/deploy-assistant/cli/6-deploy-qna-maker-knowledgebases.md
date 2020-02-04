@@ -12,23 +12,20 @@ order: 6
 
 1. Run the following command for each .lu file in `\Deployment\Resources\QnA` to parse the files to .json files that can be deployed to QnA Maker:
     ```
-    ludown parse toqna `
+    bf qnamaker:convert `
         --in "path-to-lu-file" `
-        --out_folder "output-folder" `
-        --out "output-file-name.qna"
+        --out "output-file-name.qna or folder name"
     ```
 1. Run the following command to import .qna file to QnA Maker.
     ```
-    qnamaker create kb `
+    bf qnamaker:kb:create `
         --name "kb-name" `
         --subscriptionKey "qna-subscription-key" `
-        --in "path-to-qna-file" `
-        --force `
-        --wait
+        --in "path-to-qna-file"
     ```
 1.  Run the following command to publish the knowledgebase.
     ```
-    qnamaker publish kb `
+    bf qnamaker:kb:publish `
         --kbId "kb-id" `
         --subscriptionKey "qna-subscription-key"
     ```

@@ -1,7 +1,7 @@
 ---
 category: Skills
 subcategory: Samples
-language: Experimental Skills
+language: experimental_skills
 title: Hospitality Skill
 description: Hospitality Skill provides ability to do common tasks for hotel and other hospitality scenarios.
 order: 5
@@ -25,3 +25,7 @@ An example transcript file demonstrating the Skill in action can be found [here]
 ![Hospitality Example]({{site.baseurl}}/assets/images/skills-hospitality-transcript.png)
 
 The [Hospitality Sample VA]({{site.baseurl}}/solution-accelerators/assistants/hospitality-assistant) demonstrates this skill and a number of other skills to demonstrate a more in-depth hospitality experience.
+
+## Deployment
+{:.no_toc}
+Learn how to [provision your Azure resources]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) in the Create a Skill tutorial.

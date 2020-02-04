@@ -1,0 +1,199 @@
+﻿# CalendarNoMoreEvent
+[Activity
+    Text = @{CalendarNoMoreEvent.Text()}
+    Speak = @{CalendarNoMoreEvent.Text()}
+    InputHint = acceptingInput
+]
+
+# CalendarNoPreviousEvent
+[Activity
+    Text = @{CalendarNoPreviousEvent.Text()}
+    Speak = @{CalendarNoPreviousEvent.Text()}
+    InputHint = acceptingInput
+]
+
+# ShowNoMeetingMessage
+[Activity
+    Text = @{ShowNoMeetingMessage.Text()}
+    Speak = @{ShowNoMeetingMessage.Text()}
+    InputHint = acceptingInput
+]
+
+# ReadOutMessage
+[Activity
+    Text = @{ReadOutMessage.Text(Date, Time, Participants, Subject)}
+    Speak = @{ReadOutMessage.Text(Date, Time, Participants, Subject)}
+    InputHint = expectingInput
+]
+
+# BeforeShowEventDetails
+[Activity
+    Text = @{BeforeShowEventDetails.Text(EventName)}
+    Speak = @{BeforeShowEventDetails.Text(EventName)}
+    InputHint = acceptingInput
+]
+
+# ReadTime
+[Activity
+    Text = @{ReadTime.Text(EventStartTime, EventEndTime)}
+    Speak = @{ReadTime.Text(EventStartTime, EventEndTime)}
+    InputHint = acceptingInput
+]
+
+# ReadDuration
+[Activity
+    Text = @{ReadDuration.Text(EventDuration)}
+    Speak = @{ReadDuration.Text(EventDuration)}
+    InputHint = acceptingInput
+]
+
+# ReadNoLocation
+[Activity
+    Text = @{ReadNoLocation.Text()}
+    Speak = @{ReadNoLocation.Text()}
+    InputHint = acceptingInput
+]
+
+# ReadLocation
+[Activity
+    Text = @{ReadLocation.Text(EventLocation)}
+    Speak = @{ReadLocation.Text(EventLocation)}
+    InputHint = acceptingInput
+]
+
+# ReadStartDate
+[Activity
+    Text = @{ReadStartDate.Text(EventStartDate)}
+    Speak = @{ReadStartDate.Text(EventStartDate)}
+    InputHint = acceptingInput
+]
+
+# ShowNextMeetingNoLocationMessage
+[Activity
+    Text = @{ShowNextMeetingNoLocationMessage.Text()}
+    Speak = @{ShowNextMeetingNoLocationMessage.Speak(EventName, EventTime, PeopleCount)}
+    InputHint = acceptingInput
+]
+
+# ShowNextMeetingMessage
+[Activity
+    Text = @{ShowNextMeetingMessage.Text()}
+    Speak = @{ShowNextMeetingMessage.Speak(EventName, EventTime, PeopleCount, Location)}
+    InputHint = acceptingInput
+]
+
+# ShowMultipleNextMeetingMessage
+[Activity
+    Text = @{ShowMultipleNextMeetingMessage.Text()}
+    Speak = @{ShowMultipleNextMeetingMessage.Text()}
+    InputHint = acceptingInput
+]
+
+# ReadOutMorePrompt
+[Activity
+    Text = @{ReadOutMorePrompt.Text()}
+    Speak = @{ReadOutMorePrompt.Text()}
+    InputHint = expectingInput
+]
+
+# AskForOrgnizerAction
+[Activity
+    Text = @{AskForOrgnizerAction.Text(DateTime)}
+    Speak = @{AskForOrgnizerAction.Text(DateTime)}
+    InputHint = acceptingInput
+]
+
+# AskForAction
+[Activity
+    Text = @{AskForAction.Text(DateTime)}
+    Speak = @{AskForAction.Text(DateTime)}
+    InputHint = acceptingInput
+]
+
+# AskForChangeStatus
+[Activity
+    Text = @{AskForChangeStatus.Text(DateTime)}
+    Speak = @{AskForChangeStatus.Text(DateTime)}
+    InputHint = acceptingInput
+]
+
+# AskForShowOverview
+[Activity
+    Text = @{AskForShowOverview.Text(DateTime)}
+    Speak = @{AskForShowOverview.Text(DateTime)}
+    InputHint = acceptingInput
+]
+
+# MeetingListCard
+[Activity
+    Text = 
+    Speak = 
+    Attachments = @{json(MeetingListCard.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview))}
+    InputHint = acceptingInput
+]
+
+# MeetingDetailCard
+[Activity
+    Text = 
+    Speak = 
+    Attachments = @{json(MeetingDetailCard.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink))}
+    InputHint = acceptingInput
+]
+
+# MeetingListCardV1
+[Activity
+    Text = 
+    Speak = 
+    Attachments = @{json(MeetingListCardV1.Text(listTitle, totalEventCount, overlapEventCount, dateTimeString, indicator, userPhoto, provider, timezone, itemData, isOverview))}
+    InputHint = acceptingInput
+]
+
+# MeetingDetailCardV1
+[Activity
+    Text = 
+    Speak = 
+    Attachments = @{json(MeetingDetailCardV1.Text(startDateTime, endDateTime, timezone, attendeePhotoList, subject, location, content, meetingLink))}
+    InputHint = acceptingInput
+]
+
+# ShowMeetingSummaryNotFirstPageMessage
+[Activity
+    Text = @{ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)}
+    Speak = @{ShowMeetingSummaryNotFirstPageMessage.Text(Participants1, EventTime1, EventName1)}
+    InputHint = acceptingInput
+]
+
+# ShowMultipleMeetingSummaryMessage
+[Activity
+    Text = @{ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)}
+    Speak = @{ShowMultipleMeetingSummaryMessage.Text(Count, Condition, Participants1, EventTime1, EventName1, DateTime, EventTime2, Participants2, EventName2)}
+    InputHint = acceptingInput
+]
+
+# ShowMeetingSummaryShortMessage
+[Activity
+    Text = @{ShowMeetingSummaryShortMessage.Text(Count, Condition)}
+    Speak = @{ShowMeetingSummaryShortMessage.Text(Count, Condition)}
+    InputHint = acceptingInput
+]
+
+# ShowMultipleFilteredMeetings
+[Activity
+    Text = @{ShowMultipleFilteredMeetings.Text(Count)}
+    Speak = @{ShowMultipleFilteredMeetings.Text(Count)}
+    InputHint = acceptingInput
+]
+
+# ShowOneMeetingSummaryMessage
+[Activity
+    Text = @{ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)}
+    Speak = @{ShowOneMeetingSummaryMessage.Text(Condition, EventName1, Participants1, EventTime1)}
+    InputHint = acceptingInput
+]
+
+# ShowOneMeetingSummaryShortMessage
+[Activity
+    Text = @{ShowOneMeetingSummaryShortMessage.Text(Condition)}
+    Speak = @{ShowOneMeetingSummaryShortMessage.Text(Condition)}
+    InputHint = acceptingInput
+]
