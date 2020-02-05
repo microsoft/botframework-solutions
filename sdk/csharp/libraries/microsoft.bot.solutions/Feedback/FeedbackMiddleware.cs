@@ -14,10 +14,14 @@ namespace Microsoft.Bot.Solutions.Feedback
 {
     public class FeedbackMiddleware : IMiddleware
     {
+        // Data needed for RequestFeedbackAsync will be added into ITurnContext.TurnState using this key, DO NOT conflict.
+        public static readonly string RequestTurnStateKey = typeof(RequestTurnState).FullName;
+
         private FeedbackOptions _options;
         private IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
         private ConversationState _conversationState;
         private IBotTelemetryClient _telemetryClient;
+        private RequestTurnState _requestTurnState;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeedbackMiddleware"/> class.
@@ -36,6 +40,12 @@ namespace Microsoft.Bot.Solutions.Feedback
 
             // Create FeedbackRecord state accessor
             _feedbackAccessor = conversationState.CreateProperty<FeedbackRecord>(nameof(FeedbackRecord));
+
+            _requestTurnState = new RequestTurnState
+            {
+                Options = _options,
+                FeedbackAccessor = _feedbackAccessor,
+            };
         }
 
         /// <summary>
@@ -46,10 +56,10 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task RequestFeedbackAsync(ITurnContext context, string tag)
         {
-            var middleware = context.TurnState.Get<FeedbackMiddleware>();
+            var middleware = context.TurnState.Get<RequestTurnState>(RequestTurnStateKey);
 
             // clear state
-            await middleware._feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
+            await middleware.FeedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
 
             // create feedbackRecord with original activity and tag
             var record = new FeedbackRecord()
@@ -59,11 +69,11 @@ namespace Microsoft.Bot.Solutions.Feedback
             };
 
             // store in state. No need to save changes, because its handled in IBot
-            await middleware._feedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
+            await middleware.FeedbackAccessor.SetAsync(context, record).ConfigureAwait(false);
 
-            var allActions = new List<CardAction>(middleware._options.FeedbackActions(context, tag))
+            var allActions = new List<CardAction>(middleware.Options.FeedbackActions(context, tag))
             {
-                middleware._options.DismissAction(context, tag),
+                middleware.Options.DismissAction(context, tag),
             };
 
             // If channel supports suggested actions
@@ -96,7 +106,7 @@ namespace Microsoft.Bot.Solutions.Feedback
 
         public async Task OnTurnAsync(ITurnContext context, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
         {
-            context.TurnState.Add(this);
+            context.TurnState.Add(RequestTurnStateKey, _requestTurnState);
 
             // get feedback record from state. If we don't find anything, set to null.
             var record = await _feedbackAccessor.GetAsync(context, () => null).ConfigureAwait(false);
@@ -247,6 +257,13 @@ namespace Microsoft.Bot.Solutions.Feedback
             }
 
             _telemetryClient.TrackEvent(FeedbackConstants.FeedbackEvent, properties);
+        }
+
+        private class RequestTurnState
+        {
+            public FeedbackOptions Options { get; set; }
+
+            public IStatePropertyAccessor<FeedbackRecord> FeedbackAccessor { get; set; }
         }
     }
 }
