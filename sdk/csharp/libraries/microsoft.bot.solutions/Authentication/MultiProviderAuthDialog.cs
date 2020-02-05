@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                     // We ignore placeholder connections in config that don't have a Name
                     if (!string.IsNullOrWhiteSpace(connection.Name))
                     {
-                        // Resource Manager currently does not have a function to render just a localized respons so generate an activity and then grab the localized text from that activity 
+                        // Resource Manager currently does not have a function to render just a localized respons so generate an activity and then grab the localized text from that activity
                         var loginBtnActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton);
                         var loginPromptActivity = _responseManager.GetResponse(AuthenticationResponses.LoginPrompt, new StringDictionary() { { "authType", connection.Name } });
                         var settings = promptSettings?[i] ?? new OAuthPromptSettings
