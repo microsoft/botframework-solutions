@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>Microsoft.Bot.Builder.Solutions.SkillTemplate</id>
+    <id>Microsoft.Bot.Solutions.SkillTemplate</id>
     <version>1.0.0</version>
     <description>
 	Developers can compose conversational experiences by stitching together re-usable conversational capabilities, known as Bot Framework Skills. Skills can be used to create one parent bot bringing together multiple sub-bots owned by different teams, or more broadly leveraging common capabilities provided by other developers.
