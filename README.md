@@ -17,7 +17,7 @@ This repository is the home for a set of templates and solutions to help build c
 ### .NET
 | Name | Released Package | Daily Build |
 |---|---|---|
-| Microsoft.Bot.Solutions (Preview) | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Solutions?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Solutions/) | [![BotBuilder Badge](https://buildstats.info/myget/botbuilder/aitemplates/Microsoft.Bot.Solutions?includePreReleases=true&dWidth=50)](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Solutions) |
+| Microsoft.Bot.Solutions (Preview) | [![Microsoft.Bot.Solutions Badge](https://buildstats.info/nuget/Microsoft.Bot.Solutions?includePreReleases=true&dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Solutions/) | [![BotBuilder Badge](https://buildstats.info/myget/botbuilder/aitemplates/Microsoft.Bot.Solutions?includePreReleases=true&dWidth=50)](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Solutions) |
 
 ### JS
 
