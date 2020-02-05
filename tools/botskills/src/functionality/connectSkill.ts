@@ -147,7 +147,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             return manifestVersion.V2;
         }
         else {
-            throw new Error('The Skill Manifest is not compatible with any version supported.');
+            throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
         }
     }
 
