@@ -230,6 +230,8 @@ Content Moderator is an optional component that enables the detection of potenti
 
 [**Content Moderator Middleware**]({{site.repo}}/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ContentModeratorMiddleware.cs)  is provided that screen texts and surfaces output through a **TextModeratorResult** on the **TurnState** object. This middleware is not enabled by default.
 
+Since this middleware is not provided by default you will need to provision the neccary ContentModerator resource in Azure [here](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesContentModerator). Once you have created the resource you will be provided with a key (save this value) and an endpoint. In your bot adapter, add ``Use(new ContentModeratorMiddleware({key}, {region}))`` to your list of middleware where key is the key saved earlier and region is the region in which you created your contentmoderator resource.
+
 #### Feedback Middleware
 {:.no_toc}
 
