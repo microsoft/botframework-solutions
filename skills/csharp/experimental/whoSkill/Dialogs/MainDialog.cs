@@ -316,9 +316,9 @@ namespace WhoSkill.Dialogs
             }
 
             // Save the keyword that user want to search.
-            if (entities != null && entities.keyword != null)
+            if (entities != null && entities.keyword != null && entities.keyword.Any())
             {
-                state.Keyword = entities.keyword[0];
+                state.Keyword = entities.keyword[0].Replace(" ", string.Empty);
             }
         }
     }

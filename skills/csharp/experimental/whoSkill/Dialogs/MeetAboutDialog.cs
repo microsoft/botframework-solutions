@@ -29,6 +29,7 @@ namespace WhoSkill.Dialogs
                 MicrosoftAppCredentials appCredentials)
             : base(nameof(MeetAboutDialog), settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials)
         {
+            AddDialog(new WhoIsDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
         protected override async Task<DialogTurnResult> SearchKeyword(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -112,7 +113,7 @@ namespace WhoSkill.Dialogs
                             return await sc.ReplaceDialogAsync(Actions.DisplayResult);
                         }
 
-                        var keyword = state.Results[index].Mail;
+                        var keyword = state.Results[index].UserPrincipalName;
                         state.Init();
                         state.Keyword = keyword;
                         state.TriggerIntent = WhoLuis.Intent.WhoIs;

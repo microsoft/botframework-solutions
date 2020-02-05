@@ -62,7 +62,7 @@ namespace WhoSkill.Dialogs
                 }
 
                 var card = await GetCardForDetail(state.Results[0]);
-                return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
+                await sc.Context.SendActivityAsync(card);
             }
             else
             {
@@ -76,35 +76,9 @@ namespace WhoSkill.Dialogs
                     var activity = TemplateEngine.GenerateActivityForLocale(OrgResponses.NoManager, new { Person = data });
                     await sc.Context.SendActivityAsync(activity);
                 }
-
-                return await sc.EndDialogAsync();
             }
-        }
 
-        protected override async Task<DialogTurnResult> CollectUserChoiceAfterResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
-            var topIntent = luisResult.TopIntent().intent;
-
-            switch (topIntent)
-            {
-                case WhoLuis.Intent.Manager:
-                    {
-                        var keyword = state.Results[0].Mail;
-                        state.Init();
-                        state.Keyword = keyword;
-                        state.TriggerIntent = WhoLuis.Intent.Manager;
-                        return await sc.ReplaceDialogAsync(Actions.SearchKeyword);
-                    }
-
-                default:
-                    {
-                        var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                        await sc.Context.SendActivityAsync(didntUnderstandActivity);
-                        return await sc.EndDialogAsync();
-                    }
-            }
+            return await sc.EndDialogAsync();
         }
     }
 }

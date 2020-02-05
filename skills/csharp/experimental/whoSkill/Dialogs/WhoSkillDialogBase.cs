@@ -58,7 +58,7 @@ namespace WhoSkill.Dialogs
 
             var chooseCandidates = new WaterfallStep[]
             {
-                ChooseCandidates,
+                PreprocessCandidates,
                 DisplayCandidates,
                 CheckRestart,
                 CollectUserChoice,
@@ -105,6 +105,8 @@ namespace WhoSkill.Dialogs
                 Department = candidate.Department ?? string.Empty,
                 OfficeLocation = candidate.OfficeLocation ?? string.Empty,
                 MobilePhone = candidate.MobilePhone ?? string.Empty,
+                EmailAddress = candidate.Mail ?? string.Empty,
+                Upn = candidate.UserPrincipalName ?? string.Empty,
                 PhotoUrl = photoUrl ?? string.Empty,
             };
             var activity = TemplateEngine.GenerateActivityForLocale("CardForDetail", new
@@ -261,7 +263,7 @@ namespace WhoSkill.Dialogs
             }
         }
 
-        private async Task<DialogTurnResult> ChooseCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<DialogTurnResult> PreprocessCandidates(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
             {
@@ -508,9 +510,9 @@ namespace WhoSkill.Dialogs
             }
 
             // Save the keyword that user want to search.
-            if (entities != null && entities.keyword != null)
+            if (entities != null && entities.keyword != null && entities.keyword.Any())
             {
-                state.Keyword = entities.keyword[0];
+                state.Keyword = entities.keyword[0].Replace(" ", string.Empty);
             }
         }
 

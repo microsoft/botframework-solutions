@@ -115,7 +115,7 @@ namespace WhoSkill.Dialogs
                             return await sc.ReplaceDialogAsync(Actions.DisplayResult);
                         }
 
-                        var keyword = state.Results[index].Mail;
+                        var keyword = state.Results[index].UserPrincipalName;
                         state.Init();
                         state.Keyword = keyword;
                         state.TriggerIntent = WhoLuis.Intent.WhoIs;

@@ -48,10 +48,12 @@ namespace WhoSkill.Dialogs
                 TargetName = state.Keyword,
             };
 
-            // Search the picked person's direct reports.
+            // Search the picked person's direct reports. Then save into state.Results to avoid to search again.
             if (state.Results == null)
             {
                 var directReports = await MSGraphService.GetDirectReports(state.PickedPerson.Id);
+
+                // No direct reports. End dialog.
                 if (directReports == null || !directReports.Any())
                 {
                     if (state.SearchCurrentUser)
@@ -109,7 +111,7 @@ namespace WhoSkill.Dialogs
                             return await sc.ReplaceDialogAsync(Actions.DisplayResult);
                         }
 
-                        var keyword = state.Results[index].Mail;
+                        var keyword = state.Results[index].UserPrincipalName;
                         state.Init();
                         state.Keyword = keyword;
                         state.TriggerIntent = WhoLuis.Intent.WhoIs;

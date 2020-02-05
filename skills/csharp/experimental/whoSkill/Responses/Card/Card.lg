@@ -109,106 +109,125 @@
     Speak = 
     Attachments = @{json(CardForDetail.Text(Person))}
     InputHint = acceptingInput
-	SuggestedActions = Manager | Peers
 ]
 
 # CardForDetail.Text(Person)
 - ```
 {
-    "type": "AdaptiveCard",
-    "id": "WhoCard",
-    "body": [
-        {
-            "type": "Container",
-            "spacing": "Large",
-            "items": [
-                {
-                    "type": "ColumnSet",
-                    "columns": [
-                        {
-                            "type": "Column",
-                            "items": [
-                                {
-                                    "type": "ColumnSet",
-                                    "columns": [
-                                        {
-                                            "type": "Column",
-                                            "verticalContentAlignment": "Center",
-                                            "items": [
-                                                {
-                                                    "type": "TextBlock",
-                                                    "horizontalAlignment": "Left",
-                                                    "size": "Large",
-                                                    "weight": "Bolder",
-                                                    "text": "@{Person.DisplayName}",
-                                                    "wrap": true
-                                                }
-                                            ],
-                                            "width": "stretch"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "ColumnSet",
-                                    "spacing": "Medium",
-                                    "columns": [
-                                        {
-                                            "type": "Column",
-                                            "verticalContentAlignment": "Center",
-                                            "items": [
-                                                {
-                                                    "type": "TextBlock",
-                                                    "size": "Medium",
-                                                    "text": "@{Person.JobTitle}"
-                                                },
-                                                {
-                                                    "type": "TextBlock",
-                                                    "horizontalAlignment": "Left",
-                                                    "spacing": "Small",
-                                                    "size": "Medium",
-                                                    "text": "@{Person.Department}"
-                                                },
-                                                {
-                                                    "type": "TextBlock",
-                                                    "horizontalAlignment": "Left",
-                                                    "spacing": "Small",
-                                                    "size": "Medium",
-                                                    "text": "@{Person.OfficeLocation}"
-                                                },
-                                                {
-                                                    "type": "TextBlock",
-                                                    "horizontalAlignment": "Left",
-                                                    "spacing": "Small",
-                                                    "size": "Medium",
-                                                    "text": "@{Person.MobilePhone}"
-                                                }
-                                            ],
-                                            "width": "stretch"
-                                        }
-                                    ]
-                                }
-                            ],
-                            "width": 50
-                        },
-                        {
-                            "type": "Column",
-                            "items": [
-                                {
-                                    "type": "Image",
-                                    "style": "Person",
-                                    "url": "@{Person.PhotoUrl}",
-                                    "size": "Medium"
-                                }
-                            ],
-                            "width": "auto",
-                            "verticalContentAlignment": "Center"
-                        }
-                    ]
-                }
-            ]
-        }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.0"
+	"type": "AdaptiveCard",
+	"id": "WhoCard",
+	"body": [{
+			"type": "Container",
+			"spacing": "Large",
+			"items": [{
+				"type": "ColumnSet",
+				"columns": [{
+						"type": "Column",
+						"items": [{
+								"type": "ColumnSet",
+								"columns": [{
+									"type": "Column",
+									"verticalContentAlignment": "Center",
+									"items": [{
+										"type": "TextBlock",
+										"horizontalAlignment": "Left",
+										"size": "Large",
+										"weight": "Bolder",
+										"text": "@{Person.DisplayName}",
+										"wrap": true
+									}],
+									"width": "stretch"
+								}]
+							},
+							{
+								"type": "ColumnSet",
+								"spacing": "Medium",
+								"columns": [{
+									"type": "Column",
+									"verticalContentAlignment": "Center",
+									"items": [{
+											"type": "TextBlock",
+											"size": "Medium",
+											"text": "@{Person.JobTitle}"
+										},
+										{
+											"type": "TextBlock",
+											"horizontalAlignment": "Left",
+											"spacing": "Small",
+											"size": "Medium",
+											"text": "@{Person.Department}"
+										},
+										{
+											"type": "TextBlock",
+											"horizontalAlignment": "Left",
+											"spacing": "Small",
+											"size": "Medium",
+											"text": "@{Person.OfficeLocation}"
+										},
+										{
+											"type": "TextBlock",
+											"horizontalAlignment": "Left",
+											"spacing": "Small",
+											"size": "Medium",
+											"text": "@{Person.MobilePhone}"
+										}
+									],
+									"width": "stretch"
+								}]
+							}
+						],
+						"width": 50
+					},
+					{
+						"type": "Column",
+						"items": [{
+							"type": "Image",
+							"style": "Person",
+							"url": "@{Person.PhotoUrl}",
+							"size": "Medium"
+						}],
+						"width": "auto",
+						"verticalContentAlignment": "Center"
+					}
+				]
+			}]
+		},
+		{
+			"type": "Container",
+			"items": [{
+				"type": "ColumnSet",
+				"columns": [{
+						"type": "Column",
+						"items": [{
+							"type": "ActionSet",
+							"actions": [{
+								"type": "Action.Submit",
+								"title": "Manager",
+								"data": "Who is the manager of @{Person.Upn}?"
+							}]
+						}],
+						"width": "auto"
+					},
+					{
+						"type": "Column",
+						"items": [{
+							"type": "ActionSet",
+							"actions": [{
+								"type": "Action.Submit",
+								"title": "Peers",
+								"data": "Who are the peers of @{Person.Upn}"
+							}]
+						}],
+						"width": "auto"
+					}
+				],
+				"separator": true
+			}],
+			"spacing": "Medium",
+			"separator": true
+		}
+	],
+	"$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+	"version": "1.0"
 }
 ```

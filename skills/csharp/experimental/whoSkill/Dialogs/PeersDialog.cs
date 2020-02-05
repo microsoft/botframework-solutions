@@ -30,7 +30,7 @@ namespace WhoSkill.Dialogs
                 MicrosoftAppCredentials appCredentials)
             : base(nameof(PeersDialog), settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials)
         {
-           // AddDialog(new WhoIsDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
+           AddDialog(new WhoIsDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
         protected override async Task<DialogTurnResult> DisplayResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -116,7 +116,7 @@ namespace WhoSkill.Dialogs
                             return await sc.ReplaceDialogAsync(Actions.DisplayResult);
                         }
 
-                        var keyword = state.Results[index].Mail;
+                        var keyword = state.Results[index].UserPrincipalName;
                         state.Init();
                         state.Keyword = keyword;
                         state.TriggerIntent = WhoLuis.Intent.WhoIs;

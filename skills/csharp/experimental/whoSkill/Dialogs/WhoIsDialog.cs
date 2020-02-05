@@ -28,8 +28,6 @@ namespace WhoSkill.Dialogs
                 MicrosoftAppCredentials appCredentials)
             : base(nameof(WhoIsDialog), settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials)
         {
-            AddDialog(new ManagerDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
-            AddDialog(new PeersDialog(settings, conversationState, msGraphService, localeTemplateEngineManager, telemetryClient, appCredentials));
         }
 
         protected override async Task<DialogTurnResult> DisplayResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -151,42 +149,8 @@ namespace WhoSkill.Dialogs
             await sc.Context.SendActivityAsync(reply);
 
             var card = await GetCardForDetail(state.PickedPerson);
-            return await sc.PromptAsync(Actions.Prompt, new PromptOptions() { Prompt = card });
-        }
-
-        protected override async Task<DialogTurnResult> CollectUserChoiceAfterResult(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await WhoStateAccessor.GetAsync(sc.Context);
-            var luisResult = sc.Context.TurnState.Get<WhoLuis>(StateProperties.WhoLuisResultKey);
-            var topIntent = luisResult.TopIntent().intent;
-
-            switch (topIntent)
-            {
-                case WhoLuis.Intent.Manager:
-                    {
-                        var keyword = state.PickedPerson.Mail;
-                        state.Init();
-                        state.Keyword = keyword;
-                        state.TriggerIntent = WhoLuis.Intent.Manager;
-                        return await sc.ReplaceDialogAsync(nameof(ManagerDialog));
-                    }
-
-                case WhoLuis.Intent.Peers:
-                    {
-                        var keyword = state.PickedPerson.Mail;
-                        state.Init();
-                        state.Keyword = keyword;
-                        state.TriggerIntent = WhoLuis.Intent.Peers;
-                        return await sc.ReplaceDialogAsync(nameof(PeersDialog));
-                    }
-
-                default:
-                    {
-                        var didntUnderstandActivity = TemplateEngine.GenerateActivityForLocale(WhoSharedResponses.DidntUnderstandMessage);
-                        await sc.Context.SendActivityAsync(didntUnderstandActivity);
-                        return await sc.EndDialogAsync();
-                    }
-            }
+            await sc.Context.SendActivityAsync(card);
+            return await sc.EndDialogAsync();
         }
     }
 }
