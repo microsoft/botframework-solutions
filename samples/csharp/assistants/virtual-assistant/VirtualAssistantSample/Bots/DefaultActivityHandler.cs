@@ -95,9 +95,9 @@ namespace VirtualAssistantSample.Bots
             }
         }
 
-        protected override Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
         {
-            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+            await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
     }
 }
