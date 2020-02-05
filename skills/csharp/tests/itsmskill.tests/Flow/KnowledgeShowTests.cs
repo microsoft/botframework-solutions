@@ -44,6 +44,57 @@ namespace ITSMSkill.Tests.Flow
         }
 
         [TestMethod]
+        public async Task ShowAndHelpTest()
+        {
+            var navigate = new StringDictionary
+            {
+                { "Navigate", string.Empty }
+            };
+
+            await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
+                .Send(KnowledgeShowUtterances.Show)
+                .AssertReply(ShowAuth())
+                .Send(MagicCode)
+                .AssertReply(AssertContains(SharedResponses.InputSearch))
+                .Send(MockData.CreateTicketTitle)
+                .AssertReply(AssertContains(SharedResponses.ResultIndicator, null, CardStrings.Knowledge))
+                .AssertReply(AssertStartsWith(KnowledgeResponses.IfFindWanted, navigate))
+                .Send(GeneralTestUtterances.Help)
+                .AssertReply(AssertContains(MainResponses.HelpMessage))
+                .AssertReply(AssertStartsWith(KnowledgeResponses.IfFindWanted, navigate))
+                .Send(GeneralTestUtterances.Confirm)
+                .AssertReply(AssertContains(SharedResponses.ActionEnded))
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task ShowAndCancelTest()
+        {
+            var navigate = new StringDictionary
+            {
+                { "Navigate", string.Empty }
+            };
+
+            await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
+                .Send(KnowledgeShowUtterances.Show)
+                .AssertReply(ShowAuth())
+                .Send(MagicCode)
+                .AssertReply(AssertContains(SharedResponses.InputSearch))
+                .Send(MockData.CreateTicketTitle)
+                .AssertReply(AssertContains(SharedResponses.ResultIndicator, null, CardStrings.Knowledge))
+                .AssertReply(AssertStartsWith(KnowledgeResponses.IfFindWanted, navigate))
+                .Send(GeneralTestUtterances.Cancel)
+                .AssertReply(AssertContains(MainResponses.CancelMessage))
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
         public async Task ShowThenCreateTest()
         {
             var navigate = new StringDictionary

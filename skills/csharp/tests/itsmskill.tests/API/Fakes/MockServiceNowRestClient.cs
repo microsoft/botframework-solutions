@@ -171,6 +171,11 @@ namespace ITSMSkill.Tests.API.Fakes
 
         public int GetUserIdResponseCount { get; set; } = 0;
 
+        private static bool IsTicketToClose(IRestRequest restRequest)
+        {
+            return restRequest.Parameters.Any(p => p.Name == "sysparm_query" && p.Value is string && ((string)p.Value).Contains(MockData.CloseTicketNumber));
+        }
+
         private IRestResponse<GetUserIdResponse> CreateGetUserIdResponseAndCount()
         {
             GetUserIdResponseCount += 1;
@@ -183,11 +188,6 @@ namespace ITSMSkill.Tests.API.Fakes
             mockResponse.Setup(r => r.Data).Returns(data);
             mockResponse.Setup(r => r.ResponseStatus).Returns(ResponseStatus.Completed);
             return mockResponse.Object;
-        }
-
-        private static bool IsTicketToClose(IRestRequest restRequest)
-        {
-            return restRequest.Parameters.Any(p => p.Name == "sysparm_query" && p.Value is string && ((string)p.Value).Contains(MockData.CloseTicketNumber));
         }
     }
 }
