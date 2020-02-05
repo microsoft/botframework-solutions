@@ -28,12 +28,12 @@ Incoming activities are initially received through the BotAdapter implementation
 After the activity is processed by the Adapter and Middleware pipeline, it is received by the **ActivityHandler** implementation. The **DefaultActivityHandler** in the template implements the TeamsActivityHandler which enables Teams scenarios out of the box. By default, the **DefaultActivityHandler** passes the incoming message into the **MainDialog**. However, this logic can be customized as needed.
 
 ## Dialogs
-The **DefaultActivityHandler** passes incoming activities into the **MainDialog**. **MainDialog** implements the **ActivityHandlerDialog**, which provides its own routing logic for handling activities of different types, as well as enables interruptions. The following diagram shows how the activities flow through the different methods in **MainDialog**:
+The **DefaultActivityHandler** passes incoming activities into the **MainDialog**. The MainDialog is composed of a repeating Waterfall Dialog that contains introduction and routing logic. The following diagram shows how the activities flow through the different methods in **MainDialog**:
 
 ![]({{site.baseurl}}/assets/images/virtual-assistant-main-dialog-flow.png)
 
 ### Interruptions
-Once an activity flows into MainDialog, one of the first methods that will be called is OnInterruptDialogAsync(). The following interruptions are configured out of the box:
+Once an activity flows into MainDialog, one of the first methods that will be called is InterruptDialogAsync(). The following interruptions are configured out of the box:
 - **Switching between Skills** - Switches between connected skills based on intent.
 - **Cancellation** - Cancels the current dialog.
 - **Help** - Sends a help message, then resumes the waiting dialog.
@@ -42,11 +42,3 @@ Once an activity flows into MainDialog, one of the first methods that will be ca
 - **Repeat** - Repeats the last set of activities from the bot. Useful for speech scenarios.
 - **Start over** - Starts the current dialog over.
 - **Stop** - Can be implemented to stop readout in speech scenarios.
-
-### Activity Routing
-Once interruptions are evaluated, the activity is processed according to its activity type: 
-
-- **OnMessageActivityAsync()** - Any incoming message activities that were not handled by a waiting dialog.
-- **OnMembersAddedAsync()** - Any incoming conversation update activity. Used for introduction logic.
-- **OnEventActivityAsync()** - Any incoming event activity
-- **OnUnhandledActivityTypeAsync()** - Any other incoming activity.
