@@ -66,7 +66,8 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             destFile.BotFrameworkSkills = destAssistantSkills;
             writeFileSync(configuration.destFile, JSON.stringify(destFile, undefined, 4));
 
-            this.logger.success(`Successfully migrated all the skills for the new version`);
+            this.logger.success(`Successfully migrated all the skills for the new version.`);
+            this.logger.warning(`You may now delete the source file.`);
             return true;
         } catch (err) {
             this.logger.error(`There was an error while migrating the Skills:\n ${ err }`);
