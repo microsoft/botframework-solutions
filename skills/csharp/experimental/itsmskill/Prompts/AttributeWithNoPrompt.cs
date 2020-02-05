@@ -10,8 +10,8 @@ using ITSMSkill.Responses.Shared;
 using ITSMSkill.Utilities;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Util;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Util;
 
 namespace ITSMSkill.Prompts
 {
