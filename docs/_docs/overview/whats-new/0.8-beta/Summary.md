@@ -38,6 +38,13 @@ This release updates the Virtual Assistant Template to use the QnAMakerDialog re
 For more guidance on how to update your project to use this feature, refer to the following articles:
 - [QnA Maker updates]({{site.baseurl}}/overview/whats-new/0.8-beta/qnamaker)
 
+### MainDialog.cs updates
+In this release the ActivityHandlerDialog.cs has been deprecated and replaced with a Waterfall Dialog implementation in the MainDialog of the Virtual Assistant and Skill templates. 
+
+For more guidance on how to update your Virtual Assistant to use the updated MainDialog approach, refer to the following article:
+- [MainDialog updates]({{site.baseurl}}//overview/whats-new/0.8-beta/maindialog-updates)
+
+
 ### Deployment updates
 {:.no_toc}
 
