@@ -1,0 +1,33 @@
+{
+    "id": "authenticationSkill",
+    "msaAppId": "00000000-0000-0000-0000-000000000000",
+    "name": "Test Scope",
+    "endpoint": "https://bftestskill.azurewebsites.net/api/skill/messages",
+    "description": "This is a test scope to use for testing purpose.",
+    "authenticationConnections": [
+        {
+            "id": "Outlook",
+            "serviceProviderId": "Azure Active Directory v2",
+            "scopes": "User.Read.All"
+        }
+    ],
+    "actions": [
+        {
+            "id": "authenticationSkill_testAction",
+            "definition": {
+                "description": "Test Action",
+                "slots": [],
+                "triggers": {
+                    "utteranceSources": [
+                        {
+                            "locale": "en",
+                            "source": [
+                                "authenticationSkill#Test"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

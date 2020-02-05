@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <!-- custom colors -->
+    <color name="color_background">#272727</color>
+    <color name="color_toggle_on">#97FE46</color>
+    <color name="color_toggle_off">#373736</color>
+    <color name="color_action_outline">#84d9f8</color>
+</resources>

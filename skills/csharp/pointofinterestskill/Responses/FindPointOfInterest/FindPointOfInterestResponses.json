@@ -1,0 +1,11 @@
+{
+  "PointOfInterestDetails": {
+    "inputHint": "expectingInput",
+    "replies": [
+      {
+        "text": "Here are details.",
+        "speak": "Here are details."
+      }
+    ]
+  }
+}

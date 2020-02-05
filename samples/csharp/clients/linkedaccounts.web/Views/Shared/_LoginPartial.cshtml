@@ -1,0 +1,44 @@
+@using System.Security.Principal
+
+    <ul class="nav">
+        @if (Context.Session.TryGetValue("companionApp", out var companionApp))
+        {
+            if (BitConverter.ToBoolean(companionApp))
+            {
+                var hasSignedIn = false;
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @foreach (var account in Model.Status)
+                    {
+                        @if (account.HasToken)
+                        {
+                            hasSignedIn = true;
+                        }
+                    }
+                }
+                Context.Session.TryGetValue("userId", out var userId);
+                <li style="padding-right: 20px">
+                    <a class="nav-item nav-link" href="microsoft://virtualassistant/?userId=@System.Text.Encoding.Default.GetString(userId)&signInStatus=@hasSignedIn" target="_blank" class="nav-item nav-link">
+                        Complete and return to app
+                    </a>
+                </li>
+            }
+        }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <li>
+                <a class="nav-item nav-link" asp-area="AzureAD" asp-controller="Account" asp-action="SignOut">
+                    Sign out
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a class="nav-item nav-link" asp-area="AzureAD" asp-controller="Account" asp-action="Signin">
+                    Sign in
+                </a>
+            </li>
+        }
+    </ul>

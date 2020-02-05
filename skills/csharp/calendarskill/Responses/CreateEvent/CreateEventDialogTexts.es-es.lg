@@ -1,0 +1,85 @@
+[import](CreateEventDialogActivities.lg)
+
+# NoTitle.Text(UserName)
+- Bien, enviaré una invitación a @{UserName}. ¿Cuál es el tema de la reunión?
+
+# NoTitleShort.Text
+- ¿Cuál es el tema de la reunión?
+
+# NoContent.Text
+- ¿Puede proporcionar una breve descripción para la reunión?
+
+# NoAttendees.Text
+- ¿A quién quieres invitar?
+
+# NoLocation.Text
+- ¿Dónde tendrá lugar el evento?
+
+# ConfirmCreate.Text(Date, Time, EndTime, AttendeesConfirm, SubjectConfirm, LocationConfirm, ContentConfirm)
+- Estoy listo para crear el evento para @{Date}De @{Time} Para @{EndTime}@{AttendeesConfirm}. @{SubjectConfirm}@{LocationConfirm}@{ContentConfirm}
+
+# ConfirmCreateAttendees.Text(Attendees)
+- Con @{Attendees}
+> Is starting with a comma here intentional? Unclear on context.
+
+# ConfirmCreateSubject.Text(Subject)
+- El tema del evento es @{Subject}.
+
+# ConfirmCreateLocation.Text(Location)
+- El evento tendrá lugar en @{Location}.
+
+# ConfirmCreateContent.Text(Content)
+- La descripción del evento es @{Content}.
+
+# ConfirmCreatePrompt.Text
+- ¿Desea crear un evento con esta información?
+
+# ConfirmCreateFailed.Text
+- Estoy listo para crear el evento. Confirme lo siguiente:
+
+# ShowRestParticipantsPrompt.Text
+- ¿Desea revisar a todos los participantes?
+
+# EventCreated.Text(Subject)
+- OK, añadí @{Subject} a su calendario.
+
+# EventCreationFailed.Text
+- No pude crear este evento. Inténtelo de nuevo más tarde.
+- Algo sucedió y el evento no fue creado. Inténtelo de nuevo más tarde.
+- No se pudo crear el evento, inténtelo de nuevo más tarde.
+
+
+# NoStartDate.Text
+- ¿Cuál es la fecha de tu evento?
+
+# NoStartDateRetry.Text
+- No entendí la fecha que proporcionó, por favor inténtelo de nuevo.
+
+
+# NoStartTime.Text
+- ¿A qué hora empieza?
+- ¿Cuál es la hora de inicio?
+
+# NoStartTimeRetry.Text
+- No entendí la hora que proporcionó, por favor inténtelo de nuevo.
+
+# NoStartTimeNoSkip.Text
+- Debe agregar una hora de inicio para crear este evento.
+
+# NoDuration.Text
+- ¿Durante cuánto tiempo?
+
+# NoDurationRetry.Text
+- No entendí la duración que me diste, ¿puedes intentarlo de nuevo?
+
+# GetRecreateInfo.Text
+- ¿Qué te gustaría cambiar?
+
+# GetRecreateInfoRetry.Text
+- Lo siento, no lo entendí. Algunas cosas que puede cambiar son el tiempo, la duración, la ubicación, los participantes, el tema y la descripción de su evento.
+
+# NoMeetingRoom.Text
+- ¿Quieres agregar una habitación?
+
+# MeetingBooked.Text
+- Muy bien, tu reunión está confirmada.

@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{385B75F0-44DF-4B32-8676-BC46110467B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A26898D5-E8CB-4CC8-8997-59090DCF6ECD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions", "libraries\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj", "{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Solutions.Tests", "tests\microsoft.bot.solutions.tests\Microsoft.Bot.Solutions.Tests.csproj", "{FB8ADDF0-C411-4022-9B07-146B5801C420}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Documentation|Any CPU = Documentation|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Documentation|Any CPU.ActiveCfg = Documentation|Any CPU
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Documentation|Any CPU.Build.0 = Documentation|Any CPU
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB8ADDF0-C411-4022-9B07-146B5801C420}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FF1C3E80-DDB8-4F5B-BCCA-68C3C594D252} = {385B75F0-44DF-4B32-8676-BC46110467B7}
+		{FB8ADDF0-C411-4022-9B07-146B5801C420} = {A26898D5-E8CB-4CC8-8997-59090DCF6ECD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9990775D-5FC4-4B23-8374-05AE6A536EC8}
+	EndGlobalSection
+EndGlobal

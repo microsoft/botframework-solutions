@@ -1,0 +1,25 @@
+{
+  "defaultLocale": "en-us",
+  "cognitiveModels": {
+    "en-us": {
+      "dispatchModel": {
+        "subscriptionKey": "<--MOCK-VALUE-->",
+        "name": "filleden-usDispatch",
+        "appId": "",
+        "authoringKey": "<--MOCK-VALUE-->",
+        "type": "dispatch",
+        "region": "westus"
+      }
+    },
+    "es-es": {
+      "dispatchModel": {
+        "subscriptionKey": "<--MOCK-VALUE-->",
+        "name": "filledes-esDispatch",
+        "appId": "",
+        "authoringKey": "<--MOCK-VALUE-->",
+        "type": "dispatch",
+        "region": "westus"
+      }
+    }
+  }
+}

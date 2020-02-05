@@ -1,0 +1,88 @@
+﻿[import](FindMeetingRoomDialogActivities.lg)
+
+# NoBuilding.Text
+- 好的，哪栋楼？
+
+# BuildingNonexistent.Text
+- 对不起，我找不到那栋楼。你能用不同的方式说，还是选择另一栋楼？
+
+# MeetingRoomNotFoundByName.Text(MeetingRoom)
+- 它看起来像@{MeetingRoom}不存在。
+
+# ConfirmMeetingRoomPrompt.Text(MeetingRoom, DateTime)
+- @{MeetingRoom}可用@{DateTime}，你想保留吗？
+
+# MeetingRoomUnavailable.Text(MeetingRoom, DateTime)
+- 它看起来像@{MeetingRoom}不可用@{DateTime}.
+
+# FloorNumberRetry.Text
+- 对不起，我不明白。你能换个说法吗？
+
+# NoFloorNumber.Text
+- 好吧，你有楼层偏好吗？
+
+# CannotFindOtherMeetingRoom.Text(Building, FloorNumber, DateTime)
+- 看起来不像有其他房间可用@{InBuilding(Building)}@{OnFloorNumber(FloorNumber)}@{DateTime}.
+
+# MeetingRoomNotFoundByBuildingAndFloor.Text(Building, FloorNumber, DateTime)
+- 看起来没有任何房间可用@{InBuilding(Building)}@{OnFloorNumber(FloorNumber)}@{DateTime}.
+
+# IgnoreMeetingRoom.Text
+- 没关系。
+
+# RecreateMeetingRoomAgain.Text
+- 我不明白，也许用另一种方式再试一次。
+
+# RecreateMeetingRoom.Text
+- 您可以查找不同的时间、不同的房间，也可以取消您的请求。
+
+# CancelRequest.Text
+- Okey，您的请求已被取消。
+
+# ConfirmedMeeting.Text(MeetingRoom, DateTime, Subject)
+- 好吧，你被证实@{MeetingRoom}@{DateTime}@{ForSubject(subject)}.
+
+# ConfirmAddMeetingRoom.Text(MeetingRoom, Subject)
+- 好吧，我加了@{MeetingRoom}到您的会议@{Subject}.
+
+# ConfirmChangeMeetingRoom.Text(MeetingRoom, Subject)
+- 好吧，我有你的会议@{Subject}更改为@{MeetingRoom}.
+
+# ConfirmedMeetingRoom.Text
+- 哦，我要和那个房间一起新开会。
+
+# ConfirmBeforCreatePrompt.Text
+- 是否要确认？
+
+# MeetingRoomAdded.Text(MeetingRoom, Subject)
+- 好吧，我已经加上了@{MeetingRoom}到您的会议@{FixSubject(Subject)}.
+
+# MeetingRoomChanged.Text(MeetingRoom, Subject)
+- 好吧，我有你的会议@{FixSubject(Subject)}更改为@{MeetingRoom}.
+
+# MeetingRoomCanceled.Text(MeetingRoom, Subject, DateTime)
+- 好吧，我取消了房间@{MeetingRoom}为您的会议@{FixSubject(Subject)}@{DateTime}.
+
+# InBuilding(Building)
+- IF: @{Building && Building != "*"}
+    - 在@{Building}
+- ELSE: 
+    - 
+
+# OnFloorNumber(FloorNumber)
+- IF: @{FloorNumber && FloorNumer != "0"}
+    - @{FloorNumber}层
+- ELSE: 
+    - 
+
+# ForSubject(subject)
+- IF: @{subject}
+    - for "@{subject}"
+- ELSE: 
+    - 
+
+# FixSubject(subject)
+- IF: @{subject}
+    - "@{subject}"
+- ELSE: 
+    - 

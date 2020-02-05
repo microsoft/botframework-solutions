@@ -2,7 +2,7 @@
 name: Bug report
 about: Report bugs for this project
 title: ''
-labels: 'Needs Triage, Type: Bug, Bot Service'
+labels: 'Needs Triage, Type: Bug'
 assignees: ''
 
 ---

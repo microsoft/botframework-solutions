@@ -9,13 +9,12 @@ export interface IDispatchFile {
 }
 
 export interface IDispatchService {
-        intentName: string;
-        appId: string;
-        authoringKey: string;
-        version: string;
-        region: string;
-        // tslint:disable-next-line:no-reserved-keywords
-        type: string;
-        name: string;
-        id: string;
+    intentName: string;
+    appId: string;
+    authoringKey: string;
+    version: string;
+    region: string;
+    type: string;
+    name: string;
+    id: string;
 }

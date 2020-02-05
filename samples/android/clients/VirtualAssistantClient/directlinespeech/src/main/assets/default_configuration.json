@@ -1,0 +1,9 @@
+{
+  "service_key": "SPEECH_SERVICE_SUBSCRIPTION_KEY",
+  "service_region": "westus2",
+  "user_id": "android",
+  "user_name": "Android",
+  "locale": "en-us",
+  "keyword": "computer",
+  "linkedAccountEndpoint": ""
+}

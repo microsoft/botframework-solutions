@@ -1,0 +1,29 @@
+{
+  "cognitiveModels": {
+    "en-us": {
+      "languageModels": [
+        {
+          "id": "General",
+          "appId": "",
+          "name": "",
+          "region": "",
+          "subscriptionKey": "",
+          "authoringRegion": "",
+          "version": "",
+          "authoringKey": ""
+        },
+        {
+          "id": "MusicSkill",
+          "appId": "",
+          "name": "",
+          "region": "",
+          "subscriptionKey": "",
+          "authoringRegion": "",
+          "version": "",
+          "authoringKey": ""
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}

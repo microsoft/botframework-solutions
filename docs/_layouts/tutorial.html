@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<div>
+    {{ content }}
+
+    {% assign docs = site.docs | where: "category", page.category | where: "subcategory", page.subcategory | where: 'language', page.language %}
+    {% for doc in docs %}
+        {% assign nextOrder = page.order | plus: 1 %}
+        {% if doc.order == nextOrder %}
+            {% assign next = doc %}
+        {% endif %}
+        
+        {% assign prevOrder = page.order | minus: 1 %}
+        {% if doc.order == prevOrder %}
+            {% assign previous = doc %}
+        {% endif %}
+    {% endfor %}
+    
+    <div class="d-flex border-bottom border-gray-light mt-6 mb-3 py-3 text-gray-light">
+        <div class="col-6">
+            {% if previous %}
+            <a class = "btn btn-default" href="{{ site.baseurl }}{{ previous.url }}">{{ previous.title }}</a>
+            {% endif %}
+        </div>
+        <div class="col-6 text-right">
+            {% if next %}
+            <a class ="btn btn-primary" href="{{ site.baseurl }}{{ next.url }}">{{ next.title }}</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

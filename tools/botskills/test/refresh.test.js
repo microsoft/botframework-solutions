@@ -13,99 +13,157 @@ describe("The refresh command", function () {
     
     beforeEach(function () {
         this.logger = new testLogger.TestLogger();
-        this.refresher = new botskills.RefreshSkill(this.logger);
+        this.refresher = new botskills.RefreshSkill();
+        this.refresher.logger = this.logger;
     });
     
     describe("should show an error", function() {
-        it("when the dispatchFolder points to a nonexistent folder", async function () {
-            const config = {
-                dispatchName : "",
+        it("when there is no cognitiveModels file", async function () {
+            const configuration = {
                 dispatchFolder : resolve(__dirname, "mocks", "fail", "nonexistentDispatch"),
-                language: "ts",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "nonCognitiveModels.json"),
                 luisFolder: "",
                 lgLanguage: "cs",
                 outFolder: "",
                 lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
-                cognitiveModelsFile: "",
                 logger: this.logger
             };
 
-            await this.refresher.refreshSkill(config);
+            this.refresher.configuration = configuration;
+            await this.refresher.refreshSkill(configuration);
+            const errorList = this.logger.getError();
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
+Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
+        });
+
+        it("when the dispatchFolder points to a nonexistent folder", async function () {
+            const configuration = {
+                dispatchFolder : resolve(__dirname, "mocks", "fail", "nonexistentDispatch"),
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "cs",
+                outFolder: "",
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
+                logger: this.logger
+            };
+
+            this.refresher.configuration = configuration;
+            await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: Path to the Dispatch folder (${config.dispatchFolder}) leads to a nonexistent folder.
+Error: Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.
 Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         });
 
-        it("when the dispatchName points to a nonexistent file", async function () {
-            const config = {
-                dispatchName : "nonexistentDispatch",
+        it("when the path to dispatch.json file doesn't exist after the dispatch refresh execution", async function () {
+            sandbox.replace(this.refresher.childProcessUtils, "execute", (command, args) => {
+                return Promise.resolve("Mocked function successfully");
+            });
+            const configuration = {
                 dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
-                language: "ts",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithOneDispatch.json"),
                 luisFolder: "",
                 lgLanguage: "cs",
                 outFolder: "",
                 lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
-                cognitiveModelsFile: "",
                 logger: this.logger
             };
 
-            await this.refresher.refreshSkill(config);
+            this.refresher.configuration = configuration;
+            await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: Path to the ${config.dispatchName}.dispatch file leads to a nonexistent file.
-Make sure to use the argument '--dispatchName' for your Assistant's Dispatch file name.`);
+Error: There was an error in the dispatch refresh command:
+Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\es-mx\\filledes-mxDispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\es-mx
+Error: Path to filledes-mxDispatch.json (${configuration.dispatchFolder}\\es-mx\\filledes-mxDispatch.json) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
         });
 
-        it("when the external calls fails", async function () {
-            sandbox.replace(this.refresher, "updateDispatch", (configuration) => {
+        it("when the path to dispatch file doesn't exist", async function () {
+            const configuration = {
+                dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithNoDispatch.json"),
+                lgLanguage: "cs",
+                outFolder: "",
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
+                logger: this.logger
+            };
+
+            this.refresher.configuration = configuration;
+            await this.refresher.refreshSkill(configuration);
+            const errorList = this.logger.getError();
+
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
+Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexistent file.`);
+        });
+
+        it("when the dispatch external calls fails", async function () {
+            sandbox.replace(this.refresher.childProcessUtils, "execute", (command, args) => {
+                return Promise.reject(new Error("Mocked function throws an Error"));
+            });
+            const configuration = {
+                dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                luisFolder: "",
+                lgLanguage: "cs",
+                outFolder: "",
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
+                logger: this.logger
+            };
+
+            this.refresher.configuration = configuration;
+            await this.refresher.refreshSkill(configuration);
+            const errorList = this.logger.getError();
+
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
+Error: There was an error in the dispatch refresh command:
+Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\en-us
+Error: Mocked function throws an Error`);
+        });
+
+        it("when the luisgen external calls fails", async function () {
+            sandbox.replace(this.refresher, "executeDispatchRefresh", (dispatchName, executionModelByCulture) => {
                 return Promise.resolve("Mocked function successfully");
             });
             sandbox.replace(this.refresher.childProcessUtils, "execute", (command, args) => {
                 return Promise.reject(new Error("Mocked function throws an Error"));
             });
-            const config = {
-                dispatchName:  "connectableSkill",
+            const configuration = {
                 dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
-                language: "ts",
-                luisFolder: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "cs",
                 outFolder: "",
-                lgOutFolder: "",
-                cognitiveModelsFile: "",
+                lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
                 logger: this.logger
             };
 
-            await this.refresher.refreshSkill(config);
+            this.refresher.configuration = configuration;
+            await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
 Error: There was an error in the luisgen command:
-Command: luisgen "${join(config.dispatchFolder, config.dispatchName)}.json" -cs "DispatchLuis" -o ""
+Command: luisgen "${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.json"  -cs "DispatchLuis" -o "${configuration.lgOutFolder}"
 Error: Mocked function throws an Error`);
         });
     });
 
     describe("should show a successfully message", function() {
-        it("when the refreshSkill is executed successfully", async function () {
+        it("when the refresh execution has finished successfully", async function () {
             sandbox.replace(this.refresher.childProcessUtils, "execute", (command, args) => {
                 return Promise.resolve("Mocked function successfully");
             });
-            const config = {
-                dispatchName : "connectableSkill",
+            const configuration = {
                 dispatchFolder : resolve(__dirname, join("mocks", "success", "dispatch")),
-                language: "ts",
-                luisFolder: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
                 lgLanguage: "cs",
                 outFolder: "",
                 lgOutFolder: resolve(__dirname, "mocks", "success", "luis"),
-                cognitiveModelsFile: "",
                 logger: this.logger
             };
 
-            await this.refresher.refreshSkill(config);
+            this.refresher.configuration = configuration;
+            await this.refresher.refreshSkill(configuration);
             const successList = this.logger.getSuccess();
 
             strictEqual(successList[successList.length - 1], `Successfully refreshed Dispatch model`);

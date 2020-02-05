@@ -1,0 +1,29 @@
+[import](ChangeEventStatusDialogActivities.lg)
+
+# ConfirmDelete.Text
+- 是否确实要从日历中删除此事件？
+
+# ConfirmDeleteFailed.Text(Title, Time)
+- 是否确实要取消"@{Title}"在@{Time}?
+
+# ConfirmAccept.Text
+- 是否确实要接受此事件？
+
+# ConfirmAcceptFailed.Text(Title, Time)
+- 是否确实要接受@{Time}"@{Title}"会议？
+
+# EventDeleted.Text
+- 我从您的日历中删除了该事件。
+
+# EventAccepted.Text
+- 我将事件添加到您的日历中。
+
+# EventWithStartTimeNotFound.Text
+- 我找不到您询问的事件，请重试。
+- 我找不到那个事件，请重试。
+
+# NoDeleteStartTime.Text
+- 要删除的事件的开始时间或标题是什么？
+
+# NoAcceptStartTime.Text
+- 您要接受的活动的开始时间或标题是什么？

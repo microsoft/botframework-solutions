@@ -1,0 +1,10 @@
+.markdown-body {
+  h1, h2, h3 {
+    margin-top: $spacer-6;
+
+    &:first-child {
+      margin-top: 0;
+      margin-bottom: $spacer-6;
+    }
+  }
+}

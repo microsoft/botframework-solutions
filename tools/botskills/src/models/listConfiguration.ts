@@ -6,6 +6,6 @@
 import { ILogger } from '../logger';
 
 export interface IListConfiguration {
-    skillsFile: string;
     logger?: ILogger;
+    appSettingsFile: string;
 }

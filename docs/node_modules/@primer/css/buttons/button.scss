@@ -1,0 +1,184 @@
+// stylelint-disable selector-max-type, block-opening-brace-space-before, no-duplicate-selectors
+
+// Base button styles
+.btn {
+  position: relative;
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: $body-font-size;
+  font-weight: $font-weight-bold;
+  line-height: 20px; // Specifically not inherit our `<body>` default
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-repeat: repeat-x;
+  background-position: -1px -1px;
+  background-size: 110% 110%;
+  border: 1px solid transparentize($black, 0.8);
+  border-radius: 0.25em;
+  appearance: none; // Corrects inability to style clickable `input` types in iOS.
+
+  i {
+    font-style: normal;
+    font-weight: $font-weight-semibold;
+    opacity: 0.75;
+  }
+
+  .octicon {
+    vertical-align: text-top;
+  }
+
+  // Darken for just a tad more contrast against the button background
+  .Counter {
+    color: $gray-600;
+    text-shadow: none;
+    background-color: rgba($black, 0.1);
+  }
+
+  &:hover {
+    text-decoration: none;
+    background-repeat: repeat-x;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:disabled,
+  &.disabled {
+    cursor: default;
+    // Repeat `background-position` because `:hover`
+    background-position: 0 0;
+  }
+
+  &:active,
+  &.selected {
+    background-image: none;
+  }
+}
+
+.btn         { @include btn-solid($text-gray-dark, $gray-000, darken($gray-100, 2%)); }
+.btn-primary { @include btn-solid($text-white, $green-400, $green-500); }
+.btn-blue    { @include btn-solid($text-white, lighten($blue-500, 8%), darken($blue-500, 2%)); }
+.btn-danger  { @include btn-inverse($red-600, $gray-000, darken($gray-100, 2%)); }
+
+// Outline button
+//
+// For when we need a linky-action that's not too heavy in busier
+// areas like conversation timelines.
+.btn-outline {
+  @include btn-outline($text-blue);
+}
+
+// Social button count
+.btn-with-count {
+  float: left;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+// Minibutton overrides
+//
+// Tweak `line-height` to make them smaller.
+.btn-sm {
+  padding: 3px 10px;
+  font-size: $font-size-small;
+  line-height: 20px;
+}
+
+// Large button adds more padding around text. Use font-size utils to increase font-size.. e.g, <p class="text-gamma"><button class="btn btn-large btn-primary" type="button">Big green button</button></p>
+.btn-large {
+  padding: $em-spacer-6 1.25em;
+  font-size: inherit;
+  border-radius: 6px;
+}
+
+// Full-width button
+//
+// These buttons expand to the full width of their parent container
+.btn-block {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+// Link-like buttons
+//
+// This class is for styling <button> and <input> elements to look like links
+.btn-link {
+  display: inline-block;
+  padding: 0;
+  font-size: inherit;
+  color: $text-blue;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 0;
+  appearance: none; // Corrects inability to style clickable `input` types in iOS.
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    &,
+    &:hover {
+      color: rgba($gray-600, 0.5);
+      cursor: default;
+    }
+  }
+}
+
+// Invisible button
+//
+// Typically used as a "cancel" button next to a .btn
+.btn-invisible {
+  color: $text-blue;
+  background-color: $bg-white; // Reset default gradient backgrounds and colors
+  background-image: none;
+  border: 0;
+
+  &:hover,
+  &:active,
+  &:focus,
+  &.selected,
+  &.zeroclipboard-is-hover,
+  &.zeroclipboard-is-active {
+    color: $text-blue;
+    background: none;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+// Octicon button
+//
+// Icon-only buttons
+.btn-octicon {
+  display: inline-block;
+  padding: 5px;
+  margin-left: 5px;
+  line-height: $lh-condensed-ultra;
+  color: $text-gray;
+  vertical-align: middle;
+
+  // For `<button>` elements
+  background: transparent;
+  border: 0;
+
+  &:hover { color: $text-blue; }
+
+  &.disabled {
+    color: $gray-400;
+    cursor: default;
+
+    &:hover { color: $gray-400; }
+  }
+}
+
+.btn-octicon-danger:hover {
+  color: $text-red;
+}

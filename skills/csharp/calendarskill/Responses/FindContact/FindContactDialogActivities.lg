@@ -1,0 +1,118 @@
+﻿# NoAttendees
+[Activity
+    Text = @{NoAttendees.Text()}
+    Speak = @{NoAttendees.Text()}
+    InputHint = expectingInput
+]
+
+# AddMoreAttendees
+[Activity
+    Text = @{AddMoreAttendees.Text()}
+    Speak = @{AddMoreAttendees.Text()}
+    InputHint = expectingInput
+]
+
+# BeforeSendingMessage
+[Activity
+    Text = @{BeforeSendingMessage.Text(NameList)}
+    Speak = @{BeforeSendingMessage.Text(NameList)}
+    InputHint = expectingInput
+]
+
+# UserNotFound
+[Activity
+    Text = @{UserNotFound.Text()}
+    Speak = @{UserNotFound.Text()}
+    InputHint = acceptingInput
+]
+
+# UserNotFoundAgain
+[Activity
+    Text = @{UserNotFoundAgain.Text(UserName, Source)}
+    Speak = @{UserNotFoundAgain.Text(UserName, Source)}
+    InputHint = acceptingInput
+]
+
+# AlreadyFirstPage
+[Activity
+    Text = @{AlreadyFirstPage.Text()}
+    Speak = @{AlreadyFirstPage.Text()}
+    InputHint = expectingInput
+]
+
+# AlreadyLastPage
+[Activity
+    Text = @{AlreadyLastPage.Text()}
+    Speak = @{AlreadyLastPage.Text()}
+    InputHint = expectingInput
+]
+
+# AddMoreUserPrompt
+[Activity
+    Text = @{AddMoreUserPrompt.Text()}
+    Speak = @{AddMoreUserPrompt.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactEmailSinglePage
+[Activity
+    Text = @{ConfirmMultipleContactEmailSinglePage.Text()}
+    Speak = @{ConfirmMultipleContactEmailSinglePage.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactEmailMultiPage
+[Activity
+    Text = @{ConfirmMultipleContactEmailMultiPage.Text()}
+    Speak = @{ConfirmMultipleContactEmailMultiPage.Text()}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactNameSinglePage
+[Activity
+    Text = @{ConfirmMultipleContactNameSinglePage.Text(ContactName)}
+    Speak = @{ConfirmMultipleContactNameSinglePage.Text(ContactName)}
+    InputHint = expectingInput
+]
+
+# ConfirmMultipleContactNameMultiPage
+[Activity
+    Text = @{ConfirmMultipleContactNameMultiPage.Text(ContactName)}
+    Speak = @{ConfirmMultipleContactNameMultiPage.Text(ContactName)}
+    InputHint = expectingInput
+]
+
+# PromptOneNameOneAddress
+[Activity
+    Text = @{PromptOneNameOneAddress.Text(User)}
+    Speak = @{PromptOneNameOneAddress.Text(User)}
+    InputHint = expectingInput
+]
+
+# AskForEmail
+[Activity
+    Text = @{AskForEmail.Text()}
+    Speak = @{AskForEmail.Text()}
+    InputHint = expectingInput
+]
+
+# FindMultipleEmails
+[Activity
+    Text = @{FindMultipleEmails.Text(UserName)}
+    Speak = @{FindMultipleEmails.Text(UserName)}
+    InputHint = acceptingInput
+]
+
+# FindMultipleContactNames
+[Activity
+    Text = @{FindMultipleContactNames.Text(UserName)}
+    Speak = @{FindMultipleContactNames.Text(UserName)}
+    InputHint = acceptingInput
+]
+
+# EmailChoiceConfirmation
+[Activity
+    Text = @{EmailChoiceConfirmation.Text(Email)}
+    Speak = @{EmailChoiceConfirmation.Text(Email)}
+    InputHint = acceptingInput
+]

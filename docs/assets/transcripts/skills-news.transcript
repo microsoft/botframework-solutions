@@ -1,0 +1,1172 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+        "name": "Bot"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "id": "3a796081-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:14:41+08:00",
+    "recipient": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-10-28T06:14:41.544Z",
+    "from": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "http://localhost:60771"
+  },
+  {
+    "type": "message",
+    "timestamp": "2019-10-28T06:14:48.814Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Welcome to the News Skill!",
+          "text": "Try typing *tell me news* to search for relevant news articles."
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "3a796081-f94a-11e9-addf-b527467c4a00",
+    "id": "3eceb0e0-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:14:48+08:00"
+  },
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+        "name": "User"
+      }
+    ],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "id": "412d8870-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:14:52+08:00",
+    "recipient": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2019-10-28T06:14:52.791Z",
+    "from": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "name": "User"
+    },
+    "locale": "en-us",
+    "serviceUrl": "http://localhost:60771"
+  },
+  {
+    "text": "Find me news about sports",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "15722433147021lhfrsv3hoe"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-28T06:15:14.709Z",
+    "entities": [
+      {
+        "requiresBotState": true,
+        "supportsListening": true,
+        "supportsTts": true,
+        "type": "ClientCapabilities"
+      }
+    ],
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "id": "4e3df450-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:14+08:00",
+    "recipient": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:60771"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "4e3df450-f94a-11e9-addf-b527467c4a00",
+    "id": "4fb3f280-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:17+08:00",
+    "timestamp": "2019-10-28T06:15:17.160Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T06:15:17.703Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "4e3df450-f94a-11e9-addf-b527467c4a00",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Find me news about sports",
+        "alteredText": null,
+        "intents": {
+          "SelectItem": {
+            "score": 0.0911104
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "2bf4492a-b7e9-4e77-9ead-bfa84fc73819"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Find me news about sports",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "SelectItem",
+          "score": 0.0911104
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "5006cd70-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:17+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T06:15:18.553Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "4e3df450-f94a-11e9-addf-b527467c4a00",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "Find me news about sports",
+        "alteredText": null,
+        "intents": {
+          "FindArticles": {
+            "score": 0.99999994
+          }
+        },
+        "entities": {
+          "$instance": {
+            "topic": [
+              {
+                "startIndex": 19,
+                "endIndex": 25,
+                "text": "sports",
+                "type": "topic",
+                "score": 0.9990267
+              }
+            ]
+          },
+          "topic": [
+            "sports"
+          ]
+        }
+      },
+      "luisModel": {
+        "ModelID": "4dd12dee-1fdd-4e98-89c7-edd140e96003"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "Find me news about sports",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "FindArticles",
+          "score": 0.99999994
+        },
+        "intents": null,
+        "entities": [
+          {
+            "entity": "sports",
+            "type": "topic",
+            "startIndex": 19,
+            "endIndex": 24,
+            "score": 0.9990267,
+            "role": ""
+          }
+        ],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "50888090-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:18+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "text": "What country or region do you want to search in?",
+    "inputHint": "expectingInput",
+    "replyToId": "4e3df450-f94a-11e9-addf-b527467c4a00",
+    "id": "50d20cb0-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:19+08:00",
+    "timestamp": "2019-10-28T06:15:19.035Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "4e3df450-f94a-11e9-addf-b527467c4a00",
+    "id": "50f54c20-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:19+08:00",
+    "timestamp": "2019-10-28T06:15:19.266Z",
+    "locale": "en-us"
+  },
+  {
+    "text": "us",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1572243326317d4jzv1vpu6o"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-28T06:15:26.321Z",
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "id": "5529ce10-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:26+08:00",
+    "recipient": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:60771"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T06:15:28.550Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "5529ce10-f94a-11e9-addf-b527467c4a00",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "us",
+        "alteredText": null,
+        "intents": {
+          "Confirm": {
+            "score": 0.3633262
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "2bf4492a-b7e9-4e77-9ead-bfa84fc73819"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "us",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Confirm",
+          "score": 0.3633262
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "567dec60-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:28+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "5529ce10-f94a-11e9-addf-b527467c4a00",
+    "id": "567e6190-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:28+08:00",
+    "timestamp": "2019-10-28T06:15:28.552Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "5529ce10-f94a-11e9-addf-b527467c4a00",
+    "id": "57bea9c0-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:30+08:00",
+    "timestamp": "2019-10-28T06:15:30.652Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "timestamp": "2019-10-28T06:15:32.663Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "en-us",
+    "text": "Here's what I found:",
+    "speak": "I found a few news stories, here's a summary of the first: Oct. 27 (UPI) --The Houston Astros are one win away from another World Series title after beating the Washington Nationals 7-1 on Sunday at Nationals Park in Game 5 of the Fall Classic. Astros starter Gerrit Cole bounced back from a poor outing in Game 1 of the World Series to pitch his team to their third straight win in the nation's capital ...",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "World Series: Astros beat Nationals in Game 5 to grab 3-2 lead",
+          "subtitle": "10/28/2019 04:30:00",
+          "text": "Oct. 27 (UPI) --The Houston Astros are one win away from another World Series title after beating the Washington Nationals 7-1 on Sunday at Nationals Park in Game 5 of the Fall Classic. Astros starter Gerrit Cole bounced back from a poor outing in Game 1 of the World Series to pitch his team to their third straight win in the nation's capital ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.3210C8202EAEFFF3AE6881B2FB729056&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.upi.com/Sports_News/MLB/2019/10/28/World-Series-Astros-beat-Nationals-in-Game-5-to-grab-3-2-lead/5161572234619/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Lakers' Kentavious Caldwell-Pope: Breaks scoring drought in win",
+          "subtitle": "10/28/2019 05:54:00",
+          "text": "Caldwell-Pope recorded 10 points (4-8 FG, 2-4 3Pt), two assists, a rebound and a steal over 19 minutes in Sunday's 120-101 win over the Hornets. Entering Sunday's game, KAT had gone 0-for-11 for the floor, but he managed to turn in a decent number, breaking the cold streak or his first points of the season. It looks like the seventh-year vet ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.11B584ECAAD13746E43E9F8BC2796D4C&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.cbssports.com/fantasy/basketball/news/lakers-kentavious-caldwell-pope-breaks-scoring-drought-in-win/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "State NFL roundup: 2 sacks equal success for Josh Allen, Trey Flowers, Za’Darius Smith",
+          "subtitle": "10/28/2019 05:51:00",
+          "text": "Former Alabama high school standouts Josh Allen, Trey Flowers and Za'Darius Smith recorded two sacks apiece on Sunday to help their teams post NFL victories. In the Detroit Lions' 31-26 victory over the New York Giants, Flowers, a defensive end from Columbia High School, counted his two sacks among his four tackles. In Detroit's first six games ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.5BA967C2606AF33A409F1FE35E9AB2AC&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.al.com/sports/2019/10/state-nfl-roundup-2-sacks-equal-success-for-josh-allen-trey-flowers-zadarius-smith.html"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "ATN Podcast: 2019 Week 8 recap",
+          "subtitle": "10/28/2019 05:51:00",
+          "text": "A room filled with heroes ... Dan Hanzus, Marc Sessler, Chris Wesseling and Gregg Rosenthal recap every game of Week 8 in the NFL including the 49ers romp over the Panthers (3:54) and the Eagles blowing out the Bills (10:36). The heroes also touch on how the Bears are stuck in kicker purgatory (39:25) and recap the highly-anticipated Chiefs ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.4B21EBE352B516A616FAF81499DE65C7&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "http://www.nfl.com/news/story/0ap3000001070730/article/atn-podcast-2019-week-8-recap"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Flacco's Public Criticism of Scangarello Might Set the Wheels of Change in Motion for Broncos",
+          "subtitle": "10/28/2019 05:51:00",
+          "text": "It's beginning to get ugly in the Mile High City. When a team's starting quarterback publicly criticizes and questions the play-calling of a team's top offensive coach, it's usually a harbinger of change. After all, we're not talking about a five-time NFL MVP throwing his offensive coordinator under the bus. Let's face it. Joe Flacco is no ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.164212230BBCE9EAE33212E32702AE23&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.si.com/nfl/broncos/news/denver-broncos-joe-flaccos-public-criticism-of-scangarello-might-set-the-wheels-of-change-in-motion/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "NFL Rumor: \"Multiple teams\" have pursued Seattle Seahawks RB Rashad Penny",
+          "subtitle": "10/28/2019 06:00:00",
+          "text": "Rashad Penny may be on the move soon. NFL Network’s Mike Garafolo reports that the Seahawks have received offers from “multiple teams” for backup running back Rashad Penny ahead of Tuesday's NFL Trade Deadline. The Seattle Seahawks took Penny with the 27th overall pick in the 2018 NFL Draft. However, his workload has been less than ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.C54AC5BEF689C9D10ECAE90725014BF8&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.nbcsports.com/northwest/seattle-seahawks/nfl-rumor-multiple-teams-have-pursued-seattle-seahawks-rb-rashad-penny"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Watch out NFL, Green Bay Boasts League's Next Big Three",
+          "subtitle": "10/28/2019 05:08:00",
+          "text": "That's what we should call the triplets who are primed to bring the Green Bay Packers on a Super Bowl this winter. Aaron (Rodgers), Aaron (Jones) and (Davante) Adams have actually been together for several years in Green Bay, obviously, but they've rarely been healthy and properly utilized together. And now it looks like that's about to change.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.F595A7006A0E2FA246FA7393205DAB2D&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://bleacherreport.com/articles/2860086-watch-out-nfl-green-bay-boasts-leagues-next-big-three"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Astros' Yordan Álvarez couldn't have picked a better time to deliver first postseason homer",
+          "subtitle": "10/28/2019 06:03:00",
+          "text": "WASHINGTON – After having one of the greatest rookie seasons in major league baseball history, Yordan Álvarez of the Houston Astros had gone cold in the postseason. He struggled through 1-for-22 performance in the American League Championship Series, and as the World Series came to Washington, he had been relegated to pinch-hitting duties.",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.CD1D569C9E5CE31B9D4CFF23594FFB93&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.usatoday.com/story/sports/mlb/playoffs/2019/10/28/yordan-alvarez-houston-astros-world-series/2482910001/"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Expect Boks to do what they do best in Rugby World Cup final",
+          "subtitle": "10/28/2019 05:46:00",
+          "text": "The Springboks have picked the bits they liked out of Warren Gatland's advice on how South Africa will have to play to beat England in the Rugby World Cup final. They'll likely ignore the main theme. Gatland guided Wales to a Six Nations Grand Slam title ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.D5492A0240DF9DB3D21992FC3ED3826F&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.miamiherald.com/sports/article236726668.html"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.thumbnail",
+        "content": {
+          "title": "Lakers' Quinn Cook: Works the point off bench",
+          "subtitle": "10/28/2019 05:59:00",
+          "text": "Cook posted 12 points (5-9 FG, 2-4 3Pt), eight assists and three rebounds across 24 minutes in Sunday's 120-101 win over the Hornets. When the Lakers are utilizing LeBron as the floor general, you likely won't see much of Cook, but depending on the matchup, we should see James flip over to the wing frequently, and that's where Cook (and ...",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=ON.11B584ECAAD13746E43E9F8BC2796D4C&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.cbssports.com/fantasy/basketball/news/lakers-quinn-cook-works-the-point-off-bench/"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "5529ce10-f94a-11e9-addf-b527467c4a00",
+    "id": "58f18470-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:32+08:00"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "5529ce10-f94a-11e9-addf-b527467c4a00",
+    "id": "58fc32d0-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:32+08:00",
+    "timestamp": "2019-10-28T06:15:32.733Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-28T06:15:32.859Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "5529ce10-f94a-11e9-addf-b527467c4a00",
+    "id": "590f6cb0-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:15:32+08:00"
+  },
+  {
+    "text": "What news is trending now?",
+    "textFormat": "plain",
+    "type": "message",
+    "channelData": {
+      "clientActivityID": "1572243415694c8sk085at4i"
+    },
+    "channelId": "emulator",
+    "from": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "timestamp": "2019-10-28T06:16:55.700Z",
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "id": "8a6ff540-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:16:55+08:00",
+    "recipient": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "http://localhost:60771"
+  },
+  {
+    "type": "typing",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "8a6ff540-f94a-11e9-addf-b527467c4a00",
+    "id": "8bed9490-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:16:58+08:00",
+    "timestamp": "2019-10-28T06:16:58.201Z",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T06:16:58.204Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "8a6ff540-f94a-11e9-addf-b527467c4a00",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What news is trending now?",
+        "alteredText": null,
+        "intents": {
+          "Stop": {
+            "score": 0.07031136
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "2bf4492a-b7e9-4e77-9ead-bfa84fc73819"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What news is trending now?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "Stop",
+          "score": 0.07031136
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "8bee09c0-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:16:58+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2019-10-28T06:16:58.566Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "replyToId": "8a6ff540-f94a-11e9-addf-b527467c4a00",
+    "label": "Luis Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "What news is trending now?",
+        "alteredText": null,
+        "intents": {
+          "TrendingArticles": {
+            "score": 0.983469844
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "4dd12dee-1fdd-4e98-89c7-edd140e96003"
+      },
+      "luisOptions": {
+        "BingSpellCheckSubscriptionKey": null,
+        "IncludeAllIntents": null,
+        "IncludeInstanceData": null,
+        "Log": null,
+        "SpellCheck": null,
+        "Staging": null,
+        "Timeout": 100000,
+        "TimezoneOffset": null,
+        "LogPersonalInformation": true
+      },
+      "luisResult": {
+        "query": "What news is trending now?",
+        "alteredQuery": null,
+        "topScoringIntent": {
+          "intent": "TrendingArticles",
+          "score": 0.983469844
+        },
+        "intents": null,
+        "entities": [],
+        "compositeEntities": null,
+        "sentimentAnalysis": null,
+        "connectedServiceResult": null
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "8c254660-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:16:58+08:00",
+    "locale": "en-us"
+  },
+  {
+    "type": "message",
+    "timestamp": "2019-10-28T06:16:59.988Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "attachmentLayout": "carousel",
+    "locale": "en-us",
+    "text": "Here's what's trending:",
+    "speak": "I found a few news stories, here's the title of the first: Death toll tops 60",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Death toll tops 60",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_5F2VD1LUSGtRIF5TRp5DvQ&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Baghdad+protests+death+toll&form=TNSA01&filters=tnTID%3a%22A64E37E7-77C6-445f-8378-BE799AD50FA1%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%220%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Apple urges update",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_MeGa_WNfzP-QSR879uF2GA&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Apple+iPhone+5+update&form=TNSA01&filters=tnTID%3a%229A78872B-DDEB-42ca-BCB7-4B33CD35950E%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%221%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Quake reveals fossil",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_8cptLWC0WZEXaXPYxs_ljQ&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Earthquake+fossil&form=TNSA01&filters=tnTID%3a%22FE47F004-F073-4d95-9676-95CB58132886%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%222%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "White House responds",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_g-HTO2TU1wxX5X5-eITzeg&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=White+House+John+Kelly&form=TNSA01&filters=tnTID%3a%227887A86B-E43C-44d9-ADC2-195CA49A4893%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%223%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Cut amid surgery feud",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_6e4mDUaov1HKrxDtEkDGQg&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Kelechi+Osemele+cut&form=TNSA01&filters=tnTID%3a%22F121DED7-70DB-45d3-8091-5D47D9986458%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%224%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Threat cancels show",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_zIwCYkBzIinUpC7uxE2APQ&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Cody+Jinks+cancels&form=TNSA01&filters=tnTID%3a%2236602BBE-A958-4727-A2C0-C3EB2E749CC3%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%225%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Ex-spy flees Italy",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_Smxh5fGBHYeJFdIb0GpvpA&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Former+CIA+spy+flees+Italy&form=TNSA01&filters=tnTID%3a%22866A1CA0-C111-45eb-99E0-C0828A8A91FB%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%226%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Weight surgery advised",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_AzQF2ccAyrAhrZVlL9Yx5g&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Obese+kids+surgery&form=TNSA01&filters=tnTID%3a%2227AE0D11-83F6-46c9-9B0C-93FFD3D2A3BB%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%227%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Booed at World Series",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_2oiE79s0NfjHtE8CN9SF6g&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Trump+booed+World+Series&form=TNSA01&filters=tnTID%3a%22926F9C32-77A2-4343-979C-30D90C00F777%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%228%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      },
+      {
+        "contentType": "application/vnd.microsoft.card.hero",
+        "content": {
+          "title": "Sells for millions",
+          "images": [
+            {
+              "url": "https://www.bing.com/th?id=OPN.RTNews_SuhD34OfXmp7ey66PieDyA&c=14&rs=2&qlt=80&pcl=f9f9f9&pid=News"
+            }
+          ],
+          "buttons": [
+            {
+              "type": "openUrl",
+              "title": "Read more",
+              "value": "https://www.bing.com/search?q=Cimabue+masterpiece+auction&form=TNSA01&filters=tnTID%3a%2297B04EC1-A13A-4972-8D30-F64EB87966E1%22+tnVersion%3a%223237073%22+Segment%3a%22popularnow.carousel%22+tnCol%3a%229%22+tnScenario%3a%22TrendingTopicsAPI%22+tnOrder%3a%22265cec70-b186-4135-a375-3e501c6913c3%22"
+            }
+          ]
+        }
+      }
+    ],
+    "entities": [],
+    "replyToId": "8a6ff540-f94a-11e9-addf-b527467c4a00",
+    "id": "8cfe4140-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:16:59+08:00"
+  },
+  {
+    "type": "handoff",
+    "timestamp": "2019-10-28T06:17:00.114Z",
+    "serviceUrl": "http://localhost:60771",
+    "channelId": "emulator",
+    "from": {
+      "id": "f1c205c0-f711-11e9-bffb-7d1a80313e5e",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "3a743061-f94a-11e9-bffb-7d1a80313e5e|livechat"
+    },
+    "recipient": {
+      "id": "dcd7bcb8-dc8a-4c33-8a2b-67b34db480a5",
+      "role": "user"
+    },
+    "locale": "en-us",
+    "text": "",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "8a6ff540-f94a-11e9-addf-b527467c4a00",
+    "id": "8d117b20-f94a-11e9-addf-b527467c4a00",
+    "localTimestamp": "2019-10-28T14:17:00+08:00"
+  }
+]

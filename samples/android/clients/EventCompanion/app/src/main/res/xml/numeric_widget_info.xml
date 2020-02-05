@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:updatePeriodMillis="86400000"
+                    android:previewImage="@drawable/widget_preview_numberic"
+                    android:initialLayout="@layout/numeric_widget"
+                    android:configure="com.microsoft.bot.builder.solutions.eventcompanion.NumericWidgetConfigureActivity"
+                    android:resizeMode="horizontal|vertical"
+                    android:widgetCategory="home_screen"
+                    android:initialKeyguardLayout="@layout/numeric_widget">
+</appwidget-provider>

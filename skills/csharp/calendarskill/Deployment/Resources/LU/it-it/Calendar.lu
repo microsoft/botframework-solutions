@@ -1,0 +1,2001 @@
+> # Intent definitions
+
+## AcceptEventEntry
+- accetta la {Subject=cena}
+- accetta la mia riunione alle {FromTime=19} di {FromDate=oggi}
+- accetta la mia riunione {FromDate=domani} alle {FromTime=10}
+- accetta la riunione che si terrà {FromDate=domani} nella {MeetingRoom=sala 301}
+- accetta l'appuntamento dalle {FromTime=15} alle {ToTime=17}.
+- accetta l'appuntamento il {FromDate=18 gennaio} nella {MeetingRoom=sala riunioni del palazzo}.
+- accetta l'appuntamento inviato da lucas
+- accetta l'evento
+- accetta l'evento di {FromDate=oggi} alle {FromTime=15}.
+- accetta l'evento il {FromDate=18 feb} a {Location=pechino}.
+- accetta l'evento inviato da yolanda wong.
+- accetta l'evento per {FromTime=stasera}.
+- accetta questo appuntamento con jane e mary il {FromDate=prossimo martedì}.
+- accetta questo evento.
+- accetta questo {Subject=pranzo di lavoro}.
+- accetta riunione con mary e tom {FromDate=mercoledì}
+- accetta riunione con tom chen.
+- accetta riunione di {FromDate=oggi}
+- accetta riunione organizzata da jack lauren.
+- accetta tutte le riunioni per la {Subject=festa di natale} la {FromDate=prossima settimana}.
+- accetta un appuntamento
+- partecipa al {Subject=pranzo di lavoro} alle {FromTime=10:30}.
+- partecipa alla {Subject=festa di celebrazione af19} inviata da daisy chan.
+- partecipa alla riunione tenuta alle {FromTime=15} {FromDate=martedì prossimo} presso il {MeetingRoom=centro conferenze}.
+- parteciperò a questo prossimo evento a {Location=redmond}.
+- parteciperò alla riunione alle {FromTime=14} {FromDate=domani} nella {MeetingRoom=sala 304}
+- parteciperò alla riunione di {FromTime=questo pomeriggio}.
+
+
+## AddCalendarEntryAttribute
+- Aggiungere  {ContactName=Carlos} alla riunione
+- Aggiungere  {ContactName=Chelsea} 
+- Aggiungere  {ContactName=Enrique} 
+- Aggiungere  {ContactName=Eric} alla riunione
+- Aggiungere  {ContactName=Appendere} 
+- Aggiungere  {ContactName=Jackie} 
+- Aggiungere  {ContactName=John} 
+- Aggiungere  {ContactName=kerry clarkson} 
+- Aggiungere  {ContactName=Lisa} 
+- Aggiungere  {ContactName=Mohamed} alla riunione
+- Aggiungere  {ContactName=Omar} 
+- Aggiungere  {ContactName=Tammy} 
+- Chiedere  {ContactName=John}  di venire a  {MeetingRoom=azienda} .
+- Chiedere  {ContactName=Roberto} per partecipare alla riunione di stasera alle 6
+-  {ContactName=Bob} si può partecipare alla riunione di stasera alle 6
+- si può chiedere  {ContactName=Jane} per partecipare alla riunione?
+- puoi invitare  {ContactName=Paula} per una riunione presso l'edificio fabbro questo mercoledì alle 10 del mattino
+- vorrei invitare  {ContactName=mr. improvvisamente} per partecipare alla riunione di oggi.
+- Invitare  {ContactName=Andy} 
+- Invitare  {ContactName=Cheryl} alla riunione di questo pomeriggio
+- Invitare  {ContactName=Frank} alla riunione del venerdì alle 2:30.
+- Invitare  {ContactName=jeff Matthews} 
+- Invitare  {ContactName=John Malkovich} alla riunione.
+- Invitare  {ContactName=Kathy} alla riunione di questo pomeriggio
+- Invitare  {ContactName=Paul} alla riunione
+- Invitare  {ContactName=Sophia} alla riunione
+-  {ContactName=Patrick} , desidero invitarvi alla prossima riunione.
+- si prega di aggiungere  {ContactName=Eileen} all'invito alla riunione.
+- per favore posso aggiungere  {ContactName=johnathon kelly} alla riunione
+- per favore posso invitare  {ContactName=khaleesi} alla riunione
+- si prega di invitare  {ContactName=kathy rood} alla riunione di oggi.
+- inviare un invito a  {ContactName=Jane} 
+- inviare un invito a  {ContactName=jerry seinfeld} 
+- si prega di aggiungere una stanza al mio  {ToTime=Ore 19.00} Riunione
+- Fügen Sie eine  {SlotAttribute=Zimmer}  zu meinem  {ToTime=15.00 Uhr} Sitzung
+- Stadtzentrum hinzufügen  {MeetingRoom=2122}  An  {ToTime=10am} Sitzung
+- können Sie eine  {SlotAttribute=Zimmer}  An  {ToDate=Morgen} s  {Subject=Dev-Meeting} 
+- bitte fügen Sie eine  {SlotAttribute=Tagungsraum}  zum  {Subject=tägliches Scrum-Meeting} 
+
+
+## ChangeCalendarEntry
+- aggiorna appuntamento
+- aggiorna {Subject=appuntamento pranzo}
+- aggiorna calendario
+- aggiorna {Subject=festa}
+- aggiorna il mio appuntamento
+- aggiorna il mio {Subject=appuntamento campeggio}
+- aggiorna il mio {Subject=calendario}
+- aggiorna il mio calendario dalle {FromTime={ToTime=11}} alle {ToTime=12:30} {ToDate=oggi}
+- aggiorna il mio calendario dalle {FromTime=14} alle {ToTime=16} {ToDate=oggi}
+- aggiorna il mio calendario dalle {FromTime=18} alle {ToTime=19}
+- aggiorna il mio {OrderReference=prossimo} appuntamento
+- aggiorna la mia riunione di {FromTime=domani} delle {FromTime=18} alle {ToTime=19}
+- aggiorna riunione dalle {FromTime=8}-{FromTime=12} a {ToTime=7}-{ToTime=11} {ToDate=oggi}
+- anticipa il mio appuntamento delle {FromTime=16} di {MoveEarlierTimeSpan=2 ore}
+- cambia appuntamento
+- cambia {Subject=appuntamento} che finisce alle {FromTime=16} per farlo finire invece alle {ToTime=17}
+- cambia {Subject=appuntamento dal dentista}
+- cambia {Subject=appuntamento dal dentista} a {MoveLaterTimeSpan=un'ora} più tardi
+- cambia appuntamento delle {FromTime=17} a {MoveEarlierTimeSpan=1 ora} prima
+- cambia calendario
+- cambia {Subject=grande evento} a {ToDate=domani}
+- cambia il mio appuntamento
+- cambia il mio appuntamento delle {FromTime=19:30} alle {ToTime=20}
+- cambia il mio appuntamento delle {FromTime=8} fino alle {FromTime=9} a {ToTime=11} fino alle {ToTime=12}
+- cambia il mio appuntamento delle {FromTime=9:30} fino alle {FromTime=10:30} a {ToTime=9:30} fino alle {ToTime=17}
+- cambia il mio appuntamento delle {FromTime=dieci}
+- cambia il mio evento delle {FromTime=15} alle {ToTime=16}
+- cambia il mio evento delle {FromTime=18} alle {ToTime=19}
+- cambia il mio evento delle {FromTime=19} alle {ToTime=18}
+- cambia il mio programma
+- cambia il {SlotAttribute=titolo} del mio appuntamento
+- cambia il {SlotAttribute=titolo} del mio appuntamento delle {FromTime=11} ad {Subject=allenamento di calcio}
+- cambia la {SlotAttribute=data di fine} del {Subject=mio viaggio} dal {FromDate=3} al {ToDate=4}
+- cambia la fine della mia {Subject=vacanza} da {FromDate=venerdì} a {ToDate=lunedì}
+- cambia la mia {OrderReference=prossima} riunione
+- cambia la mia riunione {FromTime=serale} per {ToDate=domani}
+- cambia la mia {Subject=visita dal dentista}
+- cambia la mia {Subject=visita dal dentista} dalle {FromTime=15:30} alle {ToTime=16}
+- cambia la {Subject=recita} per farla iniziare {MoveEarlierTimeSpan=mezz'ora} prima
+- cambia l'{Subject=allenamento maratona} dalle {FromTime=8} alle {ToTime=13}
+- cambia l'appuntamento di {FromDate=domani} delle {FromTime=10} a {ToDate=mercoledì} alle {ToTime=9}
+- cambia l'{Subject=appuntamento per il pranzo} delle {FromTime=16}
+- cambia l'{Subject=appuntamento per pranzo} alle {ToTime=2}
+- cambia l'{Subject=ora del pranzo} dalle {FromTime=11} - {FromTime=12} alle {ToTime=12} - {ToTime=13:30}
+- cambia l'{SlotAttribute=orario}
+- cambia l'{SlotAttribute=orario} alle {ToTime=11:30}
+- cambia l'{SlotAttribute=orario di fine} riunione dalle {FromTime=ore 15} alle {ToTime=15:30}
+- cambia l'{SlotAttribute=ubicazione}
+- cambia l'{SlotAttribute=ubicazione} dell'appuntamento delle {ToTime=23} a {Location=cal anderson park}
+- cambia {SlotAttribute=orario}
+- cambia {Subject=programma di sviluppo per il pranzo} {FromDate=domani}
+- cambia {Subject=rasare} {ToDate=domani} alle {ToTime=8:30}
+- cambia riunione dalle {FromTime=14}-{FromTime=15} alle {ToTime=16}-{ToTime=17} {ToDate=oggi}
+- cambia riunione delle {FromTime=10} per farla iniziare {MoveLaterTimeSpan=20 minuti} dopo
+- cambia riunione delle {FromTime=12} per farla iniziare {MoveEarlierTimeSpan={MoveLaterTimeSpan=10 minuti}} prima
+- cambia {Subject=riunione di gruppo} del {FromDate=giovedì}
+- cambia {Subject=riunione di marketing} da {FromDate=ogni martedì} ad {ToDate=ogni mercoledì}
+- cambia riunione di {FromDate=oggi} dalle {FromTime=18} a {ToDate=domani} alle {ToTime=21}
+- cambia riunione di {FromDate=oggi} dalle {FromTime=18} a {ToDate=domani} alle {ToTime=9}
+- cambia {SlotAttribute=ubicazione} del mio {Subject=appuntamento canoro}
+- cambia un appuntamento
+- cambialo alle {ToTime=17}
+- fai continuare la riunione che finisce alle {FromTime=10} fino a {ToTime=11}
+- fai continuare l'appuntamento che finisce alle {FromTime=14} fino alle {ToTime=16}
+- fai iniziare la {OrderReference=prossima} riunione {MoveLaterTimeSpan=1 ora} dopo
+- fai iniziare la {OrderReference=prossima} riunione alle 10
+- fai iniziare la riunione {MoveLaterTimeSpan=1 ora} dopo
+- fai iniziare la riunione {MoveEarlierTimeSpan=40 minuti} prima
+- fai iniziare la riunione delle {FromTime=17} alle {ToTime=15}
+- modifica calendario
+- modifica la riunione
+- modifica la {PositionReference=seconda} riunione
+- modifica l'{SlotAttribute=ubicazione} di questo appuntamento
+- per favore spostalo alle {ToTime=15}
+- posticipa la mia riunione delle {FromTime=16} di {FromDate=oggi} fino alle {ToTime=17}
+- posticipa la mia riunione delle {FromTime=sedici} di {ToDate=oggi} alle {ToTime=diciasette}
+- prolunga il mio {Subject=viaggio} del {FromDate=16 luglio} di {MoveLaterTimeSpan=5 giorni}
+- prolunga riunione dalle {FromTime=9} a {ToTime=mezzanotte}
+- puoi cambiarlo alle {ToTime=17}?
+- puoi spostare questo appuntamento alle {ToTime=17}?
+- questa riunione deve essere spostata a {ToDate=domani}
+- riprogramma la mia {Subject=visita dal dentista} delle {FromTime=15:30} alle {ToTime=16}
+- riprogramma la mia {Subject=visita dal dentistaa} delle {FromTime=15:30} {FromDate=oggi} per le {ToTime=16} di {ToDate=domani}
+- riprogramma la riunione
+- riprogramma l'appuntamento con stephanie alla {ToDate=prossima settimana}
+- ritarda la {OrderReference=prossima} riunione di {MoveLaterTimeSpan=30 minuti}
+- ritarda l'evento di riunione di {MoveLaterTimeSpan=1 ora}
+- sposta appuntamento con rebecca alla {ToDate=prossima settimana}
+- sposta {Subject=appuntamento scarpe} a {ToDate=martedì} all'{ToTime=una}
+- sposta il mio appuntamento delle {FromTime=13} di {MoveEarlierTimeSpan=30 minuti}
+- sposta la mia {Subject=prossima riunione}
+- sposta la mia {OrderReference=prossima} riunione di {MoveEarlierTimeSpan=10 minuti}
+- sposta la mia {OrderReference=prossima} riunione di {MoveEarlierTimeSpan=30 minuti}
+- sposta la mia {OrderReference=prossima} riunione di {MoveLaterTimeSpan=trenta minuti}
+- sposta la mia riunione delle {FromTime=12} alle {ToTime=14}
+- sposta la mia riunione delle {FromTime=16} alle {ToTime=17} {ToDate=oggi}
+- sposta la mia riunione delle {FromTime=19} alle {ToTime=18}
+- sposta la mia riunione delle {FromTime=21} alle {ToTime=20}
+- sposta la mia riunione delle {FromTime=22} alle {ToTime=21}
+- sposta la mia riunione delle {FromTime=dodici} di {MoveEarlierTimeSpan=due ore}
+- sposta la mia riunione delle {FromTime=dodici} di {MoveEarlierTimeSpan=trenta minuti}
+- sposta la mia riunione di {MoveEarlierTimeSpan=mezz'ora}
+- sposta la mia riunione {MoveLaterTimeSpan=un'ora} prima
+- sposta la mia {Subject=visita medica} dalle {ToTime=9} alle {ToTime=10}
+- sposta la mia {Subject=visita medica} delle {FromTime=10:10} alle {ToTime=10}
+- sposta la riunione delle {FromTime=15} alle {ToTime=16}
+- sposta riunione delle {FromTime=21}-{FromTime=22} alle {ToTime=20}-{ToTime=21} {ToDate=oggi}
+- sposta {Subject=riunione organizzazione festa} da {FromDate={FromTime=sabato}} a {ToDate=venerdì} all'{ToTime=13}
+- ändern Sie die  {SlotAttribute=Tagungsraum}  An  {MeetingRoom=london confroom excalibur} 
+- finden Sie eine neue  {SlotAttribute=Zimmer}  für meine  {FromTime=15.00 Uhr} Sitzung
+- ich möchte zu einem anderen wechseln  {SlotAttribute=Tagungsraum} 
+- ich möchte die  {SlotAttribute=Tagungsraum} 
+- bitte ändern Sie die  {SlotAttribute=Tagungsraum}  An  {MeetingRoom=2212} 
+
+
+## CheckAvailability
+- carolyn è disponibile {FromDate=martedì} {FromTime=pomeriggio}?
+- cerca il calendario di jesse per disponibilità
+- debra è disponibile il {FromDate=sabato}?
+- è libero il {FromDate=sabato}?
+- gerald è occupato {FromDate=questo fine settimana}?
+- ho tempo libero {FromDate=questo fine settimana}?
+- madison è occupata?
+- mi puoi dire se mio marito è libero {FromDate=domenica}?
+- nicholas è disponibile {FromDate=venerdì}?
+- puoi controllare il calendario di mio padre per vedere il tempo libero {FromDate=questa settimana}?
+- qual è la disponibilità di anna {FromDate=martedì prossimo}?
+- quando è disponibile dylan?
+- quando è disponibile samuel {FromDate=domani}?
+- quando è libero aaron {FromDate=domani}?
+- quando è libero bryan?
+- quando sarà libero jordan?
+- quando sono libero {FromDate=oggi}?
+- quando sono libero?
+- raymond è libero {FromDate=lunedì} {FromTime=sera}?
+- rebecca è occupata {FromDate=giovedì} alle {FromTime=16}?
+- russell è libero {FromDate=venerdì} alle {FromTime=16}?
+- sono disponibile alle {FromTime=10} di {FromDate=lunedì}?
+- sono disponibile {FromDate=domani} alle {FromTime=17:30}?
+- sono disponibile {FromDate=lunedì} alle {FromTime=21}?
+- sono disponibile?
+- sono libero alle {FromTime=19}?
+- sono libero dalle {FromTime=15} alle {ToTime=22}?
+- sono libero di {Subject=guidare} con kim {FromDate=giovedì} alle {FromTime=15}?
+- sono libero {FromDate=domani} alle {FromTime=15}?
+- sono libero il {FromDate=12 luglio}?
+- sono libero {FromDate=lunedì} alle {FromTime=21}?
+- sono libero {FromDate=martedì} alle {FromTime=7}?
+- sono libero {FromDate=oggi} alle {FromTime=17}?
+- sono libero {FromDate=oggi}?
+- sono libero per fare {Subject=escursionismo} {FromDate=sabato} alle {FromTime=8}?
+- sono libero per {Subject=qualcosa da bere} {FromDate=lunedì} alle {FromTime=17}?
+- sono libero {FromDate=sabato}?
+- sono libero {FromTime=stasera}?
+- sono libero?
+- sono occupato il {FromDate=6 febbraio}?
+- sono occupato {FromDate=questo fine settimana}?
+- theresa è libera il {FromDate=9 ottobre}?
+- tyler sarà libero {FromDate=venerdì}?
+- virginia è libera {FromDate=lunedì}
+- visualizza la disponibilità di olivia
+- vorrei sapere se mia madre è disponibile {FromDate=oggi}
+- posso prenotare una stanza nell'edificio  {Building=5} per una riunione?
+- posso prenotare una stanza su  {FloorNumber=piano 7}  Pollici  {Building=edificio 8} per una riunione di domani?
+- posso riservare  {MeetingRoom=Alderaan}  va bene  {FromTime=ora?} 
+- posso riservare  {MeetingRoom=Excalibur}  Per  {FromTime=Ore 14.00} o non è disponibile?
+- posso prenotare spazio  {MeetingRoom=Gandhi} per tutta la settimana?
+- posso riservare il  {MeetingRoom=azienda}  stanza su  {FloorNumber=piano 6}  della  {Building=Bob} edificio per una riunione?
+- posso prenotare la sala riunioni  {MeetingRoom=bespin} ?
+- posso prenotare la sala riunioni che è gratuito sul  {FloorNumber=21o piano} ?
+- posso riservare il  {MeetingRoom=Williams} spazio per una riunione?
+- si può dire se la sala riunioni  {MeetingRoom=bespin} è ora disponibile per me?
+- puoi dirmi se la sala riunioni  {MeetingRoom=non 20}  è disponibile all':  {FromTime=Mezzogiorno} ?
+- ciao, sono in grado di riservare  {MeetingRoom=Hoth}   {FromTime=Subito} ?
+- mi chiedevo se si dispone di una sala riunioni disponibile nel vostro  {Building=Atlantic}  costruzione per il  {FromDate=4 dicembre} ?
+- vorrei riservare un  {FloorNumber=piano terra}   {MeetingRoom=sala conferenze}  Nel  {Building=edificio delta} , ce n'è uno disponibile?
+- È  {MeetingRoom=Coruscant}  disponibile all'ora di  {FromTime=Ore 14.00} 
+- È  {MeetingRoom=azienda} Disponibile?
+- È  {MeetingRoom=Excalibur}  Disponibile  {FromTime=ora} ?
+- È  {MeetingRoom=Hoth} attualmente disponibile per l'uso?
+- è a tutti possibile prenotare una stanza nel  {Building=Redmond} Edificio?
+- sta incontrando  {MeetingRoom=stanza 201} Disponibile?
+- è sala riunioni  {MeetingRoom=Kamino} disponibile per tutto il pomeriggio?
+- È  {MeetingRoom=stanza 224} disponibili oggi?
+- È  {MeetingRoom=Tatooine}  disponibili nel  {FromTime=Sera} ?
+- è il  {MeetingRoom=Alderaan}  stanza sul  {FloorNumber=piano della hall}  al  {Building=Centro} Disponibile?
+- è il  {MeetingRoom=bespin}  sala riunioni disponibile all'ora  {FromTime=Ore 14:00} ?
+- è il  {MeetingRoom=Carpentiere} sala disponibile per una riunione
+- è il  {MeetingRoom=Gandhi} camera libera ora?
+- è la sala riunioni  {MeetingRoom=Endor} Disponibile
+- è la sala riunioni sul  {FloorNumber=Quarto piano} Disponibile?
+- è il  {MeetingRoom=stanza 1192}  disponibile per  {FromTime=14:00 domani} ?
+- è la stanza  {MeetingRoom=2211}  disponibile per una riunione a  {FromTime=6} 
+- c'è una sala riunioni sul  {FloorNumber=5o piano} attualmente disponibile per la prenotazione?
+- c'è una stanza disponibile al  {FloorNumber=primo piano}  Per  {FromTime=Stasera} ?
+- c'è una stanza disponibile su  {FloorNumber=piano 6}   {FromTime=ora} ?
+- c'è una stanza sul  {FloorNumber=3o piano} che posso riservare?
+- per favore posso prenotare una sala riunioni in  {Building=Centro} ?
+- per favore posso prenotare  {MeetingRoom=Kamino} ?
+- per favore posso prenotare la sala riunioni su  {FloorNumber=piano 6}  A  {Building=casa di calce} ?
+- si prega di controllare e vedere se sala riunioni  {MeetingRoom=2}  è disponibile all':  {FromTime=12} Domani.
+- vedere se sala riunioni  {MeetingRoom=3} disponibile martedì alle 11:30 per la riunione.
+- dimmi se  {MeetingRoom=Kamino}  è aperto a  {FromTime=ore 11:00} .
+- sarà la sala riunioni  {MeetingRoom=2b}  essere disponibile all'elenco  {FromTime=Ore 14.00} 
+- sarà il  {MeetingRoom=Tatooine}  camera disponibile  {FromTime=Domani} ?
+- si prega di verificare la disponibilità della camera sul  {FloorNumber=terzo piano}  A  {FromTime=Ore 15.00} Domani?
+- è conferenza  {MeetingRoom=camera xi} gratuito il 10:00?
+- sta incontrando  {MeetingRoom=stanza 345} aperto il 15:00?
+- sta incontrando  {MeetingRoom=torta in camera} disponibile ora?
+- È  {MeetingRoom=stanza 235} gratuito il 15:00?
+- È  {MeetingRoom=stanza 246} aperto in questo momento?
+- È  {MeetingRoom=stanza 63}  Disponibile  {FromDate=Domani}   {FromTime=Ore 16.00} 
+- È  {MeetingRoom=stanza alfa} aperto il 15:00?
+
+
+## ConnectToMeeting
+- aggiungimi alla teleconferenza
+- chiama conferenza
+- chiama conferenza con harris
+- chiama il numbero di conferenza del {Subject=briefing mattutino}
+- chiama la {Subject=riunione di marketing}
+- chiama riunione
+- chiama {Subject=riunione di marketing}
+- chiama {Subject=riunione di marketing settimanale}
+- chiama teleconferenza
+- chiama teleconferenza genpact
+- chiama una teleconferenza
+- collegami alla {Subject=riunione di marketing}
+- collegami alla teleconferenza
+- collegami alla teleconferenza con debra
+- collegami alla teleconferenza delle {FromTime=10} con bryan
+- collegami alla teleconferenza di {Subject=riunione sul budget}
+- collegami con la mia riunione delle {FromTime=14}
+- collegami con la teleconferenza
+- collegami per partecipare alla mia {OrderReference=prossima} riunione
+- collegami per partecipare alla {OrderReference=prossima} riunione
+- connettimi alla {Subject=riunione di marketing settimanale}
+- connettimi alla teleconferenza {FromTime=adesso}
+- connettiti alla teleconferenza
+- ho bisogno di partecipare alla teleconferenza
+- inizia la mia conferenza
+- inizia la mia riunione
+- inizia la riunione
+- inizia riunione
+- mettimi sulla teleconferenza
+- partecipa alla conferenza
+- partecipa alla conferenza {FromTime=attuale}
+- partecipa alla mia {OrderReference=prossima} riunione
+- partecipa alla mia riunione
+- partecipa alla {OrderReference=prossima} riunione
+- partecipa alla {OrderReference=prossima} {Subject=riunione di collegamento}
+- partecipa alla {OrderReference=prossima} {Subject=riunione di lync}
+- partecipa alla {OrderReference=prossima} riunione sul collegamento
+- partecipa alla riunione
+- partecipa alla riunione di lync
+- partecipa alla riunione {FromTime=ora}
+- partecipa alla teleconferenza
+- partecipa alla teleconferenza {FromTime=attuale}
+- partecipa alla teleconferenza di {Subject=bilancio}
+- partecipa alla teleconferenza di {Subject=bilancio} {FromTime=attuale}
+- partecipa alla teleconferenza di {Subject=riunione sul budget}
+- partecipare alla {OrderReference=prossima} riunione di lync
+- {MeetingRoom=sala conferenze nokia} partecipare
+
+
+## ContactMeetingAttendees
+- avvisa che annulliamo la riunione di {ToDate=venerdì} alle {ToTime=14}
+- avvisa diana che {Message=sarò in ritardo per la nostra riunione}
+- avvisa gli altri che {Message=sarò in ritardo per la riunione}
+- avvisa i partecipanti che la {Message=riunione è alle 8:30}
+- avvisa i partecipanti che {Message=sono in ritardo}
+- avvisa i partecipanti della {Subject=cena di lavoro} che {Message=farò ritardo}
+- avvisa i partecipanti della {Subject=riunione controllo di qualità} che {Message=la riunione inizierà 30 minuti dopo}
+- avvisa i partecipanti della {Subject=riunione controllo di qualità} che {Message=sono 15 minuti in ritardo}
+- avvisa i partecipanti della riunione di ufficio che {Message=sarò un po' in ritardo}
+- avvisa kimberly che {Message=sarò in ritardo per la nostra riunione delle 15}
+- avvisa la {OrderReference=prossima} riunione che {Message=sarò in ritardo}
+- avvisa le persone della riunione di {ToDate=martedì} che {Message=inizierà 15-30 minuti più tardi}
+- avvisa noah che {Message=la nostra riunione è rimandata di 30 minuti}
+- avvisa tutti che {Message=la riunione è ora nella sala 204}
+- avvisa tutti i partecipanti
+- avvisa tutti i partecipanti della modifica
+- fornisci {Message=il cambio di orario della riunione} a tutti i partecipanti
+- {Message=in ritardo} per la mia riunione per favore avvisa jennifer
+- {Message=in ritardo} per la {Subject=riunione amministrativa} avvisa catherine, daniel e tutti gli altri partecipanti
+- {Message=in ritardo per la riunione}: avvisa gli altri
+- invia promemoria di riunione alle {ToTime=9} a tutti i partecipanti {Message=15 minuti dopo}
+- invia un avviso a douglas che {Message=il primo parteciperà alla riunione}
+- invia un avviso a paul che {Message=xu wen parteciperà alla riunione}
+- invia un messaggio a johnny e jessie che {Message=la nostra riunione di oggi sarà 30 minuti più tardi}
+- invia un messaggio ai partecipanti della riunione che {Message=la riunione inizierà ora alle 8:30}
+- invia un messaggio alle persone che partecipano alla riunione che {Message=l'ubicazione è cambiata}
+- invia un messaggio per {Message=annullare la mia riunione delle 15}
+- {Message=la mia riunione delle 9 non potrà iniziare prima delle 9:15} puoi avvisare tutti?
+- la riunione inizierà presto ricordalo a tutti quelli coinvolti
+- manda un messaggio a nancy e dille di {Message=rinviare la riunione perché sarò in ritardo di 30 minuti}
+- manda un messaggio a tutti e avvisa che {Message=sarò in ritardo per la riunione}
+- manda un messaggio ai colleghi che la {Message=riunione deve essere spostata alle 8:30}
+- nuova ubicazione per la riunione di {ToTime=questo pomeriggio} avvisa gli altri partecipanti che la {Message=riunione ora è nella sala 100}
+- ok scopri se è possibile inviando una notifica di modifica della riunione a tutti i partecipanti
+- per favore avvisa a tutti nel gruppo di lavoro che la {Message=riunione inizia alle 9:15}
+- per favore avvisa che {Message=sono in ritardo} per la riunione delle {ToDate=15}
+- per favore avvisa coloro che partecipano alla riunione che {Message=sono in ritardo di alcuni minuti}
+- per favore avvisa george che {Message=sarò in ritardo per la riunione}
+- per favore avvisa i partecipanti che la {Message=riunione è alle 8:30}
+- per favore avvisa i partecipanti della riunione delle {ToTime=15}
+- per favore avvisa loro che {Message=sono in ritardo}
+- per favore avvisa tutti che {Message=sono in ritardo per la riunione delle 15}
+- per favore informa i colleghi che {Message=ci incontreremo alle 8:30 perché sono in ritardo}
+- per favore informa i colleghi che sono {Message=in ritardo e li incontrerò mezz'ora dopo}
+- per favore informa i partecipanti della riunione che {Message=sono in ritardo}
+- per favore informa il gruppo di contatto di lavoro che {Message=sono in ritardo per la riunione}
+- per favore informa joshua che {Message=sarò in ritardo per la nostra riunione di oggi}
+- per favore informa thomas che {Message=sarò in ritardo per la riunione}
+- per favore ricorda al partecipante che {Message=sono in ritardo}
+- ricorda a tutti i partecipanti del {Subject=pranzo} di {ToDate=domani} che {Message=abbiamo cambiato il luogo}
+- {Message=sala 100 è l'ubicazione} per la riunione di {ToTime=questo pomeriggio} per favore avvisa gli altri
+- {Message=sala riunioni cambiata a nuova ubicazione} invia ai partecipanti della riunione
+- sfiorato il tempo nella sala conferenze - notifica tutti i partecipanti che la {Message=riunione verrà spostata nella sala successiva} - spiegherò perché in seguito.
+
+
+## CreateCalendarEntry
+- {FromDate=15 marzo} {Subject=cena} al {Location=refettorio} alle {FromTime=18}
+- {Duration=2 ore} di riunione con ladawn padilla alle {FromTime=17} {FromDate=martedì}
+- aggiungi andare a {Subject=fare shopping} con sam meng nel calendario
+- aggiungi {Subject=applied motion} al mio calendario ore {FromTime=9}
+- aggiungi {Subject=appuntamenti dal dentista} al mio calendario alle {FromTime=15:30}
+- aggiungi appuntamento con mickey li per la {Subject=cena} il {FromDate=5 marzo} alle {FromTime=17} a {Location=dennys}
+- aggiungi {Subject=appuntamento dott. kane} al calendario per le {FromTime=15} {FromDate=venerdì}
+- aggiungi {Subject=appuntamento serale} il {FromDate=5} alle {FromTime=19} {FromDate=ogni mese}
+- aggiungi {Subject=ballo} {FromDate=martedì} alle {FromTime=quattro}
+- aggiungi {Subject=caffè} il {FromDate=12 agosto} alle {FromTime=14} con herman per {Duration=un'ora}
+- aggiungi {Subject=cena} al calendario {DestinationCalendar=personale}
+- aggiungi {Subject=cena} con la mamma a {DestinationCalendar=personale}
+- aggiungi {Subject=chicago bulls contro washington wizards} al mio calendario {FromDate=domani} alle {FromTime=19}
+- aggiungi {Subject=chiesa} al calendario {DestinationCalendar=personale} la {FromDate=domenica} alle {FromTime=9}
+- aggiungi {Subject=concerto del coro} al calendario per il {FromDate=1° maggio} alle {FromTime=15}
+- aggiungi {Subject=concerto solista} a {Location=lincombe hall} il {FromDate=7 marzo} alle {FromTime=20}
+- aggiungi {Subject=coreografia} al mio calendario di {DestinationCalendar=famiglia}
+- aggiungi {Subject=corso di formazione} megan al calendario il {FromDate=4 luglio} alle {FromTime=11}
+- aggiungi {Subject=danza classica} al mio calendario {FromDate=mercoledì} dalle {FromTime=17:30} alle {ToTime=18:30}
+- aggiungi {Subject=festa d'ufficio} l'{FromDate=8 marzo} dalle {FromTime=18} alle {ToTime=21}
+- aggiungi {Subject=giorno della foto} a {Location=scuola} sul mio calendario per {FromDate=venerdì 8 novembre} dalle {FromTime=8} alle {ToTime=9:30}
+- aggiungi il {Subject=compleanno di papà} {FromDate=ogni 21 luglio}
+- aggiungi {Subject=incontro di benvenuto} alla {Location=scuola media o w huth} sul mio calendario
+- aggiungi {Subject=lavoro} al calendario alle {FromTime=15} di {FromDate=venerdì}
+- aggiungi {Subject=lavoro} al calendario {FromDate=domenica} {FromTime=10} fino alle {ToTime=17}
+- aggiungi {Subject=lavoro} al calendario {FromDate=giovedì} {FromTime=8:30}
+- aggiungi {Subject=lavoro} al calendario {FromDate=venerdì} dalle {FromTime=8} per {Duration=un'ora}
+- aggiungi {Subject=lavoro} al mio calendario di {FromDate=oggi}
+- aggiungi {Subject=lavoro} al mio calendario {FromDate=lunedì} dalle {FromTime=6} alle {ToTime=11}
+- aggiungi {Subject=malpe beach} al mio calendario alle {FromTime=10} di {FromDate=domenica}
+- aggiungi {Subject=ordinare mobili} al mio calendario {FromDate=oggi} alle ore {FromTime=14}
+- aggiungi {Subject=pagare carta di credito} al calendario il {FromDate=venti maggio}
+- aggiungi {Subject=pagare le tasse di pearl} sul mio calendario {FromDate=domani}
+- aggiungi {Subject=partita di baseball} {FromDate=venerdì} sul calendario
+- aggiungi {Subject=pratica balboa} al mio calendario alle {FromTime=15:30} {FromDate=oggi}
+- aggiungi {Subject=prove del coro} {FromDate=sabato} alle {FromTime=19} al mio calendario {DestinationCalendar=personale}
+- aggiungi riunione con herman al mio calendario
+- aggiungi {Subject=riunione di gruppo} {FromDate=lunedì prossimo} alle {FromTime=11} per {Duration=un'ora}
+- aggiungi {Subject=riunione di gruppo} sul mio calendario alle {FromTime=22} con xiaoming wang
+- aggiungi {Subject=taglio di capelli} al mio calendario {DestinationCalendar=google} {FromDate=domani} alle {FromTime=14:30}
+- aggiungi {Subject=ultimate frisbee} {FromDate=domenica} alle {FromTime=14} per {Duration=2 ore}
+- aggiungi un appuntamento l'{FromDate=8 maggio} a {Location=shanghai}
+- aggiungi {Subject=vacanza} al mio calendario dal {FromDate=4 luglio} al {ToDate=29 luglio}
+- aggiungi {Subject=visita dal dentista} al mio calendario alle {FromTime=15:30} per l'{FromDate=8 maggio}
+- aggiungi {Subject=visita dal dentista} al mio calendario {FromDate=domani} dalle {FromTime=15} alle {ToTime=16:30}
+- aggiungi {Subject=visita dal dentista} {FromDate=martedì giugno} presso la {Location=1° clinica}
+- aggiungi {Subject=visita medica} il {FromDate=13 marzo} alle {FromTime=14} alla clinica {Location=tricare virginia beach}
+- calendario {DestinationCalendar=personale} {FromDate=1/5/2013} {Subject=incontrare mamma per vendita di oggetti usati}
+- crea appuntamento da {FromDate=martedì} a {ToDate=mercoledì}
+- crea appuntamento di {Duration=30 minuti}
+- crea calendario: {FromDate=domani} {FromTime=mattina} dalle {FromTime=9} alle {ToTime=11} nella {MeetingRoom=sala 1103} per {Subject=riunione interna}
+- crea un appuntamento di calendario alle {FromTime=15:30} {FromDate=domani} per {Duration=mezz'ora}
+- crea un evento con eden roth alle {FromTime=16} {FromDate=oggi} per {Duration=30 minuti}
+- crea un riunione per {FromDate=domani} alle {FromTime=18} con lucy chen
+- crea una riunione alle {FromTime=8}
+- crea una riunione con tom34@outlook.com
+- creami un evento di calendario
+- dovresti organizzarlo per {FromTime=dopo pranzo}?
+- fissa appuntamento
+- fissa appuntamento alle {FromTime=venti} {FromDate=domani}
+- fissa {Subject=appuntamento dal parrucchiere} {FromDate=lunedì} alle {FromTime=14}
+- fissa appuntamento per il {Subject=pagamento conto} madden
+- fissa un appuntamento
+- fissa un appuntamento alle {FromTime=10:30 di mattina} il {FromDate=21 gennaio}
+- fissa un appuntamento alle {FromTime=9}
+- fissa un appuntamento all'{FromTime=una} {FromDate=oggi}
+- fissa un appuntamento con la mamma
+- fissa un appuntamento con madden
+- fissa un appuntamento con madden alle {FromTime=22}
+- fissa un appuntamento con madden {FromDate=domani} alle {FromTime=17}
+- fissa un appuntamento con madden {FromDate=oggi} alle {FromTime=14}
+- fissa un appuntamento con madden per {FromDate=mercoledì 24} alle {FromTime=9:30}
+- fissa un appuntamento con mia sorella sul mio calendario {DestinationCalendar=principale}.
+- fissa un appuntamento con pura
+- fissa un appuntamento con pura {FromDate=domani} alle {FromTime=15}
+- fissa un appuntamento con tom
+- fissa un appuntamento dal {FromDate=18 giugno} al {ToDate=20 giugno}
+- fissa un appuntamento {FromDate=giovedì due ottobre} alle {FromTime=8:40} per la {Subject=visita medica di mamma}
+- fissa un appuntamento il {FromDate=31 ottobre}
+- fissa un appuntamento il {FromDate=5 novembre} alle {FromTime=15:30}
+- fissa un appuntamento {FromDate=lunedì} da {FromTime=mezzogiorno} alle {ToTime=16}
+- fissa un appuntamento per {Subject=chiamare meredith} alle {FromTime=12}
+- fissa un appuntamento per {FromDate=domani} a {FromTime=mezzogiorno}
+- fissa un appuntamento per {FromDate=domani} all'{FromTime=una}
+- fissa un appuntamento per {FromDate=giovedì} alle {FromTime=15} per {Subject=taglio} di capelli
+- fissa un appuntamento per {Subject=lavare i miei cani} a {Location=petco} {FromDate=venerdì} alle {FromTime=18}
+- fissa un appuntamento per me
+- fissa un appuntamento per me {FromDate=domani}
+- fissa un appuntamento per me {FromDate=domani} alle {FromTime=3}
+- fissa un appuntamento per me {FromDate=oggi}
+- fissa un appuntamento per mia mamma
+- fissa un appuntamento per {FromDate=sabato} alle {FromTime=13:30} per {Subject=misurare casa}
+- fissa un appuntamento per {FromDate=sabato} alle {FromTime=8} {Subject=cena} con madden
+- fissa un appuntamento per {Subject=vedere cj} {FromDate=giovedì}
+- fissa un appuntamento sul mio calendario
+- fissa una {Subject=visita chiropratica} il {FromDate=7 luglio} alle {FromTime=16}
+- fissa una {Subject=visita dal dentista} {FromDate=domani} {FromTime=pomeriggio} alle 17:30
+- fissa una {Subject=visita dal dentista} per {FromDate=domani} {FromTime=sera alle 19}
+- fissa una {Subject=visita medica} alle {FromTime=15:30}
+- fissa una {Subject=visita medica} con madden il {FromDate=12 marzo} alle {FromTime=16}
+- fissa una {Subject=visita presso lo studio medico} per il {FromDate=12 marzo}
+- fissa una {Subject=visita veterinaria} alle {FromTime=9} {FromDate=sabato}
+- incontro con a.j. lee {FromDate=sabato} alle {FromTime=15}
+- incontro con carol lee a {Location=casa} il {FromDate=10 marzo} alle {FromTime=16}
+- incontro con ming wang per {Subject=pranzo} {FromDate=martedì} a {FromTime=mezzogiorno}
+- inserisci {Subject=appuntamento dal parrucchiere} sul calendario
+- inserisci {Subject=appuntamento di prova} nel mio calendario {FromDate=domani} alle {FromTime=7}
+- inserisci {Subject=appuntamento walk sing}
+- inserisci {Subject=ballo} sul mio calendario dalle {FromTime=6} alle {ToTime=7}
+- inserisci {Subject=ballo} sul mio calendario per {FromDate=lunedì} alle {FromTime=19}
+- inserisci {Subject=capitani} sul mio calendario per {FromDate=sabato} {FromTime=sera}
+- inserisci {Subject=delainey al dottor reddy} il {FromDate=20 ottobre} alle {FromTime=15:30}
+- inserisci {Subject=esame di matematica uno} {FromDate=martedì 13}
+- inserisci {Subject=giornata di shopping} il {FromDate=1° aprile} alle ore {FromTime=10} sul calendario
+- inserisci il {Subject=dentista} sul mio calendario {FromDate=questo giovedì} alle {FromTime=10}
+- inserisci {Subject=insanity} sul mio calendario alle {FromTime=6:30}
+- inserisci {Subject=julie camil} sul mio calendario per {FromDate=domani}
+- inserisci {Subject=lavora jason} sul mio calendario {FromDate=giovedì} dalle {FromTime=9} alle {ToTime=17}
+- inserisci {Subject=lavoro} sul mio calendario {FromDate=domani} dalle {FromTime=8:30} alle {ToTime=17:30}
+- inserisci {Subject=nuoto} nel mio calendario {FromDate=domani}
+- inserisci {Subject=partita di tennis} per {FromDate=venerdì} {FromTime=all'una} nel calendario
+- inserisci un appuntamento sul mio calendario
+- inserisci {Subject=visita dal dentista} sul mio calendario {FromDate=martedì} alle {FromTime=14:45}
+- inserisci {Subject=visita dal dentista} sul mio calendario per {FromDate=domani} alle {FromTime=tredici}
+- inserisci {Subject=visita dal dentista} sul mio calendario {FromDate=sabato 22 marzo} alle {FromTime=dodici}
+- inserisci {Subject=visita medica} sul mio calendario il {FromDate=prossimo giovedì} alle {FromTime=17:40}
+- inserisci {Subject=visita oculistica} {FromDate=sabato} alle {FromTime=11}
+- inserisci {Subject=yoga} sul mio calendario per {FromDate=lunedì} e {FromDate=mercoledì} alle {FromTime=15}
+- metti {Subject=anniversario} sul mio calendario
+- {Subject=nuoto} {FromDate=domani}
+- nuova voce di calendario
+- nuovo appuntamento calendario
+- nuovo appuntamento {FromDate=domani} alle {FromTime=15} a {Location=sunken}
+- nuovo appuntamento {FromDate=mercoledì prossimo}
+- nuovo appuntamento {FromDate=oggi} ore {FromTime=18} {Subject=vedere dead people}
+- nuovo appuntamento per {FromDate=domani}
+- nuovo appuntamento sul calendario
+- nuovo appuntamento sul mio calendario
+- nuovo elemento del calendario
+- nuovo evento di calendario
+- organizza evento sul mio calendario
+- organizza riunione con pura {FromDate=ogni martedì} alle {FromTime=13}
+- organizza riunione con thomson
+- organizza un evento
+- prendi appuntamento alle {FromTime=15} a {FromDate=natale}
+- prendi appuntamento con tom roth.
+- prendi appuntamento per {Subject=giocare a squash} {FromDate=giovedì} alle {FromTime=7:20}
+- prendi appuntamento per le {FromTime=17:30} {FromDate=domani}
+- prendi appuntamento per le {FromTime=7:30}
+- prendi appuntamento per {FromDate=lunedì}.
+- prendi appuntamento per {Subject=visitare il dottor culver} il {FromDate=22 agosto 2013} alle {FromTime=13}
+- prendi appuntamento sul calendario {DestinationCalendar=personale}
+- prendiamo un appuntamento per me
+- prendimi appuntamento
+- prendimi un appuntamento
+- prendimi un {Subject=appuntamento dal dentista} {FromDate=mercoledì} alle {FromTime=due e quaranta cinque}
+- prendimi un appuntamento {FromDate=domani} alle {FromTime=14:30}
+- prendimi un appuntamento {FromDate=giovedì prossimo}
+- prendimi un appuntamento per il {FromDate=prossimo fine settimana}
+- prendimi un appuntamento per le {FromTime=10:40} {FromDate=lunedì prossimo}
+- prendimi un appuntamento sul calendario
+- programma {Subject=anniversario} di matrimonio {FromDate=venerdì} {FromTime=sera}
+- programma appuntamento per {Subject=controllo annuale} {FromDate=venerdì primo marzo} alle {FromTime=10} {Duration=un'ora}
+- programma {Subject=ben baig} {FromDate=sabato} {FromTime=sera}
+- programma {Subject=campeggio} da {FromDate=venerdì} a {ToDate=domenica}
+- programma {Subject=esame di meccanica} alle ore {FromTime=12} {FromDate=venerdì}
+- programma {Subject=fare shopping} con shawntia {FromDate=venerdì} alle {FromTime=17}
+- programma la {Subject=cena} con madden alle {FromTime=18} il {FromDate=4 giugno} a {Location=buffalo wild wings}
+- programma la {Subject=cena} con madden {FromDate=ogni venerdì} alle {FromTime=17}
+- programma la {Subject=cena} l'{FromDate=8} alle {FromTime=18:30}
+- programma la mia vacanza da {FromDate=oggi} ore {FromTime=17} a {ToDate=domani} ore {ToTime=17}
+- programma {Subject=laurea di miranda} dalle {FromTime=11} alle {ToTime=15} il {FromDate=28 maggio}
+- programma {Subject=laurea di wanda} per {FromDate=sabato} alle {FromTime=11}
+- programma {Subject=lavoro} {FromDate=giovedì trentuno} dalle {FromTime=tre} alle {ToTime=sette e mezza}
+- programma {Subject=lavoro} per le {FromTime=7} {FromDate=domani}
+- programma {Subject=lezione di yoga} dalle {FromTime=14} alle {ToTime=15}
+- programma {Subject=pranzo} con madden alle {FromTime=11:30} {FromDate=mercoledì}
+- programma {Subject=pranzo} con madden {FromDate=martedì}
+- programma {Subject=pranzo} con pura a {FromTime=mezzogiorno} {FromDate=mercoledì} maggio di {Duration=20 minuti}
+- programma {Subject=ritiro lavaggio a secco} alle {FromTime=15:30} {FromDate=oggi}
+- programma {Subject=riunione di gruppo} con madden il {FromDate=3 marzo} alle {FromTime=16}
+- programma {Subject=seduta di terapia} alle {FromTime=8}
+- programma {Subject=spettacolo d'arte} sul calendario per {FromTime=mezzogiorno} il {FromDate=6 marzo}
+- programma un {Subject=allenamento} con madden sul mio calendario
+- programma un evento
+- programma un evento di calendario per mia sorella
+- programma un evento per il {FromDate=5 luglio}
+- programma un evento per {Subject=scrum} con madden alle {FromTime=10} di {FromDate=sabato}
+- programma un evento sul calendario
+- programma un {Subject=massaggio} {FromDate=martedì}
+- programma un {Subject=pranzo} con la mamma {FromDate=ogni martedì} a {FromTime=mezzogiorno} per le {FromDate=prossime 5 settimane}
+- programma un {Subject=pranzo d'affari per il mio reparto} a {Location=pf chang} {FromDate=mercoledì} alle {FromTime=11:30}
+- programma un {Subject=pranzo di lavoro} con il mio capo
+- programma una {Subject=cena} per {FromTime=stasera} alle {FromTime=20}
+- programma una {Subject=colazione di lavoro} alle {FromTime=8} di {FromDate=domani}
+- programma una {Subject=corsa} al {Location=lago} con madden
+- programma una {Subject=partita di calcio} per il {FromDate=prossimo venerdì}
+- programma una riunione
+- programma una riunione con andy
+- programma una riunione con ryan dalle {FromTime=15} alle {ToTime=16} il {FromDate=25 ottobre}
+- programma una riunione {FromDate=domani}
+- programma una riunione il {FromDate=3 nov.} dalle {FromTime=15} alle {ToTime=16}
+- programma una riunione per {FromDate=domani} alle {FromTime=17}
+- programma una riunione per il {FromDate=prossimo giovedì}
+- programma una riunione per {FromDate=questo venerdì} alle {FromTime=11}
+- programma una {Subject=visita al mercato} {FromDate=questo sabato} alle {FromTime=10}
+- programma {Subject=università} per {FromDate=domani} alle {FromTime=5}
+- programma {Subject=vacanza} il {FromDate=31 luglio}
+- programma {Subject=vacanza} il {FromDate=trentuno luglio}
+- programma {Subject=visita dal dentista} con madden per il {FromDate=20 maggio} alle {FromTime=15}
+- programmami un evento
+- riunione con ben randie {FromDate=domani} a {FromTime=mezzogiorno}
+- riunione con ellen fung {FromDate=lunedì} alle {FromTime=9} del mattino
+- riunione con jia li {FromDate=lunedì} {FromTime=15:30}
+- riunione con morrison sun alle {FromTime=14} {FromDate=sabato}
+- riunione con morrison yang alle {FromTime=16}
+- {FromDate=sabato} alle {FromTime=19 e mezza}
+
+
+## DeleteCalendarEntry
+- annulla appuntamenti
+- annulla appuntamento
+- annulla appuntamento {FromDate=oggi}
+- annulla evento
+- annulla evento {FromDate=domani}
+- annulla il calendario
+- annulla il mio appuntamento
+- annulla il mio appuntamento alle {FromTime=21}
+- annulla il mio {Subject=appuntamento canoro} {FromDate=lunedì}
+- annulla il mio appuntamento {Subject=delle tre}
+- annulla il mio appuntamento di {FromDate=lunedì}
+- annulla il mio appuntamento per il {FromDate=4 ottobre}
+- annulla il mio evento
+- annulla il mio {OrderReference=prossimo} appuntamento
+- annulla il mio {Subject=viaggio adventureworks} a {Location=seattle}
+- annulla il {Subject=pranzo} {FromDate=mercoledì prossimo}
+- annulla la {Subject=cena}
+- annulla la mia {Subject=lezione di guida} {FromDate=domani}
+- annulla la mia riunione
+- annulla la mia riunione a {Location=shanghai} {FromDate=lunedì} alle {FromTime=10}
+- annulla la riunione
+- annulla la {Subject=riunione di gruppo}
+- annulla la {Subject=visita medica} di {FromDate=lunedì}
+- annulla l'appuntamento
+- annulla l'appuntamento di {FromDate=oggi}
+- annulla l'evento
+- annulla l'evento senza titolo il {FromDate=28 maggio}
+- annulla programma di {FromDate=domani}
+- annulla questa riunione
+- annulla quest'appuntamento
+- annulla {Subject=ritira cibo da ted}
+- annulla riunione
+- annulla riunione con abigail ore {FromTime=15} {FromDate=oggi}
+- annulla riunione con bob marlon ore {FromTime=15} {FromDate=oggi}
+- annulla riunione con julie
+- annulla {Subject=riunione del personale} delle {FromTime=13}
+- annulla tutti gli eventi
+- annulla un appuntamento
+- annulla voce di calendario
+- cancella il mio calendario
+- cancella il mio calendario per il {FromDate=29 gennaio}
+- cancella il mio programma
+- cancella il mio programma di {FromDate=oggi}
+- cancella il mio programma per {FromDate=domani}
+- cancella la riunione
+- cancella l'appuntamento con george
+- cancella tutti gli appuntamenti dal mio calendario per {FromDate=oggi}
+- cancella tutti i miei appuntamenti
+- cancella tutti i miei appuntamenti di {FromDate=oggi}
+- elimina appuntamento
+- elimina evento
+- elimina il {PositionReference=1°} dal mio calendario
+- elimina il {Subject=calendario di compleanno}
+- elimina il mio programma
+- elimina il mio programma per {FromDate=oggi}
+- elimina la riunione programmata con zachary
+- elimina l'appuntamento con jeffrey
+- elimina l'appuntamento con mamma
+- elimina l'evento del calendario
+- elimina questo appuntamento
+- elimina riunione
+- elimina un appuntamento
+- ho bisogno di cancellare questo appuntamento dal mio calendario
+- puoi annullare il {PositionReference=1°}?
+- rifiuta la mia riunione {FromDate=lunedì}
+- rimuovi {Subject=ripetizioni finali} dal mio calendario
+- rimuovi {Subject=visita dal dentista}
+- voglio cancellare un appuntamento
+- abbrechen die  {SlotAttribute=Tagungsraum} 
+- abbrechen die  {SlotAttribute=Zimmer}  Für  {Subject=tägliches Scrum-Meeting} 
+- löschen Sie die  {SlotAttribute=Zimmer}  für meine  {FromTime=16 Uhr} Sitzung
+- löschen Sie die  {SlotAttribute=Tagungsraum}  von meinem  {FromTime=18.00 Uhr} Sitzung
+- bitte stornieren Sie die  {SlotAttribute=Zimmer}  von meinem  {FromTime=19.00 Uhr} Sitzung
+
+## FindCalendarDetail
+- cosa è in programma per la {Subject=cena} con stephanie?
+- cosa ha detto la sorella riguardo la riunione di {FromDate=domenica}?
+- dammi i dettagli del {OrderReference=prossimo} appuntamento
+- dettagli sulla riunione con grace
+- dettagli sulla riunione con karen e tom
+- dettagli sulla riunione di {FromDate=domani}
+- dimmi il mio programma del {FromTime=pomeriggio}
+- dimmi il mio programma di {FromDate=domenica}
+- dimmi il mio {Subject=viaggio pianificato}
+- dimmi la mia {OrderReference=prossima} riunione
+- dimmi la mia riunione di {FromDate=oggi}
+- dimmi tutto sulla {Subject=cena} con stephanie
+- ho bisogno che mi fornisci i dettagli della riunione che ho programmato con la mia collega amanda
+- ho bisogno di sapere riguardo il mio {Subject=appuntamento} con stephanie
+- ho bisogno di sapere riguardo il mio {OrderReference=prossimo} appuntamento
+- ho bisogno di sapere riguardo la mia riunione
+- informazioni dettagliate sulla {OrderReference=prossima} riunione
+- mi puoi dire qualcosa di {Subject=shakespeare}?
+- mi puoi parlare di {Subject=master chief}?
+- per favore apri il mio {Subject=appuntamento} con stephanie e dimmi tutti i dettagli
+- qual è l'{Subject=evento di destiny} della {FromDate=prossima settimana}?
+- quali sono i dettegli per il {Subject=picnic} della {FromDate=prossima settimana}?
+- su cosa riguarda la mia riunione con ming xu?
+- su cosa riguarda la riunione con ashley e jane berlin?
+- su cosa riguarda la riunione con daniel robert?
+- trova le riunioni di mary
+
+
+## FindCalendarEntry
+- calendario per {FromDate=oggi}
+- cerca la riunione con il titolo {Subject=orientamento dei dipendenti}
+- cerca un argomento di riunione {Subject=prova proposta di progetto}
+- cercami il mio {OrderReference=prossimo} appuntamento
+- che sta facendo {FromDate=oggi} timothy?
+- com'è il mio programma {FromDate=domani}?
+- controlla il calendario di janice per {FromDate=questo fine settimana}
+- controlla il calendario kronos
+- controlla il mio calendario
+- controlla il mio calendario di {DestinationCalendar=famiglia}
+- controlla il programma di mia mamma
+- cosa c'è {OrderReference=dopo} sul mio calendario?
+- cosa c'è nel mio calendario di {FromDate=oggi}?
+- cosa c'è nel mio calendario per {FromDate=oggi}?
+- cosa c'è nel mio calendario?
+- cosa c'è nel mio programma di {FromDate=oggi}?
+- cosa c'è nel mio programma per {FromDate=domani}?
+- cosa c'è nel mio programma?
+- cosa c'è nella mia {OrderReference=prossima} riunione?
+- cosa c'è sul mio calendario di {FromDate=oggi}?
+- cosa devo fare {FromDate=domani}?
+- cosa devo fare {FromTime=questo pomeriggio}?
+- cosa farà henry {FromDate=lunedì} a {FromTime=mezzogiorno}?
+- cosa farò il {FromDate=nove giugno}?
+- cosa farò la {FromDate=prossima settimana}?
+- cosa farò {FromDate=questo fine settimana}
+- cosa farò {FromTime=stasera}?
+- cosa ho da {FromDate=lunedì} a {ToDate=mercoledì}?
+- cosa ho dalle {FromTime=14} alle {ToTime=16} {ToDate=sabato}?
+- cosa ho {FromDate=domani}?
+- cosa ho {FromDate=domenica}?
+- cosa ho {OrderReference=dopo}?
+- cosa ho per {FromDate=oggi}?
+- cosa ho {FromTime=questo pomeriggio}?
+- cosa ho sul mio calendario di {FromDate=oggi}?
+- cosa succede {FromDate=domani}?
+- cosa succede {FromDate=oggi}?
+- cosa succede {FromDate=questa settimana}?
+- cosa succede {FromDate=questo fine settimana}?
+- dimmi gli eventi in programma sul calendario {Location=constitution hall}
+- ho appuntamenti {FromDate=oggi}?
+- ho qualcosa dalle {FromTime=11} alle {ToTime=14}?
+- ho qualcosa {FromDate=mercoledì}?
+- ho qualcosa {FromDate=oggi}?
+- ho riunioni {FromDate=oggi}?
+- ho una riunione di {Duration=30 minuti} alle {FromTime=10}?
+- il {OrderReference=prossimo} appuntamento dopo questo
+- individua l'appuntamento {OrderReference=successivo}
+- mostra calendario jean
+- mostra il mio programma {FromTime=notturno}
+- mostrami il calendario di heather
+- mostrami il calendario di victoria di {FromDate=lunedì}
+- mostrami il calendario {FromTime=notturno}
+- mostrami il mio calendario
+- mostrami il mio calendario di {DestinationCalendar=google}
+- mostrami il mio calendario per {FromDate=lunedì}
+- mostrami il mio programma {FromTime=stasera}
+- mostrami il programma di brenda per {FromDate=venerdì}
+- mostrami la mia {OrderReference=prossima} riunione
+- mostrami la riunione con paul
+- mostrami la riunione sulla {Subject=sessione di briefing}
+- mostrami la riunione sulla {Subject=sessione online}
+- ottieni l'appuntamento con frank
+- {OrderReference=prossima} riunione
+- qual è il mio {PositionReference=1°} appuntamento {FromDate=domani}?
+- qual è il mio programma di {FromDate=domani}?
+- qual è il mio programma {FromDate=domani}?
+- qual è il mio programma per {FromDate=domani}?
+- qual è il mio {OrderReference=prossimo} appuntamento?
+- qual è il mio {OrderReference=prossimo} evento?
+- qual è il programma di logan {FromDate=questa settimana}?
+- qual è il programma prima di questo?
+- qual è il {OrderReference=prossimo} sul calendario?
+- qual è la mia {PositionReference=1°} riunione di {FromDate=domani}?
+- qual è la mia {PositionReference=prima} riunione di {FromDate=oggi}?
+- qual è la mia {PositionReference=prima} riunione {FromDate=domani}?
+- qual è la mia {OrderReference=prossima} riunione?
+- qual è la riunione di {FromDate=oggi} tra le {FromTime=10} e le {ToTime=12}?
+- qual è stato il mio {PositionReference=primo} appuntamento?
+- quale sarà il mio {OrderReference=prossimo} {Subject=volo}?
+- quali appuntamenti ho {FromDate=domani}?
+- quali riunioni ho la {FromDate=prossima settimana}?
+- quali sono i miei appuntamenti {FromDate=oggi}?
+- quali sono i miei appuntamenti per {FromDate=questa settimana}?
+- quali sono le mie riunioni {FromTime=serali}?
+- quando e dove è la mia {OrderReference=prossima} riunione?
+- trova la {OrderReference=prossima} riunione
+- trova la riunione intorno alle {FromTime=17} fino alle {FromTime=20}
+- trova riunione con judith
+- trova riunione con timothy
+- trova un argomento di riunione {Subject=riunione giornaliera}
+- trova una riunione alle {FromTime=19} di melissa
+- trova una riunione con argomento {Subject=resoconto settimanale}
+- trova una riunione con il titolo {Subject=condivisione} di steven
+- trova una riunione con il titolo {Subject=seconda lezione} di amanda
+- trova una riunione da parte di darren sull'{Subject=aggiornamento stato}
+- trova una riunione di deborah sulla {Subject=sessione di gruppo}
+- trova una riunione di donna
+- trova una riunione sul {Subject=programma}
+- trova una riunione sulla {Subject=riunione di gruppo}
+- trovami le riunioni delle {FromTime=6}
+- trovami le riunioni delle ore {FromTime=9}
+- vai al mio {OrderReference=prossimo} evento
+- visualizza calendario emily
+- visualizza il calendario di ethan
+
+
+## FindCalendarWhen
+- a che ora è il mio {Subject=esame sui dispositivi mobili} {FromDate=domani}?
+- a che ora è il mio {OrderReference=prossimo} appuntamento?
+- a che ora è la {Subject=festa del gelato}?
+- a che ora è la {Subject=fiera} {FromDate=questo sabato}?
+- a che ora è la mia {Subject=lezione di cucina} {FromTime=stasera}?
+- a che ora è la mia {PositionReference=prima} riunione {FromDate=domani}?
+- a che ora è la mia {Subject=riunione del gruppo portafoglio}?
+- a che ora è la mia riunione di {FromDate=oggi}?
+- a che ora è la mia {PositionReference=ultima} riunione?
+- a che ora è l'{Subject=intervista} di oshwin?
+- a che ora ho {Subject=lavoro} {FromDate=domani}?
+- a che ora {Subject=lavoro} {FromDate=oggi}?
+- a che ora {Subject=viene beth} {FromDate=oggi}?
+- quale {FromDate=fine settimana} vado a fare {Subject=shopping} con sarah?
+- quand'è la mia {OrderReference=prossima} riunione con emily?
+- quando è {Subject=concerto} sul mio calendario?
+- quando è il {Subject=matrimonio} {FromDate=domani}?
+- quando è il mio appuntamento con willie?
+- quando è il mio {Subject=appuntamento medico}?
+- quando è il mio {Subject=pranzo picnic} {FromDate=oggi}?
+- quando è il mio {PositionReference=primo} appuntamento di {FromDate=domani}?
+- quando è il mio {OrderReference=prossimo} appuntamento con douglas?
+- quando è il mio {OrderReference=prossimo} {Subject=appuntamento dalla parrucchiera}?
+- quando è il mio {OrderReference=prossimo} appuntamento?
+- quando è il mio {OrderReference=prossimo} evento?
+- quando è il mio {OrderReference=prossimo} {Subject=viaggio} a {Location=kew garde}?
+- quando è il mio {OrderReference=prossimo} {Subject=viaggio}?
+- quando è il mio {PositionReference=quinto} {Subject=calcio di inizio}?
+- quando è il mio {Subject=taglio} di capelli?
+- quando è il {Subject=pranzo} con frank?
+- quando è la {Subject=festa}?
+- quando è la {Subject=giornata sportiva per le ragazze}?
+- quando è la mia breve {Subject=riunione quotidiana} con ethan?
+- quando è la mia {Subject=fisioterapia}?
+- quando è la mia {PositionReference=prima} riunione di {FromDate=domani}
+- quando è la mia {PositionReference=prima} riunione di {FromDate=domani}?
+- quando è la mia {OrderReference=prossima} riunione con edward?
+- quando è la mia {OrderReference=prossima} riunione con la signorina kathleen?
+- quando è la mia {OrderReference=prossima} riunione con lawrence?
+- quando è la mia {OrderReference=prossima} riunione?
+- quando è la mia {OrderReference=prossima} {Subject=visita medica}?
+- quando è la mia riunione con kenneth?
+- quando è la mia riunione con martha e deborah?
+- quando è la partita di {Subject=pallacanestro di ifeoma} {FromDate=oggi}?
+- quando è la {OrderReference=prossima} {Subject=visita dal dentista}?
+- quando è programmato {Subject=legoland}?
+- quando {Subject=finisce} la {Location=scuola}?
+- quando ho l'{Subject=esame}?
+- quando ho tempo libero {FromDate=oggi}?
+- quando {Subject=lavoro} {FromDate=domani}?
+- quando mi vedo con charles?
+
+
+## FindCalendarWhere
+- dove devo andare {FromDate=oggi}?
+- dove devo essere {OrderReference=dopo}?
+- dove devo essere {FromDate=oggi}?
+- dove farò {FromDate=questo fine settimana}?
+- dov'è il mio evento {PositionReference=successivo} con brandon {FromDate=venerdì}?
+- dov'è il mio evento {PositionReference=successivo} con christopher {FromDate=giovedì}?
+- dov'è il mio {PositionReference=primo} appuntamento {FromDate=domani}?
+- dov'è il mio {OrderReference=prossimo} appuntamento con la signorina doris?
+- dov'è il mio {OrderReference=prossimo} appuntamento con olivia?
+- dov'è il mio {OrderReference=prossimo} appuntamento?
+- dov'è il mio {OrderReference=prossimo} evento?
+- dov'è il mio {PositionReference=terzo} {Subject=shiproom} con tiffany?
+- dov'è il {Subject=pranzo con margot}?
+- dov'è la {Subject=cena} con abigail liu?
+- dov'è la mia prossima riunione con kayla?
+- dov'è la mia {OrderReference=prossima} riunione con la signorina natalie?
+- dov'è la mia {OrderReference=prossima} riunione?
+- dov'è la mia {OrderReference=prossima} {Subject=visita dal dentista}?
+- dov'è la mia riunione attuale?
+- dov'è la mia riunione delle {FromTime=11} {FromDate=domani}?
+- dov'è la mia riunione delle {FromTime=undici}?
+- dov'è la mia riunione?
+- dov'è la mia {Subject=visita dal dentista}?
+- dov'è la riunione con shirley?
+- dov'è la riunione di {FromDate=domani} alle {FromTime=11}?
+- dov'è la {Subject=riunione di revisione delle prestazioni}?
+- dov'è la riunione {FromDate=domani} alle {FromTime=11}?
+- dov'è la riunione?
+- dov'è l'evento di {FromDate=domani}?
+- dove mi vedo con austin e john?
+- dov'è quella riunione?
+- dove sarà il mio appuntamento di {FromDate=domani} alle {FromTime=11}?
+- dove si svolge la mia riunione?
+- dove sono {FromDate=domani}?
+- dove sono il {FromDate=ventuno maggio}?
+- dove sono le mie riunioni di {FromDate=oggi}?
+- dove vado {FromDate=domani}?
+- dove vado per la mia riunione di {FromDate=domani} alle ore {FromTime=11}?
+- dove vado {FromDate=questo fine settimana}?
+- dove vado {FromTime=stasera}?
+- dov'è?
+- mostrami dov'è il mio {OrderReference=prossimo} appuntamento
+- mostrami il posto di {Subject=formazione lavoro intelligente}
+- qual è il luogo della {Subject=riunione settimanale}?
+- qual è la sede della {OrderReference=prossima} riunione?
+- sede del {OrderReference=prossimo} appuntamento
+- sede della riunione delle {FromTime=11}
+- ubicazioni riunione di {FromDate=oggi} alle {FromTime=15}
+
+
+## FindCalendarWho
+- amber parteciperà alla {Subject=riunione d'ufficio} {FromDate=oggi}?
+- bruce parteciperà alla riunione?
+- charles wong sarà alla riunione?
+- chi altro andrà alla riunione delle {FromTime=14} di {FromDate=domani}?
+- chi altro ci sarà alla {Subject=riunione bancaria}?
+- chi c'è in quella riunione?
+- chi c'è nella mia {PositionReference=1°} riunione {FromDate=oggi}?
+- chi c'è nella mia {OrderReference=prossima} riunione?
+- chi c'è nella riunione?
+- chi ci sarà a quei due eventi?
+- chi ci sarà al {Subject=gioco dei bambini}?
+- chi ci sarà alla {Subject=riunione bancaria}?
+- chi è il {OrderReference=prossimo}?
+- chi è sulla mia lista per la riunione di {FromDate=domani} delle {FromTime=14}?
+- chi ha risposto alla convocazione di riunione?
+- chi partecipa alla riunione di {FromDate=domani} delle {FromTime=14}?
+- chi parteciperà al {Subject=picnic}?
+- chi parteciperà alla riunione delle {FromTime=16}?
+- chi parteciperà alla riunione di {FromDate=domani} delle {FromTime=14}?
+- chi parteciperà alla riunione di {FromDate=mercoledì}?
+- chi parteciperà alla riunione?
+- chi parteciperà alle riunioni?
+- chi saranno presenti alle {OrderReference=prossime 5} riunioni?
+- chi va alla riunione di {FromDate=domani} delle {FromTime=14}?
+- chi va alla riunione di {FromDate=domani}?
+- chi vedo {FromDate=domani} alle {FromTime=10}?
+- chi vedo per {Subject=cena}?
+- chi verrà alla riunione di {FromDate=domani} delle {FromTime=14}?
+- ci sarà amy alla riunione di {FromDate=oggi}?
+- ci sarà anthony alla riunione?
+- ci sarà bobby shen alla {OrderReference=prossima} riunione?
+- ci sarà george alla {Subject=riunione delle risorse umane} all'{FromTime=1}?
+- ci sarà jane alla riunione delle {FromTime=15}?
+- ci sarà john alla {Subject=riunione di marketing}?
+- ci sarà johnny alla {Subject=riunione d'ufficio} {FromDate=oggi}?
+- ci sarà nancy alla {Subject=riunione di briefing} {FromTime=mattutina}?
+- ci sarà roy alla nostra {Subject=riunione settimanale di gruppo}?
+- ci sarà teresa alla mia {OrderReference=prossima} riunione?
+- ci sarà thomas alla {Subject=riunione assicurativa} {FromDate=lunedì} a {FromTime=mezzogiorno}?
+- ci sarà zachary alla {Subject=riunione finanziaria}?
+- ci saranno ethan, yutien e a.j. al {Subject=picnic}?
+- con chi è la mia {PositionReference=prima} riunione {FromDate=domani}?
+- con chi è la mia riunione {FromTime=mattutina}?
+- con chi è la riunione delle {FromTime=14}?
+- elenca i partecipanti della {OrderReference=prossima} riunione
+- elenca i partecipanti per la riunione delle {FromTime=14} {FromTime=domani}
+- hellen è venuta alla riunione delle {FromTime=15}?
+- jimmy parker parteciperà alla riunione?
+- joe ci sarà alla {OrderReference=prossima} riunione?
+- mark si è iscritto alla riunione di {FromDate=domani}?
+- martin è venuto alla riunione di {FromDate=oggi}?
+- mostra i partecipanti alla riunione
+- mostrami chi parteciperà alla {Subject=riunione di famiglia}
+- mostrami chi parteciperà alla {Subject=riunione di organizzazione festa}
+- mostrami chi sarà alla {Subject=riunione di pianificazione} {FromDate=domani} alle {FromTime=14}
+- mostrami i partecipanti confermati
+- nicholas parteciperà alla {Subject=riunione di gestione}?
+- ore {FromTime=14} riunione con chi?
+- partecipanti che si uniranno alla riunione delle {FromTime=17}
+- parteciperà virginia alla mia {OrderReference=prossima} riunione?
+- paul andrà alla riunione di {FromDate=venerdì}?
+- riunione alle {FromTime=14} {FromDate=domani}- chi altro va
+- timoteo verrà alla riunione?
+- trova i partecipanti che si uniranno alla riunione delle {FromTime=8}
+- victoria parteciparà alla {OrderReference=prossima} riunione?
+- voglio dare un'occhiata alla lista dei partecipanti
+
+
+## FindDuration
+- a che ora è riservata la {Subject=parrucchiera}?
+- ad oggi quanto tempo è impostato per i {Subject=pagamenti delle fatture}?
+- dimmi la durata dell'{Subject=introduzione del prodotto}
+- dimmi quanto dura la mia riunione delle {FromTime=16}
+- dimmi quanto dura la {Subject=pausa pranzo} di {FromDate=oggi}
+- durata della {Subject=conferenza sull'apprendimento automatico}
+- durerà a lungo?
+- il mio pranzo è lungo abbastanza per fare {Subject=commissioni}?
+- minuti nella {Subject=pausa pranzo}
+- mostrami la durata della {Subject=condivisione settimanale}
+- per favore dimmi quanto tempo ho per il {Subject=pranzo}
+- per favore mostrami quanto tempo ho per {Subject=fare le commissioni}
+- per quanto tempo circa durerà la riunione?
+- per quanto tempo durerà questa riunione?
+- quante ore?
+- quanto dura il {Subject=film jurassic world}?
+- quanto dura il mio {Subject=pranzo} {FromDate=oggi}?
+- quanto {Subject=dura la mia pulizia del viso}?
+- quanto dura la mia riunione delle {FromTime=16}?
+- quanto dura la mia {Subject=visita dal dentista}?
+- quanto dura l'evento?
+- quanto durerà il {Subject=pranzo} di {FromDate=oggi}?
+- quanto durerà la mia {Subject=visita dal dentista}?
+- quanto tempo abbiamo per il {Subject=pranzo} di {FromDate=oggi}?
+- quanto tempo avrò per {Subject=fare la spesa}?
+- quanto tempo c'è per fare {Subject=commissioni} durante la mia {Subject=pausa pranzo}?
+- quanto tempo è impostato per i {Subject=pagamenti delle fatture}?
+- quanto tempo ho per il {Subject=pranzo} di {FromDate=oggi}?
+- quanto tempo ho per il {Subject=pranzo} {FromDate=oggi}?
+- quanto tempo ho per il {Subject=pranzo}?
+- quanto tempo ho per una {Subject=pausa pranzo} {FromDate=oggi}?
+- quanto tempo ho prima di {Subject=restituire il film}?
+- quanto tempo libero ho {FromDate=oggi}?
+- quanto tempo occupano le mie riunioni?
+- quanto tempo per il {Subject=pranzo} {FromDate=oggi}?
+- quanto tempo per la pausa {Subject=pranzo}?
+- quanto tempo tra le riunioni programmate {FromDate=giovedì} della {FromDate=prossima settimana}?
+- tempo di {Subject=pausa pranzo} totale {FromDate=oggi} per favore
+- tempo per le {Subject=commissioni a pranzo}
+
+
+## FindMeetingRoom
+- un nuovo luogo di riunione trovarne uno
+- aggiungere un  {SlotAttribute=Camera}  al mio  {FromTime=Ore 15.00} Riunione
+- am goin a lavorare domani su un altro stato, ho bisogno di prenotare una stanza in  {MeetingRoom=Johan} via
+- Un  {MeetingRoom=Camera} .
+- Sono  {MeetingRoom=Camera} 
+- come cliente,  {MeetingRoom=Alicia} è brutto, non prenderò mai più una stanza lì
+- bloccare una sala conferenze a  {MeetingRoom=terzo livello}  Pollici  {MeetingRoom=Eureka} Edificio
+- booh la stanza conford in palazzo  {MeetingRoom=2} / {MeetingRoom=76} 
+- libro 3  {MeetingRoom=Camere} nel centro della città
+- prenotare un  {MeetingRoom=sala banchetti} per la riunione
+- prenotare una sala conferenze
+- prenotare una sala conferenze  {MeetingRoom=(città-centro/320-gc)} 
+- prenotare un doppio  {MeetingRoom=4/22} vicino al centro della città per me
+- prenotare una camera d'albergo  {MeetingRoom=2/110} per una prossima settimana.
+- prenotare una riunione
+- prenotare una riunione nel  {MeetingRoom=sala conferenze endor} 
+- prenotare una sala riunioni al  {FloorNumber=Quarto piano}  Nel  {Building=Redmond} Edificio
+- prenotare un  {MeetingRoom=sala riunioni} A Fisketorvet
+- prenotare un  {MeetingRoom=sala riunioni} in frederiksberg
+- prenotare una sala riunioni su  {FloorNumber=piano 1} 
+- prenotare una sala riunioni su  {FloorNumber=piano 5} 
+- prenotare un posto sul  {FloorNumber=7a}  piano in  {Building=lloyds edificio} 
+- prenotare un  {MeetingRoom=sala presidente} presso l'hotel h10.
+- prenotare un  {MeetingRoom=Camera} 
+- prenotare un  {MeetingRoom=stanza 1} 
+- prenotare un  {MeetingRoom=stanza 2} 
+- prenotare un  {MeetingRoom=stanza 210} al lodge oceano meridionale
+- prenotare una stanza  {MeetingRoom=217 al secondo piano} in un hotel.
+- prenotare un  {MeetingRoom=stanza 3} 
+- prenotare un  {MeetingRoom=stanza 4} 
+- prenotare un  {MeetingRoom=stanza 5} 
+- prenotare una stanza  {MeetingRoom=577 al quinto piano} in un hotel.
+- prenotare un  {MeetingRoom=stanza 6} 
+- prenotare un  {MeetingRoom=stanza 7} 
+- prenotare un  {MeetingRoom=stanza 9} 
+- prenotare una camera a  {FloorNumber=piano 4} 
+- prenotare una camera a  {MeetingRoom=taj banjara} per la conferenza di domani
+- prenotare una stanza vicino a mia moglie  {MeetingRoom=camera di sandra} .
+- prenotare una stanza per  {Duration=30 min} 
+- prenotare una stanza per tutti la settimana successiva nel  {MeetingRoom=hotel zeus} 
+- prenotare una stanza per me a  {MeetingRoom=centrale} Stasera
+- prenotare un hotel in camera madrid  {MeetingRoom=309} Per me
+- prenotare una camera hotel sole sai  {MeetingRoom=103} Per me
+- prenotare una stanza immediatamente in  {MeetingRoom=hotel evm} per questa sera.
+- prenotare una camera in un hotel  {MeetingRoom=al secondo piano con finestre al cortile} 
+- prenotare una stanza in un  {MeetingRoom=piano basso} per quattro persone
+- prenotare una camera in  {MeetingRoom=Basell} per la notte di domani all'ultimo piano
+- prenotare una camera in  {MeetingRoom=California} 405 per oggi, per favore
+- prenotare una camera in  {MeetingRoom=Gallese} per oggi alle 18:00 200
+- prenotare una stanza in lui  {MeetingRoom=edificio 2 a3} 
+- prenotare una camera in  {MeetingRoom=ﬁle} st. al piano 2 per la prossima settimana
+- prenotare una camera in  {MeetingRoom=Miraflores} suite b per domani
+- prenotare una stanza nel pomeriggio per  {MeetingRoom=Euforia} Edificio
+- prenotare una stanza nel  {MeetingRoom=edificio 6} 
+- prenotare una stanza nel  {MeetingRoom=edificio 8 b23} 
+- prenotare una stanza nel  {MeetingRoom=hotel palazzo} per domani per favore
+- prenotare una stanza nel  {MeetingRoom=secondo piano} per il fine settimana
+- prenotare un hotel mumai camera  {MeetingRoom=1104} Per me
+- prenotare una stanza altezze amico  {MeetingRoom=308} Per me
+- prenotare uno spazio in  {Building=redmond centro} 
+- Libro  {MeetingRoom=Adams camera} per domani sera.
+- Libro  {MeetingRoom=sala riunioni blu} 
+- Libro  {MeetingRoom=camera blu} Stasera
+- Libro  {MeetingRoom=sala computer} per questo pomeriggio
+- libro conf rm  {MeetingRoom=(cr zamalek/mercurio-2119)} 
+- libro conf rm  {MeetingRoom=cornice/maadi-39} a 7 o ore
+- Libro  {MeetingRoom=conf room 333} per la mia azienda
+- Libro  {MeetingRoom=conf room 654} in piazza.
+- prenotare conf camera a biance  {MeetingRoom=21} Per me
+- prenotare conf camera centro città/ {MeetingRoom=13} (1) per me
+- libro conf camera centro città/2228 (6) per  {MeetingRoom=claudio reinosa} 
+- libro conf camera  {MeetingRoom=hollywood / 2782} Per me
+- libro conf camera in Holliday in  {MeetingRoom=45} per questo afthernoon
+- libro conf camera  {MeetingRoom=miami / 2379} 
+- libro conf camera  {MeetingRoom=sunxhi alleato c9} per noi
+- libro conf camera  {MeetingRoom=sole p33} ora
+- Libro  {MeetingRoom=sala conferenze} per la riunione del consiglio di amministrazione
+- Libro  {MeetingRoom=sala conferenze 1} al palazzo taj mahal
+- prenotare sala conferenze  {MeetingRoom=Alphaville/a1} Per me
+- prenotare sala conferenze  {MeetingRoom=conf-882} nell'edificio 4
+- prenotare sala conferenze in  {MeetingRoom=Melia} Hotel
+- libro dthe conf a Paris hilton  {MeetingRoom=2} / {MeetingRoom=473} ora
+- Libro  {MeetingRoom=Duplex} camera in hotel hilton
+- Libro  {MeetingRoom=Excalibur} Si prega
+- Libro  {MeetingRoom=sala executive}   {MeetingRoom=lasilas città} per la domenica
+- Libro  {MeetingRoom=sala executive}   {MeetingRoom=nadilom città} per venerdì
+- Libro  {MeetingRoom=suite esecutiva}   {MeetingRoom=torre viatetica} per domani
+- Libro  {MeetingRoom=camera familiare}   {MeetingRoom=delio città} per domani
+- Libro  {MeetingRoom=flezzi} camera numero cinque per me per favore
+- libro per me  {MeetingRoom=conf camera grande sala 3} 
+- libro per me per domani il  {MeetingRoom=numero di stanza 25} 
+- libro per me  {MeetingRoom=camera vestito} per 4 persone
+- libro per me il  {MeetingRoom=stanza n 2} 
+- Libro  {MeetingRoom=grande stanza} per i giorni di traino
+- Libro  {MeetingRoom=Marmellata} camera per me per favore
+- Libro  {MeetingRoom=Jason} camera numero due per favore
+- Libro  {MeetingRoom=Kamino} per me per favore
+- Libro  {MeetingRoom=Kamino} Domani
+- Libro  {MeetingRoom=Kernel} stanza due per favore
+- Libro  {MeetingRoom=Hotel Piazza King 123654} Per me.
+- prenotare me una stanza  {MeetingRoom=Vicino a Trg Republike} 
+- prenotare me  {MeetingRoom=conf room Royal club 333} 
+- prenotare me ora il  {MeetingRoom=stanza 125} 
+- Libro  {MeetingRoom=sala musica} per la concorrenza
+- Libro  {MeetingRoom=camera nixon} per questo venerdì sera.
+- Libro  {MeetingRoom=nobel auditorium} per il prossimo martedì sera.
+- prenotare uno  {MeetingRoom=camera familiare} per lunedì prossima settimana
+- Libro  {MeetingRoom=salone di partito} in hotel hilton
+- Libro  {MeetingRoom=camera premium}   {MeetingRoom=torre di kijubuto} per venerdì
+- Libro  {MeetingRoom=suite premium}   {MeetingRoom=edificio oklanda} per venerdì
+- Libro  {MeetingRoom=sala presidente}   {MeetingRoom=masterium città} 
+- Libro  {MeetingRoom=Presidenziale} Camera
+- Libro  {MeetingRoom=camera presidenziale} questa notte
+- Libro  {MeetingRoom=prime room}   {MeetingRoom=torre zasasae} per stasera
+- Libro  {MeetingRoom=suite prime}   {MeetingRoom=torre doolter} 
+- Libro  {MeetingRoom=suite prime}   {MeetingRoom=fundana torre} per stasera
+- Libro  {MeetingRoom=Rabbitt} stanza per me
+- libro rm  {MeetingRoom=Starwars 7-33} 
+-  {MeetingRoom=Libro} Camera
+- Libro  {MeetingRoom=stanza 1} al primo piano
+- Libro  {MeetingRoom=stanza 12} 
+- Libro  {MeetingRoom=stanza 12} per questo pomeriggio
+- Libro  {MeetingRoom=stanza 12} ,  {MeetingRoom=piano superiore} per lunedì
+- prenotare la camera  {MeetingRoom=14b} in primo flooor
+- Libro  {MeetingRoom=stanza 2} per questo pomeriggio
+- Libro  {MeetingRoom=stanza 2} ,  {MeetingRoom=suite verde} questa sera
+- Libro  {MeetingRoom=stanza 232} per domani alle 18-8.
+- Libro  {MeetingRoom=stanza 24 al primo piano} .
+- Libro  {MeetingRoom=stanza 3} per questo pomeriggio
+- Libro  {MeetingRoom=stanza 3} ,  {MeetingRoom=suite rossa} per domani
+- Libro  {MeetingRoom=stanza 37} 
+- Libro  {MeetingRoom=stanza 4} al secondo piano
+- Libro  {MeetingRoom=stanza 4} ,  {MeetingRoom=piano 8} per stasera
+- Libro  {MeetingRoom=stanza 45} per domani
+- Libro  {MeetingRoom=stanza 5 alef} per la riunione di domenica prossima.
+- Libro  {MeetingRoom=stanza 5/10} per me questa notte per favore.
+- Libro  {MeetingRoom=stanza 56} ,  {MeetingRoom=suite rossa} per venerdì
+- Libro  {MeetingRoom=stanza 70} per la grande famiglia
+- Libro  {MeetingRoom=stanza 88} per luna di miele
+- Libro  {MeetingRoom=stanza 987} per questa estate
+- Libro  {MeetingRoom=stanza a50} al quattro stagioni hotel
+- Libro  {MeetingRoom=stanza b10} a le bristol
+- Libro  {MeetingRoom=stanza c100} presso shangri-la hotel
+- prenotare la camera  {MeetingRoom=Fiore}   {MeetingRoom=1267} per domani.
+- prenotare la camera  {MeetingRoom=microsoft-233/cj} alla fine della giornata
+- prenotare la stanza accanto a  {MeetingRoom=Camera di Adam} per il mio amico james.
+- Libro  {MeetingRoom=stanza numero 3} per stasera
+- prenotare la stanza numero otto di  {MeetingRoom=fginn} Hotel
+- prenotare il numero 56 di  {MeetingRoom=avilon} hotel per favore
+- prenotare la sala numero cinque di  {MeetingRoom=Cellule} Hotel
+- prenotare la stanza numero sette di  {MeetingRoom=Grizzly} Hotel
+- prenotare la stanza numero sessanta uno dei  {MeetingRoom=posteriori} hotel per favore
+- prenotare la stanza numero dieci di  {MeetingRoom=Wilson} Hotel
+- prenotare la sala numero tre di  {MeetingRoom=waldorf astoria} Si prega
+- prenotare la sala di  {MeetingRoom=Luminoso} hotel si prega di numero sessantasei
+- prenotare camera dell'hotel  {MeetingRoom=agillum} Si prega
+- prenotare la sala di  {MeetingRoom=Pigro} hotel per favore
+- prenotare la camera  {MeetingRoom=Rosa}  Villa  {MeetingRoom=151} questa mattina.
+- prenotare la camera  {MeetingRoom=tatuaggio-771} entro le 17:00
+- prenotare camera il  {MeetingRoom=21} 
+-  {MeetingRoom=Libro} stanza questo
+- Libro  {MeetingRoom=camera con vista sul mare} di fronte all'hotel
+- prenotare camera senior  {MeetingRoom=gerculio città} per venerdì
+- prenotare camera senior  {MeetingRoom=Juldertu città} per stasera
+- prenotare camera senior  {MeetingRoom=torre di kalanedol} per domani
+- prenotare camera senior  {MeetingRoom=torre kintader} 
+- prenotare camera senior  {MeetingRoom=Torre lokhydel} per domani
+- prenotare camera senior  {MeetingRoom=città lomacheri} 
+- prenotare senior suite  {MeetingRoom=falnyli città} per domani
+- prenotare senior suite  {MeetingRoom=fujawase città} per stasera
+- prenotare senior suite  {MeetingRoom=likaster città} per domani
+- prenotare senior suite  {MeetingRoom=Torre di radelto} per stasera
+- Libro  {MeetingRoom=Suite} all'ultimo piano
+- prenotare il  {MeetingRoom=2/64 sala conferenze} Per me
+- Libro  {MeetingRoom=la stanza 8899} al marriott per questo fine settimana.
+- prenotare il  {MeetingRoom=#2042 dell'auditorium} per domani mattina
+- prenotare il  {MeetingRoom=sala auditorium} in forum
+- Libro  {MeetingRoom=la grande stanza in canoa hotel} .
+- prenotare il  {MeetingRoom=comfort room 569} 
+- prenotare il conf in vepelia  {MeetingRoom=3} / {MeetingRoom=67} Per me
+- prenotare il conf rm  {MeetingRoom=punto apple/2211 (4)} alle 21:00 per favore
+- prenotare il conf rm  {MeetingRoom=ayy cruscotto 3} 
+- prenotare il conf rm  {MeetingRoom=bjp 2/6} Per me
+- prenotare il conf rm bjw 2/64 per  {MeetingRoom=susan lago} 
+- prenotare il conf rm bjw 2/ {MeetingRoom=88} Per me
+- prenotare il conf rm  {MeetingRoom=caroline/ 1526} Per me
+- prenotare il conf rm  {MeetingRoom=Chels x3233} 
+- prenotare il conf rm  {MeetingRoom=cjp 3-9} Vuoi
+- prenotare il conf rm  {MeetingRoom=kow 2/84} per amico
+- prenotare il conf rm  {MeetingRoom=london cp232} ore 17:00 di oggi
+- prenotare il conf rm  {MeetingRoom=marinaio/233} 
+- prenotare il conf rm  {MeetingRoom=ooojw 094} per mia madre
+- prenotare il conf rm  {MeetingRoom=sellez j11} Oggi
+- prenotare il conf rm  {MeetingRoom=set 64} per il mio gatto
+- prenotare il conf rm  {MeetingRoom=sudan acqua} nell'edificio 5
+- prenotare il conf rm suhou f84 ora per  {MeetingRoom=peter nevada} 
+- prenotare il conf rm  {MeetingRoom=4 tom} per il mio yak
+- prenotare il  {MeetingRoom=conf camera bjw 6/46} Per me
+- prenotare il conf  {MeetingRoom=stanza bs8} questo pomeriggio
+- prenotare il  {MeetingRoom=conf camera città barcelona f32} Per me
+- prenotare il  {MeetingRoom=conf camera città barcelona f64} Per me
+- prenotare il  {MeetingRoom=conf camera città madrid f34} Per me
+- prenotare il  {MeetingRoom=conf camera città madrid f67} Per me
+- prenotare il  {MeetingRoom=conf camera città madrid g67} Per me
+- prenotare il  {MeetingRoom=conf room f22} 
+- prenotare la stanza conf  {MeetingRoom=Lincoln 563} ora
+- prenotare la stanza conf suzhou  {MeetingRoom=a28 (in questo stato infondiè in} Si prega
+- prenotare il  {MeetingRoom=conf/r1} stanza ora
+- prenotare il  {MeetingRoom=sala conferenze} per lunedì pomeriggio
+- prenotare la sala conferenze  {MeetingRoom=città stella} t 123 questo mezzogiorno
+- prenotare il  {MeetingRoom=sala conferenze} per la riunione
+- prenotare il  {MeetingRoom=sala conferenze} in centro bella
+- prenotare la conferma  {MeetingRoom=bjw 3/65} Per me
+- prenotare la conferma  {MeetingRoom=dfg 4/54} Per me
+- prenotare la conferma  {MeetingRoom=dfv 6/98} 
+- prenotare la camera di conferma in hotal mayuri  {MeetingRoom=2o piano} Per me
+- prenotare la camera di conferma in udipi lodge  {MeetingRoom=Camera per le 5e finestre} Per me
+- prenotare la camera di conferma Mayuri edificio  {MeetingRoom=52a camera} Per me
+- prenotare la camera di conferma ns plaza  {MeetingRoom=202a edizione} stanza per me
+- prenotare il centro reale camera di conferma  {MeetingRoom=8/421} per noi
+- prenotare la conferma  {MeetingRoom=sxc 2/76} per me per favore
+- prenotare la stanza conford in hesperia  {MeetingRoom=12/76} ora
+- prenotare il confort a Parigi  {MeetingRoom=2} / {MeetingRoom=678} Per me
+- prenotare il  {MeetingRoom=camera dolly} per mia sorella
+- prenotare il  {MeetingRoom=F86 palazzo} conf ora
+- prenotare il  {MeetingRoom=camera branchiale} questa mattina
+- prenotare il  {MeetingRoom=camera verde} per questo pomeriggio
+- prenotare il  {MeetingRoom=stanza jose} b7/2784 questo afternoom
+- prenotare il  {MeetingRoom=Lecta (12)} stanza per questo lunedì
+- prenotare il  {MeetingRoom=sala conferenze #15} per mercoledì per me
+- prenotare il  {MeetingRoom=sala marian} b3/2257 questa mattina
+- prenotare il  {MeetingRoom=sala matrimoniale 456} per domani
+- prenotare la sala riunioni  {MeetingRoom=Oro} 223 questa sera
+- prenotare il  {MeetingRoom=mting rm/mt1} Per me
+- prenotare il  {MeetingRoom=sala d'ufficio #5} Per me
+- prenotare il  {MeetingRoom=camera paris} Per me
+- prenotare il  {MeetingRoom=sala delle feste} per domani sera
+- prenotare il  {MeetingRoom=sala presidenziale 789} per oggi
+- prenotare il  {MeetingRoom=sala prinston 1} in questo momento per favore.
+- prenotare il  {MeetingRoom=camera corvo 3/5} ora per favore.
+- prenotare la camera  {MeetingRoom=#1011f} per me ora
+- prenotare la camera  {MeetingRoom=123a} per Johana.
+- prenotare il  {MeetingRoom=stanza 17} ora
+- prenotare la camera  {MeetingRoom=204} Per me
+- prenotare la camera  {MeetingRoom=2075} Per me
+- prenotare la camera  {MeetingRoom=2164} Per me
+- prenotare la camera  {MeetingRoom=2456} Per me
+- prenotare il  {MeetingRoom=stanza 26} per domani
+- prenotare il  {MeetingRoom=stanza 3}  E la  {MeetingRoom=stanza 2} per me ora per favore.
+- prenotare la camera  {MeetingRoom=304} Per me
+- prenotare il  {MeetingRoom=stanza 32} 
+- prenotare il  {MeetingRoom=stanza 35} questa mattina
+- prenotare la camera  {MeetingRoom=4 Primo piano} 
+- prenotare il  {MeetingRoom=stanza 40} all'ultimo piano
+- prenotare la camera  {MeetingRoom=6b} con due letti
+- prenotare il  {MeetingRoom=stanza 754} Per me
+- prenotare il  {MeetingRoom=stanza 8} Per me
+- prenotare il  {MeetingRoom=stanza 9c} Per me
+- prenotare il  {MeetingRoom=stanza a765} per quattro persone
+- prenotare la camera  {MeetingRoom=aj6548} per la riunione
+- prenotare la camera alex hotel  {MeetingRoom=7/fl7} 
+- prenotare la camera  {MeetingRoom=Alfa} 
+- prenotare la camera  {MeetingRoom=baliaer g12} della conferenza
+- prenotare la camera  {MeetingRoom=boston 225} questa mattina.
+- prenotare la città camera cactus  {MeetingRoom=c4/3305} per domani
+- prenotare la camera  {MeetingRoom=cesare 319b} Si prega
+- prenotare l'hotel candelaria in camera  {MeetingRoom=h8/fl10} 
+- prenotare la camera  {MeetingRoom=caracas città} ,  {MeetingRoom=p5/3566} 
+- prenotare la camera  {MeetingRoom=Cats palazzo b4/0414} 
+- prenotare la camera  {MeetingRoom=chelsea c5/8833} più tardi oggi
+- prenotare la camera  {MeetingRoom=davinci a1/01} 
+- prenotare la camera  {MeetingRoom=diamante 212} questo pomeriggio
+- prenotare la camera  {MeetingRoom=faile bl22} del forum
+- prenotare la camera  {MeetingRoom=città florida}   {MeetingRoom=b5/1388} 
+- prenotare la stanza frent giorno roccia  {MeetingRoom=Tuta 325} ora
+- prenotare la camera  {MeetingRoom=g4/445} 
+- prenotare la camera  {MeetingRoom=grigio a1/03} 
+- prenotare la camera  {MeetingRoom=h3/445} 
+- prenotare la camera  {MeetingRoom=h5/332} 
+- prenotare la camera sole felice  {MeetingRoom=218}  tuta e  {MeetingRoom=312} nella notte
+- prenotare la camera  {MeetingRoom=hellena b7/2234} questo pomeriggio
+- prenotare il  {MeetingRoom=camera hilton 67} ora
+- prenotare la camera  {MeetingRoom=horus a1/01} 
+- prenotare il  {MeetingRoom=stanza al piano 3} .
+- prenotare la stanza in  {MeetingRoom=albero pluviale dell'hotel} 
+- prenotare la stanza nel  {MeetingRoom=l'edificio 7} 
+- prenotare la stanza nel  {MeetingRoom=edificio 9} 22/12
+- prenotare la camera nel luogo mastranto  {MeetingRoom=21} Al mattino
+- prenotare la stanza nel  {MeetingRoom=piano superiore} 
+- prenotare la camera  {MeetingRoom=Lili} 
+- prenotare la camera  {MeetingRoom=fortunato 04} 
+- prenotare la camera  {MeetingRoom=luna a1/04} 
+- prenotare la camera  {MeetingRoom=Lusy} 
+- prenotare la camera  {MeetingRoom=manchester altezze cc/1111} questo pomeriggio
+- prenotare la camera  {MeetingRoom=marina/3d3} alle 12:00 per 3 ore
+- prenotare la camera  {MeetingRoom=Moni} 
+- prenotare la camera  {MeetingRoom=Monica} 
+- prenotare la camera  {MeetingRoom=Luna} 
+- prenotare il  {MeetingRoom=stanza n. 27} 
+- prenotare il  {MeetingRoom=stanza n. 305} 
+- prenotare la camera  {MeetingRoom=ny città} ,  {MeetingRoom=p3/25} 
+- prenotare l'hotel oasi della camera  {MeetingRoom=23/fl4} ora
+- prenotare il  {MeetingRoom=camera ocean breeze 2/222} a San felice hotel, per favore.
+- prenotare la camera sulla spiaggia c3/22 questa sera
+- prenotare la camera orientare  {MeetingRoom=b2/2230} 
+- prenotare la camera  {MeetingRoom=giocare 12} del casinò
+- prenotare la camera  {MeetingRoom=789 mq} successivo debole.
+- prenotare l'arcobaleno camera  {MeetingRoom=r1/flr1} questo pomeriggio
+- prenotare la camera redmon città b4/2245 questo pomeriggio per  {MeetingRoom=maria bianco} 
+- prenotare la stanza Redmond città  {MeetingRoom=a2/1223} 
+- prenotare la stanza Redmond città  {MeetingRoom=b2/2240} 
+- prenotare la stanza Redmond città  {MeetingRoom=b3/124} 
+- prenotare il  {MeetingRoom=camera redmond città b3/32} 
+- prenotare la stanza Redmond città  {MeetingRoom=b3/3244} questo pomeriggio
+- prenotare la camera Redmond città b4/2245 questo pomeriggio per  {MeetingRoom=jhon smith} 
+- prenotare la stanza Redmond città  {MeetingRoom=c1/223} questa mattina
+- prenotare la stanza Redmond città  {MeetingRoom=c3/3211} 
+- prenotare la stanza Redmond città  {MeetingRoom=d2/225} questa mattina
+- prenotare la stanza Redmond città  {MeetingRoom=d4/4021} 
+- prenotare la stanza Redmond città  {MeetingRoom=e3/432} 
+- prenotare la stanza Redmond città  {MeetingRoom=f4/432} questa mattina
+- prenotare la stanza Redmond città  {MeetingRoom=i9/332 (332)} 
+- prenotare la camera  {MeetingRoom=redmond città}   {MeetingRoom=a4/2355} 
+- prenotare la camera  {MeetingRoom=città rocciosa 3/ 3549} questo afternoom
+- prenotare la camera  {MeetingRoom=Rosa} 
+- prenotare la camera  {MeetingRoom=s/6} per me questa sera
+- prenotare la camera  {MeetingRoom=Lucido} 444 questo pomeriggio
+- prenotare la camera  {MeetingRoom=Pietra} 221 questo mezzogiorno
+- prenotare la camera  {MeetingRoom=sole a/1} questa sera
+- prenotare la camera  {MeetingRoom=tour f20} 
+- prenotare la stanza waldorf  {MeetingRoom=ha/b5} 
+- prenotare il  {MeetingRoom=camera singola b12} per questa settimana.
+- prenotare il  {MeetingRoom=camera singola b22} per questa settimana.
+- prenotare il  {MeetingRoom=camera singola b23} per questa settimana.
+- prenotare il  {MeetingRoom=camera singola b42} per questa settimana.
+- prenotare il  {MeetingRoom=camera singola b7} per questa settimana.
+- prenotare il  {MeetingRoom=stanza più piccola 896} 
+- prenotare il  {MeetingRoom=Terrazza} stasera per la cena
+- prenotare il  {MeetingRoom=twon b5/3354} stanza questo pomeriggio
+- prenotare il  {MeetingRoom=valencia città} ,  {MeetingRoom=p8/8566} 
+- prenotare il  {MeetingRoom=sala matrimoni 125} ora
+- prenotare il  {MeetingRoom=camera occidentale 3} questo aftenoon per me per favore.
+-  {MeetingRoom=Libro} questo libro libro libro camera
+-  {MeetingRoom=Libro} questo libro camera camera
+-  {MeetingRoom=Libro} questa stanza
+- libro per la sala di scrittura  {MeetingRoom=43} 
+- prenotazione di tutta la camera su  {MeetingRoom=Indietro} piano per la riunione annuale
+- boor il  {MeetingRoom=stanza 78} Per me.
+- posso prenotare il  {MeetingRoom=Queens room a1/1657} per tommorow?
+- posso inviare per prenotare il  {MeetingRoom=grande stanza 4} ?
+- posso rimanere questo lunedì al  {MeetingRoom=luna di miele suite} ?
+- è possibile aggiungere un  {SlotAttribute=Camera}  A  {FromDate=Domani} 's  {Subject=dev incontro} 
+- si può prenotare un  {MeetingRoom=sala conferenze} vicino al centro della città
+- si può prenotare una stanza  {MeetingRoom=4/3342} vicino all'hotel del centro città
+- si può riservare  {MeetingRoom=stanza 258} Subito
+- si può prenotare camera  {MeetingRoom=7552} per me per favore?
+- controllare la sala riunioni a  {FloorNumber=2o piano} 
+- Verifica  {SlotAttribute=sala riunioni}  Per  {FromDate=Domani} 
+- Verifica  {MeetingRoom=stanza fortunata} 
+- confermare la prenotazione della camera  {MeetingRoom=h6} dalle 16:00 alle 17:00 il 10 febbraio
+- hai un  {SlotAttribute=Camera}  disponibile all'ora di  {FromTime=Ore 15.00}  Pollici  {Building=Centro} 
+- trovare una sala conferenze a  {FloorNumber=secondo piano}  Pollici  {Building=edificio 34} 
+- trovare un libero  {SlotAttribute=sala riunioni}  Per  {FromDate=martedì prossimo} 
+- trovare un nuovo luogo di riunione
+- trovare una stanza al  {FloorNumber=25o piano} 
+- trovare una stanza tra  {Duration=tutto il giorno} Si prega
+- trovare una stanza per  {Duration=1 ora} Si prega
+- trovare una stanza su  {Building=costruzione mancanza} 
+- trovare un  {SlotAttribute=Camera}  su  {FromDate=Venerdì} 
+- trovare un disponibile  {SlotAttribute=sala riunioni}  Da  {FromTime=3}  A  {ToTime=5}   {FromDate=Domani} 
+- trovami una sala conferenze vuota
+- buon afternon, è possibile prenotare la stanza  {MeetingRoom=conf rm bjw 264} per oggi
+- Buon pomeriggio. voglio prenotare il  {MeetingRoom=conformità stanza bjw 3/13} fot oggi.
+- buongiorno, si potrebbe prenotare il  {MeetingRoom=conf rm zoshou f84} stanza per tre giorni?
+- avere l'incontro in  {MeetingRoom=Hoth} 
+- ciao disposses della stanza  {MeetingRoom=redmond città b24/2245} ?
+- ciao voglio riserva  {MeetingRoom=15 camere} 
+- ciao vorrei prenotare  {MeetingRoom=3 camere} nel tuo hotel
+- Ciao come stai? sarei così gentile da prenotare  {MeetingRoom=Conf room city center / 2228} (6) per me
+- ciao, la mia stanza è  {MeetingRoom=redmond città b4 / 2245} Pronto?
+- aiutami a prenotare una sala conferenze
+- aiutami a prenotare un  {SlotAttribute=sala riunioni}  Da  {FromTime=Ore 10}  A  {ToTime=Ore 15.00} 
+- aiutami a prenotare sala riunioni a  {FloorNumber=3o piano} 
+- aiutami a prenotare il  {MeetingRoom=stanza 102} 
+- aiutami a prenotare il  {MeetingRoom=stanza 34b} 
+- aiutami a trovare una sala riunioni
+- aiutami a trovare una stanza in  {Building=Centro} 
+- ciao i desiderio di riservare  {MeetingRoom=5 camere} con accesso alla piscina
+- ciao voglio solo prenotare  {MeetingRoom=2 camere} nel tuo hotel
+- ciao vorrei prenotare  {MeetingRoom=1 camera} Si prega
+- tenere una riunione sul  {FloorNumber=1o piano} 
+- che ne dici di  {Building=edificio 99} 
+- che ne dici di  {MeetingRoom=azienda sala riunioni} 
+- che ne dici di  {MeetingRoom=stanza 2213} 
+- come si tratta di  {FloorNumber=Quarto piano} 
+- I o sto booking room  {MeetingRoom=g454} per l'intera prossima settimana
+- Ho una riunione. si prega di prenotare una camera nel  {MeetingRoom=Hotel aladdin} 
+- devo prenotare il  {MeetingRoom=Obama}  E  {MeetingRoom=briscola briscola briscola} per 2 ore oggi
+- ho problemi con la mia stanza su  {MeetingRoom=Charles} ultimo piano
+- spero di tornare a  {MeetingRoom=Steve} camera al primo piano
+- mi piace passare da  {MeetingRoom=stanza 45} A  {MeetingRoom=stanza 63} .
+- ho bisogno di un doppio  {MeetingRoom=numero di stanza 44 o 46} in radisson sul pavimento 3d.
+- ho bisogno  {MeetingRoom=stanza 1001} prenotato per una settimana.
+- ho bisogno di spazio  {MeetingRoom=jb452} per la domenica se è disponibile
+- ho bisogno che una conferenza  {MeetingRoom=Camera} in lisbona
+- ho bisogno di prenotare una sala riunioni sul  {FloorNumber=2o piano} con un proiettore in esso
+- ho bisogno di prenotare una stanza nel  {MeetingRoom=edificio in euro}   {MeetingRoom=c3} Di notte
+- ho bisogno di fare una prenotazione per una riunione, si prega di prenotare camera  {MeetingRoom=Imperial} 
+- ho bisogno di prenotare  {MeetingRoom=Endor}  sul  {FloorNumber=1o piano}  Nel  {Building=edificio della sala dei cker} .
+- ho bisogno di prenotare  {MeetingRoom=mustafar}  per un cliente a  {FromTime=Ore 17.00} .
+- ho bisogno di prenotare il  {MeetingRoom=22-a} camera presso continental hotel
+- ho bisogno di prenotare il  {MeetingRoom=Sala conferenze alderaan} per una riunione.
+- ho bisogno di prenotare il  {Building=bespin} sala riunioni.
+- ho bisogno di prenotare la camera  {MeetingRoom=2-a} presso pensilvania hotel
+- ho bisogno di prenotare la camera  {MeetingRoom=345} presso l'hotel tamanaco
+- ho bisogno di prenotare il numero della camera  {MeetingRoom=100-b} presso torino hotel
+- ho bisogno di prenotare il numero della camera  {MeetingRoom=243} al ritz hotel
+- Ho bisogno di riposare. prenotare una camera in  {MeetingRoom=questo edificio} 
+- ho bisogno di dormire, ma per questo ho bisogno di una stanza su  {MeetingRoom=Steve} Pavimento
+- ho bisogno di trovare un nuovo luogo di riunione
+- ho bisogno di prenotare la sala riunioni su  {FloorNumber=piano 2} .
+- Voglio  {MeetingRoom=55} 
+- voglio prenotare una camera al  {MeetingRoom=secondo piano} 
+- Voglio prenotare la stanza  {MeetingRoom=metropolitana 193} 
+- Voglio  {MeetingRoom=stanza 102} prenotato per me .
+- Voglio  {MeetingRoom=stanza 4} 
+- voglio che il  {MeetingRoom=piccola stanza} fino al 12
+- voglio prenotare un  {MeetingRoom=letto matrimoniale} Camera
+- Voglio prenotare una camera a  {FloorNumber=23a}  piano in  {Building=Centro} 
+- Voglio prenotare una camera in hotel  {MeetingRoom=pacifico 102}  Per  {MeetingRoom=1 ora} .
+- Voglio prenotare una stanza nel  {MeetingRoom=giardino magico}  nella trama  {MeetingRoom=24/2} 
+- Voglio prenotare una stanza  {MeetingRoom=con una vista} 
+- Voglio prenotare conf camera  {MeetingRoom=halbert 29} 
+- Voglio prenotare  {MeetingRoom=sala conferenze 2} .
+- Voglio prenotare  {MeetingRoom=camera doppia centro città 1000/1.} 
+- Voglio prenotare  {MeetingRoom=camera del re} 
+- Voglio prenotare  {MeetingRoom=suite presidenziale numero 1} 
+- Voglio prenotare  {MeetingRoom=stanza 1} 
+- Voglio prenotare  {MeetingRoom=stanza 2} 
+- Voglio prenotare  {MeetingRoom=stanza 3} 
+- Voglio prenotare  {MeetingRoom=numero di stanza 5} .
+- Voglio prenotare il numero della stanza  {MeetingRoom=c4856} per stasera
+- Voglio prenotare  {MeetingRoom=Tatooine} 
+- Voglio prenotare il conf  {MeetingRoom=rm 2} 
+- Voglio prenotare  {MeetingRoom=due camere} 
+- voglio avere una riunione in  {MeetingRoom=mustafar} 
+- voglio affittare il  {MeetingRoom=anna sala conferenze} per oggi
+- Voglio prenotare  {MeetingRoom=Gandhi}  A  {FromTime=Ore 18.00} 
+- Voglio prenotare  {MeetingRoom=stanza 131} per il pomeriggio
+- voglio prenotare il  {MeetingRoom=sala principale} per la mezzogiorno di oggi
+- voglio prenotare il  {MeetingRoom=stanza 44} per me e mia moglie
+- Vorrei  {MeetingRoom=stanza 5} 
+- voglio vedere la gente in  {MeetingRoom=Tatooine}  nella sala  {FloorNumber=piano 4} .
+- voglio dormire in  {MeetingRoom=Joshua} ultima stanza stasera
+- i whs per prenotare il  {MeetingRoom=lincoln camera} per oggi tra le 15 e le 17.
+- i riservare il  {MeetingRoom=camera dorata} Per me
+- voglio prenotare un  {SlotAttribute=sala riunioni}  al  {Building=edificio di Londra}  Per  {FromDate=gennaio il 9}  A  {FromTime=Ore 13.00} 
+- vorrei prenotare una stanza al secondo piano, preferibilmente  {MeetingRoom=12}  O  {MeetingRoom=13 camera} dal momento che hanno una vista verso la banca jp
+- desidero prenotare una stanza ora al  {Building=Bellevue} Edificio.
+- mi chiedo posso prenotare un  {MeetingRoom=camera reale c10.} 
+- mi chiedo se posso prenotare il  {MeetingRoom=stanza g10 per oggi.} 
+- vorrei prenotare un incontro nel  {Building=Hitchcock}  costruire sul  {FloorNumber=23o piano} .
+- vorrei prenotare  {MeetingRoom=stanza 205} 
+- vorrei prenotare il  {MeetingRoom=tesla stanza 33} al conrad hotel per favore.
+- Vorrei prenotare sala riunioni  {MeetingRoom=Excalibur}  sul  {FloorNumber=primo piano}  della  {Building=alfred edificio} 
+- vorrei prenotare una delle vostre sale riunioni sul  {FloorNumber=2a}  piano del  {Building=Langham} edificio per favore
+- vorrei prenotare camera  {MeetingRoom=2289} per questa settimana
+- mi piacerebbe prenotare il  {MeetingRoom=room presso 3/333} All'hotel Mantras per il fine settimana, per favore.
+- mi piacerebbe prenotare  {MeetingRoom=camera blu} per due notti, per favore
+- mi piacerebbe prenotare  {MeetingRoom=camera conrad} per due notti, per favore
+- mi piacerebbe prenotare  {MeetingRoom=camera arancione} per due notti, contento
+- mi piacerebbe prenotare  {MeetingRoom=camera Oxford} per due notti, per favore
+- mi piacerebbe prenotare  {MeetingRoom=sala presidente} per due notti, per favore
+- mi piacerebbe prenotare  {MeetingRoom=stanza 45} Invece di  {MeetingRoom=stanza 66} .
+- mi piacerebbe prenotare un  {MeetingRoom=camera d'albergo 677} come ho già prenotato.
+- mi piacerebbe prenotare una stanza sul  {FloorNumber=2o piano}  della  {Building=albert hall} Si prega.
+- Sto cercando una sala conferenze
+- Sto cercando un  {SlotAttribute=Camera}  Disponibile  {FromDate=questo pomeriggio}  Pollici  {Building=studiox} 
+- c'è una stanza disponibile alle 15:00 di oggi
+- c'è una stanza disponibile su  {Building=l'edificio 1} 
+- c'è spazio disponibile al terzo piano in  {MeetingRoom=hotel di atmosfera} ?
+- c'è spazio disponibile il  {Duration=tutto il giorno} ?
+- È  {MeetingRoom=questa stanza}  occupato a  {FromTime=Ore 17.00} 
+- È  {MeetingRoom=questa stanza}  Occupato  {FromDate=Domani} 
+- esso  {MeetingRoom=Camera} 
+- i bambini sono stanchi si prega di prenotare il numero della camera  {MeetingRoom=40} 
+- i bambini sono stanchi. prenotare il numero della camera  {MeetingRoom=20} Si prega
+- individuare un altro luogo di riunione
+- Cercare  {MeetingRoom=camera ciao} 
+- posso prenotare una stanza in  {MeetingRoom=Sesto} pavimento per stasera?
+-  {MeetingRoom=deve essere parte della frase} 
+- la mia prenotazione è stata fatta per  {MeetingRoom=Imperial} camera all'ultimo piano
+- il mio volo è domani . si prega di prenotare una camera nel  {MeetingRoom=hotel re} 
+- il mio volo è domani. si prega di prenotare il numero della camera  {MeetingRoom=44} 
+- la mia ragazzafuoco vogliono la stanza migliore in  {MeetingRoom=Maria} 
+- mia moglie vuole una stanza su  {MeetingRoom=Maria} 
+- bisogno di una camera prenotata a  {MeetingRoom=hyderabad centrale} la sera
+- bisogno di prenotare camera  {MeetingRoom=Corallo} al secondo piano per la seconda metà di oggi
+- netx vacanze prenoterà il mio singolo  {MeetingRoom=Camera} in internet
+- il prossimo fine settimana ho bisogno di prenotare un  {MeetingRoom=Camera} in oporto ostello
+-  {MeetingRoom=cambiare solo il nome della stanza} 
+- ordinare un  {MeetingRoom=stanza 669}  Pollici  {MeetingRoom=ala est} per 16:00
+- organizzare una riunione nel  {MeetingRoom=Gandhi}  stanza nel  {FloorNumber=3o piano}  sul  {Building=Greenpark hotel} 
+- si prega di aggiungere un  {SlotAttribute=sala riunioni}  al  {Subject=riunione di mischia quotidiana} 
+- si prega di aggiungere una prenotazione a  {MeetingRoom=sala conferenze 2} 
+- si prega di prenotare 2 camere che non sono lontane da  {MeetingRoom=Camera di Stella} .
+- si prega di prenotare una camera al taj banjaraa  {MeetingRoom=2/2241} al secondo piano.
+- si prega di prenotare una camera  {MeetingRoom=vicino all'ascensore} 
+- si prega di prenotare  {MeetingRoom=Lotus}  Camera  {MeetingRoom=101} per stasera.
+- si prega di prenotare me una conferenza  {MeetingRoom=Camera} in un hotel del centro della città
+- si prega di prenotare  {SlotAttribute=sala riunioni}   {MeetingRoom=Excalibur}  su  {FromDate=Venerdì} 
+- si prega di prenotare  {MeetingRoom=Pars}  Camera  {MeetingRoom=178} Per me.
+- si prega di prenotare camera  {MeetingRoom=2345} all'ultimo piano dell'hotel.
+- si prega di prenotare camera  {MeetingRoom=Gemini} alle 14:00
+- si prega di prenotare la stanza sul  {MeetingRoom=Attico} per due notti
+- si prega di prenotare la camera  {MeetingRoom=conf.} .
+- si prega di prenotare il  {MeetingRoom=camera deluxe 4} questo venerdì.
+- si prega di prenotare la camera morgan plaza  {MeetingRoom=d2/3338} 
+- si prega di prenotare la camera  {MeetingRoom=legno di sandlewood}  Paese  {MeetingRoom=189} Per me.
+- si prega di chiamare per confermare la mia prenotazione su  {MeetingRoom=camera deluxe rosso} 
+- per favore posso prenotare sala riunioni  {MeetingRoom=Excalibur}  sul  {FloorNumber=primo piano}  Di  {Building=webb house} 
+- si prega di confermare la prenotazione delle camere  {MeetingRoom=21a} ,  {MeetingRoom=21b}  E  {MeetingRoom=21c} del attico
+- si prega di confermare la prenotazione del  {MeetingRoom=lolita chalet}  E  {MeetingRoom=paty chalet} 
+- si prega di confermare la prenotazione di oggi di  {MeetingRoom=camera presidenziale un}  E  {MeetingRoom=camera presidenziale b} 
+- si prega di prenotare una sala riunioni in edificio  {Building=3} .
+- si prega di prenotare una sala riunioni sul  {FloorNumber=1o piano} .
+- si prega di prenotare una sala riunioni sul  {FloorNumber=3o piano}  Di  {Building=torre termale} .
+- si prega di prenotare una camera  {MeetingRoom=1} 
+- si prega di prenotare una camera  {MeetingRoom=2} 
+- si prega di prenotare una camera  {MeetingRoom=3} 
+- si prega di prenotare una camera  {MeetingRoom=4} 
+- si prega di prenotare una camera  {MeetingRoom=5} 
+- si prega di prenotare  {MeetingRoom=Excalibur} per la riunione mattutina.
+- si prega di riservare per me il  {MeetingRoom=sala conferenze} 
+- si prega di prenotare per questo pomeriggio il  {MeetingRoom=sala colazione} 
+- si prega di riservarmi il  {MeetingRoom=camera suite} 
+- si prega di prenotare  {SlotAttribute=sala riunioni}   {MeetingRoom=Hoth}  su  {FloorNumber=piano 10}  della  {Building=edificio di Londra}  Per  {FromDate=venerdì pomeriggio} .
+- si prega di riservare il  {MeetingRoom=camera verde}  sul  {FloorNumber=2o piano}  della  {Building=Hewitt} Edificio.
+- si prega di riservare il  {FloorNumber=secondo piano}  sala riunioni a  {Building=l'edificio 5} per domani.
+- si prega di convalidare la prenotazione del  {MeetingRoom=cabina doppia}  E  {MeetingRoom=cabina individuale} per venerdì
+- si prega di convalidare che domani la prenotazione è fatta, è il  {MeetingRoom=camera rossa}  E la  {MeetingRoom=camera magenta} 
+- per favore vi prenoti un  {SlotAttribute=sala riunioni} per me a  {Building=Centro}  sul  {FromDate=23 gennaio} .
+-  {MeetingRoom=Leggere} 
+-  {MeetingRoom=Leggere} Pollici
+-  {MeetingRoom=Leggere} Nome
+-  {MeetingRoom=Leggere} Impostare
+-  {MeetingRoom=Leggere} Le
+- riservare una sala conferenze al  {Building=redmond edificio} 
+- riservare una sala riunioni nel  {Building=Redmond} Edificio
+- riservare una sala riunioni su  {FloorNumber=piano 1}  della  {Building=centro mercatore} 
+- riservare una sala riunioni sul  {FloorNumber=3o piano} 
+- riservare una stanza nel  {Building=Londra} edificio per l'incontro
+- Riserva  {MeetingRoom=camera blu} per 2 notti
+- Riserva  {MeetingRoom=azienda} per una riunione
+- riservarmi un  {SlotAttribute=sala riunioni}  al  {Building=edificio di Londra} ,  {FloorNumber=piano 5}  per sabato a  {FromTime=Ore 13.00} 
+- prenotare sala riunioni  {MeetingRoom=Coruscant} Si prega
+- prenotare sala riunioni  {MeetingRoom=Gandhi} per lunedì mattina.
+- Riserva  {MeetingRoom=stanza 258} 
+- Riserva  {MeetingRoom=stanza 258} ora
+- Riserva  {MeetingRoom=stanza 258} Subito
+- Riserva  {MeetingRoom=stanza 313} Subito
+- Riserva  {MeetingRoom=stanza 7/154} Si prega
+- camera di riserva  {MeetingRoom=f5 (in questo modo)} al terzo piano dalle 14:00 alle 16:00
+- riserva di stanza in  {MeetingRoom=hotel 4 stagioni} 
+- stanza di riserva n.  {MeetingRoom=t65 (in inglese)} dalle 15:00 alle 17:00 il venerdì 15 gennaio
+- riservare il  {MeetingRoom=Rete 2/56} conf per me
+- riservare il  {MeetingRoom=camera alejandra} per stasera
+- riservare la sala riunioni  {MeetingRoom=azienda}  su  {FloorNumber=piano 2}  della  {Building=centro mercatore} 
+- riservare la sala riunioni sul  {FloorNumber=12o piano}  al  {Building=Traghetto} 
+- riservare il  {MeetingRoom=mond valle 3/45} Per me
+- riservare il  {MeetingRoom=mustafar}  stanza nel  {Building=Scuola}   {FloorNumber=quarto piano} per la riunione
+- riservare la stanza  {MeetingRoom=abc-3d} più tardi stasera
+- riservare la stanza  {MeetingRoom=tatuaggio} tra 3 e 5
+- riservare il  {MeetingRoom=Tatooine}  sala riunioni sul  {FloorNumber=2o piano} .
+- riservare il  {FloorNumber=terzo piano} per la riunione
+- Riserva  {MeetingRoom=Virginia acque conferenza} più tardi questa sera
+- stanza il  {MeetingRoom=34} 
+- stanza in cui si ordina  {MeetingRoom=56} 
+- programma stanza più grande in  {MeetingRoom=il centro conferenze} 
+- il bagno è terribile in  {MeetingRoom=Angeline} Camera
+- il letto era durty, non potrò mai prendere una stanza su  {MeetingRoom=ben} 
+- l'incontro è qui. prenotare una camera in  {MeetingRoom=questo edificio} Si prega
+- l'incontro è qui. prenotare il numero della camera  {MeetingRoom=100} Si prega
+- Le  {MeetingRoom=Camera} 
+-  {MeetingRoom=la stanza 9700} deve essere riservato alla nostra azienda per 3 giorni.
+- il libro della stanza  {MeetingRoom=21} 
+-  {MeetingRoom=il nome/numero della stanza deve far parte della frase} 23
+-  {MeetingRoom=il nome/numero della stanza deve far parte della frase} f2 (in modo
+- la stanza si scrive stanza  {MeetingRoom=67} 
+- per riservare il  {MeetingRoom=stanza matrimoniale} fino a domani
+- Provare  {MeetingRoom=2312} 
+- Provare  {FloorNumber=8o piano} 
+- provare buillding  {Building=bjw2 (in due)} 
+- Provare  {MeetingRoom=Excalibur} 
+- Provare  {FloorNumber=piano 2} 
+- Provare  {MeetingRoom=camera jupyter} 
+- Provare  {Building=studiox} 
+- provare il  {FloorNumber=3o piano} 
+- Provare  {FloorNumber=il piano 23} 
+- Utilizzare  {MeetingRoom=camera Wender} 
+- vuole prenotare camera  {MeetingRoom=g5} per l'intera giornata il 15 gennaio
+- vogliono prenotare il  {MeetingRoom=camera lodge 4} all'hotel castello.
+- desidera prenotare la stanza  {MeetingRoom=numero 11} al secondo piano per l'intera prossima settimana.
+- voleva prenotare il  {MeetingRoom=stanza biscocho 1/11} all'hotel cienaga.
+- abbiamo bisogno di una stanza in  {MeetingRoom=Taj hotel} per due giorni.
+- abbiamo bisogno di una stanza al quinto piano in  {MeetingRoom=gli uomini hotel} .
+- abbiamo fortemente bisogno del  {MeetingRoom=stanza 888} da riservare alla nostra conferenza.
+- vogliamo riservare il  {FloorNumber=secondo piano}  Nel  {Building=edificio principale} per la nostra sala riunioni
+- quello che incontrare le camere ho
+- dove ci incontreremo
+- bianco si ordina camera  {MeetingRoom=21} 
+-  {MeetingRoom=scrivere una frase in cui si ordina di prenotare una stanza} 
+- si prenota una stanza  {MeetingRoom=76} 
+- dove stanza  {MeetingRoom=41} 
+- (trova,prenota/prenota) [ {MeetingRoomKeywordsDesc} [MeetingRoomKeywordsDesc {MeetingRoom} mKeywordsDesc] Sala riunioni [(in-on-for)]  {FromTime}  [(in-posizione-for)]  {FromDate} ^
+- (trova,prenota/prenota)  {MeetingRoom}  [ {MeetingRoomKeywordsDesc} ] [ (in-a-per)] [ {FromDate} ] [ (in-a-per)] [ {FromTime} ]^
+- (trova,prenota/prenota)  {MeetingRoom}  [ {MeetingRoomKeywordsDesc} ] [(posizione/on-for)]  {FromTime}  [(in-posizione-for)]  {FromDate} ^
+- (trova,prenota/prenota) [ {MeetingRoomKeywordsDesc} [MeetingRoomKeywordsDesc {MeetingRoom} mKeywordsDesc] Sala riunioni [(in-on-for)] [ {FromDate} ] [ (in-a-per)] [ {FromTime} ]^
+- (trova,prenota/prenota) [il] [(conferenza/conf-confer)] (stanza-rm-rom)  {MeetingRoomPatternAny}  (ora-in questo momento)  {AfterAny} [.]
+- (trova,prenota/prenota) [il] [(conferenza/conf-confer)] (stanza-rm-rom)  {MeetingRoomPatternAny}  (più tardi, oggi, domani)  {AfterAny} [.]
+- (trova,prenota/prenota) [il] [(conferenza/conf-confer)] (stanza-rm-rom)  {MeetingRoomPatternAny}  (per-a-by) {AfterAny} [.]
+- È (questo, quella) (riunione, conferenza) sala (disponibile o prenotata) [(on-on-for)] [ {FromDate} ] [ (in-a-per)] [ {FromTime} ]^
+
+
+## None
+- li voglio tutti
+- tutti
+- 1
+- 2
+- 3
+- Le  {PositionReference=Prima} Uno
+- Le  {PositionReference=Secondo} Uno
+- Le  {PositionReference=Terzo} Uno
+
+
+## RejectCalendar
+- annulla
+- annulla annulla
+- annulla annulla annulla
+- annulla non ti preoccupare
+- annulla per favore
+- annulla puoi non farlo per favore?
+- annulla questa
+- annulla tutto
+- annullalo
+- annullalo non lo voglio
+- annullalo per favore
+- basta annulla
+- basta annullalo
+- dimentica annulla
+- fermati
+- interrompilo
+- lascia perdere
+- ne
+- nessuno
+- niente
+- niente annulla
+- niente annullalo
+- no
+- no annulla
+- no annullalo
+- no grazie
+- no lo annullo
+- no no
+- non è giusto
+- non importa
+- non importa potresti annullarlo?
+- non ora
+- oh annulla
+- oh no
+- oh non importa
+- per favore annulla
+- per favore annulla tutti
+- per favore annullalo
+- puoi annularlo?
+- puoi annullarlo
+- sbagliato
+- voglio cancellarlo
+
+
+## ShowNextCalendar
+- cosa c'è {OrderReference=dopo}?
+- e il {OrderReference=prossimo}?
+- ho bisogno di andare a quello {OrderReference=successivo}
+- mostra il {OrderReference=prossimo}
+- mostra l'{PositionReference=ultimo}
+- passa a quello {OrderReference=successivo}
+- potresti mostrare il {OrderReference=prossimo}?
+- qual è il {OrderReference=prossimo}?
+- quali sono i {OrderReference=prossimi 3} eventi sul mio calendario?
+- vai al {OrderReference=prossimo} per favore
+
+
+## ShowPreviousCalendar
+- ho bisogno di controllare l'appuntamento {OrderReference=precedente}
+- mostra il {OrderReference=precedente}
+- mostra {OrderReference=precedente}
+- mostra quello {OrderReference=precedente}
+- mostrami la riunione {OrderReference=precedente} con tiffany
+- porta il {OrderReference=precedente}
+- {OrderReference=precedente}
+- {OrderReference=precedente} per favore
+- qual è il {OrderReference=precedente}?
+
+
+## TimeRemaining
+- controlla l'orario per vedere quando devo {Subject=andare a scuola a prendere luca}
+- dimmi quanto tempo libero ho prima del {OrderReference=prossimo} appuntamento
+- dimmi quanto tempo manca alla mia {OrderReference=prossima} riunione
+- ho tempo libero prima del {OrderReference=prossimo} appuntamento?
+- mi puoi mostrare il tempo rimanente prima del mio {OrderReference=prossimo} appuntamento?
+- mostra tempo prima del {OrderReference=prossimo} appuntamento
+- quante ore mancano alla mia {Subject=visita medica}?
+- quante ore rimangono prima del {OrderReference=prossimo} appuntamento?
+- quante ore rimangono prima della {Subject=cerimonia di chiusura}?
+- quanti giorni fino a {FromDate=natale}?
+- quanti giorni fino ad {FromDate=aprile}?
+- quanti giorni fino al {FromDate=10 dicembre}?
+- quanti giorni fino al {FromDate=15 giugno 2019}?
+- quanti giorni fino al {FromDate=15 giugno}?
+- quanti giorni fino al {FromDate=26 marzo}?
+- quanti giorni fino alla mia {Subject=visita medica}?
+- quanti giorni mancano a {FromDate=natale}?
+- quanti giorni mancano alla {Subject=cerimonia di apertura}?
+- quanti giorni prima del {FromDate=ringraziamento}?
+- quanti minuti liberi ho prima del {OrderReference=prossimo} appuntamento programmato?
+- quanti minuti mancano al mio {OrderReference=prossimo} appuntamento?
+- quanto tempo c'è fina alla {OrderReference=prossima} riunione?
+- quanto tempo c'è prima della {Subject=riunione d'ufficio}?
+- quanto tempo dovrò aspettare per il {OrderReference=prossimo} appuntamento?
+- quanto tempo fino a {FromTime=mezzogiorno}?
+- quanto tempo fino al {OrderReference=prossimo} appuntamento programmato?
+- quanto tempo fino alla mia riunione con lori?
+- quanto tempo ho fino a {Subject=prendere luca da scuola}?
+- quanto tempo ho fino a quando devo {Subject=incontrare} michael?
+- quanto tempo ho fino a quando {Subject=inizio la riunione}?
+- quanto tempo ho fino al mio {OrderReference=prossimo} appuntamento?
+- quanto tempo ho fino alla mia riunione con larry?
+- quanto tempo ho fino alla mia {Subject=visita medica}?
+- quanto tempo ho libero fino alla mia {OrderReference=prossima} riunione?
+- quanto tempo ho prima del mio {OrderReference=prossimo} appuntamento?
+- quanto tempo ho prima della mia {OrderReference=prossima} riunione?
+- quanto tempo ho prima di {Subject=prendere luca da scuola}?
+- quanto tempo ho?
+- quanto tempo manca a {Subject=natale}?
+- quanto tempo manca al {FromDate=14 marzo}?
+- quanto tempo manca al mio {OrderReference=prossimo} appuntamento?
+- quanto tempo manca alla {Subject=festa}?
+- quanto tempo manca alla mia {OrderReference=prossima} riunione?
+- quanto tempo manca alla {OrderReference=prossima} riunione?
+- quanto tempo manca per {Subject=disneyland paris}?
+- quanto tempo prima del mio {OrderReference=prossimo} appuntamento?
+- quanto tempo prima del {Subject=pranzo}?
+- quanto tempo prima del {OrderReference=prossimo} appuntamento?
+- tempo prima del mio {OrderReference=prossimo} appuntamento
+- tempo rimanente
+- voglio sapere il tempo rimasto per il mio {OrderReference=prossimo} appuntamento
+
+
+> # Entity definitions
+
+$DestinationCalendar:simple
+
+$Duration:simple
+
+$ToDate:simple
+
+$ToTime:simple
+
+$Location:simple
+
+$MeetingRoom:simple
+
+$Message:simple
+
+$MoveEarlierTimeSpan:simple
+
+$MoveLaterTimeSpan:simple
+
+$OrderReference:simple
+
+$PositionReference:simple
+
+$SlotAttribute:simple
+
+$FromDate:simple
+
+$FromTime:simple
+
+$Subject:simple
+
+$Building:simple
+
+$ContactName:simple
+
+$FloorNumber:simple
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:datetimeV2
+
+$PREBUILT:personName
+
+$PREBUILT:ordinal
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+$PossessivePronoun:FirstPerson=
+- mio
+- nostro
+- il mio
+- il nostro
+
+$PossessivePronoun:SecondPerson=
+- La tua
+- il proprio
+
+$PossessivePronoun:ThirdPerson=
+- suo
+- lei
+- loro
+- Propria
+- proprio
+- Proprio
+
+
+$RelationshipName:zia=
+
+$RelationshipName:zie=
+
+$RelationshipName:boss=
+
+$RelationshipName:fratello=
+
+$RelationshipName:fratello in legge=
+
+$RelationshipName:cognato=
+
+$RelationshipName:fratelli=
+
+$RelationshipName:bambino=
+
+$RelationshipName:bambini=
+
+$RelationshipName:collega=
+
+$RelationshipName:colleghi=
+
+$RelationshipName:cugino=
+
+$RelationshipName:cugini=
+
+$RelationshipName:papa '=
+
+$RelationshipName:figlia=
+
+$RelationshipName:figlia in legge=
+
+$RelationshipName:nuora=
+
+$RelationshipName:figlie=
+
+$RelationshipName:famiglie=
+
+$RelationshipName:famiglia=
+
+$RelationshipName:padre=
+
+$RelationshipName:padre in legge=
+
+$RelationshipName:suocero=
+
+$RelationshipName:amico=
+
+$RelationshipName:amici=
+
+$RelationshipName:grandchild=
+
+$RelationshipName:nipoti=
+
+$RelationshipName:nipote=
+
+$RelationshipName:nonno=
+
+$RelationshipName:nonna=
+
+$RelationshipName:nonni=
+
+$RelationshipName:marito=
+
+$RelationshipName:suoceri=
+
+$RelationshipName:mamma=
+
+$RelationshipName:madre=
+
+$RelationshipName:suocera=
+
+$RelationshipName:vicino di casa=
+
+$RelationshipName:vicini di casa=
+
+$RelationshipName:genitore=
+
+$RelationshipName:genitori=
+
+$RelationshipName:partner=
+
+$RelationshipName:fratelli germani=
+
+$RelationshipName:sorella=
+
+$RelationshipName:cognata=
+
+$RelationshipName:sorelle=
+
+$RelationshipName:figlio=
+
+$RelationshipName:genero=
+
+$RelationshipName:figlia di passaggio=
+
+$RelationshipName:passo-figlia=
+
+$RelationshipName:patrigno=
+
+$RelationshipName:matrigna=
+
+$RelationshipName:sorellastra=
+
+$RelationshipName:figliastro=
+
+$RelationshipName:studenti=
+
+$RelationshipName:insegnanti=
+
+$RelationshipName:zio=
+
+$RelationshipName:zii=
+
+$RelationshipName:moglie=
+
+$SlotAttributeName:room=
+- Zimmer
+- Tagungsraum
+- Konferenzraum
+
+$SlotAttributeName:time=
+- Zeit
+
+> # RegEx entities
+$MeetingRoomKeywordsDesc:/((conf|conference|meeting)\s+)?(room|rm|office)/
+

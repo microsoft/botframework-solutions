@@ -1,0 +1,107 @@
+﻿@model LinkedAccountsViewModel
+@{
+    ViewData["Title"] = "Linked Accounts Management";
+}
+<script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+
+<script>
+    const directLine = new BotChat.DirectLine({
+        secret: '@Model.DirectLineToken',
+        domain: '@Model.Endpoint'
+    });
+
+    directLine.getSessionId().subscribe(sessionId => {
+        console.log('received sessionId: ' + sessionId);
+
+        // Pass the sessionId to the controller
+        var request = new XMLHttpRequest();
+        request.open("post", "/api/session?id=" + sessionId, false);
+        request.send();
+
+        console.log(request.responseText);
+    }, error => {
+        console.log('failed to get sessionId', error);
+        });
+
+    function copyUserId() {
+        var copyText = document.getElementById("UserId");
+
+        // Select the text field UserId
+        copyText.select();
+
+        // Copy the text inside the text field
+        document.execCommand("copy");
+
+        console.log('Copied user id: ' + copyText.value);
+    }
+</script>
+
+
+@if (Model.Status == null)
+{
+    <div class="warning">No authentication connections were found using the provided ApplicationId. Have you added one to your Bot through the Azure Portal?</div>
+}
+else
+{
+    <div class="row">
+        <p>
+            The authentication providers listed below are those enabled on your Virtual Assistant.
+        </p>
+            <div class="input-group">
+                <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId" disabled>
+                <div class="input-group-append">
+                    @if (!Model.CompanionApp)
+                    {
+                        <a href="#" class="btn btn-primary" onclick="copyUserId()">Copy</a>
+                    }
+                    @Html.ActionLink("Sign Out All", "SignOutAll", "Home", Model.CompanionApp, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+    </div>
+    <div class="row py-3">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Service Provider</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var account in Model.Status)
+                    {
+                        @if (account.HasToken.HasValue && !account.HasToken.Value)
+                        {
+                            <tr class="table-danger">
+                                <th scope="row">
+                                    @account.ConnectionName
+                                </th>
+                                <td>
+                                    @account.ServiceProviderDisplayName
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Link", "SignIn", "Home", new { connectionName = account.ConnectionName, companionApp = Model.CompanionApp }, new { @class = "btn btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="table-success">
+                                <th scope="row">
+                                    @account.ConnectionName
+                                </th>
+                                <td>
+                                    @account.ServiceProviderDisplayName
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Unlink", "SignOut", "Home", new { connectionName = account.ConnectionName, companionApp = Model.CompanionApp }, new { @class = "btn btn-primary" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    }

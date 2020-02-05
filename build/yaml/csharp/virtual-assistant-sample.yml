@@ -1,0 +1,73 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - master
+    - feature/*
+  
+  paths:
+    include:
+    - 'templates/csharp/VA/*'
+
+# By default will disable PR builds
+pr: none
+
+pool:
+   name: Hosted VS2017
+   demands:
+    - msbuild
+    - visualstudio
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core sdk 2.2.100'
+  inputs:
+    version: 2.2.100
+  continueOnError: true
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.9.1'
+  inputs:
+    versionSpec: 4.9.1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: 'templates\csharp\Templates.sln'
+
+- task: VSBuild@1
+  displayName: 'Build solution Templates.sln'
+  inputs:
+    solution: templates\csharp\Templates.sln
+    vsVersion: '16.0'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'test results'
+  inputs:
+    command: test
+    projects: '$(System.DefaultWorkingDirectory)\templates\csharp\VA\VA.Tests\VA.Tests.csproj'
+    arguments: '-v n --configuration $(buildConfiguration) --no-build --no-restore --filter TestCategory!=IgnoreInAutomatedBuild /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    workingDirectory: 'templates\csharp\VA\VA.Tests'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)\templates\csharp\VA\VA.Tests\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\templates\csharp\VA\VA.Tests'
+
+- task: CopyFiles@2
+  displayName: 'Copy VA'
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)\templates\csharp\VA\VA'
+    Contents: '**\*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)\VA'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Artifacts'

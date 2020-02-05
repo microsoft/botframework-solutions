@@ -1,0 +1,35 @@
+[import](CheckPersonAvailableActivities.lg)
+
+# AskForCheckAvailableTime.Text
+- 什么时候？
+
+# AskForCheckAvailableUserName.Text
+- 您要向活动添加谁？
+- 您想向活动添加谁？
+
+# NotAvailable.Text(UserName, Time, Date)
+- 它看起来像@{UserName}不可用@{Date}在@{Time}.
+
+# AttendeeIsAvailable.Text(UserName, StartTime, EndTime, Date)
+- 它看起来像@{UserName}可在@{Date}从@{StartTime}自@{EndTime}.
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithOneConflict.Text(UserName, StartTime, EndTime, Date, Title, EventStartTime, EventEndTime)
+- 它看起来像@{UserName}可在@{Date}从@{StartTime}自@{EndTime}，但你有"@{Title}"从@{EventStartTime}自@{EventEndTime}.
+
+# AttendeeIsAvailableOrgnizerIsUnavailableWithMutipleConflicts.Text(UserName, StartTime, EndTime, Date, ConflictEventsCount)
+- 它看起来像@{UserName}可在@{Date}从@{StartTime}自@{EndTime}，但你有@{ConflictEventsCount}冲突在那个时候。
+
+# AskForCreateNewMeeting.Text
+- 是否要安排新会议？
+
+# AskForCreateNewMeetingAnyway.Text(UserName, StartTime)
+- 是否要安排新会议@{UserName}在@{StartTime}到底吗？
+
+# AskForNextAvailableTime.Text(UserName)
+- 你想让我找到一个时间，你和@{UserName}两者都可用吗？
+
+# NextBothAvailableTime.Text(UserName, StartTime, EndTime, EndDate)
+- 好的，你和@{UserName}都可从@{StartTime}自@{EndTime}上@{EndDate}.
+
+# NoNextBothAvailableTime.Text(UserName)
+- 对不起，我找不到你和@{UserName}都可用。

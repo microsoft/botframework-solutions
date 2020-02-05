@@ -1,0 +1,127 @@
+<div id="nav-content" class="col-12 col-md-2 collapse show">
+    <div class="nav-wrap">
+        <ul class="mb-2">
+            <li>
+                <span class="mb-2">
+                    <a href="{{ site.baseurl }}/index" class="d-block no-underline py-1 text-brand-dark">
+                        Home
+                    </a>
+                </span>
+            </li>
+            {% assign index = 0 %}
+            {% assign categories = site.docs | group_by: "category" %}
+            {% for c in site.data.toc %}
+            {% assign index = index | plus: 1 %}
+            {% for category in categories %}
+            {% if c[0] == category.name %}
+            <li>
+                <span class="mb-2">
+                    <a href="#category{{index}}" data-toggle="collapse" class="dropdown-toggle d-block no-underline py-1 text-brand-dark" aria-expanded="true">{{ category.name }}</a>
+                </span>
+                {% if page.category == category.name %}
+                {% assign collapse = '' %}
+                {% else %}
+                {% assign collapse = 'collapse' %}
+                {% endif %}
+                <ul id="category{{index}}" class="{{ collapse }} mb-2">
+                    {% assign subcategories = category.items | group_by: 'subcategory' %}
+                    {% assign index2 = 0 %}
+
+                    {% for sc in c[1] %}
+                    {% for subcategory in subcategories %}
+                    {% if subcategory.name == sc %}
+                    {% assign index2 = index2 | plus: 1 %}
+                    {% assign items = subcategory.items | sort: 'order' %}
+                    <li>
+                    <li>
+                        <a href="#subcategory{{index}}_{{index2}}" class="dropdown-toggle d-block py-1 text-brand-dark" data-toggle="collapse" aria-expanded="true">{{ subcategory.name }}</a>
+                        </span>
+
+                        {% if page.subcategory == subcategory.name %}
+                        {% assign collapse = '' %}
+                        {% else %}
+                        {% assign collapse = 'collapse' %}
+                        {% endif %}
+
+                        <ul id="subcategory{{index}}_{{index2}}" class="{{ collapse }}  mb-2">
+                            {% if subcategory.name == "What's new" %}
+                            {% assign items = subcategory.items | sort: "date" | reverse %}
+                            {% endif %}
+                            {% assign languages = items | group_by: 'language' %}
+                            {% assign nolang = languages | where: "name", "" | first %}
+                            {% if nolang %}
+                            {% for item in nolang.items | sort: 'order' %}
+                            {% if page.url == item.url %}
+                            {% assign selected-class = "is-selected" %}
+                            {% assign classes = "text-brand-dark" %}
+                            {% else %}
+                            {% assign selected-class = "" %}
+                            {% assign classes = "text-gray" %}
+                            {% endif %}
+                            <li class="{{selected-class}}">
+                                <a href="{{ site.baseurl }}{{ item.url }}" class="d-block py-1 pl-1 {{classes}}">{{ item.title }}</a>
+                            </li>
+                            {% endfor %}
+                            {% endif %}
+                            {% for language in languages %}
+                            {% if page.subcategory == subcategory.name and page.language == language.name %}
+                            {% assign collapse = '' %}
+                            {% else %}
+                            {% assign collapse = 'collapse' %}
+                            {% endif %}
+                            {% if language.name != '' %}
+                            {% assign languageName = site.data.displayNames[language.name] %}
+                            {% if languageName == blank %}
+                            {% assign languageName = language.name %}
+                            {% endif %}
+                            <li>
+                                <span class="mb-2">
+                                    <a href="#subcategory{{language.name}}{{index}}_{{index2}}" class="dropdown-toggle d-block py-1 pl-1 text-brand-dark" data-toggle="collapse" aria-expanded="true">{{ languageName }}</a>
+                                </span>
+                                <ul id="subcategory{{language.name}}{{index}}_{{index2}}" class="{{ collapse }}">
+                                    {% for item in language.items | sort: 'order' %}
+                                    {% if page.url == item.url %}
+                                    {% assign selected-class = "is-selected" %}
+                                    {% assign classes = "text-brand-dark" %}
+                                    {% else %}
+                                    {% assign selected-class = "" %}
+                                    {% assign classes = "text-gray" %}
+                                    {% endif %}
+                                    <li class="{{selected-class}}">
+                                        <a class="d-block py-1 pl-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
+
+                    {% assign nosub = subcategories | where: "name", "" | first %}
+                    {% if nosub %}
+                    {% assign items = nosub.items | sort: 'order' %}
+                    {% for item in items %}
+                    {% if page.url == item.url %}
+                    {% assign selected-class = "is-selected" %}
+                    {% assign classes = "text-brand-dark" %}
+                    {% else %}
+                    {% assign selected-class = "" %}
+                    {% assign classes = "text-gray" %}
+                    {% endif %}
+                    <li class="{{selected-class}}">
+                        <a class="d-block py-1 {{classes}}" href="{{ site.baseurl }}{{ item.url }}">{{ item.title }}</a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+</div>

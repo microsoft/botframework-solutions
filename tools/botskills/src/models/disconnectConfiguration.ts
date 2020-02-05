@@ -7,15 +7,13 @@ import { ILogger } from '../logger';
 
 export interface IDisconnectConfiguration {
     skillId: string;
-    skillsFile: string;
     outFolder: string;
     noRefresh: boolean;
     cognitiveModelsFile: string;
-    language: string;
-    luisFolder: string;
+    languages: string[];
     dispatchFolder: string;
     lgOutFolder: string;
-    dispatchName: string;
     lgLanguage: string;
     logger?: ILogger;
+    appSettingsFile: string;
 }

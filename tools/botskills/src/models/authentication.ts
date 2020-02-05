@@ -10,7 +10,6 @@ export interface IScopeManifest {
 
 export interface IResourceAccess {
     id: string;
-    // tslint:disable-next-line:no-reserved-keywords
     type: string;
 }
 
@@ -36,14 +35,7 @@ export interface IAzureAuthSetting {
     resourceGroup: string;
     sku: string;
     tags: string;
-    // tslint:disable-next-line:no-reserved-keywords
     type: string;
-}
-
-export interface IAppSettingOauthConnection {
-    oauthConnections: IOauthConnection[];
-    microsoftAppId: string;
-    microsoftAppPassword: string;
 }
 
 export interface IOauthConnection {

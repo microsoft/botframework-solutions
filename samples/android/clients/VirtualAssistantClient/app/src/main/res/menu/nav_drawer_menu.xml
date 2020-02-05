@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_menu_sign_in"
+        android:icon="@drawable/ic_signin"
+        android:title="@string/nav_menu_sign_in"/>
+    <item
+        android:id="@+id/nav_menu_restart_conversation"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/nav_menu_restart_conversation"/>
+    <item
+        android:id="@+id/nav_menu_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/nav_menu_settings" />
+</menu>
