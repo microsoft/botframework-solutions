@@ -19,12 +19,12 @@ toc: true
 1. Copy routing logic from OnMessageActivityAsync method into RouteStepAsync method.
     - Change any switch statement cases that start new dialogs to return the result of BeginDialogAsync like below for proper dialog flow management:
 
-        #### Previous implementation
+        **Previous implementation**
         ```csharp
         await dc.BeginDialogAsync("Faq");
         ```
 
-        #### New Implementation
+        **New Implementation**
         ```csharp
         return await stepContext.BeginDialogAsync("Faq");
         ```
@@ -32,7 +32,7 @@ toc: true
 
     - InterruptionActions have been deprecated, so each interruption should now manage the dialog continuation/cancellation on its own. 
 
-        #### Previous implementation
+        **Previous implementation**
         ```csharp
         case GeneralLuis.Intent.Cancel:
             {
@@ -42,7 +42,7 @@ toc: true
             }
         ```
 
-        #### New Implementation
+        **New Implementation**
         ```csharp
         case GeneralLuis.Intent.Cancel:
         {
