@@ -127,6 +127,6 @@
     <value>Dismiss</value>
   </data>
   <data name="FeedbackReceivedMessage" xml:space="preserve">
-    <value>Thanks, I appreciate your feedback.</value>
+    <value>Thanks for your feedback!</value>
   </data>
 </root>

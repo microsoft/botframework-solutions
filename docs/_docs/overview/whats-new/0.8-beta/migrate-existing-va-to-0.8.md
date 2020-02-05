@@ -2,9 +2,10 @@
 category: Overview
 subcategory: What's New
 language: 0_8_release
+date: 2020-02-03
 title: Migrate existing Virtual Assistant to Bot Framework Skills GA
 description: Explains the steps required to migrate an older VA version to use the new GA Skill capabilities provided by the Bot Framework.
-order: 3
+order: 4
 toc: true
 ---
 

@@ -10,7 +10,7 @@ order: 6
 
 ## {{ page.title }}
 
-Now that you've connected a pre-built skill to your assitant, try out these other tutorials:
+Now that you've connected a pre-built skill to your assistant, try out these other tutorials:
 
 <div class="card-group">
     <div class="card">

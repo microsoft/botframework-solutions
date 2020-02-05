@@ -15,10 +15,9 @@ This repository is the home for a set of templates and solutions to help build c
 ## Packages
 
 ### .NET
-| Name | Released Package |Daily Build |
+| Name | Released Package | Daily Build |
 |---|---|---|
-| Microsoft.Bot.Builder.Solutions (Preview)                | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Solutions?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Solutions/)                                 | [![BotBuilder Badge](https://buildstats.info/myget/botbuilder/aitemplates/Microsoft.Bot.Builder.Solutions?includePreReleases=true&dWidth=50)](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Solutions) |
-| Microsoft.Bot.Builder.Skills (Preview)                | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Builder.Skills?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Builder.Skills/)                                 | [![BotBuilder Badge](https://buildstats.info/myget/botbuilder/aitemplates/Microsoft.Bot.Builder.Skills?includePreReleases=true&dWidth=50)](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Builder.Skills) |
+| Microsoft.Bot.Solutions (Preview) | [![BotBuilder Badge](https://buildstats.info/nuget/Microsoft.Bot.Solutions?dWidth=70)](https://www.nuget.org/packages/Microsoft.Bot.Solutions/) | [![BotBuilder Badge](https://buildstats.info/myget/botbuilder/aitemplates/Microsoft.Bot.Solutions?includePreReleases=true&dWidth=50)](https://botbuilder.myget.org/feed/aitemplates/package/nuget/Microsoft.Bot.Solutions) |
 
 ### JS
 
