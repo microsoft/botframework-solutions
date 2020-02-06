@@ -23,9 +23,98 @@
     }
   ],
   "activities": {
+    "getDirectionAction": {
+      "description": "Get destination of some poi, showRoute will be false.",
+      "type": "event",
+      "name": "GetDirectionAction",
+      "value": {
+        "$ref": "#/definitions/inputObject"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/responseObject"
+      }
+    },
+    "findPointOfInterestAction": {
+      "description": "Find point of interest.",
+      "type": "event",
+      "name": "FindPointOfInterestAction",
+      "value": {
+        "$ref": "#/definitions/inputObject"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/responseObject"
+      }
+    },
+    "findParkingAction": {
+      "description": "Find parking, category will be ignored.",
+      "type": "event",
+      "name": "FindParkingAction",
+      "value": {
+        "$ref": "#/definitions/inputObject"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/responseObject"
+      }
+    },
     "message": {
       "type": "message",
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  },
+  "definitions": {
+    "inputObject": {
+      "type": "object",
+      "properties": {
+        "currentLatitude": {
+          "type": "number",
+          "description": "Current latitude."
+        },
+        "currentLongitude": {
+          "type": "number",
+          "description": "Current longitude."
+        },
+        "keyword": {
+          "type": "string",
+          "description": "POI keyword like papa john's, lowe's."
+        },
+        "category": {
+          "type": "string",
+          "description": "POI category like restaurant, beach."
+        },
+        "address": {
+          "type": "string",
+          "description": "POI address."
+        },
+        "poiType": {
+          "type": "string",
+          "description": "Desired poi type, one of nearest."
+        },
+        "routeType": {
+          "type": "string",
+          "description": "Desired route type, one of eco, thrilling, fastest, shortest."
+        },
+        "showRoute": {
+          "type": "boolean",
+          "description": "Whether show route."
+        }
+      }
+    },
+    "responseObject": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "description": "Destination's latitude."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Destination's longitude."
+        },
+        "telephone": {
+          "type": "string",
+          "description": "Destination's telephone."
+        }
+      }
     }
   }
 }
