@@ -135,6 +135,23 @@ namespace Microsoft.Bot.Solutions.Skills
 
         private async Task<DialogTurnResult> SendToSkillAsync(DialogContext dc, Activity activity, CancellationToken cancellationToken)
         {
+            // add checking on skill configuration before sending over to skill
+            // because we can't perform the check in constructor which will fail startup of the app
+            if (string.IsNullOrWhiteSpace(_skill.AppId))
+            {
+                throw new ArgumentNullException(nameof(_skill.AppId));
+            }
+
+            if (string.IsNullOrWhiteSpace(_skill.SkillEndpoint.ToString()))
+            {
+                throw new ArgumentNullException(nameof(_skill.SkillEndpoint));
+            }
+
+            if (string.IsNullOrWhiteSpace(_skillHostEndpoint.ToString()))
+            {
+                throw new ArgumentNullException(nameof(_skillHostEndpoint));
+            }
+
             if (dc != null)
             {
                 // Always save state before forwarding
@@ -142,7 +159,7 @@ namespace Microsoft.Bot.Solutions.Skills
                 await _conversationState.SaveChangesAsync(dc.Context, true, cancellationToken).ConfigureAwait(false);
             }
 
-            var response = await _skillClient.PostActivityAsync(_botId, _skill, this._skillHostEndpoint, activity, cancellationToken).ConfigureAwait(false);
+            var response = await _skillClient.PostActivityAsync(_botId, _skill, _skillHostEndpoint, activity, cancellationToken).ConfigureAwait(false);
             if (!(response.Status >= 200 && response.Status <= 299))
             {
                 throw new HttpRequestException($"Error invoking the skill id: \"{_skill.Id}\" at \"{_skill.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
