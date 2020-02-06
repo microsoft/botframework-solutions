@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -57,11 +58,14 @@ namespace Microsoft.Bot.Solutions.Authentication
                     // We ignore placeholder connections in config that don't have a Name
                     if (!string.IsNullOrWhiteSpace(connection.Name))
                     {
+                        // Resource Manager currently does not have a function to render just a localized respons so generate an activity and then grab the localized text from that activity
+                        var loginBtnActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton);
+                        var loginPromptActivity = _responseManager.GetResponse(AuthenticationResponses.LoginPrompt, new StringDictionary() { { "authType", connection.Name } });
                         var settings = promptSettings?[i] ?? new OAuthPromptSettings
                         {
                             ConnectionName = connection.Name,
-                            Title = "Login",
-                            Text = string.Format("Login with {0}", connection.Name),
+                            Title = loginBtnActivity.Text,
+                            Text = loginPromptActivity.Text,
                         };
 
                         AddDialog(new OAuthPrompt(

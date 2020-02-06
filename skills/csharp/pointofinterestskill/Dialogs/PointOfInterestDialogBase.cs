@@ -931,9 +931,7 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                var localeConfig = Services.GetCognitiveModels();
-                localeConfig.LuisServices.TryGetValue("PointOfInterest", out var poiService);
-                var poiResult = await poiService.RecognizeAsync<PointOfInterestLuis>(promptContext.Context, CancellationToken.None);
+                var poiResult = promptContext.Context.TurnState.Get<PointOfInterestLuis>(StateProperties.POILuisResultKey);
                 var topIntent = poiResult.TopIntent();
 
                 if (topIntent.score > 0.5 && topIntent.intent != PointOfInterestLuis.Intent.None)
