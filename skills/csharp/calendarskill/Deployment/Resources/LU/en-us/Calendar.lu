@@ -496,9 +496,6 @@
 - appending {Subject=group meeting} {FromDate=next monday} at {FromTime=11am} for {Duration=an hour}
 - book a meeting
 - book a meeting in the {MeetingRoom=endor conference room}
-- book a meeting room at the {FloorNumber=4th floor} in the {Building=redmond} building
-- book a meeting room on {FloorNumber=floor 1}
-- book a meeting room on {FloorNumber=floor 5}
 - book a meeting between {FromTime=2} and {ToTime=3} {FromDate=tomorrow}
 - book a meeting between {FromTime=2:30pm} and {ToTime=4:45pm} {FromDate=tomorrow}
 - book a meeting in {Location=guangzhou} at 6am on {FromDate=march 5th}
@@ -1166,8 +1163,11 @@
 - book a conference room {MeetingRoom=(city-center/320-gc)}
 - book a double {MeetingRoom=4/22} near city center for me
 - book a hotel room {MeetingRoom=2/110} for a next week.
+- book a meeting room at the {FloorNumber=4th floor} in the {Building=redmond} building
 - book a {MeetingRoom=meeting room} in fisketorvet
 - book a {MeetingRoom=meeting room} in frederiksberg
+- book a meeting room on {FloorNumber=floor 1}
+- book a meeting room on {FloorNumber=floor 5}
 - book a place on the {FloorNumber=7th} floor in {Building=lloyds building}
 - book a {MeetingRoom=presidental room} at the h10 hotel.
 - book {MeetingRoom=room}

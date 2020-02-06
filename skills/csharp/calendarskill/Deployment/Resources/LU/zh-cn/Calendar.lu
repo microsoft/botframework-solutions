@@ -560,6 +560,25 @@
 - 追加一个{Subject=小组会议}，{FromDate=下周一}{FromTime=上午9点}
 - 附加上{Subject=妈妈的生日}
 - 预约{FromTime=凌晨三点}的约会
+- 附加{Subject=小组会议}  {FromDate=下周一} 在{FromTime=上午11点} 对于{Duration=一小时}
+- 预订会议
+- 预订会议在{MeetingRoom=内托会议室}
+- 预订会议室{FloorNumber=4楼} 在{Building=雷德蒙} 建筑
+- 预订会议室{FloorNumber=楼层 1}
+- 预订会议室{FloorNumber=楼层 5}
+- 预订之间的会议{FromTime=2} 和{ToTime=3}  {FromDate=明天}
+- 预订之间的会议{FromTime=下午2：30} 和{ToTime=下午4：45}  {FromDate=明天}
+- 预订会议{Location=广州} 早上6点{FromDate=3月5日}
+- 预订6点钟的会议
+- 预订会议{FromTime=晚上 7：00}
+- 预订会议{FromTime=上午 8 点}
+- 预订会议{FromTime=上午9：35}
+- 预订会议{FromDate=明天}  {FromTime=下午6点} 与露西陈
+- 预订与杰克的会面
+- 预订与莉莉的会议在{FromTime=上午11点}
+- 我想预订一个会议在{Building=区 柯克} 建立在{FloorNumber=23楼}.
+- 预订{Subject=定期 1x1 会议} 在{FromDate=每月的第一个星期一}
+- 创建具有tom34@outlook.com的会议
 - ^(创建|新建|开)[一个](主题|标题)(为|是)“{Subject.Any}”的会
 
 
@@ -1013,8 +1032,6 @@
 - 预订会议室 {MeetingRoom=（市中心/320-gc）} 
 - 预订双 {MeetingRoom=4/22} 靠近市中心为我
 - 预订酒店房间 {MeetingRoom=2/110} 下周
-- 预订会议
-- 预订会议在 {MeetingRoom=内托会议室} 
 - 预订会议室 {FloorNumber=4楼} 在 {Building=雷德蒙} 建筑
 - 预订 {MeetingRoom=会议室} 在菲索托维特
 - 预订 {MeetingRoom=会议室} 在弗雷德里克斯堡
