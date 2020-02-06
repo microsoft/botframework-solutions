@@ -177,7 +177,7 @@ namespace PointOfInterestSkill.Dialogs
                     {
                         case General.Intent.Cancel:
                             {
-                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.CancelMessage));
+                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.CancellingMessage));
                                 await innerDc.CancelAllDialogsAsync();
                                 await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
