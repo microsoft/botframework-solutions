@@ -694,9 +694,6 @@
 - Anexar {Subject=reunión de grupo}  {FromDate=próximo lunes}  En {FromTime=11am}  Para {Duration=una hora}
 - reservar una reunión
 - libro una reunión en el {MeetingRoom=sala de conferencias endor}
-- reservar una sala de reuniones en el {FloorNumber=4o piso}  En {Building=Redmond}  Edificio
-- reservar una sala de reuniones en {FloorNumber=piso 1}
-- reservar una sala de reuniones en {FloorNumber=piso 5}
 - reservar una reunión entre {FromTime=2}  Y {ToTime=3}  {FromDate=Mañana}
 - reservar una reunión entre {FromTime=2:30pm}  Y {ToTime=4:45pm}  {FromDate=Mañana}
 - reservar una reunión en {Location=Guangzhou}  a las 6 de la mañana en {FromDate=marcha 5}

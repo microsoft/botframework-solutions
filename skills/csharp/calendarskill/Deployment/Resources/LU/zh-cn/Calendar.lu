@@ -563,9 +563,6 @@
 - 附加{Subject=小组会议}  {FromDate=下周一} 在{FromTime=上午11点} 对于{Duration=一小时}
 - 预订会议
 - 预订会议在{MeetingRoom=内托会议室}
-- 预订会议室{FloorNumber=4楼} 在{Building=雷德蒙} 建筑
-- 预订会议室{FloorNumber=楼层 1}
-- 预订会议室{FloorNumber=楼层 5}
 - 预订之间的会议{FromTime=2} 和{ToTime=3}  {FromDate=明天}
 - 预订之间的会议{FromTime=下午2：30} 和{ToTime=下午4：45}  {FromDate=明天}
 - 预订会议{Location=广州} 早上6点{FromDate=3月5日}

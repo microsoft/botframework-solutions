@@ -622,9 +622,6 @@
 - wir vereinbaren einen termin für mich
 - Buchen eines Meetings
 - buchen Sie ein Meeting in der {MeetingRoom=Endor-Konferenzraum}
-- buchen Sie einen Tagungsraum im {FloorNumber=4. Stock}  in der {Building=Redmond}  Gebäude
-- Buchen Sie einen Tagungsraum auf {FloorNumber=Etage 1}
-- Buchen Sie einen Tagungsraum auf {FloorNumber=Etage 5}
 - buchen Sie ein Treffen zwischen {FromTime=2}  Und {ToTime=3}  {FromDate=Morgen}
 - buchen Sie ein Treffen zwischen {FromTime=14:30 Uhr}  Und {ToTime=16:45 Uhr}  {FromDate=Morgen}
 - Buchen Sie ein Meeting in {Location=Guangzhou}  um 6 Uhr morgens {FromDate=5. März}

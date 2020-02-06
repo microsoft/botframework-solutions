@@ -616,9 +616,6 @@
 - Ajout {Subject=réunion de groupe}  {FromDate=lundi prochain}  À {FromTime=11h00}  Pour {Duration=une heure}
 - réserver une réunion
 - réserver une réunion dans le {MeetingRoom=salle de conférence endor}
-- réserver une salle de réunion à la {FloorNumber=4ème étage}  dans le {Building=Redmond}  Bâtiment
-- réserver une salle de réunion sur {FloorNumber=étage 1}
-- réserver une salle de réunion sur {FloorNumber=étage 5}
 - réserver une rencontre entre {FromTime=2}  Et {ToTime=3}  {FromDate=Demain}
 - réserver une rencontre entre {FromTime=14h30}  Et {ToTime=16h45}  {FromDate=Demain}
 - réserver une réunion en {Location=Guangzhou}  à 6h du matin le {FromDate=mars 5ème}
