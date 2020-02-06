@@ -1,4 +1,4 @@
-﻿=using Bot.Builder.Community.Adapters.Google;
+﻿using Bot.Builder.Community.Adapters.Google;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
