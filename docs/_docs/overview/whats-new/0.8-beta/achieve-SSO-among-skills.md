@@ -5,7 +5,7 @@ language: 0_8_release
 date: 2020-02-03
 title: Enable SSO support with Skills
 description: Explains the steps to take to achieve SSO experience when multiple skills are added to a Virtual Assistant
-order: 6
+order: 7
 toc: true
 ---
 
