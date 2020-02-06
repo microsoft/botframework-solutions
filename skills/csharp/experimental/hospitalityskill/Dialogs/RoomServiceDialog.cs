@@ -16,6 +16,8 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using static Luis.HospitalityLuis._Entities;
+using Bot.Builder.Community.Adapters.Google.Model.Attachments;
+using Bot.Builder.Community.Adapters.Google.Model;
 
 namespace HospitalitySkill.Dialogs
 {
@@ -63,23 +65,57 @@ namespace HospitalitySkill.Dialogs
             {
                 var prompt = ResponseManager.GetResponse(RoomServiceResponses.MenuPrompt);
 
-                var actions = new List<CardAction>()
+                if (sc.Context.Activity.ChannelId == "google")
                 {
-                    new CardAction(type: ActionTypes.ImBack, title: "Breakfast", value: "Breakfast menu"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Lunch", value: "Lunch menu"),
-                    new CardAction(type: ActionTypes.ImBack, title: "Dinner", value: "Dinner menu"),
-                    new CardAction(type: ActionTypes.ImBack, title: "24 Hour", value: "24 hour menu")
-                };
-
-                // create hero card instead when channel does not support suggested actions
-                if (!Channel.SupportsSuggestedActions(sc.Context.Activity.ChannelId))
-                {
-                    var hero = new HeroCard(buttons: actions);
-                    prompt.Attachments.Add(hero.ToAttachment());
+                    prompt.Text = prompt.Text.Replace("*", "");
+                    prompt.Speak = prompt.Speak.Replace("*", "");
+                    var listAttachment = new ListAttachment(
+                        "Select an option below",
+                        new List<OptionItem>() {
+                            new OptionItem() {
+                                Title = "Breakfast",
+                                Image = new OptionItemImage() { AccessibilityText = "Item 1 image", Url = "http://cdn.cnn.com/cnnnext/dam/assets/190515173104-03-breakfast-around-the-world-avacado-toast.jpg"},
+                                OptionInfo = new OptionItemInfo() { Key = "Breakfast", Synonyms = new List<string>(){ "first" } }
+                            },
+                        new OptionItem() {
+                                Title = "Lunch",
+                                Image = new OptionItemImage() { AccessibilityText = "Item 2 image", Url = "https://simply-delicious-food.com/wp-content/uploads/2018/07/mexican-lunch-bowls-3.jpg"},
+                                OptionInfo = new OptionItemInfo() { Key = "Lunch", Synonyms = new List<string>(){ "second" } }
+                            },
+                        new OptionItem() {
+                                Title = "Dinner",
+                                Image = new OptionItemImage() { AccessibilityText = "Item 3 image", Url = "https://cafedelites.com/wp-content/uploads/2018/06/Garlic-Butter-Steak-Shrimp-Recipe-IMAGE-1.jpg"},
+                                OptionInfo = new OptionItemInfo() { Key = "Dinner", Synonyms = new List<string>(){ "third" } }
+                            },
+                        new OptionItem() {
+                                Title = "24 Hour Options",
+                                Image = new OptionItemImage() { AccessibilityText = "Item 4 image", Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvAkc_j44yfAhswKl9s5LKnwFL4MGAg4IwFM6lBVTs0W4o9fLB&s"},
+                                OptionInfo = new OptionItemInfo() { Key = "24 hour options", Synonyms = new List<string>(){ "fourth" } }
+                            }
+                        },
+                        ListAttachmentStyle.Carousel);
+                    prompt.Attachments.Add(listAttachment);
                 }
                 else
                 {
-                    prompt.SuggestedActions = new SuggestedActions { Actions = actions };
+                    var actions = new List<CardAction>()
+                    {
+                        new CardAction(type: ActionTypes.ImBack, title: "Breakfast", value: "Breakfast menu"),
+                        new CardAction(type: ActionTypes.ImBack, title: "Lunch", value: "Lunch menu"),
+                        new CardAction(type: ActionTypes.ImBack, title: "Dinner", value: "Dinner menu"),
+                        new CardAction(type: ActionTypes.ImBack, title: "24 Hour", value: "24 hour menu")
+                    };
+
+                    // create hero card instead when channel does not support suggested actions
+                    if (!Channel.SupportsSuggestedActions(sc.Context.Activity.ChannelId))
+                    {
+                        var hero = new HeroCard(buttons: actions);
+                        prompt.Attachments.Add(hero.ToAttachment());
+                    }
+                    else
+                    {
+                        prompt.SuggestedActions = new SuggestedActions { Actions = actions };
+                    }
                 }
 
                 return await sc.PromptAsync(DialogIds.MenuPrompt, new PromptOptions()
@@ -128,14 +164,39 @@ namespace HospitalitySkill.Dialogs
 
                     menuItems.Add(new Card(cardName, item));
                 }
+                var Prompt = ResponseManager.GetResponse(RoomServiceResponses.FoodOrder);
+                if (sc.Context.Activity.ChannelId == "google")
+                {
 
-                // show menu card
-                await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card(GetCardName(sc.Context, "MenuCard"), menu), null, "items", menuItems));
+                    List<OptionItem> menuOptions = new List<OptionItem>();
+                    foreach (MenuItem item in menu.Items)
+                    {
+                        var option = new OptionItem()
+                        {
+                            Title = item.Name,
+                            Description = item.Description + " " + item.Price,
+                            OptionInfo = new OptionItemInfo() { Key = item.Name, Synonyms = new List<string>() { } }
+
+                        };
+                        menuOptions.Add(option);
+                    }
+
+                    var listAttachment = new ListAttachment(
+                        menu.Type + ": " + menu.TimeAvailable,
+                        menuOptions,
+                        ListAttachmentStyle.List);
+                    Prompt.Attachments.Add(listAttachment);
+                }
+                else
+                {
+                    // show menu card
+                    await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(null, new Card(GetCardName(sc.Context, "MenuCard"), menu), null, "items", menuItems));
+                }
 
                 // prompt for order
                 return await sc.PromptAsync(DialogIds.FoodOrderPrompt, new PromptOptions()
                 {
-                    Prompt = ResponseManager.GetResponse(RoomServiceResponses.FoodOrder),
+                    Prompt = Prompt,
                     RetryPrompt = ResponseManager.GetResponse(RoomServiceResponses.RetryFoodOrder)
                 });
             }

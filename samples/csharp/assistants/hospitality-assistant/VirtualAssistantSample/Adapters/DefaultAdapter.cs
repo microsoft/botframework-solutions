@@ -5,11 +5,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions.Feedback;
-using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Feedback;
+using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Responses;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Adapters
@@ -18,12 +18,13 @@ namespace VirtualAssistantSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
+            ICredentialProvider credentialProvider,
+            IChannelProvider channelProvider,
             LocaleTemplateEngineManager templateEngine,
             ConversationState conversationState,
-            ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
-            : base(credentialProvider)
+            : base(credentialProvider, channelProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
@@ -41,6 +42,7 @@ namespace VirtualAssistantSample.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
+            Use(new SetSpeakMiddleware());
         }
     }
 }
