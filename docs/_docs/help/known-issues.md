@@ -128,3 +128,24 @@ For more information, check the following issues:
 * [#2766](https://github.com/microsoft/botframework-solutions/issues/2766) - `OnTurnError is not getting called in VA`
 * [botbuilder-js#726](https://github.com/microsoft/botbuilder-js/issues/726) - `ShowTypingMiddleware suppresses errors and does not allow adapter.onTurnError to handle them`
 * [botbuilder-js#1170](https://github.com/microsoft/botbuilder-js/issues/1170) - `ShowTypingMiddleware provoke silent error behaviour`
+
+## LUISGen error on Mac OSX during deployment
+
+When deploying your Virtual Assistant or Skill on a Mac you may experience the following LuisGen error:
+
+```
+Luisgen : The term 'luisgen' is not recognized as the name of a cmdlet, function, script file, or operable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At /Users/BotPath/Deployment/Scripts/add_remote_skill.ps1:170 char:2
++     luisgen $dispatchJsonPath -cs "DispatchLuis" -o $lgOutFolder 2>>  ...
++     ~~~~~~~
++ CategoryInfo          : ObjectNotFound: (luisgen:String) [], CommandNotFoundException
++ FullyQualifiedErrorId : CommandNotFoundException
+```
+The root cause is  [discussed here](https://github.com/dotnet/sdk/issues/2998) whereby powershell isn’t expanding the ~ in the path. If you run `$env:PATH` within Powershell on your Mac you’ll see `~/.dotnet/tools`in the path which is where luisgen will have been installed. In fact if you run `~/.dotnet/tools/luisgen` within powershell you should be able to execute it correctly.
+
+The workaround at this time is to run this ahead of any of the Virtual Assistant deployment scripts.
+
+```
+$env:PATH += ":/users/YOUR_USER_NAME/.dotnet/tools"
+```
