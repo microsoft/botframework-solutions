@@ -127,6 +127,6 @@
     <value>entlassen</value>
   </data>
   <data name="FeedbackReceivedMessage" xml:space="preserve">
-    <value>Vielen Dank für Ihr Feedback!</value>
+    <value>Danke, ich freue mich über Ihr Feedback.</value>
   </data>
 </root>
