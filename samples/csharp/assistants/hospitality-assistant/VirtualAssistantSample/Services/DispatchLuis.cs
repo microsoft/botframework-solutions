@@ -22,6 +22,12 @@ namespace Luis
             l_General,
             q_Chitchat,
             q_Faq,
+            BingSkill,
+            HospitalitySkill,
+            MusicSkill,
+            NewsSkill,
+            PointOfInterestSkill,
+            WeatherSkill,
             None
         };
         [JsonProperty("intents")]
