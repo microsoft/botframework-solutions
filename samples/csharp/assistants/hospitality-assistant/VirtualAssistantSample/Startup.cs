@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Bot.Builder.Community.Adapters.Google;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -127,6 +128,19 @@ namespace VirtualAssistantSample
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
             services.AddSingleton<BotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
+
+            // Create the Google Adapter
+            services.AddSingleton<GoogleAdapter, GoogleAdapterWithErrorHandler>();
+
+            // Create GoogleAdapterOptions
+            services.AddSingleton(sp =>
+            {
+                return new GoogleAdapterOptions()
+                {
+                    ActionInvocationName = "YOUR-ACTION-DISPLAY-NAME",
+                    ActionProjectId = "YOUR-PROJECT-ID"
+                };
+            });
 
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();

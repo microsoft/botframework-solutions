@@ -76,6 +76,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 

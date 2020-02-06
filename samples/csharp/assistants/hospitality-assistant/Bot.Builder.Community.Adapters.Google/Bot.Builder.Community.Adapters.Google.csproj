@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Adapter for v4 of the Bot Builder .NET SDK to allow for a bot to be used for Actions on Google.</Description>
+    <Authors>Bot Builder Community</Authors>
+    <Company>Bot Builder Community</Company>
+    <PackageLicenseUrl>https://github.com/BotBuilderCommunity/botbuilder-community-dotnet/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/BotBuilderCommunity/botbuilder-community-dotnet/</PackageProjectUrl>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Directives\**" />
+    <Compile Remove="Integration\AspNet.WebApi\**" />
+    <Compile Remove="Middleware\**" />
+    <EmbeddedResource Remove="Directives\**" />
+    <EmbeddedResource Remove="Integration\AspNet.WebApi\**" />
+    <EmbeddedResource Remove="Middleware\**" />
+    <None Remove="Directives\**" />
+    <None Remove="Integration\AspNet.WebApi\**" />
+    <None Remove="Middleware\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="GoogleConversationalSchema.cs.old" />
+  </ItemGroup>
+
+  <ItemGroup>
+		<PackageReference Include="JWT" Version="5.0.1" />
+		<PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.4" />
+		<PackageReference Include="Microsoft.Bot.Builder" Version="4.6.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.1" />
+		<PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
+		<PackageReference Include="Microsoft.Net.Http.Headers" Version="2.1.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+  </ItemGroup>
+
+</Project>
