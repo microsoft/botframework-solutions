@@ -12,7 +12,7 @@ toc: true
 
 Botskills command line tool allows you to automate the connection between the **Virtual Assistant** and your **Skills**, which includes the process of updating your dispatch models and create authentication connections where needed.
 The CLI performs the following operations on your behalf:
-1. Retrieve the **Skill Manifest** from the remote Skill through the `/api/skill/manifest` endpoint. If it is a local Skill you should specify the path.
+1. Retrieve the **Skill Manifest** from the remote Skill through the `/manifest/manifest-1.1.json` endpoint. If it is a local Skill you should specify the path.
 2. Identify which **Language Models** are used by the Skill and resolve the triggering utterances either through local LU file resolution.
 3. Add a new dispatch target using the `dispatch` tool to trigger the utterances retrieved in the previous step.
 4. Refresh the dispatch LUIS model with the new utterances.
@@ -41,7 +41,7 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
+botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
@@ -69,7 +69,7 @@ The `update` command allows you to update a Skill, be it local or remote, to you
 
 Here is an example:
 ```bash
-botskills update --botName <YOUR_BOT_NAME> --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
+botskills update --botName <YOUR_BOT_NAME> --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
 ```
 
 For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/update.md).

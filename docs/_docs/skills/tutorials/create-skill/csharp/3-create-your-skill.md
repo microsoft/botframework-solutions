@@ -23,7 +23,7 @@ order: 3
 | - Bots                                // ActivityHandler implementations for initializing dialog stack
     | - DefaultActivityHandler.cs       // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
 | - Controllers                         // API Controllers
-    | - BotController.cs                // API Controller for api/messages and api/skill/messages endpoints
+    | - BotController.cs                // API Controller for api/messages endpoint
 | - Deployment                          // Files for deployment and provisioning
     | - Resources                       // Resources for deployment and provisioning
         | - LU                          // Files for deploying LUIS language models

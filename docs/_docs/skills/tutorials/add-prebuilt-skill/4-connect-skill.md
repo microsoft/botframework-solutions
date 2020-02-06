@@ -17,7 +17,7 @@ To add your new Skill to your assistant/Bot we provide a [botskills](https://www
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --cs
+botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 ```
 
 **Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only**
