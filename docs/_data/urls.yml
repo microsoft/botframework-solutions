@@ -1,0 +1,2 @@
+SkillManualAuth: 'skills/handbook/authentication#manual-authentication-steps'
+SkillManifest: 'https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json'

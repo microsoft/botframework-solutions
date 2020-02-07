@@ -5,7 +5,7 @@ language: 0_8_release
 date: 2020-02-03
 title: Deploy Virtual Assistant to Azure US Cloud
 description: Steps to deploy the Virtual Assistant template to Azure US Government Cloud
-order: 5
+order: 6
 toc: true
 ---
 

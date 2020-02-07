@@ -149,7 +149,7 @@ This skill uses the following authentication scopes:
 - **People.Read**    
 - **Contacts.Read**
 
-You must use [these steps]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to manually configure Authentication for the Calendar Skill. Due to a change in the Skill architecture this is not currently automated.
+You must use [these steps]({{site.baseurl}}/{{site.data.urls.SkillManualAuth}}) to manually configure Authentication for the Calendar Skill. Due to a change in the Skill architecture this is not currently automated.
 
 > Ensure you configure all of the scopes detailed above.
 
@@ -211,10 +211,10 @@ The Calendar skill provides additional support to search and book meeting rooms.
 |primaryKey  | The primaryKey of the given CosmosDb Account  | Yes |
 |appId  | A registed app in Azure App registrations Service | Yes |
 
-You can access all the required parameters from the [Deployment](#Deployment) step. <br>
+You can access all the required parameters from the [Deployment](#deployment) step. <br>
 **Note:** When running the script, you will be asked to sign in with your account which can access the meeting room data in the MSGraph.
 
-Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication#manual-authentication) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/{{site.data.urls.SkillManualAuth}}) to configure this using the scopes shown above.
 
 ## Events
 {:.toc}
