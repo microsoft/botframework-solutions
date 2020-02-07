@@ -5,7 +5,7 @@ language: 0_8_release
 title: MainDialog updates
 date: 2020-02-03
 description: Steps for updating to Waterfall MainDialog implementation
-order: 3
+order: 2
 toc: true
 ---
 
