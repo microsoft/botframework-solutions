@@ -10,12 +10,12 @@ $config = Get-Content -Raw -Path $jsonFile | ConvertFrom-Json
 
 # Create reused variables
 $dispatchModel = [pscustomobject]@{
-    authoringkey = ""
+    authoringKey = ""
     authoringRegion = ""
-    appid = ""
+    appId = ""
     name = ""
     region = ""
-    subscriptionkey = ""
+    subscriptionKey = ""
     type = "dispatch"
 }
 
