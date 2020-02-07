@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSkill", "..\..\..\..\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bot.Builder.Community.Adapters.Google", "Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj", "{0E0E8E44-4C33-4238-9232-62C23F9FD1C0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillServiceLibrary", "..\..\..\..\skills\csharp\shared\SkillServiceLibrary\SkillServiceLibrary.csproj", "{9A37C1E8-D97C-4C7E-B949-4FE4BBE27735}"
 EndProject
 Global
@@ -65,10 +63,6 @@ Global
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E0E8E44-4C33-4238-9232-62C23F9FD1C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E0E8E44-4C33-4238-9232-62C23F9FD1C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E0E8E44-4C33-4238-9232-62C23F9FD1C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E0E8E44-4C33-4238-9232-62C23F9FD1C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A37C1E8-D97C-4C7E-B949-4FE4BBE27735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9A37C1E8-D97C-4C7E-B949-4FE4BBE27735}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A37C1E8-D97C-4C7E-B949-4FE4BBE27735}.Release|Any CPU.ActiveCfg = Release|Any CPU

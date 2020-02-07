@@ -103,7 +103,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\samples\csharp\assistants\hospitality-assistant\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj" />
     <ProjectReference Include="..\..\shared\SkillServiceLibrary\SkillServiceLibrary.csproj" />
   </ItemGroup>
 
