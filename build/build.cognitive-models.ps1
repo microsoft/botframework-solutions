@@ -20,13 +20,13 @@ $dispatchModel = [pscustomobject]@{
 }
 
 $languageModel = [pscustomobject]@{
-    appid = ""
-    authoringkey = ""
+    appId = ""
+    authoringKey = ""
     authoringRegion = ""
     id = ""
     name = ""
     region = ""
-    subscriptionkey = ""
+    subscriptionKey = ""
     version = ""
 }
 
