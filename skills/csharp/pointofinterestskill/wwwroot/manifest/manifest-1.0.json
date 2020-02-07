@@ -102,6 +102,10 @@
     "responseObject": {
       "type": "object",
       "properties": {
+        "name": {
+          "type": "string",
+          "description": "Destination's name."
+        },
         "latitude": {
           "type": "number",
           "description": "Destination's latitude."
@@ -113,6 +117,10 @@
         "telephone": {
           "type": "string",
           "description": "Destination's telephone."
+        },
+        "address": {
+          "type": "string",
+          "description": "Destination's address.'"
         }
       }
     }
