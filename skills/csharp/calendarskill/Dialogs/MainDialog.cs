@@ -222,63 +222,63 @@ namespace CalendarSkill.Dialogs
                                 break;
                             }
                     }
+                }
 
-                    if (!interrupted && innerDc.ActiveDialog != null)
+                if (!interrupted && !(innerDc.Parent.ActiveDialog.Id.Equals(nameof(MainDialog)) && innerDc.ActiveDialog.Id.Equals(nameof(TextPrompt))))
+                {
+                    var calendarLuisResult = innerDc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
+                    var topCalendarIntent = calendarLuisResult.TopIntent();
+
+                    if (topCalendarIntent.score > 0.9 && !CalendarCommonUtil.IsFindEventsDialog(state.InitialIntent))
                     {
-                        var calendarLuisResult = innerDc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
-                        var topCalendarIntent = calendarLuisResult.TopIntent();
+                        var intentSwitchingResult = CalendarCommonUtil.CheckIntentSwitching(topCalendarIntent.intent);
+                        var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
 
-                        if (topCalendarIntent.score > 0.9 && !CalendarCommonUtil.IsFindEventsDialog(state.InitialIntent))
+                        if (intentSwitchingResult != CalendarLuis.Intent.None)
                         {
-                            var intentSwitchingResult = CalendarCommonUtil.CheckIntentSwitching(topCalendarIntent.intent);
-                            var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
+                            state.Clear();
+                            await innerDc.CancelAllDialogsAsync();
+                            state.InitialIntent = intentSwitchingResult;
 
-                            if (intentSwitchingResult != CalendarLuis.Intent.None)
+                            switch (intentSwitchingResult)
                             {
-                                state.Clear();
-                                await innerDc.CancelAllDialogsAsync();
-                                state.InitialIntent = intentSwitchingResult;
-
-                                switch (intentSwitchingResult)
-                                {
-                                    case CalendarLuis.Intent.DeleteCalendarEntry:
-                                        await innerDc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Cancelled));
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.AcceptEventEntry:
-                                        await innerDc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Accepted));
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.ChangeCalendarEntry:
-                                        await innerDc.BeginDialogAsync(nameof(UpdateEventDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.CheckAvailability:
-                                        await innerDc.BeginDialogAsync(nameof(CheckPersonAvailableDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.ConnectToMeeting:
-                                        await innerDc.BeginDialogAsync(nameof(JoinEventDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.CreateCalendarEntry:
-                                        await innerDc.BeginDialogAsync(nameof(CreateEventDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.FindCalendarDetail:
-                                    case CalendarLuis.Intent.FindCalendarEntry:
-                                    case CalendarLuis.Intent.FindCalendarWhen:
-                                    case CalendarLuis.Intent.FindCalendarWhere:
-                                    case CalendarLuis.Intent.FindCalendarWho:
-                                    case CalendarLuis.Intent.FindDuration:
-                                        await innerDc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, newFlowOptions));
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.TimeRemaining:
-                                        await innerDc.BeginDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                }
+                                case CalendarLuis.Intent.DeleteCalendarEntry:
+                                    await innerDc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Cancelled));
+                                    interrupted = true;
+                                    break;
+                                case CalendarLuis.Intent.AcceptEventEntry:
+                                    await innerDc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Accepted));
+                                    interrupted = true;
+                                    break;
+                                case CalendarLuis.Intent.ChangeCalendarEntry:
+                                    await innerDc.BeginDialogAsync(nameof(UpdateEventDialog), newFlowOptions);
+                                    interrupted = true;
+                                    break;
+                                case CalendarLuis.Intent.CheckAvailability:
+                                    await innerDc.BeginDialogAsync(nameof(CheckPersonAvailableDialog), newFlowOptions);
+                                    interrupted = true;
+                                    break;
+                                case CalendarLuis.Intent.ConnectToMeeting:
+                                    await innerDc.BeginDialogAsync(nameof(JoinEventDialog), newFlowOptions);
+                                    interrupted = true;
+                                    break;
+                                case CalendarLuis.Intent.CreateCalendarEntry:
+                                    await innerDc.BeginDialogAsync(nameof(CreateEventDialog), newFlowOptions);
+                                    interrupted = true;
+                                    break;
+                                case CalendarLuis.Intent.FindCalendarDetail:
+                                case CalendarLuis.Intent.FindCalendarEntry:
+                                case CalendarLuis.Intent.FindCalendarWhen:
+                                case CalendarLuis.Intent.FindCalendarWhere:
+                                case CalendarLuis.Intent.FindCalendarWho:
+                                case CalendarLuis.Intent.FindDuration:
+                                    await innerDc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, newFlowOptions));
+                                    interrupted = true;
+                                    break;
+                                case CalendarLuis.Intent.TimeRemaining:
+                                    await innerDc.BeginDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
+                                    interrupted = true;
+                                    break;
                             }
                         }
                     }
