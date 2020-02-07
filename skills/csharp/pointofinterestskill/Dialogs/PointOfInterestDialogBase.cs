@@ -444,7 +444,8 @@ namespace PointOfInterestSkill.Dialogs
                         Choices = new List<Choice>()
                     };
 
-                    if (!string.IsNullOrEmpty(state.Destination.Phone))
+                    bool hasCall = !string.IsNullOrEmpty(state.Destination.Phone);
+                    if (hasCall)
                     {
                         options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.CALL });
                     }
@@ -477,6 +478,29 @@ namespace PointOfInterestSkill.Dialogs
                         options.Prompt = ResponseManager.GetCardResponse(promptResponse, card, null);
                     }
 
+                    if (state.DestinationActionType != DestinationActionType.None)
+                    {
+                        int choiceIndex = -1;
+                        if (state.DestinationActionType == DestinationActionType.Call)
+                        {
+                            choiceIndex = hasCall ? 0 : -1;
+                        }
+                        else if (state.DestinationActionType == DestinationActionType.ShowDirectionsThenStartNavigation)
+                        {
+                            choiceIndex = hasCall ? 1 : 0;
+                        }
+                        else if (state.DestinationActionType == DestinationActionType.StartNavigation)
+                        {
+                            choiceIndex = hasCall ? 2 : 1;
+                        }
+
+                        if (choiceIndex >= 0)
+                        {
+                            await sc.Context.SendActivityAsync(options.Prompt);
+                            return await sc.NextAsync(new FoundChoice() { Index = choiceIndex });
+                        }
+                    }
+
                     return await sc.PromptAsync(Actions.SelectActionPrompt, options);
                 }
 
@@ -503,6 +527,8 @@ namespace PointOfInterestSkill.Dialogs
             var choice = sc.Result as FoundChoice;
             int choiceIndex = choice.Index;
 
+            SingleDestinationResponse response = null;
+
             // TODO skip call button
             if (string.IsNullOrEmpty(state.Destination.Phone))
             {
@@ -515,6 +541,8 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Telephone));
                 }
+
+                response = ConvertToResponse(state.Destination);
             }
             else if (choiceIndex == 1)
             {
@@ -526,9 +554,11 @@ namespace PointOfInterestSkill.Dialogs
                 {
                     await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Map));
                 }
+
+                response = ConvertToResponse(state.Destination);
             }
 
-            return await sc.NextAsync();
+            return await sc.NextAsync(response);
         }
 
         protected async Task<Card> GetContainerCard(ITurnContext context, string name, LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestList, IGeoSpatialService service)
@@ -904,6 +934,17 @@ namespace PointOfInterestSkill.Dialogs
         protected bool SupportOpenDefaultAppReply(ITurnContext turnContext)
         {
             return turnContext.IsSkill() || Channel.GetChannelId(turnContext) != Channels.Msteams;
+        }
+
+        protected SingleDestinationResponse ConvertToResponse(PointOfInterestModel model)
+        {
+            var response = new SingleDestinationResponse();
+            response.Name = model.Name;
+            response.Latitude = model.Geolocation.Latitude;
+            response.Longitude = model.Geolocation.Longitude;
+            response.Telephone = model.Phone;
+            response.Address = model.Address;
+            return response;
         }
 
         private string GetCardImageUri(string imagePath)

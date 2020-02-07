@@ -8,11 +8,19 @@ using System.Threading.Tasks;
 
 namespace SkillServiceLibrary.Models
 {
-    public class GeoSpatialServiceTypes
+    public static class GeoSpatialServiceTypes
     {
-        public class PoiType
+        public static class PoiType
         {
-            public const string Nearest = "nearest";
+            public static readonly string Nearest = "nearest";
+        }
+
+        public static class RouteType
+        {
+            public static readonly string Eco = "eco";
+            public static readonly string Thrilling = "thrilling";
+            public static readonly string Fastest = "fastest";
+            public static readonly string Shortest = "shortest";
         }
     }
 }
