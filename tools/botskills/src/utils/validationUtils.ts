@@ -44,7 +44,7 @@ export function isValidCultures(availableCultures: string[], targetedCultures: s
     return true;
 }
 
-export function manifestV1Validation(skillManifest: ISkillManifestV1, logger: ILogger): ILogger {
+export function manifestV1Validation(skillManifest: ISkillManifestV1, logger: ILogger): void {
     if (!skillManifest.name) {
         logger.error(`Missing property 'name' of the manifest`);
     }
@@ -65,10 +65,9 @@ export function manifestV1Validation(skillManifest: ISkillManifestV1, logger: IL
         logger.error(`Missing property 'actions' of the manifest`);
     }
 
-    return logger;
 }
 
-export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: ILogger, endpointName?: string): ILogger {
+export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: ILogger, endpointName?: string): void {
     if (!skillManifest.$schema) {
         logger.error(`Missing property '$schema' of the manifest`);
     }
@@ -105,5 +104,4 @@ export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: IL
         logger.error(`Missing property 'activities' of the manifest`);
     }
     
-    return logger;
 }

@@ -61,7 +61,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         let validVersion: manifestVersion = manifestVersion.none;
         switch (skillManifestVersion) {
             case manifestVersion.V1: {
-                if (!manifestV1Validation(skillManifest as ISkillManifestV1, this.logger).isError)
+                manifestV1Validation(skillManifest as ISkillManifestV1, this.logger);
+                if (!this.logger.isError)
                 {
                     validVersion = manifestVersion.V1;
                     break;
@@ -69,7 +70,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
             }
             case manifestVersion.V2: {
-                if (!manifestV2Validation(skillManifest as ISkillManifestV2, this.logger, this.configuration.endpointName).isError)
+                manifestV2Validation(skillManifest as ISkillManifestV2, this.logger, this.configuration.endpointName);
+                if (!this.logger.isError)
                 {
                     validVersion = manifestVersion.V2;
                     break;
