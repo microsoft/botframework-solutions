@@ -1,66 +1,87 @@
-> Source: custom editorial
-## ? What is a Virtual Assistant
+﻿> # QnA pairs
+
+> Source: Editorial
+## ? Do you have a business center?
+- I need to print a boarding pass
 
 ```markdown
-![Virtual Assistant](https://aka.ms/virtualassistantlogo)
-I'm a Virtual Assistant with the ability to be customized to a customer's brand and made available across a broad range of devices.
-I can help you be more productive, find points of interest, and answer questions.
-Learn more by visiting [here](https://aka.ms/virtualassistant).
+Our business center is open 24-hour and located on the first floor.
 ```
 
-> Source: custom editorial
-## ? What is a Skill
+> Source: Editorial
+## ? how do I turn on my jaccuzi?
 
 ```markdown
-Bot Framework Skills are capabilities that can be integrated with a Virtual Assistant.
-Learn more by visiting [here](https://aka.ms/virtualassistant).
+Please ensure that the water level is above the jets prior to turning jacuzzi on.
 ```
 
-> Source: custom editorial
-## ? What can the Calendar Skill do
+> Source: Editorial
+## ? Do you have wheelchairs available?
 
 ```markdown
-The Calendar Skill assists with managing the events on your calendar.
-Try saying thigs like "do I have any appointments today", "how long until my next meeting", or "put anniversary on my calendar."
+Scooters and wheelchairs can be reserved in advance through the Bell Desk or requested upon check-in.  Wheelchair rental fees are as follows: standard wheelchair - $15.00/day. Motorized scooter - $40.00/day.  Valid photo ID & credit card required to rent.
 ```
 
-> Source: custom editorial
-## ? What can the Email Skill do
+> Source: Editorial
+## ? I have an emergency
 
 ```markdown
-The Email Skill assists with reading and sending your messages to contacts.
-Try saying things like "do I have any new mail", "add a flag to this email", or "respond to my last email."
+If you are experiencing a medical emergency, please dial 911.  We have EMTs on staff if you need medical assistance. Please reach out to the front desk or pick up any house phone and dial 0 for operator.
 ```
 
-> Source: custom editorial
-## ? What can the Point of Interest Skill do
+> Source: Editorial
+## ? Why did my room key stop working?
 
 ```markdown
-The Point of Interest Skill finds nearby points of interest and assists with navigation.
-You can say things like "what's nearby", "I need directions to a cafe", or "where can I get coffee?"
+Sometimes credit cards, cellphones, as well as magnets, can demagnetize your keys.  Please come to the front desk if you need new keys. Must present valid photo I.D. and be a registered guest on the room.
 ```
 
-> Source: custom editorial
-## ? What can the ToDo Skill do
+> Source: Editorial
+## ? Where are the ice machines?
 
 ```markdown
-## Overview
-The ToDo Skill provides task related capabilities for managing to-do lists.
-You can say things like "what tasks do I have", "add some items to my shopping list", or "check off bananas on my grocery list."
+We have two ice machines located on each floor for your convenience!  One ice machine is close to the elevator, and the other ice machine is located at the end of the hallway.  A vending machine is also located by the ice machine.
 ```
 
-> Source: custom editorial
-## ? What's New
+> Source: Editorial
+## ? where can I charge my phone?
 
 ```markdown
-The Virtual Assistant is available as a template, allowing users to easily spin up and deploy their own personalized Assistant.
-Skills are now run as independent applications that a Virtual Assistant can integrate with remotely.
-New Virtual Assistants are ready to support both Microsoft Teams and speech-related scenarios.
+Phone Chargers can be purchased at our gift shop next to our cafe.
 ```
 
-> Source: custom editorial
-## ? How do I raise a bug
+> Source: Editorial
+## ? How can I reach housekeeping?
 
 ```markdown
-Raise an issue on the [GitHub repo](https://aka.ms/virtualassistant)
+I can assist with housekeeping requests. Just let me know what you need and I'll send it right up so that you can get back to having fun!
+```
+
+> Source: Editorial
+## ? Can I get a late check out?
+
+```markdown
+I am happy to extend a complimentary late check-out of 11:30am so that you can have an extra 30 minutes of fun! Late check-outs past 11:30am are subject to a nominal fee and are only available until 2pm. Please reply with MOREFUN and preferred check-out time so that I can inquire about our check-out availability for you.
+```
+
+> Source: Editorial
+## ? Where is the microwave?
+
+```markdown
+We do not have any microwaves available on property as an amenity to guests due to fire code regulations. My apologies! If you are hungry, I would suggest ordering from our amazing room service menu that is available 24 hours a day.
+```
+
+> Source: Editorial
+## ? Where is lost and found?
+
+```markdown
+Oh no! I'm sorry to hear that you misplaced something. Click here to submit a lost & found inquiry: 
+http://bit.ly/YourHotelLostFound
+```
+
+> Source: Editorial
+## ? I forgot my room number
+
+```markdown
+For security purposes, I am unable to provide that information over text. Please visit the front desk and present a valid photo ID to obtain that information. I'm just a text away should you need anything else during your stay. :)
 ```
