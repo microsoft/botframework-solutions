@@ -178,7 +178,7 @@ namespace EmailSkill.Dialogs
                             {
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(EmailMainResponses.CompletedMessage));
                                 interrupted = true;
                                 break;
                             }
@@ -198,7 +198,7 @@ namespace EmailSkill.Dialogs
 
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(EmailMainResponses.LogOut));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(EmailMainResponses.CompletedMessage));
                                 interrupted = true;
                                 break;
                             }
@@ -329,7 +329,7 @@ namespace EmailSkill.Dialogs
             }
             else
             {
-                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(EmailMainResponses.EmailWelcomeMessage), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(EmailMainResponses.CompletedMessage), cancellationToken);
             }
         }
 

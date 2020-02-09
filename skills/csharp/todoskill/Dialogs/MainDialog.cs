@@ -176,7 +176,7 @@ namespace ToDoSkill.Dialogs
                             {
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(ToDoMainResponses.CancelMessage));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.CompletedMessage));
                                 interrupted = true;
                                 break;
                             }
@@ -196,7 +196,7 @@ namespace ToDoSkill.Dialogs
 
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(ToDoMainResponses.LogOut));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.CompletedMessage));
                                 interrupted = true;
                                 break;
                             }
@@ -331,7 +331,7 @@ namespace ToDoSkill.Dialogs
             }
             else
             {
-                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.CompletedMessage), cancellationToken);
             }
         }
 

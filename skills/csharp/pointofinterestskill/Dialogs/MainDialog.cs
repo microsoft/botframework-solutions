@@ -179,7 +179,7 @@ namespace PointOfInterestSkill.Dialogs
                             {
                                 await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.CancellingMessage));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                await innerDc.BeginDialogAsync(InitialDialogId, _responseManager.GetResponse(POIMainResponses.CompletedMessage));
                                 interrupted = true;
                                 break;
                             }
@@ -199,7 +199,7 @@ namespace PointOfInterestSkill.Dialogs
 
                                 await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.LogOut));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                await innerDc.BeginDialogAsync(InitialDialogId, _responseManager.GetResponse(POIMainResponses.CompletedMessage));
                                 interrupted = true;
                                 break;
                             }
@@ -305,7 +305,7 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(POIMainResponses.CompletedMessage), cancellationToken);
             }
         }
 

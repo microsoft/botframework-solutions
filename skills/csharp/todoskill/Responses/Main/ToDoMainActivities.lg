@@ -40,3 +40,10 @@
     Speak = @{CancelMessage.Text()}
     InputHint = acceptingInput
 ]
+
+# CompletedMessage
+[Activity
+    Text = @{CompletedMessage.Text()}
+    Speak = @{CompletedMessage.Text()}
+    InputHint = acceptingInput
+]
