@@ -12,6 +12,8 @@ namespace AutomotiveSkill.Models
         {
         }
 
+        public bool NewConversation { get; set; } = true;
+
         public SettingsLuis VehicleSettingsLuisResult { get; set; }
 
         public IDictionary<string, IList<string>> Entities { get; set; } = new Dictionary<string, IList<string>>();
