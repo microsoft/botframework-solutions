@@ -39,6 +39,7 @@ namespace ToDoSkill.Models
             IsLastPage = false;
             GoBackToStart = false;
             CollectIndexRetry = false;
+            NewConversation = true;
         }
 
         /// <summary>
@@ -240,6 +241,14 @@ namespace ToDoSkill.Models
         /// bool.
         /// </value>
         public bool CollectIndexRetry { get; set; }
+
+        /// <summary>
+        /// Indicate whether a dialog is new started.
+        /// </summary>
+        /// <value>
+        /// bool.
+        /// </value>
+        public bool NewConversation { get; set; }
 
         /// <summary>
         /// Clear state.

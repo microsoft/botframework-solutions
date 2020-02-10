@@ -176,7 +176,7 @@ namespace ToDoSkill.Dialogs
                             {
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(ToDoMainResponses.CancelMessage));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.CompletedMessage));
+                                await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
                                 break;
                             }
@@ -196,7 +196,7 @@ namespace ToDoSkill.Dialogs
 
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(ToDoMainResponses.LogOut));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.CompletedMessage));
+                                await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
                                 break;
                             }
@@ -218,9 +218,17 @@ namespace ToDoSkill.Dialogs
             else
             {
                 // If bot is in local mode, prompt with intro or continuation message
+                var prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(ToDoMainResponses.FirstPromptMessage);
+                var state = await _stateAccessor.GetAsync(stepContext.Context, () => new ToDoSkillState());
+                if (state.NewConversation)
+                {
+                    prompt = _templateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage);
+                    state.NewConversation = false;
+                }
+
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage)
+                    Prompt = prompt
                 };
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);

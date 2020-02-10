@@ -36,6 +36,7 @@ namespace EmailSkill.Models
             SearchTexts = null;
             GeneralSenderName = null;
             GeneralSearchTexts = null;
+            NewConversation = true;
         }
 
         public DialogState ConversationDialogState { get; set; }
@@ -43,6 +44,8 @@ namespace EmailSkill.Models
         public User User { get; set; }
 
         public UserInformation UserInfo { get; set; } = new UserInformation();
+
+        public bool NewConversation { get; set; } = true;
 
         public List<Message> Message { get; set; }
 

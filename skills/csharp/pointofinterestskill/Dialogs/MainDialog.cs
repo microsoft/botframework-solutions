@@ -179,7 +179,7 @@ namespace PointOfInterestSkill.Dialogs
                             {
                                 await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(POISharedResponses.CancellingMessage));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId, _responseManager.GetResponse(POIMainResponses.CompletedMessage));
+                                await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
                                 break;
                             }
@@ -199,7 +199,7 @@ namespace PointOfInterestSkill.Dialogs
 
                                 await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(POIMainResponses.LogOut));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId, _responseManager.GetResponse(POIMainResponses.CompletedMessage));
+                                await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
                                 break;
                             }
@@ -223,9 +223,16 @@ namespace PointOfInterestSkill.Dialogs
             else
             {
                 // If bot is in local mode, prompt with intro or continuation message
+                var prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(POIMainResponses.FirstPromptMessage);
+                if (state.NewConversation)
+                {
+                    prompt = _responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage);
+                    state.NewConversation = false;
+                }
+
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage)
+                    Prompt = prompt
                 };
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);

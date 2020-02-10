@@ -14,6 +14,8 @@ namespace CalendarSkill.Models
     {
         public UserInformation UserInfo { get; set; } = new UserInformation();
 
+        public bool NewConversation { get; set; } = true;
+
         public int PageSize { get; set; } = 0;
 
         public EventSource EventSource { get; set; } = EventSource.Other;

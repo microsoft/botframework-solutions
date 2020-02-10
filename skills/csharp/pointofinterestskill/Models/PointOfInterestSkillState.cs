@@ -14,10 +14,13 @@ namespace PointOfInterestSkill.Models
         {
             UserInfo = null;
             CurrentCoordinates = null;
+            NewConversation = true;
             Clear();
         }
 
         public UserInformation UserInfo { get; set; }
+
+        public bool NewConversation { get; set; }
 
         public LatLng CurrentCoordinates { get; set; }
 

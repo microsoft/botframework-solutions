@@ -198,7 +198,7 @@ namespace CalendarSkill.Dialogs
                                 state.Clear();
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(CalendarMainResponses.CancelMessage));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CompletedMessage));
+                                await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
                                 break;
                             }
@@ -215,10 +215,9 @@ namespace CalendarSkill.Dialogs
                             {
                                 // Log user out of all accounts.
                                 await LogUserOut(innerDc);
-
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(CalendarMainResponses.LogOut));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CompletedMessage));
+                                await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
                                 break;
                             }
@@ -240,9 +239,17 @@ namespace CalendarSkill.Dialogs
             else
             {
                 // If bot is in local mode, prompt with intro or continuation message
+                var prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(CalendarMainResponses.FirstPromptMessage);
+                var state = await _stateAccessor.GetAsync(stepContext.Context, () => new CalendarSkillState());
+                if (state.NewConversation)
+                {
+                    prompt = _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CalendarWelcomeMessage);
+                    state.NewConversation = false;
+                }
+
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CalendarWelcomeMessage)
+                    Prompt = prompt
                 };
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
