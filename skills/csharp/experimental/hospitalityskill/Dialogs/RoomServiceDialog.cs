@@ -16,8 +16,6 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using static Luis.HospitalityLuis._Entities;
-using Bot.Builder.Community.Adapters.Google.Model.Attachments;
-using Bot.Builder.Community.Adapters.Google.Model;
 
 namespace HospitalitySkill.Dialogs
 {
