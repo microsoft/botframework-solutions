@@ -83,7 +83,20 @@ export class ConnectSkill {
                         luisFile = `${luFile.toLowerCase()}is`;
                         luFilePath = join(this.configuration.luisFolder, culture, luFile);
                     }
-                } else {
+                }
+                else if (currentApp.url.startsWith('http')) {
+                    try {
+                        const remoteLuFile = await this.getRemoteLu(currentApp.url);
+                        let luisAppName: string = currentApp.url.split('/').reverse()[0];
+
+                        const luPath = join(this.configuration.luisFolder, culture, luisAppName.endsWith('.lu') ? luisAppName : luisAppName + '.lu');
+                        writeFileSync(luPath, remoteLuFile);
+                        luFilePath = luPath;
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+                else {
                     luFilePath = currentApp.url;
                 }
                 
@@ -161,6 +174,16 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             return await this.childProcessUtils.execute(cmd, commandArgs);
         } catch (err) {
             throw new Error(`The execution of the ${ cmd } command failed with the following error:\n${ err }`);
+        }
+    }
+
+    private async getRemoteLu(path: string): Promise<string> {
+        try {
+            return get({
+                uri: path
+            });
+        } catch (err) {
+            throw new Error(`There was a problem while getting the remote lu file:\n${err}`);
         }
     }
 
