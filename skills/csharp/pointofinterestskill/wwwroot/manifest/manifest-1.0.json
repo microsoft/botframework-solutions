@@ -24,14 +24,14 @@
   ],
   "activities": {
     "getDirectionAction": {
-      "description": "Get destination of some poi, showRoute will be false.",
+      "description": "Get destination of some poi.",
       "type": "event",
       "name": "GetDirectionAction",
       "value": {
-        "$ref": "#/definitions/inputObject"
+        "$ref": "#/definitions/getDirectionInput"
       },
       "resultValue": {
-        "$ref": "#/definitions/responseObject"
+        "$ref": "#/definitions/singleDestinationResponse"
       }
     },
     "findPointOfInterestAction": {
@@ -39,21 +39,21 @@
       "type": "event",
       "name": "FindPointOfInterestAction",
       "value": {
-        "$ref": "#/definitions/inputObject"
+        "$ref": "#/definitions/findPointOfInterestInput"
       },
       "resultValue": {
-        "$ref": "#/definitions/responseObject"
+        "$ref": "#/definitions/singleDestinationResponse"
       }
     },
     "findParkingAction": {
-      "description": "Find parking, category will be ignored.",
+      "description": "Find parking.",
       "type": "event",
       "name": "FindParkingAction",
       "value": {
-        "$ref": "#/definitions/inputObject"
+        "$ref": "#/definitions/findParkingInput"
       },
       "resultValue": {
-        "$ref": "#/definitions/responseObject"
+        "$ref": "#/definitions/singleDestinationResponse"
       }
     },
     "message": {
@@ -62,7 +62,36 @@
     }
   },
   "definitions": {
-    "inputObject": {
+    "getDirectionInput": {
+      "type": "object",
+      "properties": {
+        "currentLatitude": {
+          "type": "number",
+          "description": "Current latitude."
+        },
+        "currentLongitude": {
+          "type": "number",
+          "description": "Current longitude."
+        },
+        "keyword": {
+          "type": "string",
+          "description": "POI keyword like papa john's, lowe's."
+        },
+        "category": {
+          "type": "string",
+          "description": "POI category like restaurant, beach."
+        },
+        "address": {
+          "type": "string",
+          "description": "POI address."
+        },
+        "poiType": {
+          "type": "string",
+          "description": "Desired poi type, one of nearest."
+        }
+      }
+    },
+    "findPointOfInterestInput": {
       "type": "object",
       "properties": {
         "currentLatitude": {
@@ -99,7 +128,40 @@
         }
       }
     },
-    "responseObject": {
+    "findParkingInput": {
+      "type": "object",
+      "properties": {
+        "currentLatitude": {
+          "type": "number",
+          "description": "Current latitude."
+        },
+        "currentLongitude": {
+          "type": "number",
+          "description": "Current longitude."
+        },
+        "keyword": {
+          "type": "string",
+          "description": "POI keyword like papa john's, lowe's."
+        },
+        "address": {
+          "type": "string",
+          "description": "POI address."
+        },
+        "poiType": {
+          "type": "string",
+          "description": "Desired poi type, one of nearest."
+        },
+        "routeType": {
+          "type": "string",
+          "description": "Desired route type, one of eco, thrilling, fastest, shortest."
+        },
+        "showRoute": {
+          "type": "boolean",
+          "description": "Whether show route."
+        }
+      }
+    },
+    "singleDestinationResponse": {
       "type": "object",
       "properties": {
         "name": {
