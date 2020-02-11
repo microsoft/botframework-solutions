@@ -338,7 +338,8 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
         public async Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels, int width = 0, int height = 0)
         {
             var latLngs = pointOfInterestModels.Select(model => model.Geolocation).ToList();
-            if (currentCoordinates != null)
+            var hasCurrentCoordinates = currentCoordinates != null && !double.IsNaN(currentCoordinates.Latitude);
+            if (hasCurrentCoordinates)
             {
                 latLngs.Add(currentCoordinates);
             }
@@ -355,7 +356,7 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
                 sb.Append($"|'{HttpUtility.UrlEncode(HttpUtility.UrlEncode(model.Name.Replace("'", string.Empty)))}'{model.Geolocation.Longitude} {model.Geolocation.Latitude}");
             }
 
-            if (currentCoordinates != null)
+            if (hasCurrentCoordinates)
             {
                 sb.Append($"|'{PointOfInterestSharedStrings.YOU}'{currentCoordinates.Longitude} {currentCoordinates.Latitude}");
             }

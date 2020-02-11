@@ -55,5 +55,46 @@ namespace PointOfInterestSkill.Tests.Flow
                 .AssertReply(CheckForEvent())
                 .StartTestAsync();
         }
+
+        /// <summary>
+        /// Reprompt for current location and get directions to some nearest place.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task RepromptForCurrentAndGetDirectionsToNearestTest()
+        {
+            await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .Send(RouteFromXToYUtterances.GetToNearestPharmacy)
+                .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
+                .Send(ContextStrings.Ave)
+                .AssertReply(AssertContains(POISharedResponses.CurrentLocationMultipleSelection, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.No)
+                .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
+                .Send(ContextStrings.Ave)
+                .AssertReply(AssertContains(POISharedResponses.CurrentLocationMultipleSelection, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(CheckForEvent())
+                .StartTestAsync();
+        }
+
+
+        /// <summary>
+        /// Get directions near address (no prompt for current since no routing).
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous unit test.</returns>
+        [TestMethod]
+        public async Task GetDirectionsNearAddressTest()
+        {
+            await GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .Send(RouteFromXToYUtterances.GetToMicrosoftNearAddress)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(CheckForEvent())
+                .StartTestAsync();
+        }
     }
 }
