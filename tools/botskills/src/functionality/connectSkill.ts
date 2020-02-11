@@ -20,12 +20,13 @@ import {
     IModel,
     IEndpoint
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isInstanceOfISkillManifestV1, isInstanceOfISkillManifestV2 } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, manifestV1Validation, manifestV2Validation } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
 enum manifestVersion {
     V1 = 'V1',
-    V2 = 'V2'
+    V2 = 'V2',
+    none = 'none'
 }
 
 export class ConnectSkill {
@@ -34,6 +35,7 @@ export class ConnectSkill {
     private readonly logger: ILogger;
     private manifestVersion: manifestVersion | undefined;
     private skillManifest: ISkillManifestV2 | undefined;
+    private skillManifestValidated: manifestVersion = manifestVersion.none;
 
     public constructor(configuration: IConnectConfiguration, logger?: ILogger) {
         this.configuration = configuration;
@@ -153,15 +155,40 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
 
     private validateManifestSchema(skillManifest: ISkillManifestV1 | ISkillManifestV2): manifestVersion {
 
-        if (isInstanceOfISkillManifestV1(skillManifest as ISkillManifestV1)) {
-            return manifestVersion.V1;
+        const skillManifestV1Validation = skillManifest as ISkillManifestV1;
+        const skillManifestV2Validation = skillManifest as ISkillManifestV2;
+
+        const skillManifestVersion: string | undefined = skillManifestV1Validation.id ? 
+            manifestVersion.V1 : skillManifestV2Validation.$id ?
+                manifestVersion.V2 : undefined;
+        
+        let validVersion: manifestVersion = manifestVersion.none;
+        switch (skillManifestVersion) {
+            case manifestVersion.V1: {
+                manifestV1Validation(skillManifest as ISkillManifestV1, this.logger);
+                if (!this.logger.isError)
+                {
+                    validVersion = manifestVersion.V1;
+                    break;
+                }
+                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
+            }
+            case manifestVersion.V2: {
+                manifestV2Validation(skillManifest as ISkillManifestV2, this.logger, this.configuration.endpointName);
+                if (!this.logger.isError)
+                {
+                    validVersion = manifestVersion.V2;
+                    break;
+                }
+                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
+            }
+            case undefined: {
+                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
+            }
         }
-        else if (isInstanceOfISkillManifestV2(skillManifest as ISkillManifestV2)) {
-            return manifestVersion.V2;
-        }
-        else {
-            throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
-        }
+
+        return validVersion;
+        
     }
 
     private async runCommand(command: string[], description: string): Promise<string> {
@@ -349,10 +376,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Take skillManifest
             const skillManifest: ISkillManifestV1 | ISkillManifestV2 = await this.getManifest();
             // Manifest schema validation
-            const validVersion: manifestVersion = this.validateManifestSchema(skillManifest);
+            this.skillManifestValidated = this.validateManifestSchema(skillManifest);
             // End of manifest schema validation
 
-            switch (validVersion) {
+            switch (this.skillManifestValidated) {
                 case manifestVersion.V1: {
                     this.manifestVersion = manifestVersion.V1;
                     this.connectSkillManifestV1(cognitiveModelsFile, skillManifest as ISkillManifestV1);
@@ -365,10 +392,6 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 }
             }
 
-            if (this.logger.isError) {
-                return false;
-            }
-
             return true;
            
         } catch (err) {
@@ -378,18 +401,19 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
     }
 
     private AddSkill(assistantSkillsFile: IAppSetting, assistantSkills: ISkill[], skill: ISkillManifestV1 | ISkillManifestV2): void {
-        if (isInstanceOfISkillManifestV1(skill as ISkillManifestV1)) {
+
+        if (this.skillManifestValidated == manifestVersion.V1) {
             const skillManifestV1: ISkillManifestV1 = skill as ISkillManifestV1;
             assistantSkills.push({
                 Id: skillManifestV1.id,
                 AppId: skillManifestV1.msaAppId,
                 SkillEndpoint: skillManifestV1.endpoint,
                 Name: skillManifestV1.name
-            })
+            });
             assistantSkillsFile.BotFrameworkSkills = assistantSkills;
         }
 
-        if (isInstanceOfISkillManifestV2(skill as ISkillManifestV2)) {
+        if (this.skillManifestValidated == manifestVersion.V2) {
             const skillManifestV2: ISkillManifestV2 = skill as ISkillManifestV2;
             const endpoint: IEndpoint = skillManifestV2.endpoints.find((endpoint: IEndpoint): boolean => endpoint.name === this.configuration.endpointName) 
             || skillManifestV2.endpoints[0];
@@ -399,7 +423,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 AppId: endpoint.msAppId,
                 SkillEndpoint: endpoint.endpointUrl,
                 Name: skillManifestV2.name,
-            })
+            });
             assistantSkillsFile.BotFrameworkSkills = assistantSkills;
         }
         
