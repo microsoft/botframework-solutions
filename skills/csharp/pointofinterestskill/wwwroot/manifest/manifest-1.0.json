@@ -24,7 +24,7 @@
   ],
   "activities": {
     "getDirectionAction": {
-      "description": "Get destination of some poi.",
+      "description": "Get directions to a provided Point Of Interest.",
       "type": "event",
       "name": "GetDirectionAction",
       "value": {
