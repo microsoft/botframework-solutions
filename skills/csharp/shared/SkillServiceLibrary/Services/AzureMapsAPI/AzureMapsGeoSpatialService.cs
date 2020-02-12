@@ -338,7 +338,7 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
         public async Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels, int width = 0, int height = 0)
         {
             var latLngs = pointOfInterestModels.Select(model => model.Geolocation).ToList();
-            var hasCurrentCoordinates = currentCoordinates != null && !double.IsNaN(currentCoordinates.Latitude);
+            var hasCurrentCoordinates = currentCoordinates != null && !double.IsNaN(currentCoordinates.Latitude) && !double.IsNaN(currentCoordinates.Longitude);
             if (hasCurrentCoordinates)
             {
                 latLngs.Add(currentCoordinates);

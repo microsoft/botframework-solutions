@@ -64,7 +64,7 @@ namespace PointOfInterestSkill.Models
 
         public bool CheckForValidCurrentCoordinates()
         {
-            if (double.IsNaN(CurrentCoordinates.Latitude))
+            if (double.IsNaN(CurrentCoordinates.Latitude) || double.IsNaN(CurrentCoordinates.Longitude))
             {
                 return false;
 
