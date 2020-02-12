@@ -218,9 +218,9 @@ if ($outputs)
 	$outputMap = @{}
 	$outputs.PSObject.Properties | Foreach-Object { $outputMap[$_.Name] = $_.Value }
 
-    # Update AD app with homepage
+	# Update AD app with homepage
 	$botWebAppUrl = "https://$($outputs.botWebAppName.value).azurewebsites.net"
-    az ad app update --id $appId --homepage $botWebAppUrl
+	az ad app update --id $appId --homepage $botWebAppUrl
 
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..." -NoNewline
