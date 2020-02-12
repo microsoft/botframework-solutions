@@ -172,7 +172,9 @@ To use a Google account follow these steps:
 
 The Calendar skill provides additional support to search and book meeting rooms. Due to search limitations in Microsoft Graph limiting the experience we leverage Azure Search to provide fuzzy meeting room name matching, floor level, etc. 
 
-1. To simplify the process of extracting your meeting room data and inserting into Azure Search we have provided an example PowerShell script. However, you should ensure that `displayName`, `emailAddress`, `building` and `floorNumber` are populated within your Offie 365 tenant (example below)). You can do this through the [Graph Explorer]() using this query: `https://graph.microsoft.com/beta/me/findrooms`
+1. To simplify the process of extracting your meeting room data and inserting into Azure Search we have provided an example PowerShell script. However, you should ensure that `displayName`, `emailAddress`, `building` and `floorNumber` are populated within your Office 365 tenant (example below)). You can do this through the [Graph Explorer]() using the query shown below, this information is required for the Meeting Room booking expeirence.
+
+`https://graph.microsoft.com/beta/me/findrooms`
 ```json
 {
     "value": [
@@ -195,9 +197,10 @@ The Calendar skill provides additional support to search and book meeting rooms.
 ```
 
 2. Configure the settings of your registered app in Azure App Registration portal 
-    - Make sure your account have the admin privileges to access your tenant's meeting room data. 
+    - Make sure your account has permission to access your tenant's meeting room data, testing the previous query will validate this.
     - In Authentication, set "Treat application as a public client" as "Yes"
     - In API Permissions, add Scope: **Place.Read.All** 
+    
 3. Run the following command:
 ```powershell
  ./Deployment/Scripts/enable_findmeetingroom.ps1
