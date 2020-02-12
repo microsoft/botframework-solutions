@@ -6,18 +6,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Bot.Builder.Community.Adapters.Google.Model;
+using Bot.Builder.Community.Adapters.Google.Model.Attachments;
 using HospitalitySkill.Models;
 using HospitalitySkill.Responses.RoomService;
 using HospitalitySkill.Services;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 using static Luis.HospitalityLuis._Entities;
-using Bot.Builder.Community.Adapters.Google.Model.Attachments;
-using Bot.Builder.Community.Adapters.Google.Model;
 
 namespace HospitalitySkill.Dialogs
 {
