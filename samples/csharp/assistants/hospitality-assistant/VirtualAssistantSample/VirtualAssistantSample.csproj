@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.2.4" />
+    <PackageReference Include="Bot.Builder.Community.Adapters.Google" Version="4.6.4-beta0056" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
@@ -69,10 +70,6 @@
     <None Update="Responses\OnboardingResponses.zh-cn.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Bot.Builder.Community.Adapters.Google\Bot.Builder.Community.Adapters.Google.csproj" />
   </ItemGroup>
 
 </Project>
