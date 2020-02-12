@@ -1138,7 +1138,6 @@
 
 ## FindMeetingRoom
 - a new meeting location find one
-- add a {SlotAttribute=room} to my {FromTime=3pm} meeting
 - am goin to work tomorrow on another state, i need to book a room in {MeetingRoom=johan} street
 - an {MeetingRoom=room}.
 - are {MeetingRoom=room}
@@ -1488,7 +1487,6 @@
 - can i book the {MeetingRoom=queens room a1/1657} for tommorow?
 - can i send to reserve the {MeetingRoom=big room 4}?
 - can i stay this monday to the {MeetingRoom=honeymoon suite}?
-- can you add a {SlotAttribute=room} to {FromDate=tomorrow}'s {Subject=dev meeting}
 - can you book a {MeetingRoom=conference room} near to city center
 - can you book a room {MeetingRoom=4/3342} near to city center hotel
 - can you reserve {MeetingRoom=room 258} right away
@@ -1640,7 +1638,6 @@
 - {MeetingRoom=only change the room name}
 - order a {MeetingRoom=room 669} in {MeetingRoom=east wing} for 4 pm
 - organize a meeting in the {MeetingRoom=gandhi} room in the {FloorNumber=3rd floor} on the {Building=greenpark hotel}
-- please add a {SlotAttribute=meeting room} to the {Subject=daily scrum meeting}
 - please add a reservation to {MeetingRoom=conference room 2}
 - please book 2 rooms which are not far away from {MeetingRoom=stella's room}.
 - please book a room at taj banjaraa {MeetingRoom=2/2241} at 2nd floor.

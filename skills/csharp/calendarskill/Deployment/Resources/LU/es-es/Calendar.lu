@@ -1050,7 +1050,6 @@
 ## FindMeetingRoom
 ## FindMeetingRoom
 - un nuevo lugar de reunión encontrar una
-- añadir un  {SlotAttribute=Habitación}  a mi  {FromTime=15:00} Reunión
 - voy a trabajar mañana en otro estado, necesito reservar una habitación en  {MeetingRoom=Johan} Calle
 - Un  {MeetingRoom=Habitación} .
 - Son  {MeetingRoom=Habitación} 
@@ -1400,7 +1399,6 @@
 - ¿puedo reservar el  {MeetingRoom=habitación queens a1/1657} para el tommorow?
 - ¿puedo enviar para reservar el  {MeetingRoom=habitación grande 4} ?
 - puedo quedarme este lunes a la  {MeetingRoom=suite de luna de miel} ?
-- puede añadir un  {SlotAttribute=Habitación}  Para  {FromDate=Mañana} 's  {Subject=reunión de desarrollo} 
 - se puede reservar un  {MeetingRoom=sala de conferencias} cerca del centro de la ciudad
 - se puede reservar una habitación  {MeetingRoom=4/3342} cerca del hotel del centro de la ciudad
 - puede reservar  {MeetingRoom=habitación 258} Ahora mismo
@@ -1552,7 +1550,6 @@
 -  {MeetingRoom=sólo cambiar el nombre de la habitación} 
 - ordenar un  {MeetingRoom=habitación 669}  En  {MeetingRoom=ala este} para las 4 pm
 - organizar una reunión en el  {MeetingRoom=Gandhi}  habitación en el  {FloorNumber=3a planta}  en el  {Building=hotel greenpark} 
-- por favor agregue un  {SlotAttribute=sala de reuniones}  a la  {Subject=reunión diaria de scrum} 
 - por favor agregue una reserva a  {MeetingRoom=Sala de conferencias 2} 
 - por favor reserve 2 habitaciones que no están lejos de  {MeetingRoom=habitación de Stella} .
 - por favor reserve una habitación en taj banjaraa  {MeetingRoom=2/2241} en el 2o piso.

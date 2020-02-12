@@ -1049,7 +1049,6 @@
 
 ## FindMeetingRoom
 - un nouveau lieu de réunion trouver un
-- ajouter un  {SlotAttribute=Chambre}  à mon  {FromTime=15h00} Réunion
 - suis goin travailler demain sur un autre état, j'ai besoin de réserver une chambre dans  {MeetingRoom=Johan} Rue
 - Un  {MeetingRoom=Chambre} .
 - Sont  {MeetingRoom=Chambre} 
@@ -1399,7 +1398,6 @@
 - puis-je réserver le  {MeetingRoom=chambre des reines a1/1657} pour tommorow?
 - puis-je envoyer pour réserver le  {MeetingRoom=grande salle 4} ?
 - puis-je rester ce lundi à la  {MeetingRoom=Nuptiale} ?
-- pouvez-vous ajouter un  {SlotAttribute=Chambre}  À  {FromDate=Demain} Est  {Subject=réunion dev} 
 - pouvez-vous réserver un  {MeetingRoom=salle de conférence} près du centre-ville
 - pouvez-vous réserver une chambre  {MeetingRoom=4/3342} à proximité de l'hôtel du centre-ville
 - pouvez-vous réserver  {MeetingRoom=chambre 258} Tout de suite
@@ -1551,7 +1549,6 @@
 -  {MeetingRoom=ne changer le nom de la chambre} 
 - commander un  {MeetingRoom=chambre 669}  Dans  {MeetingRoom=Aile} pour 16h00
 - organiser une réunion dans le  {MeetingRoom=Gandhi}  chambre dans le  {FloorNumber=3e étage}  sur le  {Building=hôtel greenpark} 
-- s'il vous plaît ajouter un  {SlotAttribute=salle de réunion}  à la  {Subject=réunion de mêlée quotidienne} 
 - s'il vous plaît ajouter une réservation à  {MeetingRoom=salle de conférence 2} 
 - s'il vous plaît réserver 2 chambres qui ne sont pas loin de  {MeetingRoom=chambre de stella} .
 - s'il vous plaît réserver une chambre à taj banjaraa  {MeetingRoom=2/2241} au 2ème étage.
