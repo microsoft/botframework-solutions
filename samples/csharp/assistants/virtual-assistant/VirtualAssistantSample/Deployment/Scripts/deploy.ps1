@@ -218,8 +218,9 @@ if ($outputs)
 	$outputMap = @{}
 	$outputs.PSObject.Properties | Foreach-Object { $outputMap[$_.Name] = $_.Value }
 
-    # Update AD app with homepage
-    az ad app update --id $appId --homepage "https://$($outputs.botWebAppName.value).azurewebsites.net"
+	# Update AD app with homepage
+	$botWebAppUrl = "https://$($outputs.botWebAppName.value).azurewebsites.net"
+	az ad app update --id $appId --homepage $botWebAppUrl
 
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..." -NoNewline
@@ -270,6 +271,9 @@ if ($outputs)
 	Write-Host "    - Microsoft App Password: $($appPassword)" -ForegroundColor Magenta
 
 	Write-Host "> Deployment complete." -ForegroundColor Green
+
+	Write-Host "Test your deployed bot on the bot framework emulator with the following link (copy and paste link into windows -> run to open the emulator with your deployed bot configured)" -ForegroundColor Green
+	Write-Host "bfemulator://livechat.open?botUrl=$($botWebAppUrl)/api/messages&msaAppId=$($appId)&msaAppPassword=$($appPassword)" -ForegroundColor Green
 }
 else
 {
