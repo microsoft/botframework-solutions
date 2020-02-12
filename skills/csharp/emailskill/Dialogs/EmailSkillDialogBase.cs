@@ -90,7 +90,7 @@ namespace EmailSkill.Dialogs
         protected override Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
             var resultString = result?.ToString();
-            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(resultString) && resultString.Equals(CommonUtil.DialogTurnResultCancelAllDialogs, StringComparison.InvariantCultureIgnoreCase) && outerDc.Parent.ActiveDialog.Id != nameof(MainDialog))
             {
                 return outerDc.CancelAllDialogsAsync();
             }
