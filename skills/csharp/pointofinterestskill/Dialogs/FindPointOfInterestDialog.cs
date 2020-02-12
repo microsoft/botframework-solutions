@@ -63,7 +63,7 @@ namespace PointOfInterestSkill.Dialogs
         {
             var state = await Accessor.GetAsync(sc.Context);
             var hasCurrentCoordinates = state.CheckForValidCurrentCoordinates();
-            if (hasCurrentCoordinates)
+            if (hasCurrentCoordinates || !string.IsNullOrEmpty(state.Address))
             {
                 return await sc.ReplaceDialogAsync(Actions.FindPointOfInterest);
             }

@@ -23,14 +23,9 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await this.GetSkillTestFlow()
                 .Send(GeneralTestUtterances.UnknownIntent)
-                .AssertReplyOneOf(this.ConfusedResponse())
+                .AssertReplyOneOf(this.ParseReplies(POISharedResponses.DidntUnderstandMessage))
                 .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
-        }
-
-        private string[] ConfusedResponse()
-        {
-            return this.ParseReplies(POISharedResponses.DidntUnderstandMessage, new StringDictionary());
         }
     }
 }

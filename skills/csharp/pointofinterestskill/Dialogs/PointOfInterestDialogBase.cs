@@ -608,17 +608,6 @@ namespace PointOfInterestSkill.Dialogs
             return options;
         }
 
-        // Validators
-        protected async Task<List<PointOfInterestModel>> CurrentLocationValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
-        {
-            var result = promptContext.Recognized.Value;
-            var service = ServiceManager.InitMapsService(Settings);
-
-            var pointOfInterestList = await service.GetPointOfInterestListByQueryAsync(double.NaN, double.NaN, result);
-
-            return await Task.FromResult(pointOfInterestList);
-        }
-
         // service: for details. the one generates pointOfInterestList
         protected async Task<List<Card>> GetPointOfInterestLocationCards(DialogContext sc, List<PointOfInterestModel> pointOfInterestList, IGeoSpatialService service)
         {

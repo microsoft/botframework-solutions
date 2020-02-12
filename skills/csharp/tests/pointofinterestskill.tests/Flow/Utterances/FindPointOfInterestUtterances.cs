@@ -15,6 +15,7 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
             this.Add(WhatsNearby, CreateIntent(WhatsNearby, PointOfInterestLuis.Intent.FindPointOfInterest));
             this.Add(FindNearestPoi, CreateIntent(FindNearestPoi, PointOfInterestLuis.Intent.FindPointOfInterest, poiDescription: new string[][] { new string[] { GeoSpatialServiceTypes.PoiType.Nearest } }));
             this.Add(FindPharmacy, CreateIntent(FindPharmacy, PointOfInterestLuis.Intent.FindPointOfInterest, keyword: new string[] { ContextStrings.Pharmacy }, keywordCategory: new string[][] { new string[] { "category" } }, categoryText: new string[] { ContextStrings.Pharmacy }));
+            this.Add(FindPoiNearAddress, CreateIntent(FindPoiNearAddress, PointOfInterestLuis.Intent.FindPointOfInterest, address: new string[] { ContextStrings.Ave }));
         }
 
         public static string WhatsNearby { get; } = "What's nearby?";
@@ -22,5 +23,7 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
         public static string FindNearestPoi { get; } = "find closest poi nearby me";
 
         public static string FindPharmacy { get; } = $"find a {ContextStrings.Pharmacy} nearby me";
+
+        public static string FindPoiNearAddress { get; } = $"find poi near {ContextStrings.Ave}";
     }
 }

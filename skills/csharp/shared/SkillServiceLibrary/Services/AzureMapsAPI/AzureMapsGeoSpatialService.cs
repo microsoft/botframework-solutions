@@ -182,7 +182,7 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
             if (double.IsNaN(latitude) || double.IsNaN(longitude))
             {
                 // If missing either coordinate, the skill needs to run an address search on the query
-                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressNoCoordinatesQueryUrl, Uri.EscapeDataString(address), limit), poiType);
+                return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressNoCoordinatesQueryUrl, Uri.EscapeDataString(address), limit), poiType, EntityType.Municipality);
             }
 
             return await GetPointsOfInterestAsync(string.Format(CultureInfo.InvariantCulture, FindByAddressQueryUrl, latitude, longitude, Uri.EscapeDataString(address), radius, limit), poiType);
@@ -338,7 +338,8 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
         public async Task<string> GetAllPointOfInterestsImageAsync(LatLng currentCoordinates, List<PointOfInterestModel> pointOfInterestModels, int width = 0, int height = 0)
         {
             var latLngs = pointOfInterestModels.Select(model => model.Geolocation).ToList();
-            if (currentCoordinates != null)
+            var hasCurrentCoordinates = currentCoordinates != null && !double.IsNaN(currentCoordinates.Latitude) && !double.IsNaN(currentCoordinates.Longitude);
+            if (hasCurrentCoordinates)
             {
                 latLngs.Add(currentCoordinates);
             }
@@ -355,7 +356,7 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
                 sb.Append($"|'{HttpUtility.UrlEncode(HttpUtility.UrlEncode(model.Name.Replace("'", string.Empty)))}'{model.Geolocation.Longitude} {model.Geolocation.Latitude}");
             }
 
-            if (currentCoordinates != null)
+            if (hasCurrentCoordinates)
             {
                 sb.Append($"|'{PointOfInterestSharedStrings.YOU}'{currentCoordinates.Longitude} {currentCoordinates.Latitude}");
             }
@@ -448,7 +449,7 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
         /// Get search reuslts response from Azure Maps and convert to point of interest list.
         /// </summary>
         /// <returns>List of PointOfInterestModels.</returns>
-        private async Task<List<PointOfInterestModel>> GetPointsOfInterestAsync(string url, string poiType = null)
+        private async Task<List<PointOfInterestModel>> GetPointsOfInterestAsync(string url, string poiType = null, string favoredEntity = null)
         {
             url = string.Concat(url, $"&language={userLocale}&subscription-key={apiKey}");
 
@@ -460,6 +461,15 @@ namespace SkillServiceLibrary.Services.AzureMapsAPI
 
             if (apiResponse?.Results != null)
             {
+                if (!string.IsNullOrEmpty(favoredEntity))
+                {
+                    var favoredResult = apiResponse.Results.Where((result) => result.EntityType == favoredEntity).ToList();
+                    if (favoredResult.Count > 0)
+                    {
+                        apiResponse.Results = favoredResult;
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(poiType))
                 {
                     if (poiType == GeoSpatialServiceTypes.PoiType.Nearest)
