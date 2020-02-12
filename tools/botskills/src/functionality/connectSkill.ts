@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
@@ -92,6 +92,7 @@ export class ConnectSkill {
                         let luisAppName: string = currentApp.url.split('/').reverse()[0];
 
                         const luPath = join(this.configuration.luisFolder, culture, luisAppName.endsWith('.lu') ? luisAppName : luisAppName + '.lu');
+                        this.verifyLuisFolder(culture);
                         writeFileSync(luPath, remoteLuFile);
                         luFilePath = luPath;
                     } catch (error) {
@@ -242,6 +243,16 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         }
 
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
+    }
+
+    private verifyLuisFolder(culture: string): void {
+        if (!existsSync(this.configuration.luisFolder)){
+            mkdirSync(this.configuration.luisFolder);
+        }
+
+        if (!existsSync(join(this.configuration.luisFolder, culture))) {
+            mkdirSync(join(this.configuration.luisFolder, culture));
+        }
     }
 
     private async validateCultures(cognitiveModelsFile: ICognitiveModel, luisDictionary: Map<string, string[]>): Promise<void> {
