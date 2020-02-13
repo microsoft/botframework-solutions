@@ -2,29 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace JsonConverter
 {
-    class Reply
-    {
-        public string Text { get; set; }
-        public string Speak { get; set; }
-    }
-
-    class Activity
-    {
-        public List<Reply> Replies { get; set; }
-        public List<string> SuggestedActions { get; set; }
-        public string InputHint { get; set; }
-    }
-
-    class Program
+    partial class Program
     {
         public static string GetLocale(string file)
         {
@@ -75,6 +59,11 @@ namespace JsonConverter
             return (outputActivitiesLGFile, outputTextsLGFile);
         }
 
+        public static string ModifyTextParameters(string text)
+        {
+            return text.Replace("{", "@{Data.");
+        }
+
         public static string AbstractParameterString(string content)
         {
             string pattern = @"\{(\w+)\}";
@@ -111,25 +100,19 @@ namespace JsonConverter
 
         public static void AddActivity(StringBuilder sb, string templateName, Activity activity)
         {
-            sb.AppendLine(string.Format("# {0}", templateName));
+            sb.AppendLine(string.Format("# {0}(Data, Cards, Layout)", templateName));
             sb.AppendLine("[Activity");
 
             // If text and speak are the same, only need one *.Text() to reduce duplicate code.
             if (textAndSpeakAreTheSame(activity.Replies))
             {
-                // We only need one reply to determine what the parameters are.
-                // Because all the replies should have the same parameter.
-                var textParameters = AbstractParameterString(activity.Replies[0].Text);
-                sb.AppendLine(string.Format("    Text = @{{{0}.Text({1})}}", templateName, textParameters));
-                sb.AppendLine(string.Format("    Speak = @{{{0}.Text({1})}}", templateName, textParameters));
+                sb.AppendLine(string.Format("    Text = @{{{0}.Text(Data)}}", templateName));
+                sb.AppendLine(string.Format("    Speak = @{{{0}.Text(Data)}}", templateName));
             }
             else
             {
-                var textParameters = AbstractParameterString(activity.Replies[0].Text);
-                sb.AppendLine(string.Format("    Text = @{{{0}.Text({1})}}", templateName, textParameters));
-
-                var speakParameters = AbstractParameterString(activity.Replies[0].Speak);
-                sb.AppendLine(string.Format("    Speak = @{{{0}.Speak({1})}}", templateName, speakParameters));
+                sb.AppendLine(string.Format("    Text = @{{{0}.Text(Data)}}", templateName));
+                sb.AppendLine(string.Format("    Speak = @{{{0}.Speak(Data)}}", templateName));
             }
 
             if (activity.SuggestedActions != null)
@@ -139,11 +122,15 @@ namespace JsonConverter
                 var index = 0;
                 foreach (var suggestAction in activity.SuggestedActions)
                 {
-                    suggestedActionsTexts.Add(string.Format("@{{{0}.S{1}()}}", templateName, (++index).ToString()));
+                    suggestedActionsTexts.Add(string.Format("@{{{0}.S{1}(Data)}}", templateName, (++index).ToString()));
                 }
                 suggestedActions += string.Join(" | ", suggestedActionsTexts);
                 sb.AppendLine(suggestedActions);
             }
+
+            sb.AppendLine(@"    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}");
+
+            sb.AppendLine(@"    AttachmentLayout = @{if(Layout == null, 'list', Layout)}");
 
             sb.AppendLine(string.Format("    InputHint = {0}", activity.InputHint));
 
@@ -152,11 +139,11 @@ namespace JsonConverter
 
         public static void AddTexts(StringBuilder sb, string templateName, Activity activity)
         {
-            var textParameters = AbstractParameterString(activity.Replies[0].Text);
-            sb.AppendLine(string.Format("# {0}.Text({1})", templateName, textParameters));
+            sb.AppendLine(string.Format("# {0}.Text(Data)", templateName));
             foreach (var reply in activity.Replies)
             {
-                sb.AppendLine(string.Format("- {0}", reply.Text));
+                var text = ModifyTextParameters(reply.Text);
+                sb.AppendLine(string.Format("- {0}", text));
             }
             sb.AppendLine();
 
@@ -167,7 +154,8 @@ namespace JsonConverter
                 sb.AppendLine(string.Format("# {0}.Speak({1})", templateName, speakParameters));
                 foreach (var reply in activity.Replies)
                 {
-                    sb.AppendLine(string.Format("- {0}", reply.Speak));
+                    var speak = ModifyTextParameters(reply.Speak);
+                    sb.AppendLine(string.Format("- {0}", speak));
                 }
                 sb.AppendLine();
             }
@@ -177,7 +165,7 @@ namespace JsonConverter
                 var index = 0;
                 foreach (var suggestedAction in activity.SuggestedActions)
                 {
-                    sb.AppendLine(string.Format("# {0}.S{1}()", templateName, (++index).ToString()));
+                    sb.AppendLine(string.Format("# {0}.S{1}(Data)", templateName, (++index).ToString()));
                     sb.AppendLine(string.Format("- {0}", suggestedAction)).AppendLine();
                 }
             }
@@ -223,13 +211,16 @@ namespace JsonConverter
             var jsonFiles = Directory.GetFiles(folder, "*.json", SearchOption.AllDirectories);
             foreach (var file in jsonFiles)
             {
-                Convert(file);
+                if (!isCardFile(file))
+                {
+                    Convert(file);
+                }
             }
         }
 
         public static string GetOutputResponsesAndTextsFile(string locale, string rootFolder)
         {
-            var responseAndTextsFolder = Path.Combine(rootFolder, "ResponsesAndTexts");
+            var responseAndTextsFolder = Path.Combine(rootFolder, "Responses", "ResponsesAndTexts");
             string outputFile;
             if (locale == "en-us")
             {
@@ -247,30 +238,34 @@ namespace JsonConverter
             var outputFile = GetOutputResponsesAndTextsFile(locale, rootFolder);
             using (StreamWriter sw = new StreamWriter(outputFile))
             {
+                sw.WriteLine(@"﻿[import] (../Shared/Shared.lg)");
                 var completedDialogName = new List<string>();
                 var jsonFiles = Directory.GetFiles(rootFolder, "*.json", SearchOption.AllDirectories);
                 foreach (var file in jsonFiles)
                 {
-                    var dialogName = GetDialogName(file);
-
-                    // Each locale, each dialog, one line in ResponsesAndTexts.lg.
-                    if (!completedDialogName.Contains(dialogName))
+                    if (!isCardFile(file))
                     {
-                        string lgFileFolder = Path.GetDirectoryName(file).Split("\\").Last();
-                        string lgfile;
-                        if (locale == "en-us")
-                        {
-                            lgfile = string.Format("{0}Texts.lg", dialogName);
-                        }
-                        else
-                        {
-                            lgfile = string.Format("{0}Texts.{1}.lg", dialogName, locale);
-                        }
+                        var dialogName = GetDialogName(file);
 
-                        // e.g [import] (../AddToDo/AddToDoTexts.lg);
-                        sw.WriteLine(string.Format("[import] (../{0}/{1})", lgFileFolder, lgfile));
+                        // Each locale, each dialog, one line in ResponsesAndTexts.lg.
+                        if (!completedDialogName.Contains(dialogName))
+                        {
+                            string lgFileFolder = Path.GetDirectoryName(file).Split("\\").Last();
+                            string lgfile;
+                            if (locale == "en-us")
+                            {
+                                lgfile = string.Format("{0}Texts.lg", dialogName);
+                            }
+                            else
+                            {
+                                lgfile = string.Format("{0}Texts.{1}.lg", dialogName, locale);
+                            }
 
-                        completedDialogName.Add(dialogName);
+                            // e.g [import] (../AddToDo/AddToDoTexts.lg);
+                            sw.WriteLine(string.Format("[import] (../{0}/{1})", lgFileFolder, lgfile));
+
+                            completedDialogName.Add(dialogName);
+                        }
                     }
                 }
             }
@@ -278,7 +273,7 @@ namespace JsonConverter
 
         public static void GenerateEntryFiles(string rootFolder)
         {
-            var responseFolder = Path.Combine(rootFolder, "ResponsesAndTexts");
+            var responseFolder = Path.Combine(rootFolder, "Responses", "ResponsesAndTexts");
             Directory.CreateDirectory(responseFolder);
 
             List<string> locales = new List<string>() { "en-us", "zh-cn", "es-es", "fr-fr", "it-it", "de-de" };
@@ -288,14 +283,65 @@ namespace JsonConverter
             }
         }
 
+        public static void CopySharedLGFiles(string rootFolder)
+        {
+            var responseFolder = Path.Combine(rootFolder, "Responses", "Shared");
+            Directory.CreateDirectory(responseFolder);
+
+            File.Copy("Shared.lg", Path.Combine(responseFolder, "Shared.lg"), false);
+        }
+
+        public static bool isCardFile(string file)
+        {
+            var folderName = Path.GetDirectoryName(file).Split("\\").Last();
+            if (folderName == "Content")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // Consider /content is the card file folder.
+        public static void ModifyCardParameters(string rootFolder)
+        {
+            var jsonFiles = Directory.GetFiles(rootFolder, "*.json", SearchOption.AllDirectories);
+            foreach (var file in jsonFiles)
+            {
+                if (isCardFile(file))
+                {
+                    string content;
+                    using (StreamReader sr = new StreamReader(file))
+                    {
+                        content = sr.ReadToEnd();
+                    }
+
+                    string pattern = @"\{(\w+)\}";
+                    content = Regex.Replace(content, pattern, "@{Data.$1}");
+
+                    using (StreamWriter sw = new StreamWriter(file.Replace(".json", ".new.json")))
+                    {
+                        sw.WriteLine(content);
+                    }
+                }
+            }
+        }
+
+
         static void Main(string[] args)
         {
-            Console.Write("Input json file folder: ");
+            Console.Write("Input skill proj root folder: ");
             var rootFolder = Console.ReadLine();
 
             ConvertFiles(rootFolder);
 
             GenerateEntryFiles(rootFolder);
+
+            CopySharedLGFiles(rootFolder);
+
+            ModifyCardParameters(rootFolder);
 
             Console.WriteLine("Done.");
         }
