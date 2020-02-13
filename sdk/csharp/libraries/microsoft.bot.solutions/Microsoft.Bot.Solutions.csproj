@@ -44,7 +44,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.7.2-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.2-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.0-preview-200212-105659" />
     <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.2" />
