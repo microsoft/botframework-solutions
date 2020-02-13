@@ -111,7 +111,10 @@ var cognitiveModels = _services.CognitiveModelSets[locale];
 ```
 
 ## Responses
-Responses can be localized in a variety of ways. If you use resource files (.resx) the correct response will be chosen based on the CurrentUICulture. The ResponseManager class in Microsoft.Bot.Builder.Solutions can also be used to localize responses in the json format described [here]({{site.baseurl}}/skills/handbook/language-generation).
+
+Responses from your assistant are generated through use of [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation#readme) and the `.lg`. files within the `Responses` folder of your assistant. We provide a number of different language variations out of the box to get you started.
+
+The provided [LocaleTemplateEngineManager](https://github.com/microsoft/botframework-solutions/blob/master/sdk/csharp/libraries/microsoft.bot.solutions/Responses/LocaleTemplateEngineManager.cs) will identify the right response based on the `CurrentUICulture`. A fallback policy is also followed to enable a specific locale, e.g. es-mx, to fallback to es-es if a specific set of es-mx responses are not available.
 
 ## Channel Support
 The localization approach is currently supported in the following channels:
