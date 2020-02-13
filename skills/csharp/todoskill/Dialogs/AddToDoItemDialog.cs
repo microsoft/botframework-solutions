@@ -136,8 +136,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ActionEnded);
-                    await sc.Context.SendActivityAsync(activity);
+                    await SendActionEnded(sc.Context);
                     return await sc.EndDialogAsync(true);
                 }
             }
@@ -429,8 +428,7 @@ namespace ToDoSkill.Dialogs
                 }
                 else
                 {
-                    var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ActionEnded);
-                    await sc.Context.SendActivityAsync(activity);
+                    await SendActionEnded(sc.Context);
                     return await sc.EndDialogAsync(true);
                 }
             }

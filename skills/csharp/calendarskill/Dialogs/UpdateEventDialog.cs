@@ -175,8 +175,7 @@ namespace CalendarSkill.Dialogs
                 }
                 else
                 {
-                    var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.ActionEnded);
-                    await sc.Context.SendActivityAsync(activity);
+                    await SendActionEnded(sc.Context);
                     if (options.SubFlowMode)
                     {
                         state.UpdateMeetingInfo.Clear();

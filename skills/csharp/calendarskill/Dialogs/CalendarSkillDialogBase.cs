@@ -34,6 +34,7 @@ using Microsoft.Recognizers.Text;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
 using Microsoft.Recognizers.Text.Number;
+using SkillServiceLibrary.Utilities;
 using static CalendarSkill.Models.CreateEventStateModel;
 using static Microsoft.Recognizers.Text.Culture;
 using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
@@ -2296,6 +2297,19 @@ namespace CalendarSkill.Dialogs
             }
 
             return dateTimeResults;
+        }
+
+        protected Task SendActionEnded(ITurnContext turnContext)
+        {
+            if (turnContext.IsSkill())
+            {
+                return Task.CompletedTask;
+            }
+            else
+            {
+                var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.ActionEnded);
+                return turnContext.SendActivityAsync(activity);
+            }
         }
 
         private async Task<List<object>> GetMeetingCardListAsync(DialogContext dc, List<EventModel> events)

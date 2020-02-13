@@ -279,7 +279,7 @@ namespace ITSMSkill.Dialogs
             var intent = (GeneralLuis.Intent)sc.Result;
             if (intent == GeneralLuis.Intent.Reject)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
+                await SendActionEnded(sc.Context);
                 return await sc.CancelAllDialogsAsync();
             }
             else if (intent == GeneralLuis.Intent.Confirm)
