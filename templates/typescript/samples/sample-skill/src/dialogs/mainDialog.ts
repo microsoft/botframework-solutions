@@ -16,13 +16,13 @@ import {
     DialogContext,
     DialogTurnResult,
     DialogTurnStatus } from 'botbuilder-dialogs';
-import { SkillContext } from 'botbuilder-skills';
 import {
     ActivityExtensions,
     ICognitiveModelSet,
     InterruptionAction,
     ResponseManager,
-    RouterDialog } from 'botbuilder-solutions';
+    RouterDialog,
+    SkillContext } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { SkillState } from '../models/skillState';
 import { MainResponses } from '../responses/main/mainResponses';

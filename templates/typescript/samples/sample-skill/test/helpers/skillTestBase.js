@@ -19,9 +19,9 @@ const {
     EventDebuggerMiddleware,
     Locales,
     SetLocaleMiddleware,
-    LocaleTemplateEngineManager
+    LocaleTemplateEngineManager,
+    SkillContext
 } = require("botbuilder-solutions");
-const { SkillContext } = require("botbuilder-skills");
 const { ActivityTypes } = require("botframework-schema");
 const i18next = require("i18next");
 const i18nextNodeFsBackend = require("i18next-node-fs-backend");
