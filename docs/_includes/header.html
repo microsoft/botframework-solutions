@@ -5,9 +5,9 @@
     </a>
     <div class="mr-0 d-none d-md-flex">
         <div id="searchbox">
-            <form method="get" action="http://www.bing.com/search" target="_blank">
-                <input id="searchinput" type="text" placeholder="Search..." name="q" value="" />
-                <input type="hidden" name="q1" value="site:{{site.baseurl}}" />
+            <form method="get" action="http://www.bing.com/search" target="_blank" onsubmit="q.value=query.value+' site:{{site.baseurl}}'">
+                <input id="searchinput" type="text" placeholder="Search..." name="query" value="" />
+                <input type="hidden" name="q" value="" />
             </form>
         </div>
         <a class="text-inherit px-2 d-inline-block" href="{{site.repo}}">
