@@ -54,7 +54,7 @@ namespace Microsoft.Bot.Solutions.Responses
         /// <summary>
         /// Create an activity through Language Generation using the thread culture or provided override.
         /// </summary>
-        /// <param name="templateName">Langauge Generation template.</param>
+        /// <param name="templateName">Language Generation template.</param>
         /// <param name="data">Data for Language Generation to use during response generation.</param>
         /// <param name="localeOverride">Optional override for locale.</param>
         /// <returns>Activity.</returns>

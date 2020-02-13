@@ -34,22 +34,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.2.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.7.2-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.0-preview-200212-105659" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.8.0-preview-200213-105928" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="NCrontab" Version="3.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
