@@ -1062,7 +1062,6 @@
 
 ## FindMeetingRoom
 - einen neuen Besprechungsort finden
-- Fügen Sie eine  {SlotAttribute=Zimmer}  zu meinem  {FromTime=15.00 Uhr} Sitzung
 - bin gehen, um morgen auf einem anderen Zustand zu arbeiten, muss ich ein Zimmer in buchen  {MeetingRoom=Johan} Street
 - Eine  {MeetingRoom=Zimmer} .
 - Sind  {MeetingRoom=Zimmer} 
@@ -1412,7 +1411,6 @@
 - kann ich die  {MeetingRoom=Damenzimmer a1/1657} für tommorow?
 - kann ich senden, um die  {MeetingRoom=großes Zimmer 4} ?
 - kann ich diesen Montag zum  {MeetingRoom=Flitterwochen-Suite} ?
-- können Sie eine  {SlotAttribute=Zimmer}  An  {FromDate=Morgen} s  {Subject=Dev-Meeting} 
 - können Sie eine  {MeetingRoom=Konferenzraum} in der Nähe des Stadtzentrums
 - können Sie ein Zimmer buchen  {MeetingRoom=4/3342} in der Nähe des Stadtzentrums Hotel
 - können Sie reservieren  {MeetingRoom=Zimmer 258} Sofort
@@ -1564,7 +1562,6 @@
 -  {MeetingRoom=ändern Sie nur den Zimmernamen} 
 - bestellen Sie  {MeetingRoom=Zimmer 669}  In  {MeetingRoom=Ostflügel} für 16 Uhr
 - organisieren Sie ein Meeting in der  {MeetingRoom=Gandhi}  Zimmer im  {FloorNumber=3. Stock}  auf der  {Building=greenpark Hotel} 
-- bitte fügen Sie eine  {SlotAttribute=Tagungsraum}  zum  {Subject=tägliches Scrum-Meeting} 
 - Bitte fügen Sie eine Reservierung hinzu, um  {MeetingRoom=Konferenzraum 2} 
 - Bitte buchen Sie 2 Zimmer, die nicht weit von  {MeetingRoom=stella es zimmer} .
 - bitte buchen Sie ein Zimmer im taj banjaraa  {MeetingRoom=2/2241} im 2. Stock.
