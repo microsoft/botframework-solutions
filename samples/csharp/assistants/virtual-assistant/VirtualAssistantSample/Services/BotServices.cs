@@ -27,22 +27,26 @@ namespace VirtualAssistantSample.Services
                 var config = pair.Value;
 
                 var telemetryClient = client;
-                var luisOptions = new LuisPredictionOptions()
+
+                var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
+                LuisRecognizerOptionsV2 luisOptions = new LuisRecognizerOptionsV2(dispatchApp)
                 {
                     TelemetryClient = telemetryClient,
                     LogPersonalInformation = true,
                 };
-
-                var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-
-                set.DispatchService = new LuisRecognizer(dispatchApp, luisOptions);
+                set.DispatchService = new LuisRecognizer(luisOptions);
 
                 if (config.LanguageModels != null)
                 {
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
+                        luisOptions = new LuisRecognizerOptionsV2(luisApp)
+                        {
+                            TelemetryClient = telemetryClient,
+                            LogPersonalInformation = true,
+                        };
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisOptions));
                     }
                 }
 
