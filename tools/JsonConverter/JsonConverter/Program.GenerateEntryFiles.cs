@@ -8,68 +8,43 @@ namespace JsonConverter
 {
     partial class Program
     {
-        public static string GetOutputResponsesAndTextsFile(string locale, string rootFolder)
+        public static string GetOutputResponsesAndTextsFile(string locale, string responsesAndTextsFolder)
         {
-            var responseAndTextsFolder = Path.Combine(rootFolder, "Responses", "ResponsesAndTexts");
             string outputFile;
             if (locale == "en-us")
             {
-                outputFile = Path.Combine(responseAndTextsFolder, "ResponsesAndTexts.lg");
+                outputFile = Path.Combine(responsesAndTextsFolder, "ResponsesAndTexts.lg");
             }
             else
             {
-                outputFile = Path.Combine(responseAndTextsFolder, string.Format("ResponsesAndTexts.{0}.lg", locale));
+                outputFile = Path.Combine(responsesAndTextsFolder, $"ResponsesAndTexts.{locale}.lg");
             }
             return outputFile;
         }
 
-        public static void GenerateEntryFile(string locale, string rootFolder)
+        public static void GenerateEntryFile(string responsesAndTextsFolder, string locale, List<string> textsFiles)
         {
-            var outputFile = GetOutputResponsesAndTextsFile(locale, rootFolder);
-            using (StreamWriter sw = new StreamWriter(outputFile))
+            var outputEntryFile = GetOutputResponsesAndTextsFile(locale, responsesAndTextsFolder);
+            using (StreamWriter sw = new StreamWriter(outputEntryFile))
             {
-                sw.WriteLine(@"﻿[import] (../Shared/Shared.lg)");
-                var completedDialogName = new List<string>();
-                var jsonFiles = Directory.GetFiles(rootFolder, "*.json", SearchOption.AllDirectories);
-                foreach (var file in jsonFiles)
+                sw.WriteLine(@"﻿[import] (..\Shared\Shared.lg)");
+                foreach (var file in textsFiles)
                 {
-                    if (!isCardFile(file))
-                    {
-                        var dialogName = GetDialogName(file);
-
-                        // Each locale, each dialog, one line in ResponsesAndTexts.lg.
-                        if (!completedDialogName.Contains(dialogName))
-                        {
-                            string lgFileFolder = Path.GetDirectoryName(file).Split("\\").Last();
-                            string lgfile;
-                            if (locale == "en-us")
-                            {
-                                lgfile = string.Format("{0}Texts.lg", dialogName);
-                            }
-                            else
-                            {
-                                lgfile = string.Format("{0}Texts.{1}.lg", dialogName, locale);
-                            }
-
-                            // eg: [import] (../AddToDo/AddToDoTexts.lg);
-                            sw.WriteLine(string.Format("[import] (../{0}/{1})", lgFileFolder, lgfile));
-
-                            completedDialogName.Add(dialogName);
-                        }
-                    }
+                    // eg: [import] (../AddToDo/AddToDoTexts.lg);
+                    var relativePath = Path.Combine("..", file.Split("\\Responses\\").Last());
+                    sw.WriteLine($"[import] ({relativePath})");
                 }
             }
         }
 
         public static void GenerateEntryFiles(string rootFolder)
         {
-            var responseFolder = Path.Combine(rootFolder, "Responses", "ResponsesAndTexts");
-            Directory.CreateDirectory(responseFolder);
+            var responsesAndTextsFolder = Path.Combine(rootFolder, "Responses", "ResponsesAndTexts");
+            Directory.CreateDirectory(responsesAndTextsFolder);
 
-            List<string> locales = new List<string>() { "en-us", "zh-cn", "es-es", "fr-fr", "it-it", "de-de" };
-            foreach (var locale in locales)
+            foreach (var locale in ConvertedTextsFiles.Keys)
             {
-                GenerateEntryFile(locale, rootFolder);
+                GenerateEntryFile(responsesAndTextsFolder, locale, ConvertedTextsFiles[locale]);
             }
         }
     }

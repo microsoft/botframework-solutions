@@ -12,7 +12,13 @@ namespace JsonConverter
             var responseFolder = Path.Combine(rootFolder, "Responses", "Shared");
             Directory.CreateDirectory(responseFolder);
 
-            File.Copy("Shared.lg", Path.Combine(responseFolder, "Shared.lg"), false);
+            try
+            {
+                File.Copy("Shared.lg", Path.Combine(responseFolder, "Shared.lg"), false);
+            }
+            catch
+            { 
+            }
         }
     }
 }

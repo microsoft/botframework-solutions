@@ -8,6 +8,8 @@ namespace JsonConverter
 {
     partial class Program
     {
+        public static Dictionary<string, List<string>> ConvertedTextsFiles { get; set; } = new Dictionary<string, List<string>>();
+
         // eg: xx.zh-cn.json. Its locale is zh-cn.
         // xx.lg. Its locale is en-us.
         public static string GetLocale(string file)
@@ -39,20 +41,6 @@ namespace JsonConverter
         {
             var fileName = Path.GetFileName(file).Split(".")[0];
             return fileName.Substring(0, fileName.Length - "Responses".Length);
-        }
-
-        // Consider /content is the card file folder.
-        public static bool isCardFile(string file)
-        {
-            var folderName = Path.GetDirectoryName(file).Split("\\").Last();
-            if (folderName == "Content")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }
