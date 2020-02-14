@@ -15,12 +15,15 @@ namespace JsonConverter
     {
         private readonly string root;
         private readonly string defaultLocale;
+        private readonly bool keepOld;
         private readonly Dictionary<string, List<string>> convertedTextsFiles = new Dictionary<string, List<string>>();
+        private readonly HashSet<string> convertedActivityFiles = new HashSet<string>();
 
         // defaultLocale: one of values of LocaleDic
-        public Program(string root, string defaultLocale = "en-us")
+        public Program(string root, bool keepOld = true, string defaultLocale = "en-us")
         {
             this.root = root;
+            this.keepOld = keepOld;
             this.defaultLocale = defaultLocale;
         }
 
@@ -34,6 +37,8 @@ namespace JsonConverter
             program.ConvertJsonFilesToLG("Responses");
             program.CopySharedLGFiles("Responses", "Shared");
             program.ModifyCardParameters("Content");
+            program.GenerateWrapper("Utilities");
+            program.CopyGenerateT4("Responses", "Shared");
             program.GenerateEntryFiles("Responses", "ResponsesAndTexts");
 
             Console.WriteLine("Done.");

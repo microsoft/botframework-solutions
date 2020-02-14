@@ -15,21 +15,18 @@ namespace JsonConverter
             var responseFolder = GetFullPath(folders);
             Directory.CreateDirectory(responseFolder);
             var target = Path.Combine(responseFolder, "Shared.lg");
-
             try
             {
                 File.Copy("Shared.lg", target, false);
             }
             catch (IOException ex)
             {
-                Console.Write($"{target} already exists! {ex.Message}");
+                Console.WriteLine($"{target} already exists! {ex.Message}");
             }
-            finally
+
+            foreach (var pair in convertedTextsFiles)
             {
-                foreach (var pair in convertedTextsFiles)
-                {
-                    pair.Value.Add(target);
-                }
+                pair.Value.Add(target);
             }
         }
     }

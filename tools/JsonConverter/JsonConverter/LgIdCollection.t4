@@ -1,0 +1,47 @@
+﻿<#
+    var className = System.IO.Path.GetFileNameWithoutExtension(Host.TemplateFile);
+    var namespaceName = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint");
+    string myFile = this.Host.ResolvePath(className + ".lg");
+    var lines = new System.Collections.Generic.List<string>();
+    using (var sr = new System.IO.StreamReader(myFile))
+    {
+        string line;
+        while ((line = sr.ReadLine()) != null)
+        {
+            if (line.StartsWith("#"))
+            {
+                var index = line.IndexOf('(');
+                if (index == -1)
+                {
+                    index = line.Length;
+                }
+
+                line = line.Substring(1, index - 1).Trim();
+                lines.Add(line);
+            }
+        }
+    }
+#>
+// https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Solutions.Responses;
+
+namespace <#= namespaceName #>
+{
+    /// <summary>
+    /// Contains bot responses.
+    /// </summary>
+    public class <#= className #> : IResponseIdCollection
+    {
+        // Generated accessors
+<#
+    foreach (var line in lines)  { 
+#>
+        public const string <#= line #> = "<#= line #>";
+<# 
+    }
+#>
+    }
+}

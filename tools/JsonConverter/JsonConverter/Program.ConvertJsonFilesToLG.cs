@@ -150,6 +150,8 @@ namespace JsonConverter
                 {
                     sw.WriteLine(sbActivities.ToString());
                 }
+
+                convertedActivityFiles.Add(outputActivitiesLGFile);
             }
 
             using (StreamWriter sw = new StreamWriter(outputTextsLGFile))
