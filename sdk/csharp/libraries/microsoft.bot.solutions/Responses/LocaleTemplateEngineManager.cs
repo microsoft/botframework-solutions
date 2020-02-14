@@ -39,20 +39,22 @@ namespace Microsoft.Bot.Solutions.Responses
 
             foreach (KeyValuePair<string, List<string>> filesPerLocale in localeLGFiles)
             {
-                TemplateEnginesPerLocale[filesPerLocale.Key] = new TemplateEngine();
-                TemplateEnginesPerLocale[filesPerLocale.Key].AddFiles(filesPerLocale.Value);
+                foreach (string file in filesPerLocale.Value)
+                {
+                    TemplateEnginesPerLocale[filesPerLocale.Key] = LGParser.ParseFile(file);
+                }
             }
 
             languageFallbackPolicy = new LanguagePolicy();
             localeDefault = fallbackLocale;
         }
 
-        public Dictionary<string, TemplateEngine> TemplateEnginesPerLocale { get; set; } = new Dictionary<string, TemplateEngine>(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, LGFile> TemplateEnginesPerLocale { get; set; } = new Dictionary<string, LGFile>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Create an activity through Language Generation using the thread culture or provided override.
         /// </summary>
-        /// <param name="templateName">Langauge Generation template.</param>
+        /// <param name="templateName">Language Generation template.</param>
         /// <param name="data">Data for Language Generation to use during response generation.</param>
         /// <param name="localeOverride">Optional override for locale.</param>
         /// <returns>Activity.</returns>
