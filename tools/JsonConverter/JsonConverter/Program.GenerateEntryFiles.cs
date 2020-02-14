@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,10 +11,10 @@ namespace JsonConverter
 {
     partial class Program
     {
-        public static string GetOutputResponsesAndTextsFile(string locale, string responsesAndTextsFolder)
+        private string GetOutputResponsesAndTextsFile(string locale, string responsesAndTextsFolder)
         {
             string outputFile;
-            if (locale == "en-us")
+            if (locale == defaultLocale)
             {
                 outputFile = Path.Combine(responsesAndTextsFolder, "ResponsesAndTexts.lg");
             }
@@ -22,29 +25,30 @@ namespace JsonConverter
             return outputFile;
         }
 
-        public static void GenerateEntryFile(string responsesAndTextsFolder, string locale, List<string> textsFiles)
+        private void GenerateEntryFile(string responsesAndTextsFolder, string locale, List<string> textsFiles)
         {
             var outputEntryFile = GetOutputResponsesAndTextsFile(locale, responsesAndTextsFolder);
+
             using (StreamWriter sw = new StreamWriter(outputEntryFile))
             {
-                sw.WriteLine(@"﻿[import] (..\Shared\Shared.lg)");
                 foreach (var file in textsFiles)
                 {
                     // eg: [import] (../AddToDo/AddToDoTexts.lg);
-                    var relativePath = Path.Combine("..", file.Split("\\Responses\\").Last());
+                    var relativePath = Path.GetRelativePath(responsesAndTextsFolder, file);
                     sw.WriteLine($"[import] ({relativePath})");
                 }
             }
         }
 
-        public static void GenerateEntryFiles(string rootFolder)
+        // after everything
+        public void GenerateEntryFiles(params string[] folders)
         {
-            var responsesAndTextsFolder = Path.Combine(rootFolder, "Responses", "ResponsesAndTexts");
+            var responsesAndTextsFolder = GetFullPath(folders);
             Directory.CreateDirectory(responsesAndTextsFolder);
 
-            foreach (var locale in ConvertedTextsFiles.Keys)
+            foreach (var pair in convertedTextsFiles)
             {
-                GenerateEntryFile(responsesAndTextsFolder, locale, ConvertedTextsFiles[locale]);
+                GenerateEntryFile(responsesAndTextsFolder, pair.Key, pair.Value);
             }
         }
     }

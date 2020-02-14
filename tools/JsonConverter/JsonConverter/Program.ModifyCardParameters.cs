@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -8,9 +11,11 @@ namespace JsonConverter
 {
     partial class Program
     {
-        public static void ModifyCardParameters(string rootFolder)
+        // Copy card json files to .new.json with {X} changed to @{Data.X}
+        public void ModifyCardParameters(params string[] folders)
         {
-            var cardFolder = Path.Combine(rootFolder, "Content");
+            var cardFolder = GetFullPath(folders);
+            string pattern = @"\{(\w+)\}";
             var jsonFiles = Directory.GetFiles(cardFolder, "*.json", SearchOption.AllDirectories);
             foreach (var file in jsonFiles)
             {
@@ -20,10 +25,10 @@ namespace JsonConverter
                     content = sr.ReadToEnd();
                 }
 
-                string pattern = @"\{(\w+)\}";
                 content = Regex.Replace(content, pattern, "@{Data.$1}");
 
-                using (StreamWriter sw = new StreamWriter(file.Replace(".json", ".new.json")))
+                var newFile = Path.ChangeExtension(file, "new.json");
+                using (StreamWriter sw = new StreamWriter(newFile))
                 {
                     sw.WriteLine(content);
                 }

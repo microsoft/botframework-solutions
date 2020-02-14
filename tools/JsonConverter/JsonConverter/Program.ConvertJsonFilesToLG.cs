@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,32 +11,32 @@ namespace JsonConverter
 {
     partial class Program
     {
-        public static (string, string) GetOutputLGFile(string file)
+        private (string, string) GetOutputLGFile(string file)
         {
             string locale = GetLocale(file);
             string dialogName = GetDialogName(file);
             string currentFolder = Path.GetDirectoryName(file);
             string outputActivitiesLGFile;
             string outputTextsLGFile;
-            if (locale == "en-us")
+            if (locale == defaultLocale)
             {
-                outputTextsLGFile = Path.Combine(currentFolder, $"{dialogName}Texts.lg");
-                outputActivitiesLGFile = file.Replace(".json", ".lg");
+                outputTextsLGFile = Path.Join(currentFolder, $"{dialogName}Texts.lg");
+                outputActivitiesLGFile = Path.Join(currentFolder, $"{dialogName}.lg");
             }
             else
             {
-                outputTextsLGFile = Path.Combine(currentFolder, $"{dialogName}Texts.{locale}.lg");
-                outputActivitiesLGFile = file.Substring(0, file.Length - ".xx.json".Length) + ".lg";
+                outputTextsLGFile = Path.Join(currentFolder, $"{dialogName}Texts.{locale}.lg");
+                outputActivitiesLGFile = Path.Join(currentFolder, $"{dialogName}.lg");
             }
             return (outputActivitiesLGFile, outputTextsLGFile);
         }
 
-        public static string ModifyTextParameters(string text)
+        private string ModifyTextParameters(string text)
         {
             return text.Replace("{", "@{Data.");
         }
 
-        public static bool AreTextAndSpeakTheSame(List<Reply> replies)
+        private bool AreTextAndSpeakTheSame(List<Reply> replies)
         {
             foreach (var reply in replies)
             {
@@ -45,7 +48,7 @@ namespace JsonConverter
             return true;
         }
 
-        public static void AddActivity(StringBuilder sb, string templateName, Activity activity)
+        private void AddActivity(StringBuilder sb, string templateName, Activity activity)
         {
             sb.AppendLine($"# {templateName}(Data, Cards, Layout)");
             sb.AppendLine("[Activity");
@@ -84,7 +87,7 @@ namespace JsonConverter
             sb.AppendLine("]").AppendLine();
         }
 
-        public static void AddTexts(StringBuilder sb, string templateName, Activity activity)
+        private void AddTexts(StringBuilder sb, string templateName, Activity activity)
         {
             sb.AppendLine($"# {templateName}.Text(Data)");
             foreach (var reply in activity.Replies)
@@ -119,7 +122,7 @@ namespace JsonConverter
 
         // One file generates a *Activities.lg and a *Texts.lg.
         // But only need to generate *Activities.lg once, because in a dialog it is common for different languages.
-        public static void Convert(string file)
+        private void Convert(string file)
         {
             var (outputActivitiesLGFile, outputTextsLGFile) = GetOutputLGFile(file);
             var sbActivities = new StringBuilder();
@@ -141,7 +144,7 @@ namespace JsonConverter
             var locale = GetLocale(file);
 
             // Gereate DialogNameResponses.lg
-            if (locale == "en-us")
+            if (locale == defaultLocale)
             {
                 using (StreamWriter sw = new StreamWriter(outputActivitiesLGFile))
                 {
@@ -151,19 +154,19 @@ namespace JsonConverter
 
             using (StreamWriter sw = new StreamWriter(outputTextsLGFile))
             {
-                if (!ConvertedTextsFiles.ContainsKey(locale))
+                if (!convertedTextsFiles.ContainsKey(locale))
                 {
-                    ConvertedTextsFiles.Add(locale, new List<string>());
+                    convertedTextsFiles.Add(locale, new List<string>());
                 }
-                ConvertedTextsFiles[locale].Add(outputTextsLGFile);
+                convertedTextsFiles[locale].Add(outputTextsLGFile);
 
                 sw.WriteLine(sbTexts.ToString());
             }
         }
 
-        public static void ConvertJsonFilesToLG(string folder)
+        public void ConvertJsonFilesToLG(params string[] folders)
         {
-            var responseFolder = Path.Combine(folder, "Responses");
+            var responseFolder = GetFullPath(folders);
             var jsonFiles = Directory.GetFiles(responseFolder, "*.json", SearchOption.AllDirectories);
             foreach (var file in jsonFiles)
             {
