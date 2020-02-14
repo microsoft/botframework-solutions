@@ -5,6 +5,6 @@
 
 export class StateProperties {
     public readonly generalLuisResult: string = 'generalLuisResult';
-    public readonly skillLuisResult : string = 'skillLuisResult';
+    public readonly skillLuisResult: string = 'skillLuisResult';
     public readonly timezone: string = 'timezone';
 }

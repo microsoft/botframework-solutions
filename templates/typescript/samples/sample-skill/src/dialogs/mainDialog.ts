@@ -2,7 +2,6 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-
 import {
     Activity,
     ActivityTypes,
@@ -11,29 +10,25 @@ import {
     RecognizerResult,
     StatePropertyAccessor,
     TurnContext, 
-    SemanticAction} from 'botbuilder';
+    SemanticAction 
+} from 'botbuilder';
 import { LuisRecognizer } from 'botbuilder-ai';
 import {
     DialogContext,
     DialogTurnResult
-     } from 'botbuilder-dialogs';
+} from 'botbuilder-dialogs';
 import {
+    ActivityEx,
     ActivityHandlerDialog,
-    ActivityExtensions,
     ICognitiveModelSet,
     InterruptionAction,
     LocaleTemplateEngineManager,
-    SkillContext,
     TokenEvents,
-    isRemoteUserTokenProvider} from 'botbuilder-solutions';
+    isRemoteUserTokenProvider } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';
 import { SampleDialog } from './sampleDialog';
-
-enum Events {
-    tokenResponseEventName = 'tokens/response'
-}
 
 export class MainDialog extends ActivityHandlerDialog {
 
@@ -66,27 +61,33 @@ export class MainDialog extends ActivityHandlerDialog {
 
     // Runs on every turn of the conversation.
     protected async onContinueDialog(innerDc: DialogContext): Promise<DialogTurnResult> {
-        if (innerDc.context.activity.type == ActivityTypes.Message) {
+        try {
+            if (innerDc.context.activity.type == ActivityTypes.Message) {
             
-            // Get cognitive models for the current locale.
-            const localizedServices = this.services.getCognitiveModels();
-
-            // Run LUIS recognition and store result in turn state.
-            const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices.get("skillSample");
-            if (skillLuis !== undefined) {
-                const skillResult: RecognizerResult = await skillLuis.recognize(innerDc.context);
-                innerDc.context.turnState.set(StateProperties.skillLuisResult, skillResult);
+                // Get cognitive models for the current locale.
+                const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
+    
+                // Run LUIS recognition and store result in turn state.
+                const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("sampleSkill") : undefined;
+                if (skillLuis !== undefined) {
+                    const skillResult: RecognizerResult = await skillLuis.recognize(innerDc.context);
+                    innerDc.context.turnState.set(StateProperties.skillLuisResult, skillResult);
+                }
+              
+                // Run LUIS recognition on General model and store result in turn state.
+                const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("general") : undefined;
+                if (generalLuis !== undefined) {
+                    const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
+                    innerDc.context.turnState.set(StateProperties.generalLuisResult, generalResult);
+                }
             }
-          
-            // Run LUIS recognition on General model and store result in turn state.
-            const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices.get("general");
-            if (generalLuis !== undefined) {
-                const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
-                innerDc.context.turnState.set(StateProperties.generalLuisResult, generalResult);
-            }
+    
+            return await super.onContinueDialog(innerDc);
+        } catch (error) {
+            console.log(error);
+            return await super.onContinueDialog(innerDc);
         }
-
-        return await this.onContinueDialog(innerDc);
+       
     }
 
     // Runs on every turn of the conversation to check if the conversation should be interrupted.
@@ -125,9 +126,9 @@ export class MainDialog extends ActivityHandlerDialog {
                     }
                 }
             }
-
-            return InterruptionAction.NoAction;
         }
+        
+        return InterruptionAction.NoAction;
     }
 
     // Runs when the dialog stack is empty, and a new member is added to the conversation. Can be used to send an introduction activity.
@@ -144,12 +145,12 @@ export class MainDialog extends ActivityHandlerDialog {
 
         if (activity !== undefined && activity.text.trim().length > 0){
             // Get current cognitive models for the current locale.
-            const localizedServices: ICognitiveModelSet = this.services.getCognitiveModels();
+            const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
 
             // Populate state from activity
             await this.populateStateFromActivity(innerDc.context);
 
-            const luisService: LuisRecognizer | undefined = localizedServices.luisServices.get(StateProperties.skillLuisResult);
+            const luisService: LuisRecognizer | undefined = localizedServices.luisServices? localizedServices.luisServices.get('sampleSkill') : undefined;
 
             if (luisService){
                 const result = innerDc.context.turnState.get(StateProperties.skillLuisResult);
@@ -180,19 +181,18 @@ export class MainDialog extends ActivityHandlerDialog {
         //PENDING: This should be const activity: IMessageActivity = innerDc.context.activity.asMessageActivity()
         // but it's not in botbuilder-js currently
         const ev: Activity = innerDc.context.activity;
-        const value: string = <string> ev.value;
 
         switch (ev.name) {
             case TokenEvents.tokenResponseEventName: {
-                    // Forward the token response activity to the dialog waiting on the stack.
-                    await innerDc.continueDialog();
-                    break;
+                // Forward the token response activity to the dialog waiting on the stack.
+                await innerDc.continueDialog();
+                break;
             }
 
             default: {
                 await innerDc.context.sendActivity({
                     type: ActivityTypes.Trace,
-                    text: `Unknown Event '${ev.name ?? "undefined"}' was received but not processed.`
+                    text: `Unknown Event '${ev.name ? ev.name : "undefined" }' was received but not processed.`
                 });
                 break;
             }
@@ -212,7 +212,7 @@ export class MainDialog extends ActivityHandlerDialog {
     protected async onDialogComplete(outerDc: DialogContext, result: Object): Promise<void> {
         
         if (isRemoteUserTokenProvider(outerDc.context.adapter) || outerDc.context.activity.channelId != 'msteams') {
-            const response = ActivityExtensions.createReply(outerDc.context.activity);
+            const response = ActivityEx.createReply(outerDc.context.activity);
             response.type = ActivityTypes.Handoff;
             await outerDc.context.sendActivity(response);
         }
@@ -227,6 +227,7 @@ export class MainDialog extends ActivityHandlerDialog {
         const semanticAction: SemanticAction | undefined = activity.semanticAction;
 
         if (semanticAction && semanticAction.entities[StateProperties.timeZone]){
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const timezone: any = semanticAction.entities[StateProperties.timeZone];
             const timezoneObj: Date = timezone.properties[StateProperties.timeZone];
             const state = await this.stateAccessor.get(context, new SkillState());
@@ -239,14 +240,14 @@ export class MainDialog extends ActivityHandlerDialog {
         if (tokenProvider !== undefined){
             // Sign out user
             const tokens: TokenStatus[] = await tokenProvider.getTokenStatus(dc.context, dc.context.activity.from.id)
-            tokens.forEach(async (token: TokenStatus) => {
+            tokens.forEach(async (token: TokenStatus): Promise<void> => {
                 if (token.connectionName !== undefined) {
                     await tokenProvider.signOutUser(dc.context, token.connectionName);
                 }
             });
 
-                // Cancel all active dialogs
-                await dc.cancelAllDialogs();
+            // Cancel all active dialogs
+            await dc.cancelAllDialogs();
 
         } else {
             throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter')
