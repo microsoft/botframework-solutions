@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace JsonConverter
 {
@@ -49,6 +50,12 @@ namespace JsonConverter
             {
                 return fileName;
             }
+        }
+
+        private string ModifyTextParameters(string text)
+        {
+            string pattern = @"\{(\w+)\}";
+            return Regex.Replace(text, pattern, "@{if(Data.$1==null,'',Data.$1)}");
         }
 
         private string GetFullPath(params string[] folders)

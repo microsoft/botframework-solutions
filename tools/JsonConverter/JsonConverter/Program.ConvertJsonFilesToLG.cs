@@ -31,11 +31,6 @@ namespace JsonConverter
             return (outputActivitiesLGFile, outputTextsLGFile);
         }
 
-        private string ModifyTextParameters(string text)
-        {
-            return text.Replace("{", "@{Data.");
-        }
-
         private bool AreTextAndSpeakTheSame(List<Reply> replies)
         {
             foreach (var reply in replies)

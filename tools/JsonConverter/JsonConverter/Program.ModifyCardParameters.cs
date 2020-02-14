@@ -15,7 +15,6 @@ namespace JsonConverter
         public void ModifyCardParameters(params string[] folders)
         {
             var cardFolder = GetFullPath(folders);
-            string pattern = @"\{(\w+)\}";
             var jsonFiles = Directory.GetFiles(cardFolder, "*.json", SearchOption.AllDirectories);
             foreach (var file in jsonFiles)
             {
@@ -25,7 +24,7 @@ namespace JsonConverter
                     content = sr.ReadToEnd();
                 }
 
-                content = Regex.Replace(content, pattern, "@{Data.$1}");
+                content = ModifyTextParameters(content);
 
                 var newFile = Path.ChangeExtension(file, "new.json");
                 using (StreamWriter sw = new StreamWriter(newFile))
