@@ -117,13 +117,6 @@
   ],
   "actions": [
     {
-      "type": "Action.Submit",
-      "title": "Get started",
-      "data": {
-        "action": "startOnboarding"
-      }
-    },
-    {
       "type": "Action.OpenUrl",
       "title": "Documentation",
       "url": "https://aka.ms/virtualassistantdocs"
