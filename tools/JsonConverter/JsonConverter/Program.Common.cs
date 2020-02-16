@@ -55,7 +55,7 @@ namespace JsonConverter
         private string ModifyTextParameters(string text)
         {
             string pattern = @"\{(\w+)\}";
-            return Regex.Replace(text, pattern, "@{if(Data.$1==null,'',Data.$1)}");
+            return Regex.Replace(text, pattern, "@{if(Data.$1 == null, '', Data.$1)}");
         }
 
         private string GetFullPath(params string[] folders)
