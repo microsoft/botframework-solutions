@@ -1,0 +1,67 @@
+[import] (SharedResponses.lg)
+
+# AuthFailedTextAndSpeak1.Text(Data)
+- L'authentification a échoué. S'il vous plaît essayer à nouveau
+
+# AuthFailedTextAndSpeak1.Speak(Data)
+- L'authentification a échoué. S'll vous plaît, réessayez.
+
+# AuthFailedTextAndSpeak2.Text(Data)
+- Tu ne t'es pas déconnecter. S'il vous plaît essayer à nouveau plus tard.
+
+# AuthFailedTextAndSpeak2.Speak(Data)
+- Tu ne t'es pas déconnecter. S'il vous plaît essayer à nouveau plus tard.
+
+# AuthFailedTextAndSpeak3.Text(Data)
+- Votre connexion a échoué. Essayons encore.
+
+# AuthFailedTextAndSpeak3.Speak(Data)
+- Votre connexion a échoué. Essayons encore.
+
+# SixHourForecast.Text(Data)
+- Voici la météo pour les six prochaines heures.
+
+# DidntUnderstandMessage.Text(Data)
+- Désolé, je ne comprenais pas ce que tu voulais dire.
+- Je ne comprenais pas, peut-être essayer à nouveau d'une manière différente.
+- Pouvez-vous essayer de demander d'une manière différente?
+- Je n'ai pas eu ce que tu veux dire, tu peux essayer d'une autre façon ?
+- Pourriez-vous nous donner des précisions?
+- S'il vous plaît dire que de nouveau d'une manière différente.
+- Je n'ai pas tout à fait eu ça.
+- Pouvez-vous dire cela d'une manière différente?
+- Tu peux essayer de me le redemander ? Je n'ai pas eu ce que tu voulais dire.
+
+# CancellingMessage.Text(Data)
+- Bien sûr, on peut le faire plus tard.
+- Bien sûr, on peut commencer plus tard.
+- Pas de problème, vous pouvez essayer à nouveau à un autre moment.
+- D'accord, dis-moi quand tu as besoin de mon aide.
+- Bien sûr, je suis là si tu as besoin de moi.
+
+# DidNotUnderstandLocationPrompt.Text(Data)
+- Désolé de ne pas avoir eu ça. Où es-tu maintenant?
+- Essayons encore une fois. Où es-tu maintenant?
+
+# ActionEnded.Text(Data)
+- Faites-moi savoir si vous avez besoin de mon aide avec autre chose.
+- Je suis là si tu as besoin de moi.
+
+# NoAuth.Text(Data)
+- Veuillez vous connecter avant de prendre d'autres mesures.
+- S'il vous plaît connectez-vous afin que je puisse prendre d'autres mesures.
+- S'il vous plaît connectez-vous afin que je puisse procéder à votre demande.
+- Pouvez-vous vous connecter pour que je puisse vous aider davantage?
+- Vous devez vous connecter pour que je puisse prendre d'autres mesures.
+
+# LocationPrompt.Text(Data)
+- Où es-tu maintenant?
+
+# ErrorMessage.Text(Data)
+- Désolé, on dirait que quelque chose s'est mal passé !
+- Une erreur s'est produite, s'il vous plaît essayer à nouveau plus tard.
+- Quelque chose s'est mal passé, désolé !
+- On dirait que quelque chose s'est mal passé. Tu peux réessayer plus tard ?
+- Désolé de ne pas pouvoir m'en empêcher. S'il vous plaît essayer à nouveau plus tard.
+
+

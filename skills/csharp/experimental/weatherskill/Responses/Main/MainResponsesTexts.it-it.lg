@@ -1,0 +1,28 @@
+[import] (MainResponses.lg)
+
+# WelcomeMessage.Text(Data)
+- Sono l'abilità del tempo e posso cercare il tempo.
+
+# HelpMessage.Text(Data)
+- [Inserisci qui il tuo messaggio di aiuto]
+
+# GreetingMessage.Text(Data)
+- C'è!
+- Ehilà!
+- Ciao!
+
+# GoodbyeMessage.Text(Data)
+- Addio!
+
+# LogOut.Text(Data)
+- Il tuo cartello è riuscito.
+- Hai firmato con successo.
+- Sei stato disconnesso.
+
+# FeatureNotAvailable.Text(Data)
+- Questa funzionalità non è ancora disponibile in questa abilità. Per favore prova a chiedere qualcos'altro.
+
+# CancelMessage.Text(Data)
+- Ok, ricominciamo da qui.
+
+
