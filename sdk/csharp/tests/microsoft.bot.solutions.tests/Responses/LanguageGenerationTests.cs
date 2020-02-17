@@ -14,16 +14,16 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
     [TestCategory("UnitTests")]
     public class LanguageGenerationTests
     {
-        private Dictionary<string, List<string>> localeLgFiles;
+        private Dictionary<string, string> localeLgFiles;
         private LocaleLGFileManager localeTemplateEngineManager;
 
         [TestInitialize]
         public void Setup()
         {
-            localeLgFiles = new Dictionary<string, List<string>>
+            localeLgFiles = new Dictionary<string, string>
             {
-                { "en-us", new List<string>() { Path.Combine(".", "Responses", "TestResponses.lg") } },
-                { "es-es", new List<string>() { Path.Combine(".", "Responses", "TestResponses.es.lg") } },
+                { "en-us", Path.Combine(".", "Responses", "TestResponses.lg") },
+                { "es-es", Path.Combine(".", "Responses", "TestResponses.es.lg") },
             };
 
             localeTemplateEngineManager = new LocaleLGFileManager(localeLgFiles, "en-us");
