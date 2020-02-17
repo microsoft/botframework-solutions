@@ -4,13 +4,13 @@
  */
 
 const {
-    AutoSaveStateMiddleware,
     ConversationState,
     MemoryStorage,
     NullTelemetryClient,
     TelemetryLoggerMiddleware,
     UserState
 } = require("botbuilder");
+const path_1 = require("path");
 const {
     ApplicationInsightsTelemetryClient
 } = require("botbuilder-applicationinsights");
@@ -20,20 +20,14 @@ const {
     Locales,
     SetLocaleMiddleware,
     LocaleTemplateEngineManager,
-    SkillContext
 } = require("botbuilder-solutions");
 const { ActivityTypes } = require("botframework-schema");
 const i18next = require("i18next");
 const i18nextNodeFsBackend = require("i18next-node-fs-backend");
 const SkillState = require("../../lib/models/skillState").SkillState;
+const DefaultActivityHandler = require("../../lib/bots/defaultActivityHandler.js").DefaultActivityHandler;
 const MainDialog = require("../../lib/dialogs/mainDialog.js").MainDialog;
 const SampleDialog = require("../../lib/dialogs/sampleDialog.js").SampleDialog;
-const MainResponses = require("../../lib/responses/main/mainResponses.js")
-    .MainResponses;
-const SharedResponses = require("../../lib/responses/shared/sharedResponses.js")
-    .SharedResponses;
-const SampleResponses = require("../../lib/responses/sample/sampleResponses.js")
-    .SampleResponses;
 const BotServices = require("../../lib/services/botServices.js").BotServices;
 let appsettings;
 let cognitiveModels = new Map();
@@ -43,17 +37,17 @@ let conversationState;
 let cognitiveModelsRaw;
 const TEST_MODE = require("./testBase").testMode;
 const localizedTemplates = new Map();
-const templateFiles = ['MainResponses','OnboardingResponses'];
+const templateFiles = ['MainResponses','SampleResponses'];
 const supportedLocales =  ['en-us','de-de','es-es','fr-fr','it-it','zh-cn'];
 supportedLocales.forEach(locale => {
     const localeTemplateFiles = [];
     templateFiles.forEach(template => {
         // LG template for default locale should not include locale in file extension.
         if (locale === 'en-us'){
-            localeTemplateFiles.push(join(__dirname, '..', '..', 'lib', 'responses', `${template}.lg`));
+            localeTemplateFiles.push(path_1.join(__dirname, '..', '..', 'src', 'responses', `${template}.lg`));
         }
         else {
-            localeTemplateFiles.push(join(__dirname, '..', '..', 'lib', 'responses', `${template}.${locale}.lg`));
+            localeTemplateFiles.push(path_1.join(__dirname, '..', '..', 'src', 'responses', `${template}.${locale}.lg`));
         }
     });
 
@@ -133,7 +127,7 @@ const initialize = async function() {
         telemetryClient,
         templateEngine,
     );
-    this.bot = new DefaultActivityHandler(conversationState, userState, telemetryClient, mainDialog);
+    this.bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
 };
 
 /**
