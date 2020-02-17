@@ -18,7 +18,7 @@ namespace JsonConverter
             string currentFolder = Path.GetDirectoryName(file);
             string outputActivitiesLGFile;
             string outputTextsLGFile;
-            if (locale == defaultLocale)
+            if (locale == options.DefaultLocale)
             {
                 outputTextsLGFile = Path.Join(currentFolder, $"{dialogName}Texts.lg");
                 outputActivitiesLGFile = Path.Join(currentFolder, $"{dialogName}.lg");
@@ -80,7 +80,10 @@ namespace JsonConverter
 
             sb.AppendLine(@"    AttachmentLayout = @{if(Layout == null, 'list', Layout)}");
 
-            sb.AppendLine($"    InputHint = {activity.InputHint}");
+            if (!string.IsNullOrEmpty(activity.InputHint))
+            {
+                sb.AppendLine($"    InputHint = {activity.InputHint}");
+            }
 
             sb.AppendLine("]").AppendLine();
 
@@ -145,7 +148,7 @@ namespace JsonConverter
 
         // One file generates a *Activities.lg and a *Texts.lg.
         // But only need to generate *Activities.lg once, because in a dialog it is common for different languages.
-        private void Convert(string file)
+        private void ConvertJson(string file)
         {
             var (outputActivitiesLGFile, outputTextsLGFile) = GetOutputLGFile(file);
             var sbActivities = new StringBuilder();
@@ -159,15 +162,25 @@ namespace JsonConverter
                 {
                     var templateName = jToken.Key;
                     var activity = jToken.Value.ToObject<Activity>();
+                    activity.Correct();
                     AddActivity(sbActivities, templateName, activity);
                     AddTexts(sbTexts, templateName, activity);
                 }
             }
 
             var locale = GetLocale(file);
+            Convert(locale, outputActivitiesLGFile, sbActivities, outputTextsLGFile, sbTexts);
+        }
 
+        private void Convert(
+            string locale,
+            string outputActivitiesLGFile,
+            StringBuilder sbActivities,
+            string outputTextsLGFile,
+            StringBuilder sbTexts)
+        {
             // Gereate DialogNameResponses.lg
-            if (locale == defaultLocale)
+            if (locale == options.DefaultLocale)
             {
                 using (StreamWriter sw = new StreamWriter(outputActivitiesLGFile))
                 {
@@ -195,7 +208,11 @@ namespace JsonConverter
             var jsonFiles = Directory.GetFiles(responseFolder, "*.json", SearchOption.AllDirectories);
             foreach (var file in jsonFiles)
             {
-                Convert(file);
+                ConvertJson(file);
+                if (!options.KeepOld)
+                {
+                    DeleteFile(file);
+                }
             }
         }
     }

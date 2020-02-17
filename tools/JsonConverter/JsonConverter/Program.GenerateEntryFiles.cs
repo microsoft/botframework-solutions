@@ -14,13 +14,13 @@ namespace JsonConverter
         private string GetOutputResponsesAndTextsFile(string locale, string responsesAndTextsFolder)
         {
             string outputFile;
-            if (locale == defaultLocale)
+            if (locale == options.DefaultLocale)
             {
-                outputFile = Path.Combine(responsesAndTextsFolder, "ResponsesAndTexts.lg");
+                outputFile = Path.Join(responsesAndTextsFolder, $"{options.EntryName}.lg");
             }
             else
             {
-                outputFile = Path.Combine(responsesAndTextsFolder, $"ResponsesAndTexts.{locale}.lg");
+                outputFile = Path.Join(responsesAndTextsFolder, $"{options.EntryName}.{locale}.lg");
             }
             return outputFile;
         }
@@ -40,11 +40,12 @@ namespace JsonConverter
             }
         }
 
-        // after everything
+        // after CopySharedLGFiles
         public void GenerateEntryFiles(params string[] folders)
         {
             var responsesAndTextsFolder = GetFullPath(folders);
             Directory.CreateDirectory(responsesAndTextsFolder);
+            entryFolder = responsesAndTextsFolder;
 
             foreach (var pair in convertedTextsFiles)
             {

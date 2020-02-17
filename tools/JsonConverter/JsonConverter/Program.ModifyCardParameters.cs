@@ -15,6 +15,7 @@ namespace JsonConverter
         public void ModifyCardParameters(params string[] folders)
         {
             var cardFolder = GetFullPath(folders);
+            contentFolder = cardFolder;
             var jsonFiles = Directory.GetFiles(cardFolder, "*.json", SearchOption.AllDirectories);
             foreach (var file in jsonFiles)
             {
@@ -26,7 +27,7 @@ namespace JsonConverter
 
                 content = ModifyTextParameters(content);
 
-                var newFile = Path.ChangeExtension(file, "new.json");
+                var newFile = options.KeepOld ? Path.ChangeExtension(file, "new.json") : file;
                 using (StreamWriter sw = new StreamWriter(newFile))
                 {
                     sw.WriteLine(content);
