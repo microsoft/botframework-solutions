@@ -1,0 +1,67 @@
+[import] (SharedResponses.lg)
+
+# LocationPrompt.Text(Data)
+- Where are you now?
+
+# SixHourForecast.Text(Data)
+- Here's the weather for the next six hours.
+
+# DidNotUnderstandLocationPrompt.Text(Data)
+- Sorry I didn't get that. Where are you now?
+- Let's try that again. Where are you now?
+
+# DidntUnderstandMessage.Text(Data)
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way?
+- I didn't get what you mean, can you try in a different way?
+- Could you elaborate?
+- Please say that again in a different way.
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again? I didn't get what you mean.
+
+# CancellingMessage.Text(Data)
+- Sure, we can do this later.
+- Sure, we can start this later.
+- No problem, you can try again at another time.
+- Alright, let me know when you need my help.
+- Sure, I'm here if you need me.
+
+# NoAuth.Text(Data)
+- Please log in before taking further action.
+- Please log in so I can take further action.
+- Please log in so I can proceed with your request.
+- Can you log in so I can help you out further?
+- You need to log in so I can take further action.
+
+# AuthFailedTextAndSpeak1.Text(Data)
+- Authentication failed. Please try again
+
+# AuthFailedTextAndSpeak1.Speak(Data)
+- Authentication failed. Please try again.
+
+# AuthFailedTextAndSpeak2.Text(Data)
+- You failed to log in. Please try again later.
+
+# AuthFailedTextAndSpeak2.Speak(Data)
+- You failed to log in. please try again later.
+
+# AuthFailedTextAndSpeak3.Text(Data)
+- Your log in failed. Let's try this again.
+
+# AuthFailedTextAndSpeak3.Speak(Data)
+- Your log in failed. Let's try this again.
+
+# ActionEnded.Text(Data)
+- Let me know if you need my help with something else.
+- I'm here if you need me.
+
+# ErrorMessage.Text(Data)
+- Sorry, it looks like something went wrong!
+- An error occurred, please try again later.
+- Something went wrong, sorry!
+- It seems like something went wrong. Can you try again later?
+- Sorry I can't help right now. Please try again later.
+
+

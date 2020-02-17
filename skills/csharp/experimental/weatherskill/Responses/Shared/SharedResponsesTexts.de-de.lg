@@ -1,0 +1,67 @@
+[import] (SharedResponses.lg)
+
+# AuthFailedTextAndSpeak1.Text(Data)
+- Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut
+
+# AuthFailedTextAndSpeak1.Speak(Data)
+- Die Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut.
+
+# AuthFailedTextAndSpeak2.Text(Data)
+- Sie konnten sich nicht anmelden. Versuchen Sie es später erneut.
+
+# AuthFailedTextAndSpeak2.Speak(Data)
+- Sie konnten sich nicht anmelden. Versuchen Sie es später erneut.
+
+# AuthFailedTextAndSpeak3.Text(Data)
+- Die Anmeldung ist fehlgeschlagen. Versuchen wir es noch einmal.
+
+# AuthFailedTextAndSpeak3.Speak(Data)
+- Die Anmeldung ist fehlgeschlagen. Versuchen wir es noch einmal.
+
+# SixHourForecast.Text(Data)
+- Hier ist das Wetter für die nächsten sechs Stunden.
+
+# DidntUnderstandMessage.Text(Data)
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten.
+- Ich habe es nicht verstanden, vielleicht noch einmal auf eine andere Art und Weise versuchen.
+- Können Sie versuchen, auf eine andere Art und Weise zu fragen?
+- Ich habe nicht bekommen, was du meinst, kannst du es anders versuchen?
+- Könnten Sie nähere Angaben machen?
+- Bitte sagen Sie das noch einmal anders.
+- Das habe ich nicht ganz bekommen.
+- Können Sie das anders sagen?
+- Können Sie versuchen, mich noch einmal zu fragen? Ich habe nicht bekommen, was du meinst.
+
+# CancellingMessage.Text(Data)
+- Sicher, wir können dies später tun.
+- Sicher, wir können später damit beginnen.
+- Kein Problem, Sie können es zu einem anderen Zeitpunkt erneut versuchen.
+- In Ordnung, lassen Sie mich wissen, wenn Sie meine Hilfe brauchen.
+- Sicher, ich bin hier, wenn du mich brauchst.
+
+# DidNotUnderstandLocationPrompt.Text(Data)
+- Es tut mir leid, dass ich das nicht bekommen habe. Wo bist du jetzt?
+- Versuchen wir es noch einmal. Wo bist du jetzt?
+
+# ActionEnded.Text(Data)
+- Lassen Sie mich wissen, wenn Sie meine Hilfe mit etwas anderem brauchen.
+- Ich bin hier, wenn du mich brauchst.
+
+# NoAuth.Text(Data)
+- Bitte melden Sie sich an, bevor Sie weitere Maßnahmen ergreifen.
+- Bitte melden Sie sich an, damit ich weitere Maßnahmen ergreifen kann.
+- Bitte melden Sie sich an, damit ich mit Ihrer Anfrage fortfahren kann.
+- Können Sie sich einloggen, damit ich Ihnen weiter helfen kann?
+- Sie müssen sich anmelden, damit ich weitere Maßnahmen ergreifen kann.
+
+# LocationPrompt.Text(Data)
+- Wo bist du jetzt?
+
+# ErrorMessage.Text(Data)
+- Es tut uns leid, es sieht so aus, als wäre etwas schief gelaufen!
+- Ein Fehler ist aufgetreten, versuchen Sie es später erneut.
+- Irgendetwas ist schief gelaufen, tut mir leid!
+- Es scheint, als wäre etwas schief gelaufen. Können Sie es später noch einmal versuchen?
+- Es tut mir leid, dass ich jetzt nicht helfen kann. Versuchen Sie es später erneut.
+
+

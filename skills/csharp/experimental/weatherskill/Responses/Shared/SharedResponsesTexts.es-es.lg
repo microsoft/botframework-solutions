@@ -1,0 +1,67 @@
+[import] (SharedResponses.lg)
+
+# AuthFailedTextAndSpeak1.Text(Data)
+- Error de autenticación. Inténtelo de nuevo
+
+# AuthFailedTextAndSpeak1.Speak(Data)
+- Error de autenticación. Por favor, inténtelo de nuevo.
+
+# AuthFailedTextAndSpeak2.Text(Data)
+- No has podido iniciar sesión. Inténtelo de nuevo más tarde.
+
+# AuthFailedTextAndSpeak2.Speak(Data)
+- No has podido iniciar sesión. Inténtelo de nuevo más tarde.
+
+# AuthFailedTextAndSpeak3.Text(Data)
+- Error al iniciar sesión. Intentémoslo de nuevo.
+
+# AuthFailedTextAndSpeak3.Speak(Data)
+- Error al iniciar sesión. Intentémoslo de nuevo.
+
+# SixHourForecast.Text(Data)
+- Este es el tiempo para las próximas seis horas.
+
+# DidntUnderstandMessage.Text(Data)
+- Lo siento, no entendí lo que querías decir.
+- No lo entendí, tal vez intentarlo de otra manera de una manera diferente.
+- ¿Puedes tratar de preguntar de una manera diferente?
+- No entendí lo que quieres decir, ¿puedes intentarlo de otra manera?
+- ¿Podrías explicarlo?
+- Por favor, di eso de otra manera de una manera diferente.
+- No lo entendí del todo.
+- ¿Puedes decir eso de una manera diferente?
+- ¿Puedes intentar preguntarme otra vez? No entendí lo que querías decir.
+
+# CancellingMessage.Text(Data)
+- Claro, podemos hacerlo más tarde.
+- Claro, podemos empezar esto más tarde.
+- No hay problema, puedes intentarlo de nuevo en otro momento.
+- Bien, avísame cuando necesites mi ayuda.
+- Claro, estoy aquí si me necesitas.
+
+# DidNotUnderstandLocationPrompt.Text(Data)
+- Siento no haber melo. ¿Dónde estás?
+- Intentémoslo de nuevo. ¿Dónde estás?
+
+# ActionEnded.Text(Data)
+- Avísame si necesitas mi ayuda con otra cosa.
+- Estoy aquí si me necesitas.
+
+# NoAuth.Text(Data)
+- Inicie sesión antes de tomar medidas adicionales.
+- Por favor, inicie sesión para que pueda tomar medidas adicionales.
+- Por favor, inicie sesión para que pueda continuar con su solicitud.
+- ¿Puedes iniciar sesión para que pueda ayudarte más?
+- Tienes que iniciar sesión para que pueda tomar medidas.
+
+# LocationPrompt.Text(Data)
+- ¿Dónde estás?
+
+# ErrorMessage.Text(Data)
+- Lo siento, parece que algo salió mal!
+- Se ha producido un error, inténtelo de nuevo más tarde.
+- ¡Algo salió mal, lo siento!
+- Parece que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?
+- Siento no poder ayudar ahora. Inténtelo de nuevo más tarde.
+
+

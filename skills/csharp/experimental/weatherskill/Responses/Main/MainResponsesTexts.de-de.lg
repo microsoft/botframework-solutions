@@ -1,0 +1,28 @@
+[import] (MainResponses.lg)
+
+# WelcomeMessage.Text(Data)
+- Ich bin der Wetterkünstler und kann das Wetter nachschlagen.
+
+# HelpMessage.Text(Data)
+- [Geben Sie Ihre Hilfe-Nachricht ein.]
+
+# GreetingMessage.Text(Data)
+- Es gibt!
+- Hallo!
+- Hallo!
+
+# GoodbyeMessage.Text(Data)
+- Goodbye!
+
+# LogOut.Text(Data)
+- Ihr Anmeldeausweiser war erfolgreich.
+- Sie haben erfolgreich unterschrieben.
+- Sie haben sich angemeldet.
+
+# FeatureNotAvailable.Text(Data)
+- Diese Funktion ist noch nicht in der skill erhältlich. Bitte versuchen Sie, etwas anderes zu fragen.
+
+# CancelMessage.Text(Data)
+- Okkiert, fangen wir an.
+
+

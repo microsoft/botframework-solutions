@@ -26,18 +26,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Content\SixHourForecast.1.0.json" />
     <EmbeddedResource Include="Content\SixHourForecast.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.de.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.es.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.it.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.json" />
-    <EmbeddedResource Include="Responses\Main\MainResponses.zh.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.de.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.es.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.fr.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.it.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.json" />
-    <EmbeddedResource Include="Responses\Shared\SharedResponses.zh.json" />
   </ItemGroup>
 
   <ItemGroup>
