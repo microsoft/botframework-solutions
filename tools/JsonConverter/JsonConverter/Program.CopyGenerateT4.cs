@@ -11,7 +11,8 @@ namespace JsonConverter
     {
         private static readonly string ttContent = @"<#@ template debug=""false"" hostspecific=""true"" language=""C#"" #>
 <#@ output extension="".cs"" #>
-<#@ include file=""{0}""#>";
+<#@ include file=""{0}""#>
+";
 
         // after all ConvertJsonFilesToLG
         public void CopyGenerateT4(params string[] folders)
@@ -21,7 +22,7 @@ namespace JsonConverter
             var target = Path.Join(destFolder, options.LgIdCollectionName);
             try
             {
-                File.Copy("LgIdCollection.t4", target, false);
+                File.Copy("LgIdCollection.t4", target, !options.KeepOld);
             }
             catch (IOException ex)
             {

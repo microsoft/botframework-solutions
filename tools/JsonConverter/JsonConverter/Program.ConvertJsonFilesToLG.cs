@@ -162,15 +162,7 @@ namespace JsonConverter
                 {
                     var templateName = jToken.Key;
                     var activity = jToken.Value.ToObject<Activity>();
-
-                    // TODO fill speak
-                    foreach (var reply in activity.Replies)
-                    {
-                        if (string.IsNullOrEmpty(reply.Speak))
-                        {
-                            reply.Speak = reply.Text;
-                        }
-                    }
+                    activity.Correct();
                     AddActivity(sbActivities, templateName, activity);
                     AddTexts(sbTexts, templateName, activity);
                 }

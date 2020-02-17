@@ -16,8 +16,7 @@ namespace JsonConverter
             var destFolder = GetFullPath(folders);
             var startupToDest = Path.GetRelativePath(options.Root, entryFolder);
             var keepOldSuffix = options.KeepOld ? ".new" : "";
-            string engineWrapperContent = $@"
-// Copyright (c) Microsoft Corporation. All rights reserved.
+            string engineWrapperContent = $@"// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -159,7 +158,8 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             public List<CardExt> Cards {{ get; set; }}
         }}
     }}
-}}";
+}}
+";
             Directory.CreateDirectory(destFolder);
             using (var sw = new StreamWriter(Path.Join(destFolder, "EngineWrapper.cs")))
             {

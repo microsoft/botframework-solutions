@@ -26,12 +26,20 @@ namespace JsonConverter
                 {
                     Replies = new List<Reply>() { new Reply { Text = value, Speak = value } },
                 };
+                activity.Correct();
                 AddActivity(sbActivities, templateName, activity);
                 AddTexts(sbTexts, templateName, activity);
             }
 
             var locale = GetLocale(file);
             Convert(locale, outputActivitiesLGFile, sbActivities, outputTextsLGFile, sbTexts);
+
+            if (!options.KeepOld && locale == options.DefaultLocale)
+            {
+                var name = GetDialogName(file);
+                name = Path.Join(Path.GetDirectoryName(file), name + ".Designer.cs");
+                DeleteFile(name);
+            }
         }
 
         public void ConvertResourceFilesToLG(params string[] folders)

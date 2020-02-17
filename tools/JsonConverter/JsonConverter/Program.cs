@@ -62,6 +62,11 @@ namespace JsonConverter
                 KeepOld = true,
             };
 
+            if (!options.KeepOld)
+            {
+                options.LgIdCollectionName = "ResponseIdCollection.t4";
+            }
+
             var program = new Program(options);
             // change to your structure if your project is not as same as the template
             program.ConvertJsonFilesToLG("Responses");
