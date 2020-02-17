@@ -15,6 +15,7 @@ namespace JsonConverter
         {
             var destFolder = GetFullPath(folders);
             var startupToDest = Path.GetRelativePath(options.Root, entryFolder);
+            var keepOldSuffix = options.KeepOld ? ".new" : "";
             string engineWrapperContent = $@"
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
@@ -76,7 +77,7 @@ namespace {options.Namespace}.{string.Join('.', folders)}
 
         public static Activity GetCardResponse(this LocaleTemplateEngineManager manager, string templateId, Card card, StringDictionary tokens = null, string containerName = null, IEnumerable<Card> containerItems = null)
         {{
-            throw new Exception(""1. create *Containee.new.json which only keeps containee's body;2. in the container, write @{{if(Cards==null,'',join(foreach(Cards,Card,CreateStringNoContainer(Card.Name,Card.Data)),','))}}"");
+            throw new Exception(""1. create *Containee{keepOldSuffix}.json which only keeps containee's body;2. in the container, write @{{if(Cards==null,'',join(foreach(Cards,Card,CreateStringNoContainer(Card.Name,Card.Data)),','))}}"");
             var input = new
             {{
                 Data = Convert(tokens),
@@ -104,12 +105,12 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             return manager.GenerateActivityForLocale(templateId + "".Text"").Text;
         }}
 
-        public static CardExt Convert(Card card, string suffix = "".new.json"", IEnumerable<Card> containerItems = null)
+        public static CardExt Convert(Card card, string suffix = ""{keepOldSuffix}.json"", IEnumerable<Card> containerItems = null)
         {{
             var res = new CardExt {{ Name = Path.Join(PathBase, card.Name + suffix), Data = card.Data }};
             if (containerItems != null)
             {{
-                res.Cards = containerItems.Select((card) => Convert(card, ""Containee.new.json"")).ToList();
+                res.Cards = containerItems.Select((card) => Convert(card, ""Containee{keepOldSuffix}.json"")).ToList();
             }}
 
             return res;

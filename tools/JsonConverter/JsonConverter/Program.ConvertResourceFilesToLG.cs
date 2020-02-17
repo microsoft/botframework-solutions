@@ -41,6 +41,10 @@ namespace JsonConverter
             foreach (var file in jsonFiles)
             {
                 ConvertResource(file);
+                if (!options.KeepOld)
+                {
+                    DeleteFile(file);
+                }
             }
         }
     }

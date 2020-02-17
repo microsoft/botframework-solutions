@@ -217,6 +217,10 @@ namespace JsonConverter
             foreach (var file in jsonFiles)
             {
                 ConvertJson(file);
+                if (!options.KeepOld)
+                {
+                    DeleteFile(file);
+                }
             }
         }
     }

@@ -27,7 +27,7 @@ namespace JsonConverter
 
                 content = ModifyTextParameters(content);
 
-                var newFile = Path.ChangeExtension(file, "new.json");
+                var newFile = options.KeepOld ? Path.ChangeExtension(file, "new.json") : file;
                 using (StreamWriter sw = new StreamWriter(newFile))
                 {
                     sw.WriteLine(content);

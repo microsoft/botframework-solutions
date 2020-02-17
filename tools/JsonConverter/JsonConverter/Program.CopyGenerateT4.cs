@@ -9,8 +9,7 @@ namespace JsonConverter
 {
     partial class Program
     {
-        private static readonly string ttContent = @"
-<#@ template debug=""false"" hostspecific=""true"" language=""C#"" #>
+        private static readonly string ttContent = @"<#@ template debug=""false"" hostspecific=""true"" language=""C#"" #>
 <#@ output extension="".cs"" #>
 <#@ include file=""{0}""#>";
 
@@ -31,7 +30,7 @@ namespace JsonConverter
 
             foreach (var file in convertedActivityFiles)
             {
-                var ttFile = Path.ChangeExtension(file, "ttnew");
+                var ttFile = Path.ChangeExtension(file, options.KeepOld ? "ttnew" : "tt");
                 var relative = Path.GetRelativePath(Path.GetDirectoryName(file), target);
                 var content = string.Format(ttContent, relative);
                 using(var sw = new StreamWriter(ttFile))

@@ -56,10 +56,13 @@ namespace JsonConverter
             Console.Write("Input skill proj root folder: ");
             var rootFolder = Console.ReadLine();
 
-            var program = new Program(new ProgramOptions
+            var options = new ProgramOptions
             {
                 Root = rootFolder,
-            });
+                KeepOld = true,
+            };
+
+            var program = new Program(options);
             // change to your structure if your project is not as same as the template
             program.ConvertJsonFilesToLG("Responses");
             program.ConvertResourceFilesToLG("Responses");
