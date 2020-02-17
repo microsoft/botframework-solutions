@@ -85,27 +85,18 @@ namespace VirtualAssistantSample.Tests
             // For localization testing
             CultureInfo.CurrentUICulture = new CultureInfo("en-us");
 
-            var localizedTemplates = new Dictionary<string, List<string>>();
-            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var localizedTemplates = new Dictionary<string, string>();
+            var templateFile = "AllResponses";
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
             foreach (var locale in supportedLocales)
             {
-                var localeLGFiles = new List<string>();
-                foreach (var template in templateFiles)
-                {
-                    // LG template for en-us does not include locale in file extension.
-                    if (locale.Equals("en-us"))
-                    {
-                        localeLGFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
-                    }
-                    else
-                    {
-                        localeLGFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
-                    }
-                }
+                // LG template for en-us does not include locale in file extension.
+                var localeTemplateFile = locale.Equals("en-us")
+                    ? Path.Combine(".", "Responses", $"{templateFile}.lg")
+                    : Path.Combine(".", "Responses", $"{templateFile}.{locale}.lg");
 
-                localizedTemplates.Add(locale, localeLGFiles);
+                localizedTemplates.Add(locale, localeTemplateFile);
             }
 
             LocaleTemplateEngine = new LocaleLGFileManager(localizedTemplates, "en-us");
