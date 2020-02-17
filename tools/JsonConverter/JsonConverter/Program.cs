@@ -62,6 +62,7 @@ namespace JsonConverter
             });
             // change to your structure if your project is not as same as the template
             program.ConvertJsonFilesToLG("Responses");
+            program.ConvertResourceFilesToLG("Responses");
             program.CopySharedLGFiles("Responses", "Shared");
             program.CopyGenerateT4("Responses", "Shared");
             program.GenerateEntryFiles("Responses", "ResponsesAndTexts");
