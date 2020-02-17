@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantSample.Tests.Utterances;
@@ -15,7 +16,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption()
         {
-            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = LocaleTemplateEngine.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -28,7 +29,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption_In_Dialog()
         {
-            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = LocaleTemplateEngine.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
@@ -42,8 +43,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Cancel_Interruption()
         {
-            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allFirstPromptVariations = LocaleTemplateEngine.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allResponseVariations = LocaleTemplateEngine.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -56,7 +57,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Repeat_Interruption()
         {
-            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = LocaleTemplateEngine.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)

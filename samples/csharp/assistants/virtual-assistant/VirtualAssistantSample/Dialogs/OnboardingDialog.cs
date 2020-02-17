@@ -19,7 +19,7 @@ namespace VirtualAssistantSample.Dialogs
     public class OnboardingDialog : ComponentDialog
     {
         private BotServices _services;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleLGFileManager _templateEngine;
         private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
@@ -27,7 +27,7 @@ namespace VirtualAssistantSample.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateEngine = serviceProvider.GetService<LocaleLGFileManager>();
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));

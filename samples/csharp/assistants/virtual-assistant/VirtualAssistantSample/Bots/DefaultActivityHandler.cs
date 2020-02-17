@@ -24,7 +24,7 @@ namespace VirtualAssistantSample.Bots
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleLGFileManager _templateEngine;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -33,7 +33,7 @@ namespace VirtualAssistantSample.Bots
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateEngine = serviceProvider.GetService<LocaleLGFileManager>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)

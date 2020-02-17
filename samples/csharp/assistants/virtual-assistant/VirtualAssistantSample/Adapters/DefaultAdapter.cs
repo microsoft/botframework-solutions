@@ -20,7 +20,7 @@ namespace VirtualAssistantSample.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IChannelProvider channelProvider,
-            LocaleTemplateEngineManager templateEngine,
+            LocaleLGFileManager templateEngine,
             ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)

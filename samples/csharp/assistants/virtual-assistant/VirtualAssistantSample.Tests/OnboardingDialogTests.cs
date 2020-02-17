@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -23,8 +24,8 @@ namespace VirtualAssistantSample.Tests
             var profileState = new UserProfileState();
             profileState.Name = testName;
 
-            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+            var allNamePromptVariations = LocaleTemplateEngine.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = LocaleTemplateEngine.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
 
             dynamic data = new JObject();
             data.name = testName;

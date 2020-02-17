@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
-        public LocaleTemplateEngineManager LocaleTemplateEngine { get; set; }
+        public LocaleLGFileManager LocaleTemplateEngine { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
 
@@ -91,24 +91,24 @@ namespace VirtualAssistantSample.Tests
 
             foreach (var locale in supportedLocales)
             {
-                var localeTemplateFiles = new List<string>();
+                var localeLGFiles = new List<string>();
                 foreach (var template in templateFiles)
                 {
                     // LG template for en-us does not include locale in file extension.
                     if (locale.Equals("en-us"))
                     {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
+                        localeLGFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
                     }
                     else
                     {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
+                        localeLGFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
                     }
                 }
 
-                localizedTemplates.Add(locale, localeTemplateFiles);
+                localizedTemplates.Add(locale, localeLGFiles);
             }
 
-            LocaleTemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
+            LocaleTemplateEngine = new LocaleLGFileManager(localizedTemplates, "en-us");
             Services.AddSingleton(LocaleTemplateEngine);
 
             Services.AddTransient<MainDialog>();
