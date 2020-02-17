@@ -29,6 +29,7 @@ using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Route;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using PointOfInterestSkill.Utilities;
 
 namespace PointOfInterestSkill
 {
@@ -110,13 +111,7 @@ namespace PointOfInterestSkill
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // Configure responses
-            services.AddSingleton(sp => new ResponseManager(
-                settings.CognitiveModels.Select(l => l.Key).ToArray(),
-                new CancelRouteResponses(),
-                new FindPointOfInterestResponses(),
-                new POIMainResponses(),
-                new RouteResponses(),
-                new POISharedResponses()));
+            services.AddSingleton(EngineWrapper.CreateLocaleTemplateEngineManager("en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn"));
 
             // register dialogs
             services.AddTransient<MainDialog>();

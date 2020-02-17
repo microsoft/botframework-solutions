@@ -20,7 +20,7 @@ namespace PointOfInterestSkill.Dialogs
         public CancelRouteDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,

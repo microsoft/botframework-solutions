@@ -188,10 +188,6 @@
       ]
     }
   ],
-  "selectAction": {
-    "type": "Action.Submit",
-    "data": "{SubmitText}"
-  },
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
   "speak": "{Speak}"

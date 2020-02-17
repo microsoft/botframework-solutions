@@ -19,7 +19,7 @@ namespace PointOfInterestSkill.Dialogs
         public GetDirectionsDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,

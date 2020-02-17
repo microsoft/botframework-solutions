@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -32,6 +34,7 @@ using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
 using PointOfInterestSkill.Tests.API.Fakes;
 using PointOfInterestSkill.Tests.Flow.Utterances;
+using PointOfInterestSkill.Utilities;
 using SkillServiceLibrary.Fakes.AzureMapsAPI.Fakes;
 
 namespace PointOfInterestSkill.Tests.Flow
@@ -39,6 +42,8 @@ namespace PointOfInterestSkill.Tests.Flow
     public class PointOfInterestSkillTestBase : BotTestBase
     {
         public IServiceCollection Services { get; set; }
+
+        public LocaleTemplateEngineManager TemplateEngine { get; set; }
 
         [TestInitialize]
         public override void Initialize()
@@ -83,15 +88,9 @@ namespace PointOfInterestSkill.Tests.Flow
                 return new BotStateSet(userState, conversationState);
             });
 
-            ResponseManager = new ResponseManager(
-                new string[] { "en", "de", "es", "fr", "it", "zh" },
-                new POISharedResponses(),
-                new RouteResponses(),
-                new FindPointOfInterestResponses(),
-                new POIMainResponses(),
-                new CancelRouteResponses());
-
-            Services.AddSingleton(ResponseManager);
+            // Configure localized responses
+            TemplateEngine = EngineWrapper.CreateLocaleTemplateEngineManager("en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn");
+            Services.AddSingleton(TemplateEngine);
 
             Services.AddSingleton<IServiceManager, MockServiceManager>();
             Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
@@ -219,6 +218,11 @@ namespace PointOfInterestSkill.Tests.Flow
                     Assert.IsFalse(string.IsNullOrEmpty(eventReceived.TelephoneUri));
                 }
             };
+        }
+
+        protected new string[] ParseReplies(string name, StringDictionary data = null)
+        {
+            return TemplateEngine.ParseReplies(name, data);
         }
     }
 }

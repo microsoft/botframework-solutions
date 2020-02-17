@@ -185,7 +185,7 @@
       },
       {
         "text": "Hmm...I'm not finding anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\"",
-        "speak": "Hmm, I'm not finding anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\""
+        "speak": "Hmm...I'm not finding anything. Try something like \"the mall in Bellevue\" or \"Chippenham in the UK.\""
       }
     ],
     "inputHint": "expectingInput"

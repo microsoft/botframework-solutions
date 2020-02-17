@@ -14,6 +14,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using PointOfInterestSkill.Responses.Shared;
 using PointOfInterestSkill.Services;
+using PointOfInterestSkill.Utilities;
 using SkillServiceLibrary.Utilities;
 
 namespace PointOfInterestSkill.Adapters
@@ -27,7 +28,7 @@ namespace PointOfInterestSkill.Adapters
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            LocaleTemplateEngineManager responseManager)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>

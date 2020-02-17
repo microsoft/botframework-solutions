@@ -27,7 +27,7 @@ namespace PointOfInterestSkill.Dialogs
         public RouteDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
@@ -282,7 +282,7 @@ namespace PointOfInterestSkill.Dialogs
             if (promptContext.Context.Activity.Type == ActivityTypes.Message)
             {
                 var message = promptContext.Context.Activity.AsMessageActivity();
-                if (message.Text.Contains(PointOfInterestSharedStrings.START, StringComparison.InvariantCultureIgnoreCase))
+                if (message.Text.Contains(ResponseManager.GetString(PointOfInterestSharedStrings.START), StringComparison.InvariantCultureIgnoreCase))
                 {
                     promptContext.Recognized.Value = true;
                     return Task.FromResult(true);

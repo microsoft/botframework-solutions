@@ -23,7 +23,7 @@ namespace PointOfInterestSkill.Dialogs
         public FindParkingDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager responseManager,
             ConversationState conversationState,
             RouteDialog routeDialog,
             IServiceManager serviceManager,

@@ -66,7 +66,7 @@ namespace PointOfInterestSkill.Dialogs
             string dialogId,
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager responseManager,
             ConversationState conversationState,
             IServiceManager serviceManager,
             IBotTelemetryClient telemetryClient,
@@ -109,7 +109,7 @@ namespace PointOfInterestSkill.Dialogs
 
         protected IServiceManager ServiceManager { get; set; }
 
-        protected ResponseManager ResponseManager { get; set; }
+        protected LocaleTemplateEngineManager ResponseManager { get; set; }
 
         public static Activity CreateOpenDefaultAppReply(Activity activity, PointOfInterestModel destination, OpenDefaultAppType type)
         {
@@ -444,23 +444,28 @@ namespace PointOfInterestSkill.Dialogs
                         Choices = new List<Choice>()
                     };
 
+                    var callString = ResponseManager.GetString(PointOfInterestSharedStrings.CALL);
+                    var showDirectionsString = ResponseManager.GetString(PointOfInterestSharedStrings.SHOW_DIRECTIONS);
+                    var startNavigationString = ResponseManager.GetString(PointOfInterestSharedStrings.START_NAVIGATION);
+                    var cardTitleString = ResponseManager.GetString(PointOfInterestSharedStrings.CARD_TITLE);
+
                     if (!string.IsNullOrEmpty(state.Destination.Phone))
                     {
-                        options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.CALL });
+                        options.Choices.Add(new Choice { Value = callString });
                     }
 
-                    options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.SHOW_DIRECTIONS });
-                    options.Choices.Add(new Choice { Value = PointOfInterestSharedStrings.START_NAVIGATION });
+                    options.Choices.Add(new Choice { Value = showDirectionsString });
+                    options.Choices.Add(new Choice { Value = startNavigationString });
 
                     var mapsService = ServiceManager.InitMapsService(Settings, sc.Context.Activity.Locale);
                     state.Destination = await mapsService.GetPointOfInterestDetailsAsync(state.Destination, ImageSize.DetailsWidth, ImageSize.DetailsHeight);
 
                     state.Destination.ProviderDisplayText = state.Destination.GenerateProviderDisplayText();
 
-                    state.Destination.CardTitle = PointOfInterestSharedStrings.CARD_TITLE;
-                    state.Destination.ActionCall = PointOfInterestSharedStrings.CALL;
-                    state.Destination.ActionShowDirections = PointOfInterestSharedStrings.SHOW_DIRECTIONS;
-                    state.Destination.ActionStartNavigation = PointOfInterestSharedStrings.START_NAVIGATION;
+                    state.Destination.CardTitle = cardTitleString;
+                    state.Destination.ActionCall = callString;
+                    state.Destination.ActionShowDirections = showDirectionsString;
+                    state.Destination.ActionStartNavigation = startNavigationString;
 
                     var card = new Card
                     {
@@ -535,7 +540,7 @@ namespace PointOfInterestSkill.Dialogs
         {
             var model = new PointOfInterestModel
             {
-                CardTitle = PointOfInterestSharedStrings.CARD_TITLE,
+                CardTitle = ResponseManager.GetString(PointOfInterestSharedStrings.CARD_TITLE),
                 PointOfInterestImageUrl = await service.GetAllPointOfInterestsImageAsync(currentCoordinates, pointOfInterestList, ImageSize.OverviewWidth, ImageSize.OverviewHeight),
                 Provider = new SortedSet<string> { service.Provider }
             };
@@ -681,11 +686,11 @@ namespace PointOfInterestSkill.Dialogs
             var timeString = new StringBuilder();
             if (timeSpan.Hours == 1)
             {
-                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOUR}");
+                timeString.Append(timeSpan.Hours + $" {ResponseManager.GetString(PointOfInterestSharedStrings.HOUR)}");
             }
             else if (timeSpan.Hours > 1)
             {
-                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOURS}");
+                timeString.Append(timeSpan.Hours + $" {ResponseManager.GetString(PointOfInterestSharedStrings.HOURS)}");
             }
 
             if (timeString.Length != 0)
@@ -695,15 +700,15 @@ namespace PointOfInterestSkill.Dialogs
 
             if (timeSpan.Minutes < 1)
             {
-                timeString.Append($" {PointOfInterestSharedStrings.LESS_THAN_A_MINUTE}");
+                timeString.Append($" {ResponseManager.GetString(PointOfInterestSharedStrings.LESS_THAN_A_MINUTE)}");
             }
             else if (timeSpan.Minutes == 1)
             {
-                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTE}");
+                timeString.Append(timeSpan.Minutes + $" {ResponseManager.GetString(PointOfInterestSharedStrings.MINUTE)}");
             }
             else if (timeSpan.Minutes > 1)
             {
-                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTES}");
+                timeString.Append(timeSpan.Minutes + $" {ResponseManager.GetString(PointOfInterestSharedStrings.MINUTES)}");
             }
 
             return timeString.ToString();
@@ -714,11 +719,11 @@ namespace PointOfInterestSkill.Dialogs
             var timeString = new StringBuilder();
             if (timeSpan.Hours == 1)
             {
-                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOUR}");
+                timeString.Append(timeSpan.Hours + $" {ResponseManager.GetString(PointOfInterestSharedStrings.HOUR)}");
             }
             else if (timeSpan.Hours > 1)
             {
-                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOURS}");
+                timeString.Append(timeSpan.Hours + $" {ResponseManager.GetString(PointOfInterestSharedStrings.HOURS)}");
             }
 
             if (timeString.Length != 0)
@@ -728,15 +733,15 @@ namespace PointOfInterestSkill.Dialogs
 
             if (timeSpan.Minutes < 1)
             {
-                timeString.Append($"{PointOfInterestSharedStrings.LESS_THAN_A_MINUTE}");
+                timeString.Append($"{ResponseManager.GetString(PointOfInterestSharedStrings.LESS_THAN_A_MINUTE)}");
             }
             else if (timeSpan.Minutes == 1)
             {
-                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTE}");
+                timeString.Append(timeSpan.Minutes + $" {ResponseManager.GetString(PointOfInterestSharedStrings.MINUTE)}");
             }
             else if (timeSpan.Minutes > 1)
             {
-                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTES}");
+                timeString.Append(timeSpan.Minutes + $" {ResponseManager.GetString(PointOfInterestSharedStrings.MINUTES)}");
             }
 
             var timeReplacements = new StringDictionary
@@ -763,16 +768,16 @@ namespace PointOfInterestSkill.Dialogs
             var timeString = new StringBuilder();
             if (timeSpan.Hours != 0)
             {
-                timeString.Append(timeSpan.Hours + $" {PointOfInterestSharedStrings.HOUR_ABBREVIATION}");
+                timeString.Append(timeSpan.Hours + $" {ResponseManager.GetString(PointOfInterestSharedStrings.HOUR_ABBREVIATION)}");
             }
 
             if (timeSpan.Minutes < 1)
             {
-                timeString.Append($"< 1 {PointOfInterestSharedStrings.MINUTE_ABBREVIATION}");
+                timeString.Append($"< 1 {ResponseManager.GetString(PointOfInterestSharedStrings.MINUTE_ABBREVIATION)}");
             }
             else
             {
-                timeString.Append(timeSpan.Minutes + $" {PointOfInterestSharedStrings.MINUTE_ABBREVIATION}");
+                timeString.Append(timeSpan.Minutes + $" {ResponseManager.GetString(PointOfInterestSharedStrings.MINUTE_ABBREVIATION)}");
             }
 
             return timeString.ToString();
@@ -808,14 +813,14 @@ namespace PointOfInterestSkill.Dialogs
                         PointOfInterestImageUrl = await service.GetRouteImageAsync(destination, route, ImageSize.RouteWidth, ImageSize.RouteHeight),
                         TravelTime = GetShortTravelTimespanString(travelTimeSpan),
                         DelayStatus = GetFormattedTrafficDelayString(trafficTimeSpan),
-                        Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {PointOfInterestSharedStrings.MILES_ABBREVIATION}",
+                        Distance = $"{(route.Summary.LengthInMeters / 1609.344).ToString("N1")} {ResponseManager.GetString(PointOfInterestSharedStrings.MILES_ABBREVIATION)}",
                         ETA = route.Summary.ArrivalTime.ToShortTimeString(),
                         TravelTimeSpeak = GetFormattedTravelTimeSpanString(travelTimeSpan),
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
                         ProviderDisplayText = destination.GenerateProviderDisplayText(),
                         Speak = GetFormattedTravelTimeSpanString(travelTimeSpan),
-                        ActionStartNavigation = PointOfInterestSharedStrings.START,
-                        CardTitle = PointOfInterestSharedStrings.CARD_TITLE
+                        ActionStartNavigation = ResponseManager.GetString(PointOfInterestSharedStrings.START),
+                        CardTitle = ResponseManager.GetString(PointOfInterestSharedStrings.CARD_TITLE)
                     };
 
                     cardData.Add(routeDirectionsModel);
