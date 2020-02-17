@@ -1,0 +1,28 @@
+[import] (MainResponses.lg)
+
+# WelcomeMessage.Text(Data)
+- Je suis l'habileté météo et je peux regarder la météo.
+
+# HelpMessage.Text(Data)
+- [Entrez votre message d'aide ici]
+
+# GreetingMessage.Text(Data)
+- Il y en a!
+- Salut!
+- Salut!
+
+# GoodbyeMessage.Text(Data)
+- Au revoir!
+
+# LogOut.Text(Data)
+- Votre déconnexion a été couronnée de succès.
+- Vous avez réussi à vous connecter.
+- Vous avez été déconnecté.
+
+# FeatureNotAvailable.Text(Data)
+- Cette fonctionnalité n'est pas encore disponible dans la compétence. S'il vous plaît essayer de demander autre chose.
+
+# CancelMessage.Text(Data)
+- OK, commençons.
+
+

@@ -1,0 +1,67 @@
+[import] (SharedResponses.lg)
+
+# AuthFailedTextAndSpeak1.Text(Data)
+- 身份验证失败。请重试
+
+# AuthFailedTextAndSpeak1.Speak(Data)
+- 身份验证失败。请重试。
+
+# AuthFailedTextAndSpeak2.Text(Data)
+- 您无法登录。请稍后再试。
+
+# AuthFailedTextAndSpeak2.Speak(Data)
+- 您无法登录。请稍后再试。
+
+# AuthFailedTextAndSpeak3.Text(Data)
+- 您的登录失败。让我们再试一次。
+
+# AuthFailedTextAndSpeak3.Speak(Data)
+- 您的登录失败。让我们再试一次。
+
+# SixHourForecast.Text(Data)
+- 以下是接下来六小时的天气。
+
+# DidntUnderstandMessage.Text(Data)
+- 对不起，我不明白你的意思。
+- 我不明白，也许用另一种方式再试一次。
+- 你能用另一种方式问吗？
+- 我不明白你的意思，你能换个方法试试吗？
+- 你能详细说明一下吗？
+- 请用不同的方式再说一遍。
+- 我不太明白。
+- 你能用不同的方式说吗？
+- 你能再问我一次吗？我不明白你的意思。
+
+# CancellingMessage.Text(Data)
+- 当然，我们可以在以后再做。
+- 当然，我们可以稍后开始。
+- 没问题，你可以在另一时间再试一次。
+- 好吧，当你需要我的帮助时，让我知道。
+- 当然，如果你需要我，我在这里。
+
+# DidNotUnderstandLocationPrompt.Text(Data)
+- 对不起，我不明白。你现在在哪里？
+- 让我们再试一次。你现在在哪里？
+
+# ActionEnded.Text(Data)
+- 如果你需要我的帮助，请告诉我。
+- 如果你需要我，我在这里。
+
+# NoAuth.Text(Data)
+- 请在采取进一步操作之前登录。
+- 请登录，以便我采取进一步的行动。
+- 请登录，以便我继续您的请求。
+- 你能登录，以便我进一步帮助您吗？
+- 您需要登录，以便我采取进一步操作。
+
+# LocationPrompt.Text(Data)
+- 你现在在哪里？
+
+# ErrorMessage.Text(Data)
+- 对不起，好像出了什么问题！
+- 发生错误，请稍后重试。
+- 出问题了，对不起！
+- 好像出了什么问题。您以后再试一次吗？
+- 对不起，我现在帮不上忙。请稍后再试。
+
+

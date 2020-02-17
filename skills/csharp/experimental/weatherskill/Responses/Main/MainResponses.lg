@@ -1,0 +1,66 @@
+# WelcomeMessage(Data, Cards, Layout)
+[Activity
+    Text = @{WelcomeMessage.Text(Data)}
+    Speak = @{WelcomeMessage.Text(Data)}
+    SuggestedActions = 
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# HelpMessage(Data, Cards, Layout)
+[Activity
+    Text = @{HelpMessage.Text(Data)}
+    Speak = @{HelpMessage.Text(Data)}
+    SuggestedActions = 
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# GreetingMessage(Data, Cards, Layout)
+[Activity
+    Text = @{GreetingMessage.Text(Data)}
+    Speak = @{GreetingMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# GoodbyeMessage(Data, Cards, Layout)
+[Activity
+    Text = @{GoodbyeMessage.Text(Data)}
+    Speak = @{GoodbyeMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# LogOut(Data, Cards, Layout)
+[Activity
+    Text = @{LogOut.Text(Data)}
+    Speak = @{LogOut.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# FeatureNotAvailable(Data, Cards, Layout)
+[Activity
+    Text = @{FeatureNotAvailable.Text(Data)}
+    Speak = @{FeatureNotAvailable.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# CancelMessage(Data, Cards, Layout)
+[Activity
+    Text = @{CancelMessage.Text(Data)}
+    Speak = @{CancelMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+

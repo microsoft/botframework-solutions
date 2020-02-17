@@ -1,0 +1,3 @@
+[import] (..\Main\MainResponsesTexts.de-de.lg)
+[import] (..\Shared\SharedResponsesTexts.de-de.lg)
+[import] (..\Shared\Shared.lg)
