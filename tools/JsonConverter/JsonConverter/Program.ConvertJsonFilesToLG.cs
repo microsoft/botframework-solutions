@@ -18,7 +18,7 @@ namespace JsonConverter
             string currentFolder = Path.GetDirectoryName(file);
             string outputActivitiesLGFile;
             string outputTextsLGFile;
-            if (locale == defaultLocale)
+            if (locale == options.DefaultLocale)
             {
                 outputTextsLGFile = Path.Join(currentFolder, $"{dialogName}Texts.lg");
                 outputActivitiesLGFile = Path.Join(currentFolder, $"{dialogName}.lg");
@@ -167,7 +167,7 @@ namespace JsonConverter
             var locale = GetLocale(file);
 
             // Gereate DialogNameResponses.lg
-            if (locale == defaultLocale)
+            if (locale == options.DefaultLocale)
             {
                 using (StreamWriter sw = new StreamWriter(outputActivitiesLGFile))
                 {

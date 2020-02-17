@@ -14,11 +14,12 @@ namespace JsonConverter
 <#@ output extension="".cs"" #>
 <#@ include file=""{0}""#>";
 
+        // after all ConvertJsonFilesToLG
         public void CopyGenerateT4(params string[] folders)
         {
             var destFolder = GetFullPath(folders);
             Directory.CreateDirectory(destFolder);
-            var target = Path.Combine(destFolder, "LgIdCollection.t4");
+            var target = Path.Join(destFolder, options.LgIdCollectionName);
             try
             {
                 File.Copy("LgIdCollection.t4", target, false);

@@ -14,7 +14,7 @@ namespace JsonConverter
         {
             var responseFolder = GetFullPath(folders);
             Directory.CreateDirectory(responseFolder);
-            var target = Path.Combine(responseFolder, "Shared.lg");
+            var target = Path.Join(responseFolder, options.SharedName);
             try
             {
                 File.Copy("Shared.lg", target, false);

@@ -34,7 +34,7 @@ namespace JsonConverter
             }
             else
             {
-                return defaultLocale;
+                return options.DefaultLocale;
             }
         }
 
@@ -60,7 +60,7 @@ namespace JsonConverter
 
         private string GetFullPath(params string[] folders)
         {
-            return Path.Join(root, Path.Join(folders));
+            return Path.Join(options.Root, Path.Join(folders));
         }
     }
 }
