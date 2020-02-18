@@ -34,7 +34,7 @@ Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a 
 If you experience a HTTP 500 (server error) error when invoking a Skill with an exception message as shown:
      `Exception Message: Error invoking the skill id: "SKILL_ID" at "https://SKILL_APP_SERVICE.azurewebsites.net/api/messages" (status is 500)`
 
-Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a valid `SkillHostEndpoint` which should be pointing at the URL of your Parent Bot (e.g. Virtual Assistant) with a suffix of `/api/skills` as per the example below. Skills connect back to the caller through this endpoint. If you are debugging a parent bot locally and invoking a Skill remotely you will need to configure tunneling software (e.g. ngrok) to ensure this connection can be made.
+Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a valid `SkillHostEndpoint` which should be pointing at the URL of your Parent Bot (e.g. Virtual Assistant) with a suffix of `/api/skills` as per the example below. Skills connect back to the caller through this endpoint.
 
 ```json
 {
@@ -43,6 +43,13 @@ Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a 
     "SkillHostEndpoint": "https://yourVAAppService.azurewebsites.net/api/skills"
 }
 ```
+
+If you are debugging a parent bot locally and invoking a Skill remotely you will need to configure tunneling software (e.g. ngrok) to ensure this connection can be made back to the calling bot from the Skill. If you are using ngrok, follow these instructions:
+
+1. Start a debugging session for your Virtual Assistant and make a note of the port it's hosted on (e.g. 3978)
+1. Assuming port 3978 run this command:L `ngrok.exe http 3978 -host-header="localhost:3978"`
+1. Retrieve the https forwarding URL (e.g. https:{name}.ngrok.io) and update `SkillHostEndpoint` with this URL suffixed with `/api/skills`
+1. Now, when a remote skill is invoked it will route all responses back to `https:{name}.ngrok.io` which will then tunnel responses back to your Virtual Assistant
 
 ## My Microsoft App Registration could not be automatically provisioned
 
