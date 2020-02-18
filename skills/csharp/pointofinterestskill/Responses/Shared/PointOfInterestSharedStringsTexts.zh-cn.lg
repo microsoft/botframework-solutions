@@ -1,0 +1,60 @@
+[import] (PointOfInterestSharedStrings.lg)
+
+# CALL.Text(Data)
+- 叫
+
+# CARD_TITLE.Text(Data)
+- 位置服务
+
+# END.Text(Data)
+- 结束
+
+# HOUR.Text(Data)
+- 小时
+
+# HOURS.Text(Data)
+- 小时
+
+# HOUR_ABBREVIATION.Text(Data)
+- 小时
+
+# KILOMETERS.Text(Data)
+- 公里
+
+# KILOMETERS_ABBREVIATION.Text(Data)
+- 公里
+
+# LESS_THAN_A_MINUTE.Text(Data)
+- 不到一分钟
+
+# MILES.Text(Data)
+- 英里
+
+# MILES_ABBREVIATION.Text(Data)
+- 英里
+
+# MINUTE.Text(Data)
+- 分钟
+
+# MINUTES.Text(Data)
+- 分钟
+
+# MINUTE_ABBREVIATION.Text(Data)
+- 分钟
+
+# POWERED_BY.Text(Data)
+- 提供者
+
+# SHOW_DIRECTIONS.Text(Data)
+- 显示方向
+
+# START.Text(Data)
+- 开始
+
+# START_NAVIGATION.Text(Data)
+- 启动导航
+
+# YOU.Text(Data)
+- 你
+
+

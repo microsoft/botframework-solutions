@@ -1,0 +1,58 @@
+[import] (POIMainResponses.lg)
+
+# GreetingMessage.Text(Data)
+- Es gibt!
+- Hallo!
+- Hallo!
+
+# PointOfInterestWelcomeMessage.Text(Data)
+- Willkommen bei Point of Interest Bot! Ich kann interessante Punkte finden, einen Weg zu Ihrem Ziel zeigen oder lustige Dinge in der Nähe finden.
+
+# PointOfInterestWelcomeMessage.S1(Data)
+- Wie kommt man am schnellsten zum Flughafen?
+
+# PointOfInterestWelcomeMessage.S2(Data)
+- Gibt es ein Café in der Stadt?
+
+# PointOfInterestWelcomeMessage.S3(Data)
+- Holen Sie sich die Anfahrt zu 400 Broad St
+
+# PointOfInterestWelcomeMessage.S4(Data)
+- Ich möchte die Weltraumneedle besuchen
+
+# PointOfInterestWelcomeMessage.S5(Data)
+- Was ist in der Nähe?
+
+# FeatureNotAvailable.Text(Data)
+- Diese Funktion ist noch nicht in der Kalender-Fähige verfügbar. Bitte versuchen Sie, etwas anderes zu fragen.
+
+# LogOut.Text(Data)
+- Ihr Anmeldeausweiser war erfolgreich.
+- Sie haben erfolgreich unterschrieben.
+- Sie haben sich angemeldet.
+
+# GoodbyeMessage.Text(Data)
+- Goodbye!
+
+# HelpMessage.Text(Data)
+- Ich kann interessante Punkte finden, einen Weg zu Ihrem Ziel zeigen oder lustige Dinge in der Nähe finden.
+
+# HelpMessage.S1(Data)
+- Wie kommt man am schnellsten zum Flughafen?
+
+# HelpMessage.S2(Data)
+- Gibt es ein Café in der Stadt?
+
+# HelpMessage.S3(Data)
+- Holen Sie sich die Anfahrt zu 400 Broad St
+
+# HelpMessage.S4(Data)
+- Ich möchte die Weltraumneedle besuchen
+
+# HelpMessage.S5(Data)
+- Was ist in der Nähe?
+
+# CancelMessage.Text(Data)
+- Okkiert, fangen wir an.
+
+

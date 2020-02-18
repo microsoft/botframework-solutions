@@ -5,35 +5,9 @@
     <UserSecretsId>302ba8d8-1f97-40c2-843e-ecf0a2805cf7</UserSecretsId>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
-
   <ItemGroup>
-    <Content Remove="Content\PointOfInterestDetails.1.0.json" />
-    <Content Remove="Content\PointOfInterestDetails.json" />
-    <Content Remove="Content\PointOfInterestDetailsContainer.1.0.json" />
-    <Content Remove="Content\PointOfInterestDetailsContainer.json" />
-    <Content Remove="Content\PointOfInterestDetailsNoCall.1.0.json" />
-    <Content Remove="Content\PointOfInterestDetailsNoCall.json" />
-    <Content Remove="Content\PointOfInterestDetailsWithRoute.1.0.json" />
-    <Content Remove="Content\PointOfInterestDetailsWithRoute.json" />
-    <Content Remove="Content\PointOfInterestOverview.1.0.json" />
-    <Content Remove="Content\PointOfInterestOverview.json" />
-    <Content Remove="Content\PointOfInterestOverviewContainer.1.0.json" />
-    <Content Remove="Content\PointOfInterestOverviewContainer.json" />
   </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Content\PointOfInterestDetails.1.0.json" />
-    <EmbeddedResource Include="Content\PointOfInterestDetails.json" />
-    <EmbeddedResource Include="Content\PointOfInterestDetailsNoCall.1.0.json" />
-    <EmbeddedResource Include="Content\PointOfInterestDetailsNoCall.json" />
-    <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.1.0.json" />
-    <EmbeddedResource Include="Content\PointOfInterestDetailsWithRoute.json" />
-    <EmbeddedResource Include="Content\PointOfInterestOverview.1.0.json" />
-    <EmbeddedResource Include="Content\PointOfInterestOverview.json" />
-    <EmbeddedResource Include="Content\PointOfInterestOverviewContainer.1.0.json" />
-    <EmbeddedResource Include="Content\PointOfInterestOverviewContainer.json" />
-  </ItemGroup>
-
+  <ItemGroup />
   <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.2.3" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
@@ -53,7 +27,6 @@
     <PackageReference Include="Microsoft.Graph" Version="1.15.0" />
     <PackageReference Include="System.Drawing.Common" Version="4.6.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Responses\CancelRoute\CancelRouteResponses.cs">
       <DesignTime>True</DesignTime>
@@ -75,10 +48,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>RouteResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Responses\Shared\PointOfInterestSharedStrings.Designer.cs">
+    <Compile Update="Responses\Shared\PointOfInterestSharedStrings.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>PointOfInterestSharedStrings.resx</DependentUpon>
+      <DependentUpon>PointOfInterestSharedStrings.tt</DependentUpon>
     </Compile>
     <Compile Update="Responses\Shared\POISharedResponses.cs">
       <DesignTime>True</DesignTime>
@@ -86,7 +59,6 @@
       <DependentUpon>POISharedResponses.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-  
   <ItemGroup>
     <None Update="*.bot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -95,160 +67,223 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.de.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.es.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.fr.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.it.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\CancelRoute\CancelRouteResponses.zh.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\FindPointOfInterest\FindPointOfInterestResponses.de.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\FindPointOfInterest\FindPointOfInterestResponses.es.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\FindPointOfInterest\FindPointOfInterestResponses.fr.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\FindPointOfInterest\FindPointOfInterestResponses.it.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\FindPointOfInterest\FindPointOfInterestResponses.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\FindPointOfInterest\FindPointOfInterestResponses.zh.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Main\POIMainResponses.de.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Main\POIMainResponses.es.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Main\POIMainResponses.fr.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Main\POIMainResponses.it.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Main\POIMainResponses.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Main\POIMainResponses.zh.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Route\RouteResponses.de.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Route\RouteResponses.es.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Route\RouteResponses.fr.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Route\RouteResponses.it.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Route\RouteResponses.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Route\RouteResponses.zh.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Shared\POISharedResponses.de.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Shared\POISharedResponses.es.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Shared\POISharedResponses.fr.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Shared\POISharedResponses.it.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Shared\POISharedResponses.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Responses\Shared\POISharedResponses.zh.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\shared\SkillServiceLibrary\SkillServiceLibrary.csproj" />
   </ItemGroup>
-  
   <ItemGroup>
-    <None Update="Responses\CancelRoute\CancelRouteResponses.tt">
-      <LastGenOutput>CancelRouteResponses.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponses.tt">
-      <LastGenOutput>FindPointOfInterestResponses.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Responses\Main\POIMainResponses.tt">
-      <LastGenOutput>POIMainResponses.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Responses\Route\RouteResponses.tt">
-      <LastGenOutput>RouteResponses.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
-    <None Update="Responses\Shared\POISharedResponses.tt">
-      <LastGenOutput>POISharedResponses.cs</LastGenOutput>
-      <Generator>TextTemplatingFileGenerator</Generator>
-    </None>
     <None Update="Responses\Shared\ResponseIdCollection.t4">
       <Generator></Generator>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Update="wwwroot\images\header_background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
+  <ItemGroup />
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.zh.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.it.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.es.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
+    <None Update="Responses\CancelRoute\CancelRouteResponsesTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CancelRoute\CancelRouteResponsesTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CancelRoute\CancelRouteResponsesTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CancelRoute\CancelRouteResponsesTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CancelRoute\CancelRouteResponses.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CancelRoute\CancelRouteResponsesTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\CancelRoute\CancelRouteResponsesTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponsesTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponsesTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponsesTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponsesTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponses.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponsesTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponsesTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\POIMainResponsesTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\POIMainResponsesTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\POIMainResponsesTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\POIMainResponsesTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\POIMainResponses.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\POIMainResponsesTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Main\POIMainResponsesTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Route\RouteResponsesTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Route\RouteResponsesTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Route\RouteResponsesTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Route\RouteResponsesTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Route\RouteResponses.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Route\RouteResponsesTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Route\RouteResponsesTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\POISharedResponsesTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\POISharedResponsesTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\POISharedResponsesTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\POISharedResponsesTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\POISharedResponses.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\POISharedResponsesTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\POISharedResponsesTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStringsTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStringsTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStringsTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStringsTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStrings.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStringsTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStringsTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\Shared\Shared.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ResponsesAndTexts\ResponsesAndTexts.de-de.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ResponsesAndTexts\ResponsesAndTexts.es-es.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ResponsesAndTexts\ResponsesAndTexts.fr-fr.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ResponsesAndTexts\ResponsesAndTexts.it-it.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ResponsesAndTexts\ResponsesAndTexts.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Responses\ResponsesAndTexts\ResponsesAndTexts.zh-cn.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestDetails.1.0.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestDetails.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestDetailsNoCall.1.0.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestDetailsNoCall.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestDetailsWithRoute.1.0.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestDetailsWithRoute.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestOverview.1.0.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestOverview.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestOverviewContainer.1.0.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\PointOfInterestOverviewContainer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-
   <ItemGroup>
-    <EmbeddedResource Update="Responses\Shared\PointOfInterestSharedStrings.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>PointOfInterestSharedStrings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <None Update="Responses\CancelRoute\CancelRouteResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\FindPointOfInterest\FindPointOfInterestResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Main\POIMainResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Route\RouteResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Shared\POISharedResponses.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+    </None>
+    <None Update="Responses\Shared\PointOfInterestSharedStrings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PointOfInterestSharedStrings.cs</LastGenOutput>
+    </None>
   </ItemGroup>
-
 </Project>

@@ -1,0 +1,9 @@
+[import] (CancelRouteResponses.lg)
+
+# CancelActiveRoute.Text(Data)
+- 知道了。我正在取消你的路线。
+
+# CannotCancelActiveRoute.Text(Data)
+- 抱歉，我没有可以取消的路线。
+
+

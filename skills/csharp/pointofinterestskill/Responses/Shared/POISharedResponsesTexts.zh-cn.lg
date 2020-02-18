@@ -1,0 +1,104 @@
+[import] (POISharedResponses.lg)
+
+# DidntUnderstandMessage.Text(Data)
+- 对不起，我没有明白你的意思。
+- 我没有明白你的意思，请尝试用不同的方式提问。
+- 你能不能试着用另一种方式问我。
+- 我没有明白你的意思，你能以不同的方式尝试吗？
+- 你能说得更详细吗？
+- 请以不同的方式再说一遍。
+- 我没有理解你的意思。
+- 你能尝试用不同的表达方式吗？
+- 你能再试一次，我没听懂你的意思。
+
+# CancellingMessage.Text(Data)
+- 当然，我们可以稍后再做。
+- 当然，我们可以稍后再开始。
+- 没问题，你可以换一个时间再试一次。
+- 好的，请在需要我帮助时告诉我。
+- 当然，如果你需要我的帮助，我就在这里。
+
+# NoAuth.Text(Data)
+- 请登录，以便我采取进一步行动。
+- 请登录，以便我可以继续您的请求。
+- 你可以登录，这样我可以帮助你。
+- 您需要登录才能采取进一步行动。
+
+# AuthFailed.Text(Data)
+- 你的身份验证失败，请再试一次。
+- 你的登录失败，请稍后再试。
+- 你的登录失败了，让我们再试一次。
+
+# ActionEnded.Text(Data)
+- 如果您需要我的帮助，请告诉我。
+- 如果你需要我，我就在这里。
+
+# PointOfInterestErrorMessage.Text(Data)
+- 抱歉，看起来出了问题！
+- 发生错误，给我一些时间，稍后再试。
+- 出了点问题，对不起！
+- 我相信出了点问题。你可以再试一次吗？
+- 抱歉，我觉得我现在找不到你想要的东西。请稍后再试。
+
+# PromptToGetRoute.Text(Data)
+- 你想要指示吗？
+
+# GetRouteToActiveLocationLater.Text(Data)
+- 好的，我可以稍后帮你解决这个问题。
+
+# MultipleLocationsFound.Text(Data)
+- 我找到下列匹配的地点。
+
+# SingleLocationFound.Text(Data)
+- 我找到下面匹配的地点。
+
+# MultipleLocationsFoundAlongActiveRoute.Text(Data)
+- 我在你的活跃线路上找到下列匹配的地点。
+
+# SingleLocationFoundAlongActiveRoute.Text(Data)
+- 我在你的活跃线路上找到下面匹配的地点。
+
+# NoLocationsFound.Text(Data)
+- 抱歉，我没有找到匹配你搜索的兴趣点。
+
+# MultipleRoutesFound.Text(Data)
+- 我找到到达目的地的几条线路。
+
+# SingleRouteFound.Text(Data)
+- 我找到了一条路线让我们开始吧!
+- 我找到了一条路线我们开始吧!
+
+# NoRouteFound.Text(Data)
+- 对不起,我找不到任何路线。
+
+# CurrentLocationSingleSelection.Text(Data)
+- 这个？
+
+# PointOfInterestSuggestedActionName.Text(Data)
+- @{if(Data.Name == null, '', Data.Name)} 在 @{if(Data.Address == null, '', Data.Address)}
+
+# NoTrafficDelayTextAndSpeak1.Text(Data)
+- 无交通延迟
+
+# NoTrafficDelayTextAndSpeak1.Speak(Data)
+- 没有交通延误。
+
+# PromptForCurrentLocation.Text(Data)
+- 你目前的地址是什么？
+- 你在哪里？尝试提供城市或地址。
+
+# CurrentLocationMultipleSelection.Text(Data)
+- 哪一个？
+- 其中之一?
+
+# TrafficDelayTextAndSpeak1.Text(Data)
+- @{if(Data.Time == null, '', Data.Time)} 延迟
+
+# TrafficDelayTextAndSpeak1.Speak(Data)
+- 延迟@{if(Data.Time == null, '', Data.Time)}
+
+# PointOfInterestSelection.Text(Data)
+- 你想去哪里?
+- 你想要哪一个?
+
+

@@ -1,0 +1,22 @@
+[import] (RouteResponses.lg)
+
+# MissingActiveLocationErrorMessage.Text(Data)
+- Désolé, je n'ai pas eu ça. Où aimeriez-vous aller?
+
+# PromptToStartRoute.Text(Data)
+- Voulez-vous commencer votre itinéraire maintenant?
+- Allons-nous commencer?
+
+# AskAboutRouteLater.Text(Data)
+- OK, vous pouvez me poser des questions sur cette route à tout moment.
+- OK, je peux t'aider avec ça plus tard.
+- Bien sûr, vous pouvez revenir à cette autre fois.
+
+# SendingRouteDetails.Text(Data)
+- Je vous envoie les détails de la route.
+- Voici les directions plus détaillées.
+
+# RouteSuggestedActionName.Text(Data)
+- trajet @{if(Data.Id == null, '', Data.Id)}
+
+

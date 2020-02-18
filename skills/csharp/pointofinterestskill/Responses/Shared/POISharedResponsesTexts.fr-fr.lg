@@ -1,0 +1,123 @@
+[import] (POISharedResponses.lg)
+
+# ActionEnded.Text(Data)
+- Faites-moi savoir si vous avez besoin de mon aide avec autre chose.
+- Je suis là si tu as besoin de moi.
+
+# DidntUnderstandMessage.Text(Data)
+- Désolé, je ne comprenais pas ce que vous vouliez dire.
+- Je n'ai pas compris, peut-être essayer de nouveau d'une manière différente.
+- Pouvez-vous essayer de demander d'une manière différente?
+- Je n'ai pas eu ce que vous voulez dire, pouvez-vous essayer d'une manière différente?
+- Pourriez-vous élaborer?
+- S'il vous plaît dire que de nouveau d'une manière différente.
+- Je n'ai pas vraiment eu ça.
+- Pouvez-vous dire cela d'une manière différente?
+- Pouvez-vous réessayer de me le demander? Je n'ai pas eu ce que tu voulais dire.
+
+# SingleRouteFound.Text(Data)
+- J'ai trouvé un chemin. Commençons !
+- J'ai trouvé un chemin. Commençons !
+
+# NoRouteFound.Text(Data)
+- Désolé, je n'ai trouvé aucun chemin.
+
+# MultipleLocationsFound.Text(Data)
+- J'ai trouvé les allumettes suivantes.
+
+# MultipleRoutesFound.Text(Data)
+- J'ai trouvé les plusieurs itinéraires vers votre destination.
+- Il y a plusieurs itinéraires que vous pouvez prendre à votre destination.
+
+# PromptToGetRoute.Text(Data)
+- Voulez-vous que je vous trouve un itinéraire?
+- Voulez-vous des directions?
+- Tu veux que je te fasse un itinéraire?
+
+# AuthFailedTextAndSpeak1.Text(Data)
+- L'authentification a échoué. Veuillez réessayer
+
+# AuthFailedTextAndSpeak1.Speak(Data)
+- L'authentification a échoué. Veuillez réessayer.
+
+# AuthFailedTextAndSpeak2.Text(Data)
+- Vous avez échoué à vous connecter. Veuillez réessayer plus tard.
+
+# AuthFailedTextAndSpeak2.Speak(Data)
+- Vous avez échoué à vous connecter. Veuillez réessayer plus tard.
+
+# AuthFailedTextAndSpeak3.Text(Data)
+- Votre connexion a échoué. Essayons encore.
+
+# AuthFailedTextAndSpeak3.Speak(Data)
+- Votre connexion a échoué. Essayons encore.
+
+# SingleLocationFoundAlongActiveRoute.Text(Data)
+- J'ai trouvé le match suivant sur votre route active.
+
+# SingleLocationFound.Text(Data)
+- J'ai trouvé le match suivant.
+
+# GetRouteToActiveLocationLater.Text(Data)
+- OK, vous pouvez me poser des questions sur cet emplacement à tout moment.
+- OK, je peux t'aider avec ça plus tard.
+- Bien sûr, je peux t'aider avec ça plus tard.
+
+# NoAuth.Text(Data)
+- Veuillez vous connecter avant de prendre d'autres mesures.
+- S'il vous plaît connectez-vous afin que je puisse prendre d'autres mesures.
+- S'il vous plaît connectez-vous afin que je puisse procéder à votre demande.
+- Pouvez-vous vous connecter pour que je puisse vous aider plus loin?
+- Vous devez vous connecter afin que je puisse prendre d'autres mesures.
+
+# MultipleLocationsFoundAlongActiveRoute.Text(Data)
+- J'ai trouvé les correspondances suivantes le long de votre itinéraire actif.
+
+# PointOfInterestErrorMessage.Text(Data)
+- Désolé, on dirait que quelque chose a mal tourné!
+- Une erreur s'est produite, réessayez plus tard.
+- Quelque chose a mal tourné, Désolé!
+- On dirait que quelque chose a mal tourné. Tu peux réessayer plus tard?
+- Désolé de ne pas pouvoir vous aider maintenant. Veuillez réessayer plus tard.
+
+# CancellingMessage.Text(Data)
+- Bien sûr, on peut le faire plus tard.
+- Bien sûr, on peut commencer ça plus tard.
+- Pas de problème, vous pouvez réessayer à un autre moment.
+- Bon, faites-moi savoir quand vous avez besoin de mon aide.
+- Bien sûr, je suis là si tu as besoin de moi.
+
+# NoLocationsFound.Text(Data)
+- Désolé, je n'ai pas trouvé de points d'intérêt correspondant à votre recherche.
+
+# CurrentLocationSingleSelection.Text(Data)
+- Celui-là?
+
+# PointOfInterestSuggestedActionName.Text(Data)
+- @{if(Data.Name == null, '', Data.Name)} à @{if(Data.Address == null, '', Data.Address)}
+
+# NoTrafficDelayTextAndSpeak1.Text(Data)
+- Pas de retard de la circulation
+
+# NoTrafficDelayTextAndSpeak1.Speak(Data)
+- Il n'y a pas de retard de circulation.
+
+# PromptForCurrentLocation.Text(Data)
+- Quelle est votre adresse actuelle ?
+- Où es-tu? Essayez de fournir une ville ou une adresse.
+
+# CurrentLocationMultipleSelection.Text(Data)
+- Lequel?
+- Un de ceux-là ?
+
+# TrafficDelayTextAndSpeak1.Text(Data)
+- @{if(Data.Time == null, '', Data.Time)} retard
+
+# TrafficDelayTextAndSpeak1.Speak(Data)
+- Il y a un retard de @{if(Data.Time == null, '', Data.Time)}.
+
+# PointOfInterestSelection.Text(Data)
+- Où voulez-vous aller ?
+- Qu'est-ce que tu veux ?
+
+

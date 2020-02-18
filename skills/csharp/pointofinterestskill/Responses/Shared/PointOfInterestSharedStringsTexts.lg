@@ -1,0 +1,60 @@
+[import] (PointOfInterestSharedStrings.lg)
+
+# CALL.Text(Data)
+- Call
+
+# CARD_TITLE.Text(Data)
+- Location services
+
+# END.Text(Data)
+- End
+
+# HOUR.Text(Data)
+- hour
+
+# HOURS.Text(Data)
+- hours
+
+# HOUR_ABBREVIATION.Text(Data)
+- h
+
+# KILOMETERS.Text(Data)
+- kilometers
+
+# KILOMETERS_ABBREVIATION.Text(Data)
+- km
+
+# LESS_THAN_A_MINUTE.Text(Data)
+- Less than a minute
+
+# MILES.Text(Data)
+- miles
+
+# MILES_ABBREVIATION.Text(Data)
+- mi
+
+# MINUTE.Text(Data)
+- minute
+
+# MINUTES.Text(Data)
+- minutes
+
+# MINUTE_ABBREVIATION.Text(Data)
+- min
+
+# POWERED_BY.Text(Data)
+- Powered by
+
+# SHOW_DIRECTIONS.Text(Data)
+- Show directions
+
+# START.Text(Data)
+- Start
+
+# START_NAVIGATION.Text(Data)
+- Start navigation
+
+# YOU.Text(Data)
+- You
+
+

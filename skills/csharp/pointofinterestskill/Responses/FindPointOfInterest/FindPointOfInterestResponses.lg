@@ -1,0 +1,10 @@
+# PointOfInterestDetails(Data, Cards, Layout)
+[Activity
+    Text = @{PointOfInterestDetails.Text(Data)}
+    Speak = @{PointOfInterestDetails.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+

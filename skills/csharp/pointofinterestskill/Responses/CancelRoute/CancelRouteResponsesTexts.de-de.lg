@@ -1,0 +1,11 @@
+[import] (CancelRouteResponses.lg)
+
+# CancelActiveRoute.Text(Data)
+- Ich hab es. Ich sage deine Route jetzt.
+- Route abgesagt. Ich habe es aus meinem Gedächtnis gelöscht.
+
+# CannotCancelActiveRoute.Text(Data)
+- Es tut mir leid, ich kann eine Route, die es nicht gibt, nicht abbrechen.
+- Ich habe keine Route zu entfernen, tut mir leid.
+
+

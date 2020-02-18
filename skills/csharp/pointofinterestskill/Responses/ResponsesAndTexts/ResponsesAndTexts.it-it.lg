@@ -1,0 +1,7 @@
+[import] (..\CancelRoute\CancelRouteResponsesTexts.it-it.lg)
+[import] (..\FindPointOfInterest\FindPointOfInterestResponsesTexts.it-it.lg)
+[import] (..\Main\POIMainResponsesTexts.it-it.lg)
+[import] (..\Route\RouteResponsesTexts.it-it.lg)
+[import] (..\Shared\POISharedResponsesTexts.it-it.lg)
+[import] (..\Shared\PointOfInterestSharedStringsTexts.it-it.lg)
+[import] (..\Shared\Shared.lg)

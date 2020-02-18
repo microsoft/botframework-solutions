@@ -1,6 +1,4 @@
-{
-  "type": "AdaptiveCard",
-  "body": [
+
     {
       "type": "Container",
       "items": [
@@ -48,22 +46,24 @@
               "width": 25,
               "verticalContentAlignment": "Center",
               "horizontalAlignment": "Center",
-              "backgroundImage": {
-                "url": "@{if(Data.PointOfInterestImageUrl == null, '', Data.PointOfInterestImageUrl)}",
-                "verticalAlignment": "Center",
-                "horizontalAlignment": "Center"
-              }
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "@{if(Data.PointOfInterestImageUrl == null, '', Data.PointOfInterestImageUrl)}",
+                  "horizontalAlignment": "Center"
+                }
+              ]
             }
           ]
         }
       ],
       "selectAction": {
         "type": "Action.Submit",
-        "data": "@{if(Data.SubmitText == null, '', Data.SubmitText)}"
+        "data": {
+          "msteams": {
+            "type": "imBack",
+            "value": "@{if(Data.SubmitText == null, '', Data.SubmitText)}"
+          }
+        }
       }
     }
-  ],
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.0"
-}
-

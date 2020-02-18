@@ -1,0 +1,153 @@
+# CALL(Data, Cards, Layout)
+[Activity
+    Text = @{CALL.Text(Data)}
+    Speak = @{CALL.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# CARD_TITLE(Data, Cards, Layout)
+[Activity
+    Text = @{CARD_TITLE.Text(Data)}
+    Speak = @{CARD_TITLE.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# END(Data, Cards, Layout)
+[Activity
+    Text = @{END.Text(Data)}
+    Speak = @{END.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# HOUR(Data, Cards, Layout)
+[Activity
+    Text = @{HOUR.Text(Data)}
+    Speak = @{HOUR.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# HOURS(Data, Cards, Layout)
+[Activity
+    Text = @{HOURS.Text(Data)}
+    Speak = @{HOURS.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# HOUR_ABBREVIATION(Data, Cards, Layout)
+[Activity
+    Text = @{HOUR_ABBREVIATION.Text(Data)}
+    Speak = @{HOUR_ABBREVIATION.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# KILOMETERS(Data, Cards, Layout)
+[Activity
+    Text = @{KILOMETERS.Text(Data)}
+    Speak = @{KILOMETERS.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# KILOMETERS_ABBREVIATION(Data, Cards, Layout)
+[Activity
+    Text = @{KILOMETERS_ABBREVIATION.Text(Data)}
+    Speak = @{KILOMETERS_ABBREVIATION.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# LESS_THAN_A_MINUTE(Data, Cards, Layout)
+[Activity
+    Text = @{LESS_THAN_A_MINUTE.Text(Data)}
+    Speak = @{LESS_THAN_A_MINUTE.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MILES(Data, Cards, Layout)
+[Activity
+    Text = @{MILES.Text(Data)}
+    Speak = @{MILES.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MILES_ABBREVIATION(Data, Cards, Layout)
+[Activity
+    Text = @{MILES_ABBREVIATION.Text(Data)}
+    Speak = @{MILES_ABBREVIATION.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MINUTE(Data, Cards, Layout)
+[Activity
+    Text = @{MINUTE.Text(Data)}
+    Speak = @{MINUTE.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MINUTES(Data, Cards, Layout)
+[Activity
+    Text = @{MINUTES.Text(Data)}
+    Speak = @{MINUTES.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MINUTE_ABBREVIATION(Data, Cards, Layout)
+[Activity
+    Text = @{MINUTE_ABBREVIATION.Text(Data)}
+    Speak = @{MINUTE_ABBREVIATION.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# POWERED_BY(Data, Cards, Layout)
+[Activity
+    Text = @{POWERED_BY.Text(Data)}
+    Speak = @{POWERED_BY.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# SHOW_DIRECTIONS(Data, Cards, Layout)
+[Activity
+    Text = @{SHOW_DIRECTIONS.Text(Data)}
+    Speak = @{SHOW_DIRECTIONS.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# START(Data, Cards, Layout)
+[Activity
+    Text = @{START.Text(Data)}
+    Speak = @{START.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# START_NAVIGATION(Data, Cards, Layout)
+[Activity
+    Text = @{START_NAVIGATION.Text(Data)}
+    Speak = @{START_NAVIGATION.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# YOU(Data, Cards, Layout)
+[Activity
+    Text = @{YOU.Text(Data)}
+    Speak = @{YOU.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+

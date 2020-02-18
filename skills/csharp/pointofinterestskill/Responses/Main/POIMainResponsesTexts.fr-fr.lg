@@ -1,0 +1,58 @@
+[import] (POIMainResponses.lg)
+
+# GreetingMessage.Text(Data)
+- Il y en a!
+- Salut!
+- Salut!
+
+# PointOfInterestWelcomeMessage.Text(Data)
+- Bienvenue au point d'intérêt bot! Je peux trouver des points d'intérêt, montrer un itinéraire à votre destination, ou trouver des choses amusantes à proximité.
+
+# PointOfInterestWelcomeMessage.S1(Data)
+- Quel est le moyen le plus rapide pour se rendre à l'aéroport?
+
+# PointOfInterestWelcomeMessage.S2(Data)
+- Y a-t-il un café en ville?
+
+# PointOfInterestWelcomeMessage.S3(Data)
+- Obtenez-moi les indications pour 400 Broad St
+
+# PointOfInterestWelcomeMessage.S4(Data)
+- Je veux visiter l'espace Needle
+
+# PointOfInterestWelcomeMessage.S5(Data)
+- Qu'est-ce qui est proche?
+
+# FeatureNotAvailable.Text(Data)
+- Cette fonctionnalité n'est pas encore disponible dans la compétence calendrier. S'il vous plaît essayer de demander autre chose.
+
+# LogOut.Text(Data)
+- Votre déconnexion a été couronnée de succès.
+- Vous avez réussi à vous connecter.
+- Vous avez été déconnecté.
+
+# GoodbyeMessage.Text(Data)
+- Au revoir!
+
+# HelpMessage.Text(Data)
+- Je peux trouver des points d'intérêt, montrer un itinéraire à votre destination, ou trouver des choses amusantes à proximité.
+
+# HelpMessage.S1(Data)
+- Quel est le moyen le plus rapide pour se rendre à l'aéroport?
+
+# HelpMessage.S2(Data)
+- Y a-t-il un café en ville?
+
+# HelpMessage.S3(Data)
+- Obtenez-moi les indications pour 400 Broad St
+
+# HelpMessage.S4(Data)
+- Je veux visiter l'espace Needle
+
+# HelpMessage.S5(Data)
+- Qu'est-ce qui est proche?
+
+# CancelMessage.Text(Data)
+- OK, commençons.
+
+

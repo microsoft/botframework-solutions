@@ -1,0 +1,123 @@
+[import] (POISharedResponses.lg)
+
+# ActionEnded.Text(Data)
+- Hazme saber si necesitas mi ayuda con otra cosa.
+- Estoy aquí si me necesitas.
+
+# DidntUnderstandMessage.Text(Data)
+- Lo siento, no entendí lo que quería decir.
+- No entendía, tal vez intentarlo de nuevo de una manera diferente.
+- ¿Puedes intentar preguntar de otra manera?
+- No entiendo lo que quieres decir, ¿puedes intentarlo de una manera diferente?
+- ¿Podrías elaborar?
+- Por favor, vuelva a decirlo de otra manera.
+- No lo entiendo.
+- ¿Puedes decir eso de otra manera?
+- ¿Puedes intentar preguntarme otra vez? No entiendo lo que quieres decir.
+
+# SingleRouteFound.Text(Data)
+- Encontré una ruta. ¡Empecemos!
+- Encontré una ruta. ¡Empecemos!
+
+# NoRouteFound.Text(Data)
+- Lo siento, no encontré ninguna ruta.
+
+# MultipleLocationsFound.Text(Data)
+- Encontré los siguientes fósforos.
+
+# MultipleRoutesFound.Text(Data)
+- Encontré las varias rutas a su destino.
+- Hay varias rutas que puede llevar a su destino.
+
+# PromptToGetRoute.Text(Data)
+- ¿Le gustaría que le encontrara una ruta?
+- ¿Quieres direcciones?
+- ¿Quieres que te consiga direcciones?
+
+# AuthFailedTextAndSpeak1.Text(Data)
+- Error de autenticación. Por favor, inténtelo de nuevo
+
+# AuthFailedTextAndSpeak1.Speak(Data)
+- Error de autenticación. Por favor inténtalo de nuevo.
+
+# AuthFailedTextAndSpeak2.Text(Data)
+- No ha podido iniciar sesión. Por favor inténtelo de nuevo más tarde.
+
+# AuthFailedTextAndSpeak2.Speak(Data)
+- No ha podido iniciar sesión. Por favor inténtelo de nuevo más tarde.
+
+# AuthFailedTextAndSpeak3.Text(Data)
+- Falló el registro. Probemos esto de nuevo.
+
+# AuthFailedTextAndSpeak3.Speak(Data)
+- Falló el registro. Probemos esto de nuevo.
+
+# SingleLocationFoundAlongActiveRoute.Text(Data)
+- He encontrado la siguiente coincidencia a lo largo de su ruta activa.
+
+# SingleLocationFound.Text(Data)
+- Encontré el siguiente partido.
+
+# GetRouteToActiveLocationLater.Text(Data)
+- OK, puedes preguntarme sobre este lugar en cualquier momento.
+- OK, puedo ayudarte con esto más tarde.
+- Claro, puedo ayudarte con esto más tarde.
+
+# NoAuth.Text(Data)
+- Por favor, inicie sesión antes de tomar otras medidas.
+- Por favor, inicie sesión para que pueda tomar más medidas.
+- Por favor, inicie sesión para que pueda proceder con su solicitud.
+- ¿Puedes iniciar sesión para poder ayudarte más?
+- Tienes que iniciar sesión para que pueda tomar más medidas.
+
+# MultipleLocationsFoundAlongActiveRoute.Text(Data)
+- He encontrado los siguientes partidos a lo largo de su ruta activa.
+
+# PointOfInterestErrorMessage.Text(Data)
+- ¡ Lo siento, parece que algo salió mal!
+- Se ha producido un error, inténtelo de nuevo más tarde.
+- Algo salió mal, lo siento!
+- Parece que algo salió mal. ¿Puedes intentarlo de nuevo más tarde?
+- Lamento no poder ayudar ahora mismo. Por favor inténtelo de nuevo más tarde.
+
+# CancellingMessage.Text(Data)
+- Claro, podemos hacer esto más tarde.
+- Claro, podemos empezar esto más tarde.
+- No hay problema, puedes intentarlo de nuevo en otro momento.
+- Bien, Avísame cuando necesites mi ayuda.
+- Claro, estoy aquí si me necesitas.
+
+# NoLocationsFound.Text(Data)
+- Lo siento, no he encontrado ningún punto de interés que coincida con su búsqueda.
+
+# CurrentLocationSingleSelection.Text(Data)
+- ¿Esta?
+
+# PointOfInterestSuggestedActionName.Text(Data)
+- @{if(Data.Name == null, '', Data.Name)} a @{if(Data.Address == null, '', Data.Address)}
+
+# NoTrafficDelayTextAndSpeak1.Text(Data)
+- Sin retrasos en el tráfico
+
+# NoTrafficDelayTextAndSpeak1.Speak(Data)
+- No hay retraso en el tráfico.
+
+# PromptForCurrentLocation.Text(Data)
+- ¿Cuál es tu dirección actual?
+- ¿Dónde estás? Intente proporcionar una ciudad o una dirección.
+
+# CurrentLocationMultipleSelection.Text(Data)
+- ¿Cuál?
+- ¿Uno de estos?
+
+# TrafficDelayTextAndSpeak1.Text(Data)
+- @{if(Data.Time == null, '', Data.Time)} demora
+
+# TrafficDelayTextAndSpeak1.Speak(Data)
+- Hay un retraso de @{if(Data.Time == null, '', Data.Time)}.
+
+# PointOfInterestSelection.Text(Data)
+- ¿Adónde te gustaría ir?
+- ¿Cuál te gustaría?
+
+

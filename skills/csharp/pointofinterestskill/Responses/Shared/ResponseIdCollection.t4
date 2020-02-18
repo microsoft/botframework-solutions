@@ -1,11 +1,26 @@
-﻿﻿<#@ assembly name="Newtonsoft.Json.dll" #>
-<#
-  var className = System.IO.Path.GetFileNameWithoutExtension(Host.TemplateFile);
-  var namespaceName = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint");
-  string myFile = System.IO.File.ReadAllText(this.Host.ResolvePath(className + ".json"));
-  var json = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Collections.Generic.Dictionary<string, dynamic>>(myFile);
-  var responses = string.Empty;
-  var cards = string.Empty;
+﻿<#
+    var className = System.IO.Path.GetFileNameWithoutExtension(Host.TemplateFile);
+    var namespaceName = System.Runtime.Remoting.Messaging.CallContext.LogicalGetData("NamespaceHint");
+    string myFile = this.Host.ResolvePath(className + ".lg");
+    var lines = new System.Collections.Generic.List<string>();
+    using (var sr = new System.IO.StreamReader(myFile))
+    {
+        string line;
+        while ((line = sr.ReadLine()) != null)
+        {
+            if (line.StartsWith("#"))
+            {
+                var index = line.IndexOf('(');
+                if (index == -1)
+                {
+                    index = line.Length;
+                }
+
+                line = line.Substring(1, index - 1).Trim();
+                lines.Add(line);
+            }
+        }
+    }
 #>
 // https://docs.microsoft.com/en-us/visualstudio/modeling/t4-include-directive?view=vs-2017
 // Copyright (c) Microsoft Corporation. All rights reserved.
@@ -22,10 +37,11 @@ namespace <#= namespaceName #>
     {
         // Generated accessors
 <#
-// This code runs in the text json:  
-foreach (var propertyName in json)  { 
+    foreach (var line in lines)  { 
 #>
-        public const string <#= propertyName.Key.Substring(0, 1).ToUpperInvariant() + propertyName.Key.Substring(1) #> = "<#= propertyName.Key #>";
-<# } #>
+        public const string <#= line #> = "<#= line #>";
+<# 
+    }
+#>
     }
 }

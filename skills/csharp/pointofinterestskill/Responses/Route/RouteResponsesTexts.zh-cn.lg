@@ -1,0 +1,18 @@
+[import] (RouteResponses.lg)
+
+# MissingActiveLocationErrorMessage.Text(Data)
+- 抱歉，我没有找到合适的地点。你想去哪里？
+
+# PromptToStartRoute.Text(Data)
+- 你想现在开始路线吗？
+
+# SendingRouteDetails.Text(Data)
+- 我在向你发送路线的详细信息。
+
+# AskAboutRouteLater.Text(Data)
+- 好的，我可以稍后帮你解决这个问题。
+
+# RouteSuggestedActionName.Text(Data)
+- 路线 @{if(Data.Id == null, '', Data.Id)}
+
+

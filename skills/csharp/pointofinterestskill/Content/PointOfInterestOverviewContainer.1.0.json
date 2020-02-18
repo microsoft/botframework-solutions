@@ -1,4 +1,4 @@
-﻿{
+{
   "type": "AdaptiveCard",
   "id": "PointOfInterestOverviewContainerCard",
   "body": [
@@ -19,7 +19,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "default",
-                  "text": "{CardTitle}"
+                  "text": "@{if(Data.CardTitle == null, '', Data.CardTitle)}"
                 }
               ],
               "width": "stretch"
@@ -33,7 +33,7 @@
       "items": [
         {
           "type": "Image",
-          "url": "{PointOfInterestImageUrl}",
+          "url": "@{if(Data.PointOfInterestImageUrl == null, '', Data.PointOfInterestImageUrl)}",
           "horizontalAlignment": "center"
         }
       ]
@@ -42,6 +42,7 @@
       "type": "Container",
       "id": "Container",
       "items": [
+        @{if(Cards==null,'',join(foreach(Cards,Card,CreateStringNoContainer(Card.Name,Card.Data)),','))}
       ]
     },
     {
@@ -53,7 +54,7 @@
           "horizontalAlignment": "Right",
           "size": "Small",
           "color": "default",
-          "text": "{ProviderDisplayText}"
+          "text": "@{if(Data.ProviderDisplayText == null, '', Data.ProviderDisplayText)}"
         }
       ]
     }
@@ -61,3 +62,4 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0"
 }
+

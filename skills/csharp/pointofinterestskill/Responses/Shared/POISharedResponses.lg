@@ -1,0 +1,206 @@
+# DidntUnderstandMessage(Data, Cards, Layout)
+[Activity
+    Text = @{DidntUnderstandMessage.Text(Data)}
+    Speak = @{DidntUnderstandMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# CancellingMessage(Data, Cards, Layout)
+[Activity
+    Text = @{CancellingMessage.Text(Data)}
+    Speak = @{CancellingMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# ActionEnded(Data, Cards, Layout)
+[Activity
+    Text = @{ActionEnded.Text(Data)}
+    Speak = @{ActionEnded.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# PointOfInterestErrorMessage(Data, Cards, Layout)
+[Activity
+    Text = @{PointOfInterestErrorMessage.Text(Data)}
+    Speak = @{PointOfInterestErrorMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# PromptToGetRoute(Data, Cards, Layout)
+[Activity
+    Text = @{PromptToGetRoute.Text(Data)}
+    Speak = @{PromptToGetRoute.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# GetRouteToActiveLocationLater(Data, Cards, Layout)
+[Activity
+    Text = @{GetRouteToActiveLocationLater.Text(Data)}
+    Speak = @{GetRouteToActiveLocationLater.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# MultipleLocationsFound(Data, Cards, Layout)
+[Activity
+    Text = @{MultipleLocationsFound.Text(Data)}
+    Speak = @{MultipleLocationsFound.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# SingleLocationFound(Data, Cards, Layout)
+[Activity
+    Text = @{SingleLocationFound.Text(Data)}
+    Speak = @{SingleLocationFound.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# MultipleLocationsFoundAlongActiveRoute(Data, Cards, Layout)
+[Activity
+    Text = @{MultipleLocationsFoundAlongActiveRoute.Text(Data)}
+    Speak = @{MultipleLocationsFoundAlongActiveRoute.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# SingleLocationFoundAlongActiveRoute(Data, Cards, Layout)
+[Activity
+    Text = @{SingleLocationFoundAlongActiveRoute.Text(Data)}
+    Speak = @{SingleLocationFoundAlongActiveRoute.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# NoLocationsFound(Data, Cards, Layout)
+[Activity
+    Text = @{NoLocationsFound.Text(Data)}
+    Speak = @{NoLocationsFound.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# MultipleRoutesFound(Data, Cards, Layout)
+[Activity
+    Text = @{MultipleRoutesFound.Text(Data)}
+    Speak = @{MultipleRoutesFound.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# SingleRouteFound(Data, Cards, Layout)
+[Activity
+    Text = @{SingleRouteFound.Text(Data)}
+    Speak = @{SingleRouteFound.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# NoRouteFound(Data, Cards, Layout)
+[Activity
+    Text = @{NoRouteFound.Text(Data)}
+    Speak = @{NoRouteFound.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# PointOfInterestSelection(Data, Cards, Layout)
+[Activity
+    Text = @{PointOfInterestSelection.Text(Data)}
+    Speak = @{PointOfInterestSelection.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# CurrentLocationMultipleSelection(Data, Cards, Layout)
+[Activity
+    Text = @{CurrentLocationMultipleSelection.Text(Data)}
+    Speak = @{CurrentLocationMultipleSelection.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# CurrentLocationSingleSelection(Data, Cards, Layout)
+[Activity
+    Text = @{CurrentLocationSingleSelection.Text(Data)}
+    Speak = @{CurrentLocationSingleSelection.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# PointOfInterestSuggestedActionName(Data, Cards, Layout)
+[Activity
+    Text = @{PointOfInterestSuggestedActionName.Text(Data)}
+    Speak = @{PointOfInterestSuggestedActionName.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# NoTrafficDelay(Data, Cards, Layout)
+[Activity
+    @{NoTrafficDelayTextAndSpeak(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# NoTrafficDelayTextAndSpeak(Data)
+- @{NoTrafficDelayTextAndSpeak1(Data)}
+
+# NoTrafficDelayTextAndSpeak1(Data)
+[Activity
+    Text = @{NoTrafficDelayTextAndSpeak1.Text(Data)}
+    Speak = @{NoTrafficDelayTextAndSpeak1.Speak(Data)}
+]
+
+# TrafficDelay(Data, Cards, Layout)
+[Activity
+    @{TrafficDelayTextAndSpeak(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# TrafficDelayTextAndSpeak(Data)
+- @{TrafficDelayTextAndSpeak1(Data)}
+
+# TrafficDelayTextAndSpeak1(Data)
+[Activity
+    Text = @{TrafficDelayTextAndSpeak1.Text(Data)}
+    Speak = @{TrafficDelayTextAndSpeak1.Speak(Data)}
+]
+
+# PromptForCurrentLocation(Data, Cards, Layout)
+[Activity
+    Text = @{PromptForCurrentLocation.Text(Data)}
+    Speak = @{PromptForCurrentLocation.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+

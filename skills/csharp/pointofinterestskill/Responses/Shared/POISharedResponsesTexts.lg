@@ -1,0 +1,100 @@
+[import] (POISharedResponses.lg)
+
+# DidntUnderstandMessage.Text(Data)
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way?
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again? I didn't get what you mean.
+
+# CancellingMessage.Text(Data)
+- OK, we can do this later.
+- Sure, we can start this later.
+- No problem, you can try again at another time.
+- Alright, let me know when you need my help.
+- Sure, I'm here if you need me.
+
+# ActionEnded.Text(Data)
+- Let me know if you need my help with something else.
+- I'm here if you need me.
+
+# PointOfInterestErrorMessage.Text(Data)
+- Sorry, it looks like something went wrong!
+- I apologize, an error occurred. My team will look into this.
+- Something went wrong, sorry!
+- It seems like something went wrong.
+- Sorry I can't help right now. Please try again later.
+
+# PromptToGetRoute.Text(Data)
+- Should I look up directions?
+- Should I get directions to this address?
+- Do you want me to get you directions?
+
+# GetRouteToActiveLocationLater.Text(Data)
+- Ok, I can help you with this later.
+- Sure, I can help you with this later.
+
+# MultipleLocationsFound.Text(Data)
+- I found the following.
+- Here are some options.
+- What do you think of these?
+
+# SingleLocationFound.Text(Data)
+- I found the following.
+- Here's a match.
+
+# MultipleLocationsFoundAlongActiveRoute.Text(Data)
+- I found the following.
+- Here are some matches.
+
+# SingleLocationFoundAlongActiveRoute.Text(Data)
+- I found the following.
+- Here's a match.
+
+# NoLocationsFound.Text(Data)
+- Sorry, I didn't find anything. Try something like "the mall in Bellevue" or "Chippenham in the UK."
+- Hmm...I'm not finding anything. Try something like "the mall in Bellevue" or "Chippenham in the UK."
+
+# MultipleRoutesFound.Text(Data)
+- I found several routes to your destination.
+- There are multiple routes to your destination.
+
+# SingleRouteFound.Text(Data)
+- I found a route. Let's begin!
+- I found a route. Let's start!
+
+# NoRouteFound.Text(Data)
+- Sorry, I didn't find any route.
+
+# PointOfInterestSelection.Text(Data)
+- Where would you like to go?
+- Which would you like?
+
+# CurrentLocationMultipleSelection.Text(Data)
+- Which one?
+- One of these?
+
+# CurrentLocationSingleSelection.Text(Data)
+- This one?
+
+# PointOfInterestSuggestedActionName.Text(Data)
+- @{if(Data.Name == null, '', Data.Name)} at @{if(Data.Address == null, '', Data.Address)}
+
+# NoTrafficDelayTextAndSpeak1.Text(Data)
+- No traffic delay
+
+# NoTrafficDelayTextAndSpeak1.Speak(Data)
+- There's no traffic delay.
+
+# TrafficDelayTextAndSpeak1.Text(Data)
+- @{if(Data.Time == null, '', Data.Time)} delay
+
+# TrafficDelayTextAndSpeak1.Speak(Data)
+- There's a delay of @{if(Data.Time == null, '', Data.Time)}.
+
+# PromptForCurrentLocation.Text(Data)
+- What's your current address?
+- Where are you? Try providing a city or address.
+
+

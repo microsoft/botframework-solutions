@@ -1,0 +1,58 @@
+[import] (POIMainResponses.lg)
+
+# PointOfInterestWelcomeMessage.Text(Data)
+- Welcome to the Point of Interest skill! I can find points of interest, show a route to your destination, or find fun things nearby.
+
+# PointOfInterestWelcomeMessage.S1(Data)
+- What's the fastest way to get to the airport?
+
+# PointOfInterestWelcomeMessage.S2(Data)
+- Is there a coffee shop in town?
+
+# PointOfInterestWelcomeMessage.S3(Data)
+- Get me directions to 400 Broad St
+
+# PointOfInterestWelcomeMessage.S4(Data)
+- I want to visit the Space Needle
+
+# PointOfInterestWelcomeMessage.S5(Data)
+- What's nearby?
+
+# HelpMessage.Text(Data)
+- I can find points of interest, show a route to your destination, or find fun things nearby.
+
+# HelpMessage.S1(Data)
+- What's the fastest way to get to the airport?
+
+# HelpMessage.S2(Data)
+- Is there a coffee shop in town?
+
+# HelpMessage.S3(Data)
+- Get me directions to 400 Broad St
+
+# HelpMessage.S4(Data)
+- I want to visit the Space Needle
+
+# HelpMessage.S5(Data)
+- What's nearby?
+
+# GreetingMessage.Text(Data)
+- Hi!
+- Hi there!
+- Hello!
+
+# GoodbyeMessage.Text(Data)
+- Goodbye!
+
+# LogOut.Text(Data)
+- Your sign out was successful.
+- You have successfully signed out.
+- You have been logged out.
+
+# FeatureNotAvailable.Text(Data)
+- This feature is not yet available in the Point of Interest Skill. Please try asking something else.
+
+# CancelMessage.Text(Data)
+- Ok, let's start over.
+
+

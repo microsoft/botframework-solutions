@@ -1,0 +1,11 @@
+[import] (CancelRouteResponses.lg)
+
+# CancelActiveRoute.Text(Data)
+- Capito. Sto cancellando il tuo percorso ora.
+- Rotta cancellata. L'ho cancellato dalla mia memoria.
+
+# CannotCancelActiveRoute.Text(Data)
+- Mi dispiace, non posso cancellare un percorso che non esiste.
+- Non ho un percorso su record da rimuovere, mi dispiace.
+
+

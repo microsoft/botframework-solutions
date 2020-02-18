@@ -1,4 +1,4 @@
-﻿{
+{
   "type": "AdaptiveCard",
   "id": "PointOfInterestDetailsNoCallCard",
   "body": [
@@ -41,7 +41,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Light",
-                          "text": "{CardTitle}"
+                          "text": "@{if(Data.CardTitle == null, '', Data.CardTitle)}"
                         }
                       ],
                       "width": "stretch"
@@ -66,21 +66,21 @@
           "size": "Medium",
           "weight": "Bolder",
           "color": "default",
-          "text": "{Name}"
+          "text": "@{if(Data.Name == null, '', Data.Name)}"
         },
         {
           "type": "TextBlock",
           "id": "AvailableDetails",
           "spacing": "None",
           "color": "default",
-          "text": "{AvailableDetails}"
+          "text": "@{if(Data.AvailableDetails == null, '', Data.AvailableDetails)}"
         },
         {
           "type": "TextBlock",
           "id": "Address",
           "spacing": "None",
           "color": "default",
-          "text": "{Address}",
+          "text": "@{if(Data.Address == null, '', Data.Address)}",
           "wrap": true,
           "maxLines": 2
         },
@@ -89,7 +89,7 @@
           "id": "Hours",
           "spacing": "None",
           "color": "default",
-          "text": "{Hours}",
+          "text": "@{if(Data.Hours == null, '', Data.Hours)}",
           "wrap": true
         }
       ]
@@ -101,7 +101,7 @@
         {
           "type": "Image",
           "horizontalAlignment": "center",
-          "url": "{PointOfInterestImageUrl}"
+          "url": "@{if(Data.PointOfInterestImageUrl == null, '', Data.PointOfInterestImageUrl)}"
         }
       ]
     },
@@ -110,13 +110,13 @@
       "actions": [
         {
           "type": "Action.Submit",
-          "title": "{ActionShowDirections}",
-          "data": "{ActionShowDirections}"
+          "title": "@{if(Data.ActionShowDirections == null, '', Data.ActionShowDirections)}",
+          "data": "@{if(Data.ActionShowDirections == null, '', Data.ActionShowDirections)}"
         },
         {
           "type": "Action.Submit",
-          "title": "{ActionStartNavigation}",
-          "data": "{ActionStartNavigation}"
+          "title": "@{if(Data.ActionStartNavigation == null, '', Data.ActionStartNavigation)}",
+          "data": "@{if(Data.ActionStartNavigation == null, '', Data.ActionStartNavigation)}"
         }
       ]
     },
@@ -129,12 +129,13 @@
           "horizontalAlignment": "Right",
           "size": "Small",
           "color": "default",
-          "text": "{ProviderDisplayText}"
+          "text": "@{if(Data.ProviderDisplayText == null, '', Data.ProviderDisplayText)}"
         }
       ]
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "{Speak}"
+  "speak": "@{if(Data.Speak == null, '', Data.Speak)}"
 }
+

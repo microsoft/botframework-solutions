@@ -1,4 +1,4 @@
-﻿{
+{
   "type": "AdaptiveCard",
   "id": "PointOfInterestDetailsWithRouteCard",
   "body": [
@@ -26,7 +26,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Default",
-                          "text": "{CardTitle}"
+                          "text": "@{if(Data.CardTitle == null, '', Data.CardTitle)}"
                         }
                       ],
                       "width": "stretch"
@@ -51,21 +51,21 @@
           "size": "Medium",
           "weight": "Bolder",
           "color": "default",
-          "text": "{Name}"
+          "text": "@{if(Data.Name == null, '', Data.Name)}"
         },
         {
           "type": "TextBlock",
           "id": "AvailableDetails",
           "spacing": "None",
           "color": "default",
-          "text": "{AvailableDetails}"
+          "text": "@{if(Data.AvailableDetails == null, '', Data.AvailableDetails)}"
         },
         {
           "type": "TextBlock",
           "id": "Address",
           "spacing": "None",
           "color": "default",
-          "text": "{Address}",
+          "text": "@{if(Data.Address == null, '', Data.Address)}",
           "wrap": true,
           "maxLines": 2
         },
@@ -74,7 +74,7 @@
           "id": "Hours",
           "spacing": "None",
           "color": "default",
-          "text": "{Hours}",
+          "text": "@{if(Data.Hours == null, '', Data.Hours)}",
           "wrap": true
         }
       ]
@@ -86,7 +86,7 @@
         {
           "type": "Image",
           "horizontalAlignment": "center",
-          "url": "{PointOfInterestImageUrl}"
+          "url": "@{if(Data.PointOfInterestImageUrl == null, '', Data.PointOfInterestImageUrl)}"
         }
       ]
     },
@@ -108,7 +108,7 @@
                   "horizontalAlignment": "Center",
                   "size": "Medium",
                   "color": "default",
-                  "text": "{TravelTime}"
+                  "text": "@{if(Data.TravelTime == null, '', Data.TravelTime)}"
                 }
               ],
               "width": 20
@@ -120,13 +120,13 @@
                 {
                   "type": "TextBlock",
                   "horizontalAlignment": "Left",
-                  "text": "{DelayStatus}"
+                  "text": "@{if(Data.DelayStatus == null, '', Data.DelayStatus)}"
                 },
                 {
                   "type": "TextBlock",
                   "horizontalAlignment": "Left",
                   "color": "default",
-                  "text": "**ETA** {ETA}"
+                  "text": "**ETA** @{if(Data.ETA == null, '', Data.ETA)}"
                 }
               ],
               "width": 60
@@ -141,7 +141,7 @@
                   "horizontalAlignment": "Center",
                   "size": "Medium",
                   "color": "default",
-                  "text": "{Distance}"
+                  "text": "@{if(Data.Distance == null, '', Data.Distance)}"
                 }
               ],
               "width": 20
@@ -159,7 +159,7 @@
           "horizontalAlignment": "Right",
           "size": "Small",
           "color": "default",
-          "text": "{ProviderDisplayText}"
+          "text": "@{if(Data.ProviderDisplayText == null, '', Data.ProviderDisplayText)}"
         }
       ]
     }
@@ -167,16 +167,17 @@
   "actions": [
     {
       "type": "Action.Submit",
-      "title": "{ActionStartNavigation}",
+      "title": "@{if(Data.ActionStartNavigation == null, '', Data.ActionStartNavigation)}",
       "data": {
         "msteams": {
           "type": "imBack",
-          "value": "{ActionStartNavigation}"
+          "value": "@{if(Data.ActionStartNavigation == null, '', Data.ActionStartNavigation)}"
         }
       }
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "{Speak}"
+  "speak": "@{if(Data.Speak == null, '', Data.Speak)}"
 }
+

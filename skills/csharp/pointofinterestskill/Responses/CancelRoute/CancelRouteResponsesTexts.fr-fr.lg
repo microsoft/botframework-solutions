@@ -1,0 +1,11 @@
+[import] (CancelRouteResponses.lg)
+
+# CancelActiveRoute.Text(Data)
+- Je l'ai. J'annule votre itinéraire maintenant.
+- Itinéraire annulé. Je l'ai effacé de ma mémoire.
+
+# CannotCancelActiveRoute.Text(Data)
+- Je suis désolé, je ne peux pas annuler un itinéraire qui n'existe pas.
+- Je n'ai pas de route sur le disque à enlever, Désolé.
+
+

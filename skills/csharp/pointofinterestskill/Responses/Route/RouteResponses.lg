@@ -1,0 +1,46 @@
+# MissingActiveLocationErrorMessage(Data, Cards, Layout)
+[Activity
+    Text = @{MissingActiveLocationErrorMessage.Text(Data)}
+    Speak = @{MissingActiveLocationErrorMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# PromptToStartRoute(Data, Cards, Layout)
+[Activity
+    Text = @{PromptToStartRoute.Text(Data)}
+    Speak = @{PromptToStartRoute.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# SendingRouteDetails(Data, Cards, Layout)
+[Activity
+    Text = @{SendingRouteDetails.Text(Data)}
+    Speak = @{SendingRouteDetails.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# AskAboutRouteLater(Data, Cards, Layout)
+[Activity
+    Text = @{AskAboutRouteLater.Text(Data)}
+    Speak = @{AskAboutRouteLater.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# RouteSuggestedActionName(Data, Cards, Layout)
+[Activity
+    Text = @{RouteSuggestedActionName.Text(Data)}
+    Speak = @{RouteSuggestedActionName.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+

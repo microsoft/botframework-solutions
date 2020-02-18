@@ -1,0 +1,58 @@
+[import] (POIMainResponses.lg)
+
+# GreetingMessage.Text(Data)
+- C'è!
+- Ehilà!
+- Ciao!
+
+# PointOfInterestWelcomeMessage.Text(Data)
+- Benvenuti al punto di interesse bot! Posso trovare punti di interesse, mostrare un percorso verso la vostra destinazione, o trovare cose divertenti nelle vicinanze.
+
+# PointOfInterestWelcomeMessage.S1(Data)
+- Qual è il modo più veloce per raggiungere l'aeroporto?
+
+# PointOfInterestWelcomeMessage.S2(Data)
+- C'è un coffee shop in città?
+
+# PointOfInterestWelcomeMessage.S3(Data)
+- Get me indicazioni per 400 Broad St
+
+# PointOfInterestWelcomeMessage.S4(Data)
+- Voglio visitare l'ago Space
+
+# PointOfInterestWelcomeMessage.S5(Data)
+- Cosa c'è qui vicino?
+
+# FeatureNotAvailable.Text(Data)
+- Questa funzionalità non è ancora disponibile nell'abilità calendario. Per favore prova a chiedere qualcos'altro.
+
+# LogOut.Text(Data)
+- Il tuo cartello è riuscito.
+- Hai firmato con successo.
+- Sei stato disconnesso.
+
+# GoodbyeMessage.Text(Data)
+- Addio!
+
+# HelpMessage.Text(Data)
+- Posso trovare punti di interesse, mostrare un percorso verso la vostra destinazione, o trovare cose divertenti nelle vicinanze.
+
+# HelpMessage.S1(Data)
+- Qual è il modo più veloce per raggiungere l'aeroporto?
+
+# HelpMessage.S2(Data)
+- C'è un coffee shop in città?
+
+# HelpMessage.S3(Data)
+- Get me indicazioni per 400 Broad St
+
+# HelpMessage.S4(Data)
+- Voglio visitare l'ago Space
+
+# HelpMessage.S5(Data)
+- Cosa c'è qui vicino?
+
+# CancelMessage.Text(Data)
+- Ok, ricominciamo da qui.
+
+

@@ -1,0 +1,19 @@
+# CancelActiveRoute(Data, Cards, Layout)
+[Activity
+    Text = @{CancelActiveRoute.Text(Data)}
+    Speak = @{CancelActiveRoute.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# CannotCancelActiveRoute(Data, Cards, Layout)
+[Activity
+    Text = @{CannotCancelActiveRoute.Text(Data)}
+    Speak = @{CannotCancelActiveRoute.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+

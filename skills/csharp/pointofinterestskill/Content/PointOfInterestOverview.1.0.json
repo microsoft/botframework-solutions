@@ -1,4 +1,4 @@
-﻿{
+{
   "type": "AdaptiveCard",
   "body": [
     {
@@ -18,19 +18,19 @@
                   "size": "Medium",
                   "weight": "Bolder",
                   "color": "default",
-                  "text": "{Name}"
+                  "text": "@{if(Data.Name == null, '', Data.Name)}"
                 },
                 {
                   "type": "TextBlock",
                   "spacing": "None",
                   "color": "default",
-                  "text": "{AvailableDetails}"
+                  "text": "@{if(Data.AvailableDetails == null, '', Data.AvailableDetails)}"
                 },
                 {
                   "type": "TextBlock",
                   "spacing": "None",
                   "color": "default",
-                  "text": "{Address}",
+                  "text": "@{if(Data.Address == null, '', Data.Address)}",
                   "maxLines": 1,
                   "wrap": true
                 },
@@ -38,7 +38,7 @@
                   "type": "TextBlock",
                   "spacing": "None",
                   "color": "default",
-                  "text": "{Hours}",
+                  "text": "@{if(Data.Hours == null, '', Data.Hours)}",
                   "wrap": true
                 }
               ]
@@ -51,7 +51,7 @@
               "items": [
                 {
                   "type": "Image",
-                  "url": "{PointOfInterestImageUrl}",
+                  "url": "@{if(Data.PointOfInterestImageUrl == null, '', Data.PointOfInterestImageUrl)}",
                   "horizontalAlignment": "Center"
                 }
               ]
@@ -64,7 +64,7 @@
         "data": {
           "msteams": {
             "type": "imBack",
-            "value": "{SubmitText}"
+            "value": "@{if(Data.SubmitText == null, '', Data.SubmitText)}"
           }
         }
       }
@@ -73,3 +73,4 @@
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0"
 }
+

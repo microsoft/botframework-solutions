@@ -1,6 +1,4 @@
-{
-  "type": "AdaptiveCard",
-  "body": [
+
     {
       "type": "Container",
       "items": [
@@ -62,8 +60,3 @@
         "data": "@{if(Data.SubmitText == null, '', Data.SubmitText)}"
       }
     }
-  ],
-  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.0"
-}
-
