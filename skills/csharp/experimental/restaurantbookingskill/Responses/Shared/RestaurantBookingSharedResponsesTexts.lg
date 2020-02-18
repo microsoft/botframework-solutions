@@ -1,0 +1,121 @@
+[import] (RestaurantBookingSharedResponses.lg)
+
+# DidntUnderstandMessage.Text(Data)
+- Sorry, I didn't understand what you meant.
+- I didn't understand, perhaps try again in a different way.
+- Can you try to ask in a different way.
+- I didn't get what you mean, can you try in a different way.
+- Could you elaborate?
+- Say that again please in a different way.
+- I didn't quite get that.
+- Can you say that in a different way?
+- Can you try to ask me again, I didn't get what you mean.
+
+# DidntUnderstandMessageIgnoringInput.Text(Data)
+- Sorry, I didn't get what you mean.
+- I don't understand. Try in a different way.
+
+# CancellingMessage.Text(Data)
+- Sure, we can do this later.
+- Sure, we can start this later.
+- No problem. You can try again at another time.
+- Alright, let me know when you need my help.
+- Sure, I'm here if you need me.
+
+# NoAuth.Text(Data)
+- Please log in so I can take further action.
+- Please log in so I can proceed your request.
+- Can you log in so I can help you out further.
+- You need to log in so I can take further action.
+
+# AuthFailed.Text(Data)
+- Authentication failed. Try again please.
+- You failed to log in. Please try again later.
+- Your log in failed. Let's try this again.
+
+# ActionEnded.Text(Data)
+- I'm here if you need me.
+
+# ErrorMessage.Text(Data)
+- Sorry, it looks like something went wrong!
+- An error occurred. Give me some time and try again later.
+- Something went wrong. Sorry!
+- I believe something went wrong. Can you try again later?
+- Sorry I think I cannot find what you want right now. Try again later please.
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Text(Data)
+- Sure thing @{if(Data.UserName == null, '', Data.UserName)}, I can help you with making reservations.
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Speak(Data)
+- Sure thing @{if(Data.UserName == null, '', Data.UserName)}, I can help you with making a reservation.
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Text(Data)
+- What type of restaurant are you interested in?
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Speak(Data)
+- What type of restaurant are you interested in? @{if(Data.FoodTypeList == null, '', Data.FoodTypeList)}
+
+# BookRestaurantFoodSelectionPrompt.S1(Data)
+- Cancel
+
+# BookRestaurantFoodSelectionEcho.Text(Data)
+- @{if(Data.FoodType == null, '', Data.FoodType)} sounds great!
+
+# BookRestaurantAttendeePrompt.Text(Data)
+- How many people?
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Text(Data)
+- I see an appointment in your calendar for @{if(Data.MeetingDate == null, '', Data.MeetingDate)} at @{if(Data.MeetingTime == null, '', Data.MeetingTime)} and @{if(Data.AttendeeList == null, '', Data.AttendeeList)} accepted your request. Is this still correct?
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Speak(Data)
+- I see an appointment in your calendar for @{if(Data.MeetingDateSpeak == null, '', Data.MeetingDateSpeak)} at @{if(Data.MeetingTime == null, '', Data.MeetingTime)} and @{if(Data.AttendeeList == null, '', Data.AttendeeList)} accepted your request. Is this still correct?
+
+# BookRestaurantDatePrompt.Text(Data)
+- What day would you like for your reservation?
+
+# BookRestaurantTimePrompt.Text(Data)
+- At what time?
+
+# BookRestaurantDateTimeEcho.Text(Data)
+- Got it! The reservation will be for @{if(Data.Date == null, '', Data.Date)} at @{if(Data.Time == null, '', Data.Time)}.
+
+# BookRestaurantConfirmationPrompt.Text(Data)
+- Ok. Let me make sure I have this right, you want me to make a reservation for @{if(Data.AttendeeCount == null, '', Data.AttendeeCount)} people at a @{if(Data.FoodType == null, '', Data.FoodType)} restaurant for @{if(Data.ReservationDateSpeak == null, '', Data.ReservationDateSpeak)} starting at @{if(Data.ReservationTime == null, '', Data.ReservationTime)}. Is this correct?
+
+# BookRestaurantConfirmationPrompt.S1(Data)
+- Yes
+
+# BookRestaurantConfirmationPrompt.S2(Data)
+- No
+
+# BookRestaurantAcceptedMessage.Text(Data)
+- Pardon the interruption, I just got word that @{if(Data.Restaurant == null, '', Data.Restaurant)} has confirmed your reservation for @{if(Data.AttendeeCount == null, '', Data.AttendeeCount)} people for @{if(Data.ReservationDateSpeak == null, '', Data.ReservationDateSpeak)} at @{if(Data.ReservationTime == null, '', Data.ReservationTime)}. I also added the reservation to your calendar
+
+# BookRestaurantRestaurantSearching.Text(Data)
+- Sure, let me look into it.
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Text(Data)
+- I have found @{if(Data.RestaurantCount == null, '', Data.RestaurantCount)} nice options.
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Speak(Data)
+- I have found @{if(Data.RestaurantCount == null, '', Data.RestaurantCount)} nice options. @{if(Data.RestaurantList == null, '', Data.RestaurantList)}.
+
+# BookRestaurantRestaurantSelectionPrompt.S1(Data)
+- Cancel
+
+# BookRestaurantBookingPlaceSelectionEcho.Text(Data)
+- Great, I'm working on a reservation at @{if(Data.BookingPlaceName == null, '', Data.BookingPlaceName)}. I will reach out to them for a confirmation.  \r\n  This might take a while, I will get back to you in a bit. 
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Text(Data)
+- I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into.
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Speak(Data)
+- Hmmm.... I am unable to get your favorite food type. You can try again by specifying what type of cuisine you want me to look into.
+
+# BookRestaurantRestaurantNegativeConfirm.Text(Data)
+- Ok, I won't go ahead let me know if you change your mind later.
+
+# AmbiguousTimePrompt.Text(Data)
+- I couldn't quite work out the time you wanted, can you confirm please?
+
+

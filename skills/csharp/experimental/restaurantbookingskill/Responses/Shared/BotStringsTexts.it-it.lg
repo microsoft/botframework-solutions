@@ -1,0 +1,144 @@
+[import] (BotStrings.lg)
+
+# AssetsDir.Text(Data)
+- Assets/it
+
+# compressionratio.Text(Data)
+- rapporto di compressione
+
+# Evening.Text(Data)
+- Sera
+
+# producttitle.Text(Data)
+- titolo del prodotto
+
+# Afternoon.Text(Data)
+- Pomeriggio
+
+# sparkplugs.Text(Data)
+- Candele
+
+# ConciergeBookedSpaAppointment.Text(Data)
+- Bene, siamo a posto. Ecco l'appuntamento della Spa richiesto:
+
+# Or.Text(Data)
+- O
+
+# bodychassis.Text(Data)
+- carrozzeria
+
+# emptyweight.Text(Data)
+- Peso vuoto
+
+# frontbreakdiameter.Text(Data)
+- diametro anteriore del freno
+
+# ConciergeAgentName.Text(Data)
+- John Doe
+
+# maximumspeed.Text(Data)
+- velocità massima
+
+# MemoSaveSuccess.Text(Data)
+- La nota è stata salvata nella sezione @{if(Data.Value0 == null, '', Data.Value0)} con title:' @{if(Data.Value1 == null, '', Data.Value1)}'.
+
+# MemoSectionNotFound.Text(Data)
+- La sezione memo non è stata trovata nel notebook, dovrebbe trovare una sezione denominata ' @{if(Data.Value0 == null, '', Data.Value0)}'
+
+# ShowNext.Text(Data)
+- Mostra successivo
+
+# LoanerCarMessage.Text(Data)
+- Il cliente ha richiesto un veicolo in prestito. Follow-up con il cliente il più presto possibile.
+
+# drivetransmission.Text(Data)
+- trasmissione dell'unità
+
+# co2emission.Text(Data)
+- Emissioni di CO2
+
+# fronttrack.Text(Data)
+- pista anteriore
+
+# Quit.Text(Data)
+- Smettere
+
+# People_MoreThanOne.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} persone
+
+# fuelinductionsystem.Text(Data)
+- sistema di induzione del combustibile
+
+# bodytype.Text(Data)
+- tipo di corpo
+
+# battery.Text(Data)
+- Batteria
+
+# fuelconsumption.Text(Data)
+- consumo di carburante
+
+# ConciergeAgentMessage.Text(Data)
+- Sono il tuo agente di concierge simulato. Di' "Smettila" di riattaccare.
+
+# People_One.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} person
+
+# Tomorrow.Text(Data)
+- Domani
+
+# ConciergeAgentCompany.Text(Data)
+- Professional concierge Services Inc.
+
+# CallConcierge.Text(Data)
+- Chiama concierge
+
+# gearboxratios.Text(Data)
+- rapporti di cambio
+
+# SpokenDatePrefix.Text(Data)
+- 
+
+# Morning.Text(Data)
+- Mattina
+
+# ShowPrevious.Text(Data)
+- Mostra precedente
+
+# KnowledgeGraphAzureSearchIndex.Text(Data)
+- knowledgegraphindex
+
+# MoreOptions.Text(Data)
+- Mostrami di più
+
+# No.Text(Data)
+- Non
+
+# MemoSaveFail.Text(Data)
+- Non è riuscito a salvare la nota.
+
+# And.Text(Data)
+- E
+
+# permissibletotalweight.Text(Data)
+- peso totale ammissibile
+
+# Yes.Text(Data)
+- Sì
+
+# poweroutput.Text(Data)
+- potenza di uscita
+
+# frontwheelsuspension.Text(Data)
+- sospensione anteriore della rotella
+
+# SpokenDateFormat.Text(Data)
+- dddd, MMMM dd
+
+# Today.Text(Data)
+- Oggi
+
+# frontbrakes.Text(Data)
+- freni anteriori
+
+

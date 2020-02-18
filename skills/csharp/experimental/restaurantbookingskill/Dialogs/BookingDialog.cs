@@ -13,9 +13,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Connector;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using RestaurantBookingSkill.Content;
 using RestaurantBookingSkill.Data;
@@ -34,12 +34,12 @@ namespace RestaurantBookingSkill.Dialogs
         public BookingDialog(
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient,
             IHttpContextAccessor httpContext)
-           : base(nameof(BookingDialog), settings, services, responseManager, conversationState, userState, telemetryClient)
+           : base(nameof(BookingDialog), settings, services, localeTemplateEngineManager, conversationState, userState, telemetryClient)
         {
             _httpContext = httpContext;
 
@@ -99,7 +99,7 @@ namespace RestaurantBookingSkill.Dialogs
             };
 
             // Start the flow
-            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
+            var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFlowStartMessage, tokens);
             await sc.Context.SendActivityAsync(reply);
 
             return await sc.NextAsync(sc.Values, cancellationToken);
@@ -134,7 +134,7 @@ namespace RestaurantBookingSkill.Dialogs
 
             var tokens = new StringDictionary
             {
-                { "FoodTypeList", foodTypes.ToSpeechString(BotStrings.Or, f => f.TypeName) }
+                { "FoodTypeList", foodTypes.ToSpeechString(LocaleTemplateEngineManager.GetString(BotStrings.Or), f => f.TypeName) }
             };
 
             state.Cuisine = foodTypes;
@@ -160,7 +160,7 @@ namespace RestaurantBookingSkill.Dialogs
                 options.Choices.Add(new Choice(foodType.TypeName));
             }
 
-            var replyMessage = ResponseManager.GetCardResponse(
+            var replyMessage = LocaleTemplateEngineManager.GetCardResponse(
                RestaurantBookingSharedResponses.BookRestaurantFoodSelectionPrompt,
                cards,
                tokens);
@@ -203,7 +203,7 @@ namespace RestaurantBookingSkill.Dialogs
             {
                 state.Booking.Category = promptContext.Recognized.Value.Value;
 
-                var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFoodSelectionEcho, new StringDictionary { { "FoodType", state.Booking.Category } });
+                var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantFoodSelectionEcho, new StringDictionary { { "FoodType", state.Booking.Category } });
                 await promptContext.Context.SendActivityAsync(reply, cancellationToken);
 
                 return true;
@@ -233,7 +233,7 @@ namespace RestaurantBookingSkill.Dialogs
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
 
-            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantDatePrompt);
+            var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantDatePrompt);
             return await sc.PromptAsync(Actions.AskReservationDateStep, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
@@ -270,7 +270,7 @@ namespace RestaurantBookingSkill.Dialogs
             else if (state.AmbiguousTimexExpressions.Count > 0)
             {
                 // We think the user did provide a time but it was ambiguous so we should clarify
-                var ambiguousReply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.AmbiguousTimePrompt);
+                var ambiguousReply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.AmbiguousTimePrompt);
 
                 var choices = new List<Choice>();
 
@@ -296,7 +296,7 @@ namespace RestaurantBookingSkill.Dialogs
             }
 
             // We don't have the time component so prompt for time
-            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantTimePrompt);
+            var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantTimePrompt);
             return await sc.PromptAsync(Actions.AskReservationTimeStep, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
@@ -345,9 +345,9 @@ namespace RestaurantBookingSkill.Dialogs
 
         private async Task RenderSelectedDateTimeMessage(ITurnContext context, ReservationBooking reservation)
         {
-            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantDateTimeEcho, new StringDictionary
+            var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantDateTimeEcho, new StringDictionary
             {
-                { "Date", reservation.ReservationTime?.ToSpeakString(true) },
+                { "Date", reservation.ReservationTime?.ToSpeakString(LocaleTemplateEngineManager, true) },
                 { "Time", reservation.ReservationTime?.ToShortTimeString() }
             });
             await context.SendActivityAsync(reply);
@@ -369,7 +369,7 @@ namespace RestaurantBookingSkill.Dialogs
                 return await sc.NextAsync(sc.Values, cancellationToken);
             }
 
-            var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantAttendeePrompt);
+            var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantAttendeePrompt);
             return await sc.PromptAsync(Actions.AskAttendeeCountStep, new PromptOptions { Prompt = reply }, cancellationToken);
         }
 
@@ -401,7 +401,7 @@ namespace RestaurantBookingSkill.Dialogs
             {
                 { "FoodType", reservation.Category },
                 { "ReservationDate", reservation.ReservationDate?.ToShortDateString() },
-                { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(true) },
+                { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(LocaleTemplateEngineManager, true) },
                 { "ReservationTime", reservation.ReservationTime?.ToShortTimeString() },
                 { "AttendeeCount", reservation.AttendeeCount.ToString() }
             };
@@ -415,7 +415,7 @@ namespace RestaurantBookingSkill.Dialogs
                 AttendeeCount = reservation.AttendeeCount.ToString()
             };
 
-            var replyMessage = ResponseManager.GetCardResponse(
+            var replyMessage = LocaleTemplateEngineManager.GetCardResponse(
                 RestaurantBookingSharedResponses.BookRestaurantConfirmationPrompt,
                 new Card("ReservationConfirmCard", cardData),
                 tokens);
@@ -439,7 +439,7 @@ namespace RestaurantBookingSkill.Dialogs
             {
                 reservation.Confirmed = promptContext.Recognized.Value;
 
-                var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSearching);
+                var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSearching);
                 await promptContext.Context.SendActivityAsync(reply, cancellationToken);
 
                 return true;
@@ -474,7 +474,7 @@ namespace RestaurantBookingSkill.Dialogs
             for (var i = 0; i < restaurants.Count; i++)
             {
                 restaurantOptionsForSpeak.Append(restaurants[i].Name);
-                restaurantOptionsForSpeak.Append(i == restaurants.Count - 2 ? $" {BotStrings.Or} " : ", ");
+                restaurantOptionsForSpeak.Append(i == restaurants.Count - 2 ? $" {LocaleTemplateEngineManager.GetString(BotStrings.Or)} " : ", ");
             }
 
             var tokens = new StringDictionary
@@ -508,7 +508,7 @@ namespace RestaurantBookingSkill.Dialogs
                 options.Choices.Add(new Choice(restaurant.Name));
             }
 
-            var replyMessage = ResponseManager.GetCardResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSelectionPrompt, cards, tokens);
+            var replyMessage = LocaleTemplateEngineManager.GetCardResponse(RestaurantBookingSharedResponses.BookRestaurantRestaurantSelectionPrompt, cards, tokens);
 
             return await sc.PromptAsync(Actions.RestaurantPrompt, new PromptOptions { Prompt = replyMessage, Choices = options.Choices }, cancellationToken);
         }
@@ -545,7 +545,7 @@ namespace RestaurantBookingSkill.Dialogs
                 {
                     state.Booking.BookingPlace = restaurant;
 
-                    var reply = ResponseManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantBookingPlaceSelectionEcho, new StringDictionary { { "BookingPlaceName", restaurant.Name } });
+                    var reply = LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.BookRestaurantBookingPlaceSelectionEcho, new StringDictionary { { "BookingPlaceName", restaurant.Name } });
                     await promptContext.Context.SendActivityAsync(reply, cancellationToken);
 
                     return true;
@@ -576,7 +576,7 @@ namespace RestaurantBookingSkill.Dialogs
                     { "Restaurant", reservation.BookingPlace.Name },
                     { "Location", reservation.BookingPlace.Location },
                     { "ReservationDate", reservation.ReservationDate?.ToShortDateString() },
-                    { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(true) },
+                    { "ReservationDateSpeak", reservation.ReservationDate?.ToSpeakString(LocaleTemplateEngineManager, true) },
                     { "ReservationTime", reservation.ReservationTime?.ToShortTimeString() },
                     { "AttendeeCount", reservation.AttendeeCount.ToString() },
                 };
@@ -593,7 +593,7 @@ namespace RestaurantBookingSkill.Dialogs
                 AttendeeCount = reservation.AttendeeCount.ToString()
             };
 
-            var replyMessage = ResponseManager.GetCardResponse(
+            var replyMessage = LocaleTemplateEngineManager.GetCardResponse(
                        RestaurantBookingSharedResponses.BookRestaurantAcceptedMessage,
                        new Card("ReservationConfirmationCard", cardData),
                        tokens);

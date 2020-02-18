@@ -1,0 +1,34 @@
+[import] (RestaurantBookingMainResponses.lg)
+
+# WelcomeMessage.Text(Data)
+- Willkommen bei der experimentellen Fähigkeit Restaurant Booking
+
+# HelpMessage.Text(Data)
+- Ich kann Ihnen bei der Tischreservierung helfen!
+
+# HelpMessage.S1(Data)
+- Buchen Sie morgen um 19 Uhr ein italienisches Restaurant
+
+# HelpMessage.S2(Data)
+- Ich hätte gerne Schnitzel
+
+# GreetingMessage.Text(Data)
+- Es gibt!
+- Hallo!
+- Hallo!
+
+# GoodbyeMessage.Text(Data)
+- Goodbye!
+
+# LogOut.Text(Data)
+- Ihr Anmeldeausweiser war erfolgreich.
+- Sie haben erfolgreich unterschrieben.
+- Sie haben sich angemeldet.
+
+# FeatureNotAvailable.Text(Data)
+- Diese Funktion ist noch nicht in der skill erhältlich. Bitte versuchen Sie, etwas anderes zu fragen.
+
+# CancelMessage.Text(Data)
+- Okkiert, fangen wir an.
+
+

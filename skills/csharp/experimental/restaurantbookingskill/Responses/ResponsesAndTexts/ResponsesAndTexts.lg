@@ -1,0 +1,4 @@
+[import] (..\Main\RestaurantBookingMainResponsesTexts.lg)
+[import] (..\Shared\RestaurantBookingSharedResponsesTexts.lg)
+[import] (..\Shared\BotStringsTexts.lg)
+[import] (..\Shared\Shared.lg)

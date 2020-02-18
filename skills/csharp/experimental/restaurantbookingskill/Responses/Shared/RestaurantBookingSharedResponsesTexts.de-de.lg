@@ -1,0 +1,121 @@
+[import] (RestaurantBookingSharedResponses.lg)
+
+# BookRestaurantDatePrompt.Text(Data)
+- Welchen Tag möchten Sie für Ihre Reservierung?
+
+# BookRestaurantRestaurantNegativeConfirm.Text(Data)
+- Ok, ich werde nicht weitermachen lassen Sie mich wissen, wenn Sie Ihre Meinung später ändern.
+
+# AuthFailed.Text(Data)
+- Die Authentifizierung ist fehlgeschlagen. Versuchen Sie es bitte noch einmal.
+- Sie konnten sich nicht anmelden. Versuchen Sie es später erneut.
+- Die Anmeldung ist fehlgeschlagen. Versuchen wir es noch einmal.
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Text(Data)
+- Welche Art von Restaurant interessieren Sie sich für?
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Speak(Data)
+- Welche Art von Restaurant interessieren Sie sich für? @{if(Data.FoodTypeList == null, '', Data.FoodTypeList)}
+
+# BookRestaurantFoodSelectionPrompt.S1(Data)
+- Abbrechen
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Text(Data)
+- Ich sehe einen Termin in Ihrem Kalender für ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Stimmt das noch?
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Speak(Data)
+- Ich sehe einen Termin in Ihrem Kalender für ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Stimmt das noch?
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Text(Data)
+- Sicher, Sache ''0', ich kann Ihnen bei der Reservierung helfen.
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Speak(Data)
+- Sicher, Sache ''0', ich kann Ihnen bei der Reservierung helfen.
+
+# NoAuth.Text(Data)
+- Bitte melden Sie sich an, damit ich weitere Maßnahmen ergreifen kann.
+- Bitte melden Sie sich an, damit ich Ihre Anfrage fortsetzen kann.
+- Können Sie sich einloggen, damit ich Ihnen weiter helfen kann.
+- Sie müssen sich anmelden, damit ich weitere Maßnahmen ergreifen kann.
+
+# BookRestaurantRestaurantSearching.Text(Data)
+- Klar, lassen Sie mich es mir ansehen.
+
+# BookRestaurantConfirmationPrompt.Text(Data)
+- Okay. Lassen Sie mich sicherstellen, dass ich dieses Recht habe, Sie möchten, dass ich eine Reservierung für '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Stimmt das?
+
+# BookRestaurantConfirmationPrompt.S1(Data)
+- ja
+
+# BookRestaurantConfirmationPrompt.S2(Data)
+- Nein
+
+# BookRestaurantAttendeePrompt.Text(Data)
+- Wie viele Menschen?
+
+# BookRestaurantTimePrompt.Text(Data)
+- Zu welchem Zeitpunkt?
+
+# BookRestaurantDateTimeEcho.Text(Data)
+- Ich hab es! Die Reservierung erfolgt für '''''''''''''''''''''''''''''''''''''
+
+# BookRestaurantBookingPlaceSelectionEcho.Text(Data)
+- Toll, ich arbeite an einer Reservierung bei . Ich werde sie um eine Bestätigung erreichen.  \r\n  Das kann eine Weile dauern, ich werde mich ein wenig an Sie mehr und in Kürze freuen. 
+
+# CancellingMessage.Text(Data)
+- Sicher, wir können dies später tun.
+- Sicher, wir können später damit beginnen.
+- Kein Problem. Sie können es zu einem anderen Zeitpunkt erneut versuchen.
+- In Ordnung, lassen Sie mich wissen, wenn Sie meine Hilfe brauchen.
+- Sicher, ich bin hier, wenn du mich brauchst.
+
+# BookRestaurantAcceptedMessage.Text(Data)
+- Verzeihen Sie die Unterbrechung, ich habe gerade die Nachricht erhalten, dass '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' Ich habe die Reservierung auch zu Ihrem Kalender hinzugefügt
+
+# DidntUnderstandMessage.Text(Data)
+- Tut mir leid, ich habe nicht verstanden, was Sie meinten.
+- Ich habe es nicht verstanden, vielleicht noch einmal auf eine andere Art und Weise versuchen.
+- Können Sie versuchen, auf eine andere Art und Weise zu fragen.
+- Ich habe nicht bekommen, was Du meinen, kannst du es anders versuchen.
+- Könnten Sie nähere Angaben machen?
+- Sagen Sie das noch einmal auf eine andere Art und Weise.
+- Das habe ich nicht ganz bekommen.
+- Können Sie das anders sagen?
+- Kannst du versuchen, mich noch einmal zu fragen, ich habe nicht bekommen, was du meinst.
+
+# AmbiguousTimePrompt.Text(Data)
+- Ich konnte nicht ganz arbeiten, die Zeit, die Sie wollten, können Sie bitte bestätigen?
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Text(Data)
+- Ich habe nette Optionen für ''''''''''''''''''''''''
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Speak(Data)
+- Ich habe nette Optionen für '''''''''''''''''''''''' @{if(Data.RestaurantList == null, '', Data.RestaurantList)}.
+
+# BookRestaurantRestaurantSelectionPrompt.S1(Data)
+- Abbrechen
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Text(Data)
+- Ich bin nicht in der Lage, Ihre Lieblings-Essen-Typ zu bekommen. Sie können es erneut versuchen, indem Sie angeben, in welche Art von Küche ich mich untersuchen soll.
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Speak(Data)
+- Hmmm.... Ich bin nicht in der Lage, Ihre Lieblings-Essen-Typ zu bekommen. Sie können es erneut versuchen, indem Sie angeben, in welche Art von Küche ich mich untersuchen soll.
+
+# BookRestaurantFoodSelectionEcho.Text(Data)
+- Das klingt großartig!
+
+# ErrorMessage.Text(Data)
+- Es tut uns leid, es sieht so aus, als wäre etwas schief gelaufen!
+- Ein Fehler ist aufgetreten. Geben Sie mir etwas Zeit und versuchen Sie es später noch einmal.
+- Irgendetwas ist schief gelaufen. Tut mir Leid!
+- Ich glaube, dass etwas schief gelaufen ist. Können Sie es später noch einmal versuchen?
+- Es tut mir leid, ich denke, ich kann nicht finden, was Sie jetzt wollen. Versuchen Sie es später bitte noch einmal.
+
+# DidntUnderstandMessageIgnoringInput.Text(Data)
+- Tut mir leid, ich habe nicht bekommen, was Sie meinen.
+- Ich kann Sie nicht verstehen. Versuchen Sie es auf eine andere Art und Weise.
+
+# ActionEnded.Text(Data)
+- Ich bin hier, wenn du mich brauchst.
+
+

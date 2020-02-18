@@ -1,0 +1,377 @@
+# Afternoon(Data, Cards, Layout)
+[Activity
+    Text = @{Afternoon.Text(Data)}
+    Speak = @{Afternoon.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# And(Data, Cards, Layout)
+[Activity
+    Text = @{And.Text(Data)}
+    Speak = @{And.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# AssetsDir(Data, Cards, Layout)
+[Activity
+    Text = @{AssetsDir.Text(Data)}
+    Speak = @{AssetsDir.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# battery(Data, Cards, Layout)
+[Activity
+    Text = @{battery.Text(Data)}
+    Speak = @{battery.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# bodychassis(Data, Cards, Layout)
+[Activity
+    Text = @{bodychassis.Text(Data)}
+    Speak = @{bodychassis.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# bodytype(Data, Cards, Layout)
+[Activity
+    Text = @{bodytype.Text(Data)}
+    Speak = @{bodytype.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# CallConcierge(Data, Cards, Layout)
+[Activity
+    Text = @{CallConcierge.Text(Data)}
+    Speak = @{CallConcierge.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# co2emission(Data, Cards, Layout)
+[Activity
+    Text = @{co2emission.Text(Data)}
+    Speak = @{co2emission.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# compressionratio(Data, Cards, Layout)
+[Activity
+    Text = @{compressionratio.Text(Data)}
+    Speak = @{compressionratio.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# ConciergeAgentCompany(Data, Cards, Layout)
+[Activity
+    Text = @{ConciergeAgentCompany.Text(Data)}
+    Speak = @{ConciergeAgentCompany.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# ConciergeAgentMessage(Data, Cards, Layout)
+[Activity
+    Text = @{ConciergeAgentMessage.Text(Data)}
+    Speak = @{ConciergeAgentMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# ConciergeAgentName(Data, Cards, Layout)
+[Activity
+    Text = @{ConciergeAgentName.Text(Data)}
+    Speak = @{ConciergeAgentName.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# ConciergeBookedSpaAppointment(Data, Cards, Layout)
+[Activity
+    Text = @{ConciergeBookedSpaAppointment.Text(Data)}
+    Speak = @{ConciergeBookedSpaAppointment.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# drivetransmission(Data, Cards, Layout)
+[Activity
+    Text = @{drivetransmission.Text(Data)}
+    Speak = @{drivetransmission.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# emptyweight(Data, Cards, Layout)
+[Activity
+    Text = @{emptyweight.Text(Data)}
+    Speak = @{emptyweight.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# Evening(Data, Cards, Layout)
+[Activity
+    Text = @{Evening.Text(Data)}
+    Speak = @{Evening.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# frontbrakes(Data, Cards, Layout)
+[Activity
+    Text = @{frontbrakes.Text(Data)}
+    Speak = @{frontbrakes.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# frontbreakdiameter(Data, Cards, Layout)
+[Activity
+    Text = @{frontbreakdiameter.Text(Data)}
+    Speak = @{frontbreakdiameter.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# fronttrack(Data, Cards, Layout)
+[Activity
+    Text = @{fronttrack.Text(Data)}
+    Speak = @{fronttrack.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# frontwheelsuspension(Data, Cards, Layout)
+[Activity
+    Text = @{frontwheelsuspension.Text(Data)}
+    Speak = @{frontwheelsuspension.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# fuelconsumption(Data, Cards, Layout)
+[Activity
+    Text = @{fuelconsumption.Text(Data)}
+    Speak = @{fuelconsumption.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# fuelinductionsystem(Data, Cards, Layout)
+[Activity
+    Text = @{fuelinductionsystem.Text(Data)}
+    Speak = @{fuelinductionsystem.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# gearboxratios(Data, Cards, Layout)
+[Activity
+    Text = @{gearboxratios.Text(Data)}
+    Speak = @{gearboxratios.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# KnowledgeGraphAzureSearchIndex(Data, Cards, Layout)
+[Activity
+    Text = @{KnowledgeGraphAzureSearchIndex.Text(Data)}
+    Speak = @{KnowledgeGraphAzureSearchIndex.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# LoanerCarMessage(Data, Cards, Layout)
+[Activity
+    Text = @{LoanerCarMessage.Text(Data)}
+    Speak = @{LoanerCarMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# maximumspeed(Data, Cards, Layout)
+[Activity
+    Text = @{maximumspeed.Text(Data)}
+    Speak = @{maximumspeed.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MemoSaveFail(Data, Cards, Layout)
+[Activity
+    Text = @{MemoSaveFail.Text(Data)}
+    Speak = @{MemoSaveFail.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MemoSaveSuccess(Data, Cards, Layout)
+[Activity
+    Text = @{MemoSaveSuccess.Text(Data)}
+    Speak = @{MemoSaveSuccess.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MemoSectionNotFound(Data, Cards, Layout)
+[Activity
+    Text = @{MemoSectionNotFound.Text(Data)}
+    Speak = @{MemoSectionNotFound.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# MoreOptions(Data, Cards, Layout)
+[Activity
+    Text = @{MoreOptions.Text(Data)}
+    Speak = @{MoreOptions.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# Morning(Data, Cards, Layout)
+[Activity
+    Text = @{Morning.Text(Data)}
+    Speak = @{Morning.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# No(Data, Cards, Layout)
+[Activity
+    Text = @{No.Text(Data)}
+    Speak = @{No.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# Or(Data, Cards, Layout)
+[Activity
+    Text = @{Or.Text(Data)}
+    Speak = @{Or.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# People_MoreThanOne(Data, Cards, Layout)
+[Activity
+    Text = @{People_MoreThanOne.Text(Data)}
+    Speak = @{People_MoreThanOne.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# People_One(Data, Cards, Layout)
+[Activity
+    Text = @{People_One.Text(Data)}
+    Speak = @{People_One.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# permissibletotalweight(Data, Cards, Layout)
+[Activity
+    Text = @{permissibletotalweight.Text(Data)}
+    Speak = @{permissibletotalweight.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# poweroutput(Data, Cards, Layout)
+[Activity
+    Text = @{poweroutput.Text(Data)}
+    Speak = @{poweroutput.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# producttitle(Data, Cards, Layout)
+[Activity
+    Text = @{producttitle.Text(Data)}
+    Speak = @{producttitle.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# Quit(Data, Cards, Layout)
+[Activity
+    Text = @{Quit.Text(Data)}
+    Speak = @{Quit.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# ShowNext(Data, Cards, Layout)
+[Activity
+    Text = @{ShowNext.Text(Data)}
+    Speak = @{ShowNext.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# ShowPrevious(Data, Cards, Layout)
+[Activity
+    Text = @{ShowPrevious.Text(Data)}
+    Speak = @{ShowPrevious.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# sparkplugs(Data, Cards, Layout)
+[Activity
+    Text = @{sparkplugs.Text(Data)}
+    Speak = @{sparkplugs.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# SpokenDateFormat(Data, Cards, Layout)
+[Activity
+    Text = @{SpokenDateFormat.Text(Data)}
+    Speak = @{SpokenDateFormat.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# SpokenDatePrefix(Data, Cards, Layout)
+[Activity
+    Text = @{SpokenDatePrefix.Text(Data)}
+    Speak = @{SpokenDatePrefix.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# Today(Data, Cards, Layout)
+[Activity
+    Text = @{Today.Text(Data)}
+    Speak = @{Today.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# Tomorrow(Data, Cards, Layout)
+[Activity
+    Text = @{Tomorrow.Text(Data)}
+    Speak = @{Tomorrow.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+# Yes(Data, Cards, Layout)
+[Activity
+    Text = @{Yes.Text(Data)}
+    Speak = @{Yes.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+]
+
+

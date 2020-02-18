@@ -1,0 +1,121 @@
+[import] (RestaurantBookingSharedResponses.lg)
+
+# BookRestaurantDatePrompt.Text(Data)
+- Che giorno vorresti per la tua prenotazione?
+
+# BookRestaurantRestaurantNegativeConfirm.Text(Data)
+- Ok, non voglio farmi sapere se cambi idea più tardi.
+
+# AuthFailed.Text(Data)
+- Autenticazione non riuscita. Riprova, per favore.
+- Non sei riuscito ad accedere. Riprova più tardi.
+- L'accesso non è riuscito. Proviamo di nuovo.
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Text(Data)
+- Che tipo di ristorante ti interessa?
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Speak(Data)
+- Che tipo di ristorante ti interessa? @{if(Data.FoodTypeList == null, '', Data.FoodTypeList)}
+
+# BookRestaurantFoodSelectionPrompt.S1(Data)
+- Annulla
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Text(Data)
+- Nel tuo calendario viene visualizzato un appuntamento per il numero di dollari a 1 e 2 dollari. È ancora corretto?
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Speak(Data)
+- Nel tuo calendario viene visualizzato un appuntamento per il numero di dollari a 1 e 2 dollari. È ancora corretto?
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Text(Data)
+- Certo, posso aiutarti a prenotare.
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Speak(Data)
+- Certo, posso aiutarti a prenotare.
+
+# NoAuth.Text(Data)
+- Si prega di accedere in modo da poter intraprendere ulteriori azioni.
+- Si prega di accedere in modo da poter procedere la vostra richiesta.
+- Puoi accedere così posso aiutarti ulteriormente.
+- Devi effettuare l'accesso per poter intraprendere ulteriori azioni.
+
+# BookRestaurantRestaurantSearching.Text(Data)
+- Certo, fammi dare un'occhiata.
+
+# BookRestaurantConfirmationPrompt.Text(Data)
+- Ok. Fammi fare in modo che io abbia questo diritto, vuoi che effettui una prenotazione per le persone a 0 dollari in un ristorante di 1 USD per 2 dollari a partire da 3 dollari. È corretto?
+
+# BookRestaurantConfirmationPrompt.S1(Data)
+- sì
+
+# BookRestaurantConfirmationPrompt.S2(Data)
+- No
+
+# BookRestaurantAttendeePrompt.Text(Data)
+- Quante persone?
+
+# BookRestaurantTimePrompt.Text(Data)
+- A che ora?
+
+# BookRestaurantDateTimeEcho.Text(Data)
+- Capito! La prenotazione sarà per il valore di 0 USD al numero di usd 1.
+
+# BookRestaurantBookingPlaceSelectionEcho.Text(Data)
+- Fantastico, sto lavorando su una prenotazione a 0 dollari. Li contatterò per una conferma.  \r\n  Potrebbe volerci un po', ti tornerò tra un po'. 
+
+# CancellingMessage.Text(Data)
+- Certo, possiamo farlo più tardi.
+- Certo, possiamo iniziare più tardi.
+- Non c'è problema. È possibile riprovare in un altro momento.
+- Va bene, fammi sapere quando hai bisogno del mio aiuto.
+- Certo, sono qui se hai bisogno di me.
+
+# BookRestaurantAcceptedMessage.Text(Data)
+- Perdonate l'interruzione, ho appena saputo che il numero di dollari ha confermato la vostra prenotazione per le persone di 1 USD per 2 dollari a 3 dollari. Ho anche aggiunto la prenotazione al tuo calendario
+
+# DidntUnderstandMessage.Text(Data)
+- Scusa, non capivo cosa intendevi.
+- Non ho capito, forse riprovare in un modo diverso.
+- Puoi provare a chiedere in un modo diverso.
+- Non ho capito quello che vuoi dire, puoi provarci in un modo diverso.
+- Potresti spiegarmi meglio?
+- Dillo di nuovo per favore in un modo diverso.
+- Non l'ho capito bene.
+- Puoi dirlo in un modo diverso?
+- Puoi provare a chiedermelo di nuovo, non ho capito quello che intendevi.
+
+# AmbiguousTimePrompt.Text(Data)
+- Non riuscivo a capire il tempo che volevi, puoi confermare per favore?
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Text(Data)
+- Ho trovato le opzioni di "0" .
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Speak(Data)
+- Ho trovato le opzioni di "0" . @{if(Data.RestaurantList == null, '', Data.RestaurantList)}.
+
+# BookRestaurantRestaurantSelectionPrompt.S1(Data)
+- Annulla
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Text(Data)
+- Non riesco a ottenere il tuo tipo di cibo preferito. Puoi riprovare specificando il tipo di cucina in cui vuoi che io guardi.
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Speak(Data)
+- Hmmm.... Non riesco a ottenere il tuo tipo di cibo preferito. Puoi riprovare specificando il tipo di cucina in cui vuoi che io guardi.
+
+# BookRestaurantFoodSelectionEcho.Text(Data)
+- L'errore "0" è fantastico!
+
+# ErrorMessage.Text(Data)
+- Mi dispiace, sembra che qualcosa sia andato storto!
+- Si è verificato un errore. Dammi un po' di tempo e riprova più tardi.
+- Qualcosa è andato storto. mi dispiace!
+- Credo che qualcosa sia andato storto. Puoi riprovarci più tardi?
+- Mi dispiace di non trovare quello che vuoi in questo momento. Riprova più tardi, per favore.
+
+# DidntUnderstandMessageIgnoringInput.Text(Data)
+- Scusa, non ho capito quello che volevi dire.
+- Non capisco. Prova in un modo diverso.
+
+# ActionEnded.Text(Data)
+- Sono qui se hai bisogno di me.
+
+

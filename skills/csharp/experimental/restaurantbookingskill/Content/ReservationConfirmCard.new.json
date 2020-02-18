@@ -1,0 +1,46 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "@{if(Data.Speak == null, '', Data.Speak)}",
+  "id": "HeaderTableFooter",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Just confirming the reservation details",
+          "wrap": true,
+          "size": "medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "Type",
+              "value": "@{if(Data.Category == null, '', Data.Category)}"
+            },
+            {
+              "title": "Date",
+              "value": "@{if(Data.ReservationDate == null, '', Data.ReservationDate)}"
+            },
+            {
+              "title": "Time",
+              "value": "@{if(Data.ReservationTime == null, '', Data.ReservationTime)}"
+            },
+            {
+              "title": "Attendee Count",
+              "value": "@{if(Data.AttendeeCount == null, '', Data.AttendeeCount)}"
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "@{if(Data.FooterText == null, '', Data.FooterText)}",
+          "wrap": true
+        }
+      ]
+    }
+  ]
+}

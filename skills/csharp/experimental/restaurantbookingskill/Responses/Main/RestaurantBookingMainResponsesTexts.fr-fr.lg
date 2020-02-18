@@ -1,0 +1,34 @@
+[import] (RestaurantBookingMainResponses.lg)
+
+# WelcomeMessage.Text(Data)
+- Bienvenue dans la compétence de réservation de restaurant expérimentale
+
+# HelpMessage.Text(Data)
+- Je peux vous aider à réserver une table!
+
+# HelpMessage.S1(Data)
+- Réservez un restaurant italien demain à 19h
+
+# HelpMessage.S2(Data)
+- Je voudrais du schnitzel
+
+# GreetingMessage.Text(Data)
+- Il y en a!
+- Salut!
+- Salut!
+
+# GoodbyeMessage.Text(Data)
+- Au revoir!
+
+# LogOut.Text(Data)
+- Votre déconnexion a été couronnée de succès.
+- Vous avez réussi à vous connecter.
+- Vous avez été déconnecté.
+
+# FeatureNotAvailable.Text(Data)
+- Cette fonctionnalité n'est pas encore disponible dans la compétence. S'il vous plaît essayer de demander autre chose.
+
+# CancelMessage.Text(Data)
+- OK, commençons.
+
+

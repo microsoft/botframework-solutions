@@ -1,0 +1,121 @@
+[import] (RestaurantBookingSharedResponses.lg)
+
+# BookRestaurantDatePrompt.Text(Data)
+- 预订哪一天？
+
+# BookRestaurantRestaurantNegativeConfirm.Text(Data)
+- 好吧，如果你以后改变主意，我不会让我知道。
+
+# AuthFailed.Text(Data)
+- 身份验证失败。请重试。
+- 您无法登录。请稍后再试。
+- 您的登录失败。让我们再试一次。
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Text(Data)
+- 你对哪种类型的餐馆感兴趣？
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1.Speak(Data)
+- 你对哪种类型的餐馆感兴趣？@{if(Data.FoodTypeList == null, '', Data.FoodTypeList)}
+
+# BookRestaurantFoodSelectionPrompt.S1(Data)
+- 取消
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Text(Data)
+- 我在@{if(Data.MeetingTime == null, '', Data.MeetingTime)}处看到您的日历中@{if(Data.MeetingDate == null, '', Data.MeetingDate)}的约会，@{if(Data.AttendeeList == null, '', Data.AttendeeList)}接受了您的请求。这仍然正确吗？
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Speak(Data)
+- 我在@{if(Data.MeetingTime == null, '', Data.MeetingTime)}处看到您的日历中@{if(Data.MeetingDateSpeak == null, '', Data.MeetingDateSpeak)}的约会，@{if(Data.AttendeeList == null, '', Data.AttendeeList)}接受了您的请求。这仍然正确吗？
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Text(Data)
+- 当然@{if(Data.UserName == null, '', Data.UserName)}，我可以帮你预订。
+
+# BookRestaurantFlowStartMessageTextAndSpeak1.Speak(Data)
+- 当然@{if(Data.UserName == null, '', Data.UserName)}，我可以帮你预订。
+
+# NoAuth.Text(Data)
+- 请登录，以便我采取进一步的行动。
+- 请登录，以便我可以继续您的请求。
+- 你能登录，这样我就能进一步帮助你。
+- 您需要登录，以便我采取进一步操作。
+
+# BookRestaurantRestaurantSearching.Text(Data)
+- 当然，让我看看。
+
+# BookRestaurantConfirmationPrompt.Text(Data)
+- 还行。让我确保我有这个权利，您希望我在@{if(Data.FoodType == null, '', Data.FoodType)}餐厅为@{if(Data.ReservationDateSpeak == null, '', Data.ReservationDateSpeak)}的人预订@{if(Data.ReservationTime == null, '', Data.ReservationTime)}。这正确吗？
+
+# BookRestaurantConfirmationPrompt.S1(Data)
+- 是的
+
+# BookRestaurantConfirmationPrompt.S2(Data)
+- 不
+
+# BookRestaurantAttendeePrompt.Text(Data)
+- 有多少人？
+
+# BookRestaurantTimePrompt.Text(Data)
+- 在什么时间？
+
+# BookRestaurantDateTimeEcho.Text(Data)
+- 明白了！预留将在@{if(Data.Time == null, '', Data.Time)}处为@{if(Data.Date == null, '', Data.Date)}。
+
+# BookRestaurantBookingPlaceSelectionEcho.Text(Data)
+- 很好，我正在@{if(Data.BookingPlaceName == null, '', Data.BookingPlaceName)}进行预订。我会联系他们确认。 \r\n  这可能需要一段时间，我会在一会儿给你回。
+
+# CancellingMessage.Text(Data)
+- 当然，我们可以在以后再做。
+- 当然，我们可以稍后开始。
+- 没关系。您可以在其他时间重试。
+- 好吧，当你需要我的帮助时，让我知道。
+- 当然，如果你需要我，我在这里。
+
+# BookRestaurantAcceptedMessage.Text(Data)
+- 原谅中断，我刚刚得到消息，@{if(Data.Restaurant == null, '', Data.Restaurant)}已确认您的预订@{if(Data.AttendeeCount == null, '', Data.AttendeeCount)}的人@{if(Data.ReservationDateSpeak == null, '', Data.ReservationDateSpeak)}在@{if(Data.ReservationTime == null, '', Data.ReservationTime)}。我还将预订添加到您的日历中
+
+# DidntUnderstandMessage.Text(Data)
+- 对不起，我不明白你的意思。
+- 我不明白，也许用另一种方式再试一次。
+- 你能试着用另一种方式问吗？
+- 我不明白你的意思，你能换个方法试试吗？
+- 你能详细说明一下吗？
+- 请用不同的方式再说一遍。
+- 我不太明白。
+- 你能用不同的方式说吗？
+- 你能再问我一次吗？我不明白你的意思。
+
+# AmbiguousTimePrompt.Text(Data)
+- 我不太确定你想要的时间，你能确认一下吗？
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Text(Data)
+- 我找到了@{if(Data.RestaurantCount == null, '', Data.RestaurantCount)}个不错的选项。
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Speak(Data)
+- 我找到了@{if(Data.RestaurantCount == null, '', Data.RestaurantCount)}个不错的选项。@{if(Data.RestaurantList == null, '', Data.RestaurantList)}.
+
+# BookRestaurantRestaurantSelectionPrompt.S1(Data)
+- 取消
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Text(Data)
+- 我买不到你最喜欢的食物类型。你可以再次尝试，指定你想让我研究的菜类型。
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1.Speak(Data)
+- 嗯。。。。我买不到你最喜欢的食物类型。你可以再次尝试，指定你想让我研究的菜类型。
+
+# BookRestaurantFoodSelectionEcho.Text(Data)
+- @{if(Data.FoodType == null, '', Data.FoodType)}听起来很棒！
+
+# ErrorMessage.Text(Data)
+- 对不起，好像出了什么问题！
+- 发生错误。给我一些时间，稍后再试一次。
+- 出问题了对不起！
+- 我相信出了什么问题。您以后再试一次吗？
+- 对不起，我想我现在找不到你想要的。请稍后再试。
+
+# DidntUnderstandMessageIgnoringInput.Text(Data)
+- 对不起，我不明白你的意思。
+- 我不明白。以不同的方式尝试。
+
+# ActionEnded.Text(Data)
+- 如果你需要我，我在这里。
+
+

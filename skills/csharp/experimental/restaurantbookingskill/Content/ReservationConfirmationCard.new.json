@@ -1,0 +1,57 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "speak": "@{if(Data.Speak == null, '', Data.Speak)}",
+  "id": "ReservationConfirmationCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "Image",
+          "url": "@{if(Data.ImageUrl == null, '', Data.ImageUrl)}",
+          "size": "@{if(Data.ImageSize == null, '', Data.ImageSize)}",
+          "horizontalAlignment": "@{if(Data.ImageAlign == null, '', Data.ImageAlign)}"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "@{if(Data.BookingPlace == null, '', Data.BookingPlace)}",
+          "wrap": true,
+          "size": "medium"
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "Location",
+              "value": "@{if(Data.Location == null, '', Data.Location)}"
+            },
+            {
+              "title": "Date",
+              "value": "@{if(Data.ReservationDate == null, '', Data.ReservationDate)}"
+            },
+            {
+              "title": "Time",
+              "value": "@{if(Data.ReservationTime == null, '', Data.ReservationTime)}"
+            },
+            {
+              "title": "Attendee Count",
+              "value": "@{if(Data.AttendeeCount == null, '', Data.AttendeeCount)}"
+            }
+          ]
+        },
+        {
+          "type": "TextBlock",
+          "text": "@{if(Data.FooterText == null, '', Data.FooterText)}",
+          "wrap": true
+        }
+      ]
+    }
+  ]
+}

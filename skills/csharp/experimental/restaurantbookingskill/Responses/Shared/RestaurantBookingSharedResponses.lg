@@ -1,0 +1,251 @@
+# DidntUnderstandMessage(Data, Cards, Layout)
+[Activity
+    Text = @{DidntUnderstandMessage.Text(Data)}
+    Speak = @{DidntUnderstandMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# DidntUnderstandMessageIgnoringInput(Data, Cards, Layout)
+[Activity
+    Text = @{DidntUnderstandMessageIgnoringInput.Text(Data)}
+    Speak = @{DidntUnderstandMessageIgnoringInput.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# CancellingMessage(Data, Cards, Layout)
+[Activity
+    Text = @{CancellingMessage.Text(Data)}
+    Speak = @{CancellingMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# NoAuth(Data, Cards, Layout)
+[Activity
+    Text = @{NoAuth.Text(Data)}
+    Speak = @{NoAuth.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# AuthFailed(Data, Cards, Layout)
+[Activity
+    Text = @{AuthFailed.Text(Data)}
+    Speak = @{AuthFailed.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# ActionEnded(Data, Cards, Layout)
+[Activity
+    Text = @{ActionEnded.Text(Data)}
+    Speak = @{ActionEnded.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# ErrorMessage(Data, Cards, Layout)
+[Activity
+    Text = @{ErrorMessage.Text(Data)}
+    Speak = @{ErrorMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantFlowStartMessage(Data, Cards, Layout)
+[Activity
+    @{BookRestaurantFlowStartMessageTextAndSpeak(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# BookRestaurantFlowStartMessageTextAndSpeak(Data)
+- @{BookRestaurantFlowStartMessageTextAndSpeak1(Data)}
+
+# BookRestaurantFlowStartMessageTextAndSpeak1(Data)
+[Activity
+    Text = @{BookRestaurantFlowStartMessageTextAndSpeak1.Text(Data)}
+    Speak = @{BookRestaurantFlowStartMessageTextAndSpeak1.Speak(Data)}
+]
+
+# BookRestaurantFoodSelectionPrompt(Data, Cards, Layout)
+[Activity
+    @{BookRestaurantFoodSelectionPromptTextAndSpeak(Data)}
+    SuggestedActions = @{BookRestaurantFoodSelectionPrompt.S1(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak(Data)
+- @{BookRestaurantFoodSelectionPromptTextAndSpeak1(Data)}
+
+# BookRestaurantFoodSelectionPromptTextAndSpeak1(Data)
+[Activity
+    Text = @{BookRestaurantFoodSelectionPromptTextAndSpeak1.Text(Data)}
+    Speak = @{BookRestaurantFoodSelectionPromptTextAndSpeak1.Speak(Data)}
+]
+
+# BookRestaurantFoodSelectionEcho(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantFoodSelectionEcho.Text(Data)}
+    Speak = @{BookRestaurantFoodSelectionEcho.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# BookRestaurantAttendeePrompt(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantAttendeePrompt.Text(Data)}
+    Speak = @{BookRestaurantAttendeePrompt.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantReservationMeetingInfoPrompt(Data, Cards, Layout)
+[Activity
+    @{BookRestaurantReservationMeetingInfoPromptTextAndSpeak(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak(Data)
+- @{BookRestaurantReservationMeetingInfoPromptTextAndSpeak1(Data)}
+
+# BookRestaurantReservationMeetingInfoPromptTextAndSpeak1(Data)
+[Activity
+    Text = @{BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Text(Data)}
+    Speak = @{BookRestaurantReservationMeetingInfoPromptTextAndSpeak1.Speak(Data)}
+]
+
+# BookRestaurantDatePrompt(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantDatePrompt.Text(Data)}
+    Speak = @{BookRestaurantDatePrompt.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantTimePrompt(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantTimePrompt.Text(Data)}
+    Speak = @{BookRestaurantTimePrompt.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantDateTimeEcho(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantDateTimeEcho.Text(Data)}
+    Speak = @{BookRestaurantDateTimeEcho.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# BookRestaurantConfirmationPrompt(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantConfirmationPrompt.Text(Data)}
+    Speak = @{BookRestaurantConfirmationPrompt.Text(Data)}
+    SuggestedActions = @{BookRestaurantConfirmationPrompt.S1(Data)} | @{BookRestaurantConfirmationPrompt.S2(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantAcceptedMessage(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantAcceptedMessage.Text(Data)}
+    Speak = @{BookRestaurantAcceptedMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# BookRestaurantRestaurantSearching(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantRestaurantSearching.Text(Data)}
+    Speak = @{BookRestaurantRestaurantSearching.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = ignoringInput
+]
+
+# BookRestaurantRestaurantSelectionPrompt(Data, Cards, Layout)
+[Activity
+    @{BookRestaurantRestaurantSelectionPromptTextAndSpeak(Data)}
+    SuggestedActions = @{BookRestaurantRestaurantSelectionPrompt.S1(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = expectingInput
+]
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak(Data)
+- @{BookRestaurantRestaurantSelectionPromptTextAndSpeak1(Data)}
+
+# BookRestaurantRestaurantSelectionPromptTextAndSpeak1(Data)
+[Activity
+    Text = @{BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Text(Data)}
+    Speak = @{BookRestaurantRestaurantSelectionPromptTextAndSpeak1.Speak(Data)}
+]
+
+# BookRestaurantBookingPlaceSelectionEcho(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantBookingPlaceSelectionEcho.Text(Data)}
+    Speak = @{BookRestaurantBookingPlaceSelectionEcho.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# FoodTypeSelectionErrorMessage(Data, Cards, Layout)
+[Activity
+    @{FoodTypeSelectionErrorMessageTextAndSpeak(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# FoodTypeSelectionErrorMessageTextAndSpeak(Data)
+- @{FoodTypeSelectionErrorMessageTextAndSpeak1(Data)}
+
+# FoodTypeSelectionErrorMessageTextAndSpeak1(Data)
+[Activity
+    Text = @{FoodTypeSelectionErrorMessageTextAndSpeak1.Text(Data)}
+    Speak = @{FoodTypeSelectionErrorMessageTextAndSpeak1.Speak(Data)}
+]
+
+# BookRestaurantRestaurantNegativeConfirm(Data, Cards, Layout)
+[Activity
+    Text = @{BookRestaurantRestaurantNegativeConfirm.Text(Data)}
+    Speak = @{BookRestaurantRestaurantNegativeConfirm.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# AmbiguousTimePrompt(Data, Cards, Layout)
+[Activity
+    Text = @{AmbiguousTimePrompt.Text(Data)}
+    Speak = @{AmbiguousTimePrompt.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+

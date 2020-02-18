@@ -1,0 +1,28 @@
+[import] (RestaurantBookingMainResponses.lg)
+
+# WelcomeMessage.Text(Data)
+- Welcome to the experimental Restaurant Booking skill
+
+# HelpMessage.Text(Data)
+- I can help you with booking a table!
+
+# HelpMessage.S1(Data)
+- Book an italian restaurant tomorrow at 7pm
+
+# HelpMessage.S2(Data)
+- I'd like schnitzel
+
+# GreetingMessage.Text(Data)
+- Hi!
+- I'm here!
+- Hi there!
+
+# LogOut.Text(Data)
+- Your sign out was successful.
+- You have successfully sign out.
+- You have been logged out.
+
+# FeatureNotAvailable.Text(Data)
+- This feature is not yet available in this skill. Please try asking something else.
+
+

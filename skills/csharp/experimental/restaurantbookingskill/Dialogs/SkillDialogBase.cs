@@ -11,14 +11,15 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Recognizers.Text.DateTime;
 using RestaurantBookingSkill.Models;
 using RestaurantBookingSkill.Responses.Shared;
 using RestaurantBookingSkill.Services;
+using RestaurantBookingSkill.Utilities;
 using Constants = Microsoft.Recognizers.Text.DataTypes.TimexExpression.Constants;
 
 namespace RestaurantBookingSkill.Dialogs
@@ -29,7 +30,7 @@ namespace RestaurantBookingSkill.Dialogs
             string dialogId,
             BotSettings settings,
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             ConversationState conversationState,
             UserState userState,
             IBotTelemetryClient telemetryClient)
@@ -37,7 +38,7 @@ namespace RestaurantBookingSkill.Dialogs
         {
             Settings = settings;
             Services = services;
-            ResponseManager = responseManager;
+            LocaleTemplateEngineManager = localeTemplateEngineManager;
             ConversationStateAccessor = conversationState.CreateProperty<RestaurantBookingState>(nameof(BookingDialog));
             UserStateAccessor = userState.CreateProperty<SkillUserState>(nameof(SkillUserState));
             TelemetryClient = telemetryClient;
@@ -51,7 +52,7 @@ namespace RestaurantBookingSkill.Dialogs
 
         protected IStatePropertyAccessor<SkillUserState> UserStateAccessor { get; set; }
 
-        protected ResponseManager ResponseManager { get; set; }
+        protected LocaleTemplateEngineManager LocaleTemplateEngineManager { get; set; }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -100,7 +101,7 @@ namespace RestaurantBookingSkill.Dialogs
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(RestaurantBookingSharedResponses.ErrorMessage));
+            await sc.Context.SendActivityAsync(LocaleTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.ErrorMessage));
 
             // clear state
             var state = await ConversationStateAccessor.GetAsync(sc.Context);

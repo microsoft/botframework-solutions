@@ -1,0 +1,144 @@
+[import] (BotStrings.lg)
+
+# AssetsDir.Text(Data)
+- Actifs/EN
+
+# compressionratio.Text(Data)
+- ratio de compression
+
+# Evening.Text(Data)
+- Soir
+
+# producttitle.Text(Data)
+- titre du produit
+
+# Afternoon.Text(Data)
+- Après-midi
+
+# sparkplugs.Text(Data)
+- Bougies
+
+# ConciergeBookedSpaAppointment.Text(Data)
+- Bon, on est tous ensemble. Voici le rendez-vous de spa que vous avez demandé:
+
+# Or.Text(Data)
+- Ou
+
+# bodychassis.Text(Data)
+- châssis de carrosserie
+
+# emptyweight.Text(Data)
+- poids à vide
+
+# frontbreakdiameter.Text(Data)
+- diamètre de frein avant
+
+# ConciergeAgentName.Text(Data)
+- Jean-Pierre Dupont
+
+# maximumspeed.Text(Data)
+- Vitesse maximale
+
+# MemoSaveSuccess.Text(Data)
+- Votre note a été enregistrée dans la section @{if(Data.Value0 == null, '', Data.Value0)} avec le titre: ' @{if(Data.Value1 == null, '', Data.Value1)} '.
+
+# MemoSectionNotFound.Text(Data)
+- La section mémos n'a pas été trouvée dans votre ordinateur portable, qui devrait trouver une section nommée' @{if(Data.Value0 == null, '', Data.Value0)} '
+
+# ShowNext.Text(Data)
+- Afficher suivant
+
+# LoanerCarMessage.Text(Data)
+- Le client a demandé un véhicule de prêt. Suivi avec le client dès que possible.
+
+# drivetransmission.Text(Data)
+- transmission d'entraînement
+
+# co2emission.Text(Data)
+- Émission de CO2
+
+# fronttrack.Text(Data)
+- voie avant
+
+# Quit.Text(Data)
+- Quitter
+
+# People_MoreThanOne.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} personnes
+
+# fuelinductionsystem.Text(Data)
+- système d'induction de carburant
+
+# bodytype.Text(Data)
+- type de corps
+
+# battery.Text(Data)
+- Batterie
+
+# fuelconsumption.Text(Data)
+- consommation de carburant
+
+# ConciergeAgentMessage.Text(Data)
+- Je suis votre agent de conciergerie simulé. Dis "QUIT" pour raccrocher.
+
+# People_One.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} personne
+
+# Tomorrow.Text(Data)
+- Demain
+
+# ConciergeAgentCompany.Text(Data)
+- Services professionnels de conciergerie Inc.
+
+# CallConcierge.Text(Data)
+- Appeler le concierge
+
+# gearboxratios.Text(Data)
+- rapports de boîte de vitesses
+
+# SpokenDatePrefix.Text(Data)
+- 
+
+# Morning.Text(Data)
+- Matin
+
+# ShowPrevious.Text(Data)
+- Afficher le précédent
+
+# KnowledgeGraphAzureSearchIndex.Text(Data)
+- knowledgegraphindex
+
+# MoreOptions.Text(Data)
+- Montrez-moi plus
+
+# No.Text(Data)
+- Pas
+
+# MemoSaveFail.Text(Data)
+- Impossible d'enregistrer votre note.
+
+# And.Text(Data)
+- Et
+
+# permissibletotalweight.Text(Data)
+- poids total admissible
+
+# Yes.Text(Data)
+- Oui
+
+# poweroutput.Text(Data)
+- puissance de sortie
+
+# frontwheelsuspension.Text(Data)
+- suspension de roue avant
+
+# SpokenDateFormat.Text(Data)
+- dddd, MMMM DD
+
+# Today.Text(Data)
+- Aujourd'hui
+
+# frontbrakes.Text(Data)
+- freins avant
+
+

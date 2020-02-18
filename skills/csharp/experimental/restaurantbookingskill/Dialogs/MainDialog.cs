@@ -10,17 +10,16 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Solutions.Skills.Models;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
 using RestaurantBookingSkill.Models;
 using RestaurantBookingSkill.Responses.Main;
 using RestaurantBookingSkill.Responses.Shared;
 using RestaurantBookingSkill.Services;
+using RestaurantBookingSkill.Utilities;
 using SkillServiceLibrary.Utilities;
 
 namespace RestaurantBookingSkill.Dialogs
@@ -28,14 +27,14 @@ namespace RestaurantBookingSkill.Dialogs
     public class MainDialog : ActivityHandlerDialog
     {
         private BotServices _services;
-        private ResponseManager _responseManager;
+        private LocaleTemplateEngineManager _localeTemplateEngineManager;
         private UserState _userState;
         private ConversationState _conversationState;
         private IStatePropertyAccessor<RestaurantBookingState> _conversationStateAccessor;
 
         public MainDialog(
             BotServices services,
-            ResponseManager responseManager,
+            LocaleTemplateEngineManager localeTemplateEngineManager,
             ConversationState conversationState,
             UserState userState,
             BookingDialog bookingDialog,
@@ -43,7 +42,7 @@ namespace RestaurantBookingSkill.Dialogs
             : base(nameof(MainDialog), telemetryClient)
         {
             _services = services;
-            _responseManager = responseManager;
+            _localeTemplateEngineManager = localeTemplateEngineManager;
             _conversationState = conversationState;
             _userState = userState;
             TelemetryClient = telemetryClient;
@@ -58,7 +57,7 @@ namespace RestaurantBookingSkill.Dialogs
         protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.WelcomeMessage));
+            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(RestaurantBookingMainResponses.WelcomeMessage));
         }
 
         protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -91,14 +90,14 @@ namespace RestaurantBookingSkill.Dialogs
                     case ReservationLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
+                            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
                             break;
                         }
 
                     default:
                         {
                             // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
+                            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
                             break;
                         }
                 }
@@ -205,14 +204,14 @@ namespace RestaurantBookingSkill.Dialogs
             var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
             state.Clear();
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.CancellingMessage));
+            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.CancellingMessage));
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
         }
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(RestaurantBookingMainResponses.HelpMessage));
             return InterruptionAction.Resume;
         }
 
@@ -239,7 +238,7 @@ namespace RestaurantBookingSkill.Dialogs
                 throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.LogOut));
+            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(RestaurantBookingMainResponses.LogOut));
 
             return InterruptionAction.End;
         }

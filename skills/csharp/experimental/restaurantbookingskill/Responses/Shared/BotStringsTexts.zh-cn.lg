@@ -1,0 +1,144 @@
+[import] (BotStrings.lg)
+
+# AssetsDir.Text(Data)
+- Assets/EN en
+
+# compressionratio.Text(Data)
+- 压缩比
+
+# Evening.Text(Data)
+- 晚上
+
+# producttitle.Text(Data)
+- 产品名称
+
+# Afternoon.Text(Data)
+- 下午
+
+# sparkplugs.Text(Data)
+- 火花塞
+
+# ConciergeBookedSpaAppointment.Text(Data)
+- 好了, 我们都准备好了以下是您要求的水疗预约:
+
+# Or.Text(Data)
+- 或
+
+# bodychassis.Text(Data)
+- 机身底盘
+
+# emptyweight.Text(Data)
+- 空重量
+
+# frontbreakdiameter.Text(Data)
+- 前制动直径
+
+# ConciergeAgentName.Text(Data)
+- 无名氏
+
+# maximumspeed.Text(Data)
+- 最大速度
+
+# MemoSaveSuccess.Text(Data)
+- 您的便笺保存在 @{if(Data.Value0 == null, '', Data.Value0)} 部分中, 标题为 "@{if(Data.Value1 == null, '', Data.Value1)}"。
+
+# MemoSectionNotFound.Text(Data)
+- 在笔记本中找不到 "备忘录" 部分, 预计将找到名为 "@{if(Data.Value0 == null, '', Data.Value0)}" 的部分
+
+# ShowNext.Text(Data)
+- 显示下一个
+
+# LoanerCarMessage.Text(Data)
+- 客户已请求借车。尽快与客户跟进。
+
+# drivetransmission.Text(Data)
+- 驱动传输
+
+# co2emission.Text(Data)
+- 二氧化碳排放
+
+# fronttrack.Text(Data)
+- 前轨
+
+# Quit.Text(Data)
+- 退出
+
+# People_MoreThanOne.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} 人
+
+# fuelinductionsystem.Text(Data)
+- 燃油感应系统
+
+# bodytype.Text(Data)
+- 车身类型
+
+# battery.Text(Data)
+- 电池
+
+# fuelconsumption.Text(Data)
+- 油耗
+
+# ConciergeAgentMessage.Text(Data)
+- 我是你的模拟礼宾代理说 "退出" 挂断电话。
+
+# People_One.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} 人
+
+# Tomorrow.Text(Data)
+- 明天
+
+# ConciergeAgentCompany.Text(Data)
+- 专业礼宾服务公司。
+
+# CallConcierge.Text(Data)
+- 致电礼宾部
+
+# gearboxratios.Text(Data)
+- 变速箱比率
+
+# SpokenDatePrefix.Text(Data)
+- 
+
+# Morning.Text(Data)
+- 早上
+
+# ShowPrevious.Text(Data)
+- 显示上一个
+
+# KnowledgeGraphAzureSearchIndex.Text(Data)
+- 知识索引
+
+# MoreOptions.Text(Data)
+- 显示更多
+
+# No.Text(Data)
+- 不
+
+# MemoSaveFail.Text(Data)
+- 未能保存您的便笺。
+
+# And.Text(Data)
+- 和
+
+# permissibletotalweight.Text(Data)
+- 允许总重量
+
+# Yes.Text(Data)
+- 是的
+
+# poweroutput.Text(Data)
+- 输出功率
+
+# frontwheelsuspension.Text(Data)
+- 前轮悬架
+
+# SpokenDateFormat.Text(Data)
+- dddd, mmmm dd
+
+# Today.Text(Data)
+- 今天
+
+# frontbrakes.Text(Data)
+- 前制动器
+
+

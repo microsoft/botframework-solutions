@@ -1,0 +1,144 @@
+[import] (BotStrings.lg)
+
+# Afternoon.Text(Data)
+- afternoon
+
+# And.Text(Data)
+- and
+
+# AssetsDir.Text(Data)
+- assets/en
+
+# battery.Text(Data)
+- battery
+
+# bodychassis.Text(Data)
+- body chassis
+
+# bodytype.Text(Data)
+- body type
+
+# CallConcierge.Text(Data)
+- Call Concierge
+
+# co2emission.Text(Data)
+- CO2 emission
+
+# compressionratio.Text(Data)
+- compression ratio
+
+# ConciergeAgentCompany.Text(Data)
+- Professional Concierge Services Inc.
+
+# ConciergeAgentMessage.Text(Data)
+- I am your simulated concierge agent. Say "QUIT" to hang up.
+
+# ConciergeAgentName.Text(Data)
+- John Doe
+
+# ConciergeBookedSpaAppointment.Text(Data)
+- Alright, We're all set. Here's the spa appointment you requested:
+
+# drivetransmission.Text(Data)
+- drive transmission
+
+# emptyweight.Text(Data)
+- empty weight
+
+# Evening.Text(Data)
+- evening
+
+# frontbrakes.Text(Data)
+- front brakes
+
+# frontbreakdiameter.Text(Data)
+- front brake diameter
+
+# fronttrack.Text(Data)
+- front track
+
+# frontwheelsuspension.Text(Data)
+- front wheel suspension
+
+# fuelconsumption.Text(Data)
+- fuel consumption
+
+# fuelinductionsystem.Text(Data)
+- fuel induction system
+
+# gearboxratios.Text(Data)
+- gearbox ratios
+
+# KnowledgeGraphAzureSearchIndex.Text(Data)
+- knowledgegraphindex
+
+# LoanerCarMessage.Text(Data)
+- Customer Has Requested A Loaner Vehicle. Follow Up With Customer As Soon As Possible.
+
+# maximumspeed.Text(Data)
+- maximum speed
+
+# MemoSaveFail.Text(Data)
+- Failed to save your note.
+
+# MemoSaveSuccess.Text(Data)
+- Your note was saved in the @{if(Data.Value0 == null, '', Data.Value0)} section with title: '@{if(Data.Value1 == null, '', Data.Value1)}'.
+
+# MemoSectionNotFound.Text(Data)
+- The Memos section was not found in your Notebook, expected to find a section named '@{if(Data.Value0 == null, '', Data.Value0)}'
+
+# MoreOptions.Text(Data)
+- Show me more
+
+# Morning.Text(Data)
+- morning
+
+# No.Text(Data)
+- No
+
+# Or.Text(Data)
+- or
+
+# People_MoreThanOne.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} people
+
+# People_One.Text(Data)
+- @{if(Data.Value0 == null, '', Data.Value0)} person
+
+# permissibletotalweight.Text(Data)
+- permissible total weight
+
+# poweroutput.Text(Data)
+- power output
+
+# producttitle.Text(Data)
+- product title
+
+# Quit.Text(Data)
+- quit
+
+# ShowNext.Text(Data)
+- Show Next
+
+# ShowPrevious.Text(Data)
+- Show Previous
+
+# sparkplugs.Text(Data)
+- spark plugs
+
+# SpokenDateFormat.Text(Data)
+- dddd, MMMM dd
+
+# SpokenDatePrefix.Text(Data)
+- 
+
+# Today.Text(Data)
+- today
+
+# Tomorrow.Text(Data)
+- tomorrow
+
+# Yes.Text(Data)
+- Yes
+
+

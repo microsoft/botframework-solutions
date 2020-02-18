@@ -1,0 +1,47 @@
+# WelcomeMessage(Data, Cards, Layout)
+[Activity
+    Text = @{WelcomeMessage.Text(Data)}
+    Speak = @{WelcomeMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# HelpMessage(Data, Cards, Layout)
+[Activity
+    Text = @{HelpMessage.Text(Data)}
+    Speak = @{HelpMessage.Text(Data)}
+    SuggestedActions = @{HelpMessage.S1(Data)} | @{HelpMessage.S2(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# GreetingMessage(Data, Cards, Layout)
+[Activity
+    Text = @{GreetingMessage.Text(Data)}
+    Speak = @{GreetingMessage.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# LogOut(Data, Cards, Layout)
+[Activity
+    Text = @{LogOut.Text(Data)}
+    Speak = @{LogOut.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+# FeatureNotAvailable(Data, Cards, Layout)
+[Activity
+    Text = @{FeatureNotAvailable.Text(Data)}
+    Speak = @{FeatureNotAvailable.Text(Data)}
+    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = @{if(Layout == null, 'list', Layout)}
+    InputHint = acceptingInput
+]
+
+

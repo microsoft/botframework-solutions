@@ -4,17 +4,18 @@
 using System.Globalization;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
 using RestaurantBookingSkill.Responses.Shared;
 using RestaurantBookingSkill.Services;
+using RestaurantBookingSkill.Utilities;
 using SkillServiceLibrary.Utilities;
-using Microsoft.Bot.Solutions.Skills;
-using Microsoft.Bot.Builder.Dialogs;
 
 namespace RestaurantBookingSkill.Adapters
 {
@@ -27,13 +28,13 @@ namespace RestaurantBookingSkill.Adapters
             ICredentialProvider credentialProvider,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            LocaleTemplateEngineManager localeTemplateEngineManager)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale ?? "en-us");
-                await context.SendActivityAsync(responseManager.GetResponse(RestaurantBookingSharedResponses.ErrorMessage));
+                await context.SendActivityAsync(localeTemplateEngineManager.GetResponse(RestaurantBookingSharedResponses.ErrorMessage));
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Restaurant Booking Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
 
