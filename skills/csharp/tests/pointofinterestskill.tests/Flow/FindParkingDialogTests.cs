@@ -156,5 +156,32 @@ namespace PointOfInterestSkill.Tests.Flow
                 .AssertReply(CheckForEvent())
                 .StartTestAsync();
         }
+
+        [TestMethod]
+        public async Task ParkingNearbyActionTest()
+        {
+            await GetSkillTestFlow()
+                .Send(FindParkingUtterances.FindParkingNearbyAction)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .Send(BaseTestUtterances.ShowDirections)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Route }))
+                .Send(BaseTestUtterances.StartNavigation)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CheckForEoC(true))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task ParkingNearestNoRouteActionTest()
+        {
+            await GetSkillTestFlow()
+                .Send(FindParkingUtterances.FindParkingNearestNoRouteAction)
+                .AssertReply(AssertContains(null, new string[] { CardStrings.Details }))
+                .AssertReply(CheckForEvent())
+                .AssertReply(CheckForEoC(true))
+                .StartTestAsync();
+        }
     }
 }
