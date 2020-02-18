@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutomotiveSkill.Models;
@@ -233,7 +236,7 @@ namespace AutomotiveSkill.Dialogs
             }
             else
             {
-                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(AutomotiveSkillMainResponses.WelcomeMessage), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(AutomotiveSkillMainResponses.CompletedMessage), cancellationToken);
             }
         }
     }
