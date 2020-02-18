@@ -113,3 +113,15 @@ body {
     vertical-align: middle;
     fill: currentColor;
 }
+
+#searchbox {
+    float:right;
+    padding: 3px;
+    border:0;
+    outline: none;
+    vertical-align: bottom;
+}
+
+#searchinput {
+    width:100%;
+}
