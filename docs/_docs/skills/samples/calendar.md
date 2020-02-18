@@ -168,7 +168,7 @@ To use a Google account follow these steps:
     - Scopes: **https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts**.
 1. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
 
-### Meeting Room Booking Support
+## Meeting Room Booking Support
 
 The Calendar skill provides additional support to search and book meeting rooms. Due to search limitations in Microsoft Graph limiting the experience we leverage Azure Search to provide fuzzy meeting room name matching, floor level, etc. 
 
