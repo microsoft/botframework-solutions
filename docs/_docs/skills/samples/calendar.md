@@ -211,9 +211,9 @@ The Calendar skill provides additional support to search and book meeting rooms.
 |Parameter|Description|Required|
 |----|----|----|
 |resourceGroup  | An existing resource group where the Azure Search Service will be deployed.  | Yes |
-|cosmosDbAccount  | An existing CosmosDb Account where the meeting room data will be stored and then it will be used as a Data Source for Azure Search.  | Yes |
-|primaryKey  | The primaryKey of the given CosmosDb Account  | Yes |
-|appId  | A registed app in Azure App registrations Service | Yes |
+|cosmosDbAccount  | The account name of an existing CosmosDb deployment where the meeting room data will be stored, this will then be used as a data source by Azure Search.  | Yes |
+|primaryKey  | The primary key of the CosmosDB deployment  | Yes |
+|appId  | AppId of an authorised Azure AD application which can access Meeting room data  | Yes |
 
 You can access all the required parameters from the [Deployment](#deployment) step. <br>
 **Note:** When running the script, you will be asked to sign in with your account which can access the meeting room data in the MSGraph.
