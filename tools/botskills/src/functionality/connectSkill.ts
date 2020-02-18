@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
@@ -85,7 +85,21 @@ export class ConnectSkill {
                         luisFile = `${luFile.toLowerCase()}is`;
                         luFilePath = join(this.configuration.luisFolder, culture, luFile);
                     }
-                } else {
+                }
+                else if (currentApp.url.startsWith('http')) {
+                    try {
+                        const remoteLuFile = await this.getRemoteLu(currentApp.url);
+                        let luisAppName: string = currentApp.url.split('/').reverse()[0];
+
+                        const luPath = join(this.configuration.luisFolder, culture, luisAppName.endsWith('.lu') ? luisAppName : luisAppName + '.lu');
+                        this.verifyLuisFolder(culture);
+                        writeFileSync(luPath, remoteLuFile);
+                        luFilePath = luPath;
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+                else {
                     luFilePath = currentApp.url;
                 }
                 
@@ -191,6 +205,16 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         }
     }
 
+    private async getRemoteLu(path: string): Promise<string> {
+        try {
+            return get({
+                uri: path
+            });
+        } catch (err) {
+            throw new Error(`There was a problem while getting the remote lu file:\n${err}`);
+        }
+    }
+
     private async getManifest(): Promise<ISkillManifestV1 | ISkillManifestV2> {
 
         return this.configuration.localManifest
@@ -219,6 +243,16 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
         }
 
         return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
+    }
+
+    private verifyLuisFolder(culture: string): void {
+        if (!existsSync(this.configuration.luisFolder)){
+            mkdirSync(this.configuration.luisFolder);
+        }
+
+        if (!existsSync(join(this.configuration.luisFolder, culture))) {
+            mkdirSync(join(this.configuration.luisFolder, culture));
+        }
     }
 
     private async validateCultures(cognitiveModelsFile: ICognitiveModel, luisDictionary: Map<string, string[]>): Promise<void> {
