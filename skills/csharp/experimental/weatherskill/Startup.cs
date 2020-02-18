@@ -15,9 +15,10 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.Skills.Auth;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.TaskExtensions;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +27,6 @@ using WeatherSkill.Dialogs;
 using WeatherSkill.Responses.Main;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
-using WeatherSkill.Utilities;
 
 namespace WeatherSkill
 {
@@ -101,7 +101,10 @@ namespace WeatherSkill
             services.AddHostedService<QueuedHostedService>();
 
             // Configure responses
-            services.AddSingleton(EngineWrapper.CreateLocaleTemplateEngineManager("en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn"));
+            services.AddSingleton(sp => new ResponseManager(
+                settings.CognitiveModels.Select(l => l.Key).ToArray(),
+                new MainResponses(),
+                new SharedResponses()));
 
             // Register dialogs
             services.AddTransient<MainDialog>();

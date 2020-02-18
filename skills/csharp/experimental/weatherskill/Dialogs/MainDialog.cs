@@ -23,7 +23,6 @@ using WeatherSkill.Responses.Main;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
 using SkillServiceLibrary.Utilities;
-using WeatherSkill.Utilities;
 
 namespace WeatherSkill.Dialogs
 {
@@ -31,14 +30,14 @@ namespace WeatherSkill.Dialogs
     {
         private BotSettings _settings;
         private BotServices _services;
-        private LocaleTemplateEngineManager _localeTemplateEngineManager;
+        private ResponseManager _responseManager;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
         private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
             BotSettings settings,
             BotServices services,
-            LocaleTemplateEngineManager localeTemplateEngineManager,
+            ResponseManager responseManager,
             UserState userState,
             ConversationState conversationState,
             IBotTelemetryClient telemetryClient,
@@ -47,7 +46,7 @@ namespace WeatherSkill.Dialogs
         {
             _settings = settings;
             _services = services;
-            _localeTemplateEngineManager = localeTemplateEngineManager;
+            _responseManager = responseManager;
             TelemetryClient = telemetryClient;
 
             // Initialize state accessor
@@ -55,13 +54,13 @@ namespace WeatherSkill.Dialogs
             _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
             // Register dialogs
-            AddDialog(new ForecastDialog(_settings, _services, _localeTemplateEngineManager, conversationState, TelemetryClient, httpContext));
+            AddDialog(new ForecastDialog(_settings, _services, _responseManager, conversationState, TelemetryClient, httpContext));
         }
 
         protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var locale = CultureInfo.CurrentUICulture;
-            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(MainResponses.WelcomeMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
         }
 
         protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
@@ -95,14 +94,14 @@ namespace WeatherSkill.Dialogs
                     case WeatherSkillLuis.Intent.None:
                         {
                             // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(SharedResponses.DidntUnderstandMessage));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
                             break;
                         }
 
                     default:
                         {
                             // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(MainResponses.FeatureNotAvailable));
+                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
                             break;
                         }
                 }
@@ -233,7 +232,7 @@ namespace WeatherSkill.Dialogs
 
         private async Task<InterruptionAction> OnCancel(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(MainResponses.CancelMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.CancelMessage));
             await CompleteAsync(dc);
             await dc.CancelAllDialogsAsync();
             return InterruptionAction.End;
@@ -241,7 +240,7 @@ namespace WeatherSkill.Dialogs
 
         private async Task<InterruptionAction> OnHelp(DialogContext dc)
         {
-            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(MainResponses.HelpMessage));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.HelpMessage));
             return InterruptionAction.Resume;
         }
 
@@ -267,7 +266,7 @@ namespace WeatherSkill.Dialogs
                 await adapter.SignOutUserAsync(dc.Context, token.ConnectionName);
             }
 
-            await dc.Context.SendActivityAsync(_localeTemplateEngineManager.GetResponse(MainResponses.LogOut));
+            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
 
             return InterruptionAction.End;
         }

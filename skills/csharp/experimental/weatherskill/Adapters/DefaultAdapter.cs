@@ -14,7 +14,6 @@ using Microsoft.Bot.Solutions.Skills;
 using SkillServiceLibrary.Utilities;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
-using WeatherSkill.Utilities;
 
 namespace WeatherSkill.Bots
 {
@@ -26,13 +25,13 @@ namespace WeatherSkill.Bots
             IBotTelemetryClient telemetryClient,
             UserState userState,
             ConversationState conversationState,
-            LocaleTemplateEngineManager localeTemplateEngineManager)
+            ResponseManager responseManager)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
             {
                 CultureInfo.CurrentUICulture = new CultureInfo(context.Activity.Locale ?? "en-us");
-                await context.SendActivityAsync(localeTemplateEngineManager.GetResponse(SharedResponses.ErrorMessage));
+                await context.SendActivityAsync(responseManager.GetResponse(SharedResponses.ErrorMessage));
                 await context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Skill Error: {exception.Message} | {exception.StackTrace}"));
                 telemetryClient.TrackException(exception);
 

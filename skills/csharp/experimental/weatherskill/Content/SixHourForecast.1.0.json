@@ -24,7 +24,7 @@
                           "size": "Large",
                           "weight": "Bolder",
                           "color": "Default",
-                          "text": "@{if(Data.Location == null, '', Data.Location)} Weather"
+                          "text": "{Location} Weather"
                         }
                       ],
                       "width": "stretch"
@@ -46,7 +46,7 @@
           "items": [
             {
               "type": "Image",
-              "url": "@{if(Data.DayIcon == null, '', Data.DayIcon)}",
+              "url": "{DayIcon}",
               "size": "stretch",
               "horizontalAlignment": "Center"
             }
@@ -62,24 +62,24 @@
               "size": "Large",
               "weight": "Bolder",
               "color": "Default",
-              "text": "@{if(Data.Date == null, '', Data.Date)}"
+              "text": "{Date}"
             },
             {
               "type": "TextBlock",
               "spacing": "None",
               "size": "Medium",
-              "text": "@{if(Data.MaximumTemperature == null, '', Data.MaximumTemperature)} / @{if(Data.MinimumTemperature == null, '', Data.MinimumTemperature)}"
+              "text": "{MaximumTemperature} / {MinimumTemperature}"
             },
             {
               "type": "TextBlock",
               "spacing": "None",
-              "text": "@{if(Data.ShortPhrase == null, '', Data.ShortPhrase)}",
+              "text": "{ShortPhrase}",
               "isSubtle": true
             },
             {
               "type": "TextBlock",
               "spacing": "None",
-              "text": "@{if(Data.WindDescription == null, '', Data.WindDescription)}",
+              "text": "{WindDescription}",
               "isSubtle": true
             }
           ],
@@ -96,17 +96,17 @@
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Hour1 == null, '', Data.Hour1)}"
+              "text": "{Hour1}"
             },
             {
               "type": "Image",
-              "url": "@{if(Data.Icon1 == null, '', Data.Icon1)}",
+              "url": "{Icon1}",
               "size": "stretch"
             },
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Temperature1 == null, '', Data.Temperature1)}"
+              "text": "{Temperature1}"
             }
           ],
           "width": "auto"
@@ -117,17 +117,17 @@
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Hour2 == null, '', Data.Hour2)}"
+              "text": "{Hour2}"
             },
             {
               "type": "Image",
-              "url": "@{if(Data.Icon2 == null, '', Data.Icon2)}",
+              "url": "{Icon2}",
               "size": "stretch"
             },
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Temperature2 == null, '', Data.Temperature2)}"
+              "text": "{Temperature2}"
             }
           ],
           "width": "auto"
@@ -138,17 +138,17 @@
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Hour3 == null, '', Data.Hour3)}"
+              "text": "{Hour3}"
             },
             {
               "type": "Image",
-              "url": "@{if(Data.Icon3 == null, '', Data.Icon3)}",
+              "url": "{Icon3}",
               "size": "stretch"
             },
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Temperature3 == null, '', Data.Temperature3)}"
+              "text": "{Temperature3}"
             }
           ],
           "width": "auto"
@@ -159,17 +159,17 @@
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Hour4 == null, '', Data.Hour4)}"
+              "text": "{Hour4}"
             },
             {
               "type": "Image",
-              "url": "@{if(Data.Icon4 == null, '', Data.Icon4)}",
+              "url": "{Icon4}",
               "size": "stretch"
             },
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Temperature4 == null, '', Data.Temperature4)}"
+              "text": "{Temperature4}"
             }
           ],
           "width": "auto"
@@ -180,17 +180,17 @@
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Hour5 == null, '', Data.Hour5)}"
+              "text": "{Hour5}"
             },
             {
               "type": "Image",
-              "url": "@{if(Data.Icon5 == null, '', Data.Icon5)}",
+              "url": "{Icon5}",
               "size": "stretch"
             },
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Temperature5 == null, '', Data.Temperature5)}"
+              "text": "{Temperature5}"
             }
           ],
           "width": "auto"
@@ -201,17 +201,17 @@
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Hour6 == null, '', Data.Hour6)}"
+              "text": "{Hour6}"
             },
             {
               "type": "Image",
-              "url": "@{if(Data.Icon6 == null, '', Data.Icon6)}",
+              "url": "{Icon6}",
               "size": "stretch"
             },
             {
               "type": "TextBlock",
               "horizontalAlignment": "Center",
-              "text": "@{if(Data.Temperature6 == null, '', Data.Temperature6)}"
+              "text": "{Temperature6}"
             }
           ],
           "width": "auto"
@@ -234,5 +234,5 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "@{if(Data.Speak == null, '', Data.Speak)}"
+  "speak": "{Speak}"
 }
