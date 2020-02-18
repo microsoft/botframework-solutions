@@ -32,6 +32,20 @@ namespace JsonConverter
                 {
                     sw.WriteLine(content);
                 }
+
+                if (options.UpdateProject)
+                {
+                    DeleteFileInProject(file);
+                    AddFileWithCopyInProject(newFile);
+                }
+                else
+                {
+                    help.AppendLine($"* Change 'Copy to Output Directory' to 'Copy if newer' for {(options.KeepOld ? "card.new.json" : "card.json")}");
+                    if (!options.KeepOld)
+                    {
+                        help.AppendLine("* Delete card json files from project manually");
+                    }
+                }
             }
         }
     }

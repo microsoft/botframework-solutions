@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using JsonConverter.Utility;
+using Microsoft.Build.Definition;
+using Microsoft.Build.Evaluation;
 using Newtonsoft.Json.Linq;
 
 namespace JsonConverter
@@ -30,13 +33,9 @@ namespace JsonConverter
 
             public string LgIdCollectionName { get; set; } = "LgIdCollection.t4";
 
-            public void ParseOptions()
-            {
-                if (string.IsNullOrEmpty(Namespace))
-                {
-                    Namespace = Path.GetFileName(Root);
-                }
-            }
+            public bool UpdateProject { get; set; } = false;
+
+            public string ProjectName { get; set; }
         }
 
         private readonly ProgramOptions options;
@@ -44,11 +43,45 @@ namespace JsonConverter
         private string entryFolder;
         private readonly Dictionary<string, List<string>> convertedTextsFiles = new Dictionary<string, List<string>>();
         private readonly HashSet<string> convertedActivityFiles = new HashSet<string>();
+        private IProjectOperator project;
+        private StringBuilder help = new StringBuilder();
 
         public Program(ProgramOptions options)
         {
             this.options = options;
-            this.options.ParseOptions();
+            ProcessOptions();
+        }
+
+        private void ProcessOptions()
+        {
+            if (string.IsNullOrEmpty(options.Namespace))
+            {
+                options.Namespace = Path.GetFileName(options.Root);
+            }
+
+            if (options.UpdateProject)
+            {
+                if (string.IsNullOrEmpty(options.ProjectName))
+                {
+                    options.ProjectName = Path.GetFileName(options.Root);
+                }
+
+                project = new ProjectOperatorXml(Path.Join(options.Root, options.ProjectName + ".csproj"), help);
+            }
+        }
+
+        public void Finish()
+        {
+            if (options.UpdateProject)
+            {
+                project.Save();
+            }
+
+            if (help.Length != 0)
+            {
+                Console.WriteLine("You should do the following after this tool:");
+                Console.Write(help.ToString());
+            }
         }
 
         static void Main(string[] args)
@@ -60,6 +93,7 @@ namespace JsonConverter
             {
                 Root = rootFolder,
                 KeepOld = true,
+                UpdateProject = false,
             };
 
             if (!options.KeepOld)
@@ -76,6 +110,7 @@ namespace JsonConverter
             program.GenerateEntryFiles("Responses", "ResponsesAndTexts");
             program.ModifyCardParameters("Content");
             program.GenerateWrapper("Utilities");
+            program.Finish();
 
             Console.WriteLine("Done.");
         }

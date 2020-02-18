@@ -54,6 +54,19 @@ namespace JsonConverter
                     DeleteFile(file);
                 }
             }
+
+            if (jsonFiles.Length > 0)
+            {
+                help.AppendLine("* Use LocaleTemplateEngineManager.GetString for all resx strings");
+                if (!options.UpdateProject)
+                {
+                    help.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from resource");
+                    if (!options.KeepOld)
+                    {
+                        help.AppendLine("* Delete resx files from project manually");
+                    }
+                }
+            }
         }
     }
 }

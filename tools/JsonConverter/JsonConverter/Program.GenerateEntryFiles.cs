@@ -38,6 +38,11 @@ namespace JsonConverter
                     sw.WriteLine($"[import] ({relativePath})");
                 }
             }
+
+            if (options.UpdateProject)
+            {
+                AddFileWithCopyInProject(outputEntryFile);
+            }
         }
 
         // after CopySharedLGFiles
@@ -50,6 +55,11 @@ namespace JsonConverter
             foreach (var pair in convertedTextsFiles)
             {
                 GenerateEntryFile(responsesAndTextsFolder, pair.Key, pair.Value);
+            }
+
+            if (!options.UpdateProject)
+            {
+                help.AppendLine($"* Change 'Copy to Output Directory' to 'Copy if newer' for {options.EntryName}.lg");
             }
         }
     }

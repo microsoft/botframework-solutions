@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace JsonConverter
@@ -188,6 +189,11 @@ namespace JsonConverter
                 }
 
                 convertedActivityFiles.Add(outputActivitiesLGFile);
+
+                if (options.UpdateProject)
+                {
+                    AddFileWithCopyInProject(outputActivitiesLGFile);
+                }
             }
 
             using (StreamWriter sw = new StreamWriter(outputTextsLGFile))
@@ -199,6 +205,11 @@ namespace JsonConverter
                 convertedTextsFiles[locale].Add(outputTextsLGFile);
 
                 sw.WriteLine(sbTexts.ToString());
+
+                if (options.UpdateProject)
+                {
+                    AddFileWithCopyInProject(outputTextsLGFile);
+                }
             }
         }
 
@@ -212,6 +223,18 @@ namespace JsonConverter
                 if (!options.KeepOld)
                 {
                     DeleteFile(file);
+                }
+            }
+
+            if (jsonFiles.Length > 0)
+            {
+                if (!options.UpdateProject)
+                {
+                    help.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from json");
+                    if (!options.KeepOld)
+                    {
+                        help.AppendLine("* Delete response json files from project manually");
+                    }
                 }
             }
         }

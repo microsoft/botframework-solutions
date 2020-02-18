@@ -66,6 +66,29 @@ namespace JsonConverter
         private void DeleteFile(string file)
         {
             Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(file, Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+
+            if (options.UpdateProject)
+            {
+                DeleteFileInProject(file);
+            }
+        }
+
+        private void DeleteFileInProject(string file)
+        {
+            var relative = Path.GetRelativePath(options.Root, file);
+            project.DeleteFile(relative);
+        }
+
+        private void AddFileWithCopyInProject(string file)
+        {
+            var relative = Path.GetRelativePath(options.Root, file);
+            project.AddFileWithCopy(relative);
+        }
+
+        private void AddFileWithToolInProject(string file)
+        {
+            var relative = Path.GetRelativePath(options.Root, file);
+            project.AddFileWithTool(relative);
         }
     }
 }

@@ -28,6 +28,15 @@ namespace JsonConverter
             {
                 pair.Value.Add(target);
             }
+
+            if (options.UpdateProject)
+            {
+                AddFileWithCopyInProject(target);
+            }
+            else
+            {
+                help.AppendLine($"* Change 'Copy to Output Directory' to 'Copy if newer' for {options.SharedName}");
+            }
         }
     }
 }

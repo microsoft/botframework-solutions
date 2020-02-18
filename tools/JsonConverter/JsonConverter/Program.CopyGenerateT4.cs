@@ -38,6 +38,23 @@ namespace JsonConverter
                 {
                     sw.Write(content);
                 }
+
+                if (options.UpdateProject)
+                {
+                    if (!options.KeepOld)
+                    {
+                        DeleteFileInProject(Path.ChangeExtension(file, "tt"));
+                    }
+                    AddFileWithToolInProject(ttFile);
+                }
+            }
+
+            if (!options.UpdateProject)
+            {
+                if (options.KeepOld)
+                {
+                    help.AppendLine("* Set Custom Tool to TextTemplatingFileGenerator for new ttnew files");
+                }
             }
         }
     }
