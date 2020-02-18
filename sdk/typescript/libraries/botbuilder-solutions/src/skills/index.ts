@@ -18,3 +18,4 @@ export * from './skillRouter';
 export * from './skillTransport';
 export * from './skillConstants';
 export * from './skillDialogOption';
+export * from './enhancedBotFrameworkSkill';
