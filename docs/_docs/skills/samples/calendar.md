@@ -207,8 +207,9 @@ The Calendar skill provides additional support to search and book meeting rooms.
 ```
 
 ### What do these parameters mean? 
-| Parameter | Description | Required |
-|  ----   | ----   | ---- |
+
+|Parameter|Description|Required|
+|----|----|----|
 |resourceGroup  | An existing resource group where the Azure Search Service will be deployed.  | Yes |
 |cosmosDbAccount  | An existing CosmosDb Account where the meeting room data will be stored and then it will be used as a Data Source for Azure Search.  | Yes |
 |primaryKey  | The primaryKey of the given CosmosDb Account  | Yes |
