@@ -49,19 +49,9 @@ namespace JsonConverter
             sb.AppendLine("[Activity");
 
             string templateNameForDifferent = string.Empty;
-            // If text and speak are the same, only need one *.Text() to reduce duplicate code.
-            if (AreTextAndSpeakTheSame(activity.Replies))
-            {
-                sb.AppendLine($"    Text = @{{{templateName}.Text(Data)}}");
-                sb.AppendLine($"    Speak = @{{{templateName}.Text(Data)}}");
-            }
-            // If not the same, follow this design:
-            // https://github.com/microsoft/botbuilder-dotnet/issues/3354
-            else
-            {
-                templateNameForDifferent = $"{templateName}TextAndSpeak";
-                sb.AppendLine($"    @{{{templateNameForDifferent}(Data)}}");
-            }
+
+            sb.AppendLine($"    Text = @{{{templateName}.Text(Data)}}");
+            sb.AppendLine($"    Speak = @{{{templateName}.Text(Data)}}");
 
             if (activity.SuggestedActions != null)
             {
@@ -86,25 +76,6 @@ namespace JsonConverter
             }
 
             sb.AppendLine("]").AppendLine();
-
-            if (!AreTextAndSpeakTheSame(activity.Replies))
-            {
-                sb.AppendLine($"# {templateNameForDifferent}(Data)");
-                for (int index = 1; index <= activity.Replies.Count; index++)
-                {
-                    sb.AppendLine($"- @{{{templateNameForDifferent}{index.ToString()}(Data)}}");
-                }
-                sb.AppendLine();
-
-                for (int index = 1; index <= activity.Replies.Count; index++)
-                {
-                    sb.AppendLine($"# {templateNameForDifferent}{index.ToString()}(Data)");
-                    sb.AppendLine("[Activity");
-                    sb.AppendLine($"    Text = @{{{templateNameForDifferent}{index.ToString()}.Text(Data)}}");
-                    sb.AppendLine($"    Speak = @{{{templateNameForDifferent}{index.ToString()}.Speak(Data)}}");
-                    sb.AppendLine("]").AppendLine();
-                }
-            }
         }
 
         private void AddTexts(StringBuilder sb, string templateName, Activity activity)
@@ -121,16 +92,28 @@ namespace JsonConverter
             }
             else
             {
+                // If not the same, follow this design:
+                // https://github.com/microsoft/botbuilder-dotnet/issues/3354
+
+                sb.AppendLine($"# {templateName}.Text(Data)");
+                for (int i = 1; i <= activity.Replies.Count; i++)
+                {
+                    sb.AppendLine($"- @{{{templateName}TextAndSpeak{i.ToString()}(Data)}}");
+                }
+                sb.AppendLine();
+
                 var index = 1;
                 foreach (var reply in activity.Replies)
                 {
-                    sb.AppendLine($"# {templateName}TextAndSpeak{(index).ToString()}.Text(Data)");
+                    sb.AppendLine($"# {templateName}TextAndSpeak{(index).ToString()}(Data)");
+                    sb.AppendLine("[Activity");
                     var text = ModifyTextParameters(reply.Text);
-                    sb.AppendLine($"- {text}").AppendLine();
 
-                    sb.AppendLine($"# {templateName}TextAndSpeak{(index).ToString()}.Speak(Data)");
+                    sb.AppendLine($"    Text = {text}");
                     var speak = ModifyTextParameters(reply.Speak);
-                    sb.AppendLine($"- {speak}").AppendLine();
+
+                    sb.AppendLine($"    Speak = {speak}");
+                    sb.AppendLine("]").AppendLine();
                     index++;
                 }
             }
