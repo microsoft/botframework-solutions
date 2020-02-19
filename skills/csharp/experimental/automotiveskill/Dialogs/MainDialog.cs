@@ -152,18 +152,15 @@ namespace AutomotiveSkill.Dialogs
             else
             {
                 // If bot is in local mode, prompt with intro or continuation message
-                var prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(AutomotiveSkillMainResponses.FirstPromptMessage);
-                var state = await _stateAccessor.GetAsync(stepContext.Context, () => new AutomotiveSkillState());
-                if (state.NewConversation)
-                {
-                    prompt = _responseManager.GetResponse(AutomotiveSkillMainResponses.WelcomeMessage);
-                    state.NewConversation = false;
-                }
-
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = prompt
+                    Prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(AutomotiveSkillMainResponses.FirstPromptMessage)
                 };
+
+                if (stepContext.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+                {
+                    promptOptions.Prompt = _responseManager.GetResponse(AutomotiveSkillMainResponses.WelcomeMessage);
+                }
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
             }

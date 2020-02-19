@@ -19,7 +19,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("what's the weather?")
                 .AssertReplyOneOf(this.ConfusedResponse())
                 .StartTestAsync();

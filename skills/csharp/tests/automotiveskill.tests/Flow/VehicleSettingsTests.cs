@@ -27,7 +27,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("set temperature to 21 degrees")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -48,7 +48,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("increase temperature by 2")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -69,7 +69,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("increase temperature to 24")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -89,7 +89,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("change the temperature")
                  .AssertReply(this.CheckReply("Here are the possible values for Temperature. Which one? (1) Decrease(2) Increase"))
                 .Send("Increase")
@@ -107,7 +107,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("turn lane assist off")
                 .AssertReply(this.CheckReply("So, you want to change Lane Change Detection to Off. Is that correct? (1) Yes or (2) No"))
                 .Send("yes")
@@ -126,7 +126,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("turn lane assist off")
                 .AssertReply(this.CheckReply("So, you want to change Lane Change Detection to Off. Is that correct? (1) Yes or (2) No"))
                 .Send("no")
@@ -139,7 +139,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("warm up the back of the car")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -155,7 +155,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("defog my windshield")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -171,7 +171,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("put the air on my feet")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Front Combined Air Delivery Mode Control\n   2. Rear Combined Air Delivery Mode Control"))
                 .Send("front combined air delivery mode control")
@@ -189,7 +189,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("turn off the ac")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -205,7 +205,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("I'm feeling cold")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -221,7 +221,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("it's feeling cold in the back")
                 .AssertReply(this.CheckForSettingEvent(new SettingChange()
                 {
@@ -237,7 +237,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("adjust equalizer")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Equalizer (Bass)\n   2. Equalizer (Midrange)\n   3. Equalizer (Treble)\n   4. Equalizer (Surround)"))
                 .Send("Equalizer (Bass)")
@@ -257,7 +257,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("change pedestrian detection")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Front Pedestrian Safety Detection\n   2. Rear Pedestrian Safety Detection"))
                 .Send("front")
@@ -277,7 +277,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("change pedestrian detection")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Front Pedestrian Safety Detection\n   2. Rear Pedestrian Safety Detection"))
                 .Send("alerts for people in the back")
@@ -297,7 +297,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("adjust equalizer")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Equalizer (Bass)\n   2. Equalizer (Midrange)\n   3. Equalizer (Treble)\n   4. Equalizer (Surround)"))
                 .Send("first one")
@@ -317,7 +317,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("adjust equalizer")
                 .AssertReply(this.CheckReply("Here are the matching settings. Which one?\n\n   1. Equalizer (Bass)\n   2. Equalizer (Midrange)\n   3. Equalizer (Treble)\n   4. Equalizer (Surround)"))
                 .Send("blah blah")
@@ -341,7 +341,7 @@ namespace AutomotiveSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.WelcomeMessage))
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("adjust equalizer")
                 .AssertReply(this.CheckImagePathOnAdaptiveCard())
                 .Send("first one")
