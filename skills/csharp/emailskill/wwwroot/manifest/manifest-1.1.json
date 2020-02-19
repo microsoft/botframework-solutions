@@ -95,6 +95,117 @@
     "message": {
       "type": "message",
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    },
+    "sendEmail": {
+      "description": "Send an Email",
+      "type": "event",
+      "name": "SendEmail",
+      "value": {
+        "$ref": "#/definitions/emailInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "deleteEmail": {
+      "description": "Delete an Email",
+      "type": "event",
+      "name": "DeleteEmail",
+      "value": {},
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "replyEmail": {
+      "description": "Reply an Email",
+      "type": "event",
+      "name": "ReplyEmail",
+      "value": {
+        "$ref": "#/definitions/replyEmailInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "forwardEmail": {
+      "description": "Forward an Email",
+      "type": "event",
+      "name": "ForwardEmail",
+      "value": {
+        "$ref": "#/definitions/forwardEmailInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "showEmail": {
+      "description": "Show the recent Emails",
+      "type": "event",
+      "name": "ShowEmail",
+      "value": {},
+      "resultValue": {
+        "$ref": "#/definitions/emailList"
+      }
+    }
+  },
+  "definitions": {
+    "emailInfo": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Subject of the email"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the email"
+        },
+        "sender": {
+          "type": "string",
+          "description": "Email address of email sender"
+        },
+        "reciever": {
+          "type": "string",
+          "description": "Semicolon separated list of email addresses to send"
+        }
+      }
+    },
+    "replyEmailInfo": {
+      "type": "object",
+      "properties": {
+        "replyMessage": {
+          "type": "string",
+          "description": "The message of reply"
+        }
+      }
+    },
+    "forwardEmailInfo": {
+      "type": "object",
+      "properties": {
+        "forwardReciever": {
+          "type": "string",
+          "description": "Semicolon separated list of email addresses to forward"
+        },
+        "forwardMessage": {
+          "type": "string",
+          "description": "The message of forward"
+        }
+      }
+    },
+    "actionResult": {
+      "type": "object",
+      "properties": {
+        "actionSuccess": {
+          "type": "bool",
+          "description": "result of action"
+        }
+      }
+    },
+    "emailList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/emailInfo"
+      }
     }
   }
 }
