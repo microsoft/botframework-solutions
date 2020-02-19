@@ -40,10 +40,10 @@
 - Höchstgeschwindigkeit
 
 # MemoSaveSuccess.Text(Data)
-- Ihre Notiz wurde in der Sektion @{if(Data.Value0 == null, '', Data.Value0)} mit dem Titel: ' @{if(Data.Value1 == null, '', Data.Value1)} ' gespeichert.
+- Ihre Notiz wurde in der Sektion {0} mit dem Titel: ' {1} ' gespeichert.
 
 # MemoSectionNotFound.Text(Data)
-- Der Abschnitt Memos wurde nicht in Ihrem Notebook gefunden, erwartet, einen Abschnitt mit dem Namen ' @{if(Data.Value0 == null, '', Data.Value0)} ' zu finden
+- Der Abschnitt Memos wurde nicht in Ihrem Notebook gefunden, erwartet, einen Abschnitt mit dem Namen ' {0} ' zu finden
 
 # ShowNext.Text(Data)
 - Als Nächstes anzeigen
@@ -64,7 +64,7 @@
 - Beenden
 
 # People_MoreThanOne.Text(Data)
-- @{if(Data.Value0 == null, '', Data.Value0)} Menschen
+- {0} Menschen
 
 # fuelinductionsystem.Text(Data)
 - Kraftstoff-Induktionssystem
@@ -82,7 +82,7 @@
 - Ich bin Ihr simulierter Concierge-Agent. Sagen Sie "QUIT" aufzuhängen.
 
 # People_One.Text(Data)
-- @{if(Data.Value0 == null, '', Data.Value0)} Person
+- {0} Person
 
 # Tomorrow.Text(Data)
 - Morgen

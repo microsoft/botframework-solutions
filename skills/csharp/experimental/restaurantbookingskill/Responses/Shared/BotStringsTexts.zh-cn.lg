@@ -40,10 +40,10 @@
 - 最大速度
 
 # MemoSaveSuccess.Text(Data)
-- 您的便笺保存在 @{if(Data.Value0 == null, '', Data.Value0)} 部分中, 标题为 "@{if(Data.Value1 == null, '', Data.Value1)}"。
+- 您的便笺保存在 {0} 部分中, 标题为 "{1}"。
 
 # MemoSectionNotFound.Text(Data)
-- 在笔记本中找不到 "备忘录" 部分, 预计将找到名为 "@{if(Data.Value0 == null, '', Data.Value0)}" 的部分
+- 在笔记本中找不到 "备忘录" 部分, 预计将找到名为 "{0}" 的部分
 
 # ShowNext.Text(Data)
 - 显示下一个
@@ -64,7 +64,7 @@
 - 退出
 
 # People_MoreThanOne.Text(Data)
-- @{if(Data.Value0 == null, '', Data.Value0)} 人
+- {0} 人
 
 # fuelinductionsystem.Text(Data)
 - 燃油感应系统
@@ -82,7 +82,7 @@
 - 我是你的模拟礼宾代理说 "退出" 挂断电话。
 
 # People_One.Text(Data)
-- @{if(Data.Value0 == null, '', Data.Value0)} 人
+- {0} 人
 
 # Tomorrow.Text(Data)
 - 明天

@@ -40,10 +40,10 @@
 - velocidad máxima
 
 # MemoSaveSuccess.Text(Data)
-- La nota se guardó en la sección @{if(Data.Value0 == null, '', Data.Value0)} con el título: ' @{if(Data.Value1 == null, '', Data.Value1)} '.
+- La nota se guardó en la sección {0} con el título: ' {1} '.
 
 # MemoSectionNotFound.Text(Data)
-- La sección memos no se encuentra en el Bloc de notas, se espera que encuentre una sección denominada ' @{if(Data.Value0 == null, '', Data.Value0)} '
+- La sección memos no se encuentra en el Bloc de notas, se espera que encuentre una sección denominada ' {0} '
 
 # ShowNext.Text(Data)
 - Mostrar siguiente
@@ -64,7 +64,7 @@
 - Dejar
 
 # People_MoreThanOne.Text(Data)
-- @{if(Data.Value0 == null, '', Data.Value0)} personas
+- {0} personas
 
 # fuelinductionsystem.Text(Data)
 - sistema de inducción de combustible
@@ -82,7 +82,7 @@
 - Soy tu agente de conserjería simulado. Diga "QUIT" para colgar.
 
 # People_One.Text(Data)
-- @{if(Data.Value0 == null, '', Data.Value0)} persona
+- {0} persona
 
 # Tomorrow.Text(Data)
 - Mañana
