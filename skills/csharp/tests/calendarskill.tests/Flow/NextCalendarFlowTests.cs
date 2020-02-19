@@ -40,7 +40,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())
@@ -52,7 +52,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(FindMeetingTestUtterances.HowLongNextMeetingMeeting)
                 .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
                 .AssertReplyOneOf(this.ReadDurationPrompt())
@@ -66,7 +66,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(FindMeetingTestUtterances.WhereNextMeetingMeeting)
                 .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
                 .AssertReplyOneOf(this.ReadLocationPrompt())
@@ -80,7 +80,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(FindMeetingTestUtterances.WhenNextMeetingMeeting)
                 .AssertReplyOneOf(this.BeforeShowEventDetailsPrompt())
                 .AssertReplyOneOf(this.ReadTimePrompt())
@@ -95,7 +95,7 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToNull();
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReplyOneOf(this.NoMeetingResponse())
                 .StartTestAsync();
@@ -108,7 +108,7 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(FindMeetingTestUtterances.BaseNextMeeting)
                 .AssertReplyOneOf(this.NextMeetingPrompt())
                 .AssertReply(this.ShowCalendarList())

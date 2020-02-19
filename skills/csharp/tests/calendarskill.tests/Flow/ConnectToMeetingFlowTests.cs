@@ -52,7 +52,7 @@ namespace CalendarSkill.Test.Flow
             });
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
                 .AssertReplyOneOf(this.ConfirmPhoneNumberPrompt())
                 .Send(Strings.Strings.ConfirmYes)
@@ -77,7 +77,7 @@ namespace CalendarSkill.Test.Flow
             });
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(ConnectToMeetingUtterances.JoinMeetingWithStartTime)
                 .AssertReplyOneOf(this.ConfirmMeetingLinkPrompt())
                 .Send(Strings.Strings.ConfirmYes)

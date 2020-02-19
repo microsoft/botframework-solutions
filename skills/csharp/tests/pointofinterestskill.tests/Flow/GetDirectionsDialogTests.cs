@@ -31,7 +31,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(RouteFromXToYUtterances.GetToMicrosoft)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -49,7 +49,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(RouteFromXToYUtterances.GetToNearestPharmacy)
                 .AssertReply(CheckForEvent())
@@ -65,7 +65,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(RouteFromXToYUtterances.GetToNearestPharmacy)
                 .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
                 .Send(ContextStrings.Ave)
@@ -89,7 +89,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(RouteFromXToYUtterances.GetToMicrosoftNearAddress)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)

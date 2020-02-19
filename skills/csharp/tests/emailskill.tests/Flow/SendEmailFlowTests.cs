@@ -44,7 +44,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -87,7 +87,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -131,7 +131,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmailToRecipient)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
@@ -168,7 +168,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmailToRecipientWithSubjectAndContext)
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
                 .Send(GeneralTestUtterances.Yes)
@@ -204,7 +204,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -248,7 +248,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(testRecipient)
@@ -285,7 +285,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmailToEmailAdress)
                 .AssertReplyOneOf(this.AddMoreContacts(recipientList))
                 .Send(GeneralTestUtterances.No)
@@ -324,7 +324,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmailToNobody)
                 .AssertReply(this.CoundNotFindUser(recipientDict))
                 .Send(testRecipientConfirm)
@@ -375,7 +375,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmailToMultiRecipient)
                 .AssertReply(this.BeforeConfirmMultiName(multiNameDict))
                 .AssertReplyOneOf(this.ConfirmOneNameOneAddress(recipientDict))
@@ -413,7 +413,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(SendEmailUtterances.SendEmails)
                 .AssertReplyOneOf(this.CollectRecipientsMessage())
                 .Send(ContextStrings.TestEmptyRecipient)

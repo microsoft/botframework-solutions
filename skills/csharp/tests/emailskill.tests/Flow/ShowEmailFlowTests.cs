@@ -29,7 +29,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -50,7 +50,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmailsFromTestRecipient)
                 .AssertReply(this.ShowEmailFromSomeoneList())
                 .AssertReplyOneOf(this.ReadOutOnlyOnePrompt())
@@ -64,7 +64,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -81,7 +81,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -98,7 +98,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -119,7 +119,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -150,7 +150,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -180,7 +180,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -201,7 +201,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -225,7 +225,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -244,7 +244,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList())
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -266,7 +266,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -286,7 +286,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -309,7 +309,7 @@ namespace EmailSkill.Tests.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList(ConfigData.GetInstance().MaxDisplaySize))
                 .AssertReplyOneOf(this.ReadOutPrompt())
@@ -330,7 +330,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReplyOneOf(this.EmailNotFoundPrompt())
                 .StartTestAsync();
@@ -345,7 +345,7 @@ namespace EmailSkill.Tests.Flow
 
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ShowEmailUtterances.ShowEmails)
                 .AssertReply(this.ShowEmailList(1))
                 .AssertReplyOneOf(this.ReadOutOnlyOnePrompt())

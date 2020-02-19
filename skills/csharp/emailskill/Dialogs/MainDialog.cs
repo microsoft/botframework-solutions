@@ -220,18 +220,15 @@ namespace EmailSkill.Dialogs
             else
             {
                 // If bot is in local mode, prompt with intro or continuation message
-                var prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(EmailMainResponses.FirstPromptMessage);
-                var state = await _stateAccessor.GetAsync(stepContext.Context, () => new EmailSkillState());
-                if (state.NewConversation)
-                {
-                    prompt = _templateEngine.GenerateActivityForLocale(EmailMainResponses.EmailWelcomeMessage);
-                    state.NewConversation = false;
-                }
-
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = prompt
+                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(EmailMainResponses.FirstPromptMessage)
                 };
+
+                if (stepContext.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+                {
+                    promptOptions.Prompt = _templateEngine.GenerateActivityForLocale(EmailMainResponses.EmailWelcomeMessage);
+                }
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
             }
