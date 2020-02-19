@@ -10,7 +10,7 @@ const {
     TelemetryLoggerMiddleware,
     UserState
 } = require("botbuilder");
-const path_1 = require("path");
+const { join } = require("path");
 const {
     ApplicationInsightsTelemetryClient
 } = require("botbuilder-applicationinsights");
@@ -44,10 +44,10 @@ supportedLocales.forEach(locale => {
     templateFiles.forEach(template => {
         // LG template for default locale should not include locale in file extension.
         if (locale === 'en-us'){
-            localeTemplateFiles.push(path_1.join(__dirname, '..', '..', 'src', 'responses', `${template}.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', '..', 'src', 'responses', `${template}.lg`));
         }
         else {
-            localeTemplateFiles.push(path_1.join(__dirname, '..', '..', 'src', 'responses', `${template}.${locale}.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', '..', 'src', 'responses', `${template}.${locale}.lg`));
         }
     });
 
@@ -88,6 +88,7 @@ const configuration = async function() {
         preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
     });
     await Locales.addResourcesFromPath(i18next, "common");
+    await i18next.changeLanguage('en-us');
 
     setupEnvironment(TEST_MODE);
 };
@@ -174,7 +175,7 @@ const getTelemetryClient = function(settings) {
 };
 
 const getTemplates = function(name) {
-    return templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate(name);
+    return templateEngine.templateEnginesPerLocale.get(i18next.language).expandTemplate(name);
 };
 
 module.exports = {

@@ -30,7 +30,7 @@ describe("main dialog", function() {
                     },
                     locale: "en-us"
                 })
-                .assertReply(skillTestBase.templateEngine.generateActivityForLocale("IntroText"));
+                .assertReply("Welcome to your custom skill!");
 
             testNock.resolveWithMocks("mainDialog_intro_response", done, flow);
         });

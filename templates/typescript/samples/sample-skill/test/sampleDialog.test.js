@@ -16,7 +16,7 @@ describe("sample dialog", function() {
     describe("sample intent", function() {
         it("send 'sample dialog' and check you get the expected response", function(done) {
             const haveNameMessageTextResponse = skillTestBase.templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("NamePromptText");
-            const namePromptTextResponse = skillTestBase.templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("HaveNameMessageText", { name: `NamePromptResponse`  });
+            const namePromptTextResponse = skillTestBase.templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("HaveNameMessageText", { name: nameInput });
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
                 .send("sample dialog")

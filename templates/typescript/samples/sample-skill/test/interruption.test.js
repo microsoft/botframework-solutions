@@ -5,6 +5,7 @@
 
 const skillTestBase = require("./helpers/skillTestBase");
 const testNock = require("./helpers/testBase");
+const assert = require("assert");
 
 describe("interruption", function() {
     beforeEach(async function() {
@@ -16,10 +17,13 @@ describe("interruption", function() {
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
                 .send("sample dialog")
-                .assertReply(skillTestBase.getTemplates('NamePromptText'))
+                .assertReplyOneOf(skillTestBase.getTemplates('NamePromptText'))
                 .send("help")
-                .assertReply("[Enter your help message here]");
-            testNock.resolveWithMocks("interruption_help_response", done, flow);
+                .assertReply(function (activity) {
+                    assert.strictEqual(1, activity.attachments.length);
+                })
+                .assertReplyOneOf(skillTestBase.getTemplates('NamePromptText'));
+                testNock.resolveWithMocks("interruption_help_response", done, flow);
         });
     });
 
@@ -28,9 +32,9 @@ describe("interruption", function() {
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
                 .send("sample dialog")
-                .assertReply(skillTestBase.getTemplates('NamePromptText'))
+                .assertReplyOneOf(skillTestBase.getTemplates('NamePromptText'))
                 .send("cancel")
-                .assertReply(skillTestBase.getTemplates('CancelledText'));
+                .assertReplyOneOf(skillTestBase.getTemplates('CancelledText'));
             testNock.resolveWithMocks("interruption_cancel_response", done, flow);
         });
     });
