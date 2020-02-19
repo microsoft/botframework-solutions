@@ -64,7 +64,7 @@ namespace JsonConverter
                 sb.AppendLine($"    @{{{templateNameForDifferent}(Data)}}");
             }
 
-            if (activity.SuggestedActions != null)
+            if (activity.SuggestedActions != null && activity.SuggestedActions.Count > 0)
             {
                 var suggestedActions = "    SuggestedActions = ";
                 var suggestedActionsTexts = new List<string>();
