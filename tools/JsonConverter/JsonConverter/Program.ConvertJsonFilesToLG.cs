@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace JsonConverter
@@ -53,7 +54,7 @@ namespace JsonConverter
             sb.AppendLine($"    Text = @{{{templateName}.Text(Data)}}");
             sb.AppendLine($"    Speak = @{{{templateName}.Text(Data)}}");
 
-            if (activity.SuggestedActions != null)
+            if (activity.SuggestedActions != null && activity.SuggestedActions.Count > 0)
             {
                 var suggestedActions = "    SuggestedActions = ";
                 var suggestedActionsTexts = new List<string>();
@@ -78,14 +79,14 @@ namespace JsonConverter
             sb.AppendLine("]").AppendLine();
         }
 
-        private void AddTexts(StringBuilder sb, string templateName, Activity activity)
+        private void AddTexts(StringBuilder sb, string templateName, Activity activity, bool modifyParameter)
         {
             if (AreTextAndSpeakTheSame(activity.Replies))
             {
                 sb.AppendLine($"# {templateName}.Text(Data)");
                 foreach (var reply in activity.Replies)
                 {
-                    var text = ModifyTextParameters(reply.Text);
+                    var text = modifyParameter ? ModifyTextParameters(reply.Text) : reply.Text;
                     sb.AppendLine($"- {text}");
                 }
                 sb.AppendLine();
@@ -107,11 +108,9 @@ namespace JsonConverter
                 {
                     sb.AppendLine($"# {templateName}TextAndSpeak{(index).ToString()}(Data)");
                     sb.AppendLine("[Activity");
-                    var text = ModifyTextParameters(reply.Text);
-
+                    var text = modifyParameter ? ModifyTextParameters(reply.Text) : reply.Text;
                     sb.AppendLine($"    Text = {text}");
-                    var speak = ModifyTextParameters(reply.Speak);
-
+                    var speak = modifyParameter ? ModifyTextParameters(reply.Speak) : reply.Speak;
                     sb.AppendLine($"    Speak = {speak}");
                     sb.AppendLine("]").AppendLine();
                     index++;
@@ -147,7 +146,7 @@ namespace JsonConverter
                     var activity = jToken.Value.ToObject<Activity>();
                     activity.Correct();
                     AddActivity(sbActivities, templateName, activity);
-                    AddTexts(sbTexts, templateName, activity);
+                    AddTexts(sbTexts, templateName, activity, true);
                 }
             }
 
@@ -171,6 +170,11 @@ namespace JsonConverter
                 }
 
                 convertedActivityFiles.Add(outputActivitiesLGFile);
+
+                if (options.UpdateProject)
+                {
+                    AddFileWithCopyInProject(outputActivitiesLGFile);
+                }
             }
 
             using (StreamWriter sw = new StreamWriter(outputTextsLGFile))
@@ -182,6 +186,11 @@ namespace JsonConverter
                 convertedTextsFiles[locale].Add(outputTextsLGFile);
 
                 sw.WriteLine(sbTexts.ToString());
+
+                if (options.UpdateProject)
+                {
+                    AddFileWithCopyInProject(outputTextsLGFile);
+                }
             }
         }
 
@@ -195,6 +204,29 @@ namespace JsonConverter
                 if (!options.KeepOld)
                 {
                     DeleteFile(file);
+                }
+            }
+
+            if (jsonFiles.Length > 0)
+            {
+                haveDone.AppendLine("* Create lg files from json with {X} to @{if(Data.X == null, '', Data.X)}");
+
+                if (!options.UpdateProject)
+                {
+                    help.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from json");
+                    if (!options.KeepOld)
+                    {
+                        help.AppendLine("* Delete response json files from project manually");
+                    }
+                }
+                else
+                {
+                    haveDone.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from json");
+                }
+
+                if (!options.KeepOld)
+                {
+                    haveDone.AppendLine("* Delete response json files");
                 }
             }
         }

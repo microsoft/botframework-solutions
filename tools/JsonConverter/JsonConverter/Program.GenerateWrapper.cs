@@ -23,6 +23,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ using Microsoft.Bot.Solutions.Responses;
 
 namespace {options.Namespace}.{string.Join('.', folders)}
 {{
-    public static class EngineWrapper
+    public static class {options.WrapperName}
     {{
         // TODO may not all be same
         public static readonly string PathBase = @""{Path.GetRelativePath(Path.GetDirectoryName(convertedActivityFiles.First()), contentFolder)}"";
@@ -104,6 +105,15 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             return manager.GenerateActivityForLocale(templateId + "".Text"").Text;
         }}
 
+        public static string[] ParseReplies(this LocaleTemplateEngineManager manager, string name, StringDictionary data = null)
+        {{
+            var input = new
+            {{
+                Data = Convert(data)
+            }};
+            return manager.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate(name + "".Text"", input).ToArray();
+        }}
+
         public static CardExt Convert(Card card, string suffix = ""{keepOldSuffix}.json"", IEnumerable<Card> containerItems = null)
         {{
             var res = new CardExt {{ Name = Path.Join(PathBase, card.Name + suffix), Data = card.Data }};
@@ -161,10 +171,16 @@ namespace {options.Namespace}.{string.Join('.', folders)}
 }}
 ";
             Directory.CreateDirectory(destFolder);
-            using (var sw = new StreamWriter(Path.Join(destFolder, "EngineWrapper.cs")))
+            using (var sw = new StreamWriter(Path.Join(destFolder, options.WrapperName + ".cs")))
             {
                 sw.Write(engineWrapperContent);
             }
+
+            haveDone.AppendLine($"* Create {options.WrapperName}.cs");
+
+            help.AppendLine($"* Use {options.WrapperName}.CreateLocaleTemplateEngineManager insead of ResponseManager in Startup");
+            help.AppendLine("* Replace ResponseManager with LocaleTemplateEngineManager in declaration");
+            help.AppendLine("* In Test, overwrite ParseReplies with LocaleTemplateEngineManager.ParseReplies");
         }
     }
 }

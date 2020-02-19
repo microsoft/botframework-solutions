@@ -38,6 +38,41 @@ namespace JsonConverter
                 {
                     sw.Write(content);
                 }
+
+                if (options.UpdateProject)
+                {
+                    if (!options.KeepOld)
+                    {
+                        DeleteFileInProject(Path.ChangeExtension(file, "tt"));
+                    }
+                    AddFileWithToolInProject(ttFile);
+                }
+            }
+
+            haveDone.AppendLine($"* Copy LgIdCollection.t4 to {options.LgIdCollectionName}");
+
+            if (options.KeepOld)
+            {
+                haveDone.AppendLine("* Create ttnew files for lg id");
+            }
+            else
+            {
+                haveDone.AppendLine("* Rewrite tt files for lg id");
+            }
+
+            if (!options.UpdateProject)
+            {
+                if (options.KeepOld)
+                {
+                    help.AppendLine("* Set Custom Tool to TextTemplatingFileGenerator for new ttnew files");
+                }
+            }
+            else
+            {
+                if (options.KeepOld)
+                {
+                    haveDone.AppendLine("* Set Custom Tool to TextTemplatingFileGenerator for new ttnew files");
+                }
             }
         }
     }
