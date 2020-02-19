@@ -13,6 +13,6 @@ namespace NewsSkill.Models
 
         public string CurrentCoordinates { get; set; }
 
-        public bool NewConversation { get; set; } = false;
+        public bool NewConversation { get; set; } = true;
     }
 }
