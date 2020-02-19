@@ -5,6 +5,7 @@ namespace Microsoft.Bot.Solutions
 {
     using System.Collections.Generic;
     using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.Bot.Builder.AI.QnA;
     using Microsoft.Bot.Builder.Azure;
     using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Solutions.Authentication;
@@ -149,7 +150,7 @@ namespace Microsoft.Bot.Solutions
             /// <value>
             /// The Dispatch service for the set of cognitive models.
             /// </value>
-            public DispatchService DispatchModel { get; set; }
+            public LuisService DispatchModel { get; set; }
 
             /// <summary>
             /// Gets or sets the collection of LUIS models.
@@ -165,7 +166,7 @@ namespace Microsoft.Bot.Solutions
             /// <value>
             /// The collection of QnA Maker knowledgebases.
             /// </value>
-            public List<QnAMakerService> Knowledgebases { get; set; }
+            public List<QnAMakerEndpoint> Knowledgebases { get; set; }
         }
     }
 }

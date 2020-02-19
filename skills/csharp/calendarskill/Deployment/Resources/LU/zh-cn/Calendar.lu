@@ -1000,7 +1000,6 @@
 
 ## FindMeetingRoom
 - 新的会议地点找到一个
-- 添加 {SlotAttribute=房间} 到我 {FromTime=下午3点} 会议
 - 我明天去工作的另一个国家，我需要预订一个房间 {MeetingRoom=约翰} 街
 - a {MeetingRoom=房间} .
 - 是 {MeetingRoom=房间} 
@@ -1350,7 +1349,6 @@
 - 我可以预订 {MeetingRoom=皇后室 a1/1657} 给汤莫罗？
 - 我可以发送预订 {MeetingRoom=大房间 4} ?
 - 我可以留在这个星期一 {MeetingRoom=蜜月套房} ?
-- 可以添加 {SlotAttribute=房间} 自 {FromDate=明天} 's {Subject=开发会议} 
 - 你能预订一个 {MeetingRoom=会议室} 靠近市中心
 - 你能预订一个房间吗？ {MeetingRoom=4/3342} 靠近市中心酒店
 - 你能预订吗？ {MeetingRoom=房间 258} 马上
@@ -1502,7 +1500,6 @@
 -  {MeetingRoom=只更改房间名称} 
 - 订购 {MeetingRoom=房间 669} 在 {MeetingRoom=东翼} 下午4点
 - 在 {MeetingRoom=甘地} 房间在 {FloorNumber=三楼} 在 {Building=绿色公园酒店} 
-- 请添加 {SlotAttribute=会议室} 到 {Subject=每日Scrum会议} 
 - 请添加预订到 {MeetingRoom=会议室 2} 
 - 请预订2间不远处的客房 {MeetingRoom=斯特拉的房间} .
 - 请预订塔吉班贾拉的房间 {MeetingRoom=2/2241} 在二楼

@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using Microsoft.AspNetCore.Http;
@@ -10,13 +12,16 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Models;
 using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Bots;
 using PointOfInterestSkill.Dialogs;
 using PointOfInterestSkill.Responses.CancelRoute;
@@ -138,6 +143,82 @@ namespace PointOfInterestSkill.Tests.Flow
             });
 
             return testFlow;
+        }
+
+        protected Action<IActivity> AssertStartsWith(string response, IList<string> cardIds)
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                if (response == null)
+                {
+                    Assert.IsTrue(string.IsNullOrEmpty(messageActivity.Text));
+                }
+                else
+                {
+                    Assert.IsTrue(ParseReplies(response, new StringDictionary()).Any((reply) =>
+                    {
+                        return messageActivity.Text.StartsWith(reply);
+                    }));
+                }
+
+                AssertSameId(messageActivity, cardIds);
+            };
+        }
+
+        protected Action<IActivity> AssertContains(string response, IList<string> cardIds)
+        {
+            return activity =>
+            {
+                var messageActivity = activity.AsMessageActivity();
+
+                if (response == null)
+                {
+                    Assert.IsTrue(string.IsNullOrEmpty(messageActivity.Text));
+                }
+                else
+                {
+                    CollectionAssert.Contains(ParseReplies(response, new StringDictionary()), messageActivity.Text);
+                }
+
+                AssertSameId(messageActivity, cardIds);
+            };
+        }
+
+        protected void AssertSameId(IMessageActivity activity, IList<string> cardIds = null)
+        {
+            if (cardIds == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < cardIds.Count; ++i)
+            {
+                var card = activity.Attachments[i].Content as JObject;
+                Assert.AreEqual(card["id"], cardIds[i]);
+            }
+        }
+
+        /// <summary>
+        /// Asserts bot response of Event Activity.
+        /// </summary>
+        /// <returns>Returns an Action with IActivity object.</returns>
+        protected Action<IActivity> CheckForEvent(PointOfInterestDialogBase.OpenDefaultAppType openDefaultAppType = PointOfInterestDialogBase.OpenDefaultAppType.Map)
+        {
+            return activity =>
+            {
+                var eventReceived = activity.AsEventActivity()?.Value as OpenDefaultApp;
+                Assert.IsNotNull(eventReceived, "Activity received is not an Event as expected");
+                if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Map)
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.MapsUri));
+                }
+                else if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Telephone)
+                {
+                    Assert.IsFalse(string.IsNullOrEmpty(eventReceived.TelephoneUri));
+                }
+            };
         }
     }
 }

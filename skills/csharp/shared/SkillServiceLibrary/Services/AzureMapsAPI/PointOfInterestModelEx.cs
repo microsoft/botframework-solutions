@@ -42,12 +42,12 @@ namespace SkillServiceLibrary.Models
             Provider = new SortedSet<string> { AzureMapsGeoSpatialService.ProviderName };
 
             // TODO for better display. English style now.
-            if (Name == null && Address != null)
+            if (string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Address))
             {
                 AddressAlternative = new string[] { azureMapsPoi.Address.StreetName, azureMapsPoi.Address.MunicipalitySubdivision, azureMapsPoi.Address.CountrySecondarySubdivision, azureMapsPoi.Address.CountrySubdivisionName, azureMapsPoi.Address.CountryCodeISO3 }.Aggregate((source, acc) => string.IsNullOrEmpty(source) ? acc : (string.IsNullOrEmpty(acc) ? source : $"{source}, {acc}"));
             }
 
-            if (Category == null)
+            if (string.IsNullOrEmpty(Category))
             {
                 Category = azureMapsPoi.ResultType;
             }

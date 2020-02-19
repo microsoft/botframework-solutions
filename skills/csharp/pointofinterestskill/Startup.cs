@@ -130,7 +130,6 @@ namespace PointOfInterestSkill
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
 
             // Configure bot
-            services.AddTransient<MainDialog>();
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 

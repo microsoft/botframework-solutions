@@ -65,10 +65,10 @@
 - inviare un invito a  {ContactName=Jane} 
 - inviare un invito a  {ContactName=jerry seinfeld} 
 - si prega di aggiungere una stanza al mio  {ToTime=Ore 19.00} Riunione
-- Fügen Sie eine  {SlotAttribute=Zimmer}  zu meinem  {ToTime=15.00 Uhr} Sitzung
-- Stadtzentrum hinzufügen  {MeetingRoom=2122}  An  {ToTime=10am} Sitzung
-- können Sie eine  {SlotAttribute=Zimmer}  An  {ToDate=Morgen} s  {Subject=Dev-Meeting} 
-- bitte fügen Sie eine  {SlotAttribute=Tagungsraum}  zum  {Subject=tägliches Scrum-Meeting} 
+- aggiungere un {SlotAttribute=Camera}  al mio {ToTime=Ore 15.00}  Riunione
+- aggiungere il centro della città {MeetingRoom=2122}  A {ToTime=Ore 10:00}  Riunione
+- è possibile aggiungere un {SlotAttribute=Camera}  A {ToDate=Domani}'s {Subject=dev incontro}
+- si prega di aggiungere un {SlotAttribute=sala riunioni}  al {Subject=riunione di mischia quotidiana}
 
 
 ## ChangeCalendarEntry
@@ -180,11 +180,11 @@
 - sposta la riunione delle {FromTime=15} alle {ToTime=16}
 - sposta riunione delle {FromTime=21}-{FromTime=22} alle {ToTime=20}-{ToTime=21} {ToDate=oggi}
 - sposta {Subject=riunione organizzazione festa} da {FromDate={FromTime=sabato}} a {ToDate=venerdì} all'{ToTime=13}
-- ändern Sie die  {SlotAttribute=Tagungsraum}  An  {MeetingRoom=london confroom excalibur} 
-- finden Sie eine neue  {SlotAttribute=Zimmer}  für meine  {FromTime=15.00 Uhr} Sitzung
-- ich möchte zu einem anderen wechseln  {SlotAttribute=Tagungsraum} 
-- ich möchte die  {SlotAttribute=Tagungsraum} 
-- bitte ändern Sie die  {SlotAttribute=Tagungsraum}  An  {MeetingRoom=2212} 
+- cambiare il {SlotAttribute=sala riunioni}  A {MeetingRoom=londra confroom excalibur}
+- trovare un nuovo {SlotAttribute=Camera}  per la mia {FromTime=Ore 15.00}  Riunione
+- voglio passare a un altro {SlotAttribute=sala riunioni}
+- mi piacerebbe cambiare il {SlotAttribute=sala riunioni}
+- si prega di cambiare il {SlotAttribute=sala riunioni}  A {MeetingRoom=2212}
 
 
 ## CheckAvailability
@@ -682,11 +682,11 @@
 - rimuovi {Subject=ripetizioni finali} dal mio calendario
 - rimuovi {Subject=visita dal dentista}
 - voglio cancellare un appuntamento
-- abbrechen die  {SlotAttribute=Tagungsraum} 
-- abbrechen die  {SlotAttribute=Zimmer}  Für  {Subject=tägliches Scrum-Meeting} 
-- löschen Sie die  {SlotAttribute=Zimmer}  für meine  {FromTime=16 Uhr} Sitzung
-- löschen Sie die  {SlotAttribute=Tagungsraum}  von meinem  {FromTime=18.00 Uhr} Sitzung
-- bitte stornieren Sie die  {SlotAttribute=Zimmer}  von meinem  {FromTime=19.00 Uhr} Sitzung
+- annullare il {SlotAttribute=sala riunioni}
+- annullare il {SlotAttribute=Camera}  Per {Subject=riunione di mischia quotidiana}
+- eliminare il {SlotAttribute=Camera}  per la mia {FromTime=Ore 16.00}  Riunione
+- eliminare il {SlotAttribute=sala riunioni}  della mia {FromTime=Ore 18.00}  Riunione
+- si prega di annullare il {SlotAttribute=Camera}  della mia {FromTime=Ore 19.00}  Riunione
 
 ## FindCalendarDetail
 - cosa è in programma per la {Subject=cena} con stephanie?
@@ -1043,7 +1043,6 @@
 
 ## FindMeetingRoom
 - un nuovo luogo di riunione trovarne uno
-- aggiungere un  {SlotAttribute=Camera}  al mio  {FromTime=Ore 15.00} Riunione
 - am goin a lavorare domani su un altro stato, ho bisogno di prenotare una stanza in  {MeetingRoom=Johan} via
 - Un  {MeetingRoom=Camera} .
 - Sono  {MeetingRoom=Camera} 
@@ -1989,12 +1988,12 @@ $RelationshipName:zii=
 $RelationshipName:moglie=
 
 $SlotAttributeName:room=
-- Zimmer
-- Tagungsraum
-- Konferenzraum
+- Camera
+- sala riunioni
+- sala conferenze
 
 $SlotAttributeName:time=
-- Zeit
+- Tempo
 
 > # RegEx entities
 $MeetingRoomKeywordsDesc:/((conf|conference|meeting)\s+)?(room|rm|office)/
