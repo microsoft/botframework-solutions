@@ -57,9 +57,15 @@ namespace JsonConverter
                 GenerateEntryFile(responsesAndTextsFolder, pair.Key, pair.Value);
             }
 
+            haveDone.AppendLine($"* Create lg files for entry {options.EntryName}.lg");
+
             if (!options.UpdateProject)
             {
                 help.AppendLine($"* Change 'Copy to Output Directory' to 'Copy if newer' for {options.EntryName}.lg");
+            }
+            else
+            {
+                haveDone.AppendLine($"* Change 'Copy to Output Directory' to 'Copy if newer' for {options.EntryName}.lg");
             }
         }
     }

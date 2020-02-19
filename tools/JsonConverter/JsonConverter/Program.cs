@@ -20,6 +20,7 @@ namespace JsonConverter
         {
             public string Root { get; set; }
 
+            // Namepsace is folder's name by default
             public string Namespace { get; set; }
 
             // one of values of LocaleDic
@@ -35,7 +36,10 @@ namespace JsonConverter
 
             public bool UpdateProject { get; set; } = false;
 
+            // ProjectName is folder's name + .csproj by default
             public string ProjectName { get; set; }
+
+            public string WrapperName { get; set; } = "EngineWrapper";
         }
 
         private readonly ProgramOptions options;
@@ -44,7 +48,7 @@ namespace JsonConverter
         private readonly Dictionary<string, List<string>> convertedTextsFiles = new Dictionary<string, List<string>>();
         private readonly HashSet<string> convertedActivityFiles = new HashSet<string>();
         private IProjectOperator project;
-        private StringBuilder help = new StringBuilder();
+        private StringBuilder help = new StringBuilder(), haveDone = new StringBuilder();
 
         public Program(ProgramOptions options)
         {
@@ -77,6 +81,12 @@ namespace JsonConverter
                 project.Save();
             }
 
+            if (haveDone.Length != 0)
+            {
+                Console.WriteLine("This tool has done the following for you:");
+                Console.Write(haveDone.ToString());
+            }
+
             if (help.Length != 0)
             {
                 Console.WriteLine("You should do the following after this tool:");
@@ -92,6 +102,7 @@ namespace JsonConverter
             var options = new ProgramOptions
             {
                 Root = rootFolder,
+                Namespace = string.Empty,
                 KeepOld = true,
                 UpdateProject = false,
             };

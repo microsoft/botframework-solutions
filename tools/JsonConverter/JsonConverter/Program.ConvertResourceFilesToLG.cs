@@ -28,7 +28,7 @@ namespace JsonConverter
                 };
                 activity.Correct();
                 AddActivity(sbActivities, templateName, activity);
-                AddTexts(sbTexts, templateName, activity);
+                AddTexts(sbTexts, templateName, activity, false);
             }
 
             var locale = GetLocale(file);
@@ -57,7 +57,9 @@ namespace JsonConverter
 
             if (jsonFiles.Length > 0)
             {
+                haveDone.AppendLine("* Create lg files from resource");
                 help.AppendLine("* Use LocaleTemplateEngineManager.GetString for all resx strings");
+
                 if (!options.UpdateProject)
                 {
                     help.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from resource");
@@ -65,6 +67,15 @@ namespace JsonConverter
                     {
                         help.AppendLine("* Delete resx files from project manually");
                     }
+                }
+                else
+                {
+                    haveDone.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from resource");
+                }
+
+                if (!options.KeepOld)
+                {
+                    haveDone.AppendLine("* Delete resx files");
                 }
             }
         }

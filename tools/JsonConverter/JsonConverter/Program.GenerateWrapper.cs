@@ -35,7 +35,7 @@ using Microsoft.Bot.Solutions.Responses;
 
 namespace {options.Namespace}.{string.Join('.', folders)}
 {{
-    public static class EngineWrapper
+    public static class {options.WrapperName}
     {{
         // TODO may not all be same
         public static readonly string PathBase = @""{Path.GetRelativePath(Path.GetDirectoryName(convertedActivityFiles.First()), contentFolder)}"";
@@ -171,12 +171,14 @@ namespace {options.Namespace}.{string.Join('.', folders)}
 }}
 ";
             Directory.CreateDirectory(destFolder);
-            using (var sw = new StreamWriter(Path.Join(destFolder, "EngineWrapper.cs")))
+            using (var sw = new StreamWriter(Path.Join(destFolder, options.WrapperName + ".cs")))
             {
                 sw.Write(engineWrapperContent);
             }
 
-            help.AppendLine("* Use EngineWrapper.CreateLocaleTemplateEngineManager insead of ResponseManager in Startup");
+            haveDone.AppendLine($"* Create {options.WrapperName}.cs");
+
+            help.AppendLine($"* Use {options.WrapperName}.CreateLocaleTemplateEngineManager insead of ResponseManager in Startup");
             help.AppendLine("* Replace ResponseManager with LocaleTemplateEngineManager in declaration");
             help.AppendLine("* In Test, overwrite ParseReplies with LocaleTemplateEngineManager.ParseReplies");
         }

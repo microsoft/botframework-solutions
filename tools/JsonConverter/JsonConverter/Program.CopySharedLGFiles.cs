@@ -33,6 +33,13 @@ namespace JsonConverter
             {
                 AddFileWithCopyInProject(target);
             }
+
+            haveDone.AppendLine($"* Copy Shared.lg to {options.SharedName}");
+
+            if (options.UpdateProject)
+            {
+                haveDone.AppendLine($"* Change 'Copy to Output Directory' to 'Copy if newer' for {options.SharedName}");
+            }
             else
             {
                 help.AppendLine($"* Change 'Copy to Output Directory' to 'Copy if newer' for {options.SharedName}");

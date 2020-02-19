@@ -108,14 +108,14 @@ namespace JsonConverter
             }
         }
 
-        private void AddTexts(StringBuilder sb, string templateName, Activity activity)
+        private void AddTexts(StringBuilder sb, string templateName, Activity activity, bool modifyParameter)
         {
             if (AreTextAndSpeakTheSame(activity.Replies))
             {
                 sb.AppendLine($"# {templateName}.Text(Data)");
                 foreach (var reply in activity.Replies)
                 {
-                    var text = ModifyTextParameters(reply.Text);
+                    var text = modifyParameter ? ModifyTextParameters(reply.Text) : reply.Text;
                     sb.AppendLine($"- {text}");
                 }
                 sb.AppendLine();
@@ -126,11 +126,11 @@ namespace JsonConverter
                 foreach (var reply in activity.Replies)
                 {
                     sb.AppendLine($"# {templateName}TextAndSpeak{(index).ToString()}.Text(Data)");
-                    var text = ModifyTextParameters(reply.Text);
+                    var text = modifyParameter ? ModifyTextParameters(reply.Text) : reply.Text;
                     sb.AppendLine($"- {text}").AppendLine();
 
                     sb.AppendLine($"# {templateName}TextAndSpeak{(index).ToString()}.Speak(Data)");
-                    var speak = ModifyTextParameters(reply.Speak);
+                    var speak = modifyParameter ? ModifyTextParameters(reply.Speak) : reply.Text;
                     sb.AppendLine($"- {speak}").AppendLine();
                     index++;
                 }
@@ -165,7 +165,7 @@ namespace JsonConverter
                     var activity = jToken.Value.ToObject<Activity>();
                     activity.Correct();
                     AddActivity(sbActivities, templateName, activity);
-                    AddTexts(sbTexts, templateName, activity);
+                    AddTexts(sbTexts, templateName, activity, true);
                 }
             }
 
@@ -228,6 +228,8 @@ namespace JsonConverter
 
             if (jsonFiles.Length > 0)
             {
+                haveDone.AppendLine("* Create lg files from json with {X} to @{if(Data.X == null, '', Data.X)}");
+
                 if (!options.UpdateProject)
                 {
                     help.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from json");
@@ -235,6 +237,15 @@ namespace JsonConverter
                     {
                         help.AppendLine("* Delete response json files from project manually");
                     }
+                }
+                else
+                {
+                    haveDone.AppendLine("* Change 'Copy to Output Directory' to 'Copy if newer' for lg files from json");
+                }
+
+                if (!options.KeepOld)
+                {
+                    haveDone.AppendLine("* Delete response json files");
                 }
             }
         }
