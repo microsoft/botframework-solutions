@@ -26,6 +26,37 @@
     "message": {
       "type": "message",
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    },
+    "forecast": {
+      "description": "Forecast weather in a Geography or Latitude & Longitude",
+      "type": "event",
+      "name": "Forecast",
+      "value": {
+        "$ref": "#/definitions/locationInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    }
+  },
+  "definitions": {
+    "locationInfo": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "A Geography or Latitude & Longitude."
+        }
+      }
+    },
+    "actionResult": {
+      "type": "object",
+      "properties": {
+        "actionSuccess": {
+          "type": "bool",
+          "description": "result of action"
+        }
+      }
     }
   }
 }
