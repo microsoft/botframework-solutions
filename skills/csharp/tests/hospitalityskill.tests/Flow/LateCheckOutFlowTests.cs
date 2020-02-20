@@ -61,5 +61,50 @@ namespace HospitalitySkill.Tests.Flow
                 .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
+
+        [TestMethod]
+        public async Task LateCheckOutAndHelpTest()
+        {
+            var tokens = new StringDictionary
+            {
+                { "Time", HotelService.LateTime.ToString(ReservationData.TimeFormat) },
+                { "Date", CheckInDate.AddDays(HotelService.StayDays).ToString(ReservationData.DateFormat) }
+            };
+
+            await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
+                .Send(LateCheckOutUtterances.LateCheckOut)
+                .AssertReply(AssertContains(LateCheckOutResponses.CheckAvailability))
+                .AssertReply(AssertStartsWith(LateCheckOutResponses.MoveCheckOutPrompt, tokens))
+                .Send(GeneralTestUtterances.Help)
+                .AssertReply(AssertContains(MainResponses.HelpMessage))
+                .AssertReply(AssertStartsWith(LateCheckOutResponses.MoveCheckOutPrompt, tokens))
+                .Send(NonLuisUtterances.Yes)
+                .AssertReply(AssertContains(LateCheckOutResponses.MoveCheckOutSuccess, tokens, CardStrings.ReservationDetails))
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task LateCheckOutAndCancelTest()
+        {
+            var tokens = new StringDictionary
+            {
+                { "Time", HotelService.LateTime.ToString(ReservationData.TimeFormat) },
+                { "Date", CheckInDate.AddDays(HotelService.StayDays).ToString(ReservationData.DateFormat) }
+            };
+
+            await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
+                .Send(LateCheckOutUtterances.LateCheckOut)
+                .AssertReply(AssertContains(LateCheckOutResponses.CheckAvailability))
+                .AssertReply(AssertStartsWith(LateCheckOutResponses.MoveCheckOutPrompt, tokens))
+                .Send(GeneralTestUtterances.Cancel)
+                .AssertReply(AssertContains(MainResponses.CancelMessage))
+                .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
     }
 }
