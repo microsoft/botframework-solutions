@@ -28,6 +28,7 @@ To deploy your Assistant using the Azure Resource Manager (ARM) template provide
     ```shell
     az login
     ```
+1. If you have multiple subscriptions on your Azure account, [change the active subscription](https://docs.microsoft.com/en-us/cli/azure/manage-azure-subscriptions-azure-cli?view=azure-cli-latest#change-the-active-subscription) to the subscription you wish to deploy your Azure resources to.
 
 1. Run the following command to deploy your Azure resources using the default settings:
 
