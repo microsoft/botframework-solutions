@@ -13,20 +13,21 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
+using SkillServiceLibrary.Utilities;
 using WeatherSkill.Models;
 using WeatherSkill.Responses.Main;
 using WeatherSkill.Responses.Shared;
 using WeatherSkill.Services;
-using SkillServiceLibrary.Utilities;
 
 namespace WeatherSkill.Dialogs
 {
-    public class MainDialog : RouterDialog
+    public class MainDialog : ComponentDialog
     {
         private BotSettings _settings;
         private BotServices _services;
@@ -35,213 +36,229 @@ namespace WeatherSkill.Dialogs
         private IStatePropertyAccessor<SkillContext> _contextAccessor;
 
         public MainDialog(
-            BotSettings settings,
-            BotServices services,
-            ResponseManager responseManager,
-            UserState userState,
-            ConversationState conversationState,
-            IBotTelemetryClient telemetryClient,
-            IHttpContextAccessor httpContext)
-            : base(nameof(MainDialog), telemetryClient)
+            IServiceProvider serviceProvider,
+            IBotTelemetryClient telemetryClient)
+            : base(nameof(MainDialog))
         {
-            _settings = settings;
-            _services = services;
-            _responseManager = responseManager;
+            _settings = serviceProvider.GetService<BotSettings>();
+            _services = serviceProvider.GetService<BotServices>();
+            _responseManager = serviceProvider.GetService<ResponseManager>();
             TelemetryClient = telemetryClient;
 
-            // Initialize state accessor
+            // Create conversation state properties
+            var conversationState = serviceProvider.GetService<ConversationState>();
             _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+
+            // Initialize state accessor
+            var userState = serviceProvider.GetService<UserState>();
             _contextAccessor = userState.CreateProperty<SkillContext>(nameof(SkillContext));
 
-            // Register dialogs
-            AddDialog(new ForecastDialog(_settings, _services, _responseManager, conversationState, TelemetryClient, httpContext));
-        }
-
-        protected override async Task OnStartAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var locale = CultureInfo.CurrentUICulture;
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.WelcomeMessage));
-        }
-
-        protected override async Task RouteAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // get current activity locale
-            var localeConfig = _services.GetCognitiveModels();
-
-            // Populate state from SkillContext slots as required
-            await PopulateStateFromSkillContext(dc.Context);
-
-            // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("WeatherSkill", out var luisService);
-
-            if (luisService == null)
+            var steps = new WaterfallStep[]
             {
-                throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
+                IntroStepAsync,
+                RouteStepAsync,
+                FinalStepAsync,
+            };
+
+            AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            InitialDialogId = nameof(MainDialog);
+
+            // RegisterDialogs
+            AddDialog(serviceProvider.GetService<ForecastDialog>() ?? throw new ArgumentNullException(nameof(ForecastDialog)));
+        }
+
+        // Runs when the dialog is started.
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
+            }
+
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
+        }
+
+        // Runs on every turn of the conversation.
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
+
+                if (interrupted)
+                {
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
+            }
+
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
+        // Runs on every turn of the conversation to check if the conversation should be interrupted.
+        protected async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        {
+            var interrupted = false;
+            var activity = innerDc.Context.Activity;
+
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
+            {
+                // Get connected LUIS result from turn state.
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on General model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("General", out var generalLuisService);
+                if (generalLuisService == null)
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
+
+                var generalResult = await generalLuisService.RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
+                (var generalIntent, var generalScore) = generalResult.TopIntent();
+
+                if (generalScore > 0.5)
+                {
+                    switch (generalIntent)
+                    {
+                        case GeneralLuis.Intent.Cancel:
+                            {
+                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.CancelMessage));
+                                await innerDc.CancelAllDialogsAsync();
+                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                interrupted = true;
+                                break;
+                            }
+
+                        case GeneralLuis.Intent.Help:
+                            {
+                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.HelpMessage));
+                                await innerDc.RepromptDialogAsync();
+                                interrupted = true;
+                                break;
+                            }
+
+                        case GeneralLuis.Intent.Logout:
+                            {
+                                await OnLogout(innerDc);
+                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.LogOut));
+                                await innerDc.CancelAllDialogsAsync();
+                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                interrupted = true;
+                                break;
+                            }
+                    }
+                }
+            }
+
+            return interrupted;
+        }
+
+        // Handles introduction/continuation prompt logic.
+        private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if (stepContext.Context.IsSkill())
+            {
+                // If the bot is in skill mode, skip directly to route and do not prompt
+                return await stepContext.NextAsync();
             }
             else
             {
-                var result = await luisService.RecognizeAsync<WeatherSkillLuis>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
-
-                switch (intent)
+                // If bot is in local mode, prompt with intro or continuation message
+                var promptOptions = new PromptOptions
                 {
-                    case WeatherSkillLuis.Intent.CheckWeatherValue:
-                        {
-                            await dc.BeginDialogAsync(nameof(ForecastDialog));
-                            break;
-                        }
+                    Prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(MainResponses.FirstPromptMessage)
+                };
 
-                    case WeatherSkillLuis.Intent.None:
-                        {
-                            // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
-                            break;
-                        }
-
-                    default:
-                        {
-                            // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
-                            break;
-                        }
+                if (stepContext.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+                {
+                    promptOptions.Prompt = _responseManager.GetResponse(MainResponses.WelcomeMessage);
                 }
+
+                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
             }
         }
 
-        protected override async Task CompleteAsync(DialogContext dc, DialogTurnResult result = null, CancellationToken cancellationToken = default(CancellationToken))
+        // Handles routing to additional dialogs logic.
+        private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // workaround. if connect skill directly to teams, the following response does not work.
-            if (dc.Context.IsSkill() || Channel.GetChannelId(dc.Context) != Channels.Msteams)
-            {
-                var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
-
-                await dc.Context.SendActivityAsync(response);
-            }
-
-            await dc.EndDialogAsync(result);
-        }
-
-        protected override async Task OnEventAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            switch (dc.Context.Activity.Name)
-            {
-                case Events.SkillBeginEvent:
-                    {
-                        var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
-
-                        if (dc.Context.Activity.Value is Dictionary<string, object> userData)
-                        {
-                            // Capture user data from event if needed
-                        }
-
-                        break;
-                    }
-
-                case Events.TokenResponseEvent:
-                    {
-                        // Auth dialog completion
-                        var result = await dc.ContinueDialogAsync();
-
-                        // If the dialog completed when we sent the token, end the skill conversation
-                        if (result.Status != DialogTurnStatus.Waiting)
-                        {
-                            var response = dc.Context.Activity.CreateReply();
-                            response.Type = ActivityTypes.EndOfConversation;
-
-                            await dc.Context.SendActivityAsync(response);
-                        }
-
-                        break;
-                    }
-
-                case Events.Location:
-                    {
-                        // Test trigger with
-                        // /event:{ "Name": "Location", "Value": "34.05222222222222,-118.2427777777777" }
-                        var value = dc.Context.Activity.Value.ToString();
-
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            var coords = value.Split(',');
-                            if (coords.Length == 2)
-                            {
-                                if (double.TryParse(coords[0], out var lat) && double.TryParse(coords[1], out var lng))
-                                {
-                                    var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
-                                    state.Latitude = lat;
-                                    state.Longitude = lng;
-                                }
-                            }
-                        }
-
-                        break;
-                    }
-            }
-        }
-
-        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var result = InterruptionAction.NoAction;
-
-            if (dc.Context.Activity.Type == ActivityTypes.Message)
+            var activity = stepContext.Context.Activity;
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // get current activity locale
                 var localeConfig = _services.GetCognitiveModels();
 
-                // check general luis intent
-                localeConfig.LuisServices.TryGetValue("General", out var luisService);
+                // Populate state from SkillContext slots as required
+                await PopulateStateFromSkillContext(stepContext.Context);
+
+                // Get skill LUIS model from configuration
+                localeConfig.LuisServices.TryGetValue("WeatherSkill", out var luisService);
 
                 if (luisService == null)
                 {
-                    throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
+                    throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
                 }
                 else
                 {
-                    var luisResult = await luisService.RecognizeAsync<GeneralLuis>(dc.Context, cancellationToken);
-                    var topIntent = luisResult.TopIntent();
+                    var result = await luisService.RecognizeAsync<WeatherSkillLuis>(stepContext.Context, CancellationToken.None);
+                    var intent = result?.TopIntent().intent;
 
-                    if (topIntent.score > 0.5)
+                    switch (intent)
                     {
-                        switch (topIntent.intent)
-                        {
-                            case GeneralLuis.Intent.Cancel:
-                                {
-                                    result = await OnCancel(dc);
-                                    break;
-                                }
+                        case WeatherSkillLuis.Intent.CheckWeatherValue:
+                            {
+                                return await stepContext.BeginDialogAsync(nameof(ForecastDialog));
+                            }
 
-                            case GeneralLuis.Intent.Help:
-                                {
-                                    result = await OnHelp(dc);
-                                    break;
-                                }
+                        case WeatherSkillLuis.Intent.None:
+                            {
+                                // No intent was identified, send confused message
+                                await stepContext.Context.SendActivityAsync(_responseManager.GetResponse(SharedResponses.DidntUnderstandMessage));
+                                break;
+                            }
 
-                            case GeneralLuis.Intent.Logout:
-                                {
-                                    result = await OnLogout(dc);
-                                    break;
-                                }
-                        }
+                        default:
+                            {
+                                // intent was identified but not yet implemented
+                                await stepContext.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.FeatureNotAvailable));
+                                break;
+                            }
                     }
                 }
             }
 
-            return result;
+            // If activity was unhandled, flow should continue to next step
+            return await stepContext.NextAsync();
         }
 
-        private async Task<InterruptionAction> OnCancel(DialogContext dc)
+        // Handles conversation cleanup.
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.CancelMessage));
-            await CompleteAsync(dc);
-            await dc.CancelAllDialogsAsync();
-            return InterruptionAction.End;
-        }
+            if (stepContext.Context.IsSkill())
+            {
+                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
+                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
+                {
+                    Code = EndOfConversationCodes.CompletedSuccessfully,
+                    Value = stepContext.Result,
+                };
 
-        private async Task<InterruptionAction> OnHelp(DialogContext dc)
-        {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(MainResponses.HelpMessage));
-            return InterruptionAction.Resume;
+                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
+                return await stepContext.EndDialogAsync();
+            }
+            else
+            {
+                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(MainResponses.CompletedMessage), cancellationToken);
+            }
         }
 
         private async Task<InterruptionAction> OnLogout(DialogContext dc)
@@ -295,13 +312,6 @@ namespace WeatherSkill.Dialogs
                     state.Geography = locationObj;
                 }
             }
-        }
-
-        private class Events
-        {
-            public const string TokenResponseEvent = "tokens/response";
-            public const string SkillBeginEvent = "skillBegin";
-            public const string Location = "Location";
         }
     }
 }

@@ -108,6 +108,7 @@ namespace WeatherSkill
 
             // Register dialogs
             services.AddTransient<MainDialog>();
+            services.AddTransient<ForecastDialog>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();
