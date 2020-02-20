@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
 using EmailSkill.Models;
+using EmailSkill.Models.Action;
 using EmailSkill.Responses.DeleteEmail;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Utilities;
@@ -130,6 +131,12 @@ namespace EmailSkill.Dialogs
                 var activity = TemplateEngine.GenerateActivityForLocale(DeleteEmailResponses.DeleteSuccessfully);
                 await sc.Context.SendActivityAsync(activity);
 
+                var skillOptions = sc.Options as EmailSkillDialogOptions;
+                if (skillOptions != null && skillOptions.IsAction)
+                {
+                    var actionResult = new ActionResult() { ActionSuccess = true };
+                    return await sc.EndDialogAsync(actionResult);
+                }
                 return await sc.EndDialogAsync();
             }
             catch (Exception ex)

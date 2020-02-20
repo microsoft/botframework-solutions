@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
 using EmailSkill.Models;
+using EmailSkill.Models.Action;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using EmailSkill.Utilities;
@@ -113,7 +114,7 @@ namespace EmailSkill.Dialogs
                 var generalLuisResult = sc.Context.TurnState.Get<General>(StateProperties.GeneralLuisResult);
                 var generalTopIntent = generalLuisResult?.TopIntent().intent;
 
-                if (skillOptions == null || !skillOptions.SubFlowMode)
+                if (skillOptions == null || (!skillOptions.SubFlowMode && !skillOptions.IsAction))
                 {
                     // Clear email state data
                     await ClearConversationState(sc);
@@ -468,6 +469,13 @@ namespace EmailSkill.Dialogs
                 {
                     var activity = TemplateEngine.GenerateActivityForLocale(EmailSharedResponses.CancellingMessage);
                     await sc.Context.SendActivityAsync(activity);
+                    var skillOptions = sc.Options as EmailSkillDialogOptions;
+                    if (skillOptions != null && skillOptions.IsAction)
+                    {
+                        var actionResult = new ActionResult() { ActionSuccess = false };
+                        return await sc.EndDialogAsync(actionResult);
+                    }
+
                     return await sc.EndDialogAsync();
                 }
             }

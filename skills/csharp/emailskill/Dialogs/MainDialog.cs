@@ -2,16 +2,19 @@
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
+using EmailSkill.Models.Action;
 using EmailSkill.Responses.Main;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using Luis;
+using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using SkillServiceLibrary.Utilities;
 
 namespace EmailSkill.Dialogs
@@ -212,6 +215,7 @@ namespace EmailSkill.Dialogs
         // Handles introduction/continuation prompt logic.
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            var activity = stepContext.Context.Activity;
             if (stepContext.Context.IsSkill())
             {
                 // If the bot is in skill mode, skip directly to route and do not prompt
@@ -306,6 +310,73 @@ namespace EmailSkill.Dialogs
             else if (activity.Type == ActivityTypes.Event)
             {
                 // Handle skill actions here
+                var eventActivity = activity.AsEventActivity();
+
+                if (!string.IsNullOrEmpty(eventActivity.Name))
+                {
+                    switch (eventActivity.Name)
+                    {
+                        // Each Action in the Manifest will have an associated Name which will be on incoming Event activities
+                        case "SendEmail":
+                            {
+                                EmailInfo actionData = null;
+
+                                var eventValue = activity.Value as JObject;
+                                if (eventValue != null)
+                                {
+                                    actionData = eventValue.ToObject<EmailInfo>();
+                                    await DigestActionInput(stepContext, actionData);
+                                }
+
+                                return await stepContext.BeginDialogAsync(nameof(SendEmailDialog), new EmailSkillDialogOptions() { IsAction = true });
+                            }
+
+                        case "DeleteEmail":
+                            {
+                                return await stepContext.BeginDialogAsync(nameof(DeleteEmailDialog), new EmailSkillDialogOptions() { IsAction = true });
+                            }
+
+                        case "ReplyEmail":
+                            {
+                                ReplyEmailInfo actionData = null;
+
+                                var eventValue = activity.Value as JObject;
+                                if (eventValue != null)
+                                {
+                                    actionData = eventValue.ToObject<ReplyEmailInfo>();
+                                    await DigestActionInput(stepContext, actionData);
+                                }
+
+                                return await stepContext.BeginDialogAsync(nameof(ReplyEmailDialog), new EmailSkillDialogOptions() { IsAction = true });
+                            }
+
+                        case "ForwardEmail":
+                            {
+                                ForwardEmailInfo actionData = null;
+
+                                var eventValue = activity.Value as JObject;
+                                if (eventValue != null)
+                                {
+                                    actionData = eventValue.ToObject<ForwardEmailInfo>();
+                                    await DigestActionInput(stepContext, actionData);
+                                }
+
+                                return await stepContext.BeginDialogAsync(nameof(ForwardEmailDialog), new EmailSkillDialogOptions() { IsAction = true });
+                            }
+
+                        case "ShowEmail":
+                            {
+                                return await stepContext.BeginDialogAsync(nameof(ShowEmailDialog), new EmailSkillDialogOptions() { IsAction = true });
+                            }
+
+                        default:
+
+                            // todo: move the response to lg
+                            await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{eventActivity.Name ?? "undefined"}' was received but not processed."));
+
+                            break;
+                    }
+                }
             }
 
             // If activity was unhandled, flow should continue to next step
@@ -362,6 +433,47 @@ namespace EmailSkill.Dialogs
             if (_settings.DisplaySize > 0)
             {
                 ConfigData.GetInstance().MaxDisplaySize = _settings.DisplaySize;
+            }
+        }
+
+        private async Task DigestActionInput(DialogContext dc, EmailInfo emailInfo)
+        {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+            state.Subject = emailInfo.Subject;
+            state.Content = emailInfo.Content;
+            if (emailInfo.Reciever != null)
+            {
+                var recieverList = emailInfo.Reciever;
+                foreach (var emailAddress in recieverList)
+                {
+                    if (!state.FindContactInfor.ContactsNameList.Contains(emailAddress))
+                    {
+                        state.FindContactInfor.ContactsNameList.Add(emailAddress);
+                    }
+                }
+            }
+        }
+
+        private async Task DigestActionInput(DialogContext dc, ReplyEmailInfo replyEmailInfo)
+        {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+            state.Content = replyEmailInfo.ReplyMessage;
+        }
+
+        private async Task DigestActionInput(DialogContext dc, ForwardEmailInfo forwardEmailInfo)
+        {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new EmailSkillState());
+            state.Content = forwardEmailInfo.ForwardMessage;
+            if (forwardEmailInfo.ForwardReciever != null)
+            {
+                var recieverList = forwardEmailInfo.ForwardReciever;
+                foreach (var emailAddress in recieverList)
+                {
+                    if (!state.FindContactInfor.ContactsNameList.Contains(emailAddress))
+                    {
+                        state.FindContactInfor.ContactsNameList.Add(emailAddress);
+                    }
+                }
             }
         }
     }

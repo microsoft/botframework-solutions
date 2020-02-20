@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
+using EmailSkill.Models.Action;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Utilities;
 using Microsoft.Bot.Builder;
@@ -118,6 +119,12 @@ namespace EmailSkill.Dialogs
             }
 
             await ClearConversationState(sc);
+            var skillOptions = sc.Options as EmailSkillDialogOptions;
+            if (skillOptions != null && skillOptions.IsAction)
+            {
+                var actionResult = new ActionResult() { ActionSuccess = true };
+                return await sc.EndDialogAsync(actionResult);
+            }
             return await sc.EndDialogAsync(true);
         }
     }

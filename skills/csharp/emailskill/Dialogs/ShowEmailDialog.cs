@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Extensions;
 using EmailSkill.Models;
+using EmailSkill.Models.Action;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Responses.ShowEmail;
 using EmailSkill.Utilities;
@@ -143,6 +145,38 @@ namespace EmailSkill.Dialogs
             try
             {
                 var state = await EmailStateAccessor.GetAsync(sc.Context);
+                var options = sc.Options as EmailSkillDialogOptions;
+                if (options != null && options.IsAction)
+                {
+                    sc.Context.TurnState.TryGetValue(StateProperties.APIToken, out var token);
+                    var serivce = ServiceManager.InitMailService(token as string, state.GetUserTimeZone(), state.MailSourceType);
+
+                    var isUnreadOnly = state.IsUnreadOnly;
+                    var isImportant = state.IsImportant;
+                    var startDateTime = state.StartDateTime;
+                    var endDateTime = state.EndDateTime;
+                    var directlyToMe = state.DirectlyToMe;
+                    string mailAddress = null;
+
+                    // Get user message.
+                    var emailResult = await serivce.GetMyMessagesAsync(startDateTime, endDateTime, isUnreadOnly, isImportant, directlyToMe, mailAddress);
+                    var actionResult = new List<EmailInfo>();
+                    foreach (var email in emailResult)
+                    {
+                        var emailInfo = new EmailInfo()
+                        {
+                            Subject = email.Subject,
+                            Content = email.Body.Content,
+                            Sender = email.Sender.EmailAddress.Address,
+                            Reciever = email.ToRecipients.Select(li => li.EmailAddress.Address).ToList()
+                        };
+
+                        actionResult.Add(emailInfo);
+                    }
+
+                    return await sc.EndDialogAsync(actionResult);
+                }
+
                 var activity = TemplateEngine.GenerateActivityForLocale(ShowEmailResponses.ReadOut, new { messageList = state.MessageList });
                 return await sc.PromptAsync(Actions.Prompt, new PromptOptions { Prompt = activity as Activity });
             }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EmailSkill.Models;
+using EmailSkill.Models.Action;
 using EmailSkill.Prompts;
 using EmailSkill.Responses.SendEmail;
 using EmailSkill.Responses.Shared;
@@ -360,13 +361,13 @@ namespace EmailSkill.Dialogs
                 };
                 emailCard = await ProcessRecipientPhotoUrl(sc.Context, emailCard, state.FindContactInfor.Contacts);
 
-                    var replyMessage = TemplateEngine.GenerateActivityForLocale(
-                        EmailSharedResponses.SentSuccessfully,
-                        new
-                        {
-                            subject = state.Subject,
-                            emailDetails = emailCard
-                        });
+                var replyMessage = TemplateEngine.GenerateActivityForLocale(
+                    EmailSharedResponses.SentSuccessfully,
+                    new
+                    {
+                        subject = state.Subject,
+                        emailDetails = emailCard
+                    });
 
                 await sc.Context.SendActivityAsync(replyMessage);
             }
@@ -384,6 +385,13 @@ namespace EmailSkill.Dialogs
             }
 
             await ClearConversationState(sc);
+            var skillOptions = sc.Options as EmailSkillDialogOptions;
+            if (skillOptions != null && skillOptions.IsAction)
+            {
+                var actionResult = new ActionResult() { ActionSuccess = true };
+                return await sc.EndDialogAsync(actionResult);
+            }
+
             return await sc.EndDialogAsync(true);
         }
 
