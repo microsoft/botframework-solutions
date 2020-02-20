@@ -10,13 +10,14 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Dialogs;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Models;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
 using RestaurantBookingSkill.Models;
 using RestaurantBookingSkill.Responses.Main;
 using RestaurantBookingSkill.Responses.Shared;
@@ -25,8 +26,9 @@ using SkillServiceLibrary.Utilities;
 
 namespace RestaurantBookingSkill.Dialogs
 {
-    public class MainDialog : ActivityHandlerDialog
+    public class MainDialog : ComponentDialog
     {
+        private BotSettings _settings;
         private BotServices _services;
         private ResponseManager _responseManager;
         private UserState _userState;
@@ -34,214 +36,217 @@ namespace RestaurantBookingSkill.Dialogs
         private IStatePropertyAccessor<RestaurantBookingState> _conversationStateAccessor;
 
         public MainDialog(
-            BotServices services,
-            ResponseManager responseManager,
-            ConversationState conversationState,
-            UserState userState,
-            BookingDialog bookingDialog,
+            IServiceProvider serviceProvider,
             IBotTelemetryClient telemetryClient)
-            : base(nameof(MainDialog), telemetryClient)
+            : base(nameof(MainDialog))
         {
-            _services = services;
-            _responseManager = responseManager;
-            _conversationState = conversationState;
-            _userState = userState;
+            _settings = serviceProvider.GetService<BotSettings>();
+            _services = serviceProvider.GetService<BotServices>();
+            _responseManager = serviceProvider.GetService<ResponseManager>();
             TelemetryClient = telemetryClient;
 
-            // Initialize state accessor
-            _conversationStateAccessor = _conversationState.CreateProperty<RestaurantBookingState>(nameof(BookingDialog));
+            // Create conversation state properties
+            var conversationState = serviceProvider.GetService<ConversationState>();
+            _conversationStateAccessor = conversationState.CreateProperty<RestaurantBookingState>(nameof(BookingDialog));
+
+            var steps = new WaterfallStep[]
+            {
+                IntroStepAsync,
+                RouteStepAsync,
+                FinalStepAsync,
+            };
+
+            AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            InitialDialogId = nameof(MainDialog);
 
             // RegisterDialogs
-            AddDialog(bookingDialog ?? throw new ArgumentNullException(nameof(bookingDialog)));
+            AddDialog(serviceProvider.GetService<BookingDialog>() ?? throw new ArgumentNullException(nameof(BookingDialog)));
         }
 
-        protected override async Task OnMembersAddedAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
+        // Runs when the dialog is started.
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
         {
-            // send a greeting if we're in local mode
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.WelcomeMessage));
-        }
-
-        protected override async Task OnMessageActivityAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
-
-            // get current activity locale
-            var localeConfig = _services.GetCognitiveModels();
-
-            // Get skill LUIS model from configuration
-            localeConfig.LuisServices.TryGetValue("Restaurant", out var luisService);
-
-            if (luisService == null)
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
-                throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
-            }
-            else
-            {
-                var result = await luisService.RecognizeAsync<ReservationLuis>(dc.Context, CancellationToken.None);
-                var intent = result?.TopIntent().intent;
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
 
-                switch (intent)
+                if (interrupted)
                 {
-                    case ReservationLuis.Intent.Reservation:
-                        {
-                            await dc.BeginDialogAsync(nameof(BookingDialog));
-                            break;
-                        }
-
-                    case ReservationLuis.Intent.None:
-                        {
-                            // No intent was identified, send confused message
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
-                            break;
-                        }
-
-                    default:
-                        {
-                            // intent was identified but not yet implemented
-                            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
-                            break;
-                        }
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
                 }
             }
+
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
         }
 
-        protected override async Task OnDialogCompleteAsync(DialogContext dc, object result = null, CancellationToken cancellationToken = default(CancellationToken))
+        // Runs on every turn of the conversation.
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            // workaround. if connect skill directly to teams, the following response does not work.
-            if (dc.Context.IsSkill() || Channel.GetChannelId(dc.Context) != Channels.Msteams)
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
             {
-                var response = dc.Context.Activity.CreateReply();
-                response.Type = ActivityTypes.EndOfConversation;
+                // Check for any interruptions
+                var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
 
-                await dc.Context.SendActivityAsync(response);
-            }
-
-            await dc.EndDialogAsync(result);
-        }
-
-        protected override async Task OnEventActivityAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
-        {
-            var ev = innerDc.Context.Activity.AsEventActivity();
-            var value = ev.Value?.ToString();
-
-            switch (ev.Name)
-            {
-                case TokenEvents.TokenResponseEventName:
-                    {
-                        // Forward the token response activity to the dialog waiting on the stack.
-                        await innerDc.ContinueDialogAsync();
-                        break;
-                    }
-
-                default:
-                    {
-                        await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
-                        break;
-                    }
-            }
-        }
-
-        protected override async Task OnUnhandledActivityTypeAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
-        {
-            await innerDc.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown activity was received but not processed."));
-        }
-
-        protected override async Task<InterruptionAction> OnInterruptDialogAsync(DialogContext dc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var result = InterruptionAction.NoAction;
-
-            if (dc.Context.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(dc.Context.Activity.Text))
-            {
-                // Adaptive card responses come through with empty text properties
-                if (!string.IsNullOrEmpty(dc.Context.Activity.Text))
+                if (interrupted)
                 {
-                    // get current activity locale
-                    var localeConfig = _services.GetCognitiveModels();
+                    // If dialog was interrupted, return EndOfTurn
+                    return EndOfTurn;
+                }
+            }
 
-                    // check general luis intent
-                    localeConfig.LuisServices.TryGetValue("General", out var luisService);
+            return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
 
-                    if (luisService == null)
+        // Runs on every turn of the conversation to check if the conversation should be interrupted.
+        protected async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        {
+            var interrupted = false;
+            var activity = innerDc.Context.Activity;
+
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
+            {
+                // Get connected LUIS result from turn state.
+                // Get cognitive models for the current locale.
+                var localizedServices = _services.GetCognitiveModels();
+
+                // Run LUIS recognition on General model and store result in turn state.
+                localizedServices.LuisServices.TryGetValue("General", out var generalLuisService);
+                if (generalLuisService == null)
+                {
+                    throw new Exception("The general LUIS Model could not be found in your Bot Services configuration.");
+                }
+
+                var generalResult = await generalLuisService.RecognizeAsync<General>(innerDc.Context, cancellationToken);
+                (var generalIntent, var generalScore) = generalResult.TopIntent();
+
+                if (generalScore > 0.5)
+                {
+                    switch (generalIntent)
                     {
-                        throw new Exception("The specified LUIS Model could not be found in your Skill configuration.");
-                    }
-                    else
-                    {
-                        var luisResult = await luisService.RecognizeAsync<General>(dc.Context, cancellationToken);
-                        var topIntent = luisResult.TopIntent();
-
-                        if (topIntent.score > 0.5)
-                        {
-                            switch (topIntent.intent)
+                        case General.Intent.Cancel:
                             {
-                                case General.Intent.Cancel:
-                                    {
-                                        result = await OnCancel(dc);
-                                        break;
-                                    }
+                                var state = await _conversationStateAccessor.GetAsync(innerDc.Context, () => new RestaurantBookingState());
+                                state.Clear();
 
-                                case General.Intent.Help:
-                                    {
-                                        result = await OnHelp(dc);
-                                        break;
-                                    }
-
-                                case General.Intent.Logout:
-                                    {
-                                        result = await OnLogout(dc);
-                                        break;
-                                    }
+                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.CancellingMessage));
+                                await innerDc.CancelAllDialogsAsync();
+                                await innerDc.BeginDialogAsync(InitialDialogId);
+                                interrupted = true;
+                                break;
                             }
-                        }
+
+                        case General.Intent.Help:
+                            {
+                                await innerDc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.HelpMessage));
+                                await innerDc.RepromptDialogAsync();
+                                interrupted = true;
+                                break;
+                            }
                     }
                 }
             }
 
-            return result;
+            return interrupted;
         }
 
-        private async Task<InterruptionAction> OnCancel(DialogContext dc)
+        // Handles introduction/continuation prompt logic.
+        private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var state = await _conversationStateAccessor.GetAsync(dc.Context, () => new RestaurantBookingState());
-            state.Clear();
-
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.CancellingMessage));
-            await dc.CancelAllDialogsAsync();
-            return InterruptionAction.End;
-        }
-
-        private async Task<InterruptionAction> OnHelp(DialogContext dc)
-        {
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.HelpMessage));
-            return InterruptionAction.Resume;
-        }
-
-        private async Task<InterruptionAction> OnLogout(DialogContext dc)
-        {
-            IUserTokenProvider tokenProvider;
-            var supported = dc.Context.Adapter is IUserTokenProvider;
-            if (supported)
+            if (stepContext.Context.IsSkill())
             {
-                tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
-
-                // Sign out user
-                var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
-                foreach (var token in tokens)
-                {
-                    await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
-                }
-
-                // Cancel all active dialogs
-                await dc.CancelAllDialogsAsync();
+                // If the bot is in skill mode, skip directly to route and do not prompt
+                return await stepContext.NextAsync();
             }
             else
             {
-                throw new InvalidOperationException("OAuthPrompt.SignOutUser(): not supported by the current adapter");
+                // If bot is in local mode, prompt with intro or continuation message
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(RestaurantBookingMainResponses.FirstPromptMessage)
+                };
+
+                if (stepContext.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+                {
+                    promptOptions.Prompt = _responseManager.GetResponse(RestaurantBookingMainResponses.WelcomeMessage);
+                }
+
+                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            }
+        }
+
+        // Handles routing to additional dialogs logic.
+        private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var activity = stepContext.Context.Activity;
+            var state = await _conversationStateAccessor.GetAsync(stepContext.Context, () => new RestaurantBookingState());
+
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
+            {
+                // get current activity locale
+                var localeConfig = _services.GetCognitiveModels();
+
+                // Get skill LUIS model from configuration
+                localeConfig.LuisServices.TryGetValue("Restaurant", out var luisService);
+
+                if (luisService == null)
+                {
+                    throw new Exception("The specified LUIS Model could not be found in your Bot Services configuration.");
+                }
+                else
+                {
+                    var result = await luisService.RecognizeAsync<ReservationLuis>(stepContext.Context, CancellationToken.None);
+                    var intent = result?.TopIntent().intent;
+
+                    switch (intent)
+                    {
+                        case ReservationLuis.Intent.Reservation:
+                            {
+                                return await stepContext.BeginDialogAsync(nameof(BookingDialog));
+                            }
+
+                        case ReservationLuis.Intent.None:
+                            {
+                                // No intent was identified, send confused message
+                                await stepContext.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
+                                break;
+                            }
+
+                        default:
+                            {
+                                // intent was identified but not yet implemented
+                                await stepContext.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingSharedResponses.DidntUnderstandMessage));
+                                break;
+                            }
+                    }
+                }
             }
 
-            await dc.Context.SendActivityAsync(_responseManager.GetResponse(RestaurantBookingMainResponses.LogOut));
+            // If activity was unhandled, flow should continue to next step
+            return await stepContext.NextAsync();
+        }
 
-            return InterruptionAction.End;
+        // Handles conversation cleanup.
+        private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if (stepContext.Context.IsSkill())
+            {
+                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
+                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
+                {
+                    Code = EndOfConversationCodes.CompletedSuccessfully,
+                    Value = stepContext.Result,
+                };
+
+                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
+                return await stepContext.EndDialogAsync();
+            }
+            else
+            {
+                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(RestaurantBookingMainResponses.CompletedMessage), cancellationToken);
+            }
         }
     }
 }
