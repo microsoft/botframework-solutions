@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
-        public LocaleTemplateEngineManager LocaleTemplateEngine { get; set; }
+        public LocaleLGFileManager TestLocaleLGFileManager { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
 
@@ -85,31 +85,22 @@ namespace VirtualAssistantSample.Tests
             // For localization testing
             CultureInfo.CurrentUICulture = new CultureInfo("en-us");
 
-            var localizedTemplates = new Dictionary<string, List<string>>();
-            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var localizedTemplates = new Dictionary<string, string>();
+            var templateFile = "AllResponses";
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
             foreach (var locale in supportedLocales)
             {
-                var localeTemplateFiles = new List<string>();
-                foreach (var template in templateFiles)
-                {
-                    // LG template for en-us does not include locale in file extension.
-                    if (locale.Equals("en-us"))
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
-                    }
-                    else
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
-                    }
-                }
+                // LG template for en-us does not include locale in file extension.
+                var localeTemplateFile = locale.Equals("en-us")
+                    ? Path.Combine(".", "Responses", $"{templateFile}.lg")
+                    : Path.Combine(".", "Responses", $"{templateFile}.{locale}.lg");
 
-                localizedTemplates.Add(locale, localeTemplateFiles);
+                localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            LocaleTemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
-            Services.AddSingleton(LocaleTemplateEngine);
+            TestLocaleLGFileManager = new LocaleLGFileManager(localizedTemplates, "en-us");
+            Services.AddSingleton(TestLocaleLGFileManager);
 
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();

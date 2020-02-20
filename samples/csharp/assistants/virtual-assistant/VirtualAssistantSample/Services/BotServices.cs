@@ -54,12 +54,12 @@ namespace VirtualAssistantSample.Services
                 {
                     var qnaEndpoint = new QnAMakerEndpoint()
                     {
-                        KnowledgeBaseId = kb.KbId,
+                        KnowledgeBaseId = kb.KnowledgeBaseId,
                         EndpointKey = kb.EndpointKey,
-                        Host = kb.Hostname,
+                        Host = kb.Host,
                     };
 
-                    set.QnAConfiguration.Add(kb.Id, qnaEndpoint);
+                    set.QnAConfiguration.Add(kb.KnowledgeBaseId, qnaEndpoint);
                 }
 
                 CognitiveModelSets.Add(language, set);
