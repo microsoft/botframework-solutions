@@ -32,12 +32,16 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System.Security.Claims;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace HospitalitySkill.Tests.Flow
 {
     public class HospitalitySkillTestBase : BotTestBase
     {
         public static readonly DateTime CheckInDate = DateTime.Now;
+
+        public IConversationUpdateActivity StartActivity { get; set; }
 
         public IServiceCollection Services { get; set; }
 
@@ -136,6 +140,9 @@ namespace HospitalitySkill.Tests.Flow
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
+            StartActivity = Activity.CreateConversationUpdateActivity();
+            StartActivity.MembersAdded = new ChannelAccount[] { adapter.Conversation.User, adapter.Conversation.Bot };
+
             var testFlow = new TestFlow(adapter, async (context, token) =>
             {
                 var bot = sp.GetService<IBot>();
@@ -145,7 +152,36 @@ namespace HospitalitySkill.Tests.Flow
             return testFlow;
         }
 
+        protected TestFlow GetSkillTestFlow()
+        {
+            var sp = Services.BuildServiceProvider();
+            var adapter = sp.GetService<TestAdapter>();
+
+            StartActivity = Activity.CreateConversationUpdateActivity();
+            StartActivity.MembersAdded = new ChannelAccount[] { adapter.Conversation.User, adapter.Conversation.Bot };
+
+            var testFlow = new TestFlow(adapter, async (context, token) =>
+            {
+                // Set claims in turn state to simulate skill mode
+                var claims = new List<Claim>();
+                claims.Add(new Claim(AuthenticationConstants.VersionClaim, "1.0"));
+                claims.Add(new Claim(AuthenticationConstants.AudienceClaim, Guid.NewGuid().ToString()));
+                claims.Add(new Claim(AuthenticationConstants.AppIdClaim, Guid.NewGuid().ToString()));
+                context.TurnState.Add("BotIdentity", new ClaimsIdentity(claims));
+
+                var bot = sp.GetService<IBot>();
+                await bot.OnTurnAsync(context, CancellationToken.None);
+            });
+
+            return testFlow;
+        }
+
         protected Action<IActivity> ActionEndMessage()
+        {
+            return AssertContains(MainResponses.WelcomeMessage);
+        }
+
+        protected Action<IActivity> SkillActionEndMessage()
         {
             return activity =>
             {

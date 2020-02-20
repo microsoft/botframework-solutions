@@ -3,6 +3,7 @@
 
 using System.Threading.Tasks;
 using HospitalitySkill.Responses.GetReservation;
+using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Tests.Flow.Strings;
 using HospitalitySkill.Tests.Flow.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,6 +18,8 @@ namespace HospitalitySkill.Tests.Flow
         public async Task GetReservationTest()
         {
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(GetReservationUtterances.GetReservation)
                 .AssertReply(AssertContains(GetReservationResponses.ShowReservationDetails, null, CardStrings.ReservationDetails))
                 .AssertReply(ActionEndMessage())

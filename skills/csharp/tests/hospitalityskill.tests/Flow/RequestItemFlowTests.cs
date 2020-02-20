@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
 using System.Threading.Tasks;
+using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Responses.RequestItem;
 using HospitalitySkill.Tests.Flow.Strings;
 using HospitalitySkill.Tests.Flow.Utterances;
@@ -21,6 +22,8 @@ namespace HospitalitySkill.Tests.Flow
         public async Task RequestItemTest()
         {
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(RequestItemUtterances.RequestItem)
                 .AssertReply(AssertContains(RequestItemResponses.ItemPrompt))
                 .Send(RequestItemUtterances.Item)
@@ -39,6 +42,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(RequestItemUtterances.RequestItem)
                 .AssertReply(AssertContains(RequestItemResponses.ItemPrompt))
                 .Send(RequestItemUtterances.InvalidItem)
@@ -59,6 +64,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(RequestItemUtterances.RequestWithItemAndInvalidItem)
                 .AssertReply(AssertContains(RequestItemResponses.ItemNotAvailable, tokens))
                 .AssertReply(AssertStartsWith(RequestItemResponses.GuestServicesPrompt))

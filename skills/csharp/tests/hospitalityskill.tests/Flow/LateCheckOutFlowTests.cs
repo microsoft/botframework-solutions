@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HospitalitySkill.Models;
 using HospitalitySkill.Responses.LateCheckOut;
+using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Services;
 using HospitalitySkill.Tests.Flow.Strings;
 using HospitalitySkill.Tests.Flow.Utterances;
@@ -29,6 +30,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(LateCheckOutUtterances.LateCheckOut)
                 .AssertReply(AssertContains(LateCheckOutResponses.CheckAvailability))
                 .AssertReply(AssertStartsWith(LateCheckOutResponses.MoveCheckOutPrompt, tokens))
@@ -48,6 +51,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(LateCheckOutUtterances.LateCheckOutWithExceededTime)
                 .AssertReply(AssertContains(LateCheckOutResponses.CheckAvailability))
                 .AssertReply(AssertStartsWith(LateCheckOutResponses.MoveCheckOutPrompt, tokens))
