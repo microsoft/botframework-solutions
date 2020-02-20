@@ -95,7 +95,7 @@ namespace ITSMSkill.Dialogs
             }
             else
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
+                await SendActionEnded(sc.Context);
                 return await sc.CancelAllDialogsAsync();
             }
         }
