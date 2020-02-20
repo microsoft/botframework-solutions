@@ -165,8 +165,11 @@
           "description": "Email address of email sender"
         },
         "reciever": {
-          "type": "string",
-          "description": "Semicolon separated list of email addresses to send"
+          "type": "array",
+          "description": "List of email addresses to forward",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -183,8 +186,11 @@
       "type": "object",
       "properties": {
         "forwardReciever": {
-          "type": "string",
-          "description": "Semicolon separated list of email addresses to forward"
+          "type": "array",
+          "description": "List of email addresses to forward",
+          "items": {
+            "type": "string"
+          }
         },
         "forwardMessage": {
           "type": "string",
