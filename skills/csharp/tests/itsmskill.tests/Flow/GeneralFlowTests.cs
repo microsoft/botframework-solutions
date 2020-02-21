@@ -16,8 +16,11 @@ namespace ITSMSkill.Tests.Flow
         public async Task HelpTest()
         {
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(GeneralTestUtterances.Help)
                 .AssertReply(AssertContains(MainResponses.HelpMessage))
+                .AssertReply(ActionEndMessage())
                 .StartTestAsync();
         }
 
@@ -25,9 +28,21 @@ namespace ITSMSkill.Tests.Flow
         public async Task CancelTest()
         {
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(GeneralTestUtterances.Cancel)
                 .AssertReply(AssertContains(MainResponses.CancelMessage))
                 .AssertReply(ActionEndMessage())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task SkillModeCompletionTest()
+        {
+            await this.GetSkillTestFlow()
+                .Send(GeneralTestUtterances.UnknownIntent)
+                .AssertReply(AssertContains(MainResponses.FeatureNotAvailable))
+                .AssertReply(SkillActionEndMessage())
                 .StartTestAsync();
         }
     }
