@@ -825,7 +825,7 @@ namespace PointOfInterestSkill.Dialogs
                         TravelDelaySpeak = GetFormattedTrafficDelayString(trafficTimeSpan),
                         ProviderDisplayText = destination.GenerateProviderDisplayText(),
                         Speak = GetFormattedTravelTimeSpanString(travelTimeSpan),
-                        ActionStartNavigation = PointOfInterestSharedStrings.START,
+                        ActionStartNavigation = PointOfInterestSharedStrings.START_NAVIGATION,
                         CardTitle = PointOfInterestSharedStrings.CARD_TITLE
                     };
 
