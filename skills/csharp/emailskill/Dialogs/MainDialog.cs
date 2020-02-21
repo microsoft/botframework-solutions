@@ -7,7 +7,6 @@ using EmailSkill.Responses.Main;
 using EmailSkill.Responses.Shared;
 using EmailSkill.Services;
 using Luis;
-using Microsoft.Azure.CognitiveServices.Language.TextAnalytics.Models;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
@@ -215,7 +214,6 @@ namespace EmailSkill.Dialogs
         // Handles introduction/continuation prompt logic.
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var activity = stepContext.Context.Activity;
             if (stepContext.Context.IsSkill())
             {
                 // If the bot is in skill mode, skip directly to route and do not prompt

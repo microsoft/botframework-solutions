@@ -125,6 +125,7 @@ namespace EmailSkill.Dialogs
                 var actionResult = new ActionResult() { ActionSuccess = true };
                 return await sc.EndDialogAsync(actionResult);
             }
+
             return await sc.EndDialogAsync(true);
         }
     }

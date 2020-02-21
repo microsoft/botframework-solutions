@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using EmailSkill.Models.Action;
 using EmailSkill.Responses.FindContact;
 using EmailSkill.Responses.Main;
 using EmailSkill.Responses.SendEmail;
@@ -13,6 +14,7 @@ using EmailSkill.Tests.Flow.Strings;
 using EmailSkill.Tests.Flow.Utterances;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 
 namespace EmailSkill.Tests.Flow
 {
@@ -432,6 +434,48 @@ namespace EmailSkill.Tests.Flow
                 .AssertReply(this.AssertComfirmBeforeSendingPrompt())
                 .Send(GeneralTestUtterances.Yes)
                 .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_SendEmailAction()
+        {
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+
+            var recipientList = new
+            {
+                NameList = testEmailAddress
+            };
+
+            await this.GetSkillTestFlow()
+                .Send(SendEmailUtterances.SendEmailAction)
+                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReply(this.AfterSendingMessage(ContextStrings.TestSubject))
+                .AssertReply(CheckForEoC(true, true))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_SendEmailActionNotSuccess()
+        {
+            string testEmailAddress = ContextStrings.TestEmailAdress;
+
+            var recipientList = new
+            {
+                NameList = testEmailAddress
+            };
+
+            await this.GetSkillTestFlow()
+                .Send(SendEmailUtterances.SendEmailAction)
+                .AssertReplyOneOf(this.AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
+                .AssertReply(this.AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(CancelResponses())
+                .AssertReply(CheckForEoC(true, false))
                 .StartTestAsync();
         }
 

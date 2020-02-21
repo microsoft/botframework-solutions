@@ -182,6 +182,52 @@ namespace EmailSkill.Tests.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_ForwardEmailAction()
+        {
+            var testEmailAddress = ContextStrings.TestEmailAdress;
+            var recipientList = new
+            {
+                NameList = testEmailAddress
+            };
+
+            await this.GetSkillTestFlow()
+                .Send(ForwardEmailUtterances.ForwardEmailAction)
+                .AssertReply(ShowEmailList())
+                .AssertReply(AssertSelectOneOfTheMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReplyOneOf(AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
+                .AssertReply(AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReply(AfterSendingMessage(string.Format(EmailCommonStrings.ForwardReplyFormat, ContextStrings.TestSubject + "0")))
+                .AssertReply(CheckForEoC(true, true))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_ForwardEmailActionNotSuccess()
+        {
+            var testEmailAddress = ContextStrings.TestEmailAdress;
+            var recipientList = new
+            {
+                NameList = testEmailAddress
+            };
+
+            await this.GetSkillTestFlow()
+                .Send(ForwardEmailUtterances.ForwardEmailAction)
+                .AssertReply(ShowEmailList())
+                .AssertReply(AssertSelectOneOfTheMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReplyOneOf(AddMoreContacts(recipientList))
+                .Send(GeneralTestUtterances.No)
+                .AssertReply(AssertComfirmBeforeSendingPrompt())
+                .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(CancelResponses())
+                .AssertReply(CheckForEoC(true, false))
+                .StartTestAsync();
+        }
+
         private string[] ConfirmOneNameOneAddress(object recipientDict)
         {
             return GetTemplates(FindContactResponses.PromptOneNameOneAddress, recipientDict);

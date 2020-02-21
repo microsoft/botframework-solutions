@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Luis;
+using Microsoft.Bot.Schema;
 
 namespace EmailSkill.Tests.Flow.Utterances
 {
@@ -22,5 +23,13 @@ namespace EmailSkill.Tests.Flow.Utterances
         public static string DeleteEmailsWithSelection { get; } = "Delete the second Email";
 
         public static string DeleteCurrentEmail { get; } = "Delete the current Email";
+
+        public static string DeleteEmailActionName { get; } = "DeleteEmail";
+
+        public static Activity DeleteEmailAction { get; } = new Activity()
+        {
+            Type = ActivityTypes.Event,
+            Name = DeleteEmailActionName
+        };
     }
 }

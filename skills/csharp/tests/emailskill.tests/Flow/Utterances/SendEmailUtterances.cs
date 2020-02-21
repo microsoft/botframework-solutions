@@ -1,8 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using EmailSkill.Models.Action;
 using EmailSkill.Tests.Flow.Strings;
 using Luis;
+using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace EmailSkill.Tests.Flow.Utterances
 {
@@ -59,5 +63,19 @@ namespace EmailSkill.Tests.Flow.Utterances
         public static string SendEmailToMultiRecipient { get; } = "Send email to " + ContextStrings.TestRecipient + " and " + ContextStrings.TestRecipientWithDup;
 
         public static string SendEmailToDupRecipient { get; } = "Send email to " + ContextStrings.TestRecipientWithDup;
+
+        public static string SendEmailActionName { get; } = "SendEmail";
+
+        public static Activity SendEmailAction { get; } = new Activity()
+        {
+            Type = ActivityTypes.Event,
+            Name = SendEmailActionName,
+            Value = JObject.FromObject(new EmailInfo()
+            {
+                Subject = ContextStrings.TestSubject,
+                Content = ContextStrings.TestContent,
+                Reciever = new List<string>() { ContextStrings.TestEmailAdress }
+            })
+        };
     }
 }

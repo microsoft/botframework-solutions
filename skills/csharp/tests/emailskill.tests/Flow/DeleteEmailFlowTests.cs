@@ -31,7 +31,7 @@ namespace EmailSkill.Tests.Flow
                 .Send(BaseTestUtterances.FirstOne)
                 .AssertReply(this.DeleteConfirm())
                 .Send(GeneralTestUtterances.No)
-                .AssertReplyOneOf(this.NotSendingMessage())
+                .AssertReplyOneOf(this.CancelResponses())
                 .StartTestAsync();
         }
 
@@ -51,9 +51,36 @@ namespace EmailSkill.Tests.Flow
                 .StartTestAsync();
         }
 
-        private string[] NotSendingMessage()
+        [TestMethod]
+        public async Task Test_DeleteEmailAction()
         {
-            return GetTemplates(EmailSharedResponses.CancellingMessage);
+
+            await this.GetSkillTestFlow()
+                .Send(DeleteEmailUtterances.DeleteEmailAction)
+                .AssertReply(this.ShowEmailList())
+                .AssertReplyOneOf(this.NoFocusMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReply(this.DeleteConfirm())
+                .Send(GeneralTestUtterances.Yes)
+                .AssertReplyOneOf(this.DeleteSuccess())
+                .AssertReply(CheckForEoC(true, true))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task Test_DeleteEmailActionNotSuccess()
+        {
+
+            await this.GetSkillTestFlow()
+                .Send(DeleteEmailUtterances.DeleteEmailAction)
+                .AssertReply(this.ShowEmailList())
+                .AssertReplyOneOf(this.NoFocusMessage())
+                .Send(BaseTestUtterances.FirstOne)
+                .AssertReply(this.DeleteConfirm())
+                .Send(GeneralTestUtterances.No)
+                .AssertReplyOneOf(this.CancelResponses())
+                .AssertReply(CheckForEoC(true, false))
+                .StartTestAsync();
         }
 
         private string[] NoFocusMessage()

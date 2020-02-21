@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using EmailSkill.Models.Action;
 using EmailSkill.Tests.Flow.Strings;
 using Luis;
+using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
 
 namespace EmailSkill.Tests.Flow.Utterances
 {
@@ -29,5 +32,17 @@ namespace EmailSkill.Tests.Flow.Utterances
         public static string ReplyEmailsWithSelection { get; } = "Reply the second Email";
 
         public static string ReplyCurrentEmail { get; } = "Reply the current Email";
+
+        public static string ReplyEmailActionName { get; } = "ReplyEmail";
+
+        public static Activity ReplyEmailAction { get; } = new Activity()
+        {
+            Type = ActivityTypes.Event,
+            Name = ReplyEmailActionName,
+            Value = JObject.FromObject(new ReplyEmailInfo()
+            {
+                ReplyMessage = ContextStrings.TestContent
+            })
+        };
     }
 }

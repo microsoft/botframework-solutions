@@ -1,8 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using EmailSkill.Models.Action;
 using EmailSkill.Tests.Flow.Strings;
 using Luis;
+using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace EmailSkill.Tests.Flow.Utterances
 {
@@ -36,5 +40,18 @@ namespace EmailSkill.Tests.Flow.Utterances
         public static string ForwardEmailsToSelection { get; } = "Forward the second Email";
 
         public static string ForwardCurrentEmail { get; } = "Forward this Email";
+
+        public static string ForwardEmailActionName { get; } = "ForwardEmail";
+
+        public static Activity ForwardEmailAction { get; } = new Activity()
+        {
+            Type = ActivityTypes.Event,
+            Name = ForwardEmailActionName,
+            Value = JObject.FromObject(new ForwardEmailInfo()
+            {
+                ForwardMessage = ContextStrings.TestContent,
+                ForwardReciever = new List<string>() { ContextStrings.TestEmailAdress }
+            })
+        };
     }
 }
