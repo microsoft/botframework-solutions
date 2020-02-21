@@ -137,15 +137,6 @@
       "resultValue": {
         "$ref": "#/definitions/actionResult"
       }
-    },
-    "showEmail": {
-      "description": "Show the recent Emails",
-      "type": "event",
-      "name": "ShowEmail",
-      "value": {},
-      "resultValue": {
-        "$ref": "#/definitions/emailList"
-      }
     }
   },
   "definitions": {
@@ -205,12 +196,6 @@
           "type": "bool",
           "description": "result of action"
         }
-      }
-    },
-    "emailList": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/emailInfo"
       }
     }
   }
