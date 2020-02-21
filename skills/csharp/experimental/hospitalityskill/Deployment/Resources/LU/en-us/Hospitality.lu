@@ -213,6 +213,73 @@
 - what are the room service options for this hotel
 - will you bring me a {FoodRequest={SpecialRequest=gluten free} {Food=caesar salad}}
 
+> below are questions for the following answer from qna_chitchat_Caring
+> 'If you'd like to take a break and grab something to eat, I'll be here.'
+- I require sustenance
+- Hangry
+- I feel peckish
+- I have hunger
+- I have the munchies
+- I need food in my belly
+- I feel a little peckish
+- I need sustenance
+- I could eat a horse
+- I want a snack
+- I want food
+- I want noms
+- I want some food
+- I want to eat
+- I'd love some food
+- I need noms
+- I am so hungry
+- Hunger
+- Hungry
+- I am a little hungry
+- I am famished
+- I am feeling peckish
+- I feel hungry
+- I am hungry
+- I'm craving a snack
+- I am so hungry I could eat a horse
+- I am starving
+- I am super hungry
+- I am very hungry
+- I could eat
+- I could eat a bear
+- I am hangry
+- My tummy is rumbling
+- I'm very hunger
+- I've got the munchies
+- Me hungry
+- Me want food
+- My stomach is growling
+- I'm a bit peckish
+- My tummy is growling
+- I'm starving
+- Need food
+- Need food now
+- Need noms
+- Nom
+- Nom nom nom
+- Want food now
+- My stomach is rumbling
+- I'm hungry
+- So hungry
+- I'm craving food
+- I'm famished
+- I'm feeling a little hungry
+- I'm feeling hangry
+- I'm feeling hungry
+- I'm super hungry
+- I'm hangry
+- I'm starving to death
+- I'm hungry af
+- I'm peckish
+- I'm so hungry
+- I'm so hungry I could eat a bear
+- I'm so hungry I could eat a horse
+- I'm a little hungry
+- I'm feeling peckish
 
 > # Entity definitions
 
