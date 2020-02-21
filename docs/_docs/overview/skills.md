@@ -84,24 +84,6 @@ By their very nature these Skill are not complete, with only English support. If
 ## Next steps
 
 <div class="card-deck">
-    <a href="{{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro/"  class="card">
-        <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
-            <h4 class="card-title no_toc">Create a Skill</h4>
-            <p class="card-text">Get up and running with the solution accelerator.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Get started</div>
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/skills/tutorials/create-skill/typescript/1-intro/" class="card">
-        <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="Typescript icon" width="48px">
-            <h4 class="card-title no_toc">Create a Skill</h4>
-            <p class="card-text">Personalize your experience for your brand and customers.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Get started</div>
-        </div>
-    </a>
+    {% include button.html params=site.data.button.create_skill_cs %}
+    {% include button.html params=site.data.button.create_skill_ts %}
 </div>

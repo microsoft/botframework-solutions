@@ -1,0 +1,123 @@
+cs_img: &cs_img 'assets/images/icons/csharp.png'
+cs_alt: &cs_alt C# icon
+ts_img: &ts_img 'assets/images/icons/typescript.png'
+ts_alt: &ts_alt TypeScript icon
+skill_img: &skill_img 'assets/images/icons/skill.png'
+skill_alt: &skill_alt Skill icon
+
+create_va:
+  title: &create_va_title Create a Virtual Assistant
+  text: &create_va_text Get up and running with the solution accelerator.
+  button: &create_va_button Get started
+create_va_cs:
+  title: *create_va_title
+  text: *create_va_text
+  button: *create_va_button
+  ref: 'virtual-assistant/tutorials/create-assistant/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+create_va_ts:
+  title: *create_va_title
+  text: *create_va_text
+  button: *create_va_button
+  ref: 'virtual-assistant/tutorials/create-assistant/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+create_skill:
+  title: &create_skill_title Create a Skill
+  text: &create_skill_text Build a custom skill to extend to your Virtual Assistant.
+  button: &create_skill_button Get started
+create_skill_cs:
+  title: *create_skill_title
+  text: *create_skill_text
+  button: *create_skill_button
+  ref: 'skills/tutorials/create-skill/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+create_skill_ts:
+  title: *create_skill_title
+  text: *create_skill_text
+  button: *create_skill_button
+  ref: 'skills/tutorials/create-skill/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+customize_va:
+  title: &customize_va_title Customize a Virtual Assistant
+  text: &customize_va_text Personalize the experience for your brand and users.
+  button: &customize_va_button Get started
+customize_va_cs:
+  title: *customize_va_title
+  text: *customize_va_text
+  button: *customize_va_button
+  ref: 'virtual-assistant/tutorials/customize-assistant/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+customize_va_ts:
+  title: *customize_va_title
+  text: *customize_va_text
+  button: *customize_va_button
+  ref: 'virtual-assistant/tutorials/customize-assistant/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+customize_skill:
+  title:  &customize_skill_title Customize a Skill
+  text: &customize_skill_text Customize your skill for your brand and users.
+  button: &customize_skill_button Get started
+customize_skill_cs:
+  title: *customize_skill_title
+  text: *customize_skill_text
+  button: *customize_skill_button
+  ref: 'skills/tutorials/customize-skill/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+customize_skill_ts:
+  title: *customize_skill_title
+  text: *customize_skill_text
+  button: *customize_skill_button
+  ref: 'skills/tutorials/customize-skill/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+add_action:
+  title: &add_action_title Add action support
+  text: &add_action_text Add action support to your Skill.
+  button: &add_action_button Get started
+add_action_cs:
+  title: *add_action_title
+  text: *add_action_text
+  button: *add_action_button
+  ref: 'skills/tutorials/add-action-support/csharp/1-intro/'
+  img: *skill_img
+  alt: *skill_alt
+
+enable_speech:
+  title: Enable Speech
+  text: Enable the Microsoft Speech Channel for your assistant.
+  button: Get started
+  ref: 'clients-and-channels/tutorials/enable-speech/1-intro/'
+  img: 'assets/images/icons/speech.png'
+  alt: Speech icon
+
+enable_msteams:
+  title: Extend to Microsoft Teams
+  text: Enable the Microsoft Teams Channel for your assistant.
+  button: Get started
+  ref: 'clients-and-channels/tutorials/enable-teams/1-intro/'
+  img: 'assets/images/icons/teams.png'
+  alt: Microsoft Teams icon
+
+azure_pipelines:
+  title: What is Azure Pipelines?
+  text: Azure Pipelines is a cloud service that you can use to automatically build and test your code project and make it available to other users
+  button: Learn more
+  ref: https://docs.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops
+  ext_ref: true
+
+enable_cd:
+  title: Enable continuous deployment
+  text: Use release pipelines in Azure DevOps to continuously deliver your bot solution
+  button: Learn more
+  ref: 'solution-accelerators/tutorials/enable-continuous-deployment/1-intro/'

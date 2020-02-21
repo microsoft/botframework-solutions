@@ -1,0 +1,20 @@
+{% if include.params.ext_ref %}
+<a href="{{include.params.ref}}" class="card">
+{% else %}
+<a href="{{site.baseurl}}/{{include.params.ref}}" class="card">
+{% endif %}
+    <div class="card-body">
+        {% if include.params.img %}
+        {% if include.params.ext_img %}
+        <img src="{{include.params.img}}" alt="{{include.params.alt}}" width="48px">
+        {% else %}
+        <img src="{{site.baseurl}}/{{include.params.img}}" alt="{{include.params.alt}}" width="48px">
+        {% endif %}
+        {% endif %}
+        <h4 class="card-title">{{include.params.title}}</h4>
+        <p class="card-text">{{include.params.text}}</p>
+    </div>
+    <div class="card-footer">
+        <div class="btn btn-primary">{{include.params.button}}</div>
+    </div>
+</a>
