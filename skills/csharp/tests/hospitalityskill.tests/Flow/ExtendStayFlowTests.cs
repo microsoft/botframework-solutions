@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using HospitalitySkill.Models;
 using HospitalitySkill.Responses.ExtendStay;
 using HospitalitySkill.Responses.LateCheckOut;
+using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Services;
 using HospitalitySkill.Tests.Flow.Strings;
 using HospitalitySkill.Tests.Flow.Utterances;
@@ -32,6 +33,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(ExtendStayUtterances.ExtendStay)
                 .AssertReply(AssertContains(ExtendStayResponses.ExtendDatePrompt))
                 .Send(extendDate.ToString())
@@ -53,6 +56,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(ExtendStayUtterances.ExtendStayWithDate)
                 .AssertReply(AssertStartsWith(ExtendStayResponses.ConfirmExtendStay, tokens))
                 .Send(NonLuisUtterances.Yes)
@@ -72,6 +77,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(ExtendStayUtterances.ExtendStayWithNumNights)
                 .AssertReply(AssertStartsWith(ExtendStayResponses.ConfirmExtendStay, tokens))
                 .Send(NonLuisUtterances.Yes)
@@ -90,6 +97,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(ExtendStayUtterances.ExtendStayWithTime)
                 .AssertReply(AssertContains(LateCheckOutResponses.CheckAvailability))
                 .AssertReply(AssertStartsWith(LateCheckOutResponses.MoveCheckOutPrompt, tokens))

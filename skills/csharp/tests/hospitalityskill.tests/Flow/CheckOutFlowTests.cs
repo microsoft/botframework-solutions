@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Text;
 using System.Threading.Tasks;
 using HospitalitySkill.Responses.CheckOut;
+using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Responses.Shared;
 using HospitalitySkill.Tests.Flow.Utterances;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,6 +27,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(CheckOutUtterances.CheckOut)
                 .AssertReply(AssertStartsWith(CheckOutResponses.ConfirmCheckOut))
                 .Send(NonLuisUtterances.Yes)
@@ -46,6 +49,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(CheckOutUtterances.CheckOut)
                 .AssertReply(AssertStartsWith(CheckOutResponses.ConfirmCheckOut))
                 .Send(NonLuisUtterances.Yes)
@@ -69,6 +74,8 @@ namespace HospitalitySkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(CheckOutUtterances.CheckOut)
                 .AssertReply(AssertStartsWith(CheckOutResponses.ConfirmCheckOut))
                 .Send(NonLuisUtterances.Yes)

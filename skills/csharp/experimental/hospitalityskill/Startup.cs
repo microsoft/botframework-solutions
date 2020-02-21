@@ -75,9 +75,11 @@ namespace HospitalitySkill
             services.AddSingleton(settings);
             services.AddSingleton<BotSettingsBase>(settings);
 
+            // Configure channel provider
+            services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
+
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
@@ -91,6 +93,8 @@ namespace HospitalitySkill
             services.AddSingleton<BotServices>();
 
             // Configure storage
+            // Uncomment the following line for local development without Cosmos Db
+            // services.AddSingleton<IStorage, MemoryStorage>();
             services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
@@ -105,9 +109,6 @@ namespace HospitalitySkill
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
 
-            // Configure services
-            services.AddSingleton<IHotelService, HotelService>();
-
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(
                 settings.CognitiveModels.Select(l => l.Key).ToArray(),
@@ -119,6 +120,9 @@ namespace HospitalitySkill
                 new GetReservationResponses(),
                 new RequestItemResponses(),
                 new RoomServiceResponses()));
+
+            // Configure services
+            services.AddSingleton<IHotelService, HotelService>();
 
             // Register dialogs
             services.AddTransient<CheckOutDialog>();

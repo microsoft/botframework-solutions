@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using HospitalitySkill.Responses.Main;
 using HospitalitySkill.Responses.RoomService;
 using HospitalitySkill.Tests.Flow.Strings;
 using HospitalitySkill.Tests.Flow.Utterances;
@@ -18,6 +19,8 @@ namespace HospitalitySkill.Tests.Flow
         public async Task RoomServiceTest()
         {
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(RoomServiceUtterances.RoomService)
                 .AssertReply(AssertContains(RoomServiceResponses.MenuPrompt, null, HeroCard.ContentType))
                 .Send(RoomServiceUtterances.Breakfast)
@@ -38,6 +41,8 @@ namespace HospitalitySkill.Tests.Flow
         public async Task RoomServiceWithMenuTest()
         {
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(RoomServiceUtterances.RoomServiceWithMenu)
                 .AssertReply(AssertContains(null, null, CardStrings.MenuCard))
                 .AssertReply(AssertContains(RoomServiceResponses.FoodOrder))
@@ -56,6 +61,8 @@ namespace HospitalitySkill.Tests.Flow
         public async Task RoomServiceWithFoodTest()
         {
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(RoomServiceUtterances.RoomServiceWithFood)
                 .AssertReply(AssertContains(null, null, CardStrings.FoodOrderCard))
                 .AssertReply(AssertContains(RoomServiceResponses.AddMore))
