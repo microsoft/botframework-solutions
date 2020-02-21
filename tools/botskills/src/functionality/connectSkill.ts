@@ -20,7 +20,7 @@ import {
     IModel,
     IEndpoint
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, manifestV1Validation, manifestV2Validation } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, manifestV1Validation, manifestV2Validation, isCloudGovernment } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
 enum manifestVersion {
@@ -411,7 +411,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         }
     }
 
-    private AddSkill(assistantSkillsFile: IAppSetting, assistantSkills: ISkill[], skill: ISkillManifestV1 | ISkillManifestV2): void {
+    private async AddSkill(assistantSkillsFile: IAppSetting, assistantSkills: ISkill[], skill: ISkillManifestV1 | ISkillManifestV2): Promise<void> {
 
         if (this.skillManifestValidated == manifestVersion.V1) {
             const skillManifestV1: ISkillManifestV1 = skill as ISkillManifestV1;
@@ -438,9 +438,9 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             assistantSkillsFile.BotFrameworkSkills = assistantSkills;
         }
         
-        
         if (assistantSkillsFile.SkillHostEndpoint === undefined || assistantSkillsFile.SkillHostEndpoint.trim().length === 0) {
-            assistantSkillsFile.SkillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.net/api/skills`;
+            const channel: string = await isCloudGovernment() ? 'us' : 'net';
+            assistantSkillsFile.SkillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.${ channel }/api/skills`;
         }
         writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     }
@@ -469,7 +469,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Updating the assistant skills file's skills property with the assistant skills array
             // Writing (and overriding) the assistant skills file
             //writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
-            this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
+            await this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
             this.logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
             // Configuring bot auth settings
             //this.logger.message('Configuring bot auth settings');
@@ -503,7 +503,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Updating the assistant skills file's skills property with the assistant skills array
             // Writing (and overriding) the assistant skills file
             //writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
-            this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
+            await this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
             this.logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
             // Configuring bot auth settings
             //this.logger.message('Configuring bot auth settings');
