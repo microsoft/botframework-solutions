@@ -92,6 +92,81 @@
     "message": {
       "type": "message",
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    },
+    "addToDo": {
+      "description": "Add a todo task.",
+      "type": "event",
+      "name": "AddToDo",
+      "value": {
+        "$ref": "#/definitions/todoInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/todoList"
+      }
+    },
+    "deleteToDo": {
+      "description": "Delete a todo task",
+      "type": "event",
+      "name": "DeleteToDo",
+      "value": {
+        "$ref": "#/definitions/todoInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/todoList"
+      }
+    },
+    "markToDo": {
+      "description": "Mark a todo task as completed.",
+      "type": "event",
+      "name": "MarkToDo",
+      "value": {
+        "$ref": "#/definitions/todoInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/todoList"
+      }
+    },
+    "showToDo": {
+      "description": "Show todo list.",
+      "type": "event",
+      "name": "ShowToDo",
+      "value": {
+        "$ref": "#/definitions/listInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/todoList"
+      }
+    }
+  },
+  "definitions": {
+    "todoInfo": {
+      "type": "object",
+      "properties": {
+        "listType": {
+          "type": "string",
+          "description": "List type: todo, shopping or grocery."
+        },
+        "taskName": {
+          "type": "string",
+          "description": "Task name."
+        }
+      }
+    },
+    "listInfo": {
+      "type": "object",
+      "properties": {
+        "listType": {
+          "type": "string",
+          "description": "List type: todo, shopping or grocery."
+        }
+      }
+    },
+    "todoList": {
+      "type": "array",
+      "description": "List of todo tasks",
+      "items": {
+        "type": "string"
+      }
     }
   }
 }
