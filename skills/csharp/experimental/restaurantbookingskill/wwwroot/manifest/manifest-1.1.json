@@ -43,6 +43,53 @@
     "message": {
       "type": "message",
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    },
+    "booking": {
+      "description": "Book a restaurant.",
+      "type": "event",
+      "name": "Booking",
+      "value": {
+        "$ref": "#/definitions/bookingInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    }
+  },
+  "definitions": {
+    "bookingInfo": {
+      "type": "object",
+      "properties": {
+        "foodType": {
+          "type": "string",
+          "description": "FoodType"
+        },
+        "date": {
+          "type": "string",
+          "description": "Booking date"
+        },
+        "time": {
+          "type": "string",
+          "description": "The reservation time"
+        },
+        "attendeeCount": {
+          "type": "number",
+          "description": "The number of attendees."
+        },
+        "bookingPlace": {
+          "type": "string",
+          "description": "The name of restaurant."
+        }
+      }
+    },
+    "actionResult": {
+      "type": "object",
+      "properties": {
+        "actionSuccess": {
+          "type": "bool",
+          "description": "result of action"
+        }
+      }
     }
   }
 }
