@@ -60,7 +60,9 @@ namespace $safeprojectname$.Dialogs
         // Runs when the dialog is started.
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
         {
-            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            var activity = innerDc.Context.Activity;
+
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Get cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
@@ -89,7 +91,9 @@ namespace $safeprojectname$.Dialogs
         // Runs on every turn of the conversation.
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            var activity = innerDc.Context.Activity;
+
+            if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
                 // Get cognitive models for the current locale.
                 var localizedServices = _services.GetCognitiveModels();
