@@ -35,7 +35,7 @@ This script orchestrates the deployment of all Azure Resources and Cognitive Mod
 | appPassword | The password for your Microsoft App Registration. If `-appId` is provided this should be the password for your existing Microsoft App Registration. Otherwise, a new registration will be created using this password. | Yes |
 | luisAuthoringRegion | The region to deploy LUIS apps | Yes |
 | luisAuthoringKey | The authoring key for the LUIS portal. Must be valid key for `-luisAuthoringRegion`. | Yes |
-| resourceGroup | The name for your Azure resource group. Default value is the name parameter. | No
+| Resource group | The name for your Azure resource group. Default value is the name parameter. | No
 | appId | The application Id for your Microsoft App Registration. | No |
  parametersFile | Optional configuration file for ARM Template deployment. | No |
 | languages | Specifies which languages to deploy cognitive models in a comma separated string (e.g. "en-us,de-de,es-es"). Defaults to "en-us". | No |
@@ -53,7 +53,7 @@ This script deploys all the language models found in `Deployment/Resources/LU` a
 | luisAuthoringRegion | The region to deploy LUIS apps | Yes |
 | luisAuthoringKey | The authoring key for the LUIS portal. Must be valid key for `-luisAuthoringRegion`. | Yes |
 | luisAccountName | The LUIS service name from the Azure Portal. | Yes |
-| resourceGroup | The resource group where the LUIS service is deployed  | Yes |
+| Resource group | The resource group where the LUIS service is deployed  | Yes |
 | luisSubscriptionKey | The LUIS service subscription key from the Azure Portal. | Yes |
 | luisAccountRegion | The LUIS service region from the Azure Portal. | Yes |
 | qnaSubscriptionKey | The subscription key for the QnA Maker service. Can be found in the Azure Portal. | Yes |
@@ -84,7 +84,7 @@ This script builds and publishes your local project to your Azure.
 | Parameter | Description | Required? |
 | --------- | ----------- | --------- |
 | botWebAppName | The name of the Azure Web App for deployment | Yes |
-| resourceGroup |  The resource group for the Azure Web App | Yes |
+| Resource group |  The resource group for the Azure Web App | Yes |
 | projFolder |  The project folder. Defaults to | No |
 
 # Frequently asked questions
@@ -149,12 +149,12 @@ Any of the following parameters in the ARM template can be overridden with your 
 | luisAuthroingLocation | N/A |
 | qnaMakerServiceName | [name]-qna-[suffix] |
 | qnaMakerServiceSku | S0 |
-| qnaMakerServiceLocation | ResourceGroup location |
+| qnaMakerServiceLocation | Resource group location |
 | qnaMakerSearchName | [name]-search-[suffix] |
 | qnaMakerSearchSku | Standard |
-| qnaMakerSearchLocation | ResourceGroup location |
+| qnaMakerSearchLocation | Resource group location |
 | qnaMakerWebAppName | [name]-qnahost-[suffix] |
-| qnaMakerWebAppLocation | ResourceGroup location |
+| qnaMakerWebAppLocation | Resource group location |
 | resourceTagName | "bot" |
 | resourceTagValue | [name]-[suffix] |
 
