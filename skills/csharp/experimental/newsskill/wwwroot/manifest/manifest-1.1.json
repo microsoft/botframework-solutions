@@ -46,6 +46,112 @@
     "message": {
       "type": "message",
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    },
+    "getTrendingArticles": {
+      "description": "Get trending articles",
+      "type": "event",
+      "name": "GetTrendingArticles",
+      "value": {
+        "$ref": "#/definitions/trendingArticlesInput"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/newsResult"
+      }
+    },
+    "getFavoriteTopics": {
+      "description": "Get articles about favorite topics",
+      "type": "event",
+      "name": "GetFavoriteTopics",
+      "value": {
+        "$ref": "#/definitions/favoriteTopicsInput"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/newsResult"
+      }
+    },
+    "findArticles": {
+      "description": "search articles by keyword and site",
+      "type": "event",
+      "name": "FindArticles",
+      "value": {
+        "$ref": "#/definitions/findArticlesInput"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/newsResult"
+      }
+    }
+  },
+  "definitions": {
+    "trendingArticlesInput": {
+      "type": "object",
+      "properties": {
+        "market": {
+          "type": "string",
+          "description": "The news market"
+        }
+      }
+    },
+    "favoriteTopicsInput": {
+      "type": "object",
+      "properties": {
+        "market": {
+          "type": "string",
+          "description": "The news market"
+        },
+        "category": {
+          "type": "string",
+          "description": "The news category"
+        }
+      }
+    },
+    "findArticlesInput": {
+      "type": "object",
+      "properties": {
+        "market": {
+          "type": "string",
+          "description": "The news market"
+        },
+        "query": {
+          "type": "string",
+          "description": "The keyword to search news"
+        },
+        "site": {
+          "type": "string",
+          "description": "The site to search news"
+        }
+      }
+    },
+    "newsResult": {
+      "type": "array",
+      "description": "The news result list of action",
+      "items": {
+        "$ref": "#/definitions/newsInfo"
+      }
+    },
+    "newsInfo": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of news"
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "The subtitle of news"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of news"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "The image Url of news"
+        },
+        "url": {
+          "type": "string",
+          "description": "The Url of news"
+        }
+      }
     }
   }
 }
