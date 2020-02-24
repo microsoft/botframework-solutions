@@ -24,7 +24,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(DeleteToDoFlowTestUtterances.BaseDeleteTask)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
@@ -45,7 +45,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTask)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)
@@ -64,7 +64,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(DeleteToDoFlowTestUtterances.DeleteSpecificTaskWithListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -81,7 +81,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(DeleteToDoFlowTestUtterances.DeleteTaskByContent)
                 .AssertReplyOneOf(this.CollectListType())
                 .Send(DeleteToDoFlowTestUtterances.ConfirmListType)

@@ -31,7 +31,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.FindNearestPoi)
                 .AssertReply(AssertContains(null, new string[] { CardStrings.DetailsNoCall }))
@@ -51,7 +51,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(FindPointOfInterestUtterances.FindNearestPoi)
                 .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
                 .Send(ContextStrings.Ave)
@@ -78,7 +78,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(FindPointOfInterestUtterances.FindPoiNearAddress)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
@@ -103,7 +103,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -125,7 +125,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -147,7 +147,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -166,7 +166,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.FindPharmacy)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -190,7 +190,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -210,7 +210,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -230,7 +230,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
@@ -256,7 +256,7 @@ namespace PointOfInterestSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.PointOfInterestWelcomeMessage))
+                .AssertReplyOneOf(this.ParseReplies(POIMainResponses.FirstPromptMessage))
                 .Send(BaseTestUtterances.LocationEvent)
                 .Send(FindPointOfInterestUtterances.WhatsNearby)
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))

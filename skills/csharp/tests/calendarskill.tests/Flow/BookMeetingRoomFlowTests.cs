@@ -43,7 +43,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -76,7 +76,7 @@ namespace CalendarSkill.Test.Flow
             string buildingNonexistent = string.Format(Strings.Strings.Building, 0);
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -111,7 +111,7 @@ namespace CalendarSkill.Test.Flow
             string buildingNonexistent = string.Format(Strings.Strings.Building, 0);
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -133,7 +133,7 @@ namespace CalendarSkill.Test.Flow
             string floorNumberNonexistent = string.Format(Strings.Strings.FloorNumber, "no number");
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -168,7 +168,7 @@ namespace CalendarSkill.Test.Flow
             string floorNumberNonexistent = string.Format(Strings.Strings.FloorNumber, "no number");
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -192,7 +192,7 @@ namespace CalendarSkill.Test.Flow
             var floorNumberNonexistent = 10;
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -233,7 +233,7 @@ namespace CalendarSkill.Test.Flow
             ServiceManager = MockServiceManager.SetFloor2NotAvailable();
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -273,7 +273,7 @@ namespace CalendarSkill.Test.Flow
             ServiceManager = MockServiceManager.SetFloor2NotAvailable();
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -310,7 +310,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -341,7 +341,7 @@ namespace CalendarSkill.Test.Flow
             MockSearchClient.SetSingleMeetingRoom();
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -371,7 +371,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -409,7 +409,7 @@ namespace CalendarSkill.Test.Flow
             MockSearchClient.SetSingleMeetingRoom();
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -432,7 +432,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -467,7 +467,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -506,7 +506,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -543,7 +543,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -586,7 +586,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -625,7 +625,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -662,7 +662,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BaseBookMeetingRoom)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -699,7 +699,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BookMeetingRoomWithMeetingRoomEntity)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -727,7 +727,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BookMeetingRoomWithBuildingEntity)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -757,7 +757,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BookMeetingRoomWithBuildingAndFloorNumberEntity)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)
@@ -785,7 +785,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BookMeetingRoomWithDateTimeEntity)
                 .AssertReplyOneOf(AskForBuildingPrompt())
                 .Send(Strings.Strings.DefaultBuilding)
@@ -815,7 +815,7 @@ namespace CalendarSkill.Test.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(BookMeetingRoomTestUtterances.BookMeetingRoomWithStartDateTimeEntity)
                 .AssertReplyOneOf(AskForDurationPrompt())
                 .Send(Strings.Strings.DefaultDuration)

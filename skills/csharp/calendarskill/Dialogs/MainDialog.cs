@@ -195,6 +195,7 @@ namespace CalendarSkill.Dialogs
                     {
                         case General.Intent.Cancel:
                             {
+                                state.Clear();
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(CalendarMainResponses.CancelMessage));
                                 await innerDc.CancelAllDialogsAsync();
                                 await innerDc.BeginDialogAsync(InitialDialogId);
@@ -214,73 +215,12 @@ namespace CalendarSkill.Dialogs
                             {
                                 // Log user out of all accounts.
                                 await LogUserOut(innerDc);
-
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale(CalendarMainResponses.LogOut));
                                 await innerDc.CancelAllDialogsAsync();
                                 await innerDc.BeginDialogAsync(InitialDialogId);
                                 interrupted = true;
                                 break;
                             }
-                    }
-
-                    if (!interrupted && innerDc.ActiveDialog != null)
-                    {
-                        var calendarLuisResult = innerDc.Context.TurnState.Get<CalendarLuis>(StateProperties.CalendarLuisResultKey);
-                        var topCalendarIntent = calendarLuisResult.TopIntent();
-
-                        if (topCalendarIntent.score > 0.9 && !CalendarCommonUtil.IsFindEventsDialog(state.InitialIntent))
-                        {
-                            var intentSwitchingResult = CalendarCommonUtil.CheckIntentSwitching(topCalendarIntent.intent);
-                            var newFlowOptions = new CalendarSkillDialogOptions() { SubFlowMode = false };
-
-                            if (intentSwitchingResult != CalendarLuis.Intent.None)
-                            {
-                                state.Clear();
-                                await innerDc.CancelAllDialogsAsync();
-                                state.InitialIntent = intentSwitchingResult;
-
-                                switch (intentSwitchingResult)
-                                {
-                                    case CalendarLuis.Intent.DeleteCalendarEntry:
-                                        await innerDc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Cancelled));
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.AcceptEventEntry:
-                                        await innerDc.BeginDialogAsync(nameof(ChangeEventStatusDialog), new ChangeEventStatusDialogOptions(newFlowOptions, EventStatus.Accepted));
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.ChangeCalendarEntry:
-                                        await innerDc.BeginDialogAsync(nameof(UpdateEventDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.CheckAvailability:
-                                        await innerDc.BeginDialogAsync(nameof(CheckPersonAvailableDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.ConnectToMeeting:
-                                        await innerDc.BeginDialogAsync(nameof(JoinEventDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.CreateCalendarEntry:
-                                        await innerDc.BeginDialogAsync(nameof(CreateEventDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.FindCalendarDetail:
-                                    case CalendarLuis.Intent.FindCalendarEntry:
-                                    case CalendarLuis.Intent.FindCalendarWhen:
-                                    case CalendarLuis.Intent.FindCalendarWhere:
-                                    case CalendarLuis.Intent.FindCalendarWho:
-                                    case CalendarLuis.Intent.FindDuration:
-                                        await innerDc.BeginDialogAsync(nameof(ShowEventsDialog), new ShowMeetingsDialogOptions(ShowMeetingsDialogOptions.ShowMeetingReason.FirstShowOverview, newFlowOptions));
-                                        interrupted = true;
-                                        break;
-                                    case CalendarLuis.Intent.TimeRemaining:
-                                        await innerDc.BeginDialogAsync(nameof(TimeRemainingDialog), newFlowOptions);
-                                        interrupted = true;
-                                        break;
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -301,8 +241,13 @@ namespace CalendarSkill.Dialogs
                 // If bot is in local mode, prompt with intro or continuation message
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CalendarWelcomeMessage)
+                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(CalendarMainResponses.FirstPromptMessage)
                 };
+
+                if (stepContext.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+                {
+                    promptOptions.Prompt = _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CalendarWelcomeMessage);
+                }
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
             }
@@ -539,7 +484,7 @@ namespace CalendarSkill.Dialogs
             }
             else
             {
-                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CalendarWelcomeMessage), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(CalendarMainResponses.CompletedMessage), cancellationToken);
             }
         }
 

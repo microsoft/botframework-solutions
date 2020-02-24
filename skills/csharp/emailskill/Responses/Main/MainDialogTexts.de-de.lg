@@ -30,3 +30,14 @@
 # LogOut.Text
 - Sie wurden abgemeldet.
 
+# FirstPromptMessage.Text
+- Was kann ich Ihnen heute helfen?
+- Was kann ich für Sie tun?
+- Gibt es etwas, was ich für Sie tun kann?
+- Wie kann ich Ihnen helfen?
+
+# CompletedMessage.Text
+- Ich bin hier, wenn du etwas anderes brauchst.
+- Lassen Sie mich wissen, ob es noch etwas gibt, was Sie brauchen.
+- Lassen Sie mich wissen, ob ich Ihnen mit etwas anderem helfen kann.
+- Fertig. Lassen Sie mich wissen, ob ich etwas anderes tun kann.

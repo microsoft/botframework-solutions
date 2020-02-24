@@ -24,7 +24,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(AddToDoFlowTestUtterances.BaseAddTask)
                 .AssertReplyOneOf(this.CollectToDoContent())
                 .Send(AddToDoFlowTestUtterances.TaskContent)
@@ -43,7 +43,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(AddToDoFlowTestUtterances.AddTaskWithContent)
                 .AssertReplyOneOf(this.AskSwitchListType())
                 .Send(MockData.ConfirmYes)
@@ -62,7 +62,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(AddToDoFlowTestUtterances.AddTaskWithContentAndListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -79,7 +79,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(AddToDoFlowTestUtterances.AddTaskWithContentAndShopVerb)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())
@@ -96,7 +96,7 @@ namespace ToDoSkill.Tests.Flow
             ServiceManager.MockTaskService.ChangeData(DataOperationType.OperationType.ResetAllData);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.ToDoWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(ToDoMainResponses.FirstPromptMessage))
                 .Send(AddToDoFlowTestUtterances.AddTaskWithContentAndCustomizeListType)
                 .AssertReplyOneOf(this.SettingUpOneNote())
                 .AssertReplyOneOf(this.AfterSettingUpOneNote())

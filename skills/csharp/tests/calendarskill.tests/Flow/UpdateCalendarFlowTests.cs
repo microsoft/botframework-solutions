@@ -40,7 +40,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithNewStartDate)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
@@ -53,7 +53,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithTitle)
                 .AssertReplyOneOf(this.AskForNewTimePrompt())
                 .Send("tomorrow 9 pm")
@@ -68,7 +68,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveEarlierTimeSpan)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
@@ -81,7 +81,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithMoveLaterTimeSpan)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
@@ -96,7 +96,7 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(UpdateMeetingTestUtterances.UpdateMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)

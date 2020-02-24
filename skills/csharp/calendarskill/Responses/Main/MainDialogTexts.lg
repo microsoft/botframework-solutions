@@ -44,3 +44,15 @@
 
 # LogOut.Text
 - You've been signed out.
+
+# FirstPromptMessage.Text
+- What can I help you with today?
+- What can I do for you?
+- Is there anything I can do for you?
+- How can I help you?
+
+# CompletedMessage.Text
+- I'm here if you need anything else.
+- Let me know if there's anything else you need.
+- Let me know if I can help you with anything else.
+- All done. Let me know if I can do anything else.

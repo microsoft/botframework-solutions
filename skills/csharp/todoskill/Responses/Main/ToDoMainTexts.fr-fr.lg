@@ -31,3 +31,15 @@
 
 # CancelMessage.Text
 - OK, recommençons à tout recommencer.
+
+# FirstPromptMessage.Text
+- Qu'est-ce que je peux t'aider aujourd'hui ?
+- Que puis-je pour vous?
+- Y a-t-il quelque chose que je puisse faire pour toi ?
+- Comment puis-je vous aider?
+
+# CompletedMessage.Text
+- Je suis là si tu as besoin d'autre chose.
+- Faites-moi savoir s'il y a autre chose dont vous avez besoin.
+- Faites-moi savoir si je peux vous aider avec autre chose.
+- Tout est fini. Faites-moi savoir si je peux faire autre chose.

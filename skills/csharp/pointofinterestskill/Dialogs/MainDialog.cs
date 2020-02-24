@@ -225,8 +225,13 @@ namespace PointOfInterestSkill.Dialogs
                 // If bot is in local mode, prompt with intro or continuation message
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage)
+                    Prompt = stepContext.Options as Activity ?? _responseManager.GetResponse(POIMainResponses.FirstPromptMessage)
                 };
+
+                if (stepContext.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+                {
+                    promptOptions.Prompt = _responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage);
+                }
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
             }
@@ -305,7 +310,7 @@ namespace PointOfInterestSkill.Dialogs
             }
             else
             {
-                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(POIMainResponses.PointOfInterestWelcomeMessage), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _responseManager.GetResponse(POIMainResponses.CompletedMessage), cancellationToken);
             }
         }
 

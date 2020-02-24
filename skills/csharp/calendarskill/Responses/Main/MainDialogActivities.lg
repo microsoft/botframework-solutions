@@ -34,3 +34,17 @@
     Speak = @{LogOut.Text()}
     InputHint = acceptingInput
 ]
+
+# FirstPromptMessage
+[Activity
+    Text = @{FirstPromptMessage.Text()}
+    Speak = @{FirstPromptMessage.Text()}
+    InputHint = acceptingInput
+]
+
+# CompletedMessage
+[Activity
+    Text = @{CompletedMessage.Text()}
+    Speak = @{CompletedMessage.Text()}
+    InputHint = acceptingInput
+]

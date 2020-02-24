@@ -220,8 +220,13 @@ namespace ToDoSkill.Dialogs
                 // If bot is in local mode, prompt with intro or continuation message
                 var promptOptions = new PromptOptions
                 {
-                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage)
+                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale(ToDoMainResponses.FirstPromptMessage)
                 };
+
+                if (stepContext.Context.Activity.Type == ActivityTypes.ConversationUpdate)
+                {
+                    promptOptions.Prompt = _templateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage);
+                }
 
                 return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
             }
@@ -331,7 +336,7 @@ namespace ToDoSkill.Dialogs
             }
             else
             {
-                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.ToDoWelcomeMessage), cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale(ToDoMainResponses.CompletedMessage), cancellationToken);
             }
         }
 

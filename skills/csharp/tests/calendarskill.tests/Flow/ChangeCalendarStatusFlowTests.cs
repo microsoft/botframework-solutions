@@ -40,7 +40,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
@@ -53,7 +53,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)
@@ -68,7 +68,7 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetMeetingsToMultiple(eventCount);
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(ChangeMeetingStatusTestUtterances.DeleteMeetingWithTitle)
                 .AssertReply(this.ShowCalendarList())
                 .Send(GeneralTestUtterances.ChooseOne)
@@ -83,7 +83,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(ChangeMeetingStatusTestUtterances.AcceptMeetingWithStartTime)
                 .AssertReply(this.ShowCalendarList())
                 .Send(Strings.Strings.ConfirmYes)

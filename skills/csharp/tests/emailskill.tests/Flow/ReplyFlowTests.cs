@@ -24,7 +24,7 @@ namespace EmailSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ReplyEmailUtterances.ReplyEmails)
                 .AssertReply(ShowEmailList())
                 .AssertReplyOneOf(NoFocusMessage())
@@ -42,7 +42,7 @@ namespace EmailSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ReplyEmailUtterances.ReplyEmails)
                 .AssertReply(ShowEmailList())
                 .AssertReplyOneOf(NoFocusMessage())
@@ -60,7 +60,7 @@ namespace EmailSkill.Tests.Flow
         {
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ReplyEmailUtterances.ReplyEmailsWithContent)
                 .AssertReply(ShowEmailList())
                 .AssertReplyOneOf(NoFocusMessage())

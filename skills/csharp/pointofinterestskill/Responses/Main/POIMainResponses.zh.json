@@ -88,5 +88,47 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "FirstPromptMessage": {
+    "replies": [
+      {
+        "text": "今天我能帮到你什么？",
+        "speak": "今天我能帮到你什么？"
+      },
+      {
+        "text": "我能为你做什么？",
+        "speak": "我能为你做什么？"
+      },
+      {
+        "text": "有什么我能为你做什么的吗？",
+        "speak": "有什么我能为你做什么的吗？"
+      },
+      {
+        "text": "我能帮你什么？",
+        "speak": "我能帮你什么？"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CompletedMessage": {
+    "replies": [
+      {
+        "text": "如果你还需要什么，我会在这里。",
+        "speak": "如果你还需要什么，我会在这里。"
+      },
+      {
+        "text": "如果还有什么需要，请告诉我。",
+        "speak": "如果还有什么需要，请告诉我。"
+      },
+      {
+        "text": "让我知道，如果我可以帮你什么。",
+        "speak": "让我知道，如果我可以帮你什么。"
+      },
+      {
+        "text": "全部完成。让我知道我能不能做别的事。",
+        "speak": "全部完成。让我知道我能不能做别的事。"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

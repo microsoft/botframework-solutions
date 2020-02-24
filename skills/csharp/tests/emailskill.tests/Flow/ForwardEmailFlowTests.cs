@@ -40,7 +40,7 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ForwardEmailUtterances.ForwardEmails)
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
@@ -78,7 +78,7 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ForwardEmailUtterances.ForwardEmails)
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
@@ -116,7 +116,7 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipient)
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
@@ -152,7 +152,7 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ForwardEmailUtterances.ForwardEmailsToRecipientWithContent)
                 .AssertReply(ShowEmailList())
                 .AssertReply(AssertSelectOneOfTheMessage())
@@ -176,7 +176,7 @@ namespace EmailSkill.Tests.Flow
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(EmailMainResponses.EmailWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(EmailMainResponses.FirstPromptMessage))
                 .Send(ForwardEmailUtterances.ForwardEmails)
                 .AssertReplyOneOf(EmailNotFoundPrompt())
                 .StartTestAsync();

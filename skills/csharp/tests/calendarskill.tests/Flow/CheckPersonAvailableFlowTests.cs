@@ -40,7 +40,7 @@ namespace CalendarSkill.Test.Flow
         {
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(CheckPersonAvailableTestUtterances.BaseCheckAvailable)
                 .AssertReplyOneOf(this.AvailableResponse())
                 .AssertReplyOneOf(this.AskForCreateNewMeeting())
@@ -54,7 +54,7 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetAllToDefault();
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(CheckPersonAvailableTestUtterances.CheckAvailableSlotFilling)
                 .AssertReplyOneOf(this.AskForCollectContact())
                 .Send(Strings.Strings.DefaultUserName)
@@ -72,7 +72,7 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetParticipantNotAvailable();
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(CheckPersonAvailableTestUtterances.BaseCheckAvailable)
                 .AssertReplyOneOf(this.NotAvailableResponse())
                 .AssertReplyOneOf(this.AskForFindNextAvailableTimeResponse())
@@ -89,7 +89,7 @@ namespace CalendarSkill.Test.Flow
             this.ServiceManager = MockServiceManager.SetOrgnizerNotAvailable();
             await this.GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.CalendarWelcomeMessage))
+                .AssertReplyOneOf(GetTemplates(CalendarMainResponses.FirstPromptMessage))
                 .Send(CheckPersonAvailableTestUtterances.BaseCheckAvailable)
                 .AssertReplyOneOf(this.OrgnizerNotAvailableResponse())
                 .AssertReplyOneOf(this.AskForCreateNewMeetingAnyway())
