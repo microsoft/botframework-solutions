@@ -20,6 +20,8 @@ namespace BingSearchSkill.Models
 
         public SearchResultModel.EntityType SearchEntityType { get; set; }
 
+        public bool NewConversation { get; set; } = true;
+
         public void Clear()
         {
             SearchEntityName = string.Empty;
