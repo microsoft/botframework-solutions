@@ -137,6 +137,15 @@
       "resultValue": {
         "$ref": "#/definitions/actionResult"
       }
+    },
+    "summary": {
+      "description": "Summary of recent emails",
+      "type": "event",
+      "name": "EmailSummary",
+      "value": {},
+      "resultValue": {
+        "$ref": "#/definitions/summaryResult"
+      }
     }
   },
   "definitions": {
@@ -195,6 +204,19 @@
         "actionSuccess": {
           "type": "bool",
           "description": "result of action"
+        }
+      }
+    },
+    "summaryResult": {
+      "type": "object",
+      "properties": {
+        "$ref": "#/definitions/actionResult",
+        "emailList": {
+          "type": "array",
+          "description": "List of recent emails",
+          "item": {
+            "type": "#/definitions/emailInfo"
+          }
         }
       }
     }
