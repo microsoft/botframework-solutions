@@ -210,9 +210,19 @@ namespace EmailSkill.Tests.Flow
                 Assert.AreEqual(ActivityTypes.EndOfConversation, eoc.Type);
                 if (value)
                 {
-                    var actionResult = eoc.Value as ActionResult;
-                    Assert.IsNotNull(actionResult);
-                    Assert.AreEqual(actionSuccess, actionResult.ActionSuccess);
+                    if (eoc.Value is ActionResult)
+                    {
+                        var actionResult = eoc.Value as ActionResult;
+                        Assert.IsNotNull(actionResult);
+                        Assert.AreEqual(actionSuccess, actionResult.ActionSuccess);
+                    }
+                    else if (eoc.Value is SummaryResult)
+                    {
+                        var actionResult = eoc.Value as SummaryResult;
+                        Assert.IsNotNull(actionResult);
+                        Assert.AreEqual(actionSuccess, actionResult.ActionSuccess);
+                        Assert.AreEqual(actionResult.EmailList.Count, 5);
+                    }
                 }
             };
         }

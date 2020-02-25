@@ -362,7 +362,7 @@ namespace EmailSkill.Dialogs
                                 return await stepContext.BeginDialogAsync(nameof(ForwardEmailDialog), new EmailSkillDialogOptions() { IsAction = true });
                             }
 
-                        case "ShowEmail":
+                        case "EmailSummary":
                             {
                                 return await stepContext.BeginDialogAsync(nameof(ShowEmailDialog), new EmailSkillDialogOptions() { IsAction = true });
                             }

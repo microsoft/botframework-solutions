@@ -3,6 +3,8 @@
 
 using EmailSkill.Tests.Flow.Strings;
 using Luis;
+using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
 
 namespace EmailSkill.Tests.Flow.Utterances
 {
@@ -23,5 +25,13 @@ namespace EmailSkill.Tests.Flow.Utterances
         public static string ShowEmails { get; } = "Show Emails";
 
         public static string ShowEmailsFromTestRecipient { get; } = "Show Emails from" + ContextStrings.TestRecipient;
+
+        public static string EmailSummaryActionName { get; } = "EmailSummary";
+
+        public static Activity EmailSummaryAction { get; } = new Activity()
+        {
+            Type = ActivityTypes.Event,
+            Name = EmailSummaryActionName
+        };
     }
 }

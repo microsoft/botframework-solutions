@@ -357,6 +357,15 @@ namespace EmailSkill.Tests.Flow
                 .StartTestAsync();
         }
 
+        [TestMethod]
+        public async Task Test_EmailSummaryAction()
+        {
+            await this.GetSkillTestFlow()
+                .Send(ShowEmailUtterances.EmailSummaryAction)
+                .AssertReply(CheckForEoC(true, true))
+                .StartTestAsync();
+        }
+
         private string[] NotShowingMessage()
         {
             return GetTemplates(EmailSharedResponses.CancellingMessage);
