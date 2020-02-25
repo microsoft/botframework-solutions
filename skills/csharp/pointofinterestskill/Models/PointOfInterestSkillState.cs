@@ -41,6 +41,8 @@ namespace PointOfInterestSkill.Models
 
         public string PoiType { get; set; }
 
+        public DestinationActionType DestinationActionType { get; set; }
+
         public int UserSelectIndex { get; set; }
 
         public void Clear()
@@ -49,6 +51,7 @@ namespace PointOfInterestSkill.Models
             LastFoundPointOfInterests = null;
             ActiveRoute = null;
             FoundRoutes = null;
+            DestinationActionType = DestinationActionType.None;
             ClearLuisResults();
         }
 

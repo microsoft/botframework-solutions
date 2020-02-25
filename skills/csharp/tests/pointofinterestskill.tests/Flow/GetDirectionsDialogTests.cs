@@ -79,7 +79,6 @@ namespace PointOfInterestSkill.Tests.Flow
                 .StartTestAsync();
         }
 
-
         /// <summary>
         /// Get directions near address (no prompt for current since no routing).
         /// </summary>
@@ -94,6 +93,32 @@ namespace PointOfInterestSkill.Tests.Flow
                 .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
                 .Send(BaseTestUtterances.OptionOne)
                 .AssertReply(CheckForEvent())
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task GetDirectionsActionTest()
+        {
+            await GetSkillTestFlow()
+                .Send(RouteFromXToYUtterances.FindRouteAction)
+                .AssertReply(AssertContains(POISharedResponses.MultipleLocationsFound, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CheckForEoC(true))
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task GetDirectionsToNearestNoCurrentActionTest()
+        {
+            await GetSkillTestFlow()
+                .Send(RouteFromXToYUtterances.GetToNearestPharmacyNoCurrentAction)
+                .AssertReply(AssertContains(POISharedResponses.PromptForCurrentLocation, null))
+                .Send(ContextStrings.Ave)
+                .AssertReply(AssertContains(POISharedResponses.CurrentLocationMultipleSelection, new string[] { CardStrings.Overview }))
+                .Send(BaseTestUtterances.OptionOne)
+                .AssertReply(CheckForEvent())
+                .AssertReply(CheckForEoC(true))
                 .StartTestAsync();
         }
     }
