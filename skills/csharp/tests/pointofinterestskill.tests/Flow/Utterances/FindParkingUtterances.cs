@@ -14,7 +14,7 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
     {
         public static readonly string FindParkingNearby = "find a parking garage";
 
-        public static readonly string FindParkingNearest = "find a nearest parking garage";
+        public static readonly string FindParkingNearest = "find the nearest parking garage";
 
         public static readonly string FindParkingNearAddress = $"find a parking garage near {ContextStrings.Ave}";
 

@@ -188,7 +188,7 @@
         },
         "showRoute": {
           "type": "boolean",
-          "description": "If provided, determine whether show route without prompt."
+          "description": "Indicates whether to show the route without a prompt."
         }
       }
     },
@@ -221,7 +221,7 @@
         },
         "showRoute": {
           "type": "boolean",
-          "description": "If provided, determine whether show route without prompt."
+          "description": "Indicates whether to show the route without a prompt."
         }
       }
     },

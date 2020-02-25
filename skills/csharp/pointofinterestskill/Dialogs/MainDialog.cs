@@ -291,19 +291,19 @@ namespace PointOfInterestSkill.Dialogs
                     {
                         case "GetDirectionAction":
                             {
-                                await DigestActoinInput<GetDirectionInput>(stepContext, ev);
+                                await DigestActionInput<GetDirectionInput>(stepContext, ev);
                                 return await stepContext.BeginDialogAsync(nameof(GetDirectionsDialog));
                             }
 
                         case "FindPointOfInterestAction":
                             {
-                                await DigestActoinInput<FindPointOfInterestInput>(stepContext, ev);
+                                await DigestActionInput<FindPointOfInterestInput>(stepContext, ev);
                                 return await stepContext.BeginDialogAsync(nameof(FindPointOfInterestDialog));
                             }
 
                         case "FindParkingAction":
                             {
-                                await DigestActoinInput<FindParkingInput>(stepContext, ev);
+                                await DigestActionInput<FindParkingInput>(stepContext, ev);
                                 return await stepContext.BeginDialogAsync(nameof(FindParkingDialog));
                             }
 
@@ -451,7 +451,7 @@ namespace PointOfInterestSkill.Dialogs
             }
         }
 
-        private async Task DigestActoinInput<T>(DialogContext dc, IEventActivity ev)
+        private async Task DigestActionInput<T>(DialogContext dc, IEventActivity ev)
             where T : ActionBaseInput
         {
             if (ev.Value is JObject eventValue)

@@ -19,7 +19,7 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
 
         public static readonly string GetToMicrosoftNearAddress = $"get directions to {ContextStrings.MicrosoftCorporation} near {ContextStrings.Ave}";
 
-        public static readonly string GetToNearestPharmacy = $"get directions the nearest {ContextStrings.Pharmacy}";
+        public static readonly string GetToNearestPharmacy = $"get directions to the nearest {ContextStrings.Pharmacy}";
 
         public static readonly Activity FindRouteAction = new Activity(type: ActivityTypes.Event, name: "GetDirectionAction", value: JObject.FromObject(new
         {

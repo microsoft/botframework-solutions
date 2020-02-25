@@ -14,9 +14,9 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
     {
         public static readonly string WhatsNearby = "What's nearby?";
 
-        public static readonly string FindNearestPoi = "find closest poi nearby me";
+        public static readonly string FindNearestPoi = "find closest poi near me";
 
-        public static readonly string FindPharmacy = $"find a {ContextStrings.Pharmacy} nearby me";
+        public static readonly string FindPharmacy = $"find a {ContextStrings.Pharmacy} nearby";
 
         public static readonly string FindPoiNearAddress = $"find poi near {ContextStrings.Ave}";
 

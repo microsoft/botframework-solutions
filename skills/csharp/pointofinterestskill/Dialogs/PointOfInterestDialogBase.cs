@@ -478,6 +478,7 @@ namespace PointOfInterestSkill.Dialogs
                         options.Prompt = ResponseManager.GetCardResponse(promptResponse, card, null);
                     }
 
+                    // If DestinationActionType is provided, skip the SelectActionPrompt with appropriate choice index
                     if (state.DestinationActionType != DestinationActionType.None)
                     {
                         int choiceIndex = -1;
