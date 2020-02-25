@@ -28,19 +28,19 @@
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
     },
     "bingSearch": {
-      "description": "Search the result of keyword in Bing",
+      "description": "Perform a Bing Search using a provided keyword",
       "type": "event",
       "name": "BingSearch",
       "value": {
-        "$ref": "#/definitions/inputObject"
+        "$ref": "#/definitions/keywordSearchRequest"
       },
       "resultValue": {
-        "$ref": "#/definitions/responseObject"
+        "$ref": "#/definitions/keywordSearchResponse"
       }
     }
   },
   "definitions": {
-    "inputObject": {
+    "keywordSearchRequest": {
       "type": "object",
       "properties": {
         "keyword": {
@@ -49,7 +49,7 @@
         }
       }
     },
-    "responseObject": {
+    "keywordSearchResponse": {
       "type": "object",
       "properties": {
         "url": {
