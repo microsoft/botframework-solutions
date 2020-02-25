@@ -117,7 +117,7 @@
       }
     },
     "replyEmail": {
-      "description": "Reply an Email",
+      "description": "Reply to an Email",
       "type": "event",
       "name": "ReplyEmail",
       "value": {
@@ -155,9 +155,9 @@
           "type": "string",
           "description": "Email address of email sender"
         },
-        "reciever": {
+        "recipients": {
           "type": "array",
-          "description": "List of email addresses to forward",
+          "description": "List of email addresses to send to",
           "items": {
             "type": "string"
           }
@@ -169,23 +169,23 @@
       "properties": {
         "replyMessage": {
           "type": "string",
-          "description": "The message of reply"
+          "description": "The reply message"
         }
       }
     },
     "forwardEmailInfo": {
       "type": "object",
       "properties": {
-        "forwardReciever": {
+        "forwardRecipients": {
           "type": "array",
-          "description": "List of email addresses to forward",
+          "description": "List of email addresses to forward to",
           "items": {
             "type": "string"
           }
         },
         "forwardMessage": {
           "type": "string",
-          "description": "The message of forward"
+          "description": "The message to forward"
         }
       }
     },
