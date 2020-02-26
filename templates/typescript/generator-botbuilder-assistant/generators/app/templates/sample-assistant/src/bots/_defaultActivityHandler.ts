@@ -8,6 +8,7 @@ import {
     TurnContext, 
     UserState,
     TeamsActivityHandler,
+    BotState,
     StatePropertyAccessor } from 'botbuilder';
 import {
     Dialog,
@@ -17,6 +18,8 @@ import {
 import { DialogEx } from 'botbuilder-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
+    private readonly conversationState: BotState;
+    private readonly userState: BotState;
     private readonly solutionName: string = '<%=assistantNameCamelCase%>';
     private readonly rootDialogId: string;
     private readonly dialogs: DialogSet;
@@ -28,17 +31,21 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         userState: UserState,
         dialog: T) {
         super();
-
+        this.conversationState = conversationState;
+        this.userState = userState;
         this.dialog = dialog;
         this.rootDialogId = this.dialog.id;
         this.dialogs = new DialogSet(conversationState.createProperty<DialogState>(this.solutionName));
         this.dialogs.add(this.dialog);
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
         this.onTurn(this.turn.bind(this));
+        this.onMembersAdded(this.membersAdded.bind(this));
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/tslint/config
     public async turn(turnContext: TurnContext, next: () => Promise<void>): Promise<any> {
+        super.onTurn(next);
+
         const dc: DialogContext = await this.dialogs.createContext(turnContext);
 
         if (dc.activeDialog !== undefined) {
@@ -46,11 +53,12 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         } else {
             await dc.beginDialog(this.rootDialogId);
         }
-
-        await next();
+        // Save any state changes that might have occured during the turn.
+        await this.conversationState.saveChanges(turnContext, false);
+        await this.userState.saveChanges(turnContext, false);
     }
 
-    protected async onTeamsMembersAdded(turnContext: TurnContext): Promise<void> {
+    protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<any> {
         return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
