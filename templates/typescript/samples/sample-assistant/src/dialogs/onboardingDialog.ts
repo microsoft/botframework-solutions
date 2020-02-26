@@ -8,8 +8,9 @@ import {
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
-    WaterfallStepContext, 
-    WaterfallStep } from 'botbuilder-dialogs';
+    WaterfallStepContext,
+    WaterfallStep
+} from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
 import { LocaleTemplateEngineManager, DialogContextEx } from 'botbuilder-solutions';
@@ -37,15 +38,15 @@ export class OnboardingDialog extends ComponentDialog {
             this.finishOnboardingDialog.bind(this)
         ];
 
-         // To capture built-in waterfall dialog telemetry, set the telemetry client
-         // to the new waterfall dialog and add it to the component dialog
-         this.telemetryClient = telemetryClient
-         this.addDialog(new WaterfallDialog(OnboardingDialog.name, onboarding));
-         this.addDialog(new TextPrompt(DialogIds.NamePrompt));
+        // To capture built-in waterfall dialog telemetry, set the telemetry client
+        // to the new waterfall dialog and add it to the component dialog
+        this.telemetryClient = telemetryClient
+        this.addDialog(new WaterfallDialog(OnboardingDialog.name, onboarding));
+        this.addDialog(new TextPrompt(DialogIds.NamePrompt));
     }
 
     public async askForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        const state: IUserProfileState = await this.accessor.get(sc.context, { name: ''});
+        const state: IUserProfileState = await this.accessor.get(sc.context, { name: '' });
 
         if (state.name !== undefined && state.name.trim().length > 0) {
             return await sc.next(state.name);
@@ -58,7 +59,7 @@ export class OnboardingDialog extends ComponentDialog {
     }
 
     public async finishOnboardingDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        const userProfile: IUserProfileState = await this.accessor.get(sc.context, { name: ''});
+        const userProfile: IUserProfileState = await this.accessor.get(sc.context, { name: '' });
         let name: string = sc.result as string;
 
         let generalResult: RecognizerResult = sc.context.turnState.get(StateProperties.GeneralResult);
@@ -80,10 +81,10 @@ export class OnboardingDialog extends ComponentDialog {
 
         // Captialize name
         userProfile.name = name.toLowerCase()
-                                .split(' ')
-                                .map(word => word.charAt(0)
-                                                 .toUpperCase() + word.substring(1))
-                                .join(' ');
+            .split(' ')
+            .map(word => word.charAt(0)
+                .toUpperCase() + word.substring(1))
+            .join(' ');
 
         await this.accessor.set(sc.context, userProfile);
 
