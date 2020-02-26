@@ -17,23 +17,20 @@ import {
     CosmosDbStorage,
     CosmosDbStorageSettings } from 'botbuilder-azure';
 import {
-    Dialog,
-    DialogState } from 'botbuilder-dialogs';
+    Dialog } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
     Locales,
     LocaleTemplateEngineManager,
     manifestGenerator,
-    SkillContext,
-    SkillHttpAdapter,
-    WhitelistAuthenticationProvider } from 'botbuilder-solutions';
+    SkillHttpAdapter } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
 import { CustomSkillAdapter, DefaultAdapter } from './adapters';
 import * as appsettings from './appsettings.json';
-import { DialogBot } from './bots/dialogBot';
+import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
 import { SampleDialog } from './dialogs/sampleDialog';
@@ -98,23 +95,20 @@ const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
-const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
-const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
-const whitelistAuthenticationProvider: WhitelistAuthenticationProvider = new WhitelistAuthenticationProvider(botSettings);
 
 // Configure localized responses
 const localizedTemplates: Map<string, string[]> = new Map<string, string[]>();
 const templateFiles: string[] = ['MainResponses', 'SampleResponses'];
 const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
 
-supportedLocales.forEach((locale: string) => {
+supportedLocales.forEach((locale: string): void => {
     const localeTemplateFiles: string[] = [];
-    templateFiles.forEach((template: string) => {
+    templateFiles.forEach((template: string): void => {
         // LG template for default locale should not include locale in file extension.
         if (locale === (botSettings.defaultLocale || 'en-us')) {
-            localeTemplateFiles.push(join(__dirname, 'responses', `${ template }.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', 'src', 'responses', `${ template }.lg`));
         } else {
-            localeTemplateFiles.push(join(__dirname, 'responses', `${template}.${locale}.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${template}.${locale}.lg`));
         }
     });
 
@@ -147,27 +141,25 @@ const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     telemetryClient);
 const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
 
-let bot: DialogBot<Dialog>;
+let bot: DefaultActivityHandler<Dialog>;
 try {
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
     const sampleDialog: SampleDialog = new SampleDialog(
         botSettings,
         botServices,
-        responseManager,
         stateAccessor,
-        telemetryClient
+        telemetryClient,
+        localeTemplateEngine
     );
     const mainDialog: MainDialog = new MainDialog(
-        botSettings,
         botServices,
-        responseManager,
         stateAccessor,
-        skillContextAccessor,
         sampleDialog,
-        telemetryClient
+        telemetryClient,
+        localeTemplateEngine
     );
 
-    bot = new DialogBot(conversationState, userState, telemetryClient, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
 } catch (err) {
     throw err;
 }
