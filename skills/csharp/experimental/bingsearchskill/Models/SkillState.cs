@@ -22,10 +22,13 @@ namespace BingSearchSkill.Models
 
         public bool NewConversation { get; set; } = true;
 
+        public bool IsAction { get; set; } = false;
+
         public void Clear()
         {
             SearchEntityName = string.Empty;
             SearchEntityType = SearchResultModel.EntityType.Unknown;
+            IsAction = false;
         }
     }
 }

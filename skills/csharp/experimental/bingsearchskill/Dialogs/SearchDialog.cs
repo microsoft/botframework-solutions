@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using BingSearchSkill.Models.Actions;
 
 namespace BingSearchSkill.Dialogs
 {
@@ -86,6 +87,13 @@ namespace BingSearchSkill.Dialogs
             // https://github.com/MicrosoftDocs/azure-docs/blob/master/articles/cognitive-services/Labs/Answer-Search/overview.md
             var entitiesResult = await client.GetSearchResult(state.SearchEntityName, "en-us", state.SearchEntityType);
 
+            var actionResult = new KeywordSearchResponse();
+            if (entitiesResult != null && entitiesResult.Count > 0)
+            {
+                actionResult.Url = entitiesResult[0].Url;
+                actionResult.Description = entitiesResult[0].Description;
+            }
+
             Activity prompt = null;
             if (entitiesResult != null && entitiesResult.Count > 0)
             {
@@ -154,6 +162,9 @@ namespace BingSearchSkill.Dialogs
                             { "Answer", "Sorry I do not know this answer yet." },
                             { "Url", "www.bing.com" }
                         });
+
+                        actionResult.Description = "Sorry I do not know this answer yet.";
+                        actionResult.Url = "www.bing.com";
                     }
                     else
                     {
@@ -171,6 +182,12 @@ namespace BingSearchSkill.Dialogs
             }
 
             await stepContext.Context.SendActivityAsync(prompt);
+
+            if (state.IsAction)
+            {
+                return await stepContext.NextAsync(actionResult);
+            }
+
             return await stepContext.NextAsync();
         }
 
@@ -179,7 +196,7 @@ namespace BingSearchSkill.Dialogs
             var state = await _stateAccessor.GetAsync(stepContext.Context);
             state.Clear();
 
-            return await stepContext.EndDialogAsync();
+            return await stepContext.EndDialogAsync(stepContext.Result);
         }
 
         private async void GetEntityFromLuis(WaterfallStepContext stepContext)

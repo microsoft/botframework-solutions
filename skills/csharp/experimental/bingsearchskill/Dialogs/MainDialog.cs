@@ -22,6 +22,8 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using SkillServiceLibrary.Utilities;
 using Microsoft.Extensions.DependencyInjection;
+using BingSearchSkill.Models.Actions;
+using Newtonsoft.Json.Linq;
 
 namespace BingSearchSkill.Dialogs
 {
@@ -216,9 +218,49 @@ namespace BingSearchSkill.Dialogs
                     }
                 }
             }
+            else if (a.Type == ActivityTypes.Event)
+            {
+                // Handle skill actions here
+                var eventActivity = a.AsEventActivity();
+
+                if (!string.IsNullOrEmpty(eventActivity.Name))
+                {
+                    switch (eventActivity.Name)
+                    {
+                        // Each Action in the Manifest will have an associated Name which will be on incoming Event activities
+                        case "SendEmail":
+                            {
+                                KeywordSearchRequest actionData = null;
+
+                                var eventValue = a.Value as JObject;
+                                if (eventValue != null)
+                                {
+                                    actionData = eventValue.ToObject<KeywordSearchRequest>();
+                                    await DigestActionInput(stepContext, actionData);
+                                }
+
+                                state.IsAction = true;
+                                return await stepContext.BeginDialogAsync(nameof(SearchDialog));
+                            }
+
+                        default:
+
+                            // todo: move the response to lg
+                            await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{eventActivity.Name ?? "undefined"}' was received but not processed."));
+
+                            break;
+                    }
+                }
+            }
 
             // If activity was unhandled, flow should continue to next step
             return await stepContext.NextAsync();
+        }
+
+        private async Task DigestActionInput(DialogContext dc, KeywordSearchRequest request)
+        {
+            var state = await _stateAccessor.GetAsync(dc.Context, () => new SkillState());
+            state.SearchEntityName = request.Keyword;
         }
 
         // Handles conversation cleanup.
