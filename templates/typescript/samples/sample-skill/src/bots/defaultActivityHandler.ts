@@ -13,11 +13,13 @@ import {
     DialogState, 
     DialogContext,
     DialogSet } from 'botbuilder-dialogs';
+import { DialogEx } from 'botbuilder-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly conversationState: BotState;
     private readonly userState: BotState;
-    private dialogStateAccesor: StatePropertyAccessor<DialogState>;
+    private dialogStateAccessor: StatePropertyAccessor<DialogState>;
+    private readonly dialog: Dialog;
 
     private readonly dialogs: DialogSet;
     private readonly rootDialogId: string;
@@ -28,14 +30,14 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
         dialog: T
     ) {
         super();
-
+        this.dialog = dialog;
         this.rootDialogId = dialog.id;
         
         this.conversationState = conversationState;
         this.userState = userState;
-        this.dialogStateAccesor = conversationState.createProperty<DialogState>('DialogState');
+        this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
 
-        this.dialogs = new DialogSet(this.dialogStateAccesor);
+        this.dialogs = new DialogSet(this.dialogStateAccessor);
         this.dialogs.add(dialog);
         this.onTurn(this.turn.bind(this));
         this.onMembersAdded(this.membersAdded.bind(this));
@@ -61,36 +63,17 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<any> {
-        
-        const dc: DialogContext = await this.dialogs.createContext(turnContext);
-
-        if (dc.activeDialog !== undefined) {
-            return await dc.continueDialog();
-        } else {
-            return await dc.beginDialog(this.rootDialogId);
-        }
+        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected async onMessageActivity(turnContext: TurnContext): Promise<any> {
-        const dc: DialogContext = await this.dialogs.createContext(turnContext);
-
-        if (dc.activeDialog !== undefined) {
-            return await dc.continueDialog();
-        } else {
-            return await dc.beginDialog(this.rootDialogId);
-        }
+        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     protected async onEventActivity(turnContext: TurnContext): Promise<any> {
-        const dc: DialogContext = await this.dialogs.createContext(turnContext);
-
-        if (dc.activeDialog !== undefined) {
-            return await dc.continueDialog();
-        } else {
-            return await dc.beginDialog(this.rootDialogId);
-        }
+        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
     
 }
