@@ -79,7 +79,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 }
             };
 
-            this.addDialog(new WaterfallDialog(DialogIds.localAuthPrompt, authSteps));
+            this.addDialog(new WaterfallDialog(DialogIds.firstStepPrompt, authSteps));
             this.addDialog(new ChoicePrompt(DialogIds.providerPrompt));
         } else {
             throw new Error('There is no authenticationConnections value');
@@ -149,7 +149,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             };
         }
 
-        return stepContext.beginDialog(DialogIds.localAuthPrompt);
+        return stepContext.beginDialog(DialogIds.authPrompt);
 
         throw new Error('Local authentication is not configured, please check the auth connection section in your configuration file.');
     }
