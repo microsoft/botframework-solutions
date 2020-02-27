@@ -4,6 +4,8 @@
 namespace Microsoft.Bot.Solutions.Middleware
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Xml;
@@ -18,18 +20,26 @@ namespace Microsoft.Bot.Solutions.Middleware
     {
         private const string DefaultLocale = "en-US";
 
-        private const string DefaultVoiceFont = "Microsoft Server Speech Text to Speech Voice (en-US, JessaNeural)";
+        private static readonly IDictionary<string, string> DefaultVoiceFonts = new Dictionary<string, string>()
+        {
+            { "de-DE", "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)" },
+            { "en-US", "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)" },
+            { "es-ES", "Microsoft Server Speech Text to Speech Voice (es-ES, Laura, Apollo)" },
+            { "fr-FR", "Microsoft Server Speech Text to Speech Voice (fr-FR, Julie, Apollo)" },
+            { "it-IT", "Microsoft Server Speech Text to Speech Voice (it-IT, Cosimo, Apollo)" },
+            { "zh-CN", "Microsoft Server Speech Text to Speech Voice (zh-CN, HuihuiRUS)" },
+        };
 
         private static string _locale;
 
-        private static string _voiceFont;
+        private static IDictionary<string, string> _voiceFonts;
 
         private static readonly XNamespace NamespaceURI = @"https://www.w3.org/2001/10/synthesis";
 
-        public SetSpeakMiddleware(string locale = DefaultLocale, string voiceName = DefaultVoiceFont)
+        public SetSpeakMiddleware(string locale = DefaultLocale, IDictionary<string, string> voiceNames = null)
         {
             _locale = locale;
-            _voiceFont = voiceName;
+            _voiceFonts = voiceNames ?? DefaultVoiceFonts;
         }
 
         /// <summary>
@@ -50,8 +60,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                         case ActivityTypes.Message:
                             activity.Speak = activity.Speak ?? activity.Text;
 
-                            // TODO: Use Microsoft.Bot.Connector.Channels comparison when "directlinespeech" is available
-                            if (activity.ChannelId.Equals("directlinespeech"))
+                            if (activity.ChannelId.Equals(Connector.Channels.DirectlineSpeech))
                             {
                                 activity.Speak = DecorateSSML(activity);
                             }
@@ -95,8 +104,18 @@ namespace Microsoft.Bot.Solutions.Middleware
                 rootElement = new XElement(NamespaceURI + "speak", activity.Speak);
             }
 
+            var locale = _locale;
+            if (!string.IsNullOrEmpty(activity.Locale))
+            {
+                var normalizedLocale = new CultureInfo(activity.Locale).Name;
+                if (_voiceFonts.ContainsKey(normalizedLocale))
+                {
+                    locale = normalizedLocale;
+                }
+            }
+
             AddAttributeIfMissing(rootElement, "version", "1.0");
-            AddAttributeIfMissing(rootElement, XNamespace.Xml + "lang", _locale);
+            AddAttributeIfMissing(rootElement, XNamespace.Xml + "lang", locale);
             AddAttributeIfMissing(rootElement, XNamespace.Xmlns + "mstts", "https://www.w3.org/2001/mstts");
 
             var sayAsElements = rootElement.Elements("say-as");
@@ -106,7 +125,7 @@ namespace Microsoft.Bot.Solutions.Middleware
             }
 
             // add voice element if absent
-            AddVoiceElementIfMissing(rootElement, _voiceFont);
+            AddVoiceElementIfMissing(rootElement, _voiceFonts[locale]);
 
             return rootElement.ToString(SaveOptions.DisableFormatting);
         }
