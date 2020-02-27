@@ -16,6 +16,8 @@ import {
     ConversationState,
     Activity } from 'botbuilder';
 import { SwitchSkillDialogOptions } from "./switchSkillDialogOptions";
+import { SkillDialog } from "../skillDialog";
+import { SkillDialogArgs } from "../skillDialogArgs";
 
 export class SwitchSkillDialog extends ComponentDialog {
     private static confirmPromptId: string = "ConfirmSkillSwitch";
@@ -50,7 +52,11 @@ export class SwitchSkillDialog extends ComponentDialog {
 
         if (!!result && skillId !== undefined) {
             // If user decided to switch, replace current skill dialog with new skill dialog.
-            return await outerDc.replaceDialog(skillId);
+            const skillDialogArgs: SkillDialogArgs = new SkillDialogArgs();
+            skillDialogArgs.skillId = skillId;
+
+            // Start the skill dialog.
+            return await outerDc.replaceDialog(skillId, skillDialogArgs);
         }
         else {
             // Otherwise, continue the waiting skill dialog with the user's previous utterance.
