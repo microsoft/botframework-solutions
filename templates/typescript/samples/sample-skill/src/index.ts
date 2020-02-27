@@ -34,6 +34,7 @@ import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
 import { SampleDialog } from './dialogs/sampleDialog';
+import { SampleAction } from './dialogs/sampleAction';
 import { SkillState } from './models/skillState';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
@@ -104,8 +105,8 @@ const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it',
 supportedLocales.forEach((locale: string): void => {
     const localeTemplateFiles: string[] = [];
     templateFiles.forEach((template: string): void => {
-        // LG template for default locale should not include locale in file extension.
-        if (locale === (botSettings.defaultLocale || 'en-us')) {
+        // LG template for en-us does not include locale in file extension.
+        if (locale === 'en-us') {
             localeTemplateFiles.push(join(__dirname, '..', 'src', 'responses', `${ template }.lg`));
         } else {
             localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${template}.${locale}.lg`));
@@ -144,6 +145,13 @@ const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
 let bot: DefaultActivityHandler<Dialog>;
 try {
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
+    const sampleAction: SampleAction = new SampleAction(
+        botSettings,
+        botServices,
+        stateAccessor,
+        telemetryClient,
+        localeTemplateEngine
+    );
     const sampleDialog: SampleDialog = new SampleDialog(
         botSettings,
         botServices,
@@ -155,6 +163,7 @@ try {
         botServices,
         stateAccessor,
         sampleDialog,
+        sampleAction,
         telemetryClient,
         localeTemplateEngine
     );
@@ -180,6 +189,14 @@ server.listen(process.env.port || process.env.PORT || '3980', (): void => {
 
 // Listen for incoming requests
 server.post('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
+    // Route received a request to adapter for processing
+    await defaultAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
+        // route to bot activity handler.
+        await bot.run(turnContext);
+    });
+});
+
+server.get('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
     // Route received a request to adapter for processing
     await defaultAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
         // route to bot activity handler.
