@@ -15,7 +15,7 @@ toc: true
 
 The [Bot Framework Composer](https://aka.ms/bfcomposer) is a visual designer that lets you quickly and easily build sophisticated conversational bots without writing code. Composer is currently in Public Preview and the documentation below covers manual steps to move Dialog management for an existing Skill created using the [Skill Template](https://microsoft.github.io/botframework-solutions/skills/tutorials/create-skill/csharp/1-intro/) to Composer.
 
-An approach for hybrid composition of Waterfall and Adaptive/Composer dialogs within the same Assistant or Skill is being tested, in the meantime this steps will more all dialog management to Composer based dialogs.
+An approach for hybrid composition of Waterfall and Adaptive/Composer dialogs within the same Assistant or Skill is being tested, in the meantime these steps will move all dialog management to Composer based dialogs.
 
 Moving forward there will be an updated Skill Template that will support Bot Framework Composer out of the box without these changes.
 
