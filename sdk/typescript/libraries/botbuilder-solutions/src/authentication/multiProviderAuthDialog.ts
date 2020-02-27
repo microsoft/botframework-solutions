@@ -14,7 +14,6 @@ import i18next from 'i18next';
 import { IOAuthConnection } from '../authentication';
 import { EventPrompt } from '../dialogs/eventPrompt';
 import { ActivityEx } from '../extensions';
-import { IRemoteUserTokenProvider, isRemoteUserTokenProvider } from '../remoteUserTokenProvider';
 import { ResponseManager } from '../responses';
 import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
@@ -22,13 +21,12 @@ import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
 
 /**
- * Provides the ability to prompt for which Authentication provider the user wishes to use and handles Virtual Assistant and Skill remote authentication scenarios.
+ * Provides the ability to prompt for which Authentication provider the user wishes to use.
  */
 export class MultiProviderAuthDialog extends ComponentDialog {
     private selectedAuthType: string = '';
     private readonly authenticationConnections: IOAuthConnection[];
     private readonly responseManager: ResponseManager;
-    private readonly localAuthConfigured: boolean = false;
     private readonly appCredentials: MicrosoftAppCredentials;
 
     public constructor(
@@ -51,12 +49,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             this.firstStep.bind(this)
         ];
 
-        const remoteAuth: WaterfallStep[] = [
-            this.sendRemoteEvent.bind(this),
-            this.receiveRemoteEvent.bind(this)
-        ];
-
-        const localAuth: WaterfallStep[] = [
+        const authSteps: WaterfallStep[] = [
             this.promptForProvider.bind(this),
             this.promptForAuth.bind(this),
             this.handleTokenResponse.bind(this)
@@ -64,18 +57,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         this.addDialog(new WaterfallDialog(DialogIds.firstStepPrompt, firstStep));
 
-        // Add remote authentication support
-        this.addDialog(new WaterfallDialog(DialogIds.remoteAuthPrompt, remoteAuth));
-        this.addDialog(new EventPrompt(
-            DialogIds.remoteAuthEventPrompt,
-            TokenEvents.tokenResponseEventName,
-            this.tokenResponseValidator.bind(this)));
-
         // If authentication connections are provided locally then we enable "local auth"
         // otherwise we only enable remote auth where the calling Bot handles this for us.
         if (this.authenticationConnections !== undefined && this.authenticationConnections.length > 0) {
-            let authDialogAdded: boolean = false;
-
             for (var i = 0; i < this.authenticationConnections.length; ++i) {
                 let connection = this.authenticationConnections[i];
 
@@ -92,19 +76,11 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                         settings,
                         this.authPromptValidator.bind(this)
                     ));
-
-                    authDialogAdded = true;
                 }
             };
 
-            // Only add Auth supporting local auth dialogs if we found valid authentication connections to use
-            // otherwise it will just work in remote mode.
-            if (authDialogAdded) {
-                this.addDialog(new WaterfallDialog(DialogIds.localAuthPrompt, localAuth));
-                this.addDialog(new ChoicePrompt(DialogIds.providerPrompt));
-
-                this.localAuthConfigured = true;
-            }
+            this.addDialog(new WaterfallDialog(DialogIds.localAuthPrompt, authSteps));
+            this.addDialog(new ChoicePrompt(DialogIds.providerPrompt));
         } else {
             throw new Error('There is no authenticationConnections value');
         }
@@ -123,10 +99,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     }
 
     private async firstStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        if (isRemoteUserTokenProvider(stepContext.context.adapter)) {
-            return stepContext.beginDialog(DialogIds.remoteAuthPrompt);
-        }
-
         if (stepContext.context.activity.channelId !== undefined &&
             stepContext.context.activity.channelId.trim().length > 0 &&
             stepContext.context.activity.channelId === 'directlinespeech') {
@@ -177,34 +149,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             };
         }
 
-        if (this.localAuthConfigured) {
-            return stepContext.beginDialog(DialogIds.localAuthPrompt);
-        }
+        return stepContext.beginDialog(DialogIds.localAuthPrompt);
 
         throw new Error('Local authentication is not configured, please check the auth connection section in your configuration file.');
-    }
-
-    private async sendRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        if (isRemoteUserTokenProvider(stepContext.context.adapter)) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const tokenProvider: IRemoteUserTokenProvider = stepContext.context.adapter as any;
-            await tokenProvider.sendRemoteTokenRequestEvent(stepContext.context);
-
-            // Wait for the tokens/response event
-            return stepContext.prompt(DialogIds.remoteAuthEventPrompt, {});
-        }
-
-        throw new Error('The adapter does not support RemoteTokenRequest.');
-    }
-
-    private async receiveRemoteEvent(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        if (stepContext.context.activity !== undefined && stepContext.context.activity.value !== undefined) {
-            const tokenResponse: IProviderTokenResponse = JSON.parse(stepContext.context.activity.value);
-
-            return stepContext.endDialog(tokenResponse);
-        }
-
-        throw new Error('Token Response is invalid.');
     }
 
     private async promptForProvider(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
@@ -369,7 +316,5 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 enum DialogIds {
     providerPrompt = 'ProviderPrompt',
     firstStepPrompt = 'FirstStep',
-    localAuthPrompt = 'LocalAuth',
-    remoteAuthPrompt = 'RemoteAuth',
-    remoteAuthEventPrompt = 'RemoteAuthEvent'
+    authPrompt = 'AuthPrompt',
 }
