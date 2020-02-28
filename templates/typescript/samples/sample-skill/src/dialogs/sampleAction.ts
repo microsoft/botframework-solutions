@@ -13,14 +13,13 @@ import { BotServices } from '../services/botServices';
 import { LocaleTemplateEngineManager } from 'botbuilder-solutions';
 import { SkillState } from '../models/skillState';
 import { IBotSettings } from '../services/botSettings';
-import { SampleDialog } from './sampleDialog';
 
 export class SampleActionInput {
-    name: string = '';
+    public name: string = '';
 }
 
 export class SampleActionOutput {
-    customerId: number = 0;
+    public customerId: number = 0;
 }
 
 export class SampleAction extends SkillDialogBase {

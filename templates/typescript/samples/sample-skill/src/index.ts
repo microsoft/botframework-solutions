@@ -156,10 +156,10 @@ try {
     );
     const mainDialog: MainDialog = new MainDialog(
         botServices,
+        telemetryClient,
         stateAccessor,
         sampleDialog,
         sampleAction,
-        telemetryClient,
         localeTemplateEngine
     );
 

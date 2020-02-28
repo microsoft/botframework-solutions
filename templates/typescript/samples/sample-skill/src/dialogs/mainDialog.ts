@@ -31,11 +31,14 @@ import { BotServices } from '../services/botServices';
 import { SampleDialog } from './sampleDialog';
 import { StateProperties } from '../models';
 import { SampleActionInput, SampleAction } from './sampleAction';
+import { TurnContextEx } from '../extensions/turnContextEx';
 
 /**
  * Dialog providing activity routing and message/event processing.
  */
 export class MainDialog extends ComponentDialog {
+
+    private stateProperties: StateProperties = new StateProperties();
     // Fields
     private readonly services: BotServices;
     private readonly sampleDialog: SampleDialog;
@@ -88,14 +91,14 @@ export class MainDialog extends ComponentDialog {
             const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("sampleSkill") : undefined;
             if (skillLuis !== undefined) {
                 const skillResult: RecognizerResult = await skillLuis.recognize(innerDc.context);
-                innerDc.context.turnState.set(StateProperties.skillLuisResult, skillResult);
+                innerDc.context.turnState.set(this.stateProperties.skillLuisResult, skillResult);
             }
             
             // Run LUIS recognition on General model and store result in turn state.
             const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("general") : undefined;
             if (generalLuis !== undefined) {
                 const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
-                innerDc.context.turnState.set(StateProperties.generalLuisResult, generalResult);
+                innerDc.context.turnState.set(this.stateProperties.generalLuisResult, generalResult);
             }
 
             // Check for any interruptions
@@ -120,14 +123,14 @@ export class MainDialog extends ComponentDialog {
             const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("sampleSkill") : undefined;
             if (skillLuis !== undefined) {
                 const skillResult: RecognizerResult = await skillLuis.recognize(innerDc.context);
-                innerDc.context.turnState.set(StateProperties.skillLuisResult, skillResult);
+                innerDc.context.turnState.set(this.stateProperties.skillLuisResult, skillResult);
             }
 
             // Run LUIS recognition on General model and store result in turn state.
             const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("general") : undefined;
             if (generalLuis !== undefined) {
                 const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
-                innerDc.context.turnState.set(StateProperties.generalLuisResult, generalResult);
+                innerDc.context.turnState.set(this.stateProperties.generalLuisResult, generalResult);
             }     
         
             // Check for any interruptions
@@ -150,7 +153,7 @@ export class MainDialog extends ComponentDialog {
         if (activity.type === ActivityTypes.Message && activity.text !== undefined && activity.text.trim().length > 0) {
         
             // Get connected LUIS result from turn state.
-            const generalResult: RecognizerResult = innerDc.context.turnState.get(StateProperties.generalLuisResult);
+            const generalResult: RecognizerResult = innerDc.context.turnState.get(this.stateProperties.generalLuisResult);
             const intent: string = LuisRecognizer.topIntent(generalResult);
             if (generalResult.intents[intent].score > 0.5) {
                 switch(intent) {
@@ -189,13 +192,13 @@ export class MainDialog extends ComponentDialog {
 
     // Handles introduction/continuation prompt logic.
     private async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        if (stepContext.context.isSkill()) {
+        if (TurnContextEx.isSkill(stepContext.context)) {
             // If the bot is in skill mode, skip directly to route and do not prompt
             return await stepContext.next();
         } else {
             // If bot is in local mode, prompt with intro or continuation message
             const promptOptions: PromptOptions = {
-                prompt: stepContext.options as Activity ?? this.templateEngine.generateActivityForLocale("FirstPromptMessage")
+                prompt: stepContext.options as Activity ? stepContext.options : this.templateEngine.generateActivityForLocale("FirstPromptMessage")
             };
 
             return await stepContext.prompt(TextPrompt.name, promptOptions);
@@ -217,7 +220,7 @@ export class MainDialog extends ComponentDialog {
             const luisService: LuisRecognizer | undefined = localizedServices.luisServices? localizedServices.luisServices.get('sampleSkill') : undefined;
 
             if (luisService !== undefined){
-                const result = stepContext.context.turnState.get(StateProperties.skillLuisResult);
+                const result = stepContext.context.turnState.get(this.stateProperties.skillLuisResult);
                 const intent: string = LuisRecognizer.topIntent(result);
                 switch(intent) {
                     case 'Sample': { 
@@ -253,7 +256,7 @@ export class MainDialog extends ComponentDialog {
                     default: {
                         await stepContext.context.sendActivity({ 
                             type: ActivityTypes.Trace, 
-                            text: `Unknown Event ${ev.name ?? 'undefined' } was received but not processed.`                       
+                            text: `Unknown Event ${ev.name ? ev.name : 'undefined' } was received but not processed.`                       
                         });
                         break;
                     }  
@@ -272,7 +275,7 @@ export class MainDialog extends ComponentDialog {
 
     // Handles conversation cleanup.
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-        if (stepContext.context.isSkill()) {
+        if (TurnContextEx.isSkill(stepContext.context)) {
             // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
             const endOfConversation: Partial <Activity> = ({
                 type: ActivityTypes.EndOfConversation,
