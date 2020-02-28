@@ -3,20 +3,20 @@
  * Licensed under the MIT License.
  */
 
-import { EnhancedBotFrameworkSkill } from './enhancedBotFrameworkSkill';
+import { IEnhancedBotFrameworkSkill } from './enhancedBotFrameworkSkill';
 
 /**
  * A helper class that loads Skills information from configuration.
  */
 export class SkillsConfiguration {
     public readonly skillHostEndpoint: string;
-    public skills: Map<string, EnhancedBotFrameworkSkill> = new Map<string, EnhancedBotFrameworkSkill>();
+    public skills: Map<string, IEnhancedBotFrameworkSkill> = new Map<string, IEnhancedBotFrameworkSkill>();
 
-    public constructor(skills: EnhancedBotFrameworkSkill[], skillHostEndpoint: string) {
+    public constructor(skills: IEnhancedBotFrameworkSkill[], skillHostEndpoint: string) {
         
         if (skills !== undefined)
         {
-            skills.forEach((skill: EnhancedBotFrameworkSkill): void => {
+            skills.forEach((skill: IEnhancedBotFrameworkSkill): void => {
 
                 this.skills.set(skill.id, skill);
             });

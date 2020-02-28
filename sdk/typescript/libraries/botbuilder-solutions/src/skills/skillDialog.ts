@@ -14,7 +14,7 @@ import {
     DialogReason,
     DialogTurnResult, 
     Dialog} from 'botbuilder-dialogs';
-import { EnhancedBotFrameworkSkill } from './enhancedBotFrameworkSkill';
+import { IEnhancedBotFrameworkSkill } from './enhancedBotFrameworkSkill';
 import { SkillDialogArgs } from './skillDialogArgs';
 import { IBotSettingsBase } from '../botSettings';
 import { Activity, ConversationReference } from 'botframework-schema';
@@ -29,13 +29,13 @@ export class SkillDialog extends Dialog {
     private readonly botId: string; 
     private readonly conversationState: ConversationState;
     private readonly skillClient: SkillHttpClient;
-    private readonly skill: EnhancedBotFrameworkSkill;
+    private readonly skill: IEnhancedBotFrameworkSkill;
     private readonly skillHostEndpoint: string;
 
     public constructor(
         conversationState: ConversationState,
         skillClient: SkillHttpClient,
-        skill: EnhancedBotFrameworkSkill,
+        skill: IEnhancedBotFrameworkSkill,
         configuration: IBotSettingsBase,
         skillHostEndpoint: string
     ) {
@@ -66,23 +66,23 @@ export class SkillDialog extends Dialog {
         }
         
         let dialogArgs: SkillDialogArgs = options;
-        let skillId = dialogArgs.skillId;
+        //let skillId = dialogArgs.skillId; //skillId is not being used, but for parity with C#, this line is commented instead of removed
         await dc.context.sendTraceActivity(`${ SkillDialog.name }.onBeginDialog()`, undefined, undefined, `Using activity of type: ${ dialogArgs.activityType }`);
         
         let skillActivity: Activity;
 
         switch (dialogArgs.activityType) {
             case ActivityTypes.Event:
-                    let eventActivity = ActivityEx.createEventActivity();
-                    eventActivity.name = dialogArgs.name;
-                    const reference: Partial<ConversationReference> = TurnContext.getConversationReference(dc.context.activity);
-                    eventActivity = ActivityEx.applyConversationReference(eventActivity, reference, true);
-                    skillActivity = <Activity>eventActivity;
+                let eventActivity = ActivityEx.createEventActivity();
+                eventActivity.name = dialogArgs.name;
+                const reference: Partial<ConversationReference> = TurnContext.getConversationReference(dc.context.activity);
+                eventActivity = ActivityEx.applyConversationReference(eventActivity, reference, true);
+                skillActivity = <Activity>eventActivity;
                 break;
             case ActivityTypes.Message:
-                    let messageActivity = ActivityEx.createMessageActivity();
-                    messageActivity.text = dc.context.activity.text;
-                    skillActivity = <Activity>messageActivity;
+                let messageActivity = ActivityEx.createMessageActivity();
+                messageActivity.text = dc.context.activity.text;
+                skillActivity = <Activity>messageActivity;
                 break;
             default:
                 throw new Error(`Invalid activity type in ${ dialogArgs.activityType } in ${ SkillDialogArgs.name }`)
@@ -137,7 +137,7 @@ export class SkillDialog extends Dialog {
 
         if (dialogArgs !== undefined)
         {
-            skillActivity.value = dialogArgs?.value
+            skillActivity.value = dialogArgs.value
         }
     }
 
@@ -152,7 +152,7 @@ export class SkillDialog extends Dialog {
         const response = await this.skillClient.postToSkill(this.botId, this.skill, this.skillHostEndpoint, activity);
         if (!(response.status >= 200 && response.status <= 299))
         {
-            throw new Error (`Error invoking the skill id: "${ this.skill.Id }" at "${ this.skill.SkillEndpoint }" (status is ${ response.status }).\r\n${ response.body }`);
+            throw new Error (`Error invoking the skill id: "${ this.skill.id }" at "${ this.skill.skillEndpoint }" (status is ${ response.status }).\r\n${ response.body }`);
         }
 
         return SkillDialog.EndOfTurn;

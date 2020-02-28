@@ -16,7 +16,6 @@ import {
     ConversationState,
     Activity } from 'botbuilder';
 import { SwitchSkillDialogOptions } from "./switchSkillDialogOptions";
-import { SkillDialog } from "../skillDialog";
 import { SkillDialogArgs } from "../skillDialogArgs";
 
 export class SwitchSkillDialog extends ComponentDialog {

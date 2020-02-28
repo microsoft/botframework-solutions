@@ -12,7 +12,6 @@ import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
 import i18next from 'i18next';
 import { IOAuthConnection } from '../authentication';
-import { EventPrompt } from '../dialogs/eventPrompt';
 import { ActivityEx } from '../extensions';
 import { ResponseManager } from '../responses';
 import { TokenEvents } from '../tokenEvents';
