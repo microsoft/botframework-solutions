@@ -11,7 +11,8 @@ import {
     StatePropertyAccessor,
     TurnContext,
     UserState, 
-    TelemetryLoggerMiddleware } from 'botbuilder';
+    TelemetryLoggerMiddleware, 
+    ChannelServiceHandler} from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
 import { CosmosDbStorage, CosmosDbStorageSettings } from 'botbuilder-azure';
 import { Dialog, OAuthPromptSettings } from 'botbuilder-dialogs';
@@ -27,7 +28,7 @@ import {
     SkillContext,
     SkillDialog,
     SwitchSkillDialog } from 'botbuilder-solutions';
-import { MicrosoftAppCredentials } from 'botframework-connector';
+import { MicrosoftAppCredentials, SimpleCredentialProvider, AuthenticationConfiguration } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
@@ -41,7 +42,7 @@ import { OnboardingDialog } from './dialogs/onboardingDialog';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 import { skills as skillsRaw } from './skills.json';
-import { Activity } from 'botframework-schema';
+import { Activity, ResourceResponse } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState';
 
@@ -199,6 +200,8 @@ const server: restify.Server = restify.createServer();
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
 server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.queryParser());
+server.use(restify.plugins.authorizationParser());
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || '3979', (): void => {
@@ -214,6 +217,20 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
         // route to bot activity handler.
         await bot.run(turnContext);
     });
+});
+
+let handler: ChannelServiceHandler = new ChannelServiceHandler(
+    new SimpleCredentialProvider(botSettings.microsoftAppId || "",
+    botSettings.microsoftAppPassword || ""), new AuthenticationConfiguration());
+
+server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
+    const activity: Activity = JSON.parse(req.body);
+    return await handler.handleReplyToActivity(req.authorization?.credentials || "", req.params.conversationId, req.params.activityId, activity);
+});
+
+server.post('/api/skills/v3/conversations/:conversationId/activities', async (req: restify.Request): Promise<ResourceResponse> => {
+    const activity: Activity = JSON.parse(req.body);
+    return await handler.handleSendToConversation(req.authorization?.credentials || "", req.params.conversationId, activity);
 });
 
 // This method creates a MultiProviderAuthDialog based on a skill manifest.
