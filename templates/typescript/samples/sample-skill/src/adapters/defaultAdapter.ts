@@ -14,7 +14,6 @@ import {
     TranscriptLoggerMiddleware,
     UserState,
     TurnContext } from 'botbuilder';
-import { DialogState } from 'botbuilder-dialogs';
 import {
     EventDebuggerMiddleware,
     SetLocaleMiddleware,
@@ -22,11 +21,13 @@ import {
     SetSpeakMiddleware,
     SkillMiddleware } from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
-import { AzureBlobTranscriptStore } from 'botbuilder-azure';
+import { TurnContextEx } from '../extensions/turnContextEx';
+import { AzureBlobTranscriptStore, BlobStorageSettings } from 'botbuilder-azure';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import { Activity } from 'botbuilder-schema';
+import { Activity } from 'botframework-schema'
 
 export class DefaultAdapter extends BotFrameworkAdapter {
+
     public constructor(
         settings: Partial<IBotSettings>,
         userState: UserState,
@@ -37,7 +38,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         telemetryClient: BotTelemetryClient,
     ) {
         super(adapterSettings);
-
         this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
             await context.sendActivity({
                 type: ActivityTypes.Trace,
@@ -51,16 +51,18 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             await context.sendActivity(templateEngine.generateActivityForLocale('ErrorMessage'));
             telemetryClient.trackException({ exception: error });
 
-            if (context.isSkill()){
+            if (TurnContextEx.isSkill(context)){
                 // Send and EndOfConversation activity to the skill caller with the error to end the conversation
                 // and let the caller decide what to do.
-                const endOfconversation = new Activity(ActivityTypes.EndOfConversation)
-                endOfconversation.code = "SkillError";
-                endOfconversation.text = error.message;
+                const endOfconversation: Partial<Activity> = {
+                    type: ActivityTypes.EndOfConversation,
+                    code: 'SkillError',
+                    text: error.message
+                }
                 await context.sendActivity(endOfconversation);
             }
         };
-        
+
         if (settings.blobStorage === undefined) {
             throw new Error('There is no blobStorage value in appsettings file');
         }
@@ -69,12 +71,13 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         
         // Uncomment the following line for local development without Azure Storage
         // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
-        this.use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.blobStorage.connectionString, settings.blobStorage.container)));
+        const blobStorageSettings: BlobStorageSettings = { containerName: settings.blobStorage.container, storageAccountOrConnectionString: settings.blobStorage.connectionString};
+        this.use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(blobStorageSettings)));
         this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new ShowTypingMiddleware());
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        this.use(new SkillMiddleware(userState, conversationState, conversationState.createProperty(DialogState.name)));
+        this.use(new SkillMiddleware(userState, conversationState, conversationState.createProperty('DialogState')));
         this.use(new SetSpeakMiddleware());
     }
 }

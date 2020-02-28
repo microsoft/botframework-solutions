@@ -11,7 +11,8 @@ import {
     StatePropertyAccessor,
     TurnContext,
     UserState, 
-    TelemetryLoggerMiddleware} from 'botbuilder';
+    TelemetryLoggerMiddleware,
+    BotFrameworkAdapter} from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import {
     CosmosDbStorage,
@@ -22,13 +23,12 @@ import {
     ICognitiveModelConfiguration,
     Locales,
     LocaleTemplateEngineManager,
-    manifestGenerator,
-    SkillHttpAdapter } from 'botbuilder-solutions';
+    manifestGenerator } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
-import { CustomSkillAdapter, DefaultAdapter } from './adapters';
+import { DefaultAdapter } from './adapters';
 import * as appsettings from './appsettings.json';
 import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
@@ -128,19 +128,14 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
-    localeTemplateEngine,
-    telemetryInitializerMiddleware,
-    telemetryClient,
-    adapterSettings);
-
-const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
-    botSettings,
     userState,
     conversationState,
+    adapterSettings,
     localeTemplateEngine,
     telemetryInitializerMiddleware,
     telemetryClient);
-const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
+
+const adapter: BotFrameworkAdapter = defaultAdapter;
 
 let bot: DefaultActivityHandler<Dialog>;
 try {
