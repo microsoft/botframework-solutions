@@ -18,9 +18,9 @@ namespace Microsoft.Bot.Solutions.Middleware
     /// </summary>
     public class SetSpeakMiddleware : IMiddleware
     {
-        private const string DefaultLocale = "en-US";
+        public const string DefaultLocale = "en-US";
 
-        private static readonly IDictionary<string, string> DefaultVoiceFonts = new Dictionary<string, string>()
+        public static readonly IDictionary<string, string> DefaultVoiceFonts = new Dictionary<string, string>()
         {
             { "de-DE", "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)" },
             { "en-US", "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)" },
@@ -30,20 +30,35 @@ namespace Microsoft.Bot.Solutions.Middleware
             { "zh-CN", "Microsoft Server Speech Text to Speech Voice (zh-CN, HuihuiRUS)" },
         };
 
+        public static readonly ISet<string> DefaultChannels = new HashSet<string>()
+        {
+            Connector.Channels.DirectlineSpeech,
+            Connector.Channels.Emulator,
+        };
+
         private static string _locale;
 
         private static IDictionary<string, string> _voiceFonts;
 
+        private static ISet<string> _channels;
+
         private static readonly XNamespace NamespaceURI = @"https://www.w3.org/2001/10/synthesis";
 
-        public SetSpeakMiddleware(string locale = DefaultLocale, IDictionary<string, string> voiceNames = null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SetSpeakMiddleware"/> class.
+        /// </summary>
+        /// <param name="locale">Default <see cref="DefaultLocale"/>.</param>
+        /// <param name="voiceFonts">Map voice font for locale. If null, use <see cref="DefaultVoiceFonts"/>.</param>
+        /// <param name="channels">Set SSML for these channels. If null, use <see cref="DefaultChannels"/>.</param>
+        public SetSpeakMiddleware(string locale = DefaultLocale, IDictionary<string, string> voiceFonts = null, ISet<string> channels = null)
         {
             _locale = locale;
-            _voiceFonts = voiceNames ?? DefaultVoiceFonts;
+            _voiceFonts = voiceFonts ?? DefaultVoiceFonts;
+            _channels = channels ?? DefaultChannels;
         }
 
         /// <summary>
-        /// If outgoing Activities are messages and using the Direct Line Speech channel, decorate the Speak property with an SSML formatted string.
+        /// If outgoing Activities are messages and using one of the desired channels, decorate the Speak property with an SSML formatted string.
         /// </summary>
         /// <param name="context">The Bot Context object.</param>
         /// <param name="next">The next middleware component to run.</param>
@@ -60,7 +75,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                         case ActivityTypes.Message:
                             activity.Speak = activity.Speak ?? activity.Text;
 
-                            if (activity.ChannelId.Equals(Connector.Channels.DirectlineSpeech))
+                            if (_channels.Contains(activity.ChannelId))
                             {
                                 activity.Speak = DecorateSSML(activity);
                             }
@@ -107,10 +122,16 @@ namespace Microsoft.Bot.Solutions.Middleware
             var locale = _locale;
             if (!string.IsNullOrEmpty(activity.Locale))
             {
-                var normalizedLocale = new CultureInfo(activity.Locale).Name;
-                if (_voiceFonts.ContainsKey(normalizedLocale))
+                try
                 {
-                    locale = normalizedLocale;
+                    var normalizedLocale = new CultureInfo(activity.Locale).Name;
+                    if (_voiceFonts.ContainsKey(normalizedLocale))
+                    {
+                        locale = normalizedLocale;
+                    }
+                }
+                catch (CultureNotFoundException)
+                {
                 }
             }
 

@@ -50,7 +50,40 @@ namespace Microsoft.Bot.Solutions.Tests.Middleware
         }
 
         [TestMethod]
-        public async Task DefaultOptions_ZhCN()
+        public async Task DefaultOptions_Invalid()
+        {
+            var storage = new MemoryStorage();
+            var convState = new ConversationState(storage);
+
+            var conversation = TestAdapter.CreateConversation("Name");
+            conversation.ChannelId = Connector.Channels.DirectlineSpeech;
+
+            var adapter = new TestAdapter(conversation)
+                .Use(new SetSpeakMiddleware());
+            adapter.Locale = "InvalidLocale";
+
+            var response = "Response";
+
+            await new TestFlow(adapter, async (context, cancellationToken) =>
+            {
+                await context.SendActivityAsync(context.Activity.CreateReply(response));
+            })
+                .Send("foo")
+                .AssertReply((reply) =>
+                {
+                    var activity = (Activity)reply;
+                    var rootElement = XElement.Parse(activity.Speak);
+                    Assert.AreEqual(rootElement.Name.LocalName, "speak");
+                    Assert.AreEqual(rootElement.Attribute(XNamespace.Xml + "lang").Value, "en-US");
+                    var voiceElement = rootElement.Element("voice");
+                    Assert.AreEqual(voiceElement.Attribute("name").Value, "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)");
+                    Assert.AreEqual(voiceElement.Value, response);
+                })
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task DefaultOptions_IncorrectCase()
         {
             var storage = new MemoryStorage();
             var convState = new ConversationState(storage);
