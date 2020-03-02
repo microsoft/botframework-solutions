@@ -33,8 +33,8 @@ $languageModel = [pscustomobject]@{
 $knowledgeBase = [pscustomobject]@{
     endpointKey = ""
     id = ""
-    hostname = ""
-    kbId = ""
+    host = ""
+    knowledgeBaseId = ""
     name = ""
     subscriptionKey = ""
 }
