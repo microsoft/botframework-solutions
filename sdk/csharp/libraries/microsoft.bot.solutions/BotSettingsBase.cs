@@ -166,7 +166,9 @@ namespace Microsoft.Bot.Solutions
             /// <value>
             /// The collection of QnA Maker knowledgebases.
             /// </value>
-            public List<QnAMakerEndpoint> Knowledgebases { get; set; }
+#pragma warning disable CS0618 // Type or member is obsolete
+            public List<QnAMakerService> Knowledgebases { get; set; }
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 }
