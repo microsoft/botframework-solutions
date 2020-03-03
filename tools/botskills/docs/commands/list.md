@@ -13,6 +13,6 @@ botskills list [options]
 
 | Option                   | Description                                                             |
 |--------------------------|-------------------------------------------------------------------------|
-| --appSettingsFile [path]      | (OPTIONAL) Path to your appsettings file (defaults to `appsettings.json` inside your Virtual Assistant's folder. Also, **the skills are stored here**)
+| --appSettingsFile [path] | (OPTIONAL) Path to your appsettings file where the skills are stored (defaults to `appsettings.json` inside your Virtual Assistant's folder) |
 | --verbose                | (OPTIONAL) Output detailed information about the processing of the tool |
 | -h, --help               | Output usage information                                                |
