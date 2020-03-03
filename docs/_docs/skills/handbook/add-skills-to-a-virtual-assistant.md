@@ -44,12 +44,24 @@ See the [Skills Overview]({{site.baseurl}}/overview/skills) section for details 
 
 ## Adding Skills to your Virtual Assistant
 
-Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `skills.json` file present in the working folder.
+Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `appsettings.json` file present in the working folder.
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
 ```bash
 botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --cs
+```
+
+Once the connect command finish successfully, you can see under the `BotFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
+
+```json
+    "BotFrameworkSkills": {
+        "Id": "<SKILL_ID>",
+        "AppId": "<SKILL_APPID>",
+        "SkillEndpoint": "<SKILL_ENDPOINT>",
+        "Name": "<SKILL_NAME>"
+    },
+    "SkillHostEndpoint": "<VA-SKILL_ENDPOINT>"
 ```
 
 See the [Skill CLI documentation]({{site.baseurl}}/skills/handbook/botskills) for detailed CLI documentation.
@@ -72,7 +84,7 @@ botskills disconnect --skillId SKILL_ID
 
 To update a Skill to your assistant/Bot we provide a `botskills` command line tool to automate the process of adding the Skill to your dispatch model and creating authentication connections where needed.
 
-Run the following command to update a Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `skills.json` file present in the working folder.
+Run the following command to update a Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `appsettings.json` file present in the working folder.
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
