@@ -167,6 +167,7 @@ namespace Microsoft.Bot.Solutions
             /// The collection of QnA Maker knowledgebases.
             /// </value>
 #pragma warning disable CS0618 // Type or member is obsolete
+            // TODO: Add required cognitive model class in Solutions SDK.
             public List<QnAMakerService> Knowledgebases { get; set; }
 #pragma warning restore CS0618 // Type or member is obsolete
         }
