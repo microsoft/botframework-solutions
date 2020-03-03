@@ -11,7 +11,7 @@ using Microsoft.Bot.Solutions.Extensions;
 
 namespace Microsoft.Bot.Solutions.Dialogs
 {
-    [Obsolete("Please use ActivityHandlerDialog instead. For more information, refer to https://aka.ms/bfvarouting.", false)]
+    [Obsolete("Please use the waterfall dialog pattern implemnted in VA MaindDialog.cs instead. For more information, refer to https://microsoft.github.io/botframework-solutions/overview/whats-new/0.8-beta/maindialog-updates/.", false)]
     public abstract class RouterDialog : InterruptableDialog
     {
         public RouterDialog(string dialogId, IBotTelemetryClient telemetryClient)

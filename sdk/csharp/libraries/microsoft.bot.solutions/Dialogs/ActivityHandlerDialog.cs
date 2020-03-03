@@ -13,7 +13,7 @@ namespace Microsoft.Bot.Solutions.Dialogs
     /// <summary>
     /// Provides interruption logic and methods for handling incoming activities based on type.
     /// </summary>
-    [Obsolete("ActivityHandlerDialog is being deprecated. For more information, refer to https://aka.ms/bfvarouting.", false)]
+    [Obsolete("ActivityHandlerDialog is being deprecated in favor of a waterfall dialog. For more information, refer to https://microsoft.github.io/botframework-solutions/overview/whats-new/0.8-beta/maindialog-updates/.", false)]
     public abstract class ActivityHandlerDialog : InterruptableDialog
     {
         public ActivityHandlerDialog(

@@ -15,6 +15,7 @@ toc: true
 {{ page.description }}
 
 ### Steps
+1. Change MainDialog to derive from `ComponentDialog`
 1. Move introduction logic to DefaultActivityHandler OnMembersAddedAsync method.
 1. Copy routing logic from OnMessageActivityAsync method into RouteStepAsync method.
     - Change any switch statement cases that start new dialogs to return the result of BeginDialogAsync like below for proper dialog flow management:
