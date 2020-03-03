@@ -21,7 +21,7 @@ export class AllowedCallersClaimsValidator {
         this.allowedSkills = [...skillsConfig.skills.values()].map(skill => skill.appId);
     }
 
-    public async validateClaims(claims: Claim[]) {
+    public async validateClaims(claims: Claim[]): Promise<void> {
         if (SkillValidation.isSkillClaim(claims)) {
             // Check that the appId claim in the skill request is in the list of skills configured for this bot.
             const appId = JwtTokenValidation.getAppIdFromClaims(claims);
@@ -30,6 +30,6 @@ export class AllowedCallersClaimsValidator {
             }
         }
 
-        return Promise.resolve;
+        return Promise.resolve();
     }
 }

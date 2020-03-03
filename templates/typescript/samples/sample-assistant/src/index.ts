@@ -10,25 +10,23 @@ import {
     NullTelemetryClient,
     StatePropertyAccessor,
     TurnContext,
-    UserState, 
-    TelemetryLoggerMiddleware, 
+    UserState,
+    TelemetryLoggerMiddleware,
+    SkillHttpClient,
     ChannelServiceHandler} from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
 import { CosmosDbStorage, CosmosDbStorageSettings } from 'botbuilder-azure';
-import { Dialog, OAuthPromptSettings } from 'botbuilder-dialogs';
+import { Dialog } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
-    IOAuthConnection,
     Locales,
-    MultiProviderAuthDialog,
-    IAuthenticationConnection,
-    ISkillManifest,
-    LocaleTemplateEngineManager, 
-    MicrosoftAppCredentialsEx,
-    SkillContext,
+    LocaleTemplateEngineManager,
     SkillDialog,
-    SwitchSkillDialog } from 'botbuilder-solutions';
-import { MicrosoftAppCredentials, SimpleCredentialProvider, AuthenticationConfiguration } from 'botframework-connector';
+    SwitchSkillDialog,
+    IEnhancedBotFrameworkSkill, 
+    SkillsConfiguration,
+    SkillConversationIdFactory} from 'botbuilder-solutions';
+import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
@@ -41,10 +39,10 @@ import { MainDialog } from './dialogs/mainDialog';
 import { OnboardingDialog } from './dialogs/onboardingDialog';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
-import { skills as skillsRaw } from './skills.json';
 import { Activity, ResourceResponse } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import { IUserProfileState } from './models/userProfileState';
+import { IUserProfileState } from './models/userProfileState'
+import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
 
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
@@ -59,14 +57,15 @@ i18next.use(i18nextNodeFsBackend)
         await Locales.addResourcesFromPath(i18next, 'common');
     });
 
-const skills: ISkillManifest[] = skillsRaw;
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
-const cognitiveModelDictionary: { [key: string]: Record<string, any> } = cognitiveModelsRaw.cognitiveModels;
-const cognitiveModelMap: Map<string, Record<string, any>>  = new Map(Object.entries(cognitiveModelDictionary));
-cognitiveModelMap.forEach((value: Record<string, any>, key: string): void => {
+const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap: Map<string, Object> = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value: Object, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
+const skills: IEnhancedBotFrameworkSkill[] = appsettings.botFrameworkSkills;
+const skillHostEndpoint: string = appsettings.skillHostEndpoint;
 const botSettings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
@@ -74,8 +73,7 @@ const botSettings: Partial<IBotSettings> = {
     cosmosDb: appsettings.cosmosDb,
     defaultLocale: cognitiveModelsRaw.defaultLocale,
     microsoftAppId: appsettings.microsoftAppId,
-    microsoftAppPassword: appsettings.microsoftAppPassword,
-    skills: skills
+    microsoftAppPassword: appsettings.microsoftAppPassword
 };
 
 function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
@@ -93,7 +91,8 @@ const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
-    appPassword: botSettings.microsoftAppPassword
+    appPassword: botSettings.microsoftAppPassword,
+    channelService: ""
 };
 
 if (botSettings.cosmosDb === undefined) {
@@ -107,27 +106,24 @@ const cosmosDbStorageSettings: CosmosDbStorageSettings = {
     serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
 };
 
+const credentialProvider: SimpleCredentialProvider = new SimpleCredentialProvider(botSettings.microsoftAppId || "", botSettings.microsoftAppPassword || "");
+
 // Configure storage
 const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 
-// Configure credentials
-const appCredentials: MicrosoftAppCredentials = new MicrosoftAppCredentials(
-    botSettings.microsoftAppId || '',
-    botSettings.microsoftAppPassword || ''
-);
-
+// Configure localized responses
 const localizedTemplates: Map<string, string[]> = new Map<string, string[]>();
-const templateFiles: string[] = ['MainResponses','OnboardingResponses'];
-const supportedLocales: string[] =  ['en-us','de-de','es-es','fr-fr','it-it','zh-cn'];
-    
-supportedLocales.forEach((locale: string): void => {
+const templateFiles: string[] = ['MainResponses', 'OnboardingResponses'];
+const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
+
+supportedLocales.forEach((locale: string) => {
     const localeTemplateFiles: string[] = [];
-    templateFiles.forEach((template: string): void => {
-        // LG template for default locale should not include locale in file extension.
-        if (locale === (botSettings.defaultLocale || 'en-us')) {
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.lg`));
+    templateFiles.forEach(template => {
+        // LG template for en-us does not include locale in file extension.
+        if (locale === 'en-us') {
+            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.lg`));
         }
         else {
             localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.${ locale }.lg`));
@@ -136,8 +132,22 @@ supportedLocales.forEach((locale: string): void => {
 
     localizedTemplates.set(locale, localeTemplateFiles);
 });
-    
-const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+
+const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
+
+// Create the skills configuration class
+let authConfig: AuthenticationConfiguration;
+let skillConfiguration: SkillsConfiguration;
+if (skills !== undefined && skills.length > 0 && skillHostEndpoint.trim().length !== 0) {
+        skillConfiguration = new SkillsConfiguration(skills, skillHostEndpoint);
+        const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillConfiguration);
+
+        // Create AuthConfiguration to enable custom claim validation.
+        authConfig = new AuthenticationConfiguration(
+            undefined,
+            (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+        );
+}
 
 const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
 const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
@@ -156,34 +166,39 @@ try {
     // Configure bot services
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
 
-    const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty<SkillContext>(SkillContext.name);
     const userProfileStateAccesor: StatePropertyAccessor<IUserProfileState> = userState.createProperty<IUserProfileState>('IUserProfileState');
-    const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices , localeTemplateEngine, telemetryClient);
+    const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateEngine, telemetryClient);
     const switchSkillDialog: SwitchSkillDialog = new SwitchSkillDialog(conversationState);
     const previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]> =
-    userState.createProperty<Partial<Activity>[]>('Activity');
+        userState.createProperty<Partial<Activity>[]>('Activity');
 
-    // Register skill dialogs
-    const skillDialogs: SkillDialog[] = skills.map((skill: ISkillManifest): SkillDialog => {
-        const authDialog: MultiProviderAuthDialog|undefined = buildAuthDialog(skill, botSettings, appCredentials);
-        const credentials: MicrosoftAppCredentialsEx = new MicrosoftAppCredentialsEx(
-            botSettings.microsoftAppId || '',
-            botSettings.microsoftAppPassword || '',
-            skill.msaAppId);
 
-        return new SkillDialog(skill, credentials, telemetryClient, skillContextAccessor, authDialog);
-    });
-    
+    const skillHttpClient: SkillHttpClient = new SkillHttpClient(
+        credentialProvider,
+        new SkillConversationIdFactory(storage)
+    );
+
+    let skillDialogs: SkillDialog[] = [];
+    if (skills !== undefined && skills.length > 0) {
+        if (skillHostEndpoint === undefined) {
+            throw new Error("'skillHostEndpoint' is not in the configuration");
+        } else {
+            skillDialogs = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
+                return new SkillDialog(conversationState, skillHttpClient, skill, <IBotSettings> botSettings, skillHostEndpoint);
+            });
+        }
+    }
+
     const mainDialog: MainDialog = new MainDialog(
         botSettings as IBotSettings,
         botServices,
         localeTemplateEngine,
         userProfileStateAccesor,
-        skillContextAccessor,
         previousResponseAccesor,
         onboardingDialog,
         switchSkillDialog,
         skillDialogs,
+        skillsConfiguration,
         telemetryClient,
     );
 
@@ -191,8 +206,6 @@ try {
 } catch (err) {
     throw err;
 }
-
-const oAuthPromptSettings: OAuthPromptSettings[] = [];
 
 // Create server
 const server: restify.Server = restify.createServer();
@@ -205,7 +218,7 @@ server.use(restify.plugins.authorizationParser());
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || '3979', (): void => {
-    console.log(` ${ server.name } listening to ${ server.url } `);
+    console.log(` ${server.name} listening to ${server.url} `);
     console.log(`Get the Emulator: https://aka.ms/botframework-emulator`);
     console.log(`To talk to your bot, open your '.bot' file in the Emulator`);
 });
@@ -219,9 +232,7 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
     });
 });
 
-let handler: ChannelServiceHandler = new ChannelServiceHandler(
-    new SimpleCredentialProvider(botSettings.microsoftAppId || "",
-    botSettings.microsoftAppPassword || ""), new AuthenticationConfiguration());
+let handler: ChannelServiceHandler = new ChannelServiceHandler(credentialProvider, new AuthenticationConfiguration());
 
 server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
     const activity: Activity = JSON.parse(req.body);
@@ -232,27 +243,3 @@ server.post('/api/skills/v3/conversations/:conversationId/activities', async (re
     const activity: Activity = JSON.parse(req.body);
     return await handler.handleSendToConversation(req.authorization?.credentials || "", req.params.conversationId, activity);
 });
-
-// This method creates a MultiProviderAuthDialog based on a skill manifest.
-function buildAuthDialog(
-    skill: ISkillManifest,
-    settings: Partial<IBotSettings>,
-    credentials: MicrosoftAppCredentials): MultiProviderAuthDialog|undefined {
-    if (skill.authenticationConnections !== undefined && skill.authenticationConnections.length > 0) {
-        if (settings.oauthConnections !== undefined) {
-            const oauthConnections: IOAuthConnection[] | undefined = settings.oauthConnections.filter(
-                (oauthConnection: IOAuthConnection): boolean => {
-                    return skill.authenticationConnections.some((authenticationConnection: IAuthenticationConnection): boolean => {
-                        return authenticationConnection.serviceProviderId === oauthConnection.provider;
-                    });
-                });
-            if (oauthConnections !== undefined) {
-                return new MultiProviderAuthDialog(oauthConnections, credentials, oAuthPromptSettings);
-            }
-        } else {
-            throw new Error(`You must configure at least one supported OAuth connection to use this skill: ${ skill.name }.`);
-        }
-    }
-
-    return undefined;
-}
