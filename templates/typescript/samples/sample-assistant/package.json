@@ -36,8 +36,8 @@
     "devDependencies": {
         "@types/i18next-node-fs-backend": "^0.0.30",
         "@types/restify": "^7.2.4",
-        "@typescript-eslint/eslint-plugin": "^1.10.2",
-        "@typescript-eslint/parser": "^1.10.2",
+        "@typescript-eslint/eslint-plugin": "^2.0.0",
+        "@typescript-eslint/parser": "^2.0.0",
         "copyfiles": "^2.1.0",
         "eslint": "^5.16.0",
         "eslint-plugin-only-warn": "^1.0.1",
