@@ -14,7 +14,7 @@ toc: true
 ## Prerequisites
 1. Install [Android Studio](https://developer.android.com/studio/).
 
-1. Download the [**Virtual Assistant Client** app source code](https://aka.ms/virtualassistantclient).
+1. Download the [**Virtual Assistant Client** app source code](https://aka.ms/bfvirtualassistantclient).
 
 1. [Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) to setup your Virtual Assistant environment.
 
