@@ -611,7 +611,22 @@
 - riunione con morrison sun alle {FromTime=14} {FromDate=sabato}
 - riunione con morrison yang alle {FromTime=16}
 - {FromDate=sabato} alle {FromTime=19 e mezza}
-
+- Aggiungendo {Subject=riunione di gruppo}  {FromDate=lunedì prossimo}  A {FromTime=11:00}  Per {Duration=un'ora}
+- prenotare una riunione
+- prenotare una riunione nel {MeetingRoom=sala conferenze endor}
+- prenotare una riunione tra {FromTime=2}  E {ToTime=3}  {FromDate=Domani}
+- prenotare una riunione tra {FromTime=14:30}  E {ToTime=16:45}  {FromDate=Domani}
+- prenotare una riunione in {Location=Guangzhou}  alle 6 del mattino il {FromDate=marcia5th}
+- prenotare una riunione alle ore 6
+- prenotare una riunione a {FromTime=19:00}
+- prenotare una riunione a {FromTime=Ore 8}
+- prenotare una riunione a {FromTime=09:35}
+- prenotare una riunione per {FromDate=Domani}  {FromTime=Ore 18.00}  con Lucy Chen
+- prenotare un incontro con Jack
+- prenotare un incontro con Lily a {FromTime=11:00}
+- vorrei prenotare un incontro nel {Building=Hitchcock}  costruire sul {FloorNumber=23o piano}.
+- prenotare un {Subject=riunione 1x1 ricorrente}  sul {FromDate=primo lunedì di ogni mese}
+- creare una riunione con tom34@outlook.com
 
 ## DeleteCalendarEntry
 - annulla appuntamenti
@@ -1056,8 +1071,6 @@
 - prenotare una sala conferenze  {MeetingRoom=(città-centro/320-gc)} 
 - prenotare un doppio  {MeetingRoom=4/22} vicino al centro della città per me
 - prenotare una camera d'albergo  {MeetingRoom=2/110} per una prossima settimana.
-- prenotare una riunione
-- prenotare una riunione nel  {MeetingRoom=sala conferenze endor} 
 - prenotare una sala riunioni al  {FloorNumber=Quarto piano}  Nel  {Building=Redmond} Edificio
 - prenotare un  {MeetingRoom=sala riunioni} A Fisketorvet
 - prenotare un  {MeetingRoom=sala riunioni} in frederiksberg
@@ -1065,18 +1078,18 @@
 - prenotare una sala riunioni su  {FloorNumber=piano 5} 
 - prenotare un posto sul  {FloorNumber=7a}  piano in  {Building=lloyds edificio} 
 - prenotare un  {MeetingRoom=sala presidente} presso l'hotel h10.
-- prenotare un  {MeetingRoom=Camera} 
-- prenotare un  {MeetingRoom=stanza 1} 
-- prenotare un  {MeetingRoom=stanza 2} 
-- prenotare un  {MeetingRoom=stanza 210} al lodge oceano meridionale
-- prenotare una stanza  {MeetingRoom=217 al secondo piano} in un hotel.
-- prenotare un  {MeetingRoom=stanza 3} 
-- prenotare un  {MeetingRoom=stanza 4} 
-- prenotare un  {MeetingRoom=stanza 5} 
-- prenotare una stanza  {MeetingRoom=577 al quinto piano} in un hotel.
-- prenotare un  {MeetingRoom=stanza 6} 
-- prenotare un  {MeetingRoom=stanza 7} 
-- prenotare un  {MeetingRoom=stanza 9} 
+- prenotare {MeetingRoom=Camera}
+- prenotare {MeetingRoom=stanza 1}
+- prenotare {MeetingRoom=stanza 2}
+- prenotare {MeetingRoom=stanza 210}  al lodge oceano meridionale
+- prenotare la camera {MeetingRoom=217 al secondo piano}  in un hotel.
+- prenotare {MeetingRoom=stanza 3}
+- prenotare {MeetingRoom=stanza 4}
+- prenotare {MeetingRoom=stanza 5}
+- prenotare la camera {MeetingRoom=577 al quinto piano}  in un hotel.
+- prenotare {MeetingRoom=stanza 6}
+- prenotare {MeetingRoom=stanza 7}
+- prenotare {MeetingRoom=stanza 9}
 - prenotare una camera a  {FloorNumber=piano 4} 
 - prenotare una camera a  {MeetingRoom=taj banjara} per la conferenza di domani
 - prenotare una stanza vicino a mia moglie  {MeetingRoom=camera di sandra} .

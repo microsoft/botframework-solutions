@@ -620,7 +620,21 @@
 - vereinbare termin zum {Subject=squash spielen} am {FromDate=donnerstag} um {FromTime=7 20 uhr}
 - vereinbare {Subject=zahnarzttermin} mit madden für den {FromDate=20. mai} um {FromTime=15 uhr}
 - wir vereinbaren einen termin für mich
-
+- Buchen eines Meetings
+- buchen Sie ein Meeting in der {MeetingRoom=Endor-Konferenzraum}
+- buchen Sie ein Treffen zwischen {FromTime=2}  Und {ToTime=3}  {FromDate=Morgen}
+- buchen Sie ein Treffen zwischen {FromTime=14:30 Uhr}  Und {ToTime=16:45 Uhr}  {FromDate=Morgen}
+- Buchen Sie ein Meeting in {Location=Guangzhou}  um 6 Uhr morgens {FromDate=5. März}
+- Buchen Sie ein Treffen um 6 Uhr
+- buchen Sie ein Meeting bei {FromTime=19:00 Uhr}
+- buchen Sie ein Meeting bei {FromTime=8am}
+- buchen Sie ein Meeting bei {FromTime=9:35am}
+- Buchen Sie ein Meeting für {FromDate=Morgen}  {FromTime=18.00 Uhr}  mit lucy chen
+- Buchen Sie ein Treffen mit Jack
+- buchen Sie ein Treffen mit Lily unter {FromTime=11am}
+- Ich möchte ein Treffen in der {Building=Hitchcock}  Aufbauend auf der {FloorNumber=23. Stock}.
+- buchen Sie eine {Subject=wiederkehrendes 1x1-Meeting}  auf der {FromDate=erster Montag eines jeden Monats}
+- Erstellen einer Besprechung mit tom34@outlook.com
 
 ## DeleteCalendarEntry
 - bereinige alle meine termine
@@ -1075,8 +1089,6 @@
 - Buchen Sie einen Konferenzraum  {MeetingRoom=(Stadtzentrum/320-gc)} 
 - buchen Sie ein Doppeltes  {MeetingRoom=4/22} in der Nähe von Stadtzentrum für mich
 - Buchen Sie ein Hotelzimmer  {MeetingRoom=2/110} für eine nächste Woche.
-- Buchen eines Meetings
-- buchen Sie ein Meeting in der  {MeetingRoom=Endor-Konferenzraum} 
 - buchen Sie einen Tagungsraum im  {FloorNumber=4. Stock}  in der  {Building=Redmond} Gebäude
 - buchen Sie eine  {MeetingRoom=Tagungsraum} In Fisketorvet
 - buchen Sie eine  {MeetingRoom=Tagungsraum} in frederiksberg
@@ -1084,18 +1096,18 @@
 - Buchen Sie einen Tagungsraum auf  {FloorNumber=Etage 5} 
 - buchen Sie einen Platz auf der  {FloorNumber=7.}  Boden in  {Building=lloyds Gebäude} 
 - buchen Sie eine  {MeetingRoom=Präsidentenraum} im h10 Hotel.
-- buchen Sie eine  {MeetingRoom=Zimmer} 
-- buchen Sie eine  {MeetingRoom=Zimmer 1} 
-- buchen Sie eine  {MeetingRoom=Zimmer 2} 
-- buchen Sie eine  {MeetingRoom=Zimmer 210} an der südlichen Meeresloge
-- Buchen Sie ein Zimmer  {MeetingRoom=217 im 2. Stock} in einem Hotel.
-- buchen Sie eine  {MeetingRoom=Zimmer 3} 
-- buchen Sie eine  {MeetingRoom=Zimmer 4} 
-- buchen Sie eine  {MeetingRoom=Zimmer 5} 
-- Buchen Sie ein Zimmer  {MeetingRoom=577 im 5. Stock} in einem Hotel.
-- buchen Sie eine  {MeetingRoom=Zimmer 6} 
-- buchen Sie eine  {MeetingRoom=Zimmer 7} 
-- buchen Sie eine  {MeetingRoom=Zimmer 9} 
+- buchen {MeetingRoom=Zimmer}
+- buchen {MeetingRoom=Zimmer 1}
+- buchen {MeetingRoom=Zimmer 2}
+- buchen {MeetingRoom=Zimmer 210}  an der südlichen Meeresloge
+- Buchzimmer {MeetingRoom=217 im 2. Stock} in einem Hotel.
+- buchen {MeetingRoom=Zimmer 3}
+- buchen {MeetingRoom=Zimmer 4}
+- buchen {MeetingRoom=Zimmer 5}
+- Buchzimmer {MeetingRoom=577 im 5. Stock} in einem Hotel.
+- buchen {MeetingRoom=Zimmer 6}
+- buchen {MeetingRoom=Zimmer 7}
+- buchen {MeetingRoom=Zimmer 9}
 - Buchen Sie ein Zimmer bei  {FloorNumber=Etage 4} 
 - Buchen Sie ein Zimmer bei  {MeetingRoom=taj banjara} für morgen Konferenz
 - Buchen Sie ein Zimmer in der Nähe meiner Frau  {MeetingRoom=sandra stube} .

@@ -230,6 +230,8 @@ Content Moderator is an optional component that enables the detection of potenti
 
 [**Content Moderator Middleware**]({{site.repo}}/blob/master/lib/csharp/microsoft.bot.builder.solutions/microsoft.bot.builder.solutions/Middleware/ContentModeratorMiddleware.cs)  is provided that screen texts and surfaces output through a **TextModeratorResult** on the **TurnState** object. This middleware is not enabled by default.
 
+In order to enable this you need to provision the Content Moderator Azure resource. Once created, make note of the key and endpoint provided. In the DefaultAdapter.cs class, add a new line Use(new ContentModeratorMiddleware({KEY}, {REGION})) to the list of enabled middleware.
+
 #### Feedback Middleware
 {:.no_toc}
 
@@ -268,7 +270,7 @@ In situations where an utterance from a user isn't understood by Dispatch (and t
 ### Managing global exceptions
 {:.no_toc}
 
-Whilst exceptions are typically handled at source it's important to have a global exception handler for unexpected situations which is defined as part of the Adapter definition within [**DefaultAdapter.cs**]({{site.repo}}/blob/master/templates/Virtual-Assistant-Template/csharp/Sample/VirtualAssistantSample/Adapters/DefaultAdapter.cs).
+Whilst exceptions are typically handled at source it's important to have a global exception handler for unexpected situations which is defined as part of the Adapter definition within [**DefaultAdapter.cs**]({{site.repo}}/blob/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Adapters/DefaultAdapter.cs).
 
 The provided Exception handler passes information on the Exception as a Trace activity enabling it to be shown within the Bot Framework Emulator if it's being used otherwise these are suppressed. A general Error message is then shown to the user and the exception is logged through Application Insights.
 

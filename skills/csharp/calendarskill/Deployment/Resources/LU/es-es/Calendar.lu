@@ -691,7 +691,22 @@
 - eliminar el  {SlotAttribute=Habitación}  para mi  {FromTime=15:00 horas} Reunión
 - eliminar el  {SlotAttribute=sala de reuniones}  de mi  {FromTime=6pm} Reunión
 - por favor cancele el  {SlotAttribute=Habitación}  de mi  {FromTime=7pm} Reunión
-
+- Anexar {Subject=reunión de grupo}  {FromDate=próximo lunes}  En {FromTime=11am}  Para {Duration=una hora}
+- reservar una reunión
+- libro una reunión en el {MeetingRoom=sala de conferencias endor}
+- reservar una reunión entre {FromTime=2}  Y {ToTime=3}  {FromDate=Mañana}
+- reservar una reunión entre {FromTime=2:30pm}  Y {ToTime=4:45pm}  {FromDate=Mañana}
+- reservar una reunión en {Location=Guangzhou}  a las 6 de la mañana en {FromDate=marcha 5}
+- reservar una reunión a las 6 en punto
+- reservar una reunión en {FromTime=7:00pm}
+- reservar una reunión en {FromTime=8am}
+- reservar una reunión en {FromTime=9:35am}
+- reservar una reunión para {FromDate=Mañana}  {FromTime=6pm}  con lucy chen
+- reservar una reunión con Jack
+- reservar una reunión con Lily en {FromTime=11am}
+- me gustaría reservar una reunión en el {Building=Hitchcock}  edificio en el {FloorNumber=Piso 23}.
+- libro un libro {Subject=reunión recurrente 1x1}  en el {FromDate=primer lunes de cada mes}
+- crear una reunión con tom34@outlook.com
 
 ## FindCalendarDetail
 - ¿cobre qué es la reunión con daniel robert?
@@ -1063,8 +1078,6 @@
 - reservar una sala de conferencias  {MeetingRoom=(centro-ciudad/320-gc)} 
 - reservar un doble  {MeetingRoom=4/22} cerca del centro de la ciudad para mí
 - reservar una habitación de hotel  {MeetingRoom=2/110} para una próxima semana.
-- reservar una reunión
-- libro una reunión en el  {MeetingRoom=sala de conferencias endor} 
 - reservar una sala de reuniones en el  {FloorNumber=4o piso}  En  {Building=Redmond} Edificio
 - libro un libro  {MeetingRoom=sala de reuniones} En Fisketorvet
 - libro un libro  {MeetingRoom=sala de reuniones} en frederiksberg
@@ -1072,18 +1085,18 @@
 - reservar una sala de reuniones en  {FloorNumber=piso 5} 
 - reservar un lugar en el  {FloorNumber=7o}  piso en  {Building=lloyds edificio} 
 - libro un libro  {MeetingRoom=sala de presidentes} en el hotel h10.
-- libro un libro  {MeetingRoom=Habitación} 
-- libro un libro  {MeetingRoom=habitación 1} 
-- libro un libro  {MeetingRoom=habitación 2} 
-- libro un libro  {MeetingRoom=habitación 210} en la logia del océano sur
-- reservar una habitación  {MeetingRoom=217 en el 2o piso} en un hotel.
-- libro un libro  {MeetingRoom=habitación 3} 
-- libro un libro  {MeetingRoom=habitación 4} 
-- libro un libro  {MeetingRoom=habitación 5} 
-- reservar una habitación  {MeetingRoom=577 en el 5o piso} en un hotel.
-- libro un libro  {MeetingRoom=habitación 6} 
-- libro un libro  {MeetingRoom=habitación 7} 
-- libro un libro  {MeetingRoom=habitación 9} 
+- Libro {MeetingRoom=Habitación}
+- Libro {MeetingRoom=habitación 1}
+- Libro {MeetingRoom=habitación 2}
+- Libro {MeetingRoom=habitación 210}  en la logia del océano sur
+- sala de libros {MeetingRoom=217 en el 2o piso}  en un hotel.
+- Libro {MeetingRoom=habitación 3}
+- Libro {MeetingRoom=habitación 4}
+- Libro {MeetingRoom=habitación 5}
+- sala de libros {MeetingRoom=577 en el 5o piso}  en un hotel.
+- Libro {MeetingRoom=habitación 6}
+- Libro {MeetingRoom=habitación 7}
+- Libro {MeetingRoom=habitación 9}
 - reservar una habitación en  {FloorNumber=piso 4} 
 - reservar una habitación en  {MeetingRoom=taj banjara} para la conferencia de mañana
 - reservar una habitación cerca de mi esposa  {MeetingRoom=habitación de sandra} .

@@ -10,11 +10,12 @@ import { ConsoleLogger, ILogger } from '../logger';
 import { IConnectConfiguration, IDisconnectConfiguration, ISkillManifestV2, ISkillManifestV1, IUpdateConfiguration, ISkill, IAppSetting } from '../models';
 import { ConnectSkill } from './connectSkill';
 import { DisconnectSkill } from './disconnectSkill';
-import { isInstanceOfISkillManifestV1, isInstanceOfISkillManifestV2 } from '../utils';
+import { manifestV1Validation, manifestV2Validation } from '../utils';
 
 enum manifestVersion {
     V1 = 'V1',
-    V2 = 'V2'
+    V2 = 'V2',
+    none = 'none'
 }
 
 export class UpdateSkill {
@@ -50,15 +51,40 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
 
     private validateManifestSchema(skillManifest: ISkillManifestV1 | ISkillManifestV2): manifestVersion {
 
-        if (isInstanceOfISkillManifestV1(skillManifest as ISkillManifestV1)) {
-            return manifestVersion.V1;
+        const skillManifestV1Validation = skillManifest as ISkillManifestV1;
+        const skillManifestV2Validation = skillManifest as ISkillManifestV2;
+
+        const skillManifestVersion: string | undefined = skillManifestV1Validation.id ? 
+            manifestVersion.V1 : skillManifestV2Validation.$id ?
+                manifestVersion.V2 : undefined;
+        
+        let validVersion: manifestVersion = manifestVersion.none;
+        switch (skillManifestVersion) {
+            case manifestVersion.V1: {
+                manifestV1Validation(skillManifest as ISkillManifestV1, this.logger);
+                if (!this.logger.isError)
+                {
+                    validVersion = manifestVersion.V1;
+                    break;
+                }
+                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
+            }
+            case manifestVersion.V2: {
+                manifestV2Validation(skillManifest as ISkillManifestV2, this.logger, this.configuration.endpointName);
+                if (!this.logger.isError)
+                {
+                    validVersion = manifestVersion.V2;
+                    break;
+                }
+                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
+            }
+            case undefined: {
+                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
+            }
         }
-        else if (isInstanceOfISkillManifestV2(skillManifest as ISkillManifestV2)) {
-            return manifestVersion.V2;
-        }
-        else {
-            throw new Error('The Skill Manifest is not compatible with any version supported.');
-        }
+
+        return validVersion;
+        
     }
 
     private async getManifest(): Promise<ISkillManifestV1 | ISkillManifestV2> {

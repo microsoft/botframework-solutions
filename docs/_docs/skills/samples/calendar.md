@@ -149,7 +149,7 @@ This skill uses the following authentication scopes:
 - **People.Read**    
 - **Contacts.Read**
 
-You must use [these steps]({{site.baseurl}}/skills/handbook/authentication/#manual-authentication) to manually configure Authentication for the Calendar Skill. Due to a change in the Skill architecture this is not currently automated.
+You must use [these steps]({{site.baseurl}}/{{site.data.urls.SkillManualAuth}}) to manually configure Authentication for the Calendar Skill. Due to a change in the Skill architecture this is not currently automated.
 
 > Ensure you configure all of the scopes detailed above.
 
@@ -168,11 +168,13 @@ To use a Google account follow these steps:
     - Scopes: **https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/contacts**.
 1. Add the connection name, client id, secret and scopes in the **appsetting.json** file.
 
-### Meeting Room Booking Support
+## Meeting Room Booking Support
 
 The Calendar skill provides additional support to search and book meeting rooms. Due to search limitations in Microsoft Graph limiting the experience we leverage Azure Search to provide fuzzy meeting room name matching, floor level, etc. 
 
-1. To simplify the process of extracting your meeting room data and inserting into Azure Search we have provided an example PowerShell script. However, you should ensure that `displayName`, `emailAddress`, `building` and `floorNumber` are populated within your Offie 365 tenant (example below)). You can do this through the [Graph Explorer]() using this query: `https://graph.microsoft.com/beta/me/findrooms`
+1. To simplify the process of extracting your meeting room data and inserting into Azure Search we have provided an example PowerShell script. However, you should ensure that `displayName`, `emailAddress`, `building` and `floorNumber` are populated within your Office 365 tenant (example below)). You can do this through the [Graph Explorer]() using the query shown below, this information is required for the Meeting Room booking expeirence.
+
+`https://graph.microsoft.com/beta/me/findrooms`
 ```json
 {
     "value": [
@@ -195,26 +197,28 @@ The Calendar skill provides additional support to search and book meeting rooms.
 ```
 
 2. Configure the settings of your registered app in Azure App Registration portal 
-    - Make sure your account have the admin privileges to access your tenant's meeting room data. 
+    - Make sure your account has permission to access your tenant's meeting room data, testing the previous query will validate this.
     - In Authentication, set "Treat application as a public client" as "Yes"
     - In API Permissions, add Scope: **Place.Read.All** 
+    
 3. Run the following command:
 ```powershell
  ./Deployment/Scripts/enable_findmeetingroom.ps1
 ```
 
 ### What do these parameters mean? 
-| Parameter | Description | Required |
-|  ----   | ----   | ---- |
-|resourceGroup  | An existing resource group where the Azure Search Service will be deployed.  | Yes |
-|cosmosDbAccount  | An existing CosmosDb Account where the meeting room data will be stored and then it will be used as a Data Source for Azure Search.  | Yes |
-|primaryKey  | The primaryKey of the given CosmosDb Account  | Yes |
-|appId  | A registed app in Azure App registrations Service | Yes |
 
-You can access all the required parameters from the [Deployment](#Deployment) step. <br>
+|Parameter|Description|Required|
+|----|----|----|
+|resourceGroup  | An existing resource group where the Azure Search Service will be deployed.  | Yes |
+|cosmosDbAccount  | The account name of an existing CosmosDb deployment where the meeting room data will be stored, this will then be used as a data source by Azure Search.  | Yes |
+|primaryKey  | The primary key of the CosmosDB deployment  | Yes |
+|appId  | AppId of an authorised Azure AD application which can access Meeting room data  | Yes |
+
+You can access all the required parameters from the [Deployment](#deployment) step. <br>
 **Note:** When running the script, you will be asked to sign in with your account which can access the meeting room data in the MSGraph.
 
-Follow the general instructions [here]({{site.baseurl}}/skills/handbook/authentication#manual-authentication) to configure this using the scopes shown above.
+Follow the general instructions [here]({{site.baseurl}}/{{site.data.urls.SkillManualAuth}}) to configure this using the scopes shown above.
 
 ## Events
 {:.toc}

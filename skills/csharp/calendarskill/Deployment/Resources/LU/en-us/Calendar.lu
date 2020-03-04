@@ -494,10 +494,21 @@
 - add {Subject=work} to my calendar {FromDate=today}
 - append {Subject=dad's birthday} {FromDate=every july 21st}
 - appending {Subject=group meeting} {FromDate=next monday} at {FromTime=11am} for {Duration=an hour}
+- book a meeting
+- book a meeting in the {MeetingRoom=endor conference room}
 - book a meeting between {FromTime=2} and {ToTime=3} {FromDate=tomorrow}
 - book a meeting between {FromTime=2:30pm} and {ToTime=4:45pm} {FromDate=tomorrow}
 - book a meeting in {Location=guangzhou} at 6am on {FromDate=march 5th}
+- book a meeting at 6 o'clock
+- book a meeting at {FromTime=7:00pm}
+- book a meeting at {FromTime=8am}
+- book a meeting at {FromTime=9:35am} 
+- book a meeting for {FromDate=tomorrow} {FromTime=6pm} with lucy chen
+- book a meeting with Jack
+- book a meeting with Lily at {FromTime=11am}
+- i would like to book a meeting in the {Building=hitchcock} building on the {FloorNumber=23rd floor}.
 - book a {Subject=recurring 1x1 meeting} on the {FromDate=first monday of each month}
+- create a meeting with tom34@outlook.com
 - create a calendar appointment at {FromTime=3:30} {FromDate=tomorrow} for {Duration=half an hour}
 - create a event with eden roth at {FromTime=4pm} {FromDate=today} for {Duration=30 mins}
 - create a meeting at 6 o'clock
@@ -678,6 +689,7 @@
 - set up the appointment
 - should you schedule to {FromTime=after lunch}
 - we make an appointment for me
+- (create|book|schedule) (a|an) (meeting|appointment|event) [with {personName}]
 - (create|book|schedule) (a|an) (meeting|appointment|event) [with {personName}] (at|for|on) [{FromDate}] [{FromTime}]
 - (create|book|schedule) (a|an) (meeting|appointment|event) [with {personName}] from [{FromDate}] {FromTime} to [{ToDate}] {ToTime}
 - (create|book|schedule) (a|an) (meeting|appointment|event) [with {personName}] between {FromTime} and {ToTime}
@@ -1151,8 +1163,6 @@
 - book a conference room {MeetingRoom=(city-center/320-gc)}
 - book a double {MeetingRoom=4/22} near city center for me
 - book a hotel room {MeetingRoom=2/110} for a next week.
-- book a meeting
-- book a meeting in the {MeetingRoom=endor conference room}
 - book a meeting room at the {FloorNumber=4th floor} in the {Building=redmond} building
 - book a {MeetingRoom=meeting room} in fisketorvet
 - book a {MeetingRoom=meeting room} in frederiksberg
@@ -1160,18 +1170,18 @@
 - book a meeting room on {FloorNumber=floor 5}
 - book a place on the {FloorNumber=7th} floor in {Building=lloyds building}
 - book a {MeetingRoom=presidental room} at the h10 hotel.
-- book a {MeetingRoom=room}
-- book a {MeetingRoom=room 1}
-- book a {MeetingRoom=room 2}
-- book a {MeetingRoom=room 210} at the southern ocean lodge
-- book a room {MeetingRoom=217 on 2nd floor} in a hotel.
-- book a {MeetingRoom=room 3}
-- book a {MeetingRoom=room 4}
-- book a {MeetingRoom=room 5}
-- book a room {MeetingRoom=577 on 5st floor} in a hotel.
-- book a {MeetingRoom=room 6}
-- book a {MeetingRoom=room 7}
-- book a {MeetingRoom=room 9}
+- book {MeetingRoom=room}
+- book {MeetingRoom=room 1}
+- book {MeetingRoom=room 2}
+- book {MeetingRoom=room 210} at the southern ocean lodge
+- book room {MeetingRoom=217 on 2nd floor} in a hotel.
+- book {MeetingRoom=room 3}
+- book {MeetingRoom=room 4}
+- book {MeetingRoom=room 5}
+- book room {MeetingRoom=577 on 5st floor} in a hotel.
+- book {MeetingRoom=room 6}
+- book {MeetingRoom=room 7}
+- book {MeetingRoom=room 9}
 - book a room at {FloorNumber=floor 4}
 - book a room at {MeetingRoom=taj banjara} for tomorrow conference
 - book a room close to my wife {MeetingRoom=sandra's room}.
@@ -1598,7 +1608,6 @@
 - i wish to reserve a room now at the {Building=bellevue} building.
 - i wonder can i book a {MeetingRoom=royal room c10.}
 - i wonder if i can book the {MeetingRoom=room g10 for today.}
-- i would like to book a meeting in the {Building=hitchcock} building on the {FloorNumber=23rd floor}.
 - i would like to book {MeetingRoom=room 205}
 - i would like to book the {MeetingRoom=tesla room 33} at conrad hotel please.
 - i would like to reserve meeting room {MeetingRoom=excalibur} on the {FloorNumber=first floor} of the {Building=alfred building}

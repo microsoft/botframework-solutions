@@ -125,7 +125,9 @@ Any of the following parameters in the ARM template can be overridden with your 
 | suffix | Unique 7 digit string |
 | microsoftAppId | N/A |
 | microsoftAppPassword | N/A |
+| useCosmosDb | True |
 | cosmosDbName | [name]-[suffix] |
+| useStorage | True |
 | storageAccountName | [name][suffix] |
 | appServicePlanName | [name]-[suffix] |
 | appServicePlanSku | S1 |
@@ -134,18 +136,27 @@ Any of the following parameters in the ARM template can be overridden with your 
 | botWebAppName | [name]-[suffix] |
 | botServiceName | [name]-[suffix] |
 | botServiceSku | S1 |
+| usecontentModerator | True |
 | contentModeratorName | [name]-cm-[suffix] |
 | contentModeratorSku | S0 |
 | contentModeratorLocation | Resource group location |
-| luisServiceName | [name]-luis-[suffix] |
-| luisServiceSku | S0 |
+| luisRuntimeName | [name]-luisruntime-[suffix] |
+| luisRuntimeSku | S0 |
 | luisServiceLocation | Resource group location |
+| useLuisAuthoring | True |
+| luisAuthoringName | [name]-luisauthoring-[suffix] |
+| luisAuthroingSku | F0 |
+| luisAuthroingLocation | N/A |
 | qnaMakerServiceName | [name]-qna-[suffix] |
 | qnaMakerServiceSku | S0 |
-| qnaServiceLocation | Resource group location |
+| qnaMakerServiceLocation | Resource group location |
 | qnaMakerSearchName | [name]-search-[suffix] |
 | qnaMakerSearchSku | Standard |
+| qnaMakerSearchLocation | Resource group location |
 | qnaMakerWebAppName | [name]-qnahost-[suffix] |
+| qnaMakerWebAppLocation | Resource group location |
+| resourceTagName | "bot" |
+| resourceTagValue | [name]-[suffix] |
 
 Simply update the parameters.template.json file with your preferred values, like so:
 
