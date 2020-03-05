@@ -163,7 +163,7 @@ try {
         localeTemplateEngine
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateEngine, mainDialog);
 } catch (err) {
     throw err;
 }
