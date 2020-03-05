@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
@@ -33,6 +34,7 @@ namespace VirtualAssistantSample.Dialogs
         private LocaleLGFileManager _lgFileManager;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        private FeedbackDialog _feedbackDialog;
 
         public MainDialog(
             IServiceProvider serviceProvider,
@@ -64,10 +66,12 @@ namespace VirtualAssistantSample.Dialogs
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
+            _feedbackDialog = serviceProvider.GetService<FeedbackDialog>();
             _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
             _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
             AddDialog(_onboardingDialog);
             AddDialog(_switchSkillDialog);
+            AddDialog(_feedbackDialog);
 
             // Register a QnAMakerDialog for each registered knowledgebase and ensure localised responses are provided.
             var localizedServices = _services.GetCognitiveModels();
@@ -293,6 +297,7 @@ namespace VirtualAssistantSample.Dialogs
             var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState());
             if (string.IsNullOrEmpty(userProfile.Name))
             {
+                // return await stepContext.BeginDialogAsync(_feedbackDialog.Id);
                 return await stepContext.BeginDialogAsync(_onboardingDialog.Id);
             }
 

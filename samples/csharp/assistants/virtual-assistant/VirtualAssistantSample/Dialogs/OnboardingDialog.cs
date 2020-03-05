@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
@@ -21,10 +22,13 @@ namespace VirtualAssistantSample.Dialogs
         private BotServices _services;
         private LocaleLGFileManager _lgFileManager;
         private IStatePropertyAccessor<UserProfileState> _accessor;
+        //private FeedbackDialog _feedbackDialog;
 
         public OnboardingDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            FeedbackDialog feedbackDialog
+            )
             : base(nameof(OnboardingDialog))
         {
             _lgFileManager = serviceProvider.GetService<LocaleLGFileManager>();
@@ -32,6 +36,7 @@ namespace VirtualAssistantSample.Dialogs
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
             _services = serviceProvider.GetService<BotServices>();
+            //_feedbackDialog = serviceProvider.GetService<FeedbackDialog>();
 
             var onboarding = new WaterfallStep[]
             {
@@ -44,6 +49,7 @@ namespace VirtualAssistantSample.Dialogs
             TelemetryClient = telemetryClient;
             AddDialog(new WaterfallDialog(nameof(onboarding), onboarding) { TelemetryClient = telemetryClient });
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
+            AddDialog(feedbackDialog);
         }
 
         public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
@@ -95,7 +101,9 @@ namespace VirtualAssistantSample.Dialogs
 
             await sc.Context.SendActivityAsync(_lgFileManager.GenerateActivityForLocale("HaveNameMessage", userProfile));
 
-            return await sc.EndDialogAsync();
+            return await sc.BeginDialogAsync(nameof(FeedbackDialog), "onboardingDialogEnd");
+
+            //return await sc.EndDialogAsync();
         }
 
         private class DialogIds

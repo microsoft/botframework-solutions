@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
@@ -109,10 +110,14 @@ namespace VirtualAssistantSample
             // Register AuthConfiguration to enable custom claim validation.
             services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<SkillsConfiguration>()) });
 
+            // Register FeedbackOptions
+            services.AddSingleton<FeedbackOptions>(new FeedbackOptions());
+
             // Register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<SwitchSkillDialog>();
             services.AddTransient<OnboardingDialog>();
+            services.AddTransient<FeedbackDialog>();
 
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.

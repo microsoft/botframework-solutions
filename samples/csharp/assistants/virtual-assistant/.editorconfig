@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# SA1005: Single line comments should begin with single space
+dotnet_diagnostic.SA1005.severity = silent

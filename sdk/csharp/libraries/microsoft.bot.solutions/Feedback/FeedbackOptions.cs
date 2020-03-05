@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Feedback
@@ -37,7 +38,7 @@ namespace Microsoft.Bot.Solutions.Feedback
                     };
                 }
 
-                return this.feedbackActions;
+                return this.FeedbackActions;
             }
             set => this.feedbackActions = value;
         }
@@ -56,7 +57,6 @@ namespace Microsoft.Bot.Solutions.Feedback
                 {
                     return new CardAction(ActionTypes.PostBack, title: FeedbackResponses.DismissTitle, value: "dismiss");
                 }
-
                 return this.dismissAction;
             }
             set => this.dismissAction = value;
