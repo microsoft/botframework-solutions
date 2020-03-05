@@ -23,10 +23,9 @@ import {
     LocaleTemplateEngineManager,
     SkillDialog,
     SwitchSkillDialog,
-    IEnhancedBotFrameworkSkill, 
-    SkillsConfiguration,
+    IEnhancedBotFrameworkSkill,
     SkillConversationIdFactory} from 'botbuilder-solutions';
-import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
+import { SimpleCredentialProvider, AuthenticationConfiguration } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
@@ -42,7 +41,6 @@ import { IBotSettings } from './services/botSettings';
 import { Activity, ResourceResponse } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState'
-import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
 
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
@@ -136,6 +134,8 @@ supportedLocales.forEach((locale: string) => {
 const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
 
 // Create the skills configuration class
+// We disabled the eslint rule to follow the parity with C#, however this is not used in both languages currently
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let authConfig: AuthenticationConfiguration;
 let skillConfiguration: SkillsConfiguration;
 if (skills !== undefined && skills.length > 0 && skillHostEndpoint.trim().length !== 0) {
@@ -184,7 +184,7 @@ try {
             throw new Error("'skillHostEndpoint' is not in the configuration");
         } else {
             skillDialogs = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
-                return new SkillDialog(conversationState, skillHttpClient, skill, <IBotSettings> botSettings, skillHostEndpoint);
+                return new SkillDialog(conversationState, skillHttpClient, skill, botSettings as IBotSettings, skillHostEndpoint);
             });
         }
     }
@@ -232,7 +232,7 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
     });
 });
 
-let handler: ChannelServiceHandler = new ChannelServiceHandler(credentialProvider, new AuthenticationConfiguration());
+const handler: ChannelServiceHandler = new ChannelServiceHandler(credentialProvider, new AuthenticationConfiguration());
 
 server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
     const activity: Activity = JSON.parse(req.body);

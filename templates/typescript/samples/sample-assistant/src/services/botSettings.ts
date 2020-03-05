@@ -4,5 +4,6 @@
  */
 import { IBotSettingsBase } from 'botbuilder-solutions';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IBotSettings extends IBotSettingsBase {
 }

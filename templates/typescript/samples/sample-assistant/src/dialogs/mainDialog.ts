@@ -10,8 +10,6 @@ import {
     TurnContext } from 'botbuilder';
 import {
     LuisRecognizer,
-    QnAMakerResult,
-    QnAMaker,
     QnAMakerDialog } from 'botbuilder-ai';
 import {
     DialogContext,
@@ -314,9 +312,6 @@ export class MainDialog extends ComponentDialog {
         const userProfile: IUserProfileState = await this.userProfileState.get(stepContext.context, { name: '' });
 
         if (activity.text !== undefined && activity.text.trim().length > 0) {
-            // Get current cognitive models for the current locale.
-            const localizedServices: ICognitiveModelSet = this.services.getCognitiveModels();
-
             // Get dispatch result from turn state.
             const dispatchResult: RecognizerResult = stepContext.context.turnState.get(StateProperties.dispatchResult);
             const dispatch: string = LuisRecognizer.topIntent(dispatchResult);

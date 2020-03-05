@@ -65,7 +65,7 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     }
 
     protected async membersAdded(turnContext: TurnContext): Promise<void> {
-        let userProfile = await this.userProfileState.get(turnContext, () => { name: '' })
+        const userProfile = await this.userProfileState.get(turnContext, () => { name: '' })
 
         if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
             // Send new user intro card.
@@ -90,7 +90,6 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         //PENDING: This should be const ev: IEventActivity = innerDc.context.activity.asEventActivity()
         // but it's not in botbuilder-js currently
         const ev: Activity = turnContext.activity;
-        const value: string = ev.value?.toString();
 
         switch (ev.name) {
             case TokenEvents.tokenResponseEventName:
