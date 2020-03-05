@@ -10,7 +10,8 @@ import {
     TurnContext } from 'botbuilder';
 import {
     LuisRecognizer,
-    QnAMakerDialog } from 'botbuilder-ai';
+    QnAMakerDialog, 
+    QnAMakerEndpoint} from 'botbuilder-ai';
 import {
     DialogContext,
     DialogTurnResult, 
@@ -29,7 +30,7 @@ import {
     SwitchSkillDialogOptions, 
     SkillsConfiguration,
     SkillDialogArgs,
-    EnhancedBotFrameworkSkill } from 'botbuilder-solutions';
+    IEnhancedBotFrameworkSkill } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'botframework-schema';
 import { IUserProfileState } from '../models/userProfileState';
@@ -92,18 +93,17 @@ export class MainDialog extends ComponentDialog {
 
         // Register a QnAMakerDialog for each registered knowledgebase and ensure localised responses are provided.
         const localizedServices: ICognitiveModelSet  = this.services.getCognitiveModels();
-        localizedServices.qnaConfiguration.forEach((knowledgebase: QnAMakerDialog): void => {
-        const qnaDialog: QnAMakerDialog = new QnAMakerDialog(
-            knowledgeBaseId = knowledgebase.value.knowledgeBaseId,
-            endpointKey = knowledgebase.value.endpointKey,
-            hostName = knowledgebase.value.host,
-            noAnswer = this.templateEngine.generateActivityForLocale("UnsupportedMessage"),
-            activeLearningCardTitle = this.templateEngine.generateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").text,
-            cardNoMatchText = this.templateEngine.generateActivityForLocale("QnaMakerNoMatchText").text) 
-        {
-            this.id = knowledgebase.key
-        };
-            this.addDialog(qnaDialog); 
+        localizedServices.qnaConfiguration.forEach((value: QnAMakerEndpoint, key: string) => {
+            const qnaDialog: QnAMakerDialog = new QnAMakerDialog(
+                value.knowledgeBaseId,
+                value.endpointKey,
+                value.host,
+                this.templateEngine.generateActivityForLocale("UnsupportedMessage") as Activity,
+                0.3,
+                this.templateEngine.generateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").text,
+                this.templateEngine.generateActivityForLocale("QnaMakerNoMatchText").text)
+            this.id = key;
+            this.addDialog(qnaDialog);
         });
 
         // Register skill dialogs
@@ -119,7 +119,7 @@ export class MainDialog extends ComponentDialog {
 
             // Run LUIS recognition and store result in turn state.
             const dispatchResult: RecognizerResult = await localizedServices.dispatchService.recognize(innerDc.context);
-            innerDc.context.turnState.set(StateProperties.dispatchResult, dispatchResult);
+            innerDc.context.turnState.set(StateProperties.DispatchResult, dispatchResult);
 
             const intent: string = LuisRecognizer.topIntent(dispatchResult);
             if (intent === 'l_general') {
@@ -153,7 +153,7 @@ export class MainDialog extends ComponentDialog {
 
             // Run LUIS recognition and store result in turn state.
             const dispatchResult: RecognizerResult = await localizedServices.dispatchService.recognize(innerDc.context);
-            innerDc.context.turnState.set(StateProperties.dispatchResult, dispatchResult);
+            innerDc.context.turnState.set(StateProperties.DispatchResult, dispatchResult);
 
             const intent: string = LuisRecognizer.topIntent(dispatchResult);
             if (intent === 'l_general') {
@@ -191,13 +191,13 @@ export class MainDialog extends ComponentDialog {
             const isSkill: boolean = dialog instanceof SkillDialog;
 
             // Get Dispatch LUIS result from turn state.
-            const dispatchResult: RecognizerResult = innerDc.context.turnState.get(StateProperties.dispatchResult);
+            const dispatchResult: RecognizerResult = innerDc.context.turnState.get(StateProperties.DispatchResult);
             const intent: string = LuisRecognizer.topIntent(dispatchResult);
             
             // Check if we need to switch skills.
             if(dialog !== undefined){
                 if (isSkill && this.isSkillIntent(intent) && intent !== dialog.id && dispatchResult.intents[intent].score > 0.9) {
-                    const identifiedSkill: EnhancedBotFrameworkSkill | undefined = this.skillsConfig.skills.get(intent);
+                    const identifiedSkill: IEnhancedBotFrameworkSkill | undefined = this.skillsConfig.skills.get(intent);
                     if (identifiedSkill !== undefined) {
                         const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('SkillSwitchPrompt', { skill: identifiedSkill.name });
                         await innerDc.beginDialog(this.switchSkillDialog.id, new SwitchSkillDialogOptions(prompt as Activity, identifiedSkill));
@@ -313,11 +313,12 @@ export class MainDialog extends ComponentDialog {
 
         if (activity.text !== undefined && activity.text.trim().length > 0) {
             // Get dispatch result from turn state.
-            const dispatchResult: RecognizerResult = stepContext.context.turnState.get(StateProperties.dispatchResult);
+            const dispatchResult: RecognizerResult = stepContext.context.turnState.get(StateProperties.DispatchResult);
             const dispatch: string = LuisRecognizer.topIntent(dispatchResult);
             if (this.isSkillIntent(dispatch)) {
                 const dispatchIntentSkill: string = dispatch;
-                const skillDialogArgs: SkillDialogArgs = new SkillDialogArgs().skillId = dispatchIntentSkill ;
+                const skillDialogArgs: SkillDialogArgs = new SkillDialogArgs();
+                skillDialogArgs.skillId = dispatchIntentSkill;
                 
                 // Start the skill dialog.
                 return await stepContext.beginDialog(dispatchIntentSkill, skillDialogArgs);      

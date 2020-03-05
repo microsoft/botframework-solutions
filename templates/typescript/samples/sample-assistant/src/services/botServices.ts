@@ -36,7 +36,8 @@ export class BotServices {
                 const cognitiveModelSet: ICognitiveModelSet = {
                     dispatchService: new LuisRecognizer(dispatchApp, luisPredictionOptions),
                     luisServices: new Map(),
-                    qnaServices: new Map()
+                    qnaServices: new Map(),
+                    qnaConfiguration: new Map()
                 };
 
                 if (config.languageModels !== undefined) {

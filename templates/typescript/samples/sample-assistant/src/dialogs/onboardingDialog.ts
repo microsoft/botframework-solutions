@@ -104,3 +104,12 @@ export class OnboardingDialog extends ComponentDialog {
         return await sc.endDialog();
     }
 }
+
+enum DialogIds {
+    NamePrompt = 'namePrompt',
+}
+
+export enum StateProperties {
+    DispatchResult = "dispatchResult",
+    GeneralResult = "generalResult",
+}

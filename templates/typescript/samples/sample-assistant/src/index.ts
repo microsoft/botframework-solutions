@@ -24,8 +24,9 @@ import {
     SkillDialog,
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
-    SkillConversationIdFactory} from 'botbuilder-solutions';
-import { SimpleCredentialProvider, AuthenticationConfiguration } from 'botframework-connector';
+    SkillConversationIdFactory,
+    SkillsConfiguration} from 'botbuilder-solutions';
+import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import * as path from 'path';
@@ -41,6 +42,7 @@ import { IBotSettings } from './services/botSettings';
 import { Activity, ResourceResponse } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState'
+import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
 
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
@@ -137,10 +139,10 @@ const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngi
 // We disabled the eslint rule to follow the parity with C#, however this is not used in both languages currently
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let authConfig: AuthenticationConfiguration;
-let skillConfiguration: SkillsConfiguration;
+let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], "") ;
 if (skills !== undefined && skills.length > 0 && skillHostEndpoint.trim().length !== 0) {
-        skillConfiguration = new SkillsConfiguration(skills, skillHostEndpoint);
-        const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillConfiguration);
+        skillsConfiguration = new SkillsConfiguration(skills, skillHostEndpoint);
+        const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillsConfiguration);
 
         // Create AuthConfiguration to enable custom claim validation.
         authConfig = new AuthenticationConfiguration(
@@ -202,7 +204,7 @@ try {
         telemetryClient,
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateEngine, mainDialog);
 } catch (err) {
     throw err;
 }
