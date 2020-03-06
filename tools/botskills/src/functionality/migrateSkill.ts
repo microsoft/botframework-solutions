@@ -6,7 +6,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IMigrateConfiguration, IAppSetting, ISkill, ISkillFileV1 } from '../models';
-import { isInstanceOfISkillManifestV1 } from '../utils/validationUtils';
+import { manifestV1Validation } from '../utils/validationUtils';
 
 export class MigrateSkill {
     public logger: ILogger;
@@ -44,7 +44,8 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             const destAssistantSkills: ISkill[] = destFile.BotFrameworkSkills || [];
 
             sourceAssistantSkills.skills.forEach((skill): void => {
-                if (isInstanceOfISkillManifestV1(skill)){
+                manifestV1Validation(skill, this.logger);
+                if (!this.logger.isError){
 
                     if (destAssistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skill.id)) {
                         this.logger.warning(`The skill '${ skill.name }' is already registered.`);
@@ -59,7 +60,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                     });
                 }
                 else {
-                    throw new Error(`A skill has an incorrect format, please check that all the skills intended to be migrated has the V1 format`);
+                    throw new Error(`The skill '${ skill.name }' has an incorrect format, please check that all the skills intended to be migrated has the V1 format`);
                 }
             });
 
