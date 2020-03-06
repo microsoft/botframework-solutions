@@ -113,11 +113,11 @@ A Skill needs to be able to authenticate the request from a Virtual Assistant, [
 
 ### How do I enable Bot Framework Skills on an existing v4 Bot?
 {:.no_toc}
-Learn how to [enable Bot Framework Skill support on an existing v4 Bot]({{site.baseurl}}/skills/tutorials/extend-v4-bot/csharp/1-intro).
+Learn how to [enable Bot Framework Skill support on an existing v4 Bot](https://docs.microsoft.com/en-us/azure/bot-service/skill-implement-consumer?view=azure-bot-service-4.0&tabs=cs).
 
 ### How do I convert an existing v4 Bot to a Bot Framework Skill?
 {:.no_toc}
-Learn how to [convert an existing v4 Bot to a Bot Framework Skill]({{site.baseurl}}/skills/tutorials/convert-v4-bot/csharp/1-intro).
+Learn how to [convert an existing v4 Bot to a Bot Framework Skill](https://docs.microsoft.com/en-us/azure/bot-service/skill-implement-skill?view=azure-bot-service-4.0&tabs=cs).
 
 ## Analytics
 
