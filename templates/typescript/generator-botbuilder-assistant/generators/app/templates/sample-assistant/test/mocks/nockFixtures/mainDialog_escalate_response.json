@@ -8,10 +8,25 @@
         "response": {
             "query": "I want to talk to a human",
             "topScoringIntent": {
-                "intent": "Escalate",
-                "score": 0.9580864
+                "intent": "l_general",
+                "score": 0.8168505
             },
-            "entities": []
+            "entities": [],
+            "connectedServiceResult": {
+                "query": "I want to talk to a human",
+                "topScoringIntent": {
+                    "intent": "Escalate",
+                    "score": 0.95761466
+                },
+                "entities": [
+                    {
+                        "entity": "a human",
+                        "type": "builtin.personName",
+                        "startIndex": 18,
+                        "endIndex": 24
+                    }
+                ]
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -19,13 +34,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "145",
+            "481",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "f2cf0289-23a8-4c94-8e7f-cb122bab47d7",
+            "e463f713-0ad0-41ff-91f3-bb97f01ecea3",
             "Request-Id",
-            "f2cf0289-23a8-4c94-8e7f-cb122bab47d7",
+            "e463f713-0ad0-41ff-91f3-bb97f01ecea3",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -33,7 +50,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Thu, 12 Dec 2019 22:08:27 GMT",
+            "Fri, 24 Jan 2020 13:58:37 GMT",
             "Connection",
             "close"
         ]
@@ -47,18 +64,17 @@
         "response": {
             "query": "I want to talk to a human",
             "topScoringIntent": {
-                "intent": "l_general",
-                "score": 0.820739031
+                "intent": "Escalate",
+                "score": 0.95761466
             },
-            "entities": [],
-            "connectedServiceResult": {
-                "query": "I want to talk to a human",
-                "topScoringIntent": {
-                    "intent": "Escalate",
-                    "score": 0.9580864
-                },
-                "entities": []
-            }
+            "entities": [
+                {
+                    "entity": "a human",
+                    "type": "builtin.personName",
+                    "startIndex": 18,
+                    "endIndex": 24
+                }
+            ]
         },
         "rawHeaders": [
             "Cache-Control",
@@ -66,15 +82,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "338",
+            "276",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "0c638a5f-a55c-4247-a762-47ef9df740b1",
+            "18bb553c-d699-4aed-bfae-219801008cf2",
             "Request-Id",
-            "0c638a5f-a55c-4247-a762-47ef9df740b1",
-            "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|2",
+            "18bb553c-d699-4aed-bfae-219801008cf2",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -82,7 +96,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Thu, 12 Dec 2019 22:08:27 GMT",
+            "Fri, 24 Jan 2020 13:58:38 GMT",
             "Connection",
             "close"
         ]

@@ -7,7 +7,7 @@
     "main": "lib/index.js",
     "scripts": {
         "clean": "rimraf ./lib",
-        "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
+        "copy-templates": "copyfiles --up 1 \"./src/**/*.{json,lg}\" \"./lib\"",
         "prebuild": "npm run lint",
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "lint": "eslint ./src/**/*.ts",
@@ -26,7 +26,6 @@
         "botbuilder-applicationinsights": "^4.7.0",
         "botbuilder-azure": "^4.7.0",
         "botbuilder-dialogs": "^4.7.0",
-        "botbuilder-skills": "^4.4.9",
         "botbuilder-solutions": "^4.4.9",
         "botframework-config": "^4.7.0",
         "botframework-connector": "^4.7.0",

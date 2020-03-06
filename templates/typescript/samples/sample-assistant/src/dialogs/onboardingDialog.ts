@@ -2,93 +2,105 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import {
-    BotTelemetryClient,
-    StatePropertyAccessor,
-    TurnContext } from 'botbuilder';
+import { BotTelemetryClient, StatePropertyAccessor, RecognizerResult } from 'botbuilder';
 import {
     ComponentDialog,
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
-    WaterfallStepContext } from 'botbuilder-dialogs';
-import { IOnboardingState } from '../models/onboardingState';
-import { OnboardingResponses } from '../responses/onboardingResponses';
+    WaterfallStepContext,
+    WaterfallStep
+} from 'botbuilder-dialogs';
+import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
+import { LocaleTemplateEngineManager, DialogContextEx } from 'botbuilder-solutions';
+import { LuisRecognizer } from 'botbuilder-ai';
 
-enum DialogIds {
-    namePrompt = 'namePrompt',
-    emailPrompt = 'emailPrompt',
-    locationPrompt =  'locationPrompt'
-}
-
+// Example onboarding dialog to initial user profile information.
 export class OnboardingDialog extends ComponentDialog {
+    private services: BotServices;
+    private templateEngine: LocaleTemplateEngineManager;
+    private accessor: StatePropertyAccessor<IUserProfileState>;
 
-    // Fields
-    private static readonly responder: OnboardingResponses = new OnboardingResponses();
-    private readonly accessor: StatePropertyAccessor<IOnboardingState>;
-    private state!: IOnboardingState;
-
-    // Constructor
-    public constructor(botServices: BotServices, accessor: StatePropertyAccessor<IOnboardingState>, telemetryClient: BotTelemetryClient) {
+    public constructor(
+        accessor: StatePropertyAccessor<IUserProfileState>,
+        services: BotServices,
+        templateEngine: LocaleTemplateEngineManager,
+        telemetryClient: BotTelemetryClient) {
         super(OnboardingDialog.name);
+        this.templateEngine = templateEngine;
+
         this.accessor = accessor;
-        this.initialDialogId = OnboardingDialog.name;
-        const onboarding: ((sc: WaterfallStepContext<IOnboardingState>) => Promise<DialogTurnResult>)[] = [
+        this.services = services;
+
+        const onboarding: WaterfallStep[] = [
             this.askForName.bind(this),
             this.finishOnboardingDialog.bind(this)
         ];
 
         // To capture built-in waterfall dialog telemetry, set the telemetry client
         // to the new waterfall dialog and add it to the component dialog
-        this.telemetryClient = telemetryClient;
-        this.addDialog(new WaterfallDialog(this.initialDialogId, onboarding));
-        this.addDialog(new TextPrompt(DialogIds.namePrompt));
+        this.telemetryClient = telemetryClient
+        this.addDialog(new WaterfallDialog(OnboardingDialog.name, onboarding));
+        this.addDialog(new TextPrompt(DialogIds.NamePrompt));
     }
 
-    public async askForName(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.state = await this.getStateFromAccessor(sc.context);
+    public async askForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        const state: IUserProfileState = await this.accessor.get(sc.context, { name: '' });
 
-        if (this.state.name !== undefined && this.state.name.trim().length > 0) {
-            return sc.next(this.state.name);
+        if (state.name !== undefined && state.name.trim().length > 0) {
+            return await sc.next(state.name);
         }
-
-        return sc.prompt(DialogIds.namePrompt, {
-            prompt: await OnboardingDialog.responder.renderTemplate(
-                sc.context,
-                OnboardingResponses.responseIds.namePrompt,
-                sc.context.activity.locale as string)
-        });
-    }
-
-    public async finishOnboardingDialog(sc: WaterfallStepContext<IOnboardingState>): Promise<DialogTurnResult> {
-        this.state = await this.getStateFromAccessor(sc.context);
-        this.state.name = sc.result as string;
-        await this.accessor.set(sc.context, this.state);
-
-        await OnboardingDialog.responder.replyWith(
-            sc.context,
-            OnboardingResponses.responseIds.haveNameMessage,
-            {
-                name: this.state.name
+        else {
+            return await sc.prompt(DialogIds.NamePrompt, {
+                prompt: this.templateEngine.generateActivityForLocale('NamePrompt'),
             });
-
-        return sc.endDialog();
+        }
     }
 
-    private async getStateFromAccessor(context: TurnContext): Promise<IOnboardingState>  {
-        const state: IOnboardingState | undefined = await this.accessor.get(context);
-        if (state === undefined) {
-            const newState: IOnboardingState = {
-                email: '',
-                location: '',
-                name: ''
-            };
-            await this.accessor.set(context, newState);
+    public async finishOnboardingDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        const userProfile: IUserProfileState = await this.accessor.get(sc.context, { name: '' });
+        let name: string = sc.result as string;
 
-            return newState;
+        let generalResult: RecognizerResult = sc.context.turnState.get(StateProperties.GeneralResult);
+        if (generalResult) {
+            const localizedServices = this.services.getCognitiveModels();
+            const generalLuisService: LuisRecognizer | undefined = await localizedServices.luisServices.get('General');
+            if (generalLuisService) {
+                generalResult = await generalLuisService.recognize(sc.context);
+            }
+        }
+        const intent: string = LuisRecognizer.topIntent(generalResult);
+        if (intent === 'ExtrackName' && generalResult.intents[intent].score > 0.5) {
+            if (generalResult.entities['PersonName_Any'] !== undefined) {
+                name = generalResult.entities['PersonName_Any'];
+            } else if (generalResult.entities['personName'] !== undefined) {
+                name = generalResult.entities['personName'];
+            }
         }
 
-        return state;
+        // Captialize name
+        userProfile.name = name.toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0)
+                .toUpperCase() + word.substring(1))
+            .join(' ');
+
+        await this.accessor.set(sc.context, userProfile);
+
+        await sc.context.sendActivity(this.templateEngine.generateActivityForLocale('HaveNameMessage', userProfile));
+        await sc.context.sendActivity(this.templateEngine.generateActivityForLocale('FirstPromptMessage', userProfile));
+
+        DialogContextEx.suppressCompletionMessage(sc, true);
+
+        return await sc.endDialog();
     }
+}
+
+enum DialogIds {
+    NamePrompt = 'namePrompt',
+}
+
+export enum StateProperties {
+    GeneralResult = "generalResult",
 }

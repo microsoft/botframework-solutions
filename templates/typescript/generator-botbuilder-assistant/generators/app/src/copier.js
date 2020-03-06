@@ -78,8 +78,8 @@ class Copier {
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.nycrc`, `.nycrc`);
     templateFiles.set(
-      join(`src`, `bots`, `_dialogBot.ts`),
-      join(`src`, `bots`, `dialogBot.ts`)
+      join(`src`, `bots`, `_defaultActivityHandler.ts`),
+      join(`src`, `bots`, `defaultActivityHandler.ts`)
     );
     templateFiles.set(
       join(`pipeline`, `_sample-assistant.yml`),
