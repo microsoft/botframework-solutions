@@ -138,18 +138,24 @@ public class AdaptiveComponentRegistrationEx : ComponentRegistration
 4. Invoke the extended component registration within the constructor of your ComposerBot.cs class
 
 ```csharp
-DeclarativeTypeLoader.AddComponent(new AdaptiveComponentRegistrationEx());
+    DeclarativeTypeLoader.AddComponent(new AdaptiveComponentRegistrationEx());
 ```
 
 5. Update `AdaptiveDialog` references to `AdaptiveDialogEx` within ComposerBot.cs
 
 ## Configuration
 
-The final step is to ensure configuration settings required by Composer are moved across into the main Skill `appSettings.json` file, otherwise they won't be available at runtime along with addressing slight differences between configuration items currently present.
+The final step is to ensure configuration settings required by Composer are available in the Skill `appSettings.json` file, otherwise they won't be available at runtime along with addressing slight differences between configuration items currently present.
 
 1. Rename the existing `key` element underneath `luis` to `endpointKey`. Given these steps replace any existing dialogs there is no need to maintain this element for other dialogs.
 2. Add an `endpoint` element and set this to the endpoint of the published LUIS resource that Composer has created for you. You can find this through the LUIS portal, e.g. `https://myluisresource.cognitiveservices.azure.com`
-3. Open the `luis.settings.composer.{region}.json` file within the `ComposerDialogs\Generated` folder and copy any sub-elements of `luis` across to the `luis` section of your appSettings.json. There will be an entry for each LUIS application used by your Composer project.
+
+3. Add the generated LUIS configuration file to your `Startup.cs` class constructor
+
+```csharp
+    var luisAuthoringRegion = Environment.GetEnvironmentVariable("LUIS_AUTHORING_REGION") ?? "westus";
+   .AddJsonFile($"ComposerDialogs/Generated/luis.settings.composer.{luisAuthoringRegion}.json", optional: true, reloadOnChange: true)
+```
 
 ## Testing
 
