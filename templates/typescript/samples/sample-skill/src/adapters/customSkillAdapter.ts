@@ -4,36 +4,48 @@
  */
 
 import {
-    AutoSaveStateMiddleware,
+    ActivityTypes,
     BotTelemetryClient,
     ConversationState,
-    StatePropertyAccessor,
     TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
     TranscriptStore,
-    UserState} from 'botbuilder';
+    TurnContext,
+    UserState } from 'botbuilder';
 import { AzureBlobTranscriptStore } from 'botbuilder-azure';
-import { DialogState } from 'botbuilder-dialogs';
 import {
-    // PENDING: SkillHttpBotAdapter should be replaced with SkillWebSocketBotAdapter
+    EventDebuggerMiddleware,
+    LocaleTemplateEngineManager,
+    SetLocaleMiddleware,
     SkillHttpBotAdapter,
-    SkillMiddleware } from 'botbuilder-skills';
-import { EventDebuggerMiddleware, SetLocaleMiddleware } from 'botbuilder-solutions';
+    SkillMiddleware } from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
+import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 
-// PENDING: this class should extends from SkillWebSocketBotAdapter instead of SkillHttpBotAdapter
 export class CustomSkillAdapter extends SkillHttpBotAdapter {
 
     public constructor(
         settings: Partial<IBotSettings>,
         userState: UserState,
         conversationState: ConversationState,
-        telemetryClient: BotTelemetryClient,
-        dialogStateAccessor: StatePropertyAccessor<DialogState>
-    ) {
+        templateEngine: LocaleTemplateEngineManager,
+        telemetryMiddleware: TelemetryInitializerMiddleware,
+        telemetryClient: BotTelemetryClient) {
         super(telemetryClient);
-        // PENDING: the next line should be uncommented when the WS library is merged
-        // super();
+
+        this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+            await context.sendActivity({
+                type: ActivityTypes.Trace,
+                text: error.message || JSON.stringify(error)
+            });
+            await context.sendActivity({
+                type: ActivityTypes.Trace,
+                text: error.stack
+            });
+            await context.sendActivity(templateEngine.generateActivityForLocale('ErrorMessage'));
+            telemetryClient.trackException({ exception: error });
+        };
+
         if (settings.blobStorage === undefined) {
             throw new Error('There is no blobStorage value in appsettings file');
         }
@@ -43,13 +55,14 @@ export class CustomSkillAdapter extends SkillHttpBotAdapter {
             storageAccountOrConnectionString: settings.blobStorage.connectionString
         });
 
+        this.use(telemetryMiddleware);
+
         // Uncomment the following line for local development without Azure Storage
         // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
-        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new TranscriptLoggerMiddleware(transcriptStore));
+        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        this.use(new AutoSaveStateMiddleware(conversationState, userState));
-        this.use(new SkillMiddleware(conversationState, dialogStateAccessor));
+        this.use(new SkillMiddleware(userState, conversationState, conversationState.createProperty('DialogState')));
     }
 }
