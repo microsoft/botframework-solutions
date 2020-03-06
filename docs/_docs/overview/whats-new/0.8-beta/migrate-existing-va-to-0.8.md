@@ -522,7 +522,7 @@ Besides, add the following lines into the plugins list in the `index` file.
 
 ### TypeScript
 
-1. Within `dialogs/mainDialog.ts`, you will likely have a number of changes relating to your project. Refer to the [latest version of MainDialog.cs](https://github.com/microsoft/botframework-solutions/blob/master/templates/typescript/samples/sample-assistant/src/dialogs/mainDialog.ts) to incorporate all changes.
+1. Within `dialogs/mainDialog.ts`, you will likely have a number of changes relating to your project. Refer to the [latest version of mainDialog.ts](https://github.com/microsoft/botframework-solutions/blob/master/templates/typescript/samples/sample-assistant/src/dialogs/mainDialog.ts) to incorporate all changes.
 
 ## Startup.cs changes
 
