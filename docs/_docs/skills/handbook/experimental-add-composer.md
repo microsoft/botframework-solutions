@@ -86,6 +86,63 @@ The next stage is to provide Adapter configuration for supporting Adaptive Dialo
     this.UseLanguageGeneration(resourceExplorer, "common.lg");
 ```
 
+## Sending EndOfConversation
+
+The EndOfConversation activity is used to indicate when a Skill has finished execution, handing back control to the caller. Moving forward, this will be automatically handled by the `DialogManager`. At this time the following modifications are required to support this scenario.
+
+1. Add the class to your project.
+
+```csharp
+public class AdaptiveDialogEx : AdaptiveDialog
+{
+    public AdaptiveDialogEx(string dialogId = null, string callerPath = null, int callerLine = 0) : base(dialogId, callerPath, callerLine)
+    {
+        
+    }
+
+    public async override Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
+    {
+        var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
+        {
+            Code = EndOfConversationCodes.CompletedSuccessfully,               
+        };
+
+        await turnContext.SendActivityAsync(endOfConversation, cancellationToken);
+
+        await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
+    }
+}
+```
+
+2. For each Composer Dialog (.dialog file) within your ComposerDialogs folder update the `Microsoft.AdaptiveDialog` reference at the top to `{YourNamespace}.AdaptiveDialogEx`.
+
+```json
+{
+  "$type": "Microsoft.AdaptiveDialogEx"
+}
+```
+
+3. Add this extended Component Registration entry
+
+```csharp
+public class AdaptiveComponentRegistrationEx : ComponentRegistration
+{
+    public override IEnumerable<TypeRegistration> GetTypes()
+    {
+        // Conditionals
+        yield return new TypeRegistration<AdaptiveDialogEx>("{YourNamespace}.AdaptiveDialogEx");
+    }
+}
+```
+
+4. Invoke the extended component registration within the constructor of your ComposerBot.cs class
+
+```csharp
+DeclarativeTypeLoader.AddComponent(new AdaptiveComponentRegistrationEx());
+```
+
+5. Update `AdaptiveDialog` references to `AdaptiveDialogEx` within ComposerBot.cs
+
 ## Configuration
 
 The final step is to ensure configuration settings required by Composer are moved across into the main Skill `appSettings.json` file, otherwise they won't be available at runtime along with addressing slight differences between configuration items currently present.
