@@ -15,6 +15,7 @@ export class SetLocaleMiddleware implements Middleware {
     public constructor(defaultLocale: string) {
         if (defaultLocale === undefined) { throw new Error (`Parameter 'defaultLocale' cannot be undefined.`); }
         this.defaultLocale = defaultLocale;
+        i18next.language = defaultLocale;
     }
 
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
