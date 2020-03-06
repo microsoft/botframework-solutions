@@ -4,7 +4,7 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { isAbsolute, join, resolve } from 'path';
+import { isAbsolute, join, resolve, basename } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
@@ -106,9 +106,8 @@ export class ConnectSkill {
                 if(!existsSync(luFilePath)) {
                     throw new Error(`Path to the LU file (${luFilePath}) leads to a nonexistent file.`);
                 }
-
-                if (luFile.trim.length === 0) {
-                    luFile = luFilePath.split('\\').reverse()[0];
+                if (luFile.trim().length === 0) {
+                    luFile = basename(luFilePath);
                     luisFile = `${luFile.toLowerCase()}is`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);
