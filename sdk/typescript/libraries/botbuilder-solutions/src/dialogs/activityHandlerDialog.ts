@@ -14,7 +14,7 @@ import { Activity, ActivityTypes } from 'botbuilder';
  */ 
 export abstract class ActivityHandlerDialog extends InterruptableDialog {
 
-    public constructor (dialogId: string, telemetryClient: BotTelemetryClient ) {
+    public constructor(dialogId: string, telemetryClient: BotTelemetryClient ) {
         super(dialogId, telemetryClient);
 
         this.telemetryClient = telemetryClient;

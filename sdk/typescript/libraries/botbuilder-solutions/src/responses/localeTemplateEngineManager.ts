@@ -25,11 +25,11 @@ export class LocaleTemplateEngineManager {
      * @param localeLGFiles - A dictionary of locale and LG file(s).
      * @param fallbackLocale The default fallback locale to use.
      */
-    public constructor (localeLGFiles: Map<string, string[]>, fallbackLocale: string) {
-        if (localeLGFiles === undefined) { throw new Error ('The parameter localeLGFiles is undefined') }
-        if (fallbackLocale === undefined || fallbackLocale.trim().length === 0) { throw new Error ('The parameter fallbackLocale is undefined') }
+    public constructor(localeLGFiles: Map<string, string[]>, fallbackLocale: string) {
+        if (localeLGFiles === undefined) { throw new Error ('The parameter localeLGFiles is undefined'); }
+        if (fallbackLocale === undefined || fallbackLocale.trim().length === 0) { throw new Error ('The parameter fallbackLocale is undefined'); }
 
-        localeLGFiles.forEach((value: string[], key: string) => {
+        localeLGFiles.forEach((value: string[], key: string): void => {
             this.templateEnginesPerLocale.set(key, new TemplateEngine());
             const templateEngine: TemplateEngine | undefined = this.templateEnginesPerLocale.get(key);
             if (templateEngine) {
@@ -52,7 +52,7 @@ export class LocaleTemplateEngineManager {
      * @returns Activity
      */
     public generateActivityForLocale(templateName: string, data: Object = {} , localeOverride: string = ''): Partial<Activity> {
-        if (templateName === undefined) { throw new Error('The parameter templateName is undefined') }
+        if (templateName === undefined) { throw new Error('The parameter templateName is undefined'); }
     
         // By default we use the locale for the current culture, if a locale is provided then we ignore this.
         let locale: string = localeOverride.trim().length > 0 ? localeOverride : i18next.language;
@@ -87,6 +87,6 @@ export class LocaleTemplateEngineManager {
             
         }
 
-        throw new Error(`No LG responses found for ${locale} or when attempting to fallback to ${this.localeDefault}`);
+        throw new Error(`No LG responses found for ${ locale } or when attempting to fallback to ${ this.localeDefault }`);
     }
 }

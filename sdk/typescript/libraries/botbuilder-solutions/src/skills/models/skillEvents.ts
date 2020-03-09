@@ -5,5 +5,5 @@
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace SkillEvents {
-    export const cancelAllSkillDialogsEventName: string = 'skill/cancelallskilldialogs';
+    export const cancelAllSkillDialogsEventName = 'skill/cancelallskilldialogs';
 }
