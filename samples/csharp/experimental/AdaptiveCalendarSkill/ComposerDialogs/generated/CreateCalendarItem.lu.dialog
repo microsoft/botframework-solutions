@@ -1,0 +1,7 @@
+{
+    "$type": "Microsoft.MultiLanguageRecognizer",
+    "recognizers": {
+        "en-us": "CreateCalendarItem.en-us.lu",
+        "": "CreateCalendarItem.en-us.lu"
+    }
+}

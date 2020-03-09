@@ -1,0 +1,272 @@
+{
+  "$type": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "CreateCalendarItem",
+    "description": "Creates a new appointment or meeting in the user's Microsoft Outlook Calendar.",
+    "id": "469176"
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$type": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "436466"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.OAuthInput",
+          "$designer": {
+            "id": "317681",
+            "name": "OAuth login"
+          },
+          "connectionName": "Outlook",
+          "text": "Please sign in.",
+          "title": "Login",
+          "timeout": "900000",
+          "tokenProperty": "user.token"
+        },
+        {
+          "$type": "Microsoft.TextInput",
+          "$designer": {
+            "id": "240984",
+            "name": "Text input"
+          },
+          "prompt": "@{bfdprompt-240984()}",
+          "maxTurnCount": 3,
+          "property": "dialog.title",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false"
+        },
+        {
+          "$type": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "485974",
+            "name": "Begin a new dialog"
+          },
+          "dialog": "InviteAttendeesDialog",
+          "includeActivity": false,
+          "resultProperty": "dialog.attendees"
+        },
+        {
+          "$type": "Microsoft.TextInput",
+          "$designer": {
+            "id": "240984",
+            "name": "Text input"
+          },
+          "prompt": "@{bfdprompt-240984()}",
+          "maxTurnCount": 3,
+          "property": "dialog.title",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false"
+        },
+        {
+          "$type": "Microsoft.Graph.Calendar.FindMeetingTimes",
+          "$designer": {
+            "id": "485975",
+            "name": "Microsoft Graph - Find Meeting Times"
+          },
+          "resultProperty": "dialog.meetingTimeSuggestions",
+          "token": "@{user.token.token}",
+          "attendeesProperty": "@{dialog.attendees}"
+        },
+        {
+          "$type": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "848316",
+            "name": "Set a property"
+          },
+          "property": "dialog.meetingTimeChoices",
+          "value": "foreach(dialog.meetingTimeSuggestions, item, item.display)"
+        },
+        {
+          "$type": "Microsoft.EditArray",
+          "$designer": {
+            "id": "180687",
+            "name": "Edit an Array property"
+          },
+          "changeType": "Push",
+          "itemsProperty": "dialog.meetingTimeChoices",
+          "value": "'Provide my own time'"
+        },
+        {
+          "$type": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "068494",
+            "name": "Multiple choice"
+          },
+          "prompt": "@{bfdprompt-068494()}",
+          "maxTurnCount": 3,
+          "property": "dialog.selectedMeetingTime",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false",
+          "outputFormat": "value",
+          "appendChoices": "true",
+          "defaultLocale": "en-us",
+          "style": "HeroCard",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          },
+          "recognizerOptions": {
+            "noValue": false
+          }
+        },
+        {
+          "$type": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "737547",
+            "name": "Branch: if/else"
+          },
+          "condition": "contains(select(dialog.meetingTimeSuggestions, x, x.display), dialog.selectedMeetingTime)",
+          "actions": [
+            {
+              "$type": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "546393",
+                "name": "Set a property"
+              },
+              "property": "dialog.meetingTime",
+              "value": "where(dialog.meetingTimeSuggestions, item, item.display == dialog.selectedMeetingTime)[0]"
+            },
+            {
+              "$type": "Microsoft.TraceActivity",
+              "$designer": {
+                "id": "109524",
+                "name": "Emit a trace event"
+              },
+              "name": "Trace for selected meeting times"
+            }
+          ],
+          "elseActions": [
+            {
+              "$type": "Microsoft.Graph.Calendar.EventDateTimeInput",
+              "$designer": {
+                "id": "240984",
+                "name": "Event DateTime Input"
+              },
+              "prompt": "@{datetimeprompt()}",
+              "property": "dialog.meetingTime",
+              "alwaysPrompt": false,
+              "allowInterruptions": "false"
+            },
+            {
+              "$type": "Microsoft.TraceActivity",
+              "$designer": {
+                "id": "109524",
+                "name": "Emit a trace event"
+              },
+              "name": "Trace for selected meeting times"
+            }
+          ]
+        },
+        {
+          "$type": "Microsoft.TextInput",
+          "$designer": {
+            "id": "249205",
+            "name": "Text input"
+          },
+          "prompt": "@{bfdprompt-249205()}",
+          "maxTurnCount": 3,
+          "property": "dialog.location",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false"
+        },
+        {
+          "$type": "Microsoft.TextInput",
+          "$designer": {
+            "id": "575185",
+            "name": "Text input"
+          },
+          "prompt": "@{bfdprompt-575185()}",
+          "maxTurnCount": 3,
+          "property": "dialog.description",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false"
+        },
+        {
+          "$type": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "659063",
+            "name": "Emit a trace event"
+          },
+          "name": "Trace for event properties"
+        },
+        {
+          "$type": "Microsoft.ConfirmInput",
+          "$designer": {
+            "id": "847733",
+            "name": "Confirmation"
+          },
+          "prompt": "@{bfdprompt-847733()}",
+          "maxTurnCount": 3,
+          "property": "dialog.isCreationConfirmed",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false",
+          "defaultLocale": "en-us",
+          "style": "Auto",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          }
+        },
+        {
+          "$type": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "720610",
+            "name": "Branch: if/else"
+          },
+          "condition": "dialog.isCreationConfirmed == true",
+          "actions": [
+            {
+              "$type": "Microsoft.Graph.Calendar.CreateEvent",
+              "$designer": {
+                "id": "798811",
+                "name": "MS Graph - Create Event"
+              },
+              "resultProperty": "@{dialog.createEventResult}",
+              "token": "@{user.token.token}",
+              "titleProperty": "@{dialog.title}",
+              "descriptionProperty": "@{dialog.description}",
+              "startProperty": "@{dialog.meetingTime.start}",
+              "endProperty": "@{dialog.meetingTime.end}",
+              "locationProperty": "@{dialog.location}",
+              "attendeesProperty": "@{dialog.attendees}"
+            },
+            {
+              "$type": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "795785",
+                "name": "Send a response"
+              },
+              "activity": "@{bfdactivity-795785()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$type": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "655550",
+                "name": "Send a response"
+              },
+              "activity": "@{bfdactivity-655550()}"
+            }
+          ]
+        },
+        {
+          "$type": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "595235",
+            "name": "End this dialog"
+          }
+        }
+      ]
+    }
+  ],
+  "recognizer": "CreateCalendarItem.lu"
+}

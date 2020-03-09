@@ -1,0 +1,167 @@
+{
+  "$type": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "InviteAttendeesDialog",
+    "id": "499658"
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$type": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "330670"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.TextInput",
+          "$designer": {
+            "id": "519351",
+            "name": "Text input"
+          },
+          "prompt": "@{bfdprompt-519351()}",
+          "maxTurnCount": 3,
+          "property": "dialog.contactName",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false"
+        },
+        {
+          "$type": "Microsoft.Graph.Calendar.GetContacts",
+          "$designer": {
+            "id": "127614",
+            "name": "MS Graph - Get Contacts"
+          },
+          "resultProperty": "dialog.contactsList",
+          "nameProperty": "@{dialog.contactName}",
+          "token": "@{user.token.token}"
+        },
+        {
+          "$type": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "597054",
+            "name": "Emit a trace event"
+          }
+        },
+        {
+          "$type": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "545997",
+            "name": "Branch: if/else"
+          },
+          "condition": "dialog.contactsList != null && count(dialog.contactsList) > 0",
+          "actions": [
+            {
+              "$type": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "491769",
+                "name": "Branch: if/else"
+              },
+              "condition": "count(dialog.contactsList) == 1",
+              "actions": [
+                {
+                  "$type": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "496099",
+                    "name": "Set a property"
+                  },
+                  "property": "dialog.emailAddress",
+                  "value": "dialog.contactsList[0].EmailAddresses[0]"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$type": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "134377",
+                    "name": "Send a response"
+                  },
+                  "activity": "@{bfdactivity-134377()}"
+                },
+                {
+                  "$type": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "386409",
+                    "name": "Set a property"
+                  },
+                  "property": "dialog.emailChoiceList",
+                  "value": "foreach(dialog.contactsList, item, item.EmailAddresses[0])"
+                },
+                {
+                  "$type": "Microsoft.ChoiceInput",
+                  "$designer": {
+                    "id": "583361",
+                    "name": "Multiple choice"
+                  },
+                  "prompt": "@{bfdprompt-583361()}",
+                  "maxTurnCount": 3,
+                  "property": "dialog.emailAddress",
+                  "alwaysPrompt": false,
+                  "allowInterruptions": "false",
+                  "outputFormat": "value",
+                  "choices": "dialog.emailChoiceList",
+                  "appendChoices": "true",
+                  "defaultLocale": "en-us",
+                  "style": "List",
+                  "choiceOptions": {
+                    "inlineSeparator": ", ",
+                    "inlineOr": " or ",
+                    "inlineOrMore": ", or ",
+                    "includeNumbers": true
+                  },
+                  "recognizerOptions": {
+                    "noValue": false
+                  }
+                }
+              ]
+            },
+            {
+              "$type": "Microsoft.EditArray",
+              "$designer": {
+                "id": "402853",
+                "name": "Edit an Array property"
+              },
+              "changeType": "Push",
+              "itemsProperty": "dialog.attendees",
+              "value": "dialog.emailAddress"
+            },
+            {
+              "$type": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "004999",
+                "name": "Send a response"
+              },
+              "activity": "@{bfdactivity-004999()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$type": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "549681",
+                "name": "Send a response"
+              },
+              "activity": "@{bfdactivity-549681()}"
+            },
+            {
+              "$type": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "638368",
+                "name": "Repeat this dialog"
+              },
+              "includeActivity": false
+            }
+          ]
+        },
+        {
+          "$type": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "829687",
+            "name": "End this dialog"
+          },
+          "value": "dialog.attendees"
+        }
+      ]
+    }
+  ]
+}

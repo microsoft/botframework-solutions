@@ -1,0 +1,945 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/component.schema",
+  "$id": "msgraph.schema",
+  "type": "object",
+  "title": "Component kinds",
+  "description": "These are all of the kinds that can be created by the loader.",
+  "oneOf": [
+    {
+      "title": "Microsoft.Graph.Calendar.CancelEvent",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.CancelEvent"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.CreateEvent",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.CreateEvent"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.CreateOnlineMeeting",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.CreateOnlineMeeting"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.DeclineEvent",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.DeclineEvent"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.FindMeetingTimes",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.FindMeetingTimes"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.GetContacts",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.GetContacts"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.GetEvents",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.GetEvents"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.GetPeople",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.GetPeople"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.UpdateEvent",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.UpdateEvent"
+    },
+    {
+      "title": "Microsoft.Graph.Calendar.EventDateTimeInput",
+      "description": "",
+      "$ref": "#/definitions/Microsoft.Graph.Calendar.EventDateTimeInput"
+    }
+  ],
+  "definitions": {
+    "Microsoft.Graph.Calendar.CancelEvent": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Cancel Event",
+      "description": "Get a list of contacts for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.CancelEvent"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.CreateEvent": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Create Event",
+      "description": "Get a list of contacts for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.CreateEvent"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ]
+        },
+        "titleProperty": {
+          "$role": "expression",
+          "title": "Event title",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.title"
+          ]
+        },
+        "descriptionProperty": {
+          "$role": "expression",
+          "title": "Event description",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.description"
+          ]
+        },
+        "startProperty": {
+          "$role": "expression",
+          "title": "Event start date time property",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.start"
+          ]
+        },
+        "endProperty": {
+          "$role": "expression",
+          "title": "Event end date time property",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.end"
+          ]
+        },
+        "locationProperty": {
+          "$role": "expression",
+          "title": "Event location",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.location"
+          ]
+        },
+        "attendeesProperty": {
+          "$role": "expression",
+          "title": "Event attendees",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.attendees"
+          ]
+        },
+        "additionalProperties": false,
+        "patternProperties": {
+          "^\\$": {
+            "type": "string"
+          }
+        },
+        "anyOf": [
+          {
+            "title": "Reference",
+            "required": [
+              "$copy"
+            ]
+          },
+          {
+            "title": "Type",
+            "required": [
+              "token",
+              "$kind"
+            ]
+          }
+        ]
+      }
+    },
+    "Microsoft.Graph.Calendar.CreateOnlineMeeting": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Create Online Meeting",
+      "description": "Get a list of contacts for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.CreateOnlineMeeting"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.DeclineEvent": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Decline Event",
+      "description": "Get a list of contacts for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.DeclineEvent"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.FindMeetingTimes": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Find Meeting Times",
+      "description": "Get a list of contacts for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.FindMeetingTimes"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        },
+        "attendeesProperty": {
+          "$role": "expression",
+          "title": "Attendees Property",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.attendees"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.GetContacts": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Get Contacts",
+      "description": "Get a list of contacts for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.GetContacts"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "nameProperty": {
+          "$role": "expression",
+          "title": "Name to lookup",
+          "description": "Property to load the search string to include in the API call.",
+          "examples": [
+            "dialog.contactName"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.GetEvents": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Get Events",
+      "description": "Get a list of events for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.GetEvents"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.GetPeople": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Get People",
+      "description": "Get a list of relevant people for a user.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.GetPeople"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "searchString": {
+          "$role": "expression",
+          "title": "Search String",
+          "description": "Property to load the search string to include in the API call.",
+          "examples": [
+            "dialog.contactName"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.UpdateEvent": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Microsoft Graph API - Update Event",
+      "description": "Update properties for a calendar event.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.Graph.Calendar.UpdateEvent"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "resultProperty": {
+          "$role": "expression",
+          "title": "Result property",
+          "description": "Property to store the result of this action.",
+          "examples": [
+            "dialog.contosodata"
+          ],
+          "type": "string"
+        },
+        "token": {
+          "$role": "expression",
+          "title": "API Token",
+          "description": "Property to load the user token to authenticate the MSGraph call.",
+          "examples": [
+            "dialog.token"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "token",
+            "$kind"
+          ]
+        }
+      ]
+    },
+    "Microsoft.Graph.Calendar.EventDateTimeInput": {
+      "$role": "union(Microsoft.IDialog)",
+      "type": "object",
+      "title": "Event date time dialog",
+      "description": "Collection information - Ask for a word or sentence.",
+      "properties": {
+        "$kind": {
+          "title": "$kind",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.TextInput"
+        },
+        "$copy": {
+          "title": "$copy",
+          "description": "Copy the definition by id from a .dialog file.",
+          "type": "string",
+          "pattern": "^(([a-zA-Z][a-zA-Z0-9.]*)?(#[a-zA-Z][a-zA-Z0-9.]*)?)$"
+        },
+        "$id": {
+          "title": "$id",
+          "description": "Inline id for reuse of an inline definition",
+          "type": "string",
+          "pattern": "^([a-zA-Z][a-zA-Z0-9.]*)$"
+        },
+        "$designer": {
+          "title": "$designer",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Designer."
+        },
+        "id": {
+          "type": "string",
+          "title": "Id",
+          "description": "Optional id for the dialog"
+        },
+        "prompt": {
+          "$kind": "Microsoft.IActivityTemplate",
+          "title": "Initial prompt",
+          "description": "Message to send to collect information.",
+          "examples": [
+            "What is your birth date?"
+          ]
+        },
+        "unrecognizedPrompt": {
+          "$kind": "Microsoft.IActivityTemplate",
+          "title": "Unrecognized prompt",
+          "description": "Message to send if user response is not recognized.",
+          "examples": [
+            "Sorry, I do not understand '{turn.activity.text'}. Let's try again. What is your birth date?"
+          ]
+        },
+        "invalidPrompt": {
+          "$kind": "Microsoft.IActivityTemplate",
+          "title": "Invalid prompt",
+          "description": "Message to send if user response is invalid. Relies on specified validation expressions.",
+          "examples": [
+            "Sorry, '{this.value}' does not work. I need a number between 1-150. What is your age?"
+          ]
+        },
+        "defaultValueResponse": {
+          "$kind": "Microsoft.IActivityTemplate",
+          "title": "Default value response",
+          "description": "Message to send when max turn count (if specified) has been exceeded and the default value is selected as the value.",
+          "examples": [
+            "Sorry, I'm having trouble understanding you. I will just use {this.options.defaultValue} for now. You can say 'I'm 36 years old' to change it."
+          ]
+        },
+        "maxTurnCount": {
+          "type": "integer",
+          "title": "Max turn count",
+          "description": "Maximum number of re-prompt attempts to collect information.",
+          "default": 3,
+          "examples": [
+            3
+          ]
+        },
+        "validations": {
+          "type": "array",
+          "title": "Validation expressions",
+          "description": "Expression to validate user input.",
+          "examples": [
+            "int(this.value) > 1 && int(this.value) <= 150",
+            "count(this.value) < 300"
+          ],
+          "items": {
+            "$role": "expression",
+            "type": "string",
+            "description": "String must contain an expression."
+          }
+        },
+        "property": {
+          "$role": "expression",
+          "title": "Property",
+          "description": "Property to store collected information. Input will be skipped if property has value (unless 'Always prompt' is true).",
+          "examples": [
+            "$birthday",
+            "user.name",
+            "conversation.issueTitle",
+            "dialog.favColor"
+          ],
+          "type": "string"
+        },
+        "defaultValue": {
+          "$role": "expression",
+          "title": "Default value",
+          "description": "Expression to examine on each turn of the conversation as possible value to the property.",
+          "examples": [
+            "@userName",
+            "coalesce(@number, @partySize)"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "$role": "expression",
+          "title": "Value",
+          "description": "Gets or sets a value expression which can be used to intialize the input prompt.",
+          "examples": [
+            "@userName"
+          ],
+          "type": "string"
+        },
+        "alwaysPrompt": {
+          "type": "boolean",
+          "title": "Always prompt",
+          "description": "Collect information even if the specified  'property' is not empty.",
+          "default": false,
+          "examples": [
+            false
+          ]
+        },
+        "allowInterruptions": {
+          "$role": "expression",
+          "title": "Allow Interruptions",
+          "description": "A boolean expression that determines whether the parent should be allowed to interrupt the input.",
+          "default": "true",
+          "examples": [
+            "true"
+          ],
+          "type": "string"
+        },
+        "outputFormat": {
+          "$role": "expression",
+          "title": "Output format",
+          "description": "Expression to format the output.",
+          "examples": [
+            "toUpper(this.value)"
+          ],
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "type": "string"
+        }
+      },
+      "anyOf": [
+        {
+          "title": "Reference",
+          "required": [
+            "$copy"
+          ]
+        },
+        {
+          "title": "Type",
+          "required": [
+            "$kind"
+          ]
+        }
+      ]
+    }
+  }
+}
