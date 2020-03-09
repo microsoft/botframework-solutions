@@ -3,27 +3,27 @@
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
         "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "body": "Repeat",
         "status": 200,
         "response": {
-            "query": "Help",
+            "query": "Repeat",
             "topScoringIntent": {
                 "intent": "l_general",
-                "score": 0.9991404
+                "score": 0.9893292
             },
             "entities": [],
             "connectedServiceResult": {
-                "query": "Help",
+                "query": "Repeat",
                 "topScoringIntent": {
-                    "intent": "Help",
-                    "score": 0.989662349
+                    "intent": "Repeat",
+                    "score": 0.9779955
                 },
                 "entities": [
                     {
-                        "entity": "help",
+                        "entity": "repeat",
                         "type": "builtin.personName",
                         "startIndex": 0,
-                        "endIndex": 3
+                        "endIndex": 5
                     }
                 ]
             }
@@ -34,13 +34,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "431",
+            "437",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "70d1e055-6299-48e2-977a-03050000c8b1",
             "Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "70d1e055-6299-48e2-977a-03050000c8b1",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +50,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Fri, 24 Jan 2020 13:58:34 GMT",
             "Connection",
             "close"
         ]
@@ -59,20 +59,20 @@
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
         "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "body": "Repeat",
         "status": 200,
         "response": {
-            "query": "Help",
+            "query": "Repeat",
             "topScoringIntent": {
-                "intent": "Help",
-                "score": 0.989662349
+                "intent": "Repeat",
+                "score": 0.9779955
             },
             "entities": [
                 {
-                    "entity": "help",
+                    "entity": "repeat",
                     "type": "builtin.personName",
                     "startIndex": 0,
-                    "endIndex": 3
+                    "endIndex": 5
                 }
             ]
         },
@@ -82,13 +82,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "247",
+            "251",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "ef37dda2-47ba-4eb6-bbd3-84876f3c732e",
             "Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "ef37dda2-47ba-4eb6-bbd3-84876f3c732e",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -96,7 +96,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Fri, 24 Jan 2020 13:58:35 GMT",
             "Connection",
             "close"
         ]

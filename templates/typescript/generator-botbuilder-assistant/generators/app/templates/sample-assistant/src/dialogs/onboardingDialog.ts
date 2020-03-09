@@ -8,8 +8,8 @@ import {
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
-    WaterfallStepContext, 
-    WaterfallStep 
+    WaterfallStepContext,
+    WaterfallStep
 } from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';

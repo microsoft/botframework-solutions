@@ -7,13 +7,13 @@ import {
     BotFrameworkAdapter,
     BotTelemetryClient,
     RecognizerResult,
-    StatePropertyAccessor, 
+    StatePropertyAccessor,
     TurnContext
 } from 'botbuilder';
 import { LuisRecognizer, QnAMakerResult, QnAMaker } from 'botbuilder-ai';
 import {
     DialogContext,
-    DialogTurnResult, 
+    DialogTurnResult,
     Dialog
 } from 'botbuilder-dialogs';
 import {
@@ -28,7 +28,7 @@ import {
     SkillRouter,
     SwitchSkillDialog,
     SwitchSkillDialogOptions,
-    TokenEvents 
+    TokenEvents
 } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { Activity, ActivityTypes, ResourceResponse } from 'botframework-schema';
@@ -96,7 +96,7 @@ export class MainDialog extends ActivityHandlerDialog {
             innerDc.context.turnState.set(StateProperties.dispatchResult, dispatchResult);
 
             const intent: string = LuisRecognizer.topIntent(dispatchResult);
-            if(intent == 'l_general') {
+            if (intent == 'l_general') {
                 // Run LUIS recognition on General model and store result in turn state.
                 const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices.get("general");
                 if (generalLuis !== undefined) {
@@ -147,9 +147,9 @@ export class MainDialog extends ActivityHandlerDialog {
                 const generalResult: RecognizerResult = dc.context.turnState.get(StateProperties.generalResult);
                 const intent: string = LuisRecognizer.topIntent(generalResult);
 
-                 if (generalResult.intents[intent].score > 0.5) {
+                if (generalResult.intents[intent].score > 0.5) {
                     switch (intent.toString()) {
-                        case 'Cancel': { 
+                        case 'Cancel': {
                             // Suppress completion message for utility functions.
                             DialogContextEx.suppressCompletionMessage(dc, true);
 
@@ -346,7 +346,7 @@ export class MainDialog extends ActivityHandlerDialog {
 
     // Runs when the dialog stack completes.
     protected async onDialogComplete(outerDc: DialogContext, result: Object): Promise<void> {
-        const userProfile: IUserProfileState = await this.userProfileState.get(outerDc.context, { name:'' });
+        const userProfile: IUserProfileState = await this.userProfileState.get(outerDc.context, { name: '' });
 
         // Only send a completion message if the user sent a message activity.
         if (outerDc.context.activity.type === ActivityTypes.Message && !DialogContextEx.suppressCompletionMessageValidation(outerDc)) {
