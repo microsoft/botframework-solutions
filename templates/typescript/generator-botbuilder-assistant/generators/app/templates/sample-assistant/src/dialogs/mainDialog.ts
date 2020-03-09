@@ -37,6 +37,19 @@ import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { OnboardingDialog } from './onboardingDialog';
 
+enum Events {
+    location = 'VA.Location',
+    timeZone = 'VA.Timezone'
+}
+
+enum StateProperties {
+    dispatchResult = 'dispatchResult',
+    generalResult = 'generalResult',
+    previousBotResponse = 'previousBotResponse',
+    location = 'location',
+    timeZone = 'timezone'
+}
+
 // Dialog providing activity routing and message/event processing.
 export class MainDialog extends ActivityHandlerDialog {
     private readonly services: BotServices;
@@ -62,9 +75,9 @@ export class MainDialog extends ActivityHandlerDialog {
     ) {
         super(MainDialog.name, telemetryClient);
 
-        this.services = services
-        this.settings = settings
-        this.templateEngine = templateEngine
+        this.services = services;
+        this.settings = settings;
+        this.templateEngine = templateEngine;
         this.telemetryClient = telemetryClient;
 
         // Create user state properties
@@ -75,8 +88,8 @@ export class MainDialog extends ActivityHandlerDialog {
         this.previousResponseAccesor = previousResponseAccessor;
 
         // Register dialogs
-        this.onboardingDialog = onboardingDialog
-        this.switchSkillDialog = switchSkillDialog
+        this.onboardingDialog = onboardingDialog;
+        this.switchSkillDialog = switchSkillDialog;
         this.addDialog(this.onboardingDialog);
         this.addDialog(this.switchSkillDialog);
 
@@ -98,7 +111,7 @@ export class MainDialog extends ActivityHandlerDialog {
             const intent: string = LuisRecognizer.topIntent(dispatchResult);
             if (intent == 'l_general') {
                 // Run LUIS recognition on General model and store result in turn state.
-                const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices.get("general");
+                const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices.get('general');
                 if (generalLuis !== undefined) {
                     const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
                     innerDc.context.turnState.set(StateProperties.generalResult, generalResult);
@@ -196,7 +209,7 @@ export class MainDialog extends ActivityHandlerDialog {
                             // Sends the activities since the last user message again.
                             const previousResponse: Partial<Activity>[] = await this.previousResponseAccesor.get(dc.context, []);
 
-                            previousResponse.forEach(async (response: Partial<Activity>) => {
+                            previousResponse.forEach(async (response: Partial<Activity>): Promise<void> => {
                                 // Reset id of original activity so it can be processed by the channel.
                                 response.id = '';
                                 await dc.context.sendActivity(response);
@@ -209,7 +222,7 @@ export class MainDialog extends ActivityHandlerDialog {
                             // Suppresss completion message for utility functions.
                             DialogContextEx.suppressCompletionMessage(dc, true);
 
-                            await dc.context.sendActivity(this.templateEngine.generateActivityForLocale('StartOverMessage', userProfile))
+                            await dc.context.sendActivity(this.templateEngine.generateActivityForLocale('StartOverMessage', userProfile));
 
                             // Cancel all dialogs on the stack.
                             await dc.cancelAllDialogs();
@@ -345,7 +358,7 @@ export class MainDialog extends ActivityHandlerDialog {
     }
 
     // Runs when the dialog stack completes.
-    protected async onDialogComplete(outerDc: DialogContext, result: Object): Promise<void> {
+    protected async onDialogComplete(outerDc: DialogContext, result: Record<string, any>): Promise<void> {
         const userProfile: IUserProfileState = await this.userProfileState.get(outerDc.context, { name: '' });
 
         // Only send a completion message if the user sent a message activity.
@@ -358,8 +371,8 @@ export class MainDialog extends ActivityHandlerDialog {
         const tokenProvider: BotFrameworkAdapter = dc.context.adapter as BotFrameworkAdapter;
         if (tokenProvider !== undefined) {
             // Sign out user
-            const tokens: TokenStatus[] = await tokenProvider.getTokenStatus(dc.context, dc.context.activity.from.id)
-            tokens.forEach(async (token: TokenStatus) => {
+            const tokens: TokenStatus[] = await tokenProvider.getTokenStatus(dc.context, dc.context.activity.from.id);
+            tokens.forEach(async (token: TokenStatus): Promise<void> => {
                 if (token.connectionName !== undefined) {
                     await tokenProvider.signOutUser(dc.context, token.connectionName);
                 }
@@ -369,7 +382,7 @@ export class MainDialog extends ActivityHandlerDialog {
             await dc.cancelAllDialogs();
 
         } else {
-            throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter')
+            throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter');
         }
     }
 
@@ -386,7 +399,7 @@ export class MainDialog extends ActivityHandlerDialog {
     }
 
     private async storeOutgoingActivities(turnContext: TurnContext, activities: Partial<Activity>[], next: () => Promise<ResourceResponse[]>): Promise<ResourceResponse[]> {
-        const messageActivities: Partial<Activity>[] = activities.filter(a => a.type == ActivityTypes.Message);
+        const messageActivities: Partial<Activity>[] = activities.filter((a: Partial<Activity>): boolean => a.type == ActivityTypes.Message);
 
         // If the bot is sending message activities to the user (as opposed to trace activities)
         if (messageActivities.length > 0) {
@@ -394,24 +407,11 @@ export class MainDialog extends ActivityHandlerDialog {
 
             // Get only the activities sent in response to last user message
             botResponse = botResponse.concat(messageActivities)
-                .filter(a => a.replyToId == turnContext.activity.id);
+                .filter((a: Partial<Activity>): boolean => a.replyToId == turnContext.activity.id);
 
             await this.previousResponseAccesor.set(turnContext, botResponse);
         }
 
         return await next();
     }
-}
-
-enum Events {
-    location = 'VA.Location',
-    timeZone = 'VA.Timezone'
-}
-
-enum StateProperties {
-    dispatchResult = "dispatchResult",
-    generalResult = "generalResult",
-    previousBotResponse = "previousBotResponse",
-    location = "location",
-    timeZone = "timezone"
 }

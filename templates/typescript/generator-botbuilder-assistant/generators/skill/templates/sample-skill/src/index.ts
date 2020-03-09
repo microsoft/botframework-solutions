@@ -49,9 +49,9 @@ i18next.use(i18nextNodeFsBackend)
     });
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
-const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
-const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
-cognitiveModelMap.forEach((value: Object, key: string): void => {
+const cognitiveModelDictionary: { [key: string]: Record<string, any> } = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap: Map<string, Record<string, any>>  = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value: Record<string, any>, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
@@ -108,7 +108,7 @@ supportedLocales.forEach((locale: string): void => {
         if (locale === (botSettings.defaultLocale || 'en-us')) {
             localeTemplateFiles.push(join(__dirname, '..', 'src', 'responses', `${ template }.lg`));
         } else {
-            localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${template}.${locale}.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${ template }.${ locale }.lg`));
         }
     });
 
