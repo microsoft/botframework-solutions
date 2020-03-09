@@ -43,7 +43,7 @@ export class SkillDialogBase extends ComponentDialog {
         this.stateAccessor = stateAccessor;
         this.telemetryClient = telemetryClient;
         this.settings = settings;
-        this.templateEngine = templateEngine
+        this.templateEngine = templateEngine;
 
         // NOTE: Uncomment the following if your skill requires authentication
         // if (!services.authenticationConnections.any())
