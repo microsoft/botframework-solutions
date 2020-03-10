@@ -20,23 +20,27 @@ steps:
   inputs:
     versionSpec: 10.x
 
-- pwsh: 'node ./common/scripts/install-run-rush.js install --no-link'
-  workingDirectory: sdk/typescript/libraries
-  displayName: 'rush install'
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: 'sdk/typescript/libraries/botbuilder-solutions'
+    verbose: false
 
-- pwsh: 'node ./common/scripts/install-run-rush.js link'
-  workingDirectory: sdk/typescript/libraries
-  displayName: 'rush link'
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    workingDir: 'sdk/typescript/libraries/botbuilder-solutions'
+    verbose: false
+    customCommand: 'run build'
 
-- pwsh: 'node ./common/scripts/install-run-rush.js build'
-  workingDirectory: sdk/typescript/libraries
-  displayName: 'rush build'
-
-- pwsh: 'npm run test-coverage-ci'
-  errorActionPreference: continue
-  ignoreLASTEXITCODE: 'true'
-  workingDirectory: sdk/typescript/libraries/botbuilder-solutions
-  displayName: 'npm test coverage'
+- task: Npm@1
+  displayName: 'npm test - coverage'
+  inputs:
+    command: custom
+    workingDir: 'sdk/typescript/libraries/botbuilder-solutions'
+    verbose: false
+    customCommand: 'run test-coverage-ci'
 
 - task: PublishTestResults@2
   displayName: 'Publish Test Results '
@@ -52,4 +56,3 @@ steps:
     codeCoverageTool: Cobertura
     summaryFileLocation: 'sdk/typescript/libraries/botbuilder-solutions/coverage/cobertura-coverage.xml'
     reportDirectory: 'sdk/typescript/libraries/botbuilder-solutions/coverage/'
-

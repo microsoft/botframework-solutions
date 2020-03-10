@@ -3,121 +3,122 @@
  * Licensed under the MIT License
  */
 
-const botTestBase = require('./helpers/botTestBase');
+const assert = require('assert');
+const { getTestAdapterDefault, templateEngine, testUserProfileState } = require('./helpers/botTestBase');
 const { MemoryStorage } = require('botbuilder-core')
 const testNock = require("./helpers/testBase");
 let testStorage = new MemoryStorage();
 
 describe("Interruption", function() {
-    describe("nothing to cancel", function() {
-        it("send 'cancel' without dialog stack", function(done) {
-            botTestBase.getTestAdapterDefault().then((testAdapter) => {
-                const flow = testAdapter
-                    .send("cancel")
-                    .assertReply("Looks like there's nothing to cancel! Try saying 'help' to get started.");
-
-                return testNock.resolveWithMocks("interruption_nothing_to_cancel", done, flow);
-            });
-        });
-    });
-
     describe("help interruption", function() {
         beforeEach(function(done) {
             testStorage = new MemoryStorage();
             done();
         });
-        it("send 'help' during the onBoarding dialog", function(done) {
-            botTestBase.getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {
+
+        it("send help and check that there is a attachment", function(done) {
+            getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {
                 const flow = testAdapter
-                .send({
-                    channelId: "test",
-                    conversation: {
-                        id: "Convo1"
-                    },
-                    from: {
-                        id: "user",
-                        name: "User1"
-                    },
-                    recipient: {
-                        id: "bot",
-                        name: "Bot",
-                        role: "bot"
-                    },
-                    type: "message",
-                    value: {
-                        action: "startOnboarding"
-                    }
+                .send("Help")
+                .assertReply((activity, description) => {
+                    assert.strictEqual(1, activity.attachments.length)
                 })
-                .assertReply('What is your name?')
-                .send("help")
-                .assertReply('I\'m your Virtual Assistant! I can perform a number of tasks through my connected skills. Right now I can help you with Calendar, Email, Task and Point of Interest questions. Or you can help me do more by creating your own!')
-                .assertReply('What is your name?');
 
                 return testNock.resolveWithMocks("interruption_help_response", done, flow);
             });
         });
+
+        it("send help and check that there is a attachment of the response file", function(done) {
+            const allNamePromptVariations = templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("NamePrompt");
+
+            getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {
+                const flow = testAdapter
+                .send({
+                    type: "conversationUpdate",
+                    membersAdded: [
+                        {
+                            id: "1",
+                            name: "user"
+                        }
+                    ],
+                })
+                .assertReply((activity, description) => {
+                    assert.strictEqual(1, activity.attachments.length)
+                })
+                .assertReplyOneOf(allNamePromptVariations)
+                .send("Help")
+                .assertReply((activity, description) => {
+                    assert.strictEqual(1, activity.attachments.length)
+                })
+                .assertReplyOneOf(allNamePromptVariations)
+
+                return testNock.resolveWithMocks("interruption_help_in_dialog_response", done, flow);
+            });
+        });
     });
 
-    describe("cancel interruption flow", function() {
-        it("Confirm 'cancel' during the onboarding dialog", function(done) {
-            botTestBase.getTestAdapterDefault().then((testAdapter) => {
+    describe ("cancel interruption", function(done) {
+        it("send cancel and check the response is one of the file", function(done) {
+            const allResponseVariations = templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("CancelledMessage", testUserProfileState);
+
+            getTestAdapterDefault().then((testAdapter) => {
+                const flow = testAdapter
+                    .send("Cancel")
+                    .assertReplyOneOf(allResponseVariations)
+
+                return testNock.resolveWithMocks("interruption_cancel_response", done, flow);
+            });
+        });
+
+        it("send cancel during a flow and check the response is one of the file", function(done) {
+            const allNamePromptVariations = templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("NamePrompt");
+            const allCancelledVariations = templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("CancelledMessage", testUserProfileState);
+
+            getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
                     .send({
-                        channelId: "test",
-                        conversation: {
-                            id: "Convo1"
-                        },
-                        from: {
-                            id: "user",
-                            name: "User1"
-                        },
-                        recipient: {
-                            id: "bot",
-                            name: "Bot",
-                            role: "bot"
-                        },
-                        type: "message",
-                        value: {
-                            action: "startOnboarding"
-                        }
+                        type: "conversationUpdate",
+                        membersAdded: [
+                            {
+                                id: "1",
+                                name: "user"
+                            }
+                        ],
                     })
-                    .assertReply('What is your name?')
-                    .send("cancel")
-                    .assertReply(" (1) Yes or (2) No")
-                    .send("Yes")
-                    .assertReply("Ok, let's start over.");
+                    .assertReply((activity, description) => {
+                        assert.strictEqual(1, activity.attachments.length)
+                    })
+                    .assertReplyOneOf(allNamePromptVariations)
+                    .send("Cancel")
+                    .assertReplyOneOf(allCancelledVariations)
                 return testNock.resolveWithMocks("interruption_confirm_cancel_response", done, flow);
             });
         });
 
-        it("Deny 'cancel' during the onboarding dialog", function(done) {
-            botTestBase.getTestAdapterDefault().then((testAdapter) => {
+        it("send repeat during a flow and check the response is one of the file", function(done) {
+            const allNamePromptVariations = templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("NamePrompt");
+
+            getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
                     .send({
-                        channelId: "test",
-                        conversation: {
-                            id: "Convo1"
-                        },
-                        from: {
-                            id: "user",
-                            name: "User1"
-                        },
-                        recipient: {
-                            id: "bot",
-                            name: "Bot",
-                            role: "bot"
-                        },
-                        type: "message",
-                        value: {
-                            action: "startOnboarding"
-                        }
+                        type: "conversationUpdate",
+                        membersAdded: [
+                            {
+                                id: "1",
+                                name: "user"
+                            }
+                        ],
                     })
-                    .assertReply('What is your name?')
-                    .send("cancel")
-                    .assertReply(" (1) Yes or (2) No")
-                    .send("No")
-                    .assertReply("Ok, let's keep going.");
-                return testNock.resolveWithMocks("interruption_deny_cancel_response", done, flow);
+                    .assertReply((activity, description) => {
+                        assert.strictEqual(1, activity.attachments.length)
+                    })
+                    .assertReplyOneOf(allNamePromptVariations)
+                    .send("Repeat")
+                    .assertReply((activity, description) => {
+                        assert.strictEqual(1, activity.attachments.length)
+                    })
+                    .assertReplyOneOf(allNamePromptVariations)
+                return testNock.resolveWithMocks("interruption_repeat_response", done, flow);
             });
         });
     });

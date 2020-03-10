@@ -24,6 +24,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Bots;
 using PointOfInterestSkill.Dialogs;
+using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.CancelRoute;
 using PointOfInterestSkill.Responses.FindPointOfInterest;
 using PointOfInterestSkill.Responses.Main;
@@ -217,6 +218,21 @@ namespace PointOfInterestSkill.Tests.Flow
                 else if (openDefaultAppType == PointOfInterestDialogBase.OpenDefaultAppType.Telephone)
                 {
                     Assert.IsFalse(string.IsNullOrEmpty(eventReceived.TelephoneUri));
+                }
+            };
+        }
+
+        protected Action<IActivity> CheckForEoC(bool value = false)
+        {
+            return activity =>
+            {
+                var eoc = (Activity)activity;
+                Assert.AreEqual(ActivityTypes.EndOfConversation, eoc.Type);
+                if (value)
+                {
+                    var dest = eoc.Value as SingleDestinationResponse;
+                    Assert.IsNotNull(dest);
+                    Assert.IsTrue(!string.IsNullOrEmpty(dest.Name));
                 }
             };
         }

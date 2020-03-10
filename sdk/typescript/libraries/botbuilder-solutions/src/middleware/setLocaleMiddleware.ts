@@ -13,6 +13,7 @@ export class SetLocaleMiddleware implements Middleware {
     private readonly defaultLocale: string;
 
     public constructor(defaultLocale: string) {
+        if (defaultLocale === undefined) { throw new Error (`Parameter 'defaultLocale' cannot be undefined.`); }
         this.defaultLocale = defaultLocale;
     }
 
@@ -21,6 +22,6 @@ export class SetLocaleMiddleware implements Middleware {
 
         await i18next.changeLanguage(cultureInfo);
 
-        return next();
+        await next();
     }
 }

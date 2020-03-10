@@ -25,9 +25,9 @@
       "knowledgebases": [
         {
           "endpointKey": "",
-          "host": "",
+          "hostname": "",
           "id": "",
-          "knowledgeBaseId": "",
+          "kbId": "",
           "name": "",
           "subscriptionKey": ""
         }

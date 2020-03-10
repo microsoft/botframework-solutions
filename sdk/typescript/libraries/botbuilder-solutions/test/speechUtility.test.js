@@ -9,9 +9,14 @@ const i18next = require("i18next").default;
 const { ReadPreference, SpeechUtility } = require(join("..", "lib", "responses", "speechUtility"));
 const parentSpeakProperty = "Parent speak property";
 const listItemSpeakProperty = "List item speak property";
+const version = {
+    major: 1,
+    minor: 2
+}
 const attachment = {
     contentType: "application/vnd.microsoft.card.adaptive",
     content: {
+        version: version,
         speak: listItemSpeakProperty,
         type: "AdaptiveCard"
     }

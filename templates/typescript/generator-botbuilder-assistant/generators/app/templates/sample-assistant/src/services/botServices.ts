@@ -65,8 +65,8 @@ export class BotServices {
         }
     }
 
-    public getCognitiveModel(): ICognitiveModelSet {
-        // get current activity locale
+    public getCognitiveModels(): ICognitiveModelSet {
+        // Get cognitive models for locale
         const locale: string = i18next.language;
         let cognitiveModels: ICognitiveModelSet | undefined = this.cognitiveModelSets.get(locale);
 
@@ -83,7 +83,8 @@ export class BotServices {
             }
         }
         if (cognitiveModels === undefined) {
-            throw new Error('There is no value in cognitiveModels');
+            throw new Error(`There's no matching locale for '${locale}' or its root language '${locale.substring(0, 2)}'.
+            Please review your available locales in your cognitivemodels.json file.`);
         }
 
         return cognitiveModels;

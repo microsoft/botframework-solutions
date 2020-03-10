@@ -1,1 +1,1 @@
-﻿Please refer to [Virtual Assistant Skill Enablement](https://github.com/Microsoft/AI/blob/master/solutions/Virtual-Assistant/docs/virtualassistant-skillenablement.md) for instructions on creating your skill.
+﻿Please refer to the [phone skill document](https://github.com/microsoft/botframework-solutions/blob/master/docs/_docs/skills/samples/phone.md) for instructions on creating your skill.

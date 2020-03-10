@@ -3,8 +3,18 @@
  * Licensed under the MIT License.
  */
 
-export { InProcAdapter } from './inProcAdapter';
-export { SkillDefinition } from './skillDefinition';
-export { ISkillDialogOptions } from './skillDialogOptions';
-export { SkillEvent } from './skillEvent';
-export { SkillRouter } from './skillRouter';
+export * from './auth';
+export * from './http';
+export * from './dialogs';
+export * from './models';
+export * from './responses/skillResponses';
+export * from './activityHandler';
+export * from './skillContext';
+export * from './skillDialog';
+export * from './skillException';
+export * from './skillManifestGenerator';
+export * from './skillMiddleware';
+export * from './skillRouter';
+export * from './skillTransport';
+export * from './skillConstants';
+export * from './skillDialogOption';

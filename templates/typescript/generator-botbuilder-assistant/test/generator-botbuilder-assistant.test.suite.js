@@ -22,7 +22,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
     var finalConfirmation;
     var run = true;
     var packageJSON;
-    const dialogBotPath = join(`src`, `bots`, `dialogBot.ts`);
+    const botPath = join(`src`, `bots`, `defaultActivityHandler.ts`);
 
     const templatesFiles = [
         `package.json`,
@@ -30,7 +30,7 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         `.eslintignore`,
         `.gitignore`,
         `.nycrc`,
-        dialogBotPath
+        botPath
     ];
     const commonDirectories = [
         `deployment`,
@@ -39,7 +39,6 @@ describe(`The generator-botbuilder-assistant tests`, function() {
         `src`,
         join(`src`, `adapters`),
         join(`src`, `bots`),
-        join(`src`, `content`),
         join(`src`, `dialogs`),
         join(`src`, `locales`),
         join(`src`, `models`),
@@ -138,15 +137,15 @@ describe(`The generator-botbuilder-assistant tests`, function() {
             });
         });
 
-        describe(`and have in the dialogBot`, function() {
+        describe(`and have in the bot`, function() {
             it(`a private property with the given name`, function(done) {
                 assert.fileContent(
-                  join(assistantGenerationPath, assistantName, dialogBotPath),
+                  join(assistantGenerationPath, assistantName, botPath),
                   `private readonly solutionName: string = '${assistantNameCamelCase}';`
                 );
                 done();
             });      
-        });    
+        }); 
     });
     
     describe(`should not create`, function () {

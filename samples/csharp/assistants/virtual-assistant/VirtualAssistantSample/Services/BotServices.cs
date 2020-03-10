@@ -50,17 +50,17 @@ namespace VirtualAssistantSample.Services
                     }
                 }
 
-                //foreach (var kb in config.Knowledgebases)
-                //{
-                //    var qnaEndpoint = new QnAMakerEndpoint()
-                //    {
-                //        KnowledgeBaseId = kb.KnowledgeBaseId,
-                //        EndpointKey = kb.EndpointKey,
-                //        Host = kb.Host,
-                //    };
+                foreach (var kb in config.Knowledgebases)
+                {
+                    var qnaEndpoint = new QnAMakerEndpoint()
+                    {
+                        KnowledgeBaseId = kb.KbId,
+                        EndpointKey = kb.EndpointKey,
+                        Host = kb.Hostname,
+                    };
 
-                //    set.QnAConfiguration.Add(kb.KnowledgeBaseId, qnaEndpoint);
-                //}
+                    set.QnAConfiguration.Add(kb.Id, qnaEndpoint);
+                }
 
                 CognitiveModelSets.Add(language, set);
             }

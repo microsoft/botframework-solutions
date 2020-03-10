@@ -26,6 +26,130 @@
     "message": {
       "type": "message",
       "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    },
+    "sendEmail": {
+      "description": "Send an Email",
+      "type": "event",
+      "name": "SendEmail",
+      "value": {
+        "$ref": "#/definitions/emailInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "deleteEmail": {
+      "description": "Delete an Email",
+      "type": "event",
+      "name": "DeleteEmail",
+      "value": {},
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "replyEmail": {
+      "description": "Reply to an Email",
+      "type": "event",
+      "name": "ReplyEmail",
+      "value": {
+        "$ref": "#/definitions/replyEmailInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "forwardEmail": {
+      "description": "Forward an Email",
+      "type": "event",
+      "name": "ForwardEmail",
+      "value": {
+        "$ref": "#/definitions/forwardEmailInfo"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/actionResult"
+      }
+    },
+    "summary": {
+      "description": "Summary of recent emails",
+      "type": "event",
+      "name": "EmailSummary",
+      "value": {},
+      "resultValue": {
+        "$ref": "#/definitions/summaryResult"
+      }
+    }
+  },
+  "definitions": {
+    "emailInfo": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Subject of the email"
+        },
+        "content": {
+          "type": "string",
+          "description": "Content of the email"
+        },
+        "sender": {
+          "type": "string",
+          "description": "Email address of email sender"
+        },
+        "recipients": {
+          "type": "array",
+          "description": "List of email addresses to send to",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "replyEmailInfo": {
+      "type": "object",
+      "properties": {
+        "replyMessage": {
+          "type": "string",
+          "description": "The reply message"
+        }
+      }
+    },
+    "forwardEmailInfo": {
+      "type": "object",
+      "properties": {
+        "forwardRecipients": {
+          "type": "array",
+          "description": "List of email addresses to forward to",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forwardMessage": {
+          "type": "string",
+          "description": "The message to forward"
+        }
+      }
+    },
+    "actionResult": {
+      "type": "object",
+      "properties": {
+        "actionSuccess": {
+          "type": "bool",
+          "description": "result of action"
+        }
+      }
+    },
+    "summaryResult": {
+      "type": "object",
+      "properties": {
+        "$ref": "#/definitions/actionResult",
+        "emailList": {
+          "type": "array",
+          "description": "List of recent emails",
+          "item": {
+            "type": "#/definitions/emailInfo"
+          }
+        }
+      }
     }
   }
 }

@@ -13,11 +13,11 @@ export class ContentModeratorMiddleware implements Middleware {
     /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    public readonly serviceName: string = 'ContentModerator';
+    public serviceName: string = 'ContentModerator';
     /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    public readonly textModeratorResultKey: string = 'TextModeratorResult';
+    public textModeratorResultKey: string = 'TextModeratorResult';
     /**
      * Content Moderator service key.
      */
@@ -50,7 +50,7 @@ export class ContentModeratorMiddleware implements Middleware {
             throw new Error('Context not found.');
         }
 
-        if (context.activity.type === ActivityTypes.Message) {
+        if (context.activity.type === ActivityTypes.Message && context.activity.text !== undefined && context.activity.text.trim().length > 0) {
             const textStream: Readable = this.textToReadable(context.activity.text);
 
             const credentials: CognitiveServicesCredentials = new CognitiveServicesCredentials(this.subscriptionKey);

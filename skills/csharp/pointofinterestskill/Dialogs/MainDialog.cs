@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using PointOfInterestSkill.Models;
 using PointOfInterestSkill.Responses.Main;
 using PointOfInterestSkill.Responses.Shared;
@@ -287,6 +288,41 @@ namespace PointOfInterestSkill.Dialogs
             else if (activity.Type == ActivityTypes.Event)
             {
                 // Handle skill action logic here
+                var ev = activity.AsEventActivity();
+
+                if (!string.IsNullOrEmpty(ev.Name))
+                {
+                    switch (ev.Name)
+                    {
+                        case "GetDirectionAction":
+                            {
+                                await DigestActionInput<GetDirectionInput>(stepContext, ev);
+                                return await stepContext.BeginDialogAsync(nameof(GetDirectionsDialog));
+                            }
+
+                        case "FindPointOfInterestAction":
+                            {
+                                await DigestActionInput<FindPointOfInterestInput>(stepContext, ev);
+                                return await stepContext.BeginDialogAsync(nameof(FindPointOfInterestDialog));
+                            }
+
+                        case "FindParkingAction":
+                            {
+                                await DigestActionInput<FindParkingInput>(stepContext, ev);
+                                return await stepContext.BeginDialogAsync(nameof(FindParkingDialog));
+                            }
+
+                        default:
+                            {
+                                await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                                break;
+                            }
+                    }
+                }
+                else
+                {
+                    await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"An event with no name was received but not processed."));
+                }
             }
 
             // If activity was unhandled, flow should continue to next step
@@ -417,6 +453,18 @@ namespace PointOfInterestSkill.Dialogs
             catch
             {
                 // put log here
+            }
+        }
+
+        private async Task DigestActionInput<T>(DialogContext dc, IEventActivity ev)
+            where T : ActionBaseInput
+        {
+            if (ev.Value is JObject eventValue)
+            {
+                var state = await _stateAccessor.GetAsync(dc.Context, () => new PointOfInterestSkillState());
+
+                T actionData = eventValue.ToObject<T>();
+                actionData.DigestActionInput(state);
             }
         }
     }
