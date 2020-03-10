@@ -16,7 +16,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption()
         {
-            var allFirstPromptVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption_In_Dialog()
         {
-            var allNamePromptVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
@@ -43,8 +43,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Cancel_Interruption()
         {
-            var allFirstPromptVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allFirstPromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allResponseVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -57,7 +57,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Repeat_Interruption()
         {
-            var allNamePromptVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)

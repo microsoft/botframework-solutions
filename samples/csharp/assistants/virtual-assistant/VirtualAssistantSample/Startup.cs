@@ -102,7 +102,7 @@ namespace VirtualAssistantSample
                 localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            services.AddSingleton(new LocaleLGFileManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            services.AddSingleton(new LocaleTemplateManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register the skills configuration class
             services.AddSingleton<SkillsConfiguration>();

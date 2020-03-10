@@ -65,8 +65,8 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             var profileState = new UserProfileState { Name = TestName };
 
-            var allNamePromptVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+            var allNamePromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
 
             var conversation = await StartBotConversationAsync();
 

@@ -19,7 +19,7 @@ namespace VirtualAssistantSample.Dialogs
     public class OnboardingDialog : ComponentDialog
     {
         private BotServices _services;
-        private LocaleLGFileManager _lgFileManager;
+        private LocaleTemplateManager _templateManager;
         private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
@@ -27,7 +27,7 @@ namespace VirtualAssistantSample.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _lgFileManager = serviceProvider.GetService<LocaleLGFileManager>();
+            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
@@ -58,7 +58,7 @@ namespace VirtualAssistantSample.Dialogs
             {
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = _lgFileManager.GenerateActivityForLocale("NamePrompt"),
+                    Prompt = _templateManager.GenerateActivityForLocale("NamePrompt"),
                 });
             }
         }
@@ -93,7 +93,7 @@ namespace VirtualAssistantSample.Dialogs
 
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
-            await sc.Context.SendActivityAsync(_lgFileManager.GenerateActivityForLocale("HaveNameMessage", userProfile));
+            await sc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HaveNameMessage", userProfile));
 
             return await sc.EndDialogAsync();
         }

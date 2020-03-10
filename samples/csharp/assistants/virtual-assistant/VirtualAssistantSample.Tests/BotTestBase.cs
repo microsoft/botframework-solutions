@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
-        public LocaleLGFileManager TestLocaleLGFileManager { get; set; }
+        public LocaleTemplateManager TestLocaleTemplateManager { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
 
@@ -99,8 +99,8 @@ namespace VirtualAssistantSample.Tests
                 localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            TestLocaleLGFileManager = new LocaleLGFileManager(localizedTemplates, "en-us");
-            Services.AddSingleton(TestLocaleLGFileManager);
+            TestLocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, "en-us");
+            Services.AddSingleton(TestLocaleTemplateManager);
 
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();

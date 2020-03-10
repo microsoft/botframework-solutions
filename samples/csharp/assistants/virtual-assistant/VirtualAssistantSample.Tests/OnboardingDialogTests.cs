@@ -24,8 +24,8 @@ namespace VirtualAssistantSample.Tests
             var profileState = new UserProfileState();
             profileState.Name = testName;
 
-            var allNamePromptVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+            var allNamePromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
 
             dynamic data = new JObject();
             data.name = testName;
