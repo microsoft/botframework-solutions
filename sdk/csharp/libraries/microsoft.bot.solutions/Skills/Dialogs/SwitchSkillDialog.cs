@@ -32,11 +32,6 @@ namespace Microsoft.Bot.Solutions.Skills.Dialogs
             AddDialog(new ConfirmPrompt(_confirmPromptId));
         }
 
-        public override Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
-        {
-            return base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
-        }
-
         // Runs when this dialog ends. Handles result of prompt to switch skills or resume waiting dialog.
         protected override async Task<DialogTurnResult> EndComponentAsync(DialogContext outerDc, object result, CancellationToken cancellationToken)
         {
