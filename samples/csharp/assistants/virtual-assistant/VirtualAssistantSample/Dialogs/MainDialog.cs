@@ -180,6 +180,15 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = innerDc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
+                if (innerDc.Context.Activity.Text.Contains("email"))
+                {
+                    dispatchIntent = DispatchLuis.Intent.EmailSkill;
+                }
+                else if (innerDc.Context.Activity.Text.Contains("todo"))
+                {
+                    dispatchIntent = DispatchLuis.Intent.ToDoSkill;
+                }
+
                 // Check if we need to switch skills.
                 if (isSkill && IsSkillIntent(dispatchIntent) && dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                 {
@@ -324,10 +333,19 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = stepContext.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
+                if (stepContext.Context.Activity.Text.Contains("email"))
+                {
+                    dispatchIntent = DispatchLuis.Intent.EmailSkill;
+                }
+                else if (stepContext.Context.Activity.Text.Contains("todo"))
+                {
+                    dispatchIntent = DispatchLuis.Intent.ToDoSkill;
+                }
+
                 if (IsSkillIntent(dispatchIntent))
                 {
                     var dispatchIntentSkill = dispatchIntent.ToString();
-                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+                    var skillDialogArgs = new BeginSkillDialogOptions { Activity = (Activity)activity };
 
                     // Start the skill dialog.
                     return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
