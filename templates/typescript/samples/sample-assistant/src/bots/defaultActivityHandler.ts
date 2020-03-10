@@ -47,12 +47,11 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         this.dialogs.add(this.dialog);
         this.userProfileState = userState.createProperty<DialogState>('UserProfileState');
 
-        this.onTurn(this.turn.bind(this));
-        this.onMembersAdded(this.membersAdded.bind(this));
+        super.onMembersAdded(this.membersAdded.bind(this));
     }
 
-    public async turn(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        super.onTurn(next);
+    public async turn(turnContext: TurnContext): Promise<void> {
+        super.onTurnActivity(turnContext);
         const dc: DialogContext = await this.dialogs.createContext(turnContext);
         if (dc.activeDialog !== undefined) {
             await dc.continueDialog();
