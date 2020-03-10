@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
@@ -82,7 +83,7 @@ namespace VirtualAssistantSample
             // Configure storage
             // Uncomment the following line for local development without Cosmos Db
             // services.AddSingleton<IStorage, MemoryStorage>();
-            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+            services.AddSingleton<IStorage>(new CosmosDbPartitionedStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
 
@@ -101,7 +102,7 @@ namespace VirtualAssistantSample
                 localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            services.AddSingleton(new LocaleLGFileManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            services.AddSingleton(new LocaleTemplateManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register the skills configuration class
             services.AddSingleton<SkillsConfiguration>();
@@ -140,12 +141,27 @@ namespace VirtualAssistantSample
                 else
                 {
                     var hostEndpoint = new Uri(hostEndpointSection.Value);
+                    var botId = Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
+                    if (string.IsNullOrWhiteSpace(botId))
+                    {
+                        throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
+                    }
 
                     foreach (var skill in skills)
                     {
                         services.AddSingleton(sp =>
                         {
-                            return new SkillDialog(sp.GetService<ConversationState>(), sp.GetService<SkillHttpClient>(), skill, Configuration, hostEndpoint);
+                            var skillDialogOptions = new SkillDialogOptions
+                            {
+                                BotId = botId,
+                                ConversationIdFactory = sp.GetService<SkillConversationIdFactoryBase>(),
+                                SkillClient = sp.GetService<SkillHttpClient>(),
+                                SkillHostEndpoint = hostEndpoint,
+                                Skill = skill,
+                                ConversationState = sp.GetService<ConversationState>()
+                            };
+
+                            return new SkillDialog(skillDialogOptions, skill.Id);
                         });
                     }
                 }

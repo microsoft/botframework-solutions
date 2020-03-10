@@ -8,11 +8,11 @@ using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Tests
     {
         public IServiceCollection Services { get; set; }
 
-        public LocaleLGFileManager TestLocaleLGFileManager { get; set; }
+        public LocaleTemplateManager TestLocaleTemplateManager { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
 
@@ -99,8 +99,8 @@ namespace VirtualAssistantSample.Tests
                 localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            TestLocaleLGFileManager = new LocaleLGFileManager(localizedTemplates, "en-us");
-            Services.AddSingleton(TestLocaleLGFileManager);
+            TestLocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, "en-us");
+            Services.AddSingleton(TestLocaleTemplateManager);
 
             Services.AddTransient<MainDialog>();
             Services.AddTransient<OnboardingDialog>();
