@@ -49,22 +49,22 @@ export class ConnectSkill {
         intentName: string,
         dispatchName: string): Promise<Map<string, string>> {
 
-        let luFile: string = '';
-        let luisFile: string = '';
-        let luFilePath: string = '';
+        let luFile = '';
+        let luisFile = '';
+        let luFilePath = '';
         let luisFolderPath: string = join(this.configuration.luisFolder, culture);
-        let luisFilePath: string = '';
-        let dispatchFile: string = '';
-        let dispatchFolderPath: string = '';
-        let dispatchFilePath: string = '';
+        let luisFilePath = '';
+        let dispatchFile = '';
+        let dispatchFolderPath = '';
+        let dispatchFilePath = '';
 
         if (this.manifestVersion == manifestVersion.V1)
         {
-            luFile = `${luisApp}.lu`;
-            luisFile = `${luisApp}.luis`;
+            luFile = `${ luisApp }.lu`;
+            luisFile = `${ luisApp }.luis`;
             luFilePath = join(this.configuration.luisFolder, culture, luFile);
             luisFilePath = join(luisFolderPath, luisFile);
-            dispatchFile = `${dispatchName}.dispatch`;
+            dispatchFile = `${ dispatchName }.dispatch`;
             dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
             dispatchFilePath = join(dispatchFolderPath, dispatchFile);
         }
@@ -74,7 +74,7 @@ export class ConnectSkill {
 
                 const model: IModel = {id: '', name: '', contentType: '', url: '', description: ''};
                 const entries = Object.entries(this.skillManifest?.dispatchModels.languages);
-                const currentLocaleApps = entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model]
+                const currentLocaleApps = entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model];
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
                 
@@ -82,7 +82,7 @@ export class ConnectSkill {
                     luFilePath = currentApp.url.split('file://')[1];
                     if(!existsSync(luFilePath)) {
                         luFile = luFilePath;
-                        luisFile = `${luFile.toLowerCase()}is`;
+                        luisFile = `${ luFile.toLowerCase() }is`;
                         luFilePath = join(this.configuration.luisFolder, culture, luFile);
                     }
                 }
@@ -104,15 +104,15 @@ export class ConnectSkill {
                 }
                 
                 if(!existsSync(luFilePath)) {
-                    throw new Error(`Path to the LU file (${luFilePath}) leads to a nonexistent file.`);
+                    throw new Error(`Path to the LU file (${ luFilePath }) leads to a nonexistent file.`);
                 }
 
                 if (luFile.trim.length === 0) {
                     luFile = luFilePath.split('\\').reverse()[0];
-                    luisFile = `${luFile.toLowerCase()}is`;
+                    luisFile = `${ luFile.toLowerCase() }is`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);
-                dispatchFile = `${dispatchName}.dispatch`;
+                dispatchFile = `${ dispatchName }.dispatch`;
                 dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
                 dispatchFilePath = join(dispatchFolderPath, dispatchFile);
             }
@@ -122,10 +122,10 @@ export class ConnectSkill {
         if (!existsSync(this.configuration.luisFolder)) {
             throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
 Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
-            } else if (!existsSync(luFilePath)) {
-                throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.
+        } else if (!existsSync(luFilePath)) {
+            throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.
 Make sure your Skill's .lu file's name matches your Skill's manifest id`);
-            }
+        }
         
         // Validate 'dispatch add' arguments
         if (!existsSync(dispatchFolderPath)) {
@@ -211,7 +211,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 uri: path
             });
         } catch (err) {
-            throw new Error(`There was a problem while getting the remote lu file:\n${err}`);
+            throw new Error(`There was a problem while getting the remote lu file:\n${ err }`);
         }
     }
 
@@ -344,7 +344,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             await Promise.all(filteredLuisDictionary.map( async (item: [string, string[]]): Promise<void> => {
                 const luisCulture: string = item[0];
                 const filteredluisApps: string[] = item[1];
-                const dispatchName: string = <string> dispatchNames.get(luisCulture);
+                const dispatchName: string = dispatchNames.get(luisCulture) as string;
                 await Promise.all(filteredluisApps.map(async (luisApp: string): Promise<void> => {
                     executionsModelMap.set(luisCulture, await this.getExecutionModel(luisApp, luisCulture, intentName, dispatchName));
                 }));
@@ -406,7 +406,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             return true;
            
         } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${err}`);
+            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
             return false;
         }
     }
@@ -453,7 +453,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             // Check if the skill is already connected to the assistant
             if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.id)) {
-                this.logger.warning(`The skill '${skillManifest.name}' is already registered.`);
+                this.logger.warning(`The skill '${ skillManifest.name }' is already registered.`);
                 return;
             }
 
@@ -465,17 +465,17 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             this.logger.message('Updating Dispatch');
             await this.updateModel(luisDictionary, skillManifest.id);
             // Adding the skill manifest to the assistant skills array
-            this.logger.message(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
+            this.logger.message(`Appending '${ skillManifest.name }' manifest to your assistant's skills configuration file.`);
             // Updating the assistant skills file's skills property with the assistant skills array
             // Writing (and overriding) the assistant skills file
             //writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
             this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
-            this.logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
+            this.logger.success(`Successfully appended '${ skillManifest.name }' manifest to your assistant's skills configuration file!`);
             // Configuring bot auth settings
             //this.logger.message('Configuring bot auth settings');
             //await this.authenticationUtils.authenticate(this.configuration, skillManifest, this.logger);
         } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${err}`);
+            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
         }
     }
 
@@ -487,7 +487,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             // Check if the skill is already connected to the assistant
             if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.$id)) {
-                this.logger.warning(`The skill '${skillManifest.name}' is already registered.`);
+                this.logger.warning(`The skill '${ skillManifest.name }' is already registered.`);
                 return;
             }
             this.skillManifest = skillManifest;
@@ -499,19 +499,19 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             this.logger.message('Updating Dispatch');
             await this.updateModel(luisDictionary, skillManifest.$id);
             // Adding the skill manifest to the assistant skills array
-            this.logger.message(`Appending '${skillManifest.name}' manifest to your assistant's skills configuration file.`);
+            this.logger.message(`Appending '${ skillManifest.name }' manifest to your assistant's skills configuration file.`);
             // Updating the assistant skills file's skills property with the assistant skills array
             // Writing (and overriding) the assistant skills file
             //writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
             this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
-            this.logger.success(`Successfully appended '${skillManifest.name}' manifest to your assistant's skills configuration file!`);
+            this.logger.success(`Successfully appended '${ skillManifest.name }' manifest to your assistant's skills configuration file!`);
             // Configuring bot auth settings
             //this.logger.message('Configuring bot auth settings');
             //await this.authenticationUtils.authenticate(this.configuration, skillManifest, this.logger);
             
             return;
         } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${err}`);
+            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
         }
     }
 
@@ -525,7 +525,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 luisApps.push(model.id);
             });
         
-            const filteredluisApps: string[] = [...new Set(luisApps)]
+            const filteredluisApps: string[] = [...new Set(luisApps)];
             acc.set(locale, filteredluisApps);
         });
 
