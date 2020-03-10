@@ -4,32 +4,32 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Responses
 {
     /// <summary>
-    /// Multi locale LG File Manager for language generation. This template manager will enumerate multi-locale LG files and will select
+    /// Multi locale Template Manager for language generation. This template manager will enumerate multi-locale template files and will select
     /// the appropriate template using the current culture to perform template evaluation.
     /// </summary>
-    public class LocaleLGFileManager
+    public class LocaleTemplateManager
     {
         private readonly LanguagePolicy languageFallbackPolicy;
         private readonly string localeDefault;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocaleLGFileManager"/> class.
+        /// Initializes a new instance of the <see cref="LocaleTemplateManager"/> class.
         /// </summary>
-        /// <param name="localeLGFiles">A dictionary of locale and LG file.</param>
+        /// <param name="localeTemplateFiles">A dictionary of locale and template file.</param>
         /// <param name="fallbackLocale">The default fallback locale to use.</param>
-        public LocaleLGFileManager(Dictionary<string, string> localeLGFiles, string fallbackLocale)
+        public LocaleTemplateManager(Dictionary<string, string> localeTemplateFiles, string fallbackLocale)
         {
-            if (localeLGFiles == null)
+            if (localeTemplateFiles == null)
             {
-                throw new ArgumentNullException(nameof(localeLGFiles));
+                throw new ArgumentNullException(nameof(localeTemplateFiles));
             }
 
             if (string.IsNullOrEmpty(fallbackLocale))
@@ -37,16 +37,16 @@ namespace Microsoft.Bot.Solutions.Responses
                 throw new ArgumentNullException(nameof(fallbackLocale));
             }
 
-            foreach (KeyValuePair<string, string> filePerLocale in localeLGFiles)
+            foreach (KeyValuePair<string, string> filePerLocale in localeTemplateFiles)
             {
-                LGFilesPerLocale[filePerLocale.Key] = LGParser.ParseFile(filePerLocale.Value);
+                TemplateFilesPerLocale[filePerLocale.Key] = Templates.ParseFile(filePerLocale.Value);
             }
 
             languageFallbackPolicy = new LanguagePolicy();
             localeDefault = fallbackLocale;
         }
 
-        public Dictionary<string, LGFile> LGFilesPerLocale { get; set; } = new Dictionary<string, LGFile>(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, Templates> TemplateFilesPerLocale { get; set; } = new Dictionary<string, Templates>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Create an activity through Language Generation using the thread culture or provided override.
@@ -70,9 +70,9 @@ namespace Microsoft.Bot.Solutions.Responses
             var locale = localeOverride ?? CultureInfo.CurrentUICulture.Name;
 
             // Do we have a template engine for this locale?
-            if (LGFilesPerLocale.ContainsKey(locale))
+            if (TemplateFilesPerLocale.ContainsKey(locale))
             {
-                var activity = ActivityFactory.CreateActivity(LGFilesPerLocale[locale].EvaluateTemplate(templateName, data).ToString());
+                var activity = ActivityFactory.FromObject(TemplateFilesPerLocale[locale].Evaluate(templateName, data).ToString());
 
                 // Set the inputHint to null when it's acceptingInput so prompt can override it when expectingInput
                 if (activity.InputHint == InputHints.AcceptingInput)
@@ -97,9 +97,9 @@ namespace Microsoft.Bot.Solutions.Responses
                 // Work through the fallback hierarchy to find a response
                 foreach (var fallBackLocale in locales)
                 {
-                    if (LGFilesPerLocale.ContainsKey(fallBackLocale))
+                    if (TemplateFilesPerLocale.ContainsKey(fallBackLocale))
                     {
-                        var activity = ActivityFactory.CreateActivity(LGFilesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data).ToString());
+                        var activity = ActivityFactory.FromObject(TemplateFilesPerLocale[fallBackLocale].Evaluate(templateName, data).ToString());
 
                         // Set the inputHint to null when it's acceptingInput so prompt can override it when expectingInput
                         if (activity.InputHint == InputHints.AcceptingInput)
