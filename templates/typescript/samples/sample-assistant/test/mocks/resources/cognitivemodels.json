@@ -1,46 +1,46 @@
 {
+  "defaultLocale": "en-us",
   "cognitiveModels": {
     "en-us": {
       "dispatchModel": {
-        "authoringKey": "<--MOCK-VALUE-->",
-        "type": "dispatch",
-        "subscriptionKey": "<--MOCK-VALUE-->",
-        "region": "westus",
         "appId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
+        "type": "dispatch",
+        "region": "westus",
+        "authoringKey": "<--MOCK-VALUE-->",
         "authoringRegion": "westus",
-        "name": "assistant_Dispatch"
+        "name": "assistant_Dispatch",
+        "subscriptionKey": "<--MOCK-VALUE-->"
       },
       "languageModels": [
         {
-          "region": "westus",
-          "appId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "authoringRegion": "westus",
-          "id": "general",
+          "appId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
           "name": "assistant_general",
-          "authoringKey": "<--MOCK-VALUE-->",
+          "id": "general",
           "version": "0.1",
-          "subscriptionKey": "<--MOCK-VALUE-->"
+          "authoringKey": "<--MOCK-VALUE-->",
+          "subscriptionKey": "<--MOCK-VALUE-->",
+          "region": "westus"
         }
       ],
       "knowledgeBases": [
         {
-          "endpointKey": "<--MOCK-VALUE-->",
-          "id": "chitchat",
-          "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
+          "hostname": "https://mbvatest-qnahost-gnbtdcv.azurewebsites.net/qnamaker",
           "subscriptionKey": "<--MOCK-VALUE-->",
-          "hostname": "https://mbvamock-qnahost-alrkcw6.azurewebsites.net/qnamaker",
-          "name": "chitchat"
+          "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
+          "name": "chitchat",
+          "endpointKey": "<--MOCK-VALUE-->",
+          "id": "chitchat"
         },
         {
-          "endpointKey": "<--MOCK-VALUE-->",
-          "id": "faq",
-          "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
+          "hostname": "https://mbvatest-qnahost-gnbtdcv.azurewebsites.net/qnamaker",
           "subscriptionKey": "<--MOCK-VALUE-->",
-          "hostname": "https://mbvamock-qnahost-alrkcw6.azurewebsites.net/qnamaker",
-          "name": "faq"
+          "kbId": "f7c2ee78-8679-4a3e-b384-0cd10c67e554",
+          "name": "faq",
+          "endpointKey": "<--MOCK-VALUE-->",
+          "id": "faq"
         }
       ]
     }
-  },
-  "defaultLocale": "en-us"
+  }
 }
