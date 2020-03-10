@@ -21,6 +21,14 @@ import { AuthenticationResponses } from './authenticationResponses';
 import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
 
+enum DialogIds {
+    providerPrompt = 'ProviderPrompt',
+    firstStepPrompt = 'FirstStep',
+    localAuthPrompt = 'LocalAuth',
+    remoteAuthPrompt = 'RemoteAuth',
+    remoteAuthEventPrompt = 'RemoteAuthEvent'
+}
+
 /**
  * Provides the ability to prompt for which Authentication provider the user wishes to use and handles Virtual Assistant and Skill remote authentication scenarios.
  */
@@ -38,7 +46,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     ) {
         super(MultiProviderAuthDialog.name);
 
-        if (authenticationConnections === undefined) { throw new Error('The value of authenticationConnections cannot be undefined') }
+        if (authenticationConnections === undefined) { throw new Error('The value of authenticationConnections cannot be undefined'); }
         this.authenticationConnections = authenticationConnections;
         this.appCredentials = appCredentials;
 
@@ -74,7 +82,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         // If authentication connections are provided locally then we enable "local auth"
         // otherwise we only enable remote auth where the calling Bot handles this for us.
         if (this.authenticationConnections !== undefined && this.authenticationConnections.length > 0) {
-            let authDialogAdded: boolean = false;
+            let authDialogAdded = false;
 
             for (var i = 0; i < this.authenticationConnections.length; ++i) {
                 let connection = this.authenticationConnections[i];
@@ -214,7 +222,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             return await stepContext.next(result);
         }
 
-        const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> stepContext.context.adapter;
+        const adapter: BotFrameworkAdapter = stepContext.context.adapter as BotFrameworkAdapter;
         if (adapter !== undefined) {
             const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(
                 stepContext.context,
@@ -276,7 +284,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         if (typeof stepContext.result === 'string') {
             this.selectedAuthType = stepContext.result;
         } else {
-            const choice: FoundChoice = <FoundChoice> stepContext.result;
+            const choice: FoundChoice = stepContext.result as FoundChoice;
             if (choice !== undefined) {
                 this.selectedAuthType = choice.value;
             }
@@ -353,7 +361,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         const eventActivity: Activity = promptContext.context.activity;
         if (eventActivity !== undefined && eventActivity.name === TokenEvents.tokenResponseEventName) {
-            promptContext.recognized.value = <TokenResponse> eventActivity.value;
+            promptContext.recognized.value = eventActivity.value as TokenResponse;
 
             return Promise.resolve(true);
         }
@@ -364,12 +372,4 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         return Promise.resolve(false);
     }
-}
-
-enum DialogIds {
-    providerPrompt = 'ProviderPrompt',
-    firstStepPrompt = 'FirstStep',
-    localAuthPrompt = 'LocalAuth',
-    remoteAuthPrompt = 'RemoteAuth',
-    remoteAuthEventPrompt = 'RemoteAuthEvent'
 }

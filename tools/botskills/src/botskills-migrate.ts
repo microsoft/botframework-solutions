@@ -46,8 +46,8 @@ program
 
 const args: program.Command = program.parse(process.argv);
 
-let destFile: string = '';
-let sourceFile: string = '';
+let destFile = '';
+let sourceFile = '';
 
 logger.isVerbose = args.verbose;
 

@@ -49,7 +49,7 @@ if (process.argv.length < 3) {
     process.exit(0);
 }
 
-let skillId: string = '';
+let skillId = '';
 let outFolder: string;
 let noRefresh = false;
 let cognitiveModelsFile: string;

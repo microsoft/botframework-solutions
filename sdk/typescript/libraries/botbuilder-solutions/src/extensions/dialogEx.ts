@@ -3,8 +3,8 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { Dialog, DialogState, DialogSet, DialogContext, DialogTurnResult, DialogTurnStatus } from "botbuilder-dialogs";
-import { TurnContext, StatePropertyAccessor } from "botbuilder";
+import { Dialog, DialogState, DialogSet, DialogContext, DialogTurnResult, DialogTurnStatus } from 'botbuilder-dialogs';
+import { TurnContext, StatePropertyAccessor } from 'botbuilder';
 
 export namespace DialogEx {
     export async function run(dialog: Dialog, turnContext: TurnContext, accessor: StatePropertyAccessor<DialogState>): Promise<void> {

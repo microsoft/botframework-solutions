@@ -112,7 +112,7 @@ async function getTestAdapterDefault(settings) {
         telemetryClient,
     );
 
-    const botLogic = new DefaultActivityHandler(conversationState, telemetryClient, mainDialog);
+    const botLogic = new DefaultActivityHandler(conversationState, userState, mainDialog);
     const adapter = new TestAdapter(botLogic.run.bind(botLogic));
 
     adapter.onTurnError = async function(context, error) {

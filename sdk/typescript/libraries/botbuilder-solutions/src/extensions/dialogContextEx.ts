@@ -6,7 +6,7 @@
 import { DialogContext } from 'botbuilder-dialogs';
 
 export namespace DialogContextEx {
-    export const suppressDialogCompletionKey: string = 'suppressDialogCompletionMessage';
+    export const suppressDialogCompletionKey = 'suppressDialogCompletionMessage';
     
     /**
      * Provides an extension method to DialogContext enabling a Dialog to indicate whether it wishes to suppress any dialog
@@ -31,7 +31,7 @@ export namespace DialogContextEx {
         if (dc === undefined) {
             throw new Error('DialogContext is undefined');
         } else if (dc.context.turnState.has(suppressDialogCompletionKey)) {
-            return <boolean> dc.context.turnState.get(suppressDialogCompletionKey);
+            return dc.context.turnState.get(suppressDialogCompletionKey) as boolean;
         } else {
             return false;
         }

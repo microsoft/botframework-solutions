@@ -113,13 +113,13 @@ export class SetSpeakMiddleware implements Middleware {
                     type: 'element',
                     name: 'speak',
                     elements: [
-                      {
-                          type: 'text',
-                          text: value
-                      }
+                        {
+                            type: 'text',
+                            text: value
+                        }
                     ],
                     attributes: {
-                      xmlns: this.namespaceURI
+                        xmlns: this.namespaceURI
                     }
                 }
             ]};

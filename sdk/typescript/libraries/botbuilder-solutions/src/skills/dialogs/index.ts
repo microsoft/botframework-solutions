@@ -3,5 +3,5 @@
  * Licensed under the MIT License.
  */
 
-export * from './switchSkillDialog'
-export * from './switchSkillDialogOptions'
+export * from './switchSkillDialog';
+export * from './switchSkillDialogOptions';

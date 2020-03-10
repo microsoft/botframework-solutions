@@ -30,6 +30,12 @@ import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';
 import { SampleDialog } from './sampleDialog';
 
+enum StateProperties {
+    skillLuisResult = 'skillLuisResult',
+    generalLuisResult = 'generalLuisResult',
+    timeZone = 'timezone'
+}
+
 export class MainDialog extends ActivityHandlerDialog {
 
     // Fields
@@ -68,14 +74,14 @@ export class MainDialog extends ActivityHandlerDialog {
                 const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
     
                 // Run LUIS recognition and store result in turn state.
-                const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("sampleSkill") : undefined;
+                const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('sampleSkill') : undefined;
                 if (skillLuis !== undefined) {
                     const skillResult: RecognizerResult = await skillLuis.recognize(innerDc.context);
                     innerDc.context.turnState.set(StateProperties.skillLuisResult, skillResult);
                 }
               
                 // Run LUIS recognition on General model and store result in turn state.
-                const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("general") : undefined;
+                const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('general') : undefined;
                 if (generalLuis !== undefined) {
                     const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
                     innerDc.context.turnState.set(StateProperties.generalLuisResult, generalResult);
@@ -171,7 +177,7 @@ export class MainDialog extends ActivityHandlerDialog {
                 
             }
             else{
-                throw new Error("The specified LUIS Model could not be found in your Bot Services configuration.");
+                throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
             }
         }
     }
@@ -192,7 +198,7 @@ export class MainDialog extends ActivityHandlerDialog {
             default: {
                 await innerDc.context.sendActivity({
                     type: ActivityTypes.Trace,
-                    text: `Unknown Event '${ev.name ? ev.name : "undefined" }' was received but not processed.`
+                    text: `Unknown Event '${ ev.name ? ev.name : 'undefined' }' was received but not processed.`
                 });
                 break;
             }
@@ -209,7 +215,7 @@ export class MainDialog extends ActivityHandlerDialog {
     }
 
     // Runs when the dialog stack completes.
-    protected async onDialogComplete(outerDc: DialogContext, result: Object): Promise<void> {
+    protected async onDialogComplete(outerDc: DialogContext, result: Record<string, any>): Promise<void> {
         
         if (isRemoteUserTokenProvider(outerDc.context.adapter) || outerDc.context.activity.channelId != 'msteams') {
             const response = ActivityEx.createReply(outerDc.context.activity);
@@ -239,7 +245,7 @@ export class MainDialog extends ActivityHandlerDialog {
         const tokenProvider: BotFrameworkAdapter = dc.context.adapter as BotFrameworkAdapter;
         if (tokenProvider !== undefined){
             // Sign out user
-            const tokens: TokenStatus[] = await tokenProvider.getTokenStatus(dc.context, dc.context.activity.from.id)
+            const tokens: TokenStatus[] = await tokenProvider.getTokenStatus(dc.context, dc.context.activity.from.id);
             tokens.forEach(async (token: TokenStatus): Promise<void> => {
                 if (token.connectionName !== undefined) {
                     await tokenProvider.signOutUser(dc.context, token.connectionName);
@@ -250,14 +256,8 @@ export class MainDialog extends ActivityHandlerDialog {
             await dc.cancelAllDialogs();
 
         } else {
-            throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter')
+            throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter');
         }
     }
   
-}
-
-enum StateProperties {
-    skillLuisResult = "skillLuisResult",
-    generalLuisResult = "generalLuisResult",
-    timeZone = "timezone"
 }
