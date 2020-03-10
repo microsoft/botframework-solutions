@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Solutions
         /// <value>
         /// The CosmosDB Configuration for the bot.
         /// </value>
-        public CosmosDbStorageOptions CosmosDb { get; set; }
+        public CosmosDbPartitionedStorageOptions CosmosDb { get; set; }
 
         /// <summary>
         /// Gets or sets the Application Insights configuration for the bot.
