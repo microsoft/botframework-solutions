@@ -180,15 +180,6 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = innerDc.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
 
-                if (innerDc.Context.Activity.Text.Contains("email"))
-                {
-                    dispatchIntent = DispatchLuis.Intent.EmailSkill;
-                }
-                else if (innerDc.Context.Activity.Text.Contains("todo"))
-                {
-                    dispatchIntent = DispatchLuis.Intent.ToDoSkill;
-                }
-
                 // Check if we need to switch skills.
                 if (isSkill && IsSkillIntent(dispatchIntent) && dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                 {
@@ -332,15 +323,6 @@ namespace VirtualAssistantSample.Dialogs
                 // Get dispatch result from turn state.
                 var dispatchResult = stepContext.Context.TurnState.Get<DispatchLuis>(StateProperties.DispatchResult);
                 (var dispatchIntent, var dispatchScore) = dispatchResult.TopIntent();
-
-                if (stepContext.Context.Activity.Text.Contains("email"))
-                {
-                    dispatchIntent = DispatchLuis.Intent.EmailSkill;
-                }
-                else if (stepContext.Context.Activity.Text.Contains("todo"))
-                {
-                    dispatchIntent = DispatchLuis.Intent.ToDoSkill;
-                }
 
                 if (IsSkillIntent(dispatchIntent))
                 {

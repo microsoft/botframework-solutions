@@ -11,34 +11,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.Func
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
 		Debug|Any CPU = Debug|Any CPU
-		Documentation|Any CPU = Documentation|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
 		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B88BF44-E6D7-441A-931F-8EC00F6954C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
 		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{909085AC-BFB6-4A90-B5A5-3D07F7E63900}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
 		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F95012FC-4AA6-4BBC-BCC3-361A8D2143CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
