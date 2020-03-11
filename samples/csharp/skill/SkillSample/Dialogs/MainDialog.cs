@@ -23,7 +23,7 @@ namespace SkillSample.Dialogs
         private BotServices _services;
         private SampleDialog _sampleDialog;
         private SampleAction _sampleAction;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateEngine;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
         public MainDialog(
@@ -32,7 +32,7 @@ namespace SkillSample.Dialogs
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateManager>();
             TelemetryClient = telemetryClient;
 
             // Create conversation state properties
