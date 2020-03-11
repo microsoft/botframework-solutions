@@ -29,7 +29,7 @@ namespace JsonConverter
                 Console.Write($"{target} already exists! {ex.Message}");
             }
 
-            foreach (var file in convertedActivityFiles)
+            foreach (var file in filesForT4)
             {
                 var ttFile = Path.ChangeExtension(file, options.KeepOld ? "ttnew" : "tt");
                 var relative = Path.GetRelativePath(Path.GetDirectoryName(file), target);

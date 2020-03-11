@@ -39,14 +39,14 @@ namespace JsonConverter
             // ProjectName is folder's name + .csproj by default
             public string ProjectName { get; set; }
 
-            public string WrapperName { get; set; } = "EngineWrapper";
+            public string WrapperName { get; set; } = "LocaleTemplateManagerWrapper";
         }
 
         private readonly ProgramOptions options;
         private string contentFolder;
         private string entryFolder;
-        private readonly Dictionary<string, List<string>> convertedTextsFiles = new Dictionary<string, List<string>>();
-        private readonly HashSet<string> convertedActivityFiles = new HashSet<string>();
+        private readonly Dictionary<string, List<string>> filesForEntry = new Dictionary<string, List<string>>();
+        private readonly HashSet<string> filesForT4 = new HashSet<string>();
         private IProjectOperator project;
         private StringBuilder help = new StringBuilder(), haveDone = new StringBuilder();
 
@@ -90,6 +90,7 @@ namespace JsonConverter
             if (help.Length != 0)
             {
                 Console.WriteLine("You should do the following after this tool:");
+                help.AppendLine("* Add .lg to .filenesting.json");
                 Console.Write(help.ToString());
             }
         }
@@ -114,9 +115,9 @@ namespace JsonConverter
 
             var program = new Program(options);
             // change to your structure if your project is not as same as the template
+            program.CopySharedLGFiles("Responses", "Shared");
             program.ConvertJsonFilesToLG("Responses");
             program.ConvertResourceFilesToLG("Responses");
-            program.CopySharedLGFiles("Responses", "Shared");
             program.CopyGenerateT4("Responses", "Shared");
             program.GenerateEntryFiles("Responses", "ResponsesAndTexts");
             program.ModifyCardParameters("Content");

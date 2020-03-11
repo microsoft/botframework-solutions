@@ -9,29 +9,26 @@ namespace JsonConverter
 {
     partial class Program
     {
-        // after all ConvertJsonFilesToLG
+        private string sharedFile;
+
+        // before ConvertJsonFilesToLG
         public void CopySharedLGFiles(params string[] folders)
         {
             var responseFolder = GetFullPath(folders);
             Directory.CreateDirectory(responseFolder);
-            var target = Path.Join(responseFolder, options.SharedName);
+            sharedFile = Path.Join(responseFolder, options.SharedName);
             try
             {
-                File.Copy("Shared.lg", target, false);
+                File.Copy("Shared.lg", sharedFile, false);
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"{target} already exists! {ex.Message}");
-            }
-
-            foreach (var pair in convertedTextsFiles)
-            {
-                pair.Value.Add(target);
+                Console.WriteLine($"{sharedFile} already exists! {ex.Message}");
             }
 
             if (options.UpdateProject)
             {
-                AddFileWithCopyInProject(target);
+                AddFileWithCopyInProject(sharedFile);
             }
 
             haveDone.AppendLine($"* Copy Shared.lg to {options.SharedName}");

@@ -44,7 +44,7 @@ namespace JsonConverter
             {
                 if (options.KeepOld)
                 {
-                    haveDone.AppendLine("* Create card.new.json files from card.json with {X} to @{if(Data.X == null, '', Data.X)}");
+                    haveDone.AppendLine("* Create card.new.json files from card.json with {X} to ${if(Data.X == null, '', Data.X)}");
                 }
                 else
                 {

@@ -10,6 +10,8 @@ namespace JsonConverter
 {
     partial class Program
     {
+        private const string ManagerName = "LocaleTemplateManager";
+
         // after ModifyCardParameters, GenerateEntryFiles
         public void GenerateWrapper(params string[] folders)
         {
@@ -23,13 +25,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore.Server.IIS.Core;
-using Microsoft.Bot.Expressions.Memory;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 
@@ -38,28 +36,28 @@ namespace {options.Namespace}.{string.Join('.', folders)}
     public static class {options.WrapperName}
     {{
         // TODO may not all be same
-        public static readonly string PathBase = @""{Path.GetRelativePath(Path.GetDirectoryName(convertedActivityFiles.First()), contentFolder)}"";
+        public static readonly string PathBase = @""{Path.GetRelativePath(Path.GetDirectoryName(filesForT4.First()), contentFolder)}"";
 
-        public static Activity GetCardResponse(this LocaleTemplateEngineManager manager, Card card)
+        public static Activity GetCardResponse(this {ManagerName} manager, Card card)
         {{
             return manager.GetCardResponse(new Card[] {{ card }});
         }}
 
-        public static Activity GetCardResponse(this LocaleTemplateEngineManager manager, IEnumerable<Card> cards, string attachmentLayout = ""carousel"")
+        public static Activity GetCardResponse(this {ManagerName} manager, IEnumerable<Card> cards, string attachmentLayout = ""carousel"")
         {{
             return manager.GetCardResponse(""CardsOnly"", cards, null, attachmentLayout);
         }}
 
-        public static Activity GetCardResponse(this LocaleTemplateEngineManager manager, string templateId, Card card, StringDictionary tokens = null)
+        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, Card card, IDictionary<string, string> tokens = null)
         {{
             return manager.GetCardResponse(templateId, new Card[] {{ card }}, tokens);
         }}
 
-        public static Activity GetCardResponse(this LocaleTemplateEngineManager manager, string templateId, IEnumerable<Card> cards, StringDictionary tokens = null, string attachmentLayout = ""carousel"")
+        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, IEnumerable<Card> cards, IDictionary<string, string> tokens = null, string attachmentLayout = ""carousel"")
         {{
             var input = new
             {{
-                Data = Convert(tokens),
+                Data = tokens,
                 Cards = cards.Select((card) => {{ return Convert(card); }}).ToArray(),
                 Layout = attachmentLayout,
             }};
@@ -75,12 +73,12 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             }}
         }}
 
-        public static Activity GetCardResponse(this LocaleTemplateEngineManager manager, string templateId, Card card, StringDictionary tokens = null, string containerName = null, IEnumerable<Card> containerItems = null)
+        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, Card card, IDictionary<string, string> tokens = null, string containerName = null, IEnumerable<Card> containerItems = null)
         {{
             throw new Exception(""1. create *Containee{keepOldSuffix}.json which only keeps containee's body;2. in the container, write @{{if(Cards==null,'',join(foreach(Cards,Card,CreateStringNoContainer(Card.Name,Card.Data)),','))}}"");
             var input = new
             {{
-                Data = Convert(tokens),
+                Data = tokens,
                 Cards = new CardExt[] {{ Convert(card, containerItems: containerItems) }},
             }};
             try
@@ -95,23 +93,28 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             }}
         }}
 
-        public static Activity GetResponse(this LocaleTemplateEngineManager manager, string templateId, StringDictionary tokens = null)
+        public static Activity GetResponse(this {ManagerName} manager, string templateId, IDictionary<string, string> tokens = null)
         {{
             return manager.GetCardResponse(templateId, Array.Empty<Card>(), tokens);
         }}
 
-        public static string GetString(this LocaleTemplateEngineManager manager, string templateId)
+        public static string GetString(this {ManagerName} manager, string templateId)
         {{
             return manager.GenerateActivityForLocale(templateId + "".Text"").Text;
         }}
 
-        public static string[] ParseReplies(this LocaleTemplateEngineManager manager, string name, StringDictionary data = null)
+        public static string[] ParseReplies(this Templates manager, string name, IDictionary<string, string> data = null)
         {{
             var input = new
             {{
-                Data = Convert(data)
+                Data = data
             }};
-            return manager.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate(name + "".Text"", input).ToArray();
+            return manager.ExpandTemplate(name + "".Text"", input).ToArray();
+        }}
+
+        public static Templates CreateTemplates()
+        {{
+            return Templates.ParseFile(Path.Join(@""{startupToDest}"", $""{options.EntryName}.lg""));
         }}
 
         public static CardExt Convert(Card card, string suffix = ""{keepOldSuffix}.json"", IEnumerable<Card> containerItems = null)
@@ -125,42 +128,28 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             return res;
         }}
 
-        public static IDictionary<string, string> Convert(StringDictionary tokens)
-        {{
-            var dict = new Dictionary<string, string>();
-            if (tokens != null)
-            {{
-                foreach (DictionaryEntry key in tokens)
-                {{
-                    dict[(string)key.Key] = (string)key.Value;
-                }}
-            }}
-
-            return dict;
-        }}
-
         // first locale is default locale
-        public static LocaleTemplateEngineManager CreateLocaleTemplateEngineManager(params string[] locales)
+        public static {ManagerName} Create{ManagerName}(params string[] locales)
         {{
-            var localizedTemplates = new Dictionary<string, List<string>>();
+            var localizedTemplates = new Dictionary<string, string>();
             foreach (var locale in locales)
             {{
-                var localeTemplateFiles = new List<string>();
+                string localeTemplateFile = null;
 
                 // LG template for default locale should not include locale in file extension.
                 if (locale.Equals(locales[0]))
                 {{
-                    localeTemplateFiles.Add(Path.Join(@""{startupToDest}"", $""{options.EntryName}.lg""));
+                    localeTemplateFile = Path.Join(@""{startupToDest}"", $""{options.EntryName}.lg"");
                 }}
                 else
                 {{
-                    localeTemplateFiles.Add(Path.Join(@""{startupToDest}"", $""{options.EntryName}.{{locale}}.lg""));
+                    localeTemplateFile = Path.Join(@""{startupToDest}"", $""{options.EntryName}.{{locale}}.lg"");
                 }}
 
-                localizedTemplates.Add(locale, localeTemplateFiles);
+                localizedTemplates.Add(locale, localeTemplateFile);
             }}
 
-            return new LocaleTemplateEngineManager(localizedTemplates, locales[0]);
+            return new {ManagerName}(localizedTemplates, locales[0]);
         }}
 
         public class CardExt : Card
@@ -178,9 +167,10 @@ namespace {options.Namespace}.{string.Join('.', folders)}
 
             haveDone.AppendLine($"* Create {options.WrapperName}.cs");
 
-            help.AppendLine($"* Use {options.WrapperName}.CreateLocaleTemplateEngineManager insead of ResponseManager in Startup");
-            help.AppendLine("* Replace ResponseManager with LocaleTemplateEngineManager in declaration");
-            help.AppendLine("* In Test, overwrite ParseReplies with LocaleTemplateEngineManager.ParseReplies");
+            help.AppendLine($"* Use {options.WrapperName}.Create{ManagerName} insead of ResponseManager in Startup");
+            help.AppendLine($"* Replace ResponseManager with {ManagerName} in declaration");
+            help.AppendLine($"* Replace StringDictionary with IDictionary<string, string>");
+            help.AppendLine($"* In Test, create Templates with CreateTemplates and overwrite ParseReplies with {ManagerName}Manager.ParseReplies");
         }
     }
 }

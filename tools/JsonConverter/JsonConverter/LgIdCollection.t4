@@ -26,14 +26,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Bot.Solutions.Responses;
-
 namespace <#= namespaceName #>
 {
     /// <summary>
     /// Contains bot responses.
     /// </summary>
-    public class <#= className #> : IResponseIdCollection
+    public class <#= className #>
     {
         // Generated accessors
 <#

@@ -12,28 +12,25 @@ namespace JsonConverter
     {
         private void ConvertResource(string file)
         {
-            var (outputActivitiesLGFile, outputTextsLGFile) = GetOutputLGFile(file);
-            var sbActivities = new StringBuilder();
-            var sbTexts = new StringBuilder();
-            sbTexts.AppendLine($"[import] ({Path.GetFileName(outputActivitiesLGFile)})").AppendLine();
-            var doc = XDocument.Load(file);
-            var nodes = doc.Root.Elements("data");
-            foreach (var node in nodes)
+            ConvertToLg(file, (file, sbActivities, sbTexts) =>
             {
-                var templateName = node.Attribute("name").Value;
-                var value = node.Element("value").Value;
-                var activity = new Activity
+                var doc = XDocument.Load(file);
+                var nodes = doc.Root.Elements("data");
+                foreach (var node in nodes)
                 {
-                    Replies = new List<Reply>() { new Reply { Text = value, Speak = value } },
-                };
-                activity.Correct();
-                AddActivity(sbActivities, templateName, activity);
-                AddTexts(sbTexts, templateName, activity, false);
-            }
+                    var templateName = node.Attribute("name").Value;
+                    var value = node.Element("value").Value;
+                    var activity = new Activity
+                    {
+                        Replies = new List<Reply>() { new Reply { Text = value, Speak = value } },
+                    };
+                    activity.Correct();
+                    AddActivity(sbActivities, templateName, activity, true);
+                    AddTexts(sbTexts, templateName, activity, false, true);
+                }
+            });
 
             var locale = GetLocale(file);
-            Convert(locale, outputActivitiesLGFile, sbActivities, outputTextsLGFile, sbTexts);
-
             if (!options.KeepOld && locale == options.DefaultLocale)
             {
                 var name = GetDialogName(file);

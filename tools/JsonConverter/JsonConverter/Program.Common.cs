@@ -55,7 +55,7 @@ namespace JsonConverter
         private string ModifyTextParameters(string text)
         {
             string pattern = @"\{(\w+)\}";
-            return Regex.Replace(text, pattern, "@{if(Data.$1 == null, '', Data.$1)}");
+            return Regex.Replace(text, pattern, "${if(Data.$1 == null, '', Data.$1)}");
         }
 
         private string GetFullPath(params string[] folders)
@@ -89,6 +89,24 @@ namespace JsonConverter
         {
             var relative = Path.GetRelativePath(options.Root, file);
             project.AddFileWithTool(relative);
+        }
+
+        private void ConvertToLg(string file, Action<string, StringBuilder, StringBuilder> func)
+        {
+            var (outputActivitiesLGFile, outputTextsLGFile) = GetOutputLGFile(file);
+            var sbActivities = new StringBuilder();
+            var sbTexts = new StringBuilder();
+
+            // Shared.lg
+            var relativePath = Path.GetRelativePath(Path.GetDirectoryName(outputActivitiesLGFile), sharedFile);
+            sbActivities.AppendLine($"[import]({relativePath})");
+
+            sbActivities.AppendLine($"[import]({Path.GetFileName(outputTextsLGFile)})").AppendLine();
+
+            func(file, sbActivities, sbTexts);
+
+            var locale = GetLocale(file);
+            Convert(locale, outputActivitiesLGFile, sbActivities, outputTextsLGFile, sbTexts);
         }
     }
 }

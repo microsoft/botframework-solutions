@@ -35,7 +35,7 @@ namespace JsonConverter
                 {
                     // eg: [import] (../AddToDo/AddToDoTexts.lg);
                     var relativePath = Path.GetRelativePath(responsesAndTextsFolder, file);
-                    sw.WriteLine($"[import] ({relativePath})");
+                    sw.WriteLine($"[import]({relativePath})");
                 }
             }
 
@@ -52,7 +52,7 @@ namespace JsonConverter
             Directory.CreateDirectory(responsesAndTextsFolder);
             entryFolder = responsesAndTextsFolder;
 
-            foreach (var pair in convertedTextsFiles)
+            foreach (var pair in filesForEntry)
             {
                 GenerateEntryFile(responsesAndTextsFolder, pair.Key, pair.Value);
             }

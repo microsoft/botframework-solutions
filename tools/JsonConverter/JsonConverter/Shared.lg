@@ -1,14 +1,14 @@
-﻿﻿# CardsOnly(Data, Cards, Layout)
-[Activity
-    Attachments = @{if(Cards==null,null,foreach(Cards, Card, CreateCard(Card)))}
-    AttachmentLayout = @{if(Layout==null,'list',Layout)}
-]
-
-# CreateStringNoContainer(Name, Data)
-- @{fromFile(Name)}
+﻿# CreateStringNoContainer(Name, Data)
+- ${fromFile(Name)}
 
 # CreateString(Name, Data, Cards)
-- @{fromFile(Name)}
+- ${fromFile(Name)}
 
 # CreateCard(Card)
-- @{ActivityAttachment(json(CreateString(Card.Name, Card.Data, Card.Cards)), 'adaptiveCard')}
+- ${ActivityAttachment(json(CreateString(Card.Name, Card.Data, Card.Cards)), 'adaptiveCard')}
+
+﻿# CardsOnly(Data, Cards, Layout)
+[Activity
+    Attachments = ${if(Cards==null,null,foreach(Cards, Card, CreateCard(Card)))}
+    AttachmentLayout = ${if(Layout==null,'list',Layout)}
+]

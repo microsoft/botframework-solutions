@@ -27,7 +27,7 @@ namespace JsonConverter
             else
             {
                 outputTextsLGFile = Path.Join(currentFolder, $"{dialogName}Texts.{locale}.lg");
-                outputActivitiesLGFile = Path.Join(currentFolder, $"{dialogName}.lg");
+                outputActivitiesLGFile = Path.Join(currentFolder, $"{dialogName}.{locale}.lg");
             }
             return (outputActivitiesLGFile, outputTextsLGFile);
         }
@@ -44,15 +44,22 @@ namespace JsonConverter
             return true;
         }
 
-        private void AddActivity(StringBuilder sb, string templateName, Activity activity)
+        private void AddActivity(StringBuilder sb, string templateName, Activity activity, bool sameTextSpeak)
         {
             sb.AppendLine($"# {templateName}(Data, Cards, Layout)");
             sb.AppendLine("[Activity");
 
             string templateNameForDifferent = string.Empty;
 
-            sb.AppendLine($"    Text = @{{{templateName}.Text(Data)}}");
-            sb.AppendLine($"    Speak = @{{{templateName}.Text(Data)}}");
+            if (sameTextSpeak)
+            {
+                sb.AppendLine($"    Text = ${{{templateName}.Text(Data)}}");
+                sb.AppendLine($"    Speak = ${{{templateName}.Text(Data)}}");
+            }
+            else
+            {
+                sb.AppendLine($"    ${{{templateName}.Text(Data)}}");
+            }
 
             if (activity.SuggestedActions != null && activity.SuggestedActions.Count > 0)
             {
@@ -61,15 +68,15 @@ namespace JsonConverter
                 var index = 0;
                 foreach (var suggestAction in activity.SuggestedActions)
                 {
-                    suggestedActionsTexts.Add($"@{{{templateName}.S{(++index).ToString()}(Data)}}");
+                    suggestedActionsTexts.Add($"${{{templateName}.S{(++index).ToString()}(Data)}}");
                 }
                 suggestedActions += string.Join(" | ", suggestedActionsTexts);
                 sb.AppendLine(suggestedActions);
             }
 
-            sb.AppendLine(@"    Attachments = @{if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}");
+            sb.AppendLine("    Attachments = ${if(Cards == null, null, foreach(Cards, Card, CreateCard(Card)))}");
 
-            sb.AppendLine(@"    AttachmentLayout = @{if(Layout == null, 'list', Layout)}");
+            sb.AppendLine("    AttachmentLayout = ${if(Layout == null, 'list', Layout)}");
 
             if (!string.IsNullOrEmpty(activity.InputHint))
             {
@@ -79,9 +86,9 @@ namespace JsonConverter
             sb.AppendLine("]").AppendLine();
         }
 
-        private void AddTexts(StringBuilder sb, string templateName, Activity activity, bool modifyParameter)
+        private void AddTexts(StringBuilder sb, string templateName, Activity activity, bool modifyParameter, bool sameTextSpeak)
         {
-            if (AreTextAndSpeakTheSame(activity.Replies))
+            if (sameTextSpeak)
             {
                 sb.AppendLine($"# {templateName}.Text(Data)");
                 foreach (var reply in activity.Replies)
@@ -99,7 +106,7 @@ namespace JsonConverter
                 sb.AppendLine($"# {templateName}.Text(Data)");
                 for (int i = 1; i <= activity.Replies.Count; i++)
                 {
-                    sb.AppendLine($"- @{{{templateName}TextAndSpeak{i.ToString()}(Data)}}");
+                    sb.AppendLine($"- ${{{templateName}TextAndSpeak{i.ToString()}(Data)}}");
                 }
                 sb.AppendLine();
 
@@ -132,26 +139,23 @@ namespace JsonConverter
         // But only need to generate *Activities.lg once, because in a dialog it is common for different languages.
         private void ConvertJson(string file)
         {
-            var (outputActivitiesLGFile, outputTextsLGFile) = GetOutputLGFile(file);
-            var sbActivities = new StringBuilder();
-            var sbTexts = new StringBuilder();
-            sbTexts.AppendLine($"[import] ({Path.GetFileName(outputActivitiesLGFile)})").AppendLine();
-            using (StreamReader sr = new StreamReader(file))
+            ConvertToLg(file, (file, sbActivities, sbTexts) =>
             {
-                var content = sr.ReadToEnd();
-                var jObject = JObject.Parse(content);
-                foreach (var jToken in jObject)
+                using (StreamReader sr = new StreamReader(file))
                 {
-                    var templateName = jToken.Key;
-                    var activity = jToken.Value.ToObject<Activity>();
-                    activity.Correct();
-                    AddActivity(sbActivities, templateName, activity);
-                    AddTexts(sbTexts, templateName, activity, true);
+                    var content = sr.ReadToEnd();
+                    var jObject = JObject.Parse(content);
+                    foreach (var jToken in jObject)
+                    {
+                        var templateName = jToken.Key;
+                        var activity = jToken.Value.ToObject<Activity>();
+                        activity.Correct();
+                        bool same = AreTextAndSpeakTheSame(activity.Replies);
+                        AddActivity(sbActivities, templateName, activity, same);
+                        AddTexts(sbTexts, templateName, activity, true, same);
+                    }
                 }
-            }
-
-            var locale = GetLocale(file);
-            Convert(locale, outputActivitiesLGFile, sbActivities, outputTextsLGFile, sbTexts);
+            });
         }
 
         private void Convert(
@@ -161,36 +165,35 @@ namespace JsonConverter
             string outputTextsLGFile,
             StringBuilder sbTexts)
         {
-            // Gereate DialogNameResponses.lg
             if (locale == options.DefaultLocale)
             {
-                using (StreamWriter sw = new StreamWriter(outputActivitiesLGFile))
-                {
-                    sw.WriteLine(sbActivities.ToString());
-                }
+                filesForT4.Add(outputActivitiesLGFile);
+            }
 
-                convertedActivityFiles.Add(outputActivitiesLGFile);
+            if (!filesForEntry.ContainsKey(locale))
+            {
+                filesForEntry.Add(locale, new List<string>());
+            }
+            filesForEntry[locale].Add(outputActivitiesLGFile);
 
-                if (options.UpdateProject)
-                {
-                    AddFileWithCopyInProject(outputActivitiesLGFile);
-                }
+            using (StreamWriter sw = new StreamWriter(outputActivitiesLGFile))
+            {
+                sw.WriteLine(sbActivities.ToString());
+            }
+
+            if (options.UpdateProject)
+            {
+                AddFileWithCopyInProject(outputActivitiesLGFile);
             }
 
             using (StreamWriter sw = new StreamWriter(outputTextsLGFile))
             {
-                if (!convertedTextsFiles.ContainsKey(locale))
-                {
-                    convertedTextsFiles.Add(locale, new List<string>());
-                }
-                convertedTextsFiles[locale].Add(outputTextsLGFile);
-
                 sw.WriteLine(sbTexts.ToString());
+            }
 
-                if (options.UpdateProject)
-                {
-                    AddFileWithCopyInProject(outputTextsLGFile);
-                }
+            if (options.UpdateProject)
+            {
+                AddFileWithCopyInProject(outputTextsLGFile);
             }
         }
 
@@ -209,7 +212,7 @@ namespace JsonConverter
 
             if (jsonFiles.Length > 0)
             {
-                haveDone.AppendLine("* Create lg files from json with {X} to @{if(Data.X == null, '', Data.X)}");
+                haveDone.AppendLine("* Create lg files from json with {X} to ${if(Data.X == null, '', Data.X)}");
 
                 if (!options.UpdateProject)
                 {
