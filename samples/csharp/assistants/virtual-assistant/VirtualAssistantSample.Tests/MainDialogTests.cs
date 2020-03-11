@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
@@ -31,7 +30,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Intent()
         {
-            var allFirstPromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -44,7 +43,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Escalate_Intent()
         {
-            var allFirstPromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -57,8 +56,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Unhandled_Message()
         {
-            var allFirstPromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("UnsupportedMessage", TestUserProfileState);
+            var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
+            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("UnsupportedMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(string.Empty)

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +15,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption()
         {
-            var allFirstPromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -29,7 +28,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption_In_Dialog()
         {
-            var allNamePromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
@@ -43,8 +42,8 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Cancel_Interruption()
         {
-            var allFirstPromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
+            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(string.Empty)
@@ -57,7 +56,7 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Repeat_Interruption()
         {
-            var allNamePromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)

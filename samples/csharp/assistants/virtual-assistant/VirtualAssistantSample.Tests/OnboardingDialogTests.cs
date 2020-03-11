@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
@@ -24,8 +23,8 @@ namespace VirtualAssistantSample.Tests
             var profileState = new UserProfileState();
             profileState.Name = testName;
 
-            var allNamePromptVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = TestLocaleTemplateManager.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+            var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
 
             dynamic data = new JObject();
             data.name = testName;

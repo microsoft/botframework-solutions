@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Adapters
             OnTurnError = async (turnContext, exception) =>
             {
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateFile.GenerateActivityForLocale("ErrorMessage"));
+                await turnContext.SendActivityAsync(templateFile.GenerateActivityForLocale("ErrorMessage", settings.DefaultLocale));
                 telemetryClient.TrackException(exception);
             };
 
