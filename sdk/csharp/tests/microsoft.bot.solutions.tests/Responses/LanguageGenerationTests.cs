@@ -52,20 +52,17 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
         [TestMethod]
         public void GetResponseWithLanguageGeneration_Spanish()
         {
-            var defaultCulture = CultureInfo.CurrentUICulture;
-            CultureInfo.CurrentUICulture = new CultureInfo("es-es");
+            var spanishCulture = "es-es";
 
             // Generate English response using LG with data
             dynamic data = new JObject();
             data.Name = "Darren";
-            var response = localeTemplateEngineManager.GenerateActivityForLocale("HaveNameMessage", data);
+            var response = localeTemplateEngineManager.GenerateActivityForLocale("HaveNameMessage", data, spanishCulture);
 
             // Retrieve possible responses directly from the correct template to validate logic
-            var possibleResponses = Templates.ParseFile(localeLgFiles["en-us"]).ExpandTemplate("HaveNameMessage", data);
+            var possibleResponses = Templates.ParseFile(localeLgFiles["es-es"]).ExpandTemplate("HaveNameMessage", data);
 
             Assert.IsTrue(possibleResponses.Contains(response.Text));
-
-            CultureInfo.CurrentUICulture = defaultCulture;
         }
 
         [TestMethod]
