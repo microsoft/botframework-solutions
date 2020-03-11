@@ -11,6 +11,7 @@ using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Responses;
@@ -124,7 +125,11 @@ namespace SkillSample.Tests
 
         public string[] GetTemplates(string name, object data = null)
         {
-            return TemplateEngine.TemplateFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate(name, data).ToArray();
+            var path = CultureInfo.CurrentCulture.Name.ToLower() == "en-us" ?
+                       Path.Combine(".", "Responses", $"AllResponses.lg") :
+                       Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
+
+            return Templates.ParseFile(path).ExpandTemplate(name, data).ToArray();
         }
     }
 }

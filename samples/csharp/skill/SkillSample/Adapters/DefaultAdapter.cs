@@ -18,8 +18,6 @@ namespace SkillSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
-            UserState userState,
-            ConversationState conversationState,
             IChannelProvider channelProvider,
             ICredentialProvider credentialProvider,
             LocaleTemplateManager templateEngine,

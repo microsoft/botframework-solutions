@@ -4,7 +4,6 @@
 using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SkillSample.Dialogs;
 using SkillSample.Tests.Utterances;
