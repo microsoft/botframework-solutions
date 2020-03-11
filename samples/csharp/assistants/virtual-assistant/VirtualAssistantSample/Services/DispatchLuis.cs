@@ -23,9 +23,6 @@ namespace Luis
             l_General,
             q_Chitchat,
             q_Faq,
-            EmailSkill,
-            ToDoSkill,
-            BingSkill,
             None
         };
         [JsonProperty("intents")]
