@@ -166,7 +166,7 @@ foreach ($langCode in $languageMap.Keys) {
                 Write-Host "> Running LuisGen for $($luisApp.id) app ..." -NoNewline
                 $luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
                 RunLuisGen `
-                    -lu_file $(Get-Item $luPath) `
+                    -luFile $(Get-Item $luPath) `
                     -outName "$($luisApp.id)" `
                     -outFolder $lgOutFolder `
                     -log $logFile
@@ -225,7 +225,7 @@ foreach ($langCode in $languageMap.Keys) {
         foreach ($luisApp in $models.languageModels) {
             $lu = Get-Item -Path $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
             UpdateLUIS `
-                -lu_file $lu `
+                -luFile $lu `
                 -appId $luisApp.appid `
                 -version $luisApp.version `
                 -language $langCode `
@@ -239,7 +239,7 @@ foreach ($langCode in $languageMap.Keys) {
                 Write-Host "> Running LuisGen for $($luisApp.id) app ..." -NoNewline
                 $luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
                 RunLuisGen `
-                    -lu_file $(Get-Item $luPath) `
+                    -luFile $(Get-Item $luPath) `
                     -outName "$($luisApp.id)" `
                     -outFolder $lgOutFolder `
                     -log $logFile
@@ -251,7 +251,7 @@ foreach ($langCode in $languageMap.Keys) {
         foreach ($kb in $models.knowledgebases) {
             $lu = Get-Item -Path $(Join-Path $qnaFolder $langCode "$($kb.id).qna")
             UpdateKB `
-                -lu_file $lu `
+                -luFile $lu `
                 -kbId $kb.kbId `
                 -qnaSubscriptionKey $kb.subscriptionKey `
                 -qnaEndpoint $qnaEndpoint `

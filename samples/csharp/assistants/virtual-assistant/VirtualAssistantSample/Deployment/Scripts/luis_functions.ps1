@@ -1,71 +1,62 @@
-function DeployLUIS ($name, $lu_file, $region, $authoringKey, $language, $gov, $log)
+function DeployLUIS ($name, $luFile, $endpoint, $subscriptionKey, $culture, $log)
 {
-    $id = $lu_file.BaseName
-    $outFile = Join-Path $lu_file.DirectoryName "$($id).json"
-    $appName = "$($name)$($langCode)_$($id)"
+    $id = $luFile.BaseName
+    $outFile = Join-Path $luFile.DirectoryName "$($id).json"
+    $appName = "$($name)$($culture)_$($id)"
     
-    if ($gov)
-    {
-        $cloud = 'us'
-    }
-    else 
-    {
-        $cloud = 'com'
-    }
-    
-    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
-	bf luis:convert `
-        --name $appName `
-        --in $lu_file `
-        --culture $language `
+    Write-Host "> Converting $($language) $($id) LU file ..." -NoNewline
+    bf luis:convert `
+        --in $luFile `
         --out $outFile `
-        --force 2>> $log | Out-Null
+        --name $appName `
+        --culture $culture `
+        --force
     Write-Host "Done." -ForegroundColor Green
-		
+
     Write-Host "> Deploying $($language) $($id) LUIS app ..." -NoNewline
-    $luisApp = (luis import application `
-        --appName $appName `
-        --authoringKey $authoringKey `
-        --subscriptionKey $authoringKey `
-        --region $region `
+    $result = bf luis:application:import `
         --in $outFile `
-        --cloud $cloud `
-        --wait) 2>> $log | ConvertFrom-Json
+        --name $appName `
+        --endpoint $endpoint `
+        --subscriptionKey $subscriptionKey `
+        --json `
+        --save | ConvertFrom-Json
 
-	if (-not $luisApp)
-    {
-		Write-Host "! Could not deploy LUIS model. Review the log for more information." -ForegroundColor DarkRed
-		Write-Host "! Log: $($log)" -ForegroundColor DarkRed
-		Return $null
-	}
-	else
-    {
+    if ($result.Status -eq "Success") {
         Write-Host "Done." -ForegroundColor Green
+
+        $luisApp = bf luis:application:show `
+            --appId $result.id `
+            --endpoint $endpoint `
+            --subscriptionKey $subscriptionKey | ConvertFrom-Json
+
         Write-Host "> Training and publishing LUIS app ..." -NoNewline
-		$(luis train version `
+        bf luis:train:run `
             --appId $luisApp.id `
-            --region $region `
-            --authoringKey $authoringKey `
+            --endpoint $endpoint `
+            --subscriptionKey $subscriptionKey `
             --versionId $luisApp.activeVersion `
-            --cloud $cloud `
             --wait
-        & luis publish version `
+        & bf luis:application:publish `
             --appId $luisApp.id `
-            --region $region `
-            --authoringKey $authoringKey `
-            --versionId $luisApp.activeVersion `
-            --cloud $cloud `
-            --wait) 2>> $log | Out-Null
+            --endpoint $endpoint `
+            --subscriptionKey $subscriptionKey `
+            --versionId $luisApp.activeVersion
         Write-Host "Done." -ForegroundColor Green
 
-		Return $luisApp
-	}
+        Return $luisApp
+    }
+    else {
+        Write-Host "! Could not deploy LUIS model. Review the log for more information." -ForegroundColor DarkRed
+        Write-Host "! Log: $($log)" -ForegroundColor DarkRed
+        Return $null
+    }
 }
 
-function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringKey, $subscriptionKey, $gov, $log)
+function UpdateLUIS ($luFile, $appId, $version, $language, $region, $authoringKey, $subscriptionKey, $gov, $log)
 {
-    $id = $lu_file.BaseName
-    $outFile = Join-Path $lu_file.DirectoryName "$($id).json"
+    $id = $luFile.BaseName
+    $outFile = Join-Path $luFile.DirectoryName "$($id).json"
     
     if ($gov)
     {
@@ -84,10 +75,10 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
         --cloud $cloud) 2>> $log | ConvertFrom-Json
     Write-Host "Done." -ForegroundColor Green
 
-    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
+    Write-Host "> Converting $($language) $($id) LU file ..." -NoNewline
 	($output = bf luis:convert `
         --name $luisApp.name `
-        --in $lu_file `
+        --in $luFile `
         --culture $luisApp.culture `
         --out $outFile `
         --force 2>&1) >> $log
@@ -208,10 +199,10 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
     Write-Host "Done." -ForegroundColor Green
 }
 
-function RunLuisGen($lu_file, $outName, $outFolder, $log)
+function RunLuisGen($luFile, $outName, $outFolder, $log)
 {
-    $id = $lu_file.BaseName
-	$luisFolder = $lu_file.DirectoryName
+    $id = $luFile.BaseName
+	$luisFolder = $luFile.DirectoryName
 	$luisFile = Join-Path $luisFolder "$($id).json"
 
 	bf luis:generate:cs `
