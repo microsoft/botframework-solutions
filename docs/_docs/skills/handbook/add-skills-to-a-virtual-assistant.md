@@ -14,10 +14,10 @@ toc: true
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Install the Dispatch, LUDown and LUISGen CLI tools
+- Install the Dispatch, BF-CLI, BF-LUIS-CLI and LUISGen CLI tools
 
     ```shell
-    npm install -g botdispatch ludown luisgen
+    npm install -g botdispatch @microsoft/botframework-cli @microsoft/bf-luis-cli luisgen
     ```
 
 ## Adding Skills
