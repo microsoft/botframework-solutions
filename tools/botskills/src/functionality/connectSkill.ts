@@ -118,7 +118,7 @@ export class ConnectSkill {
             }
         }
 
-        // Validate 'ludown' arguments
+        // Validate 'bf luis:convert' arguments
         if (!existsSync(this.configuration.luisFolder)) {
             throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
 Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
@@ -141,9 +141,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('luisFile', luisFile);
         executionModelMap.set('luisFilePath', luisFilePath);
         executionModelMap.set('--in', wrapPathWithQuotes(luFilePath));
-        executionModelMap.set('--luis_culture', culture);
-        executionModelMap.set('--out_folder', wrapPathWithQuotes(luisFolderPath));
-        executionModelMap.set('--out', luisFile);
+        executionModelMap.set('--culture', culture);
+        executionModelMap.set('--out', luisFilePath);
         executionModelMap.set('--type', 'file');
         executionModelMap.set('--name', intentName);
         executionModelMap.set('--filePath', luisFilePath);
@@ -286,24 +285,24 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             new Map());
     }
 
-    private async executeLudownParse(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
-        const ludownParseCommand: string[] = ['ludown', 'parse', 'toluis'];
+    private async executeLuisConvert(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
+        const luisConvertCommand: string[] = ['bf', 'luis:convert'];
         try {
             const luisApp: string = executionModelByCulture.get('luisApp') as string;
             const luisFile: string = executionModelByCulture.get('luisFile') as string;
             const luisFilePath: string = executionModelByCulture.get('luisFilePath') as string;
             // Parse LU file
-            const ludownParseCommandArguments: string[] = ['--in', '--luis_culture', '--out_folder', '--out'];
-            ludownParseCommandArguments.forEach((argument: string): void => {
+            const luisConvertCommandArguments: string[] = ['--in', '--culture', '--out', '--name'];
+            luisConvertCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
-                ludownParseCommand.push(...[argument, argumentValue]);
+                luisConvertCommand.push(...[argument, argumentValue]);
             });
-            await this.runCommand(ludownParseCommand, `Parsing ${ culture } ${ luisApp } LU file`);
+            await this.runCommand(luisConvertCommand, `Parsing ${ culture } ${ luisApp } LU file`);
             if (!existsSync(luisFilePath)) {
                 throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the ludown parse command:\nCommand: ${ ludownParseCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the bf luis:convert command:\nCommand: ${ luisConvertCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -354,7 +353,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 .map(async (item: [string, Map<string, string>]): Promise<void> => {
                     const culture: string = item[0];
                     const executionModelByCulture: Map<string, string> = item[1];
-                    await this.executeLudownParse(culture, executionModelByCulture);
+                    await this.executeLuisConvert(culture, executionModelByCulture);
                     await this.executeDispatchAdd(culture, executionModelByCulture);
                 }));
 
