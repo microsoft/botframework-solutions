@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Feedback;
@@ -32,6 +33,17 @@ namespace VirtualAssistantSample.Tests
         public LocaleTemplateManager TestLocaleTemplateManager { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
+
+        protected Templates AllResponsesTemplates
+        {
+            get
+            {
+                var path = CultureInfo.CurrentCulture.Name.ToLower() == "en-us" ?
+                    Path.Combine(".", "Responses", $"AllResponses.lg") :
+                    Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
+                return Templates.ParseFile(path);
+            }
+        }
 
         [TestInitialize]
         public virtual void Initialize()
