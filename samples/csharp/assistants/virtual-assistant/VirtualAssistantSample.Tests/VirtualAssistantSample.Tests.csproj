@@ -16,8 +16,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.8.0-rc2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.0-rc2-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.8.0-rc4" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.0-rc4-preview" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
