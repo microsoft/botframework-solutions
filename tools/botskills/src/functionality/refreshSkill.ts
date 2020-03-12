@@ -59,7 +59,7 @@ export class RefreshSkill {
     }
 
     private async executeLuisGenerate(dispatchName: string, executionModelByCulture: Map<string, string>): Promise<void> {
-        const luisGenerateCommand: string[] = ['bf', `luis:generate:${this.configuration.lgLanguage}`];
+        const luisGenerateCommand: string[] = ['bf', `luis:generate:${ this.configuration.lgLanguage }`];
         try {
             this.logger.message(`Running Luis Generate for ${ dispatchName }...`);
             const luisGenerateCommandArguments: string [] = [
