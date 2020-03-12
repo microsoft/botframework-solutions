@@ -57,7 +57,7 @@ namespace VirtualAssistantSample.Tests
         public async Task Test_Unhandled_Message()
         {
             var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("UnsupportedMessage", TestUserProfileState);
+            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("UnsupportedMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)

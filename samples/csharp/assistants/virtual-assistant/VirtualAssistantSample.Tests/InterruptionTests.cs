@@ -43,7 +43,7 @@ namespace VirtualAssistantSample.Tests
         public async Task Test_Cancel_Interruption()
         {
             var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
