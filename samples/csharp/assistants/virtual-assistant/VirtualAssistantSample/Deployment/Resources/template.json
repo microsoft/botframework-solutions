@@ -26,7 +26,7 @@
     },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[if(equals(indexof(parameters('name'), '-'), 30), take(parameters('name'), 30), concat(parameters('name'), '-', parameters('suffix')))]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     },
     "useStorage": {
       "type": "bool",
@@ -155,7 +155,7 @@
     "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
     "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
-    "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
+    "cosmosDbAccountName": "[toLower(take(replace(replace(parameters('cosmosDbName'), '-', ''), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
     "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]"
   },
