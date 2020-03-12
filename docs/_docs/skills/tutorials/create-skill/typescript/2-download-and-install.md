@@ -18,7 +18,7 @@ order: 2
 1. Download and install the Bot Framework CLI tools:
    
    ```
-   npm install -g botdispatch @microsoft/botframework-cli @microsoft/bf-luis-cli luisgen
+   npm install -g botdispatch @microsoft/botframework-cli
    ```
 
 1. Install Botskills CLI tool:
