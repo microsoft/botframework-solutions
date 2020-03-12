@@ -30,6 +30,7 @@ using System.Linq;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
+using Newtonsoft.Json.Linq;
 
 namespace {options.Namespace}.{string.Join('.', folders)}
 {{
@@ -38,6 +39,8 @@ namespace {options.Namespace}.{string.Join('.', folders)}
         // TODO may not all be same
         public static readonly string PathBase = @""{Path.GetRelativePath(Path.GetDirectoryName(filesForT4.First()), contentFolder)}"";
 
+        private const string CardsOnly = ""CardsOnly"";
+
         public static Activity GetCardResponse(this {ManagerName} manager, Card card)
         {{
             return manager.GetCardResponse(new Card[] {{ card }});
@@ -45,16 +48,21 @@ namespace {options.Namespace}.{string.Join('.', folders)}
 
         public static Activity GetCardResponse(this {ManagerName} manager, IEnumerable<Card> cards, string attachmentLayout = ""carousel"")
         {{
-            return manager.GetCardResponse(""CardsOnly"", cards, null, attachmentLayout);
+            return manager.GetCardResponse(CardsOnly, cards, null, attachmentLayout);
         }}
 
-        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, Card card, IDictionary<string, string> tokens = null)
+        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, Card card, IDictionary<string, object> tokens = null)
         {{
             return manager.GetCardResponse(templateId, new Card[] {{ card }}, tokens);
         }}
 
-        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, IEnumerable<Card> cards, IDictionary<string, string> tokens = null, string attachmentLayout = ""carousel"")
+        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, IEnumerable<Card> cards, IDictionary<string, object> tokens = null, string attachmentLayout = ""carousel"")
         {{
+            if (string.IsNullOrEmpty(templateId))
+            {{
+                templateId = CardsOnly;
+            }}
+
             var input = new
             {{
                 Data = tokens,
@@ -73,9 +81,15 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             }}
         }}
 
-        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, Card card, IDictionary<string, string> tokens = null, string containerName = null, IEnumerable<Card> containerItems = null)
+        public static Activity GetCardResponse(this {ManagerName} manager, string templateId, Card card, IDictionary<string, object> tokens = null, string containerName = null, IEnumerable<Card> containerItems = null)
         {{
-            throw new Exception(""1. create *Containee{keepOldSuffix}.json which only keeps containee's body;2. in the container, write @{{if(Cards==null,'',join(foreach(Cards,Card,CreateStringNoContainer(Card.Name,Card.Data)),','))}}"");
+            throw new Exception(""1. create *Containee{keepOldSuffix}.json which only keeps containee's body;2. in the container, write ${{if(Cards==null,'',join(foreach(Cards,Card,CreateStringNoContainer(Card.Name,Card.Data)),','))}}"");
+
+            if (string.IsNullOrEmpty(templateId))
+            {{
+                templateId = CardsOnly;
+            }}
+
             var input = new
             {{
                 Data = tokens,
@@ -93,23 +107,32 @@ namespace {options.Namespace}.{string.Join('.', folders)}
             }}
         }}
 
-        public static Activity GetResponse(this {ManagerName} manager, string templateId, IDictionary<string, string> tokens = null)
+        public static Activity GetResponse(this {ManagerName} manager, string templateId, IDictionary<string, object> tokens = null)
         {{
             return manager.GetCardResponse(templateId, Array.Empty<Card>(), tokens);
         }}
 
         public static string GetString(this {ManagerName} manager, string templateId)
         {{
-            return manager.GenerateActivityForLocale(templateId + "".Text"").Text;
+            // Not use .Text in case text and speak are different
+            return manager.GenerateActivityForLocale(templateId).Text;
         }}
 
-        public static string[] ParseReplies(this Templates manager, string name, IDictionary<string, string> data = null)
+        public static string[] ParseReplies(this Templates manager, string name, IDictionary<string, object> data = null)
         {{
             var input = new
             {{
                 Data = data
             }};
-            return manager.ExpandTemplate(name + "".Text"", input).ToArray();
+
+            // Not use .Text in case text and speak are different
+            var list = manager.ExpandTemplate(name, input);
+            var result = list.Select(value =>
+            {{
+                return JObject.Parse(value)[""text""].ToString();
+            }}).ToArray();
+
+            return result;
         }}
 
         public static Templates CreateTemplates()
@@ -169,7 +192,7 @@ namespace {options.Namespace}.{string.Join('.', folders)}
 
             help.AppendLine($"* Use {options.WrapperName}.Create{ManagerName} insead of ResponseManager in Startup");
             help.AppendLine($"* Replace ResponseManager with {ManagerName} in declaration");
-            help.AppendLine($"* Replace StringDictionary with IDictionary<string, string>");
+            help.AppendLine($"* Replace StringDictionary with Dictionary<string, object>");
             help.AppendLine($"* In Test, create Templates with CreateTemplates and overwrite ParseReplies with {ManagerName}Manager.ParseReplies");
         }
     }
