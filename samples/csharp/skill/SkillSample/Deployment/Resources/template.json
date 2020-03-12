@@ -301,7 +301,7 @@
         "cosmosDBEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
         "authKey": "[if(parameters('useCosmosDb'), listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName')), '2015-04-08').primaryMasterKey, '')]",
         "databaseId": "botstate-db",
-        "collectionId": "botstate-collection"
+        "containerId ": "[concat(parameters('name'), '-state')]"
       }
     },
     "luis": {
@@ -311,7 +311,8 @@
         "region": "[parameters('luisRuntimeLocation')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
         "authoringRegion": "[parameters('luisAuthoringLocation')]",
-        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]"
+        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]",
+        "endpoint": "[if(parameters('useLuisAuthoring'), reference(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').endpoint, '')]"
       }
     }
   }
