@@ -389,19 +389,19 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
     ```json
     {
-        "SkillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
-        "BotFrameworkSkills": [
+        "skillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
+        "botFrameworkSkills": [
             {
-                "Id": "{Skill1}",
-                "Name": "{Skill1}",
-                "AppId": "{Skill1MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill1}",
+                "name": "{Skill1}",
+                "appId": "{Skill1MsAppId}",
+                "skillEndpoint": "https://{Skill1Endpoint}/api/messages"
             },
             {
-                "Id": "{Skill2}",
-                "Name": "{Skill2}",
-                "AppId": "{Skill2MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill2}",
+                "name": "{Skill2}",
+                "appId": "{Skill2MsAppId}",
+                "skillEndpoint": "https://{Skill1Endpoint}/api/messages"
             }]
     }
     ```
