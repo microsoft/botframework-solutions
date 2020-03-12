@@ -26,6 +26,12 @@ namespace Microsoft.Bot.Solutions.Responses
         public LocaleTemplateManager(Dictionary<string, string> localeTemplateFiles, string fallbackLocale)
             : base(localeTemplateFiles)
         {
+            // only throw when fallbackLocale is empty string
+            if (fallbackLocale != null && (fallbackLocale == string.Empty || fallbackLocale.Trim() == string.Empty))
+            {
+                throw new ArgumentException($"{nameof(fallbackLocale)} shouldn't be empty string. If you don't want to set it, please set it to null.");
+            }
+
             _fallbackLocale = fallbackLocale;
         }
 
@@ -45,6 +51,12 @@ namespace Microsoft.Bot.Solutions.Responses
             if (templateName == null)
             {
                 throw new ArgumentNullException(nameof(templateName));
+            }
+
+            // only throw when localeOverride is empty string
+            if (localeOverride != null && (localeOverride == string.Empty || localeOverride.Trim() == string.Empty))
+            {
+                throw new ArgumentException($"{nameof(localeOverride)} shouldn't be empty string. If you don't want to set it, please set it to null.");
             }
 
             var locale = localeOverride ?? _fallbackLocale ?? CultureInfo.CurrentUICulture.Name;
