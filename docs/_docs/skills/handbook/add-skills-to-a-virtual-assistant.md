@@ -59,7 +59,8 @@ Once the connect command finish successfully, you can see under the `botFramewor
         "id": "<SKILL_ID>",
         "appId": "<SKILL_APPID>",
         "skillEndpoint": "<SKILL_ENDPOINT>",
-        "name": "<SKILL_NAME>"
+        "name": "<SKILL_NAME>",
+        "description": "<SKILL_DESCRIPTION>"
     },
     "skillHostEndpoint": "<VA-SKILL_ENDPOINT>"
 ```

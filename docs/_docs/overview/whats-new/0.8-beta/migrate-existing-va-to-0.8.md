@@ -394,12 +394,14 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
             {
                 "id": "{Skill1}",
                 "name": "{Skill1}",
+                "description": "{Skill1Description}",
                 "appId": "{Skill1MsAppId}",
                 "skillEndpoint": "https://{Skill1Endpoint}/api/messages"
             },
             {
                 "id": "{Skill2}",
                 "name": "{Skill2}",
+                "description": "{Skill2Description}",
                 "appId": "{Skill2MsAppId}",
                 "skillEndpoint": "https://{Skill1Endpoint}/api/messages"
             }]
