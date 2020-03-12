@@ -239,8 +239,8 @@ foreach ($language in $languageArr)
 					id = $lu.BaseName
 					name = $luisApp.name
 					appid = $luisApp.id
+                    endpoint = $luisEndpoint
 					authoringkey = $luisAuthoringKey
-                    authoringRegion = $luisAuthoringRegion
 					subscriptionkey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion

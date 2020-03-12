@@ -127,24 +127,26 @@ foreach ($langCode in $languageMap.Keys) {
     if ($RemoteToLocal) {
         # Update local LU files based on hosted models
         foreach ($luisApp in $models.languageModels) {
-            $culture = (luis get application `
-                    --appId $luisApp.appId `
-                    --authoringKey $luisApp.authoringKey `
-                    --subscriptionKey $luisApp.subscriptionKey `
-                    --cloud $cloud `
-                    --region $luisApp.authoringRegion | ConvertFrom-Json).culture
+             $culture = (bf luis:application:show `
+                --appId $luisApp.appId `
+                --endpoint $luisApp.endpoint `
+                --subscriptionKey $luisApp.authoringkey | ConvertFrom-Json).culture
+
+            $outJson = $(Join-Path $luisFolder $langCode "$($luisApp.id).json")
+            $outLU = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
 
             Write-Host "> Updating local $($langCode) $($luisApp.id).lu file ..." -NoNewline
-            luis export version `
+            bf luis:version:export `
                 --appId $luisApp.appId `
+                --endpoint $luisApp.endpoint `
+                --subscriptionKey $luisApp.authoringKey `
                 --versionId $luisApp.version `
-                --region $luisApp.authoringRegion `
-                --cloud $cloud `
-                --authoringKey $luisApp.authoringKey > $(Join-Path $luisFolder $langCode "$($luisApp.id).json")
+                --out $outJson `
+                --force 2>> $log | Out-Null
 
             bf luis:convert `
-                --in $(Join-Path $luisFolder $langCode "$($luisApp.id).json") `
-                --out $(Join-Path $luisFolder $langCode "$($luisApp.id).lu") `
+                --in $outJson `
+                --out $outLU `
                 --force 2>> $logFile | Out-Null
             Write-Host "Done." -ForegroundColor Green
 
@@ -156,9 +158,9 @@ foreach ($langCode in $languageMap.Keys) {
 
             Write-Host "> Parsing $($langCode) $($luisApp.id) LU file ..." -NoNewline
             bf luis:convert `
-                --in $(Join-Path $outFolder "$($luisApp.id).lu")`
+                --in $outLU `
+                --out $outJson `
                 --culture $culture `
-                --out $(Join-Path $luisFolder $langCode "$($luisApp.id).json") `
                 --force 2>> $logFile | Out-Null
             Write-Host "Done." -ForegroundColor Green
 
@@ -227,12 +229,10 @@ foreach ($langCode in $languageMap.Keys) {
             UpdateLUIS `
                 -luFile $lu `
                 -appId $luisApp.appid `
+                -endpoint $luisApp.endpoint `
+                -subscriptionKey $luisApp.authoringKey `
+                -culture $langCode `
                 -version $luisApp.version `
-                -language $langCode `
-                -region $luisApp.authoringRegion `
-                -authoringKey $luisApp.authoringKey `
-                -subscriptionKey $luisApp.subscriptionKey `
-                -gov $useGov `
                 -log $logFile
 
              if ($useLuisGen) {
