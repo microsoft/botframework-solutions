@@ -97,12 +97,14 @@ export class MainDialog extends ComponentDialog {
             const qnaDialog: QnAMakerDialog = new QnAMakerDialog(
                 value.knowledgeBaseId,
                 value.endpointKey,
-                value.host,
+                // The following line is a workaround until the method getQnAClient of QnAMakerDialog is fixed
+                // as per issue https://github.com/microsoft/botbuilder-js/issues/1885
+                new URL(value.host).hostname.split('.')[0],
                 this.templateEngine.generateActivityForLocale("UnsupportedMessage") as Activity,
                 0.3,
                 this.templateEngine.generateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").text,
                 this.templateEngine.generateActivityForLocale("QnaMakerNoMatchText").text)
-            this.id = key;
+            qnaDialog.id = key;
             this.addDialog(qnaDialog);
         });
 
@@ -384,7 +386,7 @@ export class MainDialog extends ComponentDialog {
 
     private isSkillIntent(dispatchIntent: string): boolean {
         if (dispatchIntent.toLowerCase() === 'l_general' || 
-            dispatchIntent.toLowerCase() === 'q_chichat' || 
+            dispatchIntent.toLowerCase() === 'q_chitchat' || 
             dispatchIntent.toLowerCase() === 'q_faq' || 
             dispatchIntent.toLowerCase() === 'none') {
 
