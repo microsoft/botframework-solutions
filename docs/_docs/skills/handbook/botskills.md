@@ -21,10 +21,10 @@ The CLI performs the following operations on your behalf:
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Install the Dispatch, LUDown and LUISGen CLI tools
+- Install the Dispatch and botframework-cli
 
     ```shell
-    npm install -g botdispatch ludown luisgen
+    npm install -g botdispatch @microsoft/botframework-cli
     ```
 - Install the `botskills` CLI
     ```shell

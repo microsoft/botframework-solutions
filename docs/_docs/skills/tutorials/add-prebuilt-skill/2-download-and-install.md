@@ -20,7 +20,7 @@ order: 2
 1. Install  Bot Framework (CLI) tool dependencies. It's important to do this even if you have earlier versions as we make use of the latest capabilities:
 
    ```
-   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
+   npm install -g botdispatch @microsoft/botframework-cli
    ```
 
 1. Install Botskills CLI tool:

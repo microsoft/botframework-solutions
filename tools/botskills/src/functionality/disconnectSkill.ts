@@ -117,7 +117,7 @@ It should be either 'cs' or 'ts' depending on your assistant's language. Please 
                 return false;
             } else if (!this.configuration.lgOutFolder || !existsSync(this.configuration.lgOutFolder)) {
                 this.logger.error(`The 'lgOutFolder' argument is absent or leads to a non-existing folder.
-Please make sure to provide a valid path to your LUISGen output folder using the '--lgOutFolder' argument.`);
+Please make sure to provide a valid path to your Luis Generate output folder using the '--lgOutFolder' argument.`);
 
                 return false;
             } else {
