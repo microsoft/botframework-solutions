@@ -100,11 +100,11 @@ For further information, see the [List command documentation]({{site.repo}}/tree
 
 ### Migrate Skills
 
-The `migrate` command allows you to migrate all the skills currently connected to your assistant to the new schema configuration settings.
+The `migrate` command allows you to transfer all the skills currently connected to your assistant to the new schema configuration settings.
 
 Here is an example:
 ```bash
-botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/src/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/src/appsettings.json"
+botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/appsettings.json"
 ```
 
 For further information, see the [Migrate command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/migrate.md).

@@ -1,6 +1,6 @@
 # Migrate Connected Skills
 
-The `migrate` command allows you to migrate all the skills currently connected to your assistant to the new schema configuration settings.
+The `migrate` command allows you to transfer all the skills currently connected to your assistant to the new schema configuration settings.
 
 > **Tip:** It's highly advisable to execute this command from the **root folder of your Virtual Assistant bot**, so if you are using the suggested folder structure from the Templates, you may omit most of the optional arguments, as they default to the expected values from the Template's folder structure.
 
@@ -23,5 +23,5 @@ Here is an example of how to use the `Migrate` command:
 > **Note:** The paths to both the Skill Manifest and the Virtual Assistant Skills configuration file can be relative or absolute paths equally, and should be explicitly a `.json` file.
 
 ```bash
-botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/src/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/src/appsettings.json" --verbose
+botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/appsettings.json" --verbose
 ```
