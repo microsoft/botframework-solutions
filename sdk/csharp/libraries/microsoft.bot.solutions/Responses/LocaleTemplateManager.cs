@@ -23,8 +23,8 @@ namespace Microsoft.Bot.Solutions.Responses
         /// </summary>
         /// <param name="localeTemplateFiles">A dictionary of locale and template file.</param>
         /// <param name="fallbackLocale">The default fallback locale to use.</param>
-        public LocaleTemplateManager(Dictionary<string, string> localeTemplateFiles, string fallbackLocale)
-            : base(localeTemplateFiles)
+        public LocaleTemplateManager(IDictionary<string, string> localeTemplateFiles, string fallbackLocale)
+            : base(new Dictionary<string, string>(localeTemplateFiles) { { string.Empty, localeTemplateFiles[fallbackLocale] } })
         {
             _fallbackLocale = fallbackLocale;
         }
@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Solutions.Responses
                 throw new ArgumentNullException(nameof(templateName));
             }
 
-            var locale = localeOverride ?? _fallbackLocale ?? CultureInfo.CurrentUICulture.Name;
+            var locale = localeOverride ?? CultureInfo.CurrentUICulture.Name ?? _fallbackLocale;
 
             return ActivityFactory.FromObject(Generate($"${{{templateName}()}}", data, locale));
         }
