@@ -59,7 +59,7 @@ namespace VirtualAssistantSample.Tests
             var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
             var allResponseVariations = AllResponsesTemplates.ExpandTemplate("UnsupportedMessage");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
                 .AssertReplyOneOf(allFirstPromptVariations.ToArray())
                 .Send("Unhandled message")

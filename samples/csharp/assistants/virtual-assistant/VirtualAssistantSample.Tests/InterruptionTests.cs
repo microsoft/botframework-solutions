@@ -45,7 +45,7 @@ namespace VirtualAssistantSample.Tests
             var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
             var allResponseVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage");
 
-            await GetTestFlow()
+            await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
                 .AssertReplyOneOf(allFirstPromptVariations.ToArray())
                 .Send(GeneralUtterances.Cancel)
