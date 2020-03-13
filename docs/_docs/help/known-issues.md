@@ -13,19 +13,20 @@ toc: true
 If you experience a HTTP 401 (authentication) error when invoking a Skill with an exception message as shown:
      `Exception Message: Error invoking the skill id: "SKILL_ID" at "https://SKILL_APP_SERVICE.azurewebsites.net/api/messages" (status is 401)`
 
-Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a correctly populated `BotFrameworkSkills` section. For example you should see a complete fragment like the one shown below with the `AppId` of each configured Skill. This should be populated automatically by the `botskills` CLI.
+Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a correctly populated `botFrameworkSkills` section. For example you should see a complete fragment like the one shown below with the `appId` of each configured Skill. This should be populated automatically by the `botskills` CLI.
 
 ```json
 {
-"BotFrameworkSkills" : [
+"botFrameworkSkills" : [
     {
-        "Id": "calendarSkill",
-        "Name": "calendarSkill",
-        "AppId": "SkillAppId",
-        "SkillEndpoint": "https://yourSkillAppService.azurewebsites.net/api/messages",
+        "id": "calendarSkill",
+        "name": "calendarSkill",
+        "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+        "appId": "SkillAppId",
+        "skillEndpoint": "https://yourSkillAppService.azurewebsites.net/api/messages",
 
     }],
-    "SkillHostEndpoint": "https://yourVAAppService.azurewebsites.net/api/skills"
+    "skillHostEndpoint": "https://yourVAAppService.azurewebsites.net/api/skills"
 }
 
 ```
@@ -34,13 +35,13 @@ Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a 
 If you experience a HTTP 500 (server error) error when invoking a Skill with an exception message as shown:
      `Exception Message: Error invoking the skill id: "SKILL_ID" at "https://SKILL_APP_SERVICE.azurewebsites.net/api/messages" (status is 500)`
 
-Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a valid `SkillHostEndpoint` which should be pointing at the URL of your Parent Bot (e.g. Virtual Assistant) with a suffix of `/api/skills` as per the example below. Skills connect back to the caller through this endpoint.
+Validate your parent Bot (e.g. Virtual Assistant) `appSettings.json file` has a valid `skillHostEndpoint` which should be pointing at the URL of your Parent Bot (e.g. Virtual Assistant) with a suffix of `/api/skills` as per the example below. Skills connect back to the caller through this endpoint.
 
 ```json
 {
-"BotFrameworkSkills" : [
+"botFrameworkSkills" : [
     { }],
-    "SkillHostEndpoint": "https://yourVAAppService.azurewebsites.net/api/skills"
+    "skillHostEndpoint": "https://yourVAAppService.azurewebsites.net/api/skills"
 }
 ```
 
@@ -48,7 +49,7 @@ If you are debugging a parent bot locally and invoking a Skill remotely you will
 
 1. Start a debugging session for your Virtual Assistant and make a note of the port it's hosted on (e.g. 3978)
 1. Assuming port 3978 run this command:L `ngrok.exe http 3978 -host-header="localhost:3978"`
-1. Retrieve the https forwarding URL (e.g. https:{name}.ngrok.io) and update `SkillHostEndpoint` with this URL suffixed with `/api/skills`
+1. Retrieve the https forwarding URL (e.g. https:{name}.ngrok.io) and update `skillHostEndpoint` with this URL suffixed with `/api/skills`
 1. Now, when a remote skill is invoked it will route all responses back to `https:{name}.ngrok.io` which will then tunnel responses back to your Virtual Assistant
 
 ## My Microsoft App Registration could not be automatically provisioned

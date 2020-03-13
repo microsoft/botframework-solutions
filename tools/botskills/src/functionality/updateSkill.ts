@@ -114,9 +114,9 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             }
 
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillId)) {
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillId)) {
                 this.configuration.skillId = skillId;
 
                 return true;

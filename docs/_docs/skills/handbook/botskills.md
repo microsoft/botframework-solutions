@@ -46,16 +46,17 @@ botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
 
-Once the connect command finish successfully, you can see under the `BotFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
+Once the connect command finish successfully, you can see under the `botFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
 
 ```json
-    "BotFrameworkSkills": {
-        "Id": "<SKILL_ID>",
-        "AppId": "<SKILL_APPID>",
-        "SkillEndpoint": "<SKILL_ENDPOINT>",
-        "Name": "<SKILL_NAME>"
+    "botFrameworkSkills": {
+        "id": "<SKILL_ID>",
+        "appId": "<SKILL_APPID>",
+        "skillEndpoint": "<SKILL_ENDPOINT>",
+        "name": "<SKILL_NAME>",
+        "description": "<SKILL_DESCRIPTION>"
     },
-    "SkillHostEndpoint": "<VA-SKILL_ENDPOINT>"
+    "skillHostEndpoint": "<VA-SKILL_ENDPOINT>"
 ```
 
 For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/connect.md).

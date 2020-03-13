@@ -415,12 +415,13 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         if (this.skillManifestValidated == manifestVersion.V1) {
             const skillManifestV1: ISkillManifestV1 = skill as ISkillManifestV1;
             assistantSkills.push({
-                Id: skillManifestV1.id,
-                AppId: skillManifestV1.msaAppId,
-                SkillEndpoint: skillManifestV1.endpoint,
-                Name: skillManifestV1.name
+                id: skillManifestV1.id,
+                appId: skillManifestV1.msaAppId,
+                skillEndpoint: skillManifestV1.endpoint,
+                name: skillManifestV1.name,
+                description: skillManifestV1.description
             });
-            assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+            assistantSkillsFile.botFrameworkSkills = assistantSkills;
         }
 
         if (this.skillManifestValidated == manifestVersion.V2) {
@@ -429,17 +430,18 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             || skillManifestV2.endpoints[0];
             
             assistantSkills.push({
-                Id: skillManifestV2.$id,
-                AppId: endpoint.msAppId,
-                SkillEndpoint: endpoint.endpointUrl,
-                Name: skillManifestV2.name,
+                id: skillManifestV2.$id,
+                appId: endpoint.msAppId,
+                skillEndpoint: endpoint.endpointUrl,
+                name: skillManifestV2.name,
+                description: skillManifestV2.description
             });
-            assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+            assistantSkillsFile.botFrameworkSkills = assistantSkills;
         }
         
-        if (assistantSkillsFile.SkillHostEndpoint === undefined || assistantSkillsFile.SkillHostEndpoint.trim().length === 0) {
+        if (assistantSkillsFile.skillHostEndpoint === undefined || assistantSkillsFile.skillHostEndpoint.trim().length === 0) {
             const channel: string = await isCloudGovernment() ? 'us' : 'net';
-            assistantSkillsFile.SkillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.${ channel }/api/skills`;
+            assistantSkillsFile.skillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.${ channel }/api/skills`;
         }
         writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     }
@@ -448,10 +450,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.id)) {
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.id)) {
                 this.logger.warning(`The skill '${skillManifest.name}' is already registered.`);
                 return;
             }
@@ -482,10 +484,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.$id)) {
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.$id)) {
                 this.logger.warning(`The skill '${skillManifest.name}' is already registered.`);
                 return;
             }

@@ -73,4 +73,4 @@ Once you have updated your manifest, follow these steps to update any Virtual As
 botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
 ```
 
-> This command updates the BotFrameworkSkills property of your appsettings.json file with the latest manifest definitions for each connected skill, and runs dispatch refresh to update your dispatch model.
+> This command updates the botFrameworkSkills property of your appsettings.json file with the latest manifest definitions for each connected skill, and runs dispatch refresh to update your dispatch model.

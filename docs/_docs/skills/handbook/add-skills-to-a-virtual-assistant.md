@@ -52,16 +52,17 @@ The `--luisFolder` parameter can be used to point the Skill CLI at the source LU
 botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 ```
 
-Once the connect command finish successfully, you can see under the `BotFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
+Once the connect command finish successfully, you can see under the `botFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
 
 ```json
-    "BotFrameworkSkills": {
-        "Id": "<SKILL_ID>",
-        "AppId": "<SKILL_APPID>",
-        "SkillEndpoint": "<SKILL_ENDPOINT>",
-        "Name": "<SKILL_NAME>"
+    "botFrameworkSkills": {
+        "id": "<SKILL_ID>",
+        "appId": "<SKILL_APPID>",
+        "skillEndpoint": "<SKILL_ENDPOINT>",
+        "name": "<SKILL_NAME>",
+        "description": "<SKILL_DESCRIPTION>"
     },
-    "SkillHostEndpoint": "<VA-SKILL_ENDPOINT>"
+    "skillHostEndpoint": "<VA-SKILL_ENDPOINT>"
 ```
 
 See the [Skill CLI documentation]({{site.baseurl}}/skills/handbook/botskills) for detailed CLI documentation.
