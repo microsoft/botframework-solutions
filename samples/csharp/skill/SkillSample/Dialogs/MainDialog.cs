@@ -80,7 +80,7 @@ namespace SkillSample.Dialogs
 
                 if (interrupted != null)
                 {
-                    // If dialog was interrupted, return EndOfTurn
+                    // If dialog was interrupted, return interrupted result
                     return interrupted;
                 }
             }
@@ -111,7 +111,7 @@ namespace SkillSample.Dialogs
 
                 if (interrupted != null)
                 {
-                    // If dialog was interrupted, return EndOfTurn
+                    // If dialog was interrupted, return interrupted result
                     return interrupted;
                 }
             }
