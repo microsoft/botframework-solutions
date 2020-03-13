@@ -40,10 +40,11 @@ namespace VirtualAssistantSample.Tests
         }
 
         [TestMethod]
+        [Ignore("the LG template 'UnsupportedMessage' has randomly generated response which makes this test unreliable")]
         public async Task Test_Cancel_Interruption()
         {
             var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage");
+            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(string.Empty)
