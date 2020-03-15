@@ -301,6 +301,11 @@ namespace $safeprojectname$.Dialogs
 
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            if (stepContext.SuppressCompletionMessage())
+            {
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions(), cancellationToken);
+            }
+
             // Use the text provided in FinalStepAsync or the default if it is the first time.
             var promptOptions = new PromptOptions
             {
