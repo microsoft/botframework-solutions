@@ -5,7 +5,7 @@
 - Ya está. Avísame si puedo hacer algo más.
 
 # CancelledMessage
-- Vale@{RandomName()}, cancelando su solicitud. Avísame si puedo hacer algo más por ti.
+- Vale${RandomName()}, cancelando su solicitud. Avísame si puedo hacer algo más por ti.
 - Ok, cancelando tu solicitud. Avísame si puedo hacer algo más por ti.
 - No hay problema, avísame si puedo ayudarte con cualquier otra cosa.
 - Claro, cancelaré tu solicitud. Avísame si puedo ayudarte con cualquier otra cosa
@@ -15,25 +15,25 @@
 - Lo siento, eso no es algo con lo que pueda ayudar todavía.
 - Disculpas, no sé cómo hacer eso ahora.
 - Desafortunadamente no puedo ayudarte con eso ahora mismo. Disculpas.
-- Lo siento@{RandomName()}, eso no es algo con lo que pueda ayudar todavía.
-- Disculpas@{RandomName()}, No sé cómo hacer eso en este momento.
+- Lo siento${RandomName()}, eso no es algo con lo que pueda ayudar todavía.
+- Disculpas${RandomName()}, No sé cómo hacer eso en este momento.
 
 # ConfusedMessage
 - Lo siento, no entendí eso. ¿Puedes darme más información?
 - Lo siento, no entendí eso. ¿Puedes decirme más?
-- Lo siento@{RandomName()}, no entendí eso. ¿Puedes decirme más?
+- Lo siento${RandomName()}, no entendí eso. ¿Puedes decirme más?
 - Disculpas, no lo entendí del todo. ¿Puede darme más información?
 
 # ErrorMessage
-- Lo siento@{RandomName()}, parece que algo salió mal. Inténtelo de nuevo más tarde.
-- Disculpas@{RandomName()}, parece que algo salió mal. Intente su solicitud de nuevo más tarde.
+- Lo siento${RandomName()}, parece que algo salió mal. Inténtelo de nuevo más tarde.
+- Disculpas${RandomName()}, parece que algo salió mal. Intente su solicitud de nuevo más tarde.
 - Lo siento, parece que algo salió mal. Inténtelo de nuevo más tarde.
 - Parece que hubo un error. Lo siento. Puedes intentarlo de nuevo más tarde.
 - Disculpas, parece que algo salió mal. Intente su solicitud de nuevo más tarde.
 
 # StartOverMessage
-- Vale@{RandomName()}, intentémoslo de nuevo.
-- No hay problema@{RandomName()}, podemos empezar de nuevo.
+- Vale${RandomName()}, intentémoslo de nuevo.
+- No hay problema${RandomName()}, podemos empezar de nuevo.
 - Bien, intentémoslo de nuevo.
 - Claro, intentémoslo de nuevo.
 - No hay problema, podemos empezar de nuevo.
@@ -45,16 +45,16 @@
 - ¿Cómo puedo ayudarle?
 
 # LogoutMessage
-- Vale@{RandomName()}, ya está.
-- Bien@{RandomName()}, ya está.
-- No hay problema@{RandomName()}, te he cerrado la sesión.
+- Vale${RandomName()}, ya está.
+- Bien${RandomName()}, ya está.
+- No hay problema${RandomName()}, te he cerrado la sesión.
 - Bien, ya has cerrado la sesión.
 - Está bien, salió firme.
 - Claro, te han cerrado la sesión.
 - No hay problema, te he cerrado la sesión.
 
 # SkillSwitchPrompt
-- ¿Desea cambiar a la @{Skill}?
+- ¿Desea cambiar a la ${Skill}?
 
 # EscalateMessage
 [HeroCard
@@ -63,7 +63,7 @@
 
 # NewUserIntroCard
 [Activity
-    Attachments = @{json(NewUserIntroCardJson())}
+    Attachments = ${json(NewUserIntroCardJson())}
 ]
 
 # NewUserIntroCardTitle
@@ -101,7 +101,7 @@
           "size": "Large",
           "weight": "Bolder",
           "color": "Light",
-          "text": "@{NewUserIntroCardTitle()}",
+          "text": "${NewUserIntroCardTitle()}",
           "wrap": true
         },
         {
@@ -136,17 +136,17 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "@{NewUserIntroCardTitle()}"
+  "speak": "${NewUserIntroCardTitle()}"
 }
 ```
 
 # ReturningUserIntroCard
 [Activity
-    Attachments = @{json(ReturningUserIntroCardJson())}
+    Attachments = ${json(ReturningUserIntroCardJson())}
 ]
 
 # ReturningUserIntroCardTitle
-- Bienvenido@{RandomName()}!
+- Bienvenido${RandomName()}!
 - Me alegro de verte de nuevo.
 - ¡Bienvenidos de vuelta!
 
@@ -185,7 +185,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Light",
-                  "text": "@{ReturningUserIntroCardTitle()}",
+                  "text": "${ReturningUserIntroCardTitle()}",
                   "wrap": true
                 },
                 {
@@ -206,7 +206,7 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "@{ReturningUserIntroCardTitle()}"
+  "speak": "${ReturningUserIntroCardTitle()}"
 }
 ```
 
@@ -217,8 +217,8 @@
 ]
 
 # RandomName 
-- IF: @{Name && rand(0, 1000) > 500}
-    - @{concat(' ', Name)}
+- IF: ${Name && rand(0, 1000) > 500}
+    - ${concat(' ', Name)}
 - ELSE:
     - 
 

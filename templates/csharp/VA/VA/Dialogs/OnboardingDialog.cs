@@ -19,7 +19,7 @@ namespace $safeprojectname$.Dialogs
     public class OnboardingDialog : ComponentDialog
     {
         private BotServices _services;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateManager;
         private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
@@ -27,7 +27,7 @@ namespace $safeprojectname$.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
@@ -58,7 +58,7 @@ namespace $safeprojectname$.Dialogs
             {
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = _templateEngine.GenerateActivityForLocale("NamePrompt"),
+                    Prompt = _templateManager.GenerateActivityForLocale("NamePrompt"),
                 });
             }
         }
@@ -94,7 +94,7 @@ namespace $safeprojectname$.Dialogs
 
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
-            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
+            await sc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HaveNameMessage", userProfile));
 
             return await sc.EndDialogAsync();
         }

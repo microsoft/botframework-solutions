@@ -30,7 +30,7 @@ namespace $safeprojectname$.Dialogs
         private OnboardingDialog _onboardingDialog;
         private SwitchSkillDialog _switchSkillDialog;
         private SkillsConfiguration _skillsConfig;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateManager;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
 
@@ -41,7 +41,7 @@ namespace $safeprojectname$.Dialogs
         {
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
             _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
             TelemetryClient = telemetryClient;
 
@@ -77,9 +77,9 @@ namespace $safeprojectname$.Dialogs
                     knowledgeBaseId: knowledgebase.Value.KnowledgeBaseId,
                     endpointKey: knowledgebase.Value.EndpointKey,
                     hostName: knowledgebase.Value.Host,
-                    noAnswer: _templateEngine.GenerateActivityForLocale("UnsupportedMessage"),
-                    activeLearningCardTitle: _templateEngine.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                    cardNoMatchText: _templateEngine.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
                 {
                     Id = knowledgebase.Key
                 };
@@ -186,7 +186,7 @@ namespace $safeprojectname$.Dialogs
                     EnhancedBotFrameworkSkill identifiedSkill;
                     if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out identifiedSkill))
                     {
-                        var prompt = _templateEngine.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
+                        var prompt = _templateManager.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
                         await innerDc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
                         interrupted = true;
                     }
@@ -208,7 +208,7 @@ namespace $safeprojectname$.Dialogs
                         {
                             case GeneralLuis.Intent.Cancel:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage", userProfile));
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("CancelledMessage", userProfile));
                                     await innerDc.CancelAllDialogsAsync();
                                     await innerDc.BeginDialogAsync(InitialDialogId);
                                     interrupted = true;
@@ -217,7 +217,7 @@ namespace $safeprojectname$.Dialogs
 
                             case GeneralLuis.Intent.Escalate:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("EscalateMessage", userProfile));
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("EscalateMessage", userProfile));
                                     await innerDc.RepromptDialogAsync();
                                     interrupted = true;
                                     break;
@@ -228,7 +228,7 @@ namespace $safeprojectname$.Dialogs
                                     if (!isSkill)
                                     {
                                         // If current dialog is a skill, allow it to handle its own help intent.
-                                        await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpCard", userProfile));
+                                        await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HelpCard", userProfile));
                                         await innerDc.RepromptDialogAsync();
                                         interrupted = true;
                                     }
@@ -241,7 +241,7 @@ namespace $safeprojectname$.Dialogs
                                     // Log user out of all accounts.
                                     await LogUserOut(innerDc);
 
-                                    await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage", userProfile));
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("LogoutMessage", userProfile));
                                     await innerDc.CancelAllDialogsAsync();
                                     await innerDc.BeginDialogAsync(InitialDialogId);
                                     interrupted = true;
@@ -266,7 +266,7 @@ namespace $safeprojectname$.Dialogs
 
                             case GeneralLuis.Intent.StartOver:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("StartOverMessage", userProfile));
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("StartOverMessage", userProfile));
 
                                     // Cancel all dialogs on the stack.
                                     await innerDc.CancelAllDialogsAsync();
@@ -309,7 +309,7 @@ namespace $safeprojectname$.Dialogs
             // Use the text provided in FinalStepAsync or the default if it is the first time.
             var promptOptions = new PromptOptions
             {
-                Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale("FirstPromptMessage")
+                Prompt = stepContext.Options as Activity ?? _templateManager.GenerateActivityForLocale("FirstPromptMessage")
             };
 
             return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
@@ -332,7 +332,7 @@ namespace $safeprojectname$.Dialogs
                 if (IsSkillIntent(dispatchIntent))
                 {
                     var dispatchIntentSkill = dispatchIntent.ToString();
-                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+                    var skillDialogArgs = new BeginSkillDialogOptions { Activity = (Activity)activity };
 
                     // Start the skill dialog.
                     return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
@@ -353,7 +353,7 @@ namespace $safeprojectname$.Dialogs
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage", userProfile));
+                    await stepContext.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("UnsupportedMessage", userProfile));
                     return await stepContext.NextAsync();
                 }
             }
@@ -366,7 +366,7 @@ namespace $safeprojectname$.Dialogs
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Restart the main dialog with a different message the second time around
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateEngine.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateManager.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
         }
 
         private async Task LogUserOut(DialogContext dc)
