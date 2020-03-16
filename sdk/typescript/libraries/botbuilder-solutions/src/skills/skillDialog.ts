@@ -39,7 +39,7 @@ export class SkillDialog extends Dialog {
         configuration: IBotSettingsBase,
         skillHostEndpoint: string
     ) {
-        super(SkillDialog.name);
+        super(skill.id);
         if (configuration === undefined) { throw new Error ('configuration has no value') }
         if (configuration.microsoftAppId === undefined || configuration.microsoftAppId === "") { throw new Error ('The bot ID is not in configuration') }
         if (skillClient === undefined) { throw new Error ('skillClient has no value') }
