@@ -55,7 +55,7 @@ export function manifestV1Validation(skillManifest: ISkillManifestV1, logger: IL
     }
     if (!skillManifest.endpoint) {
         logger.error(`Missing property 'endpoint' of the manifest`);
-    } else if (skillManifest.endpoint.match(/^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/g) === null) {
+    } else if (skillManifest.endpoint.match(/^(https?:\/\/)?((([a-zA-Z\d]([a-zA-Z\d-]*[a-zA-Z\d])*)\.)+[a-z]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/g) === null) {
         logger.error(`The 'endpoint' property contains some characters not allowed.`);
     }
     if (skillManifest.authenticationConnections === undefined || !skillManifest.authenticationConnections) {
@@ -93,7 +93,7 @@ export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: IL
 
     if (!currentEndpoint.endpointUrl){
         logger.error(`Missing property 'endpointUrl' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
-    } else if (currentEndpoint.endpointUrl.match(/^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/g) === null) {
+    } else if (currentEndpoint.endpointUrl.match(/^(https?:\/\/)?((([a-zA-Z\d]([a-zA-Z\d-]*[a-zA-Z\d])*)\.)+[a-z]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-z\d%_.~+]*)*(\?[;&a-z\d%_.~+=-]*)?(\#[-a-z\d_]*)?$/g) === null) {
         logger.error(`The 'endpointUrl' property contains some characters not allowed at the selected endpoint. If you didn't select any endpoint, the first one is taken by default.`);
     }
 
