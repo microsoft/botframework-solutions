@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System;
-using BotProject;
 using Microsoft.ApplicationInsights;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,7 +17,6 @@ using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -39,14 +37,12 @@ namespace Microsoft.Bot.Builder.ComposerBot.Json
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(options => options.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton<IConfiguration>(this.Configuration);
 
             // Create the credential provider to be used with the Bot Framework Adapter.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-
-            services.AddSingleton<InspectionMiddleware>();
 
             // Load settings
             var settings = new BotSettings();
@@ -68,17 +64,8 @@ namespace Microsoft.Bot.Builder.ComposerBot.Json
             services.AddSingleton(storage);
             var userState = new UserState(storage);
             var conversationState = new ConversationState(storage);
-            var inspectionState = new InspectionState(storage);
-
-            // Configure telemetry
-            services.AddApplicationInsightsTelemetry();
-            var telemetryClient = new BotTelemetryClient(new TelemetryClient());
-            services.AddSingleton<IBotTelemetryClient>(telemetryClient);
-            services.AddBotApplicationInsights(telemetryClient);
 
             var botFile = Configuration.GetSection("bot").Get<string>();
-
-            TypeFactory.Configuration = this.Configuration;
 
             // manage all bot resources
             var resourceExplorer = new ResourceExplorer().AddFolder(botFile);
@@ -87,17 +74,12 @@ namespace Microsoft.Bot.Builder.ComposerBot.Json
 
             services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkHttpAdapter>((s) =>
             {
+                HostContext.Current.Set<IConfiguration>(Configuration);
+
                 var adapter = new BotFrameworkHttpAdapter(new ConfigurationCredentialProvider(this.Configuration));
                 adapter
                   .UseStorage(storage)
-                  .UseState(userState, conversationState)
-                  .UseAdaptiveDialogs()
-                  .UseResourceExplorer(resourceExplorer)
-                  .UseLanguageGeneration(resourceExplorer, "common.lg")
-                  .Use(new RegisterClassMiddleware<IConfiguration>(Configuration))
-                  .Use(new InspectionMiddleware(inspectionState, userState, conversationState, credentials));
-
-                DeclarativeTypeLoader.AddComponent(new MSGraphComponentRegistration());
+                  .UseState(userState, conversationState);               
 
                 if (!string.IsNullOrEmpty(settings.BlobStorage.ConnectionString) && !string.IsNullOrEmpty(settings.BlobStorage.Container))
                 {
@@ -111,29 +93,18 @@ namespace Microsoft.Bot.Builder.ComposerBot.Json
                 adapter.OnTurnError = async (turnContext, exception) =>
                 {
                     await turnContext.SendActivityAsync(exception.Message).ConfigureAwait(false);
-                    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: exception.StackTrace)).ConfigureAwait(false);
-                    telemetryClient.TrackException(new Exception("Exceptions: " + exception.StackTrace));
                     await conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
                     await conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
                 };
                 return adapter;
             });
 
-            services.AddSingleton<IBot, ComposerBot>((sp) => new ComposerBot("Main.dialog", conversationState, userState, resourceExplorer, DebugSupport.SourceMap, telemetryClient));
+            services.AddSingleton<IBot, ComposerBot>((sp) => new ComposerBot("Main.dialog", conversationState, userState, resourceExplorer, DebugSupport.SourceMap));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseWebSockets();

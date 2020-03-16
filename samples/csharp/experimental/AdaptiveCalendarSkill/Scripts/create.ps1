@@ -24,9 +24,9 @@ else {
 	New-Item -Path $logFile | Out-Null
 }
 
-if (-not (Test-Path (Join-Path $projDir 'appsettings.json')))
+if (-not (Test-Path (Join-Path $projDir 'appsettings.deployment.json')))
 {
-	Write-Host "! Could not find an 'appsettings.json' file in the current directory." -ForegroundColor DarkRed
+	Write-Host "! Could not find an 'appsettings.deployment.json' file in the current directory." -ForegroundColor DarkRed
 	Write-Host "+ Please re-run this script from your project directory." -ForegroundColor Magenta
 	Break
 }
@@ -152,24 +152,22 @@ if ($outputs)
 	$outputMap = @{}
 	$outputs.PSObject.Properties | Foreach-Object { $outputMap[$_.Name] = $_.Value }
 
-	# Update appsettings.json
-	Write-Host "> Updating appsettings.json ..."
-	if (Test-Path $(Join-Path $projDir appsettings.json)) {
-		$settings = Get-Content $(Join-Path $projDir appsettings.json) | ConvertFrom-Json
+	# Update appsettings.deployment.json
+	Write-Host "> Updating appsettings.deployment.json ..."
+	if (Test-Path $(Join-Path $projDir appsettings.deployment.json)) {
+		$settings = Get-Content $(Join-Path $projDir appsettings.deployment.json) | ConvertFrom-Json
 	}
 	else {
 		$settings = New-Object PSObject
 	}
 
-	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
-	
-	dotnet user-secrets init --project $projDir
-	dotnet user-secrets set "MicrosoftAppPassword" $appPassword --project $projDir
+	$settings | Add-Member -Type NoteProperty -Force -Name 'MicrosoftAppId' -Value $appId
+	$settings | Add-Member -Type NoteProperty -Force -Name 'MicrosoftAppPassword' -Value $appPassword
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'bot' -Value "ComposerDialogs"
 
 	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
-	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.json)
+	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $projDir appsettings.deployment.json)
 
 	Write-Host "> Done."
 	Write-Host "- App Id: $appId"

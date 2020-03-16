@@ -56,7 +56,7 @@ if (Test-Path $zipPath) {
 dotnet user-secrets init
 
 # Perform dotnet publish step ahead of zipping up
-$publishFolder = $(Join-Path $projFolder 'bin\Release\netcoreapp2.2')
+$publishFolder = $(Join-Path $projFolder 'bin\Release\netcoreapp3.1')
 dotnet publish -c release -o $publishFolder -v q > $logFile
 
 
@@ -73,26 +73,8 @@ else {
 	Copy-Item -Path $localBotPath -Recurse -Destination $publishFolder -Container -Force
 }
 
-# Merge from custom config files
-$customConfigFiles = Get-ChildItem -Path $remoteBotPath -Include "appsettings.json" -Recurse -Force
-if ($customConfigFiles) {
-	if (Test-Path $(Join-Path $publishFolder appsettings.json)) {
-		$settings = Get-Content $(Join-Path $publishFolder appsettings.json) | ConvertFrom-Json
-	}
-	else {
-		$settings = New-Object PSObject
-	}
-
-	$customConfig = @{ }
-	$customSetting = Get-Content $customConfigFiles.FullName | ConvertFrom-Json
-	$customSetting.PSObject.Properties | Foreach-Object { $customConfig[$_.Name] = $_.Value }
-	foreach ($key in $customConfig.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $customConfig[$key] }
-
-	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $publishFolder appsettings.json)
-}
-
 # Try to get luis config from appsettings
-$settings = Get-Content $(Join-Path $projFolder appsettings.json) | ConvertFrom-Json
+$settings = Get-Content $(Join-Path $projFolder appsettings.deployment.json) | ConvertFrom-Json
 $luisSettings = $settings.luis
 
 if (-not $luisAuthoringKey) {
@@ -131,13 +113,17 @@ if ($luisAuthoringKey -and $luisAuthoringRegion) {
 	
 	$luconfigjson | ConvertTo-Json -Depth 100 | Out-File $(Join-Path $remoteBotPath luconfig.json)
 
-	# Execute lubuild command
-	if (Get-Command lubuild -errorAction SilentlyContinue) {
-		lubuild --authoringKey $luisAuthoringKey
+	# Execute bf luis:build command
+	if (Get-Command bf -errorAction SilentlyContinue) {
+		$customizedSettings = Get-Content $(Join-Path $remoteBotPath settings appsettings.json) | ConvertFrom-Json
+		$customizedEnv = $customizedSettings.luis.environment
+		bf luis:build --in .\ --botName $name --authoringKey $luisAuthoringKey --dialog --out .\generated --suffix $customizedEnv -f
 	}
 	else {
-		Write-Host "lubuild does not exist, use the following command to install lubuild:"
-		Write-Host "npm install -g https://botbuilder.myget.org/F/botbuilder-declarative/npm/lubuild/-/1.0.3-preview.tgz"
+		Write-Host "bf luis:build does not exist, use the following command to install:"
+		Write-Host "1. npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/"
+		Write-Host "2. npm install -g @microsoft/botframework-cli"
+		Write-Host "3. npm config set registry http://registry.npmjs.org"
 		Break
 	}
 	
@@ -152,8 +138,8 @@ if ($luisAuthoringKey -and $luisAuthoringRegion) {
 	Set-Location -Path $projFolder
 
 	# change setting file in publish folder
-	if (Test-Path $(Join-Path $publishFolder appsettings.json)) {
-		$settings = Get-Content $(Join-Path $publishFolder appsettings.json) | ConvertFrom-Json
+	if (Test-Path $(Join-Path $publishFolder appsettings.deployment.json)) {
+		$settings = Get-Content $(Join-Path $publishFolder appsettings.deployment.json) | ConvertFrom-Json
 	}
 	else {
 		$settings = New-Object PSObject
@@ -180,7 +166,7 @@ if ($luisAuthoringKey -and $luisAuthoringRegion) {
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'luis' -Value $luisConfig
 
-	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $publishFolder appsettings.json)
+	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $publishFolder appsettings.deployment.json)
 
 	$tokenResponse = (az account get-access-token) | ConvertFrom-Json
 	$token = $tokenResponse.accessToken

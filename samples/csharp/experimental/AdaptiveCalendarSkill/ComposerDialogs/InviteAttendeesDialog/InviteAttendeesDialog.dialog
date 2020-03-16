@@ -20,7 +20,7 @@
             "id": "519351",
             "name": "Text input"
           },
-          "prompt": "@{bfdprompt-519351()}",
+          "prompt": "${bfdprompt-519351()}",
           "maxTurnCount": 3,
           "property": "dialog.contactName",
           "alwaysPrompt": false,
@@ -33,8 +33,8 @@
             "name": "MS Graph - Get Contacts"
           },
           "resultProperty": "dialog.contactsList",
-          "nameProperty": "@{dialog.contactName}",
-          "token": "@{user.token.token}"
+          "nameProperty": "${dialog.contactName}",
+          "token": "${user.token.token}"
         },
         {
           "$type": "Microsoft.TraceActivity",
@@ -76,7 +76,7 @@
                     "id": "134377",
                     "name": "Send a response"
                   },
-                  "activity": "@{bfdactivity-134377()}"
+                  "activity": "${bfdactivity-134377()}"
                 },
                 {
                   "$type": "Microsoft.SetProperty",
@@ -93,7 +93,7 @@
                     "id": "583361",
                     "name": "Multiple choice"
                   },
-                  "prompt": "@{bfdprompt-583361()}",
+                  "prompt": "${bfdprompt-583361()}",
                   "maxTurnCount": 3,
                   "property": "dialog.emailAddress",
                   "alwaysPrompt": false,
@@ -131,7 +131,7 @@
                 "id": "004999",
                 "name": "Send a response"
               },
-              "activity": "@{bfdactivity-004999()}"
+              "activity": "${bfdactivity-004999()}"
             }
           ],
           "elseActions": [
@@ -141,7 +141,7 @@
                 "id": "549681",
                 "name": "Send a response"
               },
-              "activity": "@{bfdactivity-549681()}"
+              "activity": "${bfdactivity-549681()}"
             },
             {
               "$type": "Microsoft.RepeatDialog",

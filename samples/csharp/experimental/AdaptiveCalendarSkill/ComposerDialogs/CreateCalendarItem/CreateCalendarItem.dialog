@@ -33,7 +33,7 @@
             "id": "240984",
             "name": "Text input"
           },
-          "prompt": "@{bfdprompt-240984()}",
+          "prompt": "${bfdprompt-240984()}",
           "maxTurnCount": 3,
           "property": "dialog.title",
           "alwaysPrompt": false,
@@ -55,7 +55,7 @@
             "id": "240984",
             "name": "Text input"
           },
-          "prompt": "@{bfdprompt-240984()}",
+          "prompt": "${bfdprompt-240984()}",
           "maxTurnCount": 3,
           "property": "dialog.title",
           "alwaysPrompt": false,
@@ -68,8 +68,8 @@
             "name": "Microsoft Graph - Find Meeting Times"
           },
           "resultProperty": "dialog.meetingTimeSuggestions",
-          "token": "@{user.token.token}",
-          "attendeesProperty": "@{dialog.attendees}"
+          "token": "${user.token.token}",
+          "attendeesProperty": "${dialog.attendees}"
         },
         {
           "$type": "Microsoft.SetProperty",
@@ -96,7 +96,7 @@
             "id": "068494",
             "name": "Multiple choice"
           },
-          "prompt": "@{bfdprompt-068494()}",
+          "prompt": "${bfdprompt-068494()}",
           "maxTurnCount": 3,
           "property": "dialog.selectedMeetingTime",
           "alwaysPrompt": false,
@@ -148,7 +148,7 @@
                 "id": "240984",
                 "name": "Event DateTime Input"
               },
-              "prompt": "@{datetimeprompt()}",
+              "prompt": "${datetimeprompt()}",
               "property": "dialog.meetingTime",
               "alwaysPrompt": false,
               "allowInterruptions": "false"
@@ -169,7 +169,7 @@
             "id": "249205",
             "name": "Text input"
           },
-          "prompt": "@{bfdprompt-249205()}",
+          "prompt": "${bfdprompt-249205()}",
           "maxTurnCount": 3,
           "property": "dialog.location",
           "alwaysPrompt": false,
@@ -181,7 +181,7 @@
             "id": "575185",
             "name": "Text input"
           },
-          "prompt": "@{bfdprompt-575185()}",
+          "prompt": "${bfdprompt-575185()}",
           "maxTurnCount": 3,
           "property": "dialog.description",
           "alwaysPrompt": false,
@@ -201,7 +201,7 @@
             "id": "847733",
             "name": "Confirmation"
           },
-          "prompt": "@{bfdprompt-847733()}",
+          "prompt": "${bfdprompt-847733()}",
           "maxTurnCount": 3,
           "property": "dialog.isCreationConfirmed",
           "alwaysPrompt": false,
@@ -229,14 +229,14 @@
                 "id": "798811",
                 "name": "MS Graph - Create Event"
               },
-              "resultProperty": "@{dialog.createEventResult}",
-              "token": "@{user.token.token}",
-              "titleProperty": "@{dialog.title}",
-              "descriptionProperty": "@{dialog.description}",
-              "startProperty": "@{dialog.meetingTime.start}",
-              "endProperty": "@{dialog.meetingTime.end}",
-              "locationProperty": "@{dialog.location}",
-              "attendeesProperty": "@{dialog.attendees}"
+              "resultProperty": "${dialog.createEventResult}",
+              "token": "${user.token.token}",
+              "titleProperty": "${dialog.title}",
+              "descriptionProperty": "${dialog.description}",
+              "startProperty": "${dialog.meetingTime.start}",
+              "endProperty": "${dialog.meetingTime.end}",
+              "locationProperty": "${dialog.location}",
+              "attendeesProperty": "${dialog.attendees}"
             },
             {
               "$type": "Microsoft.SendActivity",
@@ -244,7 +244,7 @@
                 "id": "795785",
                 "name": "Send a response"
               },
-              "activity": "@{bfdactivity-795785()}"
+              "activity": "${bfdactivity-795785()}"
             }
           ],
           "elseActions": [
@@ -254,7 +254,7 @@
                 "id": "655550",
                 "name": "Send a response"
               },
-              "activity": "@{bfdactivity-655550()}"
+              "activity": "${bfdactivity-655550()}"
             }
           ]
         },
