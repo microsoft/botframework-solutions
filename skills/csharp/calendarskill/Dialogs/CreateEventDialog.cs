@@ -692,8 +692,7 @@ namespace CalendarSkill.Dialogs
                     switch (recreateState.Value)
                     {
                         case RecreateEventState.Cancel:
-                            var activity = TemplateEngine.GenerateActivityForLocale(CalendarSharedResponses.ActionEnded);
-                            await sc.Context.SendActivityAsync(activity);
+                            await SendActionEnded(sc.Context);
                             state.Clear();
                             return await sc.EndDialogAsync(true, cancellationToken);
                         case RecreateEventState.Time:

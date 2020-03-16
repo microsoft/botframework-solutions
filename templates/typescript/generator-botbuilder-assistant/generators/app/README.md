@@ -62,7 +62,7 @@ After this, you can check the summary in your screen:
 
 **NOTE:** Remind to have an **unique** assistant's name for deployment steps. 
 
-**NOTE:** After generating your sample, you can check its README for more information on how to deploy and test it. You can find it in the root folder of your newly created sample or [here](https://github.com/Microsoft/AI/blob/master/docs/virtual-assistant/src/typescript/gettingstarted.md).
+**NOTE:** After generating your sample, you can check its README for more information on how to deploy and test it. You can find it in the root folder of your newly created sample or [here](https://microsoft.github.io/botframework-solutions/virtual-assistant/tutorials/create-assistant/typescript/4-provision-you-azure-resources/).
 
 ## License
 

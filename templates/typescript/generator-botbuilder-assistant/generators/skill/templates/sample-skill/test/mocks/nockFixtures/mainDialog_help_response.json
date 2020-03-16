@@ -8,8 +8,8 @@
         "response": {
             "query": "help",
             "topScoringIntent": {
-                "intent": "Help",
-                "score": 0.98982656
+                "intent": "None",
+                "score": 0.873317
             },
             "entities": []
         },
@@ -19,23 +19,64 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "121",
+            "119",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "d218630d-5e2a-4c3f-80fb-1fa5fac811e1",
+            "c8dbba8f-9e2c-45d5-8c63-322da17831af",
             "Request-Id",
-            "d218630d-5e2a-4c3f-80fb-1fa5fac811e1",
+            "c8dbba8f-9e2c-45d5-8c63-322da17831af",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
-            "Request-Context",
-            "appId=cid-v1:26a3540d-a02a-4998-a060-715488fd769b",
             "X-Content-Type-Options",
             "nosniff",
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 06 Sep 2019 15:45:32 GMT",
+            "Tue, 10 Mar 2020 13:14:32 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "help",
+        "status": 200,
+        "response": {
+            "query": "help",
+            "topScoringIntent": {
+                "intent": "Help",
+                "score": 0.9877897
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "120",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "cfd4b518-43b7-494a-a2c6-864e6e28a4f2",
+            "Request-Id",
+            "cfd4b518-43b7-494a-a2c6-864e6e28a4f2",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Tue, 10 Mar 2020 13:14:32 GMT",
             "Connection",
             "close"
         ]

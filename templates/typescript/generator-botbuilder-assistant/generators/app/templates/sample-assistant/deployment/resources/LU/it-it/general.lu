@@ -104,6 +104,21 @@
 - parlare con un umano
 
 
+## ExtractName
+- chiamami steve !
+- Io sono anna
+- Sono John Jackson.
+- Sono giglio
+- è jackson .
+- è Alice Anderson!
+- il mio nome è Bill Jones
+- questo è john w.smith .
+- ([si può] [per favore]) Chiamami  {PersonName.Any} [.]
+- mi chiamo  {PersonName.Any} [.]
+- (Io sono)  {PersonName.Any} [.]
+- (è, è, questo è)  {PersonName.Any} [.]
+
+
 ## FinishTask
 - Tutto finito
 - tutti insieme
@@ -514,6 +529,7 @@ $PREBUILT:number
 
 $PREBUILT:ordinal
 
+$PREBUILT:personName
 
 > # Phrase list definitions
 

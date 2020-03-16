@@ -10,18 +10,17 @@ import {
     BotTelemetryClient,
     ConversationState,
     ShowTypingMiddleware,
-    TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
     TranscriptStore,
-    TurnContext
-} from 'botbuilder';
+    TurnContext } from 'botbuilder';
 import { AzureBlobTranscriptStore } from 'botbuilder-azure';
-import { ISkillManifest } from 'botbuilder-skills';
 import {
     EventDebuggerMiddleware,
     FeedbackMiddleware,
+    ISkillManifest,
+    LocaleTemplateEngineManager,
     SetLocaleMiddleware } from 'botbuilder-solutions';
-import i18next from 'i18next';
+import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IBotSettings } from '../services/botSettings.js';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
@@ -29,9 +28,11 @@ export class DefaultAdapter extends BotFrameworkAdapter {
 
     public constructor(
         settings: Partial<IBotSettings>,
+        templateEngine: LocaleTemplateEngineManager,
         conversationState: ConversationState,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
-        telemetryClient: BotTelemetryClient,
+        telemetryMiddleware: TelemetryInitializerMiddleware,
+        telemetryClient: BotTelemetryClient
     ) {
         super(adapterSettings);
 
@@ -44,7 +45,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
                 type: ActivityTypes.Trace,
                 text: error.stack
             });
-            await context.sendActivity(i18next.t('main.error'));
+            await context.sendActivity(templateEngine.generateActivityForLocale('ErrorMessage'));
             telemetryClient.trackException({ exception: error });
         };
 
@@ -57,10 +58,11 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             storageAccountOrConnectionString: settings.blobStorage.connectionString
         });
 
+        this.use(telemetryMiddleware);
+
         // Uncomment the following line for local development without Azure Storage
         // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
         this.use(new TranscriptLoggerMiddleware(transcriptStore));
-        this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new ShowTypingMiddleware());
         this.use(new FeedbackMiddleware(conversationState, telemetryClient));
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));

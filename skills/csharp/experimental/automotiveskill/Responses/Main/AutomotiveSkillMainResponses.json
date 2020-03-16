@@ -74,5 +74,47 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "FirstPromptMessage": {
+    "replies": [
+      {
+        "text": "What can I help you with today?",
+        "speak": "What can I help you with today?"
+      },
+      {
+        "text": "What can I do for you?",
+        "speak": "What can I do for you?"
+      },
+      {
+        "text": "Is there anything I can do for you?",
+        "speak": "Is there anything I can do for you?"
+      },
+      {
+        "text": "How can I help you?",
+        "speak": "How can I help you?"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "CompletedMessage": {
+    "replies": [
+      {
+        "text": "I'm here if you need anything else.",
+        "speak": "I'm here if you need anything else."
+      },
+      {
+        "text": "Let me know if there's anything else you need.",
+        "speak": "Let me know if there's anything else you need."
+      },
+      {
+        "text": "Let me know if I can help you with anything else.",
+        "speak": "Let me know if I can help you with anything else."
+      },
+      {
+        "text": "All done. Let me know if I can do anything else.",
+        "speak": "All done. Let me know if I can do anything else."
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

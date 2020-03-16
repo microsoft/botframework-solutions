@@ -73,6 +73,7 @@ namespace $safeprojectname$.Dialogs
             {
                 var localizedServices = _services.GetCognitiveModels();
                 generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(sc.Context, cancellationToken);
+                sc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
             }
 
             (var generalIntent, var generalScore) = generalResult.TopIntent();
@@ -101,11 +102,6 @@ namespace $safeprojectname$.Dialogs
         private class DialogIds
         {
             public const string NamePrompt = "namePrompt";
-        }
-
-        private class StateProperties
-        {
-            public const string GeneralResult = "generalResult";
         }
     }
 }

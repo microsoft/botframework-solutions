@@ -35,9 +35,9 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
                 return false;
             } else {
-                let message: string = `The skills already connected to the assistant are the following:`;
+                let message = `The skills already connected to the assistant are the following:`;
                 assistantSkills.forEach((skillManifest: ISkill): void => {
-                    message += `\n\t- ${skillManifest.Id}`;
+                    message += `\n\t- ${ skillManifest.Id }`;
                 });
 
                 this.logger.message(message);

@@ -10,40 +10,31 @@ import {
     NullTelemetryClient,
     StatePropertyAccessor,
     TurnContext,
-    UserState} from 'botbuilder';
-import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
+    UserState, 
+    TelemetryLoggerMiddleware} from 'botbuilder';
+import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import {
     CosmosDbStorage,
     CosmosDbStorageSettings } from 'botbuilder-azure';
 import {
-    Dialog,
-    DialogState } from 'botbuilder-dialogs';
-import {
-    manifestGenerator,
-    SkillContext,
-    // PENDING: The SkillHttpAdapter should be replaced with SkillWebSocketAdapter
-    SkillHttpAdapter, 
-    WhitelistAuthenticationProvider} from 'botbuilder-skills';
+    Dialog } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
     Locales,
-    ResponseManager } from 'botbuilder-solutions';
+    LocaleTemplateEngineManager,
+    manifestGenerator,
+    SkillHttpAdapter } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
-import {
-    CustomSkillAdapter,
-    DefaultAdapter } from './adapters';
+import { CustomSkillAdapter, DefaultAdapter } from './adapters';
 import * as appsettings from './appsettings.json';
-import { DialogBot } from './bots/dialogBot';
+import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
 import { SampleDialog } from './dialogs/sampleDialog';
 import { SkillState } from './models/skillState';
-import { MainResponses } from './responses/main/mainResponses';
-import { SampleResponses } from './responses/sample/sampleResponses';
-import { SharedResponses } from './responses/shared/sharedResponses';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 
@@ -58,9 +49,9 @@ i18next.use(i18nextNodeFsBackend)
     });
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
-const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
-const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
-cognitiveModelMap.forEach((value: Object, key: string): void => {
+const cognitiveModelDictionary: { [key: string]: Record<string, any> } = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap: Map<string, Record<string, any>>  = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value: Record<string, any>, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
@@ -104,9 +95,30 @@ const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
-const dialogStateAccessor: StatePropertyAccessor<DialogState> = userState.createProperty('DialogState');
-const skillContextAccessor: StatePropertyAccessor<SkillContext> = userState.createProperty(SkillContext.name);
-const whitelistAuthenticationProvider: WhitelistAuthenticationProvider = new WhitelistAuthenticationProvider(botSettings);
+
+// Configure localized responses
+const localizedTemplates: Map<string, string[]> = new Map<string, string[]>();
+const templateFiles: string[] = ['MainResponses', 'SampleResponses'];
+const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
+
+supportedLocales.forEach((locale: string): void => {
+    const localeTemplateFiles: string[] = [];
+    templateFiles.forEach((template: string): void => {
+        // LG template for default locale should not include locale in file extension.
+        if (locale === (botSettings.defaultLocale || 'en-us')) {
+            localeTemplateFiles.push(join(__dirname, '..', 'src', 'responses', `${ template }.lg`));
+        } else {
+            localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${ template }.${ locale }.lg`));
+        }
+    });
+
+    localizedTemplates.set(locale, localeTemplateFiles);    
+});
+
+const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+
+const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
+const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
@@ -115,50 +127,39 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
-    adapterSettings,
-    conversationState,
+    localeTemplateEngine,
+    telemetryInitializerMiddleware,
     telemetryClient,
-    whitelistAuthenticationProvider);
+    adapterSettings);
 
 const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
     botSettings,
     userState,
     conversationState,
-    telemetryClient,
-    dialogStateAccessor);
+    localeTemplateEngine,
+    telemetryInitializerMiddleware,
+    telemetryClient);
 const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
-// PENDING: these should be uncommented when the WS library is merged
-// Also the constructor should receive an IAuthenticationProvider
-// const skillWebSocketAdapter: SkillWebSocketAdapter = new SkillWebSocketAdapter(
-//     customSkillAdapter,
-//     botSettings,
-//     telemetryClient);
 
-let bot: DialogBot<Dialog>;
+let bot: DefaultActivityHandler<Dialog>;
 try {
-
-    const responseManager: ResponseManager = new ResponseManager(
-        ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
-        [SampleResponses, MainResponses, SharedResponses]);
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
     const sampleDialog: SampleDialog = new SampleDialog(
         botSettings,
         botServices,
-        responseManager,
         stateAccessor,
-        telemetryClient
+        telemetryClient,
+        localeTemplateEngine
     );
     const mainDialog: MainDialog = new MainDialog(
-        botSettings,
         botServices,
-        responseManager,
         stateAccessor,
-        skillContextAccessor,
         sampleDialog,
-        telemetryClient
+        telemetryClient,
+        localeTemplateEngine
     );
 
-    bot = new DialogBot(conversationState, userState, telemetryClient, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
 } catch (err) {
     throw err;
 }
@@ -185,18 +186,6 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
         await bot.run(turnContext);
     });
 });
-// PENDING: these should be uncommented when the WS library is merged
-// This endpoint will replace the post one
-// server.get('/api/skill/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
-//     if (skillWebSocketAdapter !== undefined) {
-//         await skillWebSocketAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
-//             // route to bot activity handler.
-//             await bot.run(turnContext);
-//         });
-//     } else {
-//         res.statusCode = 405;
-//     }
-// });
 
 // Listen for incoming assistant requests
 server.post('/api/skill/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {

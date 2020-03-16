@@ -13,3 +13,4 @@ export * from './responseIdCollection';
 export * from './responseManager';
 export * from './responseTemplate';
 export * from './speechUtility';
+export * from './localeTemplateEngineManager';

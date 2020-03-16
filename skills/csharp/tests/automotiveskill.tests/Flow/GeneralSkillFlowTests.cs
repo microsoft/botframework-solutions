@@ -3,6 +3,7 @@
 
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using AutomotiveSkill.Responses.Main;
 using AutomotiveSkill.Responses.Shared;
 using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,9 +18,10 @@ namespace AutomotiveSkill.Tests.Flow
         public async Task Test_SingleTurnCompletion()
         {
             await this.GetTestFlow()
+                .Send(string.Empty)
+                .AssertReplyOneOf(ParseReplies(AutomotiveSkillMainResponses.FirstPromptMessage))
                 .Send("what's the weather?")
                 .AssertReplyOneOf(this.ConfusedResponse())
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
                 .StartTestAsync();
         }
 

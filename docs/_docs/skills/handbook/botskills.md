@@ -21,10 +21,10 @@ The CLI performs the following operations on your behalf:
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Install the Dispatch, LUDown and LUISGen CLI tools
+- Install the Dispatch and botframework-cli
 
     ```shell
-    npm install -g botdispatch ludown luisgen
+    npm install -g botdispatch @microsoft/botframework-cli
     ```
 - Install the `botskills` CLI
     ```shell
@@ -46,7 +46,7 @@ botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFold
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
 
-For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/connect.md).
+For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/connect.md).
 
 ### Disconnect Skills
 {:.no_toc}
@@ -58,9 +58,9 @@ Here is an example:
 botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
 
-For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/disconnect.md).
+For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/disconnect.md).
 
-> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
 
 ### Update a connected Skill
 {:.no_toc}
@@ -72,7 +72,7 @@ Here is an example:
 botskills update --botName <YOUR_BOT_NAME> --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
 ```
 
-For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/update.md).
+For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/update.md).
 
 ### Refresh connected Skills
 {:.no_toc}
@@ -84,7 +84,7 @@ Here is an example:
 botskills refresh --cs
 ```
 
-For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/refresh.md).
+For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/refresh.md).
 
 ### List connected Skills
 {:.no_toc}
@@ -96,4 +96,15 @@ Here is an example:
 botskills list
 ```
 
-For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
+
+### Migrate Skills
+
+The `migrate` command allows you to transfer all the skills currently connected to your assistant to the new schema configuration settings.
+
+Here is an example:
+```bash
+botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/appsettings.json"
+```
+
+For further information, see the [Migrate command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/migrate.md).

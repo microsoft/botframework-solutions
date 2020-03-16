@@ -97,7 +97,9 @@ namespace PointOfInterestSkill.Dialogs
                 await sc.Context.SendActivityAsync(CreateOpenDefaultAppReply(sc.Context.Activity, state.Destination, OpenDefaultAppType.Map));
             }
 
-            return await sc.NextAsync();
+            var response = ConvertToResponse(state.Destination);
+
+            return await sc.NextAsync(response);
         }
     }
 }

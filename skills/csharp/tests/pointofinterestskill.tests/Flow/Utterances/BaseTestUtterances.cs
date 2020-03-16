@@ -15,9 +15,13 @@ namespace PointOfInterestSkill.Tests.Flow.Utterances
 {
     public class BaseTestUtterances : Dictionary<string, PointOfInterestLuis>
     {
+        public static readonly double LocationLatitude = 47.639620;
+
+        public static readonly double LocationLongitude = -122.130610;
+
         public static double TopIntentScore { get; } = 0.9;
 
-        public static string LocationEvent { get; } = "/event:{ \"Name\": \"Location\", \"Value\": \"47.639620,-122.130610\" }";
+        public static string LocationEvent { get; } = $"/event:{{ \"Name\": \"Location\", \"Value\": \"{LocationLatitude},{LocationLongitude}\" }}";
 
         public static string OptionOne { get; } = "option 1";
 

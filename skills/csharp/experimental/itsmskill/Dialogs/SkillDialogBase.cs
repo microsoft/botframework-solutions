@@ -19,13 +19,14 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
 using Microsoft.Graph;
+using SkillServiceLibrary.Utilities;
 
 namespace ITSMSkill.Dialogs
 {
@@ -884,7 +885,7 @@ namespace ITSMSkill.Dialogs
             var intent = (GeneralLuis.Intent)sc.Result;
             if (intent == GeneralLuis.Intent.Confirm)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
+                await SendActionEnded(sc.Context);
                 return await sc.CancelAllDialogsAsync();
             }
             else if (intent == GeneralLuis.Intent.Reject)
@@ -1108,6 +1109,18 @@ namespace ITSMSkill.Dialogs
             else
             {
                 return card;
+            }
+        }
+
+        protected Task SendActionEnded(ITurnContext turnContext)
+        {
+            if (turnContext.IsSkill())
+            {
+                return Task.CompletedTask;
+            }
+            else
+            {
+                return turnContext.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
             }
         }
 

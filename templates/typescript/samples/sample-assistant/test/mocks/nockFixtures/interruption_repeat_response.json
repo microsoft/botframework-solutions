@@ -1,0 +1,106 @@
+[
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Repeat",
+        "status": 200,
+        "response": {
+            "query": "Repeat",
+            "topScoringIntent": {
+                "intent": "l_general",
+                "score": 0.9893292
+            },
+            "entities": [],
+            "connectedServiceResult": {
+                "query": "Repeat",
+                "topScoringIntent": {
+                    "intent": "Repeat",
+                    "score": 0.98222065
+                },
+                "entities": [
+                    {
+                        "entity": "repeat",
+                        "type": "builtin.personName",
+                        "startIndex": 0,
+                        "endIndex": 5
+                    }
+                ]
+            }
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "438",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "0084a6cb-9ae2-418b-946a-fe0c503f092b",
+            "Request-Id",
+            "0084a6cb-9ae2-418b-946a-fe0c503f092b",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|2",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Tue, 10 Mar 2020 12:20:00 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "Repeat",
+        "status": 200,
+        "response": {
+            "query": "Repeat",
+            "topScoringIntent": {
+                "intent": "Repeat",
+                "score": 0.98222065
+            },
+            "entities": [
+                {
+                    "entity": "repeat",
+                    "type": "builtin.personName",
+                    "startIndex": 0,
+                    "endIndex": 5
+                }
+            ]
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "252",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "5d8aa961-3b8b-494f-b8a0-e0e5cb5940de",
+            "Request-Id",
+            "5d8aa961-3b8b-494f-b8a0-e0e5cb5940de",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Tue, 10 Mar 2020 12:20:01 GMT",
+            "Connection",
+            "close"
+        ]
+    }
+]

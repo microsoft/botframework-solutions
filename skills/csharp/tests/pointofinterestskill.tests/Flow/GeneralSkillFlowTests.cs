@@ -24,7 +24,7 @@ namespace PointOfInterestSkill.Tests.Flow
             await this.GetSkillTestFlow()
                 .Send(GeneralTestUtterances.UnknownIntent)
                 .AssertReplyOneOf(this.ParseReplies(POISharedResponses.DidntUnderstandMessage))
-                .AssertReply((activity) => { Assert.AreEqual(ActivityTypes.EndOfConversation, activity.Type); })
+                .AssertReply(CheckForEoC())
                 .StartTestAsync();
         }
     }

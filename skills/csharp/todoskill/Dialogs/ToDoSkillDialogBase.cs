@@ -22,6 +22,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.Recognizers.Text;
+using SkillServiceLibrary.Utilities;
 using ToDoSkill.Dialogs.Shared.Resources;
 using ToDoSkill.Models;
 using ToDoSkill.Responses.Shared;
@@ -643,6 +644,19 @@ namespace ToDoSkill.Dialogs
             else
             {
                 return card;
+            }
+        }
+
+        protected Task SendActionEnded(ITurnContext turnContext)
+        {
+            if (turnContext.IsSkill())
+            {
+                return Task.CompletedTask;
+            }
+            else
+            {
+                var activity = TemplateEngine.GenerateActivityForLocale(ToDoSharedResponses.ActionEnded);
+                return turnContext.SendActivityAsync(activity);
             }
         }
 

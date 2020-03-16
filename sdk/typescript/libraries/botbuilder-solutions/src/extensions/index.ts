@@ -3,6 +3,9 @@
  * Licensed under the MIT License.
  */
 
-export * from './activityExtensions';
-export * from './dateTimeExtensions';
-export * from './listExtensions';
+export * from './activityEx';
+export * from './dateTimeEx';
+export * from './dialogContextEx';
+export * from './dialogEx';
+export * from './listEx';
+export * from './luisRecognizerEx';

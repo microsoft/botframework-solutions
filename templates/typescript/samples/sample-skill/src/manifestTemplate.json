@@ -1,17 +1,14 @@
 {
   "id": "sampleSkill",
   "name": "sampleSkill",
-  "description": "This is the description of the sampleSkill",
-  "endpoint": "",
-  "responses": "",
-  "msaAppId": "",
+  "description": "",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
       "id": "sampleSkill_Sample",
       "definition": {
-        "description": "Trigger sampleSkill",
+        "description": "sampleSkill action with no slots",
         "slots": [],
         "triggers": {
           "utteranceSources": [

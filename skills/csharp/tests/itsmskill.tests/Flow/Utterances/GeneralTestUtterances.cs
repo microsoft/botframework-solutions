@@ -22,6 +22,8 @@ namespace ITSMSkill.Tests.Flow.Utterances
 
         public static readonly string Reject = "negative";
 
+        public static readonly string UnknownIntent = "what's the weather?";
+
         public GeneralTestUtterances()
         {
             AddIntent(Cancel, Intent.Cancel);

@@ -20,7 +20,7 @@ namespace VirtualAssistantSample.Adapters
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IChannelProvider channelProvider,
-            LocaleTemplateEngineManager templateEngine,
+            LocaleTemplateManager templateFile,
             ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient)
@@ -29,7 +29,7 @@ namespace VirtualAssistantSample.Adapters
             OnTurnError = async (turnContext, exception) =>
             {
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
+                await turnContext.SendActivityAsync(templateFile.GenerateActivityForLocale("ErrorMessage", settings.DefaultLocale));
                 telemetryClient.TrackException(exception);
             };
 

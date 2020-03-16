@@ -20,9 +20,9 @@ using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Responses;
 
 namespace ITSMSkill.Dialogs
 {
@@ -279,7 +279,7 @@ namespace ITSMSkill.Dialogs
             var intent = (GeneralLuis.Intent)sc.Result;
             if (intent == GeneralLuis.Intent.Reject)
             {
-                await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ActionEnded));
+                await SendActionEnded(sc.Context);
                 return await sc.CancelAllDialogsAsync();
             }
             else if (intent == GeneralLuis.Intent.Confirm)
@@ -310,9 +310,7 @@ namespace ITSMSkill.Dialogs
             }
             else
             {
-                var localeConfig = Services.GetCognitiveModels();
-                localeConfig.LuisServices.TryGetValue("ITSM", out var service);
-                var result = await service.RecognizeAsync<ITSMLuis>(promptContext.Context, CancellationToken.None);
+                var result = promptContext.Context.TurnState.Get<ITSMLuis>(StateProperties.ITSMLuisResult);
                 var topIntent = result.TopIntent();
 
                 if (topIntent.score > 0.5 && (topIntent.intent == ITSMLuis.Intent.TicketClose || topIntent.intent == ITSMLuis.Intent.TicketUpdate))

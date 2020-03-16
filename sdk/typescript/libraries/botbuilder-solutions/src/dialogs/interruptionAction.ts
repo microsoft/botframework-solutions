@@ -3,16 +3,24 @@
  * Licensed under the MIT License.
  */
 
+/**
+ * Indicates the current status of a dialog interruption.
+ */
 export enum InterruptionAction {
+    /**
+     * Indicates that the active dialog was interrupted and should end.
+     */
+    End,
+    
     /**
      * Indicates that the active dialog was interrupted and needs to resume.
      */
-    MessageSentToUser,
+    Resume,
 
     /**
      * Indicates that there is a new dialog waiting and the active dialog needs to be shelved.
      */
-    StartedDialog,
+    Waiting,
 
     /**
      * Indicates that no interruption action is required.

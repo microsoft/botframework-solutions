@@ -4,6 +4,7 @@
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using ITSMSkill.Responses.Knowledge;
+using ITSMSkill.Responses.Main;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Tests.API.Fakes;
@@ -27,6 +28,8 @@ namespace ITSMSkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(TicketCreateUtterances.Create)
                 .AssertReply(ShowAuth())
                 .Send(MagicCode)
@@ -54,6 +57,8 @@ namespace ITSMSkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(TicketCreateUtterances.Create)
                 .AssertReply(ShowAuth())
                 .Send(MagicCode)
@@ -87,6 +92,8 @@ namespace ITSMSkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(TicketCreateUtterances.CreateWithTitleUrgency)
                 .AssertReply(ShowAuth())
                 .Send(MagicCode)
@@ -124,6 +131,8 @@ namespace ITSMSkill.Tests.Flow
             };
 
             await this.GetTestFlow()
+                .Send(StartActivity)
+                .AssertReply(AssertContains(MainResponses.WelcomeMessage))
                 .Send(TicketCreateUtterances.CreateWithTitleUrgency)
                 .AssertReply(ShowAuth())
                 .Send(MagicCode)
