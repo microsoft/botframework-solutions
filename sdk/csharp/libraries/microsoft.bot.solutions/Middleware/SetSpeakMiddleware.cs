@@ -18,9 +18,9 @@ namespace Microsoft.Bot.Solutions.Middleware
     /// </summary>
     public class SetSpeakMiddleware : IMiddleware
     {
-        public const string DefaultLocale = "en-US";
+        private const string DefaultLocale = "en-US";
 
-        public static readonly IDictionary<string, string> DefaultVoiceFonts = new Dictionary<string, string>()
+        private static readonly IDictionary<string, string> DefaultVoiceFonts = new Dictionary<string, string>()
         {
             { "de-DE", "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)" },
             { "en-US", "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)" },
@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Solutions.Middleware
             { "zh-CN", "Microsoft Server Speech Text to Speech Voice (zh-CN, HuihuiRUS)" },
         };
 
-        public static readonly ISet<string> DefaultChannels = new HashSet<string>()
+        private static readonly ISet<string> DefaultChannels = new HashSet<string>()
         {
             Connector.Channels.DirectlineSpeech,
             Connector.Channels.Emulator,
@@ -47,12 +47,12 @@ namespace Microsoft.Bot.Solutions.Middleware
         /// <summary>
         /// Initializes a new instance of the <see cref="SetSpeakMiddleware"/> class.
         /// </summary>
-        /// <param name="locale">Default <see cref="DefaultLocale"/>.</param>
-        /// <param name="voiceFonts">Map voice font for locale. If null, use <see cref="DefaultVoiceFonts"/>.</param>
-        /// <param name="channels">Set SSML for these channels. If null, use <see cref="DefaultChannels"/>.</param>
-        public SetSpeakMiddleware(string locale = DefaultLocale, IDictionary<string, string> voiceFonts = null, ISet<string> channels = null)
+        /// <param name="locale">If null, use en-US.</param>
+        /// <param name="voiceFonts">Map voice font for locale like en-US to "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)".</param>
+        /// <param name="channels">Set SSML for these channels. If null, use <see cref="Connector.Channels.DirectlineSpeech"/> and <see cref="Connector.Channels.Emulator"/>.</param>
+        public SetSpeakMiddleware(string locale = null, IDictionary<string, string> voiceFonts = null, ISet<string> channels = null)
         {
-            _locale = locale;
+            _locale = locale ?? DefaultLocale;
             _voiceFonts = voiceFonts ?? DefaultVoiceFonts;
             _channels = channels ?? DefaultChannels;
         }
