@@ -81,7 +81,7 @@ export namespace ActivityEx {
     }
 
     export function createMessageActivity(): Partial<IMessageActivity> {
-        return { value: ActivityTypes.Message };
+        return { type: ActivityTypes.Message };
     }
 
     export function createEndOfConversationActivity(): Partial<IEndOfConversationActivity> {
