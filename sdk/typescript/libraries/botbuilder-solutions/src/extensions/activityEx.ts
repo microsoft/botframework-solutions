@@ -77,7 +77,7 @@ export namespace ActivityEx {
     }
 
     export function createEventActivity(): Partial<IEventActivity> {
-        return { value: ActivityTypes.Event };
+        return { type: ActivityTypes.Event };
     }
 
     export function createMessageActivity(): Partial<IMessageActivity> {
@@ -85,7 +85,7 @@ export namespace ActivityEx {
     }
 
     export function createEndOfConversationActivity(): Partial<IEndOfConversationActivity> {
-        return { code: ActivityTypes.EndOfConversation };
+        return { type: ActivityTypes.EndOfConversation };
     }
 
     export function applyConversationReference(source: Partial<Activity>, reference: Partial<ConversationReference>, isComming?: boolean): Partial<Activity> {
