@@ -23,7 +23,7 @@ namespace $safeprojectname$.Dialogs
         private BotServices _services;
         private SampleDialog _sampleDialog;
         private SampleAction _sampleAction;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateEngine;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
         public MainDialog(
@@ -32,7 +32,7 @@ namespace $safeprojectname$.Dialogs
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateManager>();
             TelemetryClient = telemetryClient;
 
             // Create conversation state properties
@@ -269,7 +269,6 @@ namespace $safeprojectname$.Dialogs
                                 await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
                                 break;
                             }
-
                     }
                 }
                 else
@@ -287,15 +286,9 @@ namespace $safeprojectname$.Dialogs
         {
             if (stepContext.Context.IsSkill())
             {
-                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
-                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
-                {
-                    Code = EndOfConversationCodes.CompletedSuccessfully,
-                    Value = stepContext.Result,
-                };
+                var result = stepContext.Result;
 
-                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
-                return await stepContext.EndDialogAsync();
+                return await stepContext.EndDialogAsync(result, cancellationToken);
             }
             else
             {

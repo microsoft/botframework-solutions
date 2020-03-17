@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>false</IsPackable>
     <NoWarn>NU1701</NoWarn>
   </PropertyGroup>
@@ -16,8 +16,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.2-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.8.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.1-rc0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />

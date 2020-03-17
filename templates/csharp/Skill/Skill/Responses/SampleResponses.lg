@@ -2,13 +2,13 @@
 
 # NamePrompt
 [Activity
-    Text = @{NamePromptText()}
+    Text = ${NamePromptText()}
     InputHint = expectingInput
 ]
 
 # HaveNameMessage
 [Activity
-    Text = @{HaveNameMessageText()}
+    Text = ${HaveNameMessageText()}
     InputHint = acceptingInput
 ]
 
@@ -19,5 +19,5 @@
 - What is your name?
 
 # HaveNameMessageText
-- Hi, @{Name}!
-- Nice to meet you, @{Name}!
+- Hi, ${Name}!
+- Nice to meet you, ${Name}!
