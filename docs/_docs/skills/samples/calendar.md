@@ -172,7 +172,7 @@ To use a Google account follow these steps:
 
 The Calendar skill provides additional support to search and book meeting rooms. Due to search limitations in Microsoft Graph limiting the experience we leverage Azure Search to provide fuzzy meeting room name matching, floor level, etc. 
 
-1. To simplify the process of extracting your meeting room data and inserting into Azure Search we have provided an example PowerShell script. However, you should ensure that `displayName`, `emailAddress`, `building` and `floorNumber` are populated within your Office 365 tenant (example below)). You can do this through the [Graph Explorer]() using the query shown below, this information is required for the Meeting Room booking expeirence.
+1. To simplify the process of extracting your meeting room data and inserting into Azure Search we have provided an example PowerShell script. However, you should ensure that `displayName`, `emailAddress`, `building` and `floorNumber` are populated within your Office 365 tenant (example below)). You can do this through the [Graph Explorer](https://developer.microsoft.com/en-us/graph/graph-explorer/preview) using the query shown below, this information is required for the Meeting Room booking experience.
 
 `https://graph.microsoft.com/beta/places/microsoft.graph.room`
 ```json
@@ -196,9 +196,9 @@ The Calendar skill provides additional support to search and book meeting rooms.
 }
 ```
 
-2. Configure the settings of your registered app in Azure App Registration portal
+2. Configure the settings of your registered app in the Azure App Registration portal
     - This app will request the permission for **Place.Read.All** scope. There are two ways to grant the consent:
-      1. In API permissions, add a permission for **Place.Read.All** scope, and grant admin consent for your orgnization.
+      1. In API permissions, add a permission for **Place.Read.All** scope, and grant admin consent for your organization.
       2. Make sure your account has permission to access your tenant's meeting room data so that you can consent on behalf of your organization in the login step, testing the previous query will validate this.
     - In Authentication
       - Set "Treat application as a public client" as "Yes"
