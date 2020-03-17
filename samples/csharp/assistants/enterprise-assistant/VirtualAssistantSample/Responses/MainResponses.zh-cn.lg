@@ -5,7 +5,7 @@
 - 全部完成。让我知道我能不能做别的事。
 
 # CancelledMessage
-- 还行@{RandomName()}，取消您的请求。让我知道，如果我能为你做点什么。
+- 还行${RandomName()}，取消您的请求。让我知道，如果我能为你做点什么。
 - 好了，取消您的请求。让我知道，如果我能为你做点什么。
 - 没问题，请告诉我，如果我能帮到你什么。
 - 当然，我会取消你的请求。让我知道，如果我可以帮忙做别的
@@ -15,25 +15,25 @@
 - 对不起，我还不能帮忙。
 - 对不起，我现在不知道如何做。
 - 很不幸，我现在帮不了你。道歉。
-- 对不起@{RandomName()}，这还不是我能帮忙的。
-- 道歉@{RandomName()}，我不知道现在怎么做。
+- 对不起${RandomName()}，这还不是我能帮忙的。
+- 道歉${RandomName()}，我不知道现在怎么做。
 
 # ConfusedMessage
 - 对不起，我不明白。你能给我一些更多的信息吗？
 - 对不起，我不明白。能告诉我更多吗？
-- 对不起@{RandomName()}"我没明白能告诉我更多吗？
+- 对不起${RandomName()}"我没明白能告诉我更多吗？
 - 道歉，我不太明白。你能给我更多的信息吗？
 
 # ErrorMessage
-- 对不起@{RandomName()}，看起来好像出了什么问题。请稍后再试。
-- 道歉@{RandomName()}，看起来好像出了什么问题。请稍后重试您的请求。
+- 对不起${RandomName()}，看起来好像出了什么问题。请稍后再试。
+- 道歉${RandomName()}，看起来好像出了什么问题。请稍后重试您的请求。
 - 对不起，好像出了什么问题。请稍后再试。
 - 嗯，看起来好像有一个错误。很抱歉您可以稍后再试。
 - 道歉，看起来好像出了什么问题。请稍后重试您的请求。
 
 # StartOverMessage
-- 还行@{RandomName()}，让我们再试一次。
-- 没关系@{RandomName()}，我们可以重新开始。
+- 还行${RandomName()}，让我们再试一次。
+- 没关系${RandomName()}，我们可以重新开始。
 - 好，让我们再试一次。
 - 当然，让我们再试一次。
 - 没问题，我们可以重新开始。
@@ -45,16 +45,16 @@
 - 我能帮你什么？
 
 # LogoutMessage
-- 还行@{RandomName()}，您已注销。
-- 好@{RandomName()}，您已注销。
-- 没关系@{RandomName()}我已经签了你
+- 还行${RandomName()}，您已注销。
+- 好${RandomName()}，您已注销。
+- 没关系${RandomName()}我已经签了你
 - 好了，您已注销。
 - 好了，签了字了
 - 当然，您已经注销了。
 - 没问题，我已经签了名。
 
 # SkillSwitchPrompt
-- 您要切换到 @{Skill} 吗？
+- 您要切换到 ${Skill} 吗？
 
 # EscalateMessage
 [HeroCard
@@ -63,7 +63,7 @@
 
 # NewUserIntroCard
 [Activity
-    Attachments = @{json(NewUserIntroCardJson())}
+    Attachments = ${json(NewUserIntroCardJson())}
 ]
 
 # NewUserIntroCardTitle
@@ -101,7 +101,7 @@
           "size": "Large",
           "weight": "Bolder",
           "color": "Light",
-          "text": "@{NewUserIntroCardTitle()}",
+          "text": "${NewUserIntroCardTitle()}",
           "wrap": true
         },
         {
@@ -136,17 +136,17 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "@{NewUserIntroCardTitle()}"
+  "speak": "${NewUserIntroCardTitle()}"
 }
 ```
 
 # ReturningUserIntroCard
 [Activity
-    Attachments = @{json(ReturningUserIntroCardJson())}
+    Attachments = ${json(ReturningUserIntroCardJson())}
 ]
 
 # ReturningUserIntroCardTitle
-- 欢迎回来@{RandomName()}!
+- 欢迎回来${RandomName()}!
 - 很高兴看到你再次。
 - 嘿，欢迎回来！
 
@@ -185,7 +185,7 @@
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Light",
-                  "text": "@{ReturningUserIntroCardTitle()}",
+                  "text": "${ReturningUserIntroCardTitle()}",
                   "wrap": true
                 },
                 {
@@ -206,7 +206,7 @@
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "@{ReturningUserIntroCardTitle()}"
+  "speak": "${ReturningUserIntroCardTitle()}"
 }
 ```
 
@@ -217,8 +217,8 @@
 ]
 
 # RandomName 
-- IF: @{Name && rand(0, 1000) > 500}
-    - @{concat(' ', Name)}
+- IF: ${Name && rand(0, 1000) > 500}
+    - ${concat(' ', Name)}
 - ELSE:
     - 
 

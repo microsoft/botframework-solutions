@@ -3,6 +3,6 @@
 - Comment t'appelles-tu?
 
 # HaveNameMessage
-- Salut @{Name}!
-- Salut @{Name}!
-- Ravi @{Name}
+- Salut ${Name}!
+- Salut ${Name}!
+- Ravi ${Name}
