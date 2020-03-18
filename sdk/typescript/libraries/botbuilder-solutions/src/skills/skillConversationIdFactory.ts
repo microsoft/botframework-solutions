@@ -3,14 +3,13 @@
  * Licensed under the MIT License.
  */
 
-import { ConversationReference, SkillConversationIdFactoryBase, Storage } from 'botbuilder';
+import { ConversationReference, SkillConversationIdFactoryBase, Storage, SkillConversationIdFactoryOptions, SkillConversationReference, StoreItems, TurnContext } from 'botbuilder';
 
 /**
  * A SkillConversationIdFactory that uses IStorage to store and retrieve ConversationReference instances.
  */
 export class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
-
-    public readonly storage: Storage;
+    private readonly storage: Storage;
 
     public constructor(storage: Storage) {
         super();
@@ -19,43 +18,48 @@ export class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
         this.storage = storage;
     }
 
-    public async createSkillConversationId(conversationReference: ConversationReference): Promise<string> {
+    public async createSkillConversationIdWithOptions(options: SkillConversationIdFactoryOptions): Promise<string> {
+        if (options === undefined) { throw new Error('The value of options is undefined')};
 
-        if (conversationReference === null) { throw new Error('The value of conversationReference is undefined'); }
+        // Create the storage key based on the SkillConversationIdFactoryOptions
+        const conversationReference: Partial<ConversationReference> = TurnContext.getConversationReference(options.activity);
+        if (conversationReference === undefined) { throw new Error('The value of conversationReference is undefined'); }
+        if (conversationReference.conversation === undefined) { throw new Error('The value of conversationReference.conversation is undefined'); }
+        const storageKey: string = `${conversationReference.conversation.id}-${options.botFrameworkSkill.id}-${conversationReference.channelId}-skillconvo`;
 
-        if (conversationReference.conversation.id === undefined || conversationReference.conversation.id.trim().length <= 0) { 
-            throw new Error('The value of conversationId is undefined'); 
+        // Create the SkillConversationReference
+        const skillConversationReference: SkillConversationReference = {
+            conversationReference: conversationReference as ConversationReference,
+            oAuthScope: options.fromBotOAuthScope
         }
-        
-        if (conversationReference.channelId === undefined || conversationReference.channelId.trim().length <= 0) { 
-            throw new Error('The value of channelId is undefined'); 
-        }
-        
-        const storageKey: string = `${conversationReference.conversation.id}-${conversationReference.channelId}-skillconvo`;
-        const skillConversationInfo: Map<string, ConversationReference> = new Map<string, ConversationReference>();
-        skillConversationInfo.set(storageKey, conversationReference); 
+
+        // Store the SkillConversationReference
+        const skillConversationInfo: Map<string, Object> = new Map<string, Object>();
+        skillConversationInfo.set(storageKey, skillConversationReference); 
         await this.storage.write(skillConversationInfo); 
 
+        // Return the storageKey (that will be also used as the conversation ID to call the skill)
         return storageKey;
     }
 
-    public async getConversationReference(skillConversationId: string): Promise<ConversationReference>
+    public async getSkillConversationReference(skillConversationId: string): Promise<SkillConversationReference>
     {
-        if (skillConversationId === undefined || skillConversationId === "") { throw new Error('The value of skillConversationId is undefined or empty'); }
+        if (skillConversationId === undefined || skillConversationId.trim().length === 0) { throw new Error('The value of skillConversationId is undefined or empty'); }
 
-        const skillConversationInfo = await this.storage.read([skillConversationId]);
-        if (skillConversationInfo)
-        {
-            const conversationInfo: ConversationReference = skillConversationInfo[skillConversationId];
+        // Get the SkillConversationReference from storage for the given skillConversationId.
+        const skillConversationInfo: StoreItems = await this.storage.read([skillConversationId]);
+        if (skillConversationInfo) {
+            const conversationInfo: SkillConversationReference = skillConversationInfo[skillConversationId];
 
             return conversationInfo;
         }
 
-        throw new Error(`'conversationInfo' is undefined`);
+        throw new Error(`'skillConversationInfo' is undefined`);
     }
 
     public async deleteConversationReference(skillConversationId: string): Promise<void>
     {
+        // Delete the SkillConversationReference from storage
         await this.storage.delete([skillConversationId]);
     }
 }
