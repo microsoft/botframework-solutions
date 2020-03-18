@@ -13,19 +13,18 @@ import {
     UserState,
     TelemetryLoggerMiddleware,
     SkillHttpClient,
-    ChannelServiceHandler} from 'botbuilder';
+    SkillHandler } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
 import { CosmosDbStorage, CosmosDbStorageSettings } from 'botbuilder-azure';
-import { Dialog } from 'botbuilder-dialogs';
+import { Dialog, SkillDialog, SkillDialogOptions } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
     Locales,
     LocaleTemplateEngineManager,
-    SkillDialog,
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
     SkillConversationIdFactory,
-    SkillsConfiguration} from 'botbuilder-solutions';
+    SkillsConfiguration } from 'botbuilder-solutions';
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
@@ -106,7 +105,7 @@ const cosmosDbStorageSettings: CosmosDbStorageSettings = {
     serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
 };
 
-const credentialProvider: SimpleCredentialProvider = new SimpleCredentialProvider(botSettings.microsoftAppId || "", botSettings.microsoftAppPassword || "");
+const credentialProvider: SimpleCredentialProvider = new SimpleCredentialProvider(appsettings.microsoftAppId, appsettings.microsoftAppPassword);
 
 // Configure storage
 const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
@@ -136,9 +135,7 @@ supportedLocales.forEach((locale: string) => {
 const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
 
 // Create the skills configuration class
-// We disabled the eslint rule to follow the parity with C#, however this is not used in both languages currently
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-let authConfig: AuthenticationConfiguration;
+let authConfig: AuthenticationConfiguration = new AuthenticationConfiguration();
 let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], "") ;
 if (skills !== undefined && skills.length > 0 && skillHostEndpoint.trim().length !== 0) {
         skillsConfiguration = new SkillsConfiguration(skills, skillHostEndpoint);
@@ -162,6 +159,7 @@ const adapter: DefaultAdapter = new DefaultAdapter(
     telemetryInitializerMiddleware,
     telemetryClient
 );
+const skillConversationIdFactory: SkillConversationIdFactory = new SkillConversationIdFactory(storage);
 
 let bot: DefaultActivityHandler<Dialog>;
 try {
@@ -177,7 +175,7 @@ try {
 
     const skillHttpClient: SkillHttpClient = new SkillHttpClient(
         credentialProvider,
-        new SkillConversationIdFactory(storage)
+        skillConversationIdFactory
     );
 
     let skillDialogs: SkillDialog[] = [];
@@ -186,7 +184,15 @@ try {
             throw new Error("'skillHostEndpoint' is not in the configuration");
         } else {
             skillDialogs = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
-                return new SkillDialog(conversationState, skillHttpClient, skill, botSettings as IBotSettings, skillHostEndpoint);
+                const skillDialogOptions: SkillDialogOptions = {
+                    botId: appsettings.microsoftAppId,
+                    conversationIdFactory: skillConversationIdFactory,
+                    skillClient: skillHttpClient,
+                    skillHostEndpoint: skillHostEndpoint,
+                    skill: skill,
+                    conversationState: conversationState
+                }
+                return new SkillDialog(skillDialogOptions, skill.id);
             });
         }
     }
@@ -234,14 +240,14 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
     });
 });
 
-const handler: ChannelServiceHandler = new ChannelServiceHandler(credentialProvider, new AuthenticationConfiguration());
-
+const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authConfig);
+    
 server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
-    const activity: Activity = JSON.parse(req.body);
-    return await handler.handleReplyToActivity(req.authorization?.credentials || "", req.params.conversationId, req.params.activityId, activity);
+    const activity: Activity = JSON.parse(JSON.stringify(req.body));
+    return await handler.handleReplyToActivity(req.headers.authorization || "", req.params.conversationId, req.params.activityId, activity);
 });
 
 server.post('/api/skills/v3/conversations/:conversationId/activities', async (req: restify.Request): Promise<ResourceResponse> => {
-    const activity: Activity = JSON.parse(req.body);
-    return await handler.handleSendToConversation(req.authorization?.credentials || "", req.params.conversationId, activity);
+    const activity: Activity = JSON.parse(JSON.stringify(req.body));
+    return await handler.handleSendToConversation(req.headers.authorization || "", req.params.conversationId, activity);
 });

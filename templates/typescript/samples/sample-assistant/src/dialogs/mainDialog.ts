@@ -19,17 +19,17 @@ import {
     ComponentDialog,
     WaterfallStepContext,
     TextPrompt,
+    SkillDialog,
     PromptOptions, 
-    WaterfallDialog } from 'botbuilder-dialogs';
+    WaterfallDialog, 
+    BeginSkillDialogOptions} from 'botbuilder-dialogs';
 import {
     DialogContextEx,
     ICognitiveModelSet,
     LocaleTemplateEngineManager,
-    SkillDialog,
     SwitchSkillDialog,
     SwitchSkillDialogOptions, 
     SkillsConfiguration,
-    SkillDialogArgs,
     IEnhancedBotFrameworkSkill } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'botframework-schema';
@@ -319,8 +319,9 @@ export class MainDialog extends ComponentDialog {
             const dispatch: string = LuisRecognizer.topIntent(dispatchResult);
             if (this.isSkillIntent(dispatch)) {
                 const dispatchIntentSkill: string = dispatch;
-                const skillDialogArgs: SkillDialogArgs = new SkillDialogArgs();
-                skillDialogArgs.skillId = dispatchIntentSkill;
+                const skillDialogArgs: BeginSkillDialogOptions = {
+                    activity: activity as Activity
+                }
                 
                 // Start the skill dialog.
                 return await stepContext.beginDialog(dispatchIntentSkill, skillDialogArgs);      
