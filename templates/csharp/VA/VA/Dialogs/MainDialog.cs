@@ -341,13 +341,53 @@ namespace $safeprojectname$.Dialogs
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    return await stepContext.BeginDialogAsync("Faq");
+                    // Register a QnAMakerDialog for the knowledgebase and ensure localised responses are provided.
+                    var knowledgebaseId = "Faq";
+                    var knowledgebase = localizedServices.QnAConfiguration[knowledgebaseId];
+
+                    if (Dialogs.Find(knowledgebaseId) == null)
+                    {
+                        var qnaDialog = new QnAMakerDialog(
+                        knowledgeBaseId: knowledgebase.KnowledgeBaseId,
+                        endpointKey: knowledgebase.EndpointKey,
+                        hostName: knowledgebase.Host,
+                        noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                        activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                        cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                        {
+                            Id = knowledgebaseId
+                        };
+
+                        AddDialog(qnaDialog);
+                    }
+
+                    return await stepContext.BeginDialogAsync(knowledgebaseId);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    return await stepContext.BeginDialogAsync("Chitchat");
+                    // Register a QnAMakerDialog for the knowledgebase and ensure localised responses are provided.
+                    var knowledgebaseId = "Chitchat";
+                    var knowledgebase = localizedServices.QnAConfiguration[knowledgebaseId];
+
+                    if (Dialogs.Find(knowledgebaseId) == null)
+                    {
+                        var qnaDialog = new QnAMakerDialog(
+                        knowledgeBaseId: knowledgebase.KnowledgeBaseId,
+                        endpointKey: knowledgebase.EndpointKey,
+                        hostName: knowledgebase.Host,
+                        noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                        activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                        cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                        {
+                            Id = knowledgebaseId
+                        };
+
+                        AddDialog(qnaDialog);
+                    }
+
+                    return await stepContext.BeginDialogAsync(knowledgebaseId);
                 }
                 else
                 {
