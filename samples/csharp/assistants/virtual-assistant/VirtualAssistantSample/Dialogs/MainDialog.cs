@@ -8,9 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
@@ -324,52 +326,16 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    // Register a QnAMakerDialog for the knowledgebase and ensure localised responses are provided.
                     var knowledgebaseId = "Faq";
-                    var knowledgebase = localizedServices.QnAConfiguration[knowledgebaseId];
-
-                    if (Dialogs.Find(knowledgebaseId) == null)
-                    {
-                        var qnaDialog = new QnAMakerDialog(
-                        knowledgeBaseId: knowledgebase.KnowledgeBaseId,
-                        endpointKey: knowledgebase.EndpointKey,
-                        hostName: knowledgebase.Host,
-                        noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
-                        activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                        cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
-                        {
-                            Id = knowledgebaseId
-                        };
-
-                        AddDialog(qnaDialog);
-                    }
-
+                    RegisterQnADialog(knowledgebaseId, localizedServices);
                     return await stepContext.BeginDialogAsync(knowledgebaseId);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    // Register a QnAMakerDialog for the knowledgebase and ensure localised responses are provided.
                     var knowledgebaseId = "Chitchat";
-                    var knowledgebase = localizedServices.QnAConfiguration[knowledgebaseId];
-
-                    if (Dialogs.Find(knowledgebaseId) == null)
-                    {
-                        var qnaDialog = new QnAMakerDialog(
-                        knowledgeBaseId: knowledgebase.KnowledgeBaseId,
-                        endpointKey: knowledgebase.EndpointKey,
-                        hostName: knowledgebase.Host,
-                        noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
-                        activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                        cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
-                        {
-                            Id = knowledgebaseId
-                        };
-
-                        AddDialog(qnaDialog);
-                    }
-
+                    RegisterQnADialog(knowledgebaseId, localizedServices);
                     return await stepContext.BeginDialogAsync(knowledgebaseId);
                 }
                 else
@@ -437,6 +403,34 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             return await next();
+        }
+
+        private void RegisterQnADialog(string knowledgebaseId, CognitiveModelSet cognitiveModels)
+        {
+            cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint);
+
+            if (qnaEndpoint != null)
+            {
+                if (Dialogs.Find(knowledgebaseId) == null)
+                {
+                    var qnaDialog = new QnAMakerDialog(
+                        knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
+                        endpointKey: qnaEndpoint.EndpointKey,
+                        hostName: qnaEndpoint.Host,
+                        noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                        activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                        cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                    {
+                        Id = knowledgebaseId
+                    };
+
+                    AddDialog(qnaDialog);
+                }
+            }
+            else
+            {
+                throw new Exception($"Could not find QnA Maker knowledge base configuration with id: {knowledgebaseId}.");
+            }
         }
 
         private bool IsSkillIntent(DispatchLuis.Intent dispatchIntent)
