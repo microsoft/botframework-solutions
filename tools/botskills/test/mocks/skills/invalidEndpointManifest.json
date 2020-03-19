@@ -2,7 +2,7 @@
     "id": "testSkill",
     "msaAppId": "00000000-0000-0000-0000-000000000000",
     "name": "Test Skill",
-    "endpoint": "https://test-Stage.azurewebsites.net/manifest",
+    "endpoint": "https://Test-Stage.azurewebsites.net/manifest",
     "description": "This is a test skill to use for testing purpose.",
     "authenticationConnections": [],
     "actions": [
@@ -14,7 +14,7 @@
                 "triggers": {
                     "utteranceSources": [
                         {
-                            "locale": "en",
+                            "locale": "en-us",
                             "source": [
                                 "test#Test"
                             ]
