@@ -52,6 +52,9 @@ public class ConfigurationManager {
         if (configuration.serviceKey == null) {
             configuration.serviceKey = defaultConfiguration.serviceKey;
         }
+        if (configuration.customCommandsAppId == null) {
+            configuration.customCommandsAppId = defaultConfiguration.customCommandsAppId;
+        }
         if (configuration.serviceRegion == null) {
             configuration.serviceRegion = defaultConfiguration.serviceRegion;
         }

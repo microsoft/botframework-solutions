@@ -9,6 +9,10 @@ public class Configuration {
     @Expose
     public String serviceKey;
 
+    @SerializedName("commands_app_id")
+    @Expose
+    public String customCommandsAppId;
+
     @SerializedName("service_region")
     @Expose
     public String serviceRegion;
