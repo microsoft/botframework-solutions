@@ -55,4 +55,8 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     protected onEventActivity(turnContext: TurnContext): Promise<void> {
         return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
+
+    protected onEndOfConversationActivity(turnContext: TurnContext): Promise<void> {
+        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+    }
 }

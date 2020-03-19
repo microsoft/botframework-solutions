@@ -8,18 +8,15 @@ import {
     BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
-    ConversationState,
     ShowTypingMiddleware,
     TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
-    UserState,
     TurnContext } from 'botbuilder';
 import {
     EventDebuggerMiddleware,
     SetLocaleMiddleware,
     LocaleTemplateEngineManager,
-    SetSpeakMiddleware,
-    SkillMiddleware } from 'botbuilder-solutions';
+    SetSpeakMiddleware } from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
 import { TurnContextEx } from '../extensions/turnContextEx';
 import { AzureBlobTranscriptStore, BlobStorageSettings } from 'botbuilder-azure';
@@ -30,8 +27,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
 
     public constructor(
         settings: Partial<IBotSettings>,
-        userState: UserState,
-        conversationState: ConversationState,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
         templateEngine: LocaleTemplateEngineManager,
         telemetryMiddleware: TelemetryInitializerMiddleware,
@@ -77,7 +72,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         this.use(new ShowTypingMiddleware());
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        this.use(new SkillMiddleware(userState, conversationState, conversationState.createProperty('DialogState')));
         this.use(new SetSpeakMiddleware());
     }
 }

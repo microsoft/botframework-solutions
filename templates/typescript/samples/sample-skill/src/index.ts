@@ -12,11 +12,11 @@ import {
     TurnContext,
     UserState, 
     TelemetryLoggerMiddleware,
-    BotFrameworkAdapter} from 'botbuilder';
+    BotFrameworkAdapter } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import {
-    CosmosDbStorage,
-    CosmosDbStorageSettings } from 'botbuilder-azure';
+    CosmosDbPartitionedStorageOptions,
+    CosmosDbPartitionedStorage} from 'botbuilder-azure';
 import {
     Dialog } from 'botbuilder-dialogs';
 import {
@@ -51,11 +51,12 @@ i18next.use(i18nextNodeFsBackend)
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
-const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
+const cognitiveModelMap: Map<string, Object> = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value: Object, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
+// Load settings
 const botSettings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
@@ -79,20 +80,24 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
     return new NullTelemetryClient();
 }
 
+// Configure telemetry
 const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
+const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
+const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 
 if (botSettings.cosmosDb === undefined) {
     throw new Error();
 }
 
-const cosmosDbStorageSettings: CosmosDbStorageSettings = {
+// Configure storage
+const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
     authKey: botSettings.cosmosDb.authKey,
-    collectionId: botSettings.cosmosDb.collectionId,
+    containerId: botSettings.cosmosDb.containerId,
     databaseId: botSettings.cosmosDb.databaseId,
-    serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
+    cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint,
+    compatibilityMode: false
 };
-
-const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
+const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions)
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
@@ -118,9 +123,6 @@ supportedLocales.forEach((locale: string): void => {
 
 const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
-const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
-const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
-
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
@@ -128,8 +130,6 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
-    userState,
-    conversationState,
     adapterSettings,
     localeTemplateEngine,
     telemetryInitializerMiddleware,
@@ -139,15 +139,18 @@ const adapter: BotFrameworkAdapter = defaultAdapter;
 
 let bot: DefaultActivityHandler<Dialog>;
 try {
+    // Configure bot services
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
-    const sampleAction: SampleAction = new SampleAction(
+
+    // Register dialogs
+    const sampleDialog: SampleDialog = new SampleDialog(
         botSettings,
         botServices,
         stateAccessor,
         telemetryClient,
         localeTemplateEngine
     );
-    const sampleDialog: SampleDialog = new SampleDialog(
+    const sampleAction: SampleAction = new SampleAction(
         botSettings,
         botServices,
         stateAccessor,
