@@ -153,10 +153,12 @@
       "condition": "[parameters('useCosmosDb')]"
     },
     {
-      "type": "Microsoft.DocumentDB/databaseAccounts/apis/databases",
-      "name": "[concat(variables('cosmosDbAccountName'), '/sql/', parameters('cosmosDbDatabaseName'))]",
-      "apiVersion": "2016-03-31",
-      "dependsOn": [ "[resourceId('Microsoft.DocumentDB/databaseAccounts/', variables('cosmosDbAccountName'))]" ],
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "name": "[concat(variables('cosmosDbAccountName'), '/', parameters('cosmosDbDatabaseName'))]",
+      "apiVersion": "2019-12-12",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))]"
+      ],
       "properties": {
         "resource": {
           "id": "[parameters('cosmosDbDatabaseName')]"
