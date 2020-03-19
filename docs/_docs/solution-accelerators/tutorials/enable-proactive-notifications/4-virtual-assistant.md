@@ -99,7 +99,8 @@ public class DefaultActivityHandler<T> : TeamsActivityHandler
         IServiceProvider serviceProvider,
         IBotTelemetryClient telemetryClient,
 +       MicrosoftAppCredentials appCredentials,
-+       ProactiveState proactiveState)
++       ProactiveState proactiveState,
+        T dialog)
     {
         _dialog = dialog;
         _conversationState = serviceProvider.GetService<ConversationState>();
