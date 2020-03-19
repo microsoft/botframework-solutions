@@ -15,7 +15,7 @@ import {
     SkillHttpClient,
     SkillHandler } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
-import { CosmosDbStorage, CosmosDbStorageSettings } from 'botbuilder-azure';
+import { CosmosDbPartitionedStorage, CosmosDbPartitionedStorageOptions } from 'botbuilder-azure';
 import { Dialog, SkillDialog, SkillDialogOptions } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
@@ -23,8 +23,8 @@ import {
     LocaleTemplateEngineManager,
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
-    SkillConversationIdFactory,
-    SkillsConfiguration } from 'botbuilder-solutions';
+    SkillsConfiguration, 
+    SkillConversationIdFactory} from 'botbuilder-solutions';
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
@@ -63,8 +63,7 @@ cognitiveModelMap.forEach((value: Object, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
-const skills: IEnhancedBotFrameworkSkill[] = appsettings.botFrameworkSkills;
-const skillHostEndpoint: string = appsettings.skillHostEndpoint;
+// Load settings
 const botSettings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
@@ -87,28 +86,29 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
 
 // Configure telemetry
 const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
+const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
+const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
-    appPassword: botSettings.microsoftAppPassword,
-    channelService: ""
+    appPassword: botSettings.microsoftAppPassword
 };
 
 if (botSettings.cosmosDb === undefined) {
     throw new Error();
 }
 
-const cosmosDbStorageSettings: CosmosDbStorageSettings = {
-    authKey: botSettings.cosmosDb.authKey,
-    collectionId: botSettings.cosmosDb.collectionId,
-    databaseId: botSettings.cosmosDb.databaseId,
-    serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
-};
-
+// Configure configuration provider
 const credentialProvider: SimpleCredentialProvider = new SimpleCredentialProvider(appsettings.microsoftAppId, appsettings.microsoftAppPassword);
 
 // Configure storage
-const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
+const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
+    authKey: botSettings.cosmosDb.authKey,
+    containerId: botSettings.cosmosDb.containerId,
+    databaseId: botSettings.cosmosDb.databaseId,
+    cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint
+};
+const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions)
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 
@@ -134,23 +134,8 @@ supportedLocales.forEach((locale: string) => {
 
 const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
 
-// Create the skills configuration class
-let authConfig: AuthenticationConfiguration = new AuthenticationConfiguration();
-let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], "") ;
-if (skills !== undefined && skills.length > 0 && skillHostEndpoint.trim().length !== 0) {
-        skillsConfiguration = new SkillsConfiguration(skills, skillHostEndpoint);
-        const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillsConfiguration);
-
-        // Create AuthConfiguration to enable custom claim validation.
-        authConfig = new AuthenticationConfiguration(
-            undefined,
-            (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
-        );
-}
-
-const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
-const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
-
+// Register the Bot Framework Adapter with error handling enabled.
+// Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
 const adapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
     localeTemplateEngine,
@@ -159,8 +144,17 @@ const adapter: DefaultAdapter = new DefaultAdapter(
     telemetryInitializerMiddleware,
     telemetryClient
 );
-const skillConversationIdFactory: SkillConversationIdFactory = new SkillConversationIdFactory(storage);
 
+// Register AuthConfiguration to enable custom claim validation.
+let authenticationConfiguration: AuthenticationConfiguration = new AuthenticationConfiguration();
+// Create the skills configuration class
+let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], "") ;
+
+// Register the skills conversation ID factory, the client.
+const skillConversationIdFactory: SkillConversationIdFactory = new SkillConversationIdFactory(storage);
+const skillHttpClient: SkillHttpClient = new SkillHttpClient(credentialProvider, skillConversationIdFactory);
+
+// Configure bot
 let bot: DefaultActivityHandler<Dialog>;
 try {
     // Configure bot services
@@ -169,26 +163,31 @@ try {
     const userProfileStateAccesor: StatePropertyAccessor<IUserProfileState> = userState.createProperty<IUserProfileState>('IUserProfileState');
     const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateEngine, telemetryClient);
     const switchSkillDialog: SwitchSkillDialog = new SwitchSkillDialog(conversationState);
-    const previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]> =
-        userState.createProperty<Partial<Activity>[]>('Activity');
-
-
-    const skillHttpClient: SkillHttpClient = new SkillHttpClient(
-        credentialProvider,
-        skillConversationIdFactory
-    );
+    const previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]> = userState.createProperty<Partial<Activity>[]>('Activity');
 
     let skillDialogs: SkillDialog[] = [];
+    // Register the SkillDialogs (remote skills).
+    const skills: IEnhancedBotFrameworkSkill[] = appsettings.botFrameworkSkills;
     if (skills !== undefined && skills.length > 0) {
-        if (skillHostEndpoint === undefined) {
+        const hostEndpoint: string = appsettings.skillHostEndpoint;
+        if (hostEndpoint === undefined || hostEndpoint.trim().length === 0) {
             throw new Error("'skillHostEndpoint' is not in the configuration");
         } else {
+            skillsConfiguration = new SkillsConfiguration(skills, hostEndpoint);
+            const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillsConfiguration);
+    
+            // Create AuthConfiguration to enable custom claim validation.
+            authenticationConfiguration = new AuthenticationConfiguration(
+                undefined,
+                (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+            );
+
             skillDialogs = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
                 const skillDialogOptions: SkillDialogOptions = {
                     botId: appsettings.microsoftAppId,
                     conversationIdFactory: skillConversationIdFactory,
                     skillClient: skillHttpClient,
-                    skillHostEndpoint: skillHostEndpoint,
+                    skillHostEndpoint: hostEndpoint,
                     skill: skill,
                     conversationState: conversationState
                 }
@@ -240,7 +239,8 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
     });
 });
 
-const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authConfig);
+// Register the request handler.
+const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authenticationConfiguration);
     
 server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
     const activity: Activity = JSON.parse(JSON.stringify(req.body));
