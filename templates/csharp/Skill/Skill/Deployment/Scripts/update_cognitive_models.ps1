@@ -29,7 +29,7 @@ if (Get-Command az -ErrorAction SilentlyContinue) {
     $azcliversionoutput = az -v
     [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
     [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
+    [version]$minversion = '2.2.0'
 
     if ($azcliversion -ge $minversion) {
         $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
