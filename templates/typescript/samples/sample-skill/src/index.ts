@@ -94,8 +94,7 @@ const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
     authKey: botSettings.cosmosDb.authKey,
     containerId: botSettings.cosmosDb.containerId,
     databaseId: botSettings.cosmosDb.databaseId,
-    cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint,
-    compatibilityMode: false
+    cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint
 };
 const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions)
 const userState: UserState = new UserState(storage);
