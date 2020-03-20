@@ -424,29 +424,26 @@ namespace $safeprojectname$.Dialogs
 
         private void RegisterQnADialog(string knowledgebaseId, CognitiveModelSet cognitiveModels)
         {
-            cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint);
-
-            if (qnaEndpoint != null)
-            {
-                if (Dialogs.Find(knowledgebaseId) == null)
-                {
-                    var qnaDialog = new QnAMakerDialog(
-                        knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
-                        endpointKey: qnaEndpoint.EndpointKey,
-                        hostName: qnaEndpoint.Host,
-                        noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
-                        activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                        cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
-                    {
-                        Id = knowledgebaseId
-                    };
-
-                    AddDialog(qnaDialog);
-                }
-            }
-            else
+            if (!cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint)
+                || qnaEndpoint == null)
             {
                 throw new Exception($"Could not find QnA Maker knowledge base configuration with id: {knowledgebaseId}.");
+            }
+
+            if (Dialogs.Find(knowledgebaseId) == null)
+            {
+                var qnaDialog = new QnAMakerDialog(
+                    knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
+                    endpointKey: qnaEndpoint.EndpointKey,
+                    hostName: qnaEndpoint.Host,
+                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                {
+                    Id = knowledgebaseId
+                };
+
+                AddDialog(qnaDialog);
             }
         }
 
