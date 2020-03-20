@@ -8,9 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
@@ -68,23 +70,6 @@ namespace VirtualAssistantSample.Dialogs
             _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
             AddDialog(_onboardingDialog);
             AddDialog(_switchSkillDialog);
-
-            // Register a QnAMakerDialog for each registered knowledgebase and ensure localised responses are provided.
-            var localizedServices = _services.GetCognitiveModels();
-            foreach (var knowledgebase in localizedServices.QnAConfiguration)
-            {
-                var qnaDialog = new QnAMakerDialog(
-                    knowledgeBaseId: knowledgebase.Value.KnowledgeBaseId,
-                    endpointKey: knowledgebase.Value.EndpointKey,
-                    hostName: knowledgebase.Value.Host,
-                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
-                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
-                {
-                    Id = knowledgebase.Key
-                };
-                AddDialog(qnaDialog);
-            }
 
             // Register skill dialogs
             var skillDialogs = serviceProvider.GetServices<SkillDialog>();
@@ -341,13 +326,17 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    return await stepContext.BeginDialogAsync("Faq");
+                    var knowledgebaseId = "Faq";
+                    RegisterQnADialog(knowledgebaseId, localizedServices);
+                    return await stepContext.BeginDialogAsync(knowledgebaseId);
                 }
                 else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    return await stepContext.BeginDialogAsync("Chitchat");
+                    var knowledgebaseId = "Chitchat";
+                    RegisterQnADialog(knowledgebaseId, localizedServices);
+                    return await stepContext.BeginDialogAsync(knowledgebaseId);
                 }
                 else
                 {
@@ -414,6 +403,31 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             return await next();
+        }
+
+        private void RegisterQnADialog(string knowledgebaseId, CognitiveModelSet cognitiveModels)
+        {
+            if (!cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint)
+                || qnaEndpoint == null)
+            {
+                throw new Exception($"Could not find QnA Maker knowledge base configuration with id: {knowledgebaseId}.");
+            }
+
+            if (Dialogs.Find(knowledgebaseId) == null)
+            {
+                var qnaDialog = new QnAMakerDialog(
+                    knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
+                    endpointKey: qnaEndpoint.EndpointKey,
+                    hostName: qnaEndpoint.Host,
+                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                {
+                    Id = knowledgebaseId
+                };
+
+                AddDialog(qnaDialog);
+            }
         }
 
         private bool IsSkillIntent(DispatchLuis.Intent dispatchIntent)

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "name": {
@@ -27,6 +27,14 @@
     "cosmosDbName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+    },
+    "cosmosDbDatabaseName": {
+      "type": "string",
+      "defaultValue": "botstate-db"
+    },
+    "cosmosDbDatabaseThroughput": {
+      "type": "int",
+      "defaultValue": 400
     },
     "useStorage": {
       "type": "bool",
@@ -193,6 +201,22 @@
         "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "condition": "[parameters('useCosmosDb')]"
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "name": "[concat(variables('cosmosDbAccountName'), '/', parameters('cosmosDbDatabaseName'))]",
+      "apiVersion": "2019-12-12",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))]"
+      ],
+      "properties": {
+        "resource": {
+          "id": "[parameters('cosmosDbDatabaseName')]"
+        },
+        "options": {
+          "throughput": "[parameters('cosmosDbDatabaseThroughput')]"
+        }
+      }
     },
     {
       "comments": "storage account",
@@ -456,8 +480,8 @@
       "value": {
         "cosmosDBEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
         "authKey": "[if(parameters('useCosmosDb'), listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName')), '2015-04-08').primaryMasterKey, '')]",
-        "databaseId": "botstate-db",
-        "containerId ": "[concat(parameters('name'), '-state')]"
+        "databaseId": "[parameters('cosmosDbDatabaseName')]",
+        "containerId": "[concat(parameters('name'), '-state')]"
       }
     },
     "luis": {
