@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using SkillServiceLibrary.Utilities;
@@ -27,7 +28,8 @@ namespace ITSMSkill.Bots
             ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
-            ResponseManager responseManager)
+            ResponseManager responseManager,
+            ProactiveState proactiveState)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -58,6 +60,7 @@ namespace ITSMSkill.Bots
             Use(new EventDebuggerMiddleware());
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
             Use(new SetSpeakMiddleware());
+            Use(new ProactiveStateMiddleware(proactiveState));
         }
     }
 }
