@@ -26,6 +26,11 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ITSMSkill.Controllers.ServiceNow;
+using ITSMSkill.Controllers;
+using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.AspNetCore.Http;
+using ITSMSkill.Models.ServiceNow;
 
 namespace ITSMSkill
 {
@@ -102,6 +107,8 @@ namespace ITSMSkill
             // Configure proactive
             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
             services.AddHostedService<QueuedHostedService>();
+            services.AddSingleton<ProactiveState>();
+            services.AddSingleton<IMessageReceiver<ServiceNowNotification>, ServiceNowMessageReceiver>();
 
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(
