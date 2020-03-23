@@ -117,7 +117,13 @@ if ($luisAuthoringKey -and $luisAuthoringRegion) {
 	if (Get-Command bf -errorAction SilentlyContinue) {
 		$customizedSettings = Get-Content $(Join-Path $remoteBotPath settings appsettings.json) | ConvertFrom-Json
 		$customizedEnv = $customizedSettings.luis.environment
-		bf luis:build --in .\ --botName $name --authoringKey $luisAuthoringKey --dialog --out .\generated --suffix $customizedEnv -f
+		
+		# create generated folder if not exists
+		if (!(Test-Path generated)) {
+			New-Item -ItemType Directory -Force -Path generated
+		}
+		
+		bf luis:build --in .\ --botName $name --authoringKey $luisAuthoringKey --dialog --out .\generated --suffix $customizedEnv -f --region $luisAuthoringRegion
 	}
 	else {
 		Write-Host "bf luis:build does not exist, use the following command to install:"
