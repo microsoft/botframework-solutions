@@ -8,8 +8,15 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Teams;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Util;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using VirtualAssistantSample.Models;
 
 namespace VirtualAssistantSample.Bots
 {
@@ -20,6 +27,10 @@ namespace VirtualAssistantSample.Bots
         private readonly BotState _conversationState;
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private IStatePropertyAccessor<UserProfileState> _userProfileState;
+        private LocaleTemplateManager _templateManager;
+        private MicrosoftAppCredentials _appCredentials;
+        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -27,6 +38,13 @@ namespace VirtualAssistantSample.Bots
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+            _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
+            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
+
+            // SAMPLE: Create proactive state properties
+            _appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
+            var proactiveState = serviceProvider.GetService<ProactiveState>();
+            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -38,9 +56,22 @@ namespace VirtualAssistantSample.Bots
             await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        protected override Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+            var userProfile = await _userProfileState.GetAsync(turnContext, () => new UserProfileState());
+
+            if (string.IsNullOrEmpty(userProfile.Name))
+            {
+                // Send new user intro card.
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("NewUserIntroCard", userProfile));
+            }
+            else
+            {
+                // Send returning user intro card.
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ReturningUserIntroCard", userProfile));
+            }
+
+            await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
         protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -53,9 +84,89 @@ namespace VirtualAssistantSample.Bots
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
-        protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+            var ev = turnContext.Activity.AsEventActivity();
+            var value = ev.Value?.ToString();
+
+            switch (ev.Name)
+            {
+                case Events.Broadcast:
+                    {
+                        var eventData = JsonConvert.DeserializeObject<EventData>(turnContext.Activity.Value.ToString());
+
+                        var proactiveModel = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
+
+                        var hashedUserId = MD5Util.ComputeHash(eventData.UserId);
+
+                        var conversationReference = proactiveModel[hashedUserId].Conversation;
+
+                        await turnContext.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(turnContext, eventData.Message), cancellationToken);
+                        break;
+                    }
+
+                case TokenEvents.TokenResponseEventName:
+                    {
+                        // Forward the token response activity to the dialog waiting on the stack.
+                        await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+                        break;
+                    }
+
+                default:
+                    {
+                        await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                        break;
+                    }
+            }
+        }
+
+        protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
+        {
+            await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+        }
+
+        /// <summary>
+        /// Continue the conversation callback.
+        /// </summary>
+        /// <param name="context">Turn context.</param>
+        /// <param name="message">Activity text.</param>
+        /// <returns>Bot Callback Handler.</returns>
+        private BotCallbackHandler ContinueConversationCallback(ITurnContext context, string message)
+        {
+            return async (turnContext, cancellationToken) =>
+            {
+                var activity = turnContext.Activity.CreateReply(message);
+                EnsureActivity(activity);
+                await turnContext.SendActivityAsync(activity);
+            };
+        }
+
+        /// <summary>
+        /// This method is required for proactive notifications to work in Web Chat.
+        /// </summary>
+        /// <param name="activity">Proactive Activity.</param>
+        private void EnsureActivity(Activity activity)
+        {
+            if (activity != null)
+            {
+                if (activity.From != null)
+                {
+                    activity.From.Name = "User";
+                    activity.From.Properties["role"] = "user";
+                }
+
+                if (activity.Recipient != null)
+                {
+                    activity.Recipient.Id = "1";
+                    activity.Recipient.Name = "Bot";
+                    activity.Recipient.Properties["role"] = "bot";
+                }
+            }
+        }
+
+        private class Events
+        {
+            public const string Broadcast = "BroadcastEvent";
         }
     }
 }

@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Solutions.Extensions;
-using Microsoft.Bot.Builder.Solutions.Responses;
+using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
@@ -20,7 +19,7 @@ namespace VirtualAssistantSample.Dialogs
     public class OnboardingDialog : ComponentDialog
     {
         private BotServices _services;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateManager;
         private IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
@@ -28,7 +27,7 @@ namespace VirtualAssistantSample.Dialogs
             IBotTelemetryClient telemetryClient)
             : base(nameof(OnboardingDialog))
         {
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
@@ -59,7 +58,7 @@ namespace VirtualAssistantSample.Dialogs
             {
                 return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
                 {
-                    Prompt = _templateEngine.GenerateActivityForLocale("NamePrompt"),
+                    Prompt = _templateManager.GenerateActivityForLocale("NamePrompt"),
                 });
             }
         }
@@ -74,6 +73,7 @@ namespace VirtualAssistantSample.Dialogs
             {
                 var localizedServices = _services.GetCognitiveModels();
                 generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(sc.Context, cancellationToken);
+                sc.Context.TurnState.Add(StateProperties.GeneralResult, generalResult);
             }
 
             (var generalIntent, var generalScore) = generalResult.TopIntent();
@@ -94,10 +94,7 @@ namespace VirtualAssistantSample.Dialogs
 
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
-            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HaveNameMessage", userProfile));
-            await sc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("FirstPromptMessage", userProfile));
-
-            sc.SuppressCompletionMessage(true);
+            await sc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HaveNameMessage", userProfile));
 
             return await sc.EndDialogAsync();
         }
@@ -105,11 +102,6 @@ namespace VirtualAssistantSample.Dialogs
         private class DialogIds
         {
             public const string NamePrompt = "namePrompt";
-        }
-
-        private class StateProperties
-        {
-            public const string GeneralResult = "generalResult";
         }
     }
 }
