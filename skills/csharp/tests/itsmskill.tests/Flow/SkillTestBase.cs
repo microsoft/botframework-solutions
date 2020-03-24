@@ -31,6 +31,8 @@ using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions.Proactive;
 
 namespace ITSMSkill.Tests.Flow
 {
@@ -63,6 +65,8 @@ namespace ITSMSkill.Tests.Flow
             settings.LimitSize = MockData.LimitSize;
             settings.ServiceNowUrl = MockData.ServiceNowUrl;
             settings.ServiceNowGetUserId = MockData.ServiceNowGetUserId;
+            settings.MicrosoftAppId = MockData.MicrosoftAppId;
+            settings.MicrosoftAppPassword = MockData.MicrosoftAppPassword;
             Services.AddSingleton(settings);
             Services.AddSingleton<BotSettingsBase>(settings);
 
@@ -103,6 +107,7 @@ namespace ITSMSkill.Tests.Flow
             Services.AddSingleton<IStorage, MemoryStorage>();
             Services.AddSingleton<UserState>();
             Services.AddSingleton<ConversationState>();
+            Services.AddSingleton<ProactiveState>();
             Services.AddSingleton(sp =>
             {
                 var userState = sp.GetService<UserState>();
@@ -133,6 +138,7 @@ namespace ITSMSkill.Tests.Flow
             Services.AddTransient<CloseTicketDialog>();
             Services.AddTransient<ShowKnowledgeDialog>();
             Services.AddTransient<MainDialog>();
+            Services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
 
             // Configure adapters
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();

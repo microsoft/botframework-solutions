@@ -58,5 +58,9 @@ namespace ITSMSkill.Tests.API.Fakes
         public const int KnowledgeCount = 1;
 
         public static string KnowledgeUrl { get => $"{ServiceNowUrl}/kb_view.do?sysparm_article={KnowledgeNumber}"; }
+
+        public static string MicrosoftAppId = "MockMicrosoftAppId";
+
+        public static string MicrosoftAppPassword = "MockMicrosoftAppPassword";
     }
 }

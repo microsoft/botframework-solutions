@@ -26,22 +26,22 @@ namespace ITSMSkill.Bots
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
+        private readonly ProactiveState _proactiveState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private MicrosoftAppCredentials _appCredentials;
         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
 
         public DefaultActivityHandler(
             IServiceProvider serviceProvider,
-            MicrosoftAppCredentials appCredentials,
-            ProactiveState proactiveState,
             T dialog)
         {
             _dialog = dialog;
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
+            _proactiveState = serviceProvider.GetService<ProactiveState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
-            _appCredentials = appCredentials;
+            _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
+            _appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
