@@ -27,12 +27,17 @@ namespace Microsoft.Bot.Solutions.Authentication
         private List<OAuthConnection> _authenticationConnections;
         private LocaleTemplateManager _templateManager;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, List<OAuthPromptSettings> promptSettings = null, AppCredentials oauthCredentials = null, string defaultLocale = null)
+        public MultiProviderAuthDialog(
+            List<OAuthConnection> authenticationConnections,
+            List<OAuthPromptSettings> promptSettings = null,
+            AppCredentials oauthCredentials = null,
+            LocaleTemplateManager templateManager = null,
+            string defaultLocale = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
 
-            _templateManager = BuildTemplateManager(defaultLocale);
+            _templateManager = templateManager ?? BuildTemplateManager(defaultLocale);
 
             var firstStep = new WaterfallStep[]
             {
