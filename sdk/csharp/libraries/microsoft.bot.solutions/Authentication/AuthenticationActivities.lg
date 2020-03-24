@@ -1,0 +1,25 @@
+﻿# OAuthCardButtonText
+- Login
+
+# OAuthCardText(authType)
+- Sign in to your ${authType} account
+
+# ConfiguredAuthProvidersPromptText
+- You have multiple accounts configured. Which one would you like to use?
+
+# AuthProvidersPromptText
+- Which account would you like to use?
+
+# ConfiguredAuthProvidersPrompt
+[Activity
+    Text = ${ConfiguredAuthProvidersPromptText}
+    Speak = ${ConfiguredAuthProvidersPromptText}
+    InputHint = expectingInput
+]
+
+# AuthProvidersPrompt
+[Activity
+    Text = ${AuthProvidersPromptText}
+    Speak = ${AuthProvidersPromptText}
+    InputHint = expectingInput
+]

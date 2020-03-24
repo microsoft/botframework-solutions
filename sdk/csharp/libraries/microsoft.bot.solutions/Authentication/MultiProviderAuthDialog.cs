@@ -4,12 +4,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 
@@ -22,16 +25,14 @@ namespace Microsoft.Bot.Solutions.Authentication
     {
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
-        private ResponseManager _responseManager;
+        private LocaleTemplateManager _templateManager;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, List<OAuthPromptSettings> promptSettings = null)
+        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, List<OAuthPromptSettings> promptSettings = null, AppCredentials oauthCredentials = null, string defaultLocale = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
 
-            _responseManager = new ResponseManager(
-                new string[] { "en", "de", "es", "fr", "it", "zh" },
-                new AuthenticationResponses());
+            _templateManager = BuildTemplateManager(defaultLocale);
 
             var firstStep = new WaterfallStep[]
             {
@@ -58,15 +59,15 @@ namespace Microsoft.Bot.Solutions.Authentication
                     // We ignore placeholder connections in config that don't have a Name
                     if (!string.IsNullOrWhiteSpace(connection.Name))
                     {
-                        // Resource Manager currently does not have a function to render just a localized respons so generate an activity and then grab the localized text from that activity
-                        var loginBtnActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton);
-                        var loginPromptActivity = _responseManager.GetResponse(AuthenticationResponses.LoginPrompt, new StringDictionary() { { "authType", connection.Name } });
+                        var loginButtonText = _templateManager.Generate($"${{{ResponseTemplateIds.OAuthCardButtonText}()}}", null, CultureInfo.CurrentUICulture.Name.ToLower() ?? defaultLocale).ToString();
+                        var loginText = _templateManager.Generate($"${{{ResponseTemplateIds.OAuthCardText}(\"{connection.Name}\")}}", null, CultureInfo.CurrentUICulture.Name.ToLower() ?? defaultLocale).ToString();
                         var settings = promptSettings?[i] ?? new OAuthPromptSettings
                         {
                             ConnectionName = connection.Name,
-                            Title = loginBtnActivity.Text,
-                            Text = loginPromptActivity.Text,
+                            Title = loginButtonText,
+                            Text = loginText,
                         };
+                        settings.OAuthAppCredentials = oauthCredentials;
 
                         AddDialog(new OAuthPrompt(
                             connection.Name,
@@ -96,6 +97,25 @@ namespace Microsoft.Bot.Solutions.Authentication
             }
 
             return Task.FromResult(false);
+        }
+
+        private LocaleTemplateManager BuildTemplateManager(string defaultLocale)
+        {
+            var localizedTemplates = new Dictionary<string, string>();
+            var templateFile = "AuthenticationActivities";
+            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+
+            foreach (var locale in supportedLocales)
+            {
+                // LG template for en-us does not include locale in file extension.
+                var localeTemplateFile = locale.Equals("en-us")
+                    ? Path.Combine(".", "Authentication", $"{templateFile}.lg")
+                    : Path.Combine(".", "Authentication", $"{templateFile}.{locale}.lg");
+
+                localizedTemplates.Add(locale, localeTemplateFile);
+            }
+
+            return new LocaleTemplateManager(localizedTemplates, defaultLocale ?? "en-us");
         }
 
         private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -140,7 +160,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                         DialogIds.ProviderPrompt,
                         new PromptOptions
                         {
-                            Prompt = _responseManager.GetResponse(AuthenticationResponses.ConfiguredAuthProvidersPrompt),
+                            Prompt = _templateManager.GenerateActivityForLocale(ResponseTemplateIds.ConfiguredAuthProvidersPrompt),
                             Choices = choices,
                         },
                         cancellationToken).ConfigureAwait(false);
@@ -162,7 +182,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                         DialogIds.ProviderPrompt,
                         new PromptOptions
                         {
-                            Prompt = _responseManager.GetResponse(AuthenticationResponses.AuthProvidersPrompt),
+                            Prompt = _templateManager.GenerateActivityForLocale(ResponseTemplateIds.AuthProvidersPrompt),
                             Choices = choices,
                         },
                         cancellationToken).ConfigureAwait(false);
@@ -249,11 +269,19 @@ namespace Microsoft.Bot.Solutions.Authentication
             return Task.FromResult(false);
         }
 
-        private class DialogIds
+        private static class DialogIds
         {
             public const string ProviderPrompt = "ProviderPrompt";
             public const string FirstStepPrompt = "FirstStep";
             public const string AuthPrompt = "AuthPrompt";
+        }
+
+        private static class ResponseTemplateIds
+        {
+            public const string ConfiguredAuthProvidersPrompt = "ConfiguredAuthProvidersPrompt";
+            public const string AuthProvidersPrompt = "AuthProvidersPrompt";
+            public const string OAuthCardButtonText = "OAuthCardButtonText";
+            public const string OAuthCardText = "OAuthCardText";
         }
     }
 }
