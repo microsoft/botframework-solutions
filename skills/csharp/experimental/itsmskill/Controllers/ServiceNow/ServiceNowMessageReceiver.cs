@@ -1,19 +1,20 @@
-﻿using ITSMSkill.Models.ServiceNow;
-using ITSMSkill.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using System.Threading.Tasks;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 namespace ITSMSkill.Controllers.ServiceNow
 {
+    using System;
+    using System.Net;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using ITSMSkill.Models.ServiceNow;
+    using ITSMSkill.Proactive;
+    using ITSMSkill.Services;
+    using Microsoft.Bot.Builder;
+    using Microsoft.Bot.Builder.Integration.AspNet.Core;
+    using Microsoft.Bot.Schema;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// The webhook request receiver implementation.
     /// </summary>
@@ -25,9 +26,10 @@ namespace ITSMSkill.Controllers.ServiceNow
         private readonly BotServices botServices;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WebhookMessageReceiver"/> class.
+        /// Initializes a new instance of the <see cref="ServiceNowMessageReceiver"/> class.
         /// </summary>
-        /// <param name="bot">The Virtual Assistant.</param>
+        /// <param name="httpAdapter">Botframework Adapter.</param>
+        /// <param name="bot">The Assistant.</param>
         /// <param name="botServices">The Bot services configuration.</param>
         public ServiceNowMessageReceiver(IBotFrameworkHttpAdapter httpAdapter, IBot bot, BotServices botServices)
         {
@@ -47,11 +49,11 @@ namespace ITSMSkill.Controllers.ServiceNow
             var activity = new Activity
             {
                 Type = ActivityTypes.Event,
-                ChannelId = "servicenowwebhook",
+                ChannelId = "ServicenowNotification",
                 Conversation = new ConversationAccount(id: $"{Guid.NewGuid()}"),
-                From = new ChannelAccount(id: $"Webhooks.servicenowwebhook", name: $"Webhooks.ITSMSkill"),
-                Recipient = new ChannelAccount(id: $"Webhooks.servicenowwebhook", name: $"Webhooks.ITSMSkill"),
-                Name = "Servicenow.Proactive",
+                From = new ChannelAccount(id: $"Notification.ServicenowWebhook", name: $"Notification.ITSMSkill"),
+                Recipient = new ChannelAccount(id: $"Notification.ServicenowWebhook", name: $"Notification.ITSMSkill"),
+                Name = ServiceNowEvents.Proactive,
                 Value = JsonConvert.SerializeObject(request)
             };
 

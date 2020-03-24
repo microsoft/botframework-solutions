@@ -2,12 +2,22 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http;
+using ITSMSkill.Controllers.ServiceNow;
 using ITSMSkill.Models;
+using ITSMSkill.Models.ServiceNow;
 using ITSMSkill.Services.ServiceNow;
 using ITSMSkill.Tests.API.Fakes;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Schema;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace ITSMSkill.Tests.API
@@ -156,6 +166,24 @@ namespace ITSMSkill.Tests.API
             Assert.AreEqual(result.Knowledges.Length, MockData.KnowledgeCount);
 
             Assert.AreEqual(mockServiceNowRestClient.GetUserIdResponseCount, 1);
+        }
+
+        [TestMethod]
+        public async Task ServiceNowController()
+        {
+            var service = new Management(MockData.ServiceNowUrl, MockData.Token, MockData.LimitSize, MockData.ServiceNowGetUserId, null, mockClient);
+
+            var mockMessageReceiver = new Mock<IMessageReceiver<ServiceNowNotification>>();
+
+            var serviceResp = new ServiceResponse(HttpStatusCode.NoContent, string.Empty);
+            mockMessageReceiver.Setup(x => x.Receive(It.IsAny<ServiceNowNotification>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(serviceResp));
+            var controller = new ServiceNowController(mockMessageReceiver.Object, It.IsAny<IBotTelemetryClient>());
+
+            // Act
+            var actionResult = await controller.Post(It.IsAny<ServiceNowNotification>(), It.IsAny<CancellationToken>());
+
+            // Assert
+            Assert.IsNotNull(actionResult);
         }
     }
 }

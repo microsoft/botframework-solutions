@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using ITSMSkill.Models.ServiceNow;
+using ITSMSkill.Proactive;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Teams;
@@ -80,13 +82,14 @@ namespace ITSMSkill.Bots
                         break;
                     }
 
-                case "Servicenow.Proactive":
+                case ServiceNowEvents.Proactive:
                     {
                         var eventData = JsonConvert.DeserializeObject<ServiceNowNotification>(turnContext.Activity.Value.ToString());
 
                         var proactiveModel = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
 
-                        var conversationReference = proactiveModel["9739bb1b8c007b42df6346cd42778fbb"].Conversation;
+                        // TODO: Implement a proactive subscription manager for mapping Notification to ConversationReference
+                        var conversationReference = proactiveModel["key"].Conversation;
 
                         await turnContext.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(turnContext, eventData), cancellationToken);
                         break;
@@ -100,6 +103,77 @@ namespace ITSMSkill.Bots
             }
         }
 
+        private IMessageActivity CreateAdaptiveCard(ITurnContext context, ServiceNowNotification serviceNowNotification)
+        {
+            Activity reply = context.Activity.CreateReply();
+            var card = new AdaptiveCard("1.0")
+            {
+                Body = new List<AdaptiveElement>
+                {
+                    new AdaptiveContainer
+                    {
+                        Items = new List<AdaptiveElement>
+                        {
+                            new AdaptiveColumnSet
+                            {
+                                Columns = new List<AdaptiveColumn>
+                                {
+                                    new AdaptiveColumn
+                                    {
+                                        Width = AdaptiveColumnWidth.Stretch,
+                                        Items = new List<AdaptiveElement>
+                                        {
+                                            new AdaptiveTextBlock
+                                            {
+                                                Text = $"Title: {serviceNowNotification.Title}",
+                                                Wrap = true,
+                                                Spacing = AdaptiveSpacing.Small,
+                                                Weight = AdaptiveTextWeight.Bolder
+                                            },
+                                            new AdaptiveTextBlock
+                                            {
+                                                // Incase of IcmForwarder, Triggers do not have incidentUrl hence being explicit here
+                                                Text = $"Urgency: {serviceNowNotification.Urgency}",
+                                                Color = AdaptiveTextColor.Good,
+                                                MaxLines = 1,
+                                                Weight = AdaptiveTextWeight.Bolder,
+                                                Size = AdaptiveTextSize.Large
+                                            },
+                                            new AdaptiveTextBlock
+                                            {
+                                                Text = $"Description: {serviceNowNotification.Description}",
+                                                Wrap = true,
+                                                Spacing = AdaptiveSpacing.Small,
+                                                Weight = AdaptiveTextWeight.Bolder
+                                            },
+                                            new AdaptiveTextBlock
+                                            {
+                                                Text = $"Impact: {serviceNowNotification.Impact}",
+                                                Wrap = true,
+                                                Spacing = AdaptiveSpacing.Small,
+                                                Weight = AdaptiveTextWeight.Bolder
+                                            },
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            reply.Attachments = new List<Attachment>
+            {
+                new Attachment
+                {
+                    ContentType = AdaptiveCard.ContentType,
+                    Content = card
+                }
+            };
+
+            return reply;
+        }
+
         /// <summary>
         /// Continue the conversation callback.
         /// </summary>
@@ -110,7 +184,7 @@ namespace ITSMSkill.Bots
         {
             return async (turnContext, cancellationToken) =>
             {
-                var activity = turnContext.Activity.CreateReply(notification.ToString());
+                var activity = CreateAdaptiveCard(context, notification);
                 EnsureActivity(activity);
                 await turnContext.SendActivityAsync(activity);
             };
@@ -120,7 +194,7 @@ namespace ITSMSkill.Bots
         /// This method is required for proactive notifications to work in Web Chat.
         /// </summary>
         /// <param name="activity">Proactive Activity.</param>
-        private void EnsureActivity(Activity activity)
+        private void EnsureActivity(IMessageActivity activity)
         {
             if (activity != null)
             {

@@ -3,7 +3,9 @@
 
 using System.Linq;
 using ITSMSkill.Bots;
+using ITSMSkill.Controllers.ServiceNow;
 using ITSMSkill.Dialogs;
+using ITSMSkill.Models.ServiceNow;
 using ITSMSkill.Responses.Knowledge;
 using ITSMSkill.Responses.Main;
 using ITSMSkill.Responses.Shared;
@@ -21,16 +23,12 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.TaskExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ITSMSkill.Controllers.ServiceNow;
-using ITSMSkill.Controllers;
-using Microsoft.Bot.Solutions.Proactive;
-using Microsoft.AspNetCore.Http;
-using ITSMSkill.Models.ServiceNow;
 
 namespace ITSMSkill
 {

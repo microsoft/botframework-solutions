@@ -1,4 +1,7 @@
-﻿namespace ITSMSkill.Controllers.ServiceNow
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace ITSMSkill.Controllers.ServiceNow
 {
     using System;
     using System.Collections.Generic;
