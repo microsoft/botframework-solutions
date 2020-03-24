@@ -3,7 +3,7 @@
   <metadata>
     <id>Microsoft.Bot.Solutions</id>
     <iconUrl>http://docs.botframework.com/images/bot_icon.png</iconUrl>
-    <version>$Version$</version>
+    <version>$PackageVersion$</version>
     <title>Microsoft Bot Builder Solutions</title>
     <authors>Microsoft</authors>
     <owners>Microsoft</owners>
