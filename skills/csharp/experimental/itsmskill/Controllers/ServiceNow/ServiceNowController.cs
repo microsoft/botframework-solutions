@@ -1,25 +1,30 @@
-﻿namespace ITSMSkill.Controllers.ServiceNow
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace ITSMSkill.Controllers.ServiceNow
 {
+    using System.Threading;
+    using System.Threading.Tasks;
     using ITSMSkill.Models.ServiceNow;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Builder.Integration.AspNet.Core;
     using Microsoft.Bot.Schema;
     using Newtonsoft.Json;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
 
+    /// <summary>
+    /// Controller to Process ServiceNow Events
+    /// </summary>
     [Route("api/servicenow")]
     [ApiController]
     public class ServiceNowController : ServiceNowControllerBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServiceNowController"/> class.
+        /// </summary>
+        /// <param name="messageReceiver">Botframework Adapter.</param>
+        /// <param name="telemetryClient">The Assistant.</param>
         public ServiceNowController(
-            IBotFrameworkHttpAdapter httpAdapter,
-            IBot bot,
             IMessageReceiver<ServiceNowNotification> messageReceiver,
             IBotTelemetryClient telemetryClient)
             : base(messageReceiver, telemetryClient)

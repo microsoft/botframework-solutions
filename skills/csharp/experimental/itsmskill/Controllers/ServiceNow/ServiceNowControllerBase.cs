@@ -1,25 +1,29 @@
-﻿namespace ITSMSkill.Controllers.ServiceNow
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+namespace ITSMSkill.Controllers.ServiceNow
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using ITSMSkill.Models.ServiceNow;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Bot.Builder;
-    using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
-    public abstract class ServiceNowControllerBase : WebhookControllerBase
+    public abstract class ServiceNowControllerBase : Controller
     {
         protected ServiceNowControllerBase(
             IMessageReceiver<ServiceNowNotification> messageReceiver,
             IBotTelemetryClient telemetryClient)
-        : base(messageReceiver, telemetryClient)
-            {
-            }
+        {
+            this.TelemetryClient = telemetryClient;
+            this.MessageReceiver = messageReceiver;
+        }
 
-        public override async Task<IActionResult> Post(
+        protected IMessageReceiver<ServiceNowNotification> MessageReceiver { get; }
+
+        protected IBotTelemetryClient TelemetryClient { get; }
+
+        public async Task<IActionResult> Post(
         ServiceNowNotification request,
         CancellationToken cancellationToken)
         {
