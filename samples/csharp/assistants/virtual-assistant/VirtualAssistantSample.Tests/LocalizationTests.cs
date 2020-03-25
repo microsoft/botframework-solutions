@@ -21,7 +21,6 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
-            // Variations are in English
             var allIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
