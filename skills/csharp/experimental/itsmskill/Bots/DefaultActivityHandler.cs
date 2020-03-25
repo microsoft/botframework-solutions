@@ -26,7 +26,7 @@ namespace ITSMSkill.Bots
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
-        private readonly ProactiveState _proactiveState;
+        private readonly ServiceNowProactiveState _proactiveState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private MicrosoftAppCredentials _appCredentials;
         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
@@ -38,7 +38,7 @@ namespace ITSMSkill.Bots
             _dialog = dialog;
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
-            _proactiveState = serviceProvider.GetService<ProactiveState>();
+            _proactiveState = serviceProvider.GetService<ServiceNowProactiveState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
             _appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
@@ -89,7 +89,7 @@ namespace ITSMSkill.Bots
                         var proactiveModel = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
 
                         // TODO: Implement a proactive subscription manager for mapping Notification to ConversationReference
-                        var conversationReference = proactiveModel["key"].Conversation;
+                        var conversationReference = proactiveModel["29:1L2z9sqte3pWsVlRFyFpw5RiB8N0eoUM9MBkywGgU6rGNKPd95Jx15AvIetaNLO5L8ZJ3C76pmnuy-mx5_oIDDQ"].Conversation;
 
                         await turnContext.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(turnContext, eventData), cancellationToken);
                         break;

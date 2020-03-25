@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Globalization;
+using ITSMSkill.Middleware;
+using ITSMSkill.Proactive;
 using ITSMSkill.Responses.Shared;
 using ITSMSkill.Services;
 using Microsoft.Bot.Builder;
@@ -29,7 +31,7 @@ namespace ITSMSkill.Bots
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
             ResponseManager responseManager,
-            ProactiveState proactiveState)
+            ServiceNowProactiveState proactiveState)
             : base(credentialProvider)
         {
             OnTurnError = async (context, exception) =>
@@ -60,7 +62,7 @@ namespace ITSMSkill.Bots
             Use(new EventDebuggerMiddleware());
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
             Use(new SetSpeakMiddleware());
-            Use(new ProactiveStateMiddleware(proactiveState));
+            Use(new ServiceNowProactiveStateMiddleware(proactiveState));
         }
     }
 }
