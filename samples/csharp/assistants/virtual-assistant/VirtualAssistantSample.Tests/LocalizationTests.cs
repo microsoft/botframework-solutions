@@ -17,11 +17,11 @@ namespace VirtualAssistantSample.Tests
     public class LocalizationTests : BotTestBase
     {
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_Spanish()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
+            // Variations are in English
             var allIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
@@ -45,7 +45,6 @@ namespace VirtualAssistantSample.Tests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_German()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("de-de");
@@ -73,7 +72,6 @@ namespace VirtualAssistantSample.Tests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_French()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("fr-fr");
@@ -101,7 +99,6 @@ namespace VirtualAssistantSample.Tests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_Italian()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("it-it");
@@ -129,7 +126,6 @@ namespace VirtualAssistantSample.Tests
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_Chinese()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("zh-cn");

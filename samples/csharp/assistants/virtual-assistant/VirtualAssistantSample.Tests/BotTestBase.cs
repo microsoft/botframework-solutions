@@ -38,7 +38,7 @@ namespace VirtualAssistantSample.Tests
         {
             get
             {
-                var path = CultureInfo.CurrentCulture.Name.ToLower() == "en-us" ?
+                var path = CultureInfo.CurrentUICulture.Name.ToLower() == "en-us" ?
                     Path.Combine(".", "Responses", $"AllResponses.lg") :
                     Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
                 return Templates.ParseFile(path);
