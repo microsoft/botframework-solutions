@@ -5,7 +5,6 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Responses
 {
-    using System;
     using Newtonsoft.Json;
 
     public class Reply
