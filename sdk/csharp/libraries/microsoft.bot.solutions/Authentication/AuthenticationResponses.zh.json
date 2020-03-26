@@ -1,0 +1,74 @@
+﻿{
+  "ErrorMessageAuthFailure": {
+    "replies": [
+      {
+        "text": "对不起，在尝试为了您的{authType}获得授权的时候出现了问题。请稍候重试。",
+        "speak": "对不起，在尝试为了您的{authType}获得授权的时候出现了问题。请稍候重试。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "SkillAuthenticationTitle": {
+    "replies": [
+      {
+        "text": "技能认证",
+        "speak": "技能认证"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "SkillAuthenticationPrompt": {
+    "replies": [
+      {
+        "text": "您尚未链接任何帐户, 如果可能, 请验证您的助手访问此服务或切换到您的同伴体验。",
+        "speak": "您尚未链接任何帐户, 如果可能, 请验证您的助手访问此服务或切换到您的同伴体验。"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AuthProvidersPrompt": {
+    "replies": [
+      {
+        "text": "您想使用哪个帐户？",
+        "speak": "您想使用哪个帐户？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "ConfiguredAuthProvidersPrompt": {
+    "replies": [
+      {
+        "text": "您配置了多个帐户。您想使用哪一个？",
+        "speak": "您配置了多个帐户。您想使用哪一个？"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "无法为 {authType} 检索令牌, 请将您的帐户链接到您的助手, 然后重试",
+        "speak": "无法为 {authType} 检索令牌, 请将您的帐户链接到您的助手, 然后重试"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "登錄",
+        "speak": "登錄"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "登錄到您的{authType}帳戶",
+        "speak": "登錄到您的{authType}帳戶"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}
