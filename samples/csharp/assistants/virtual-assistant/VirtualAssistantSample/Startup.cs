@@ -17,6 +17,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
@@ -76,6 +77,7 @@ namespace VirtualAssistantSample
             services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
             services.AddSingleton<TelemetryInitializerMiddleware>();
             services.AddSingleton<TelemetryLoggerMiddleware>();
+            services.AddSingleton<FeedbackOptions>(new FeedbackOptions());
 
             // Configure bot services
             services.AddSingleton<BotServices>();
@@ -114,6 +116,7 @@ namespace VirtualAssistantSample
             services.AddTransient<MainDialog>();
             services.AddTransient<SwitchSkillDialog>();
             services.AddTransient<OnboardingDialog>();
+            services.AddTransient<TestDialog>();
 
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.

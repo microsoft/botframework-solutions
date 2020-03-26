@@ -4,6 +4,10 @@
 - Let me know if I can help you with anything else.
 - All done. Let me know if I can do anything else.
 
+# PromptForFeedbackMessage
+- Was that helpful?
+- Was I able to help you?
+
 # CancelledMessage
 - OK${RandomName()}, cancelling your request. Let me know if I can do anything else for you.
 - OK, cancelling your request. Let me know if I can do anything else for you.

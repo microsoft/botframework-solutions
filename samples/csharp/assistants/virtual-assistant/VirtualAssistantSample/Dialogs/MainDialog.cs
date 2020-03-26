@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
+using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
@@ -21,6 +22,8 @@ using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
+using static Microsoft.Bot.Solutions.Feedback.FeedbackUtil;
+using FeedbackRecord = Microsoft.Bot.Solutions.Feedback.FeedbackRecord;
 
 namespace VirtualAssistantSample.Dialogs
 {
@@ -35,16 +38,22 @@ namespace VirtualAssistantSample.Dialogs
         private LocaleTemplateManager _templateManager;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        private IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
+        private TestDialog _testDialog;
+        private FeedbackOptions _feedbackOptions;
+        private bool _feedbackEnabled = true;
 
         public MainDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient,
+            FeedbackOptions feedbackOptions)
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
             _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
+            _feedbackOptions = serviceProvider.GetService<FeedbackOptions>();
             TelemetryClient = telemetryClient;
 
             var userState = serviceProvider.GetService<UserState>();
@@ -52,17 +61,29 @@ namespace VirtualAssistantSample.Dialogs
 
             var conversationState = serviceProvider.GetService<ConversationState>();
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
+            _feedbackAccessor = conversationState.CreateProperty<FeedbackRecord>(nameof(FeedbackRecord));
 
-            var steps = new WaterfallStep[]
+            List<WaterfallStep> steps = new List<WaterfallStep>()
             {
-                OnboardingStepAsync,
-                IntroStepAsync,
-                RouteStepAsync,
-                FinalStepAsync,
+                    OnboardingStepAsync,
+                    IntroStepAsync,
+                    RouteStepAsync
             };
 
+            if (_feedbackEnabled)
+            {
+                steps.Add(RequestFeedback);
+                steps.Add(RequestFeedbackComment);
+                steps.Add(ProcessFeedback);
+                AddDialog(new TextPrompt(DialogIds.FeedbackPrompt));
+                AddDialog(new TextPrompt(DialogIds.FeedbackCommentPrompt));
+            }
+
+            steps.Add(FinalStepAsync);
+
             AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
-            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new TextPrompt(DialogIds.NextActionPrompt));
+
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
@@ -286,9 +307,14 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            if (stepContext.Options is RouteQueryFlag)
+            {
+                return await stepContext.NextAsync();
+            }
+
             if (stepContext.SuppressCompletionMessage())
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions(), cancellationToken);
+                return await stepContext.PromptAsync(DialogIds.NextActionPrompt, new PromptOptions(), cancellationToken);
             }
 
             // Use the text provided in FinalStepAsync or the default if it is the first time.
@@ -297,7 +323,7 @@ namespace VirtualAssistantSample.Dialogs
                 Prompt = stepContext.Options as Activity ?? _templateManager.GenerateActivityForLocale("FirstPromptMessage")
             };
 
-            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            return await stepContext.PromptAsync(DialogIds.NextActionPrompt, promptOptions, cancellationToken);
         }
 
         private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -352,10 +378,98 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
+        // Wil only be included if _feedbackEnabled is set to true
+        private async Task<DialogTurnResult> RequestFeedback(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            return await stepContext.PromptAsync(DialogIds.FeedbackPrompt, new PromptOptions()
+            {
+                Prompt = CreateFeedbackActivity(stepContext.Context),
+            });
+        }
+
+        // Wil only be included if _feedbackEnabled is set to true
+        private async Task<DialogTurnResult> RequestFeedbackComment(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            // Clear feedback state
+            await _feedbackAccessor.DeleteAsync(stepContext.Context).ConfigureAwait(false);
+
+            var userResponse = stepContext.Context.Activity.Text;
+            if (userResponse == (string)_feedbackOptions.DismissAction.Value)
+            {
+                // user dismissed feedback action prompt
+                return await stepContext.NextAsync();
+            }
+
+            var botResponses = await _previousResponseAccessor.GetAsync(stepContext.Context, () => new List<Activity>());
+            // Get last activity of previous dialog to send with feedback data
+            var feedbackActivity = botResponses.Count >= 2 ? botResponses[botResponses.Count - 2] : botResponses.LastOrDefault();
+            var record = new FeedbackRecord() { Request = feedbackActivity, Tag = "EndOfDialogFeedback" };
+
+            if (_feedbackOptions.FeedbackActions.Any(f => userResponse == (string)f.Value))
+            {
+                // user selected a feedback action
+                record.Feedback = userResponse;
+                await _feedbackAccessor.SetAsync(stepContext.Context, record).ConfigureAwait(false);
+                if (_feedbackOptions.CommentsEnabled)
+                {
+                    return await stepContext.PromptAsync(DialogIds.FeedbackPrompt, new PromptOptions()
+                    {
+                        Prompt = GetFeedbackCommentPrompt(stepContext.Context),
+                    });
+                }
+                else
+                {
+                    return await stepContext.NextAsync();
+                }
+            }
+            else
+            {
+                // user sent a query unrelated to feedback
+                return await stepContext.NextAsync(new RouteQueryFlag { RouteQuery = true });
+            }
+        }
+
+        // Wil only be included if _feedbackEnabled is set to true
+        private async Task<DialogTurnResult> ProcessFeedback(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var record = await _feedbackAccessor.GetAsync(stepContext.Context, () => new FeedbackRecord()).ConfigureAwait(false);
+            bool passQueryToNext = stepContext.Result is RouteQueryFlag;
+            string userResponse = stepContext.Context.Activity.Text;
+            if (passQueryToNext)
+            {
+                // skip this step and pass the query into next step
+                return await stepContext.NextAsync(stepContext.Result);
+            }
+            else if (userResponse == (string)_feedbackOptions.DismissAction.Value && record.Feedback == null)
+            {
+                // user dismissed first feedback prompt, skip this step
+                return await stepContext.NextAsync();
+            }
+
+            if (_feedbackOptions.CommentsEnabled)
+            {
+                if (userResponse != (string)_feedbackOptions.DismissAction.Value)
+                {
+                    // user responded to first feedback prompt but dismissed comment prompt
+                    record.Comment = userResponse;
+                    LogFeedback(record, TelemetryClient);
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text(_feedbackOptions.FeedbackReceivedMessage));
+                    return await stepContext.NextAsync();
+                }
+            }
+
+            LogFeedback(record, TelemetryClient);
+            return await stepContext.NextAsync();
+        }
+
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Restart the main dialog with a different message the second time around
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateManager.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
+            bool passQueryToNext = stepContext.Result is RouteQueryFlag;
+
+            // if user provided a query on previous feedback prompt then pass the query Activity to be handled by new main dialog
+            var result = passQueryToNext ? stepContext.Result : _templateManager.GenerateActivityForLocale("CompletedMessage");
+
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, result, cancellationToken);
         }
 
         private async Task LogUserOut(DialogContext dc)
@@ -441,6 +555,13 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             return true;
+        }
+
+        private class DialogIds
+        {
+            public const string FeedbackPrompt = "feedbackPrompt";
+            public const string NextActionPrompt = "nextActionPrompt";
+            public const string FeedbackCommentPrompt = "feedbackCommentPrompt";
         }
     }
 }
