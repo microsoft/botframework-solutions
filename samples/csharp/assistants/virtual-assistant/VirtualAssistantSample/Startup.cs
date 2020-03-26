@@ -165,7 +165,6 @@ namespace VirtualAssistantSample
                 .UseStaticFiles()
                 .UseWebSockets()
                 .UseRouting()
-                .UseAuthorization()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
 
             // Uncomment this to support HTTPS.
