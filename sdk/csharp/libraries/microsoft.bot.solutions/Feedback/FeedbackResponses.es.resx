@@ -129,4 +129,7 @@
   <data name="FeedbackReceivedMessage" xml:space="preserve">
     <value>Gracias, agradezco sus comentarios.</value>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value>¿Fue útil?</value>
+  </data>
 </root>

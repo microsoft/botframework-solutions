@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Feedback
@@ -11,8 +12,9 @@ namespace Microsoft.Bot.Solutions.Feedback
     /// </summary>
     public class FeedbackOptions
     {
-        private List<CardAction> feedbackActions;
-        private CardAction dismissAction;
+        private List<Choice> feedbackActions;
+        private Choice dismissAction;
+        private string feedbackPromptMessage;
         private string feedbackReceivedMessage;
         private string commentPrompt;
         private string commentReceivedMessage;
@@ -24,16 +26,24 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// <value>
         /// Custom feedback choices for the user.
         /// </value>
-        public List<CardAction> FeedbackActions
+        public List<Choice> FeedbackActions
         {
             get
             {
                 if (this.feedbackActions == null)
                 {
-                    return new List<CardAction>()
+                    return new List<Choice>()
                     {
-                        new CardAction(ActionTypes.PostBack, title: "👍", value: "positive"),
-                        new CardAction(ActionTypes.PostBack, title: "👎", value: "negative"),
+                        new Choice()
+                        {
+                            Action = new CardAction(ActionTypes.MessageBack, title: "👍", text: "positive", displayText: "👍"),
+                            Value = "positive",
+                        },
+                        new Choice()
+                        {
+                            Action = new CardAction(ActionTypes.MessageBack, title: "👎", text: "negative", displayText: "👎"),
+                            Value = "negative",
+                        },
                     };
                 }
 
@@ -48,13 +58,17 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// <value>
         /// Text to show on button that allows user to hide/ignore the feedback request.
         /// </value>
-        public CardAction DismissAction
+        public Choice DismissAction
         {
             get
             {
                 if (this.dismissAction == null)
                 {
-                    return new CardAction(ActionTypes.PostBack, title: FeedbackResponses.DismissTitle, value: "dismiss");
+                    return new Choice()
+                    {
+                        Action = new CardAction(ActionTypes.MessageBack, title: FeedbackResponses.DismissTitle, text: "dismiss", displayText: FeedbackResponses.DismissTitle),
+                        Value = "dismiss",
+                    };
                 }
 
                 return this.dismissAction;
@@ -81,6 +95,27 @@ namespace Microsoft.Bot.Solutions.Feedback
                 return this.feedbackReceivedMessage;
             }
             set => this.feedbackReceivedMessage = value;
+        }
+
+        /// <summary>
+        /// Gets or sets message to show when a user is prompted for feedback.
+        /// Default value is "Was this helpful?".
+        /// </summary>
+        /// <value>
+        /// Message to show when a user prompts for feedback.
+        /// </value>
+        public string FeedbackPromptMessage
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.feedbackPromptMessage))
+                {
+                    return FeedbackResponses.FeedbackPromptMessage;
+                }
+
+                return this.feedbackPromptMessage;
+            }
+            set => this.feedbackPromptMessage = value;
         }
 
         /// <summary>

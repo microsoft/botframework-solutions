@@ -88,6 +88,15 @@ namespace Microsoft.Bot.Solutions.Feedback {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Was this helpful?.
+        /// </summary>
+        public static string FeedbackPromptMessage {
+            get {
+                return ResourceManager.GetString("FeedbackPromptMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Thanks, I appreciate your feedback..
         /// </summary>
         public static string FeedbackReceivedMessage {

@@ -126,6 +126,9 @@
   <data name="DismissTitle" xml:space="preserve">
     <value>Rejeter</value>
   </data>
+  <data name="FeedbackPromptMessage" xml:space="preserve">
+    <value>Cela a-t-il été utile?</value>
+  </data>
   <data name="FeedbackReceivedMessage" xml:space="preserve">
     <value>Merci, j'apprécie vos commentaires.</value>
   </data>
