@@ -48,7 +48,7 @@ export class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
 
         // Get the SkillConversationReference from storage for the given skillConversationId.
         const skillConversationInfo: StoreItems = await this.storage.read([skillConversationId]);
-        if (skillConversationInfo) {
+        if (Object.keys(skillConversationInfo).length > 0) {
             const conversationInfo: SkillConversationReference = skillConversationInfo[skillConversationId];
 
             return conversationInfo;
