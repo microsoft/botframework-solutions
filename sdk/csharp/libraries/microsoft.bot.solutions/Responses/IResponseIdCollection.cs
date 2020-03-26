@@ -6,7 +6,6 @@ using System;
 
 namespace Microsoft.Bot.Solutions.Responses
 {
-    [Obsolete("This interface is being deprecated.")]
     public interface IResponseIdCollection
     {
     }

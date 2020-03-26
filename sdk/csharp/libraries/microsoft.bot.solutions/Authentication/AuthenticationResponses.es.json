@@ -1,0 +1,74 @@
+﻿{
+  "SkillAuthenticationPrompt": {
+    "replies": [
+      {
+        "speak": "No has vinculado ninguna cuenta todavía, si es posible, por favor autentificar a tu Asistente para acceder a este servicio o cambiar a tu experiencia de acompañante.",
+        "text": "No has vinculado ninguna cuenta todavía, si es posible, por favor autentificar a tu Asistente para acceder a este servicio o cambiar a tu experiencia de acompañante."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "AuthProvidersPrompt": {
+    "replies": [
+      {
+        "speak": "¿Qué cuenta le gustaría utilizar?",
+        "text": "¿Qué cuenta le gustaría utilizar?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "SkillAuthenticationTitle": {
+    "replies": [
+      {
+        "speak": "Autenticación de habilidades",
+        "text": "Autenticación de habilidades"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ErrorMessageAuthFailure": {
+    "replies": [
+      {
+        "text": "¡Lo sentimos, parece que algo salió mal al intentar autenticarse para su conexión {authType}! Por favor, inténtelo de nuevo más tarde.",
+        "speak": "¡Lo sentimos, parece que algo salió mal al intentar autenticarse para su conexión {authType}! Por favor, inténtelo de nuevo más tarde."
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "ConfiguredAuthProvidersPrompt": {
+    "replies": [
+      {
+        "speak": "Tiene varias cuentas configuradas. ¿Cuál te gustaría usar?",
+        "text": "Tiene varias cuentas configuradas. ¿Cuál te gustaría usar?"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Un token no se pudo recuperar para {authType}, por favor vincule su cuenta a su asistente y vuelva a intentarlo",
+        "speak": "Un token no se pudo recuperar para {authType}, por favor vincule su cuenta a su asistente y vuelva a intentarlo"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "Iniciar sesión",
+        "speak": "Iniciar sesión"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "Inicia sesión en tu cuenta de {authType}",
+        "speak": "Inicia sesión en tu cuenta de {authType}"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

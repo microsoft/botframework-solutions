@@ -5,7 +5,6 @@ using System;
 
 namespace Microsoft.Bot.Solutions.Responses
 {
-    [Obsolete("This class is being deprecated.")]
     public class Card
     {
         public Card()

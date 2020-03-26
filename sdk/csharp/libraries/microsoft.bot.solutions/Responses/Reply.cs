@@ -8,7 +8,6 @@ namespace Microsoft.Bot.Solutions.Responses
     using System;
     using Newtonsoft.Json;
 
-    [Obsolete("This class is being deprecated.")]
     public class Reply
     {
         [JsonProperty("cardText")]

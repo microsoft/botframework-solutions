@@ -25,19 +25,19 @@ namespace Microsoft.Bot.Solutions.Authentication
     {
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
-        private LocaleTemplateManager _templateManager;
+        private ResponseManager _responseManager;
 
         public MultiProviderAuthDialog(
             List<OAuthConnection> authenticationConnections,
             List<OAuthPromptSettings> promptSettings = null,
-            AppCredentials oauthCredentials = null,
-            LocaleTemplateManager templateManager = null,
-            string defaultLocale = null)
+            AppCredentials oauthCredentials = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
 
-            _templateManager = templateManager ?? BuildTemplateManager(defaultLocale);
+            _responseManager = new ResponseManager(
+                new string[] { "en", "de", "es", "fr", "it", "zh" },
+                new AuthenticationResponses());
 
             var firstStep = new WaterfallStep[]
             {
@@ -64,13 +64,13 @@ namespace Microsoft.Bot.Solutions.Authentication
                     // We ignore placeholder connections in config that don't have a Name
                     if (!string.IsNullOrWhiteSpace(connection.Name))
                     {
-                        var loginButtonText = _templateManager.Generate($"${{{ResponseTemplateIds.OAuthCardButtonText}()}}", null, CultureInfo.CurrentUICulture.Name.ToLower() ?? defaultLocale).ToString();
-                        var loginText = _templateManager.Generate($"${{{ResponseTemplateIds.OAuthCardText}(\"{connection.Name}\")}}", null, CultureInfo.CurrentUICulture.Name.ToLower() ?? defaultLocale).ToString();
+                        var loginButtonActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton);
+                        var loginPromptActivity = _responseManager.GetResponse(AuthenticationResponses.LoginPrompt, new StringDictionary() { { "authType", connection.Name } });
                         var settings = promptSettings?[i] ?? new OAuthPromptSettings
                         {
                             ConnectionName = connection.Name,
-                            Title = loginButtonText,
-                            Text = loginText,
+                            Title = loginButtonActivity.Text,
+                            Text = loginPromptActivity.Text,
                         };
                         settings.OAuthAppCredentials = oauthCredentials;
 
@@ -102,25 +102,6 @@ namespace Microsoft.Bot.Solutions.Authentication
             }
 
             return Task.FromResult(false);
-        }
-
-        private LocaleTemplateManager BuildTemplateManager(string defaultLocale)
-        {
-            var localizedTemplates = new Dictionary<string, string>();
-            var templateFile = "AuthenticationActivities";
-            var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
-
-            foreach (var locale in supportedLocales)
-            {
-                // LG template for en-us does not include locale in file extension.
-                var localeTemplateFile = locale.Equals("en-us")
-                    ? Path.Combine(".", "Authentication", $"{templateFile}.lg")
-                    : Path.Combine(".", "Authentication", $"{templateFile}.{locale}.lg");
-
-                localizedTemplates.Add(locale, localeTemplateFile);
-            }
-
-            return new LocaleTemplateManager(localizedTemplates, defaultLocale ?? "en-us");
         }
 
         private async Task<DialogTurnResult> FirstStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -165,7 +146,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                         DialogIds.ProviderPrompt,
                         new PromptOptions
                         {
-                            Prompt = _templateManager.GenerateActivityForLocale(ResponseTemplateIds.ConfiguredAuthProvidersPrompt),
+                            Prompt = _responseManager.GetResponse(AuthenticationResponses.ConfiguredAuthProvidersPrompt),
                             Choices = choices,
                         },
                         cancellationToken).ConfigureAwait(false);
@@ -187,7 +168,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                         DialogIds.ProviderPrompt,
                         new PromptOptions
                         {
-                            Prompt = _templateManager.GenerateActivityForLocale(ResponseTemplateIds.AuthProvidersPrompt),
+                            Prompt = _responseManager.GetResponse(AuthenticationResponses.AuthProvidersPrompt),
                             Choices = choices,
                         },
                         cancellationToken).ConfigureAwait(false);
