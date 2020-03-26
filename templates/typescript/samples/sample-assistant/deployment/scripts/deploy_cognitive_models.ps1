@@ -7,6 +7,7 @@ Param(
 	[string] $luisAccountName,
 	[string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
+	[string] $luisEndpoint,
 	[string] $resourceGroup,
 	[string] $qnaSubscriptionKey,
 	[string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
@@ -33,7 +34,7 @@ if (Get-Command az -ErrorAction SilentlyContinue) {
     $azcliversionoutput = az -v
     [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
     [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
+    [version]$minversion = '2.2.0'
 
     if ($azcliversion -ge $minversion) {
         $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
@@ -239,8 +240,8 @@ foreach ($language in $languageArr)
 					id = $lu.BaseName
 					name = $luisApp.name
 					appId = $luisApp.id
+                    endpoint = $luisEndpoint
 					authoringkey = $luisAuthoringKey
-                    authoringRegion = $luisAuthoringRegion
 					subscriptionKey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion
@@ -257,7 +258,7 @@ foreach ($language in $languageArr)
 		if ($qnaFiles) {		
             $config | Add-Member `
                 -MemberType NoteProperty `
-                -Name knowledgebases `
+                -Name knowledgeBases `
                 -Value @()
 
 			foreach ($lu in $qnaFiles)
@@ -265,7 +266,7 @@ foreach ($language in $languageArr)
                 # Deploy QnA Knowledgebase
 				$qnaKb = DeployKB `
                     -name $name `
-                    -lu_file $lu `
+                    -luFile $lu `
                     -qnaSubscriptionKey $qnaSubscriptionKey `
                     -qnaEndpoint $qnaEndpoint `
                     -language $langCode `
