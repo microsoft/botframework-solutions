@@ -36,8 +36,6 @@ namespace SkillSample.Dialogs
             {
                 IntroStepAsync,
                 RouteStepAsync,
-                RequestFeedbackAsync,
-                HandleFeedbackAsync,
                 FinalStepAsync,
             };
 
@@ -182,12 +180,6 @@ namespace SkillSample.Dialogs
         // Handles introduction/continuation prompt logic.
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            dynamic options = stepContext.Options;
-            if (options.useCurrentActivity)
-            {
-                return await stepContext.NextAsync();
-            }
-
             if (stepContext.Context.IsSkill())
             {
                 // If the bot is in skill mode, skip directly to route and do not prompt
@@ -280,18 +272,6 @@ namespace SkillSample.Dialogs
             return await stepContext.NextAsync(cancellationToken: cancellationToken);
         }
 
-        private Task<DialogTurnResult> RequestFeedbackAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            // Prompt with feedback options
-            throw new NotImplementedException();
-        }
-
-        private Task<DialogTurnResult> HandleFeedbackAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            // if it was dismissed or not a feedback response, stepContext.result == useCurrentActivity
-            throw new NotImplementedException();
-        }
-
         // Handles conversation cleanup.
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
@@ -303,13 +283,7 @@ namespace SkillSample.Dialogs
             }
             else
             {
-                var options = new
-                {
-                    prompt = _templateEngine.GenerateActivityForLocale("CompletedMessage"),
-                    useCurrentActivity = true
-                };
-
-                return await stepContext.ReplaceDialogAsync(this.Id, options, cancellationToken);
+                return await stepContext.ReplaceDialogAsync(this.Id, _templateEngine.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
             }
         }
 

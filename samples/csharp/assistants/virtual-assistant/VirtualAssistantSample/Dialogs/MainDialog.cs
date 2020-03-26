@@ -39,7 +39,6 @@ namespace VirtualAssistantSample.Dialogs
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
         private IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
-        private TestDialog _testDialog;
         private FeedbackOptions _feedbackOptions;
         private bool _feedbackEnabled = true;
 
@@ -450,7 +449,7 @@ namespace VirtualAssistantSample.Dialogs
             {
                 if (userResponse != (string)_feedbackOptions.DismissAction.Value)
                 {
-                    // user responded to first feedback prompt but dismissed comment prompt
+                    // user responded to first feedback prompt and replied to comment prompt
                     record.Comment = userResponse;
                     LogFeedback(record, TelemetryClient);
                     await stepContext.Context.SendActivityAsync(MessageFactory.Text(_feedbackOptions.FeedbackReceivedMessage));

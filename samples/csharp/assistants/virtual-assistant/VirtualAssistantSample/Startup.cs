@@ -116,7 +116,6 @@ namespace VirtualAssistantSample
             services.AddTransient<MainDialog>();
             services.AddTransient<SwitchSkillDialog>();
             services.AddTransient<OnboardingDialog>();
-            services.AddTransient<TestDialog>();
 
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
