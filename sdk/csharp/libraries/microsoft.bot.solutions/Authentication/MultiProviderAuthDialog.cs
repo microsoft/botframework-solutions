@@ -261,13 +261,5 @@ namespace Microsoft.Bot.Solutions.Authentication
             public const string FirstStepPrompt = "FirstStep";
             public const string AuthPrompt = "AuthPrompt";
         }
-
-        private static class ResponseTemplateIds
-        {
-            public const string ConfiguredAuthProvidersPrompt = "ConfiguredAuthProvidersPrompt";
-            public const string AuthProvidersPrompt = "AuthProvidersPrompt";
-            public const string OAuthCardButtonText = "OAuthCardButtonText";
-            public const string OAuthCardText = "OAuthCardText";
-        }
     }
 }
