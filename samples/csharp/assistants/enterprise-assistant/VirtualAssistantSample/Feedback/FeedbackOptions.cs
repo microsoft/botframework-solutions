@@ -1,9 +1,6 @@
-﻿using Microsoft.Bot.Builder.Dialogs.Choices;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace VirtualAssistantSample.Feedback
 {
@@ -123,7 +120,7 @@ namespace VirtualAssistantSample.Feedback
         /// <value>
         /// A value indicating whether gets or sets flag to prompt for free-form comments for all or select feedback choices.
         /// </value>
-        public bool CommentsEnabled { get; set; } = false;
+        public bool CommentsEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the message to show when `CommentsEnabled` is true.
