@@ -22,13 +22,14 @@ namespace VirtualAssistantSample.Bots
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private IStatePropertyAccessor<UserProfileState> _userProfileState;
-        private LocaleTemplateManager _templateManager;
+        private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
+        private readonly LocaleTemplateManager _templateManager;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
             _dialog = dialog;
+            _dialog.TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
@@ -47,17 +48,17 @@ namespace VirtualAssistantSample.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileState.GetAsync(turnContext, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(turnContext, () => new UserProfileState(), cancellationToken);
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
                 // Send new user intro card.
-                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("NewUserIntroCard", userProfile));
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("NewUserIntroCard", userProfile), cancellationToken);
             }
             else
             {
                 // Send returning user intro card.
-                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ReturningUserIntroCard", userProfile));
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ReturningUserIntroCard", userProfile), cancellationToken);
             }
 
             await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
@@ -76,7 +77,6 @@ namespace VirtualAssistantSample.Bots
         protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
             var ev = turnContext.Activity.AsEventActivity();
-            var value = ev.Value?.ToString();
 
             switch (ev.Name)
             {
@@ -89,7 +89,7 @@ namespace VirtualAssistantSample.Bots
 
                 default:
                     {
-                        await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                        await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."), cancellationToken);
                         break;
                     }
             }
