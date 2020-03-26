@@ -25,6 +25,36 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <None Remove="Authentication\AuthenticationActivities.de-de.lg" />
+    <None Remove="Authentication\AuthenticationActivities.es-es.lg" />
+    <None Remove="Authentication\AuthenticationActivities.fr-fr.lg" />
+    <None Remove="Authentication\AuthenticationActivities.it-it.lg" />
+    <None Remove="Authentication\AuthenticationActivities.lg" />
+    <None Remove="Authentication\AuthenticationActivities.zh-cn.lg" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Authentication\AuthenticationActivities.de-de.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Authentication\AuthenticationActivities.es-es.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Authentication\AuthenticationActivities.fr-fr.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Authentication\AuthenticationActivities.it-it.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Authentication\AuthenticationActivities.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Authentication\AuthenticationActivities.zh-cn.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="AdaptiveCards" Version="1.2.3" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
@@ -82,27 +112,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Authentication\AuthenticationActivities.de-de.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Authentication\AuthenticationActivities.es-es.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Authentication\AuthenticationActivities.fr-fr.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Authentication\AuthenticationActivities.it-it.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Authentication\AuthenticationActivities.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Authentication\AuthenticationActivities.zh-cn.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   
 </Project>
