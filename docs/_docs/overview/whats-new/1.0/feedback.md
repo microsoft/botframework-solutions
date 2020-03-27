@@ -14,8 +14,8 @@ toc: true
 {{ page.description }}
 
 ## Current State of Feedback
-The feedback middleware approach has been deprecated since the .8 release of **microsoft.bot.solutions**. 
+The feedback middleware approach has been deprecated since the .8 release of **Microsoft.bot.solutions**. 
 With the 1.0 release we have implemented a temporary feedback mechanism which is outlined [here](https://aka.ms/bfFeedbackDoc). We will have an 
-incremental release in the near future with a more robust feedback implementation that will be a part of the **microsoft.bot.solutions** lib. 
-As of now the **microsoft.bot.solutions** lib still contains the middleware solution but it is marked as deprecated and it will not work as 
+incremental release in the near future with a more robust feedback implementation that will be a part of the **Microsoft.bot.solutions** library. 
+As of now the **Microsoft.bot.solutions** library still contains the middleware solution but it is marked as deprecated and it will not work as 
 desired due to the waterfall flow of the VA since the .8 release. 

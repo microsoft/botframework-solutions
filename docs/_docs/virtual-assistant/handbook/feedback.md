@@ -12,9 +12,9 @@ toc: true
 {{ page.description }}
 
 ## Feedback Mechanism
-The **VirtualAssistantSample** project within the Enterprise Assistant sample has feedback implemented using our temporary solution. It will be useful to go through [MainDialog.cs within the EnterpriseVAs **VirtualAssistantSample**](https://aka.ms/bfEnterpriseAssistantMainDialog) in parallel to this document to gain an understanding of the feedback implementation so you can then implement it in your VA.
+The **VirtualAssistantSample** project within the Enterprise Assistant sample has feedback implemented using a temporary solution. It's recommended to review the provided [MainDialog.cs](https://aka.ms/bfEnterpriseAssistantMainDialog) in parallel to this document to gain a full understanding of this implementation.
 
-This implementation allows for feedback to be collected when a child dialog of main dialog ends. The users feedback is recorded and sent to app insights and results will be visible in your PowerBI dashboard (discussed later in this doc).
+This implementation allows for feedback to be collected when a child dialog of main dialog ends. The user's feedback is recorded and sent to app insights and results will be visible in your [PowerBI dashboard](https://aka.ms/bfFeedbackDocPowerBiHeader).
 
 ## Steps to implement feedback
 
