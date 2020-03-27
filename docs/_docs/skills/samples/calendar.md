@@ -225,6 +225,7 @@ The Calendar skill provides additional support to search and book meeting rooms.
 |primaryKey  | The primary key of the CosmosDB deployment  | Yes |
 |appId  | AppId of an authorised Azure AD application which can access Meeting room data  | Yes |
 |tenantId  | The tenantId corresponding to the application. If you have set "Supported account types" as "Multitenant" and your account has a differet tenant, please use "common"| Yes|
+|migrationToolPath | The local path to your data migration tool "dt.exe", e.g., "C:\Users\tools\dt1.8.3\drop". The data migration tool is a tool which can migrate your data to Azure Cosmos DB with parallel requests. This is recommended if you have a large amount of meeting room data. You can download the tool here: https://docs.microsoft.com/en-us/azure/cosmos-db/import-data | No |
 
 You can access all the required parameters from the [Deployment](#deployment) step. <br>
 **Note:** When running the script, you will be asked to sign in with your account which can access the meeting room data in the MSGraph.
