@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 using Microsoft.Bot.Solutions;
+using VirtualAssistantSample.TokenExchange;
 
 namespace VirtualAssistantSample.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public TokenExchangeConfig TokenExchangeConfig { get; set; }
     }
 }

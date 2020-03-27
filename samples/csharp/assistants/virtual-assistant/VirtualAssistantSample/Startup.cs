@@ -30,6 +30,7 @@ using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Services;
+using VirtualAssistantSample.TokenExchange;
 
 namespace VirtualAssistantSample
 {
@@ -126,7 +127,7 @@ namespace VirtualAssistantSample
             // Register the skills conversation ID factory, the client and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
-            services.AddSingleton<ChannelServiceHandler, SkillHandler>();
+            services.AddSingleton<ChannelServiceHandler, TokenExchangeSkillHandler>();
 
             // Register the SkillDialogs (remote skills).
             var section = Configuration?.GetSection("BotFrameworkSkills");
@@ -166,6 +167,8 @@ namespace VirtualAssistantSample
                     }
                 }
             }
+
+            services.AddSingleton(settings.TokenExchangeConfig);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
