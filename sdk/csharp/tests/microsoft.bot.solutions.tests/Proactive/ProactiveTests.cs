@@ -27,15 +27,15 @@ namespace Microsoft.Bot.Solutions.Tests.Proactive
             var state = new ProactiveState(storage);
             var proactiveStateAccessor = state.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
 
-            var conversation = TestAdapter.CreateConversation("Name");
-            conversation.User.Role = "user";
+            var conversation = TestAdapter.CreateConversation(ProactiveTestConstants.Name);
+            conversation.User.Role = ProactiveTestConstants.User;
 
             var adapter = new TestAdapter(conversation)
                 .Use(new ProactiveStateMiddleware(state));
 
-            var response = "Response";
-            var proactiveResponse = "ProactiveResponse";
-            var proactiveEvent = new Activity(type: ActivityTypes.Event, value: "user1", text: proactiveResponse);
+            var response = ProactiveTestConstants.Response;
+            var proactiveResponse = ProactiveTestConstants.ProactiveResponse;
+            var proactiveEvent = new Activity(type: ActivityTypes.Event, value: ProactiveTestConstants.User1, text: proactiveResponse);
 
             await new TestFlow(adapter, async (context, cancellationToken) =>
             {
