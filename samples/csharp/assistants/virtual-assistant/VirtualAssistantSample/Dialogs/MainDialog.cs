@@ -53,6 +53,9 @@ namespace VirtualAssistantSample.Dialogs
             var conversationState = serviceProvider.GetService<ConversationState>();
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
 
+            // Create state property to track the active skill.
+            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
+
             var steps = new WaterfallStep[]
             {
                 OnboardingStepAsync,
@@ -77,9 +80,6 @@ namespace VirtualAssistantSample.Dialogs
             {
                 AddDialog(dialog);
             }
-
-            // Create state property to track the active skill.
-            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
         }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
