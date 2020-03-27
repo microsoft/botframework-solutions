@@ -36,7 +36,6 @@ namespace VirtualAssistantSample.Dialogs
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
         private IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
         private FeedbackOptions _feedbackOptions;
-        private bool _feedbackEnabled = true;
 
         public MainDialog(
             IServiceProvider serviceProvider,
@@ -58,14 +57,14 @@ namespace VirtualAssistantSample.Dialogs
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
             _feedbackAccessor = conversationState.CreateProperty<FeedbackRecord>(nameof(FeedbackRecord));
 
-            List<WaterfallStep> steps = new List<WaterfallStep>()
+            var steps = new List<WaterfallStep>()
             {
                 OnboardingStepAsync,
                 IntroStepAsync,
                 RouteStepAsync,
             };
 
-            if (_feedbackEnabled)
+            if (_feedbackOptions.FeedbackEnabled)
             {
                 steps.Add(RequestFeedback);
                 steps.Add(RequestFeedbackComment);
@@ -384,7 +383,7 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
-        // Wil only be included if _feedbackEnabled is set to true
+        // Wil only be included if _feedbackOptions.FeedbackEnabled is set to true
         private async Task<DialogTurnResult> RequestFeedback(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             return await stepContext.PromptAsync(DialogIds.FeedbackPrompt, new PromptOptions()
@@ -393,7 +392,7 @@ namespace VirtualAssistantSample.Dialogs
             });
         }
 
-        // Wil only be included if _feedbackEnabled is set to true
+        // Will only be included if _feedbackOptions.FeedbackEnabled is set to true
         private async Task<DialogTurnResult> RequestFeedbackComment(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Clear feedback state
@@ -435,12 +434,12 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
-        // Wil only be included if _feedbackEnabled is set to true
+        // Will only be included if _feedbackOptions.FeedbackEnabled is set to true
         private async Task<DialogTurnResult> ProcessFeedback(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var record = await _feedbackAccessor.GetAsync(stepContext.Context, () => new FeedbackRecord()).ConfigureAwait(false);
-            bool passQueryToNext = stepContext.Result is FeedbackUtil.RouteQueryFlag;
-            string userResponse = stepContext.Context.Activity.Text;
+            var passQueryToNext = stepContext.Result is FeedbackUtil.RouteQueryFlag;
+            var userResponse = stepContext.Context.Activity.Text;
             if (passQueryToNext)
             {
                 // skip this step and pass the query into next step
@@ -470,7 +469,7 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            bool passQueryToNext = stepContext.Result is FeedbackUtil.RouteQueryFlag;
+            var passQueryToNext = stepContext.Result is FeedbackUtil.RouteQueryFlag;
 
             // if user provided a query on previous feedback prompt then pass the query Activity to be handled by new main dialog
             var result = passQueryToNext ? stepContext.Result : _templateManager.GenerateActivityForLocale("CompletedMessage");
@@ -538,7 +537,8 @@ namespace VirtualAssistantSample.Dialogs
 
             return true;
         }
-        private class DialogIds
+
+        private static class DialogIds
         {
             public const string FeedbackPrompt = "feedbackPrompt";
             public const string NextActionPrompt = "nextActionPrompt";

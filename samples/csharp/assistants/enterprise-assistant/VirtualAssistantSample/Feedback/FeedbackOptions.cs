@@ -120,7 +120,16 @@ namespace VirtualAssistantSample.Feedback
         /// <value>
         /// A value indicating whether gets or sets flag to prompt for free-form comments for all or select feedback choices.
         /// </value>
-        public bool CommentsEnabled { get; set; } = true;
+        public bool CommentsEnabled { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not user should be prompted for feedback when a dialog ends and returns to
+        /// main dialog.
+        /// </summary>
+        /// <value>
+        /// A value indicating whether or not user will be prompted for feedback when any given dialog ends
+        /// </value>
+        public bool FeedbackEnabled { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the message to show when `CommentsEnabled` is true.
