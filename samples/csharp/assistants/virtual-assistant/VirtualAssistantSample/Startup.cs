@@ -153,7 +153,7 @@ namespace VirtualAssistantSample
             // Configure TokenExchangeConfig for SSO
             if (settings.TokenExchangeConfig != null)
             {
-                services.AddSingleton(settings.TokenExchangeConfig);
+                services.AddSingleton<ITokenExchangeConfig>(settings.TokenExchangeConfig);
             }
 
             // Configure bot
