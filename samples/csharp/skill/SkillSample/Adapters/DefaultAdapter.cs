@@ -27,8 +27,8 @@ namespace SkillSample.Adapters
 
         public DefaultAdapter(
             BotSettings settings,
-            IChannelProvider channelProvider,
             ICredentialProvider credentialProvider,
+            IChannelProvider channelProvider,
             AuthenticationConfiguration authConfig,
             LocaleTemplateManager templateEngine,
             ConversationState conversationState,
@@ -42,7 +42,7 @@ namespace SkillSample.Adapters
             _templateEngine = templateEngine ?? throw new ArgumentNullException(nameof(templateEngine));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
-            OnTurnError = HandleTurnError;
+            OnTurnError = HandleTurnErrorAsync;
 
             Use(telemetryMiddleware);
 
@@ -56,7 +56,7 @@ namespace SkillSample.Adapters
             Use(new SetSpeakMiddleware());
         }
 
-        private async Task HandleTurnError(ITurnContext turnContext, Exception exception)
+        private async Task HandleTurnErrorAsync(ITurnContext turnContext, Exception exception)
         {
             // Log any leaked exception from the application.
             _logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");

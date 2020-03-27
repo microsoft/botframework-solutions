@@ -20,11 +20,9 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
-using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using VirtualAssistantSample.Adapters;
 using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
@@ -35,7 +33,7 @@ namespace VirtualAssistantSample
 {
     public class Startup
     {
-        public Startup(IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public Startup(IWebHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -68,6 +66,13 @@ namespace VirtualAssistantSample
 
             // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+
+            // Register the skills configuration class.
+            var skillsConfig = new SkillsConfiguration(Configuration);
+            services.AddSingleton(skillsConfig);
+
+            // Register AuthConfiguration to enable custom claim validation.
+            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(skillsConfig) });
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();
@@ -104,68 +109,48 @@ namespace VirtualAssistantSample
 
             services.AddSingleton(new LocaleTemplateManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
-            // Register the skills configuration class
-            services.AddSingleton<SkillsConfiguration>();
-
-            // Register AuthConfiguration to enable custom claim validation.
-            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<SkillsConfiguration>()) });
-
-            // Register dialogs
-            services.AddTransient<MainDialog>();
-            services.AddTransient<SwitchSkillDialog>();
-            services.AddTransient<OnboardingDialog>();
-
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
             services.AddSingleton<BotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
-
-            // Configure bot
-            services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             // Register the skills conversation ID factory, the client and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
             services.AddSingleton<ChannelServiceHandler, SkillHandler>();
 
+            // Register dialogs
+            services.AddTransient<MainDialog>();
+            services.AddTransient<SwitchSkillDialog>();
+            services.AddTransient<OnboardingDialog>();
+
             // Register the SkillDialogs (remote skills).
-            var section = Configuration?.GetSection("BotFrameworkSkills");
-            var skills = section?.Get<EnhancedBotFrameworkSkill[]>();
-            if (skills != null)
+            var botId = Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
+            if (string.IsNullOrWhiteSpace(botId))
             {
-                var hostEndpointSection = Configuration?.GetSection("SkillHostEndpoint");
-                if (hostEndpointSection == null)
-                {
-                    throw new ArgumentException($"{hostEndpointSection} is not in the configuration");
-                }
-                else
-                {
-                    var hostEndpoint = new Uri(hostEndpointSection.Value);
-                    var botId = Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
-                    if (string.IsNullOrWhiteSpace(botId))
-                    {
-                        throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
-                    }
-
-                    foreach (var skill in skills)
-                    {
-                        services.AddSingleton(sp =>
-                        {
-                            var skillDialogOptions = new SkillDialogOptions
-                            {
-                                BotId = botId,
-                                ConversationIdFactory = sp.GetService<SkillConversationIdFactoryBase>(),
-                                SkillClient = sp.GetService<SkillHttpClient>(),
-                                SkillHostEndpoint = hostEndpoint,
-                                Skill = skill,
-                                ConversationState = sp.GetService<ConversationState>()
-                            };
-
-                            return new SkillDialog(skillDialogOptions, skill.Id);
-                        });
-                    }
-                }
+                throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
             }
+
+            foreach (var skill in skillsConfig.Skills.Values)
+            {
+                services.AddSingleton(sp =>
+                {
+                    var skillDialogOptions = new SkillDialogOptions
+                    {
+                        BotId = botId,
+                        ConversationIdFactory = sp.GetService<SkillConversationIdFactoryBase>(),
+                        SkillClient = sp.GetService<SkillHttpClient>(),
+                        SkillHostEndpoint = skillsConfig.SkillHostEndpoint,
+                        Skill = skill,
+                        ConversationState = sp.GetService<ConversationState>()
+                    };
+
+                    return new SkillDialog(skillDialogOptions, skill.Id);
+                });
+            }
+
+            // Configure bot
+            services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -181,6 +166,9 @@ namespace VirtualAssistantSample
                 .UseWebSockets()
                 .UseRouting()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
         }
     }
 }

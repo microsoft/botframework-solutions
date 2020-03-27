@@ -11,8 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.2.4" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.1-rc0" />
     <PackageReference Include="Microsoft.Bot.Connector.DirectLine" Version="3.0.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.21" />
@@ -23,9 +21,5 @@
   <ItemGroup>
     <ProjectReference Include="..\VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj" />
     <ProjectReference Include="..\VirtualAssistantSample\VirtualAssistantSample.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 </Project>

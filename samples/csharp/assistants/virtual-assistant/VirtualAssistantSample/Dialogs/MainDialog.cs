@@ -11,13 +11,13 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
-using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
@@ -27,31 +27,34 @@ namespace VirtualAssistantSample.Dialogs
     // Dialog providing activity routing and message/event processing.
     public class MainDialog : ComponentDialog
     {
-        private BotServices _services;
-        private BotSettings _settings;
-        private OnboardingDialog _onboardingDialog;
-        private SwitchSkillDialog _switchSkillDialog;
-        private SkillsConfiguration _skillsConfig;
-        private LocaleTemplateManager _templateManager;
-        private IStatePropertyAccessor<UserProfileState> _userProfileState;
-        private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        // Conversation state property with the active skill (if any).
+        public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
+
+        private readonly BotServices _services;
+        private readonly OnboardingDialog _onboardingDialog;
+        private readonly SwitchSkillDialog _switchSkillDialog;
+        private readonly SkillsConfiguration _skillsConfig;
+        private readonly LocaleTemplateManager _templateManager;
+        private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
+        private readonly IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
 
         public MainDialog(
-            IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IServiceProvider serviceProvider)
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
-            _settings = serviceProvider.GetService<BotSettings>();
             _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
             _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
-            TelemetryClient = telemetryClient;
 
             var userState = serviceProvider.GetService<UserState>();
             _userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
 
             var conversationState = serviceProvider.GetService<ConversationState>();
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
+
+            // Create state property to track the active skill.
+            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
 
             var steps = new WaterfallStep[]
             {
@@ -110,7 +113,7 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             // Set up response caching for "repeat" functionality.
-            innerDc.Context.OnSendActivities(StoreOutgoingActivities);
+            innerDc.Context.OnSendActivities(StoreOutgoingActivitiesAsync);
             return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
         }
 
@@ -145,7 +148,7 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             // Set up response caching for "repeat" functionality.
-            innerDc.Context.OnSendActivities(StoreOutgoingActivities);
+            innerDc.Context.OnSendActivities(StoreOutgoingActivitiesAsync);
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
@@ -153,7 +156,7 @@ namespace VirtualAssistantSample.Dialogs
         {
             var interrupted = false;
             var activity = innerDc.Context.Activity;
-            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(innerDc.Context, () => new UserProfileState(), cancellationToken);
             var dialog = innerDc.ActiveDialog?.Id != null ? innerDc.FindDialog(innerDc.ActiveDialog?.Id) : null;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
@@ -168,11 +171,10 @@ namespace VirtualAssistantSample.Dialogs
                 // Check if we need to switch skills.
                 if (isSkill && IsSkillIntent(dispatchIntent) && dispatchIntent.ToString() != dialog.Id && dispatchScore > 0.9)
                 {
-                    EnhancedBotFrameworkSkill identifiedSkill;
-                    if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out identifiedSkill))
+                    if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out var identifiedSkill))
                     {
                         var prompt = _templateManager.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
-                        await innerDc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill));
+                        await innerDc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill), cancellationToken);
                         interrupted = true;
                     }
                     else
@@ -193,17 +195,17 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             case GeneralLuis.Intent.Cancel:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("CancelledMessage", userProfile));
-                                    await innerDc.CancelAllDialogsAsync();
-                                    await innerDc.BeginDialogAsync(InitialDialogId);
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("CancelledMessage", userProfile), cancellationToken);
+                                    await innerDc.CancelAllDialogsAsync(cancellationToken);
+                                    await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
                                     interrupted = true;
                                     break;
                                 }
 
                             case GeneralLuis.Intent.Escalate:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("EscalateMessage", userProfile));
-                                    await innerDc.RepromptDialogAsync();
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("EscalateMessage", userProfile), cancellationToken);
+                                    await innerDc.RepromptDialogAsync(cancellationToken);
                                     interrupted = true;
                                     break;
                                 }
@@ -213,8 +215,8 @@ namespace VirtualAssistantSample.Dialogs
                                     if (!isSkill)
                                     {
                                         // If current dialog is a skill, allow it to handle its own help intent.
-                                        await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HelpCard", userProfile));
-                                        await innerDc.RepromptDialogAsync();
+                                        await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HelpCard", userProfile), cancellationToken);
+                                        await innerDc.RepromptDialogAsync(cancellationToken);
                                         interrupted = true;
                                     }
 
@@ -224,11 +226,11 @@ namespace VirtualAssistantSample.Dialogs
                             case GeneralLuis.Intent.Logout:
                                 {
                                     // Log user out of all accounts.
-                                    await LogUserOut(innerDc);
+                                    await LogUserOutAsync(innerDc, cancellationToken);
 
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("LogoutMessage", userProfile));
-                                    await innerDc.CancelAllDialogsAsync();
-                                    await innerDc.BeginDialogAsync(InitialDialogId);
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("LogoutMessage", userProfile), cancellationToken);
+                                    await innerDc.CancelAllDialogsAsync(cancellationToken);
+                                    await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
                                     interrupted = true;
                                     break;
                                 }
@@ -236,13 +238,13 @@ namespace VirtualAssistantSample.Dialogs
                             case GeneralLuis.Intent.Repeat:
                                 {
                                     // Sends the activities since the last user message again.
-                                    var previousResponse = await _previousResponseAccessor.GetAsync(innerDc.Context, () => new List<Activity>());
+                                    var previousResponse = await _previousResponseAccessor.GetAsync(innerDc.Context, () => new List<Activity>(), cancellationToken);
 
                                     foreach (var response in previousResponse)
                                     {
                                         // Reset id of original activity so it can be processed by the channel.
                                         response.Id = string.Empty;
-                                        await innerDc.Context.SendActivityAsync(response);
+                                        await innerDc.Context.SendActivityAsync(response, cancellationToken);
                                     }
 
                                     interrupted = true;
@@ -251,11 +253,11 @@ namespace VirtualAssistantSample.Dialogs
 
                             case GeneralLuis.Intent.StartOver:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("StartOverMessage", userProfile));
+                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("StartOverMessage", userProfile), cancellationToken);
 
                                     // Cancel all dialogs on the stack.
-                                    await innerDc.CancelAllDialogsAsync();
-                                    await innerDc.BeginDialogAsync(InitialDialogId);
+                                    await innerDc.CancelAllDialogsAsync(cancellationToken);
+                                    await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
                                     interrupted = true;
                                     break;
                                 }
@@ -275,13 +277,13 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<DialogTurnResult> OnboardingStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState(), cancellationToken);
             if (string.IsNullOrEmpty(userProfile.Name))
             {
-                return await stepContext.BeginDialogAsync(_onboardingDialog.Id);
+                return await stepContext.BeginDialogAsync(_onboardingDialog.Id, cancellationToken: cancellationToken);
             }
 
-            return await stepContext.NextAsync();
+            return await stepContext.NextAsync(cancellationToken: cancellationToken);
         }
 
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -303,7 +305,7 @@ namespace VirtualAssistantSample.Dialogs
         private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var activity = stepContext.Context.Activity.AsMessageActivity();
-            var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState(), cancellationToken);
 
             if (!string.IsNullOrEmpty(activity.Text))
             {
@@ -319,62 +321,66 @@ namespace VirtualAssistantSample.Dialogs
                     var dispatchIntentSkill = dispatchIntent.ToString();
                     var skillDialogArgs = new BeginSkillDialogOptions { Activity = (Activity)activity };
 
+                    // Save active skill in state.
+                    var selectedSkill = _skillsConfig.Skills[dispatchIntentSkill];
+                    await _activeSkillProperty.SetAsync(stepContext.Context, selectedSkill, cancellationToken);
+
                     // Start the skill dialog.
-                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);
+                    return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs, cancellationToken);
                 }
-                else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
+
+                if (dispatchIntent == DispatchLuis.Intent.q_Faq)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
                     var knowledgebaseId = "Faq";
                     RegisterQnADialog(knowledgebaseId, localizedServices);
-                    return await stepContext.BeginDialogAsync(knowledgebaseId);
+                    return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
                 }
-                else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
+
+                if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
                     var knowledgebaseId = "Chitchat";
                     RegisterQnADialog(knowledgebaseId, localizedServices);
-                    return await stepContext.BeginDialogAsync(knowledgebaseId);
+                    return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
                 }
-                else
-                {
-                    stepContext.SuppressCompletionMessage(true);
 
-                    await stepContext.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("UnsupportedMessage", userProfile));
-                    return await stepContext.NextAsync();
-                }
+                stepContext.SuppressCompletionMessage(true);
+
+                await stepContext.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("UnsupportedMessage", userProfile), cancellationToken);
+                return await stepContext.NextAsync(cancellationToken: cancellationToken);
             }
-            else
-            {
-                return await stepContext.NextAsync();
-            }
+
+            return await stepContext.NextAsync(cancellationToken: cancellationToken);
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            // Clear active skill in state.
+            await _activeSkillProperty.DeleteAsync(stepContext.Context, cancellationToken);
+
             // Restart the main dialog with a different message the second time around
             return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateManager.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
         }
 
-        private async Task LogUserOut(DialogContext dc)
+        private async Task LogUserOutAsync(DialogContext dc, CancellationToken cancellationToken)
         {
-            IUserTokenProvider tokenProvider;
             var supported = dc.Context.Adapter is IUserTokenProvider;
             if (supported)
             {
-                tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
+                var tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
 
                 // Sign out user
-                var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+                var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id, cancellationToken: cancellationToken);
                 foreach (var token in tokens)
                 {
-                    await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
+                    await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName, cancellationToken: cancellationToken);
                 }
 
                 // Cancel all active dialogs
-                await dc.CancelAllDialogsAsync();
+                await dc.CancelAllDialogsAsync(cancellationToken);
             }
             else
             {
@@ -382,7 +388,7 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
-        private async Task<ResourceResponse[]> StoreOutgoingActivities(ITurnContext turnContext, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
+        private async Task<ResourceResponse[]> StoreOutgoingActivitiesAsync(ITurnContext turnContext, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
         {
             var messageActivities = activities
                 .Where(a => a.Type == ActivityTypes.Message)
