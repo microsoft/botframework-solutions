@@ -168,7 +168,10 @@ namespace VirtualAssistantSample
                 }
             }
 
-            services.AddSingleton(settings.TokenExchangeConfig);
+            if (settings.TokenExchangeConfig != null)
+            {
+                services.AddSingleton(settings.TokenExchangeConfig);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
