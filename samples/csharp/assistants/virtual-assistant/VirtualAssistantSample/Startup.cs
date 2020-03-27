@@ -28,6 +28,7 @@ using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Services;
+using VirtualAssistantSample.TokenExchange;
 
 namespace VirtualAssistantSample
 {
@@ -117,7 +118,7 @@ namespace VirtualAssistantSample
             // Register the skills conversation ID factory, the client and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
-            services.AddSingleton<ChannelServiceHandler, SkillHandler>();
+            services.AddSingleton<ChannelServiceHandler, TokenExchangeSkillHandler>();
 
             // Register dialogs
             services.AddTransient<MainDialog>();
@@ -147,6 +148,12 @@ namespace VirtualAssistantSample
 
                     return new SkillDialog(skillDialogOptions, skill.Id);
                 });
+            }
+
+            // Configure TokenExchangeConfig for SSO
+            if (settings.TokenExchangeConfig != null)
+            {
+                services.AddSingleton<ITokenExchangeConfig>(settings.TokenExchangeConfig);
             }
 
             // Configure bot
