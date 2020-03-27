@@ -4,12 +4,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 
@@ -23,12 +26,16 @@ namespace Microsoft.Bot.Solutions.Authentication
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
+        private AppCredentials _oauthCredentials;
 
-        public MultiProviderAuthDialog(List<OAuthConnection> authenticationConnections, List<OAuthPromptSettings> promptSettings = null)
+        public MultiProviderAuthDialog(
+            List<OAuthConnection> authenticationConnections,
+            List<OAuthPromptSettings> promptSettings = null,
+            AppCredentials oauthCredentials = null)
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
-
+            _oauthCredentials = oauthCredentials;
             _responseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
                 new AuthenticationResponses());
@@ -58,15 +65,15 @@ namespace Microsoft.Bot.Solutions.Authentication
                     // We ignore placeholder connections in config that don't have a Name
                     if (!string.IsNullOrWhiteSpace(connection.Name))
                     {
-                        // Resource Manager currently does not have a function to render just a localized respons so generate an activity and then grab the localized text from that activity
-                        var loginBtnActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton);
+                        var loginButtonActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton);
                         var loginPromptActivity = _responseManager.GetResponse(AuthenticationResponses.LoginPrompt, new StringDictionary() { { "authType", connection.Name } });
                         var settings = promptSettings?[i] ?? new OAuthPromptSettings
                         {
                             ConnectionName = connection.Name,
-                            Title = loginBtnActivity.Text,
+                            Title = loginButtonActivity.Text,
                             Text = loginPromptActivity.Text,
                         };
+                        settings.OAuthAppCredentials = _oauthCredentials;
 
                         AddDialog(new OAuthPrompt(
                             connection.Name,
@@ -111,9 +118,9 @@ namespace Microsoft.Bot.Solutions.Authentication
                 return await stepContext.NextAsync(result).ConfigureAwait(false);
             }
 
-            if (stepContext.Context.Adapter is IUserTokenProvider adapter)
+            if (stepContext.Context.Adapter is IExtendedUserTokenProvider adapter)
             {
-                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id, null, cancellationToken).ConfigureAwait(false);
+                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, _oauthCredentials, stepContext.Context.Activity.From.Id, null, cancellationToken).ConfigureAwait(false);
 
                 var matchingProviders = tokenStatusCollection.Where(p => (bool)p.HasToken && _authenticationConnections.Any(t => t.Name == p.ConnectionName)).ToList();
 
@@ -219,14 +226,14 @@ namespace Microsoft.Bot.Solutions.Authentication
                 throw new ArgumentNullException(nameof(userId));
             }
 
-            var tokenProvider = context.Adapter as IUserTokenProvider;
+            var tokenProvider = context.Adapter as IExtendedUserTokenProvider;
             if (tokenProvider != null)
             {
-                return await tokenProvider.GetTokenStatusAsync(context, userId, includeFilter, cancellationToken).ConfigureAwait(false);
+                return await tokenProvider.GetTokenStatusAsync(context, _oauthCredentials, userId, includeFilter, cancellationToken).ConfigureAwait(false);
             }
             else
             {
-                throw new Exception("Adapter does not support IUserTokenProvider");
+                throw new Exception("Adapter does not support IExtendedUserTokenProvider");
             }
         }
 
@@ -249,7 +256,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             return Task.FromResult(false);
         }
 
-        private class DialogIds
+        private static class DialogIds
         {
             public const string ProviderPrompt = "ProviderPrompt";
             public const string FirstStepPrompt = "FirstStep";
