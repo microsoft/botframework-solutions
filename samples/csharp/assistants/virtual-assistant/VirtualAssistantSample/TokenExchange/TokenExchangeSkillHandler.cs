@@ -56,7 +56,7 @@ namespace VirtualAssistantSample.TokenExchange
 
         protected override async Task<ResourceResponse> OnSendToConversationAsync(ClaimsIdentity claimsIdentity, string conversationId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
+            if (_tokenExchangeConfig != null && await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
             {
                 return new ResourceResponse(Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture));
             }
@@ -66,7 +66,7 @@ namespace VirtualAssistantSample.TokenExchange
 
         protected override async Task<ResourceResponse> OnReplyToActivityAsync(ClaimsIdentity claimsIdentity, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
+            if (_tokenExchangeConfig != null && await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
             {
                 return new ResourceResponse(Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture));
             }
@@ -98,7 +98,9 @@ namespace VirtualAssistantSample.TokenExchange
                     {
                         var oauthCard = ((JObject)attachment.Content).ToObject<OAuthCard>();
 
-                        if (oauthCard.TokenExchangeResource != null && _tokenExchangeConfig.Provider == oauthCard.TokenExchangeResource.ProviderId)
+                        if (oauthCard != null && oauthCard.TokenExchangeResource != null &&
+                            _tokenExchangeConfig != null && !string.IsNullOrWhiteSpace(_tokenExchangeConfig.Provider) &&
+                            _tokenExchangeConfig.Provider == oauthCard.TokenExchangeResource.ProviderId)
                         {
                             using (var context = new TurnContext(_adapter, activity))
                             {
