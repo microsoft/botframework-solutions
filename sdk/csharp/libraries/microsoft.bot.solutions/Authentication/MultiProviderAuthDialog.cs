@@ -26,6 +26,7 @@ namespace Microsoft.Bot.Solutions.Authentication
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
+        private AppCredentials _oauthCredentials;
 
         public MultiProviderAuthDialog(
             List<OAuthConnection> authenticationConnections,
@@ -34,7 +35,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             : base(nameof(MultiProviderAuthDialog))
         {
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
-
+            _oauthCredentials = oauthCredentials;
             _responseManager = new ResponseManager(
                 new string[] { "en", "de", "es", "fr", "it", "zh" },
                 new AuthenticationResponses());
@@ -72,7 +73,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                             Title = loginButtonActivity.Text,
                             Text = loginPromptActivity.Text,
                         };
-                        settings.OAuthAppCredentials = oauthCredentials;
+                        settings.OAuthAppCredentials = _oauthCredentials;
 
                         AddDialog(new OAuthPrompt(
                             connection.Name,
@@ -117,9 +118,9 @@ namespace Microsoft.Bot.Solutions.Authentication
                 return await stepContext.NextAsync(result).ConfigureAwait(false);
             }
 
-            if (stepContext.Context.Adapter is IUserTokenProvider adapter)
+            if (stepContext.Context.Adapter is IExtendedUserTokenProvider adapter)
             {
-                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, stepContext.Context.Activity.From.Id, null, cancellationToken).ConfigureAwait(false);
+                var tokenStatusCollection = await adapter.GetTokenStatusAsync(stepContext.Context, _oauthCredentials, stepContext.Context.Activity.From.Id, null, cancellationToken).ConfigureAwait(false);
 
                 var matchingProviders = tokenStatusCollection.Where(p => (bool)p.HasToken && _authenticationConnections.Any(t => t.Name == p.ConnectionName)).ToList();
 
@@ -225,14 +226,14 @@ namespace Microsoft.Bot.Solutions.Authentication
                 throw new ArgumentNullException(nameof(userId));
             }
 
-            var tokenProvider = context.Adapter as IUserTokenProvider;
+            var tokenProvider = context.Adapter as IExtendedUserTokenProvider;
             if (tokenProvider != null)
             {
-                return await tokenProvider.GetTokenStatusAsync(context, userId, includeFilter, cancellationToken).ConfigureAwait(false);
+                return await tokenProvider.GetTokenStatusAsync(context, _oauthCredentials, userId, includeFilter, cancellationToken).ConfigureAwait(false);
             }
             else
             {
-                throw new Exception("Adapter does not support IUserTokenProvider");
+                throw new Exception("Adapter does not support IExtendedUserTokenProvider");
             }
         }
 
