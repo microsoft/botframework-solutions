@@ -14,6 +14,7 @@ namespace Microsoft.Bot.Solutions
     /// <summary>
     /// Event prompt that enables Bots to wait for a incoming event matching a given name to be received.
     /// </summary>
+    [Obsolete("This class is being deprecated. For more information, refer to https://aka.ms/bfvarouting.", false)]
     public class EventPrompt : ActivityPrompt
     {
         public EventPrompt(string dialogId, string eventName, PromptValidator<Activity> validator)
