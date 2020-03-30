@@ -88,26 +88,26 @@ export class DisconnectSkill {
 
     public async disconnectSkill(): Promise<boolean> {
         try {
-            // Validate configuration.skillsFile
+            // Validate configuration.appSettingsFile
             if (!existsSync(this.configuration.appSettingsFile)) {
-                this.logger.error(`The 'skillsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--skillsFile' argument.`);
+                this.logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
 
                 return false;
             }
 
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is present in the assistant
             const skillToRemove: ISkill | undefined = assistantSkills.find((assistantSkill: ISkill): boolean =>
-                assistantSkill.Id === this.configuration.skillId
+                assistantSkill.id === this.configuration.skillId
             );
 
             if (!skillToRemove) {
                 this.logger.warning(`The skill '${ this.configuration.skillId }' is not present in the assistant Skills configuration file.
-Run 'botskills list --skillsFile "<YOUR-ASSISTANT-SKILLS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+Run 'botskills list --appSettingsFile "<YOUR-APPSETTINGS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 
                 return false;
             } else if (!this.configuration.lgLanguage || !(['cs', 'ts'].includes(this.configuration.lgLanguage))) {
@@ -128,7 +128,7 @@ Please make sure to provide a valid path to your Luis Generate output folder usi
                 assistantSkills.splice(assistantSkills.indexOf(skillToRemove), 1);
 
                 // Updating the assistant skills file's skills property with the assistant skills array
-                assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+                assistantSkillsFile.botFrameworkSkills = assistantSkills;
 
                 // Writing (and overriding) the assistant skills file
                 writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));

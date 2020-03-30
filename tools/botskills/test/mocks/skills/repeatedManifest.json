@@ -14,7 +14,7 @@
                 "triggers": {
                     "utteranceSources": [
                         {
-                            "locale": "en",
+                            "locale": "en-us",
                             "source": [
                                 "test#Test"
                             ]

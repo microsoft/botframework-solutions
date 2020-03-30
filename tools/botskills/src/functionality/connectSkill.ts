@@ -20,7 +20,7 @@ import {
     IModel,
     IEndpoint
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, manifestV1Validation, manifestV2Validation } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, manifestV1Validation, manifestV2Validation, isCloudGovernment } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
 enum manifestVersion {
@@ -164,24 +164,20 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         
         let validVersion: manifestVersion = manifestVersion.none;
         switch (skillManifestVersion) {
-            case manifestVersion.V1: {
+            case manifestVersion.V1:
                 manifestV1Validation(skillManifest as ISkillManifestV1, this.logger);
-                if (!this.logger.isError)
-                {
-                    validVersion = manifestVersion.V1;
-                    break;
+                if (this.logger.isError) {
+                    throw new Error('One or more properties are missing from your Skill Manifest');
                 }
-                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
-            }
-            case manifestVersion.V2: {
+                validVersion = manifestVersion.V1;
+                break;
+            case manifestVersion.V2:
                 manifestV2Validation(skillManifest as ISkillManifestV2, this.logger, this.configuration.endpointName);
-                if (!this.logger.isError)
-                {
-                    validVersion = manifestVersion.V2;
-                    break;
+                if (this.logger.isError) {
+                    throw new Error('One or more properties are missing from your Skill Manifest');
                 }
-                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
-            }
+                validVersion = manifestVersion.V2;
+                break;
             case undefined: {
                 throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
             }
@@ -392,12 +388,12 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             switch (this.skillManifestValidated) {
                 case manifestVersion.V1: {
                     this.manifestVersion = manifestVersion.V1;
-                    this.connectSkillManifestV1(cognitiveModelsFile, skillManifest as ISkillManifestV1);
+                    await this.connectSkillManifestV1(cognitiveModelsFile, skillManifest as ISkillManifestV1);
                     break;
                 }
                 case manifestVersion.V2: {
                     this.manifestVersion = manifestVersion.V2;
-                    this.connectSkillManifestV2(cognitiveModelsFile, skillManifest as ISkillManifestV2);
+                    await this.connectSkillManifestV2(cognitiveModelsFile, skillManifest as ISkillManifestV2);
                     break;
                 }
             }
@@ -410,17 +406,18 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         }
     }
 
-    private AddSkill(assistantSkillsFile: IAppSetting, assistantSkills: ISkill[], skill: ISkillManifestV1 | ISkillManifestV2): void {
+    private async AddSkill(assistantSkillsFile: IAppSetting, assistantSkills: ISkill[], skill: ISkillManifestV1 | ISkillManifestV2): Promise<void> {
 
         if (this.skillManifestValidated == manifestVersion.V1) {
             const skillManifestV1: ISkillManifestV1 = skill as ISkillManifestV1;
             assistantSkills.push({
-                Id: skillManifestV1.id,
-                AppId: skillManifestV1.msaAppId,
-                SkillEndpoint: skillManifestV1.endpoint,
-                Name: skillManifestV1.name
+                id: skillManifestV1.id,
+                appId: skillManifestV1.msaAppId,
+                skillEndpoint: skillManifestV1.endpoint,
+                name: skillManifestV1.name,
+                description: skillManifestV1.description
             });
-            assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+            assistantSkillsFile.botFrameworkSkills = assistantSkills;
         }
 
         if (this.skillManifestValidated == manifestVersion.V2) {
@@ -429,17 +426,18 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             || skillManifestV2.endpoints[0];
             
             assistantSkills.push({
-                Id: skillManifestV2.$id,
-                AppId: endpoint.msAppId,
-                SkillEndpoint: endpoint.endpointUrl,
-                Name: skillManifestV2.name,
+                id: skillManifestV2.$id,
+                appId: endpoint.msAppId,
+                skillEndpoint: endpoint.endpointUrl,
+                name: skillManifestV2.name,
+                description: skillManifestV2.description
             });
-            assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+            assistantSkillsFile.botFrameworkSkills = assistantSkills;
         }
         
-        
-        if (assistantSkillsFile.SkillHostEndpoint === undefined || assistantSkillsFile.SkillHostEndpoint.trim().length === 0) {
-            assistantSkillsFile.SkillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.net/api/skills`;
+        if (assistantSkillsFile.skillHostEndpoint === undefined || assistantSkillsFile.skillHostEndpoint.trim().length === 0) {
+            const channel: string = await isCloudGovernment() ? 'us' : 'net';
+            assistantSkillsFile.skillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.${ channel }/api/skills`;
         }
         writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     }
@@ -448,10 +446,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.id)) {
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.id)) {
                 this.logger.warning(`The skill '${ skillManifest.name }' is already registered.`);
                 return;
             }
@@ -468,7 +466,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Updating the assistant skills file's skills property with the assistant skills array
             // Writing (and overriding) the assistant skills file
             //writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
-            this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
+            await this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
             this.logger.success(`Successfully appended '${ skillManifest.name }' manifest to your assistant's skills configuration file!`);
             // Configuring bot auth settings
             //this.logger.message('Configuring bot auth settings');
@@ -482,10 +480,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.$id)) {
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.$id)) {
                 this.logger.warning(`The skill '${ skillManifest.name }' is already registered.`);
                 return;
             }
@@ -502,7 +500,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Updating the assistant skills file's skills property with the assistant skills array
             // Writing (and overriding) the assistant skills file
             //writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
-            this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
+            await this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
             this.logger.success(`Successfully appended '${ skillManifest.name }' manifest to your assistant's skills configuration file!`);
             // Configuring bot auth settings
             //this.logger.message('Configuring bot auth settings');
