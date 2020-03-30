@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.8.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.1" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.1-rc0" />
-    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.9.0-daily252" />
+    <PackageReference Include="Microsoft.Bot.Solutions" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
