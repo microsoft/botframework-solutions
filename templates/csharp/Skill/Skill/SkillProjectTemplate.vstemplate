@@ -31,6 +31,9 @@
       <Folder Name="Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
       </Folder>
+      <Folder Name="Authentication" TargetFolderName="Authentication">
+        <ProjectItem ReplaceParameters="true" TargetFileName="AllowedCallersClaimsValidator.cs">AllowedCallersClaimsValidator.cs</ProjectItem>
+      </Folder>
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultActivityHandler.cs">DefaultActivityHandler.cs</ProjectItem>
       </Folder>
