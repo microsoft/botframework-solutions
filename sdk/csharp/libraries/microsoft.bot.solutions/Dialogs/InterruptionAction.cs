@@ -1,11 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+
 namespace Microsoft.Bot.Solutions.Dialogs
 {
     /// <summary>
     /// Indicates the current status of a dialog interruption.
     /// </summary>
+    [Obsolete("This class is being deprecated. For more information, refer to https://aka.ms/bfvarouting.", false)]
     public enum InterruptionAction
     {
         /// <summary>
