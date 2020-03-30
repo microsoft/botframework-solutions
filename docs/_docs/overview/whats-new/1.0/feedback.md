@@ -18,4 +18,4 @@ The Feedback Middleware approach has been deprecated since the 0.8 release of **
 With the 1.0 release we have implemented a temporary feedback mechanism which is outlined [here](https://aka.ms/bfFeedbackDoc). We will have an 
 incremental release in the near future with a more robust feedback implementation that will be a part of the **Microsoft.Bot.Solutions** library. 
 As of now the **Microsoft.Bot.Solutions** library still contains the middleware solution but it is marked as deprecated and it will not work as 
-desired due to the waterfall flow of the VA since the .8 release. 
+desired due to the waterfall flow of the VA since the 0.8 release. 
