@@ -13,7 +13,6 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
@@ -65,7 +64,6 @@ namespace VirtualAssistantSample.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
             Use(new SetSpeakMiddleware());
         }
 
