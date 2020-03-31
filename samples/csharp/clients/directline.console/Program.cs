@@ -22,8 +22,8 @@ namespace DirectLine.Console
     class Program
     {
         // Set this to the Secret and botId for the Bot you wish to communicate with
-        private static string botDirectLineSecret = "a";
-        private static string botId = "a";
+        private static string botDirectLineSecret = "";
+        private static string botId = "";
         private static string fromUserId = "YourUserId";
         private static string fromUserName = "YourUserName";
 
