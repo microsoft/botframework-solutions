@@ -57,8 +57,15 @@
             "name": "Microsoft Graph - Find Meeting Times"
           },
           "resultProperty": "dialog.meetingTimeSuggestions",
-          "token": "${user.token.token}",
-          "attendeesProperty": "${dialog.attendees}"
+          "token": "=user.token.token",
+          "attendeesProperty": "=dialog.attendees"
+        },
+        {
+          "$type": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "276564",
+            "name": "Emit a trace event"
+          }
         },
         {
           "$type": "Microsoft.SetProperty",
@@ -67,7 +74,14 @@
             "name": "Set a property"
           },
           "property": "dialog.meetingTimeChoices",
-          "value": "foreach(dialog.meetingTimeSuggestions, item, item.display)"
+          "value": "=foreach(dialog.meetingTimeSuggestions, item, item.display)"
+        },
+        {
+          "$type": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "276564",
+            "name": "Emit a trace event"
+          }
         },
         {
           "$type": "Microsoft.EditArray",
@@ -77,7 +91,7 @@
           },
           "changeType": "Push",
           "itemsProperty": "dialog.meetingTimeChoices",
-          "value": "'Provide my own time'"
+          "value": "='Provide my own time'"
         },
         {
           "$type": "Microsoft.ChoiceInput",
@@ -94,6 +108,7 @@
           "appendChoices": "true",
           "defaultLocale": "en-us",
           "style": "HeroCard",
+          "choices": "=dialog.meetingTimeChoices",
           "choiceOptions": {
             "inlineSeparator": ", ",
             "inlineOr": " or ",
@@ -119,7 +134,7 @@
                 "name": "Set a property"
               },
               "property": "dialog.meetingTime",
-              "value": "where(dialog.meetingTimeSuggestions, item, item.display == dialog.selectedMeetingTime)[0]"
+              "value": "=where(dialog.meetingTimeSuggestions, item, item.display == dialog.selectedMeetingTime)[0]"
             },
             {
               "$type": "Microsoft.TraceActivity",
@@ -218,14 +233,14 @@
                 "id": "798811",
                 "name": "MS Graph - Create Event"
               },
-              "resultProperty": "${dialog.createEventResult}",
-              "token": "${user.token.token}",
-              "titleProperty": "${dialog.title}",
-              "descriptionProperty": "${dialog.description}",
-              "startProperty": "${dialog.meetingTime.start}",
-              "endProperty": "${dialog.meetingTime.end}",
-              "locationProperty": "${dialog.location}",
-              "attendeesProperty": "${dialog.attendees}"
+              "resultProperty": "dialog.createEventResult",
+              "token": "=user.token.token",
+              "titleProperty": "=dialog.title",
+              "descriptionProperty": "=dialog.description",
+              "startProperty": "=dialog.meetingTime.start",
+              "endProperty": "=dialog.meetingTime.end",
+              "locationProperty": "=dialog.location",
+              "attendeesProperty": "=dialog.attendees"
             },
             {
               "$type": "Microsoft.SendActivity",

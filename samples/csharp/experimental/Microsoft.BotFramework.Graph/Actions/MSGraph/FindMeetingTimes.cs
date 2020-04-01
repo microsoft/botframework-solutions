@@ -103,7 +103,7 @@ namespace ExtensionsLib.Actions.MSGraph
 
             if (this.ResultProperty != null)
             {
-                dcState.SetValue(ResultProperty, result);
+                dcState.SetValue(ResultProperty, results);
             }
 
             // return the actionResult as the result of this operation
