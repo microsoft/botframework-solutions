@@ -34,8 +34,8 @@ export class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
         }
 
         // Store the SkillConversationReference
-        const skillConversationInfo: Map<string, Object> = new Map<string, Object>();
-        skillConversationInfo.set(storageKey, skillConversationReference); 
+        const skillConversationInfo: StoreItems = {} as StoreItems;
+        skillConversationInfo[storageKey] = skillConversationReference;
         await this.storage.write(skillConversationInfo); 
 
         // Return the storageKey (that will be also used as the conversation ID to call the skill)
