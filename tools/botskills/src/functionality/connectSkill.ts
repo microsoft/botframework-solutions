@@ -4,43 +4,33 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { isAbsolute, join, resolve } from 'path';
+import { join } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
-    IAction,
     ICognitiveModel,
     IConnectConfiguration,
     IRefreshConfiguration,
-    ISkillManifestV1,
-    IUtteranceSource,
-    ISkillManifestV2,
     IAppSetting,
     ISkill,
-    IModel,
-    IEndpoint
+    IModel
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, manifestV1Validation, manifestV2Validation, isCloudGovernment } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils } from '../utils';
 import { RefreshSkill } from './refreshSkill';
-
-enum manifestVersion {
-    V1 = 'V1',
-    V2 = 'V2',
-    none = 'none'
-}
+import { IManifest } from '../models/manifest';
 
 export class ConnectSkill {
     private readonly childProcessUtils: ChildProcessUtils;
+    private readonly manifestUtils: ManifestUtils;
     private readonly configuration: IConnectConfiguration;
     private readonly logger: ILogger;
-    private manifestVersion: manifestVersion | undefined;
-    private skillManifest: ISkillManifestV2 | undefined;
-    private skillManifestValidated: manifestVersion = manifestVersion.none;
+    private manifest: IManifest | undefined;
 
     public constructor(configuration: IConnectConfiguration, logger?: ILogger) {
         this.configuration = configuration;
         this.logger = logger || new ConsoleLogger();
         this.childProcessUtils = new ChildProcessUtils();
+        this.manifestUtils = new ManifestUtils();
     }
 
     private async getExecutionModel(
@@ -49,32 +39,41 @@ export class ConnectSkill {
         intentName: string,
         dispatchName: string): Promise<Map<string, string>> {
 
+        if (!existsSync(this.configuration.luisFolder)) {
+            throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
+Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
+        }
+
         let luFile = '';
         let luisFile = '';
         let luFilePath = '';
         let luisFolderPath: string = join(this.configuration.luisFolder, culture);
         let luisFilePath = '';
-        let dispatchFile = '';
         let dispatchFolderPath = '';
         let dispatchFilePath = '';
 
-        if (this.manifestVersion == manifestVersion.V1)
-        {
-            luFile = `${ luisApp }.lu`;
-            luisFile = `${ luisApp }.luis`;
-            luFilePath = join(this.configuration.luisFolder, culture, luFile);
-            luisFilePath = join(luisFolderPath, luisFile);
-            dispatchFile = `${ dispatchName }.dispatch`;
-            dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
-            dispatchFilePath = join(dispatchFolderPath, dispatchFile);
-        }
-        else {
+        dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
+        dispatchFilePath = join(dispatchFolderPath, `${dispatchName}.dispatch`);
 
-            if (this.skillManifest){
+        // Validate 'dispatch add' arguments
+        if (!existsSync(dispatchFolderPath)) {
+            throw new Error(
+                `Path to the Dispatch folder (${ dispatchFolderPath }) leads to a nonexistent folder.
+Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
+        } else if (!existsSync(dispatchFilePath)) {
+            throw new Error(`Path to the ${ dispatchName }.dispatch file leads to a nonexistent file.`);
+        }
+
+        luFile = `${luisApp}.lu`;
+        luisFile = `${luisApp}.luis`;
+        luFilePath = join(this.configuration.luisFolder, culture, luFile);
+        luisFilePath = join(luisFolderPath, luisFile);
+
+        if (!existsSync(luFilePath)) {
+            if (this.manifest !== undefined && this.manifest.entries !== undefined) {
 
                 const model: IModel = {id: '', name: '', contentType: '', url: '', description: ''};
-                const entries = Object.entries(this.skillManifest?.dispatchModels.languages);
-                const currentLocaleApps = entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model];
+                const currentLocaleApps = this.manifest.entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model]
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
                 
@@ -112,28 +111,13 @@ export class ConnectSkill {
                     luisFile = `${ luFile.toLowerCase() }is`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);
-                dispatchFile = `${ dispatchName }.dispatch`;
-                dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
-                dispatchFilePath = join(dispatchFolderPath, dispatchFile);
             }
         }
 
         // Validate 'bf luis:convert' arguments
-        if (!existsSync(this.configuration.luisFolder)) {
-            throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
-Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
-        } else if (!existsSync(luFilePath)) {
+        if (!existsSync(luFilePath)) {
             throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.
 Make sure your Skill's .lu file's name matches your Skill's manifest id`);
-        }
-        
-        // Validate 'dispatch add' arguments
-        if (!existsSync(dispatchFolderPath)) {
-            throw new Error(
-                `Path to the Dispatch folder (${ dispatchFolderPath }) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
-        } else if (!existsSync(dispatchFilePath)) {
-            throw new Error(`Path to the ${ dispatchFile } file leads to a nonexistent file.`);
         }
 
         const executionModelMap: Map<string, string> = new Map();
@@ -151,40 +135,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('--dispatch', dispatchFilePath);
 
         return executionModelMap;
-    }
-
-    private validateManifestSchema(skillManifest: ISkillManifestV1 | ISkillManifestV2): manifestVersion {
-
-        const skillManifestV1Validation = skillManifest as ISkillManifestV1;
-        const skillManifestV2Validation = skillManifest as ISkillManifestV2;
-
-        const skillManifestVersion: string | undefined = skillManifestV1Validation.id ? 
-            manifestVersion.V1 : skillManifestV2Validation.$id ?
-                manifestVersion.V2 : undefined;
-        
-        let validVersion: manifestVersion = manifestVersion.none;
-        switch (skillManifestVersion) {
-            case manifestVersion.V1:
-                manifestV1Validation(skillManifest as ISkillManifestV1, this.logger);
-                if (this.logger.isError) {
-                    throw new Error('One or more properties are missing from your Skill Manifest');
-                }
-                validVersion = manifestVersion.V1;
-                break;
-            case manifestVersion.V2:
-                manifestV2Validation(skillManifest as ISkillManifestV2, this.logger, this.configuration.endpointName);
-                if (this.logger.isError) {
-                    throw new Error('One or more properties are missing from your Skill Manifest');
-                }
-                validVersion = manifestVersion.V2;
-                break;
-            case undefined: {
-                throw new Error('Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.');
-            }
-        }
-
-        return validVersion;
-        
     }
 
     private async runCommand(command: string[], description: string): Promise<string> {
@@ -210,35 +160,6 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         }
     }
 
-    private async getManifest(): Promise<ISkillManifestV1 | ISkillManifestV2> {
-
-        return this.configuration.localManifest
-            ? this.getLocalManifest()
-            : this.getRemoteManifest();
-    }
-
-    private async getRemoteManifest(): Promise<ISkillManifestV1 | ISkillManifestV2> {
-        try {
-            return get({
-                uri: this.configuration.remoteManifest,
-                json: true
-            });
-        } catch (err) {
-            throw new Error(`There was a problem while getting the remote manifest:\n${ err }`);
-        }
-    }
-
-    private getLocalManifest(): ISkillManifestV1 | ISkillManifestV2 {
-        const manifestPath: string = this.configuration.localManifest;
-        const skillManifestPath: string = isAbsolute(manifestPath) ? manifestPath : join(resolve('./'), manifestPath);
-
-        if (!existsSync(skillManifestPath)) {
-            throw new Error(`The 'localManifest' argument leads to a non-existing file.
-Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
-        }
-
-        return JSON.parse(readFileSync(skillManifestPath, 'UTF8'));
-    }
 
     private verifyLuisFolder(culture: string): void {
         if (!existsSync(this.configuration.luisFolder)){
@@ -259,26 +180,6 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             throw new Error(`Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.
 Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
         }
-    }
-
-    private async processManifestV1(manifest: ISkillManifestV1): Promise<Map<string, string[]>> {
-
-        return manifest.actions.filter((action: IAction): IUtteranceSource[] =>
-            action.definition.triggers.utteranceSources).reduce((acc: IUtteranceSource[], val: IAction): IUtteranceSource[] => acc.concat(val.definition.triggers.utteranceSources), [])
-            .reduce((acc: Map<string, string[]>, val: IUtteranceSource): Map<string, string[]> => {
-                const luisApps: string[] = val.source.map((v: string): string => v.split('#')[0]);
-                if (acc.has(val.locale)) {
-                    const previous: string[] = acc.get(val.locale) || [];
-                    const filteredluisApps: string[] = [...new Set(luisApps.concat(previous))];
-                    acc.set(val.locale, filteredluisApps);
-                } else {
-                    const filteredluisApps: string[] = [...new Set(luisApps)];
-                    acc.set(val.locale, filteredluisApps);
-                }
-
-                return acc;
-            },
-            new Map());
     }
 
     private async executeLuisConvert(culture: string, executionModelByCulture: Map<string, string>): Promise<void> {
@@ -380,23 +281,9 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Take cognitiveModels
             const cognitiveModelsFile: ICognitiveModel = JSON.parse(readFileSync(this.configuration.cognitiveModelsFile, 'UTF8'));
             // Take skillManifest
-            const skillManifest: ISkillManifestV1 | ISkillManifestV2 = await this.getManifest();
-            // Manifest schema validation
-            this.skillManifestValidated = this.validateManifestSchema(skillManifest);
-            // End of manifest schema validation
-
-            switch (this.skillManifestValidated) {
-                case manifestVersion.V1: {
-                    this.manifestVersion = manifestVersion.V1;
-                    await this.connectSkillManifestV1(cognitiveModelsFile, skillManifest as ISkillManifestV1);
-                    break;
-                }
-                case manifestVersion.V2: {
-                    this.manifestVersion = manifestVersion.V2;
-                    await this.connectSkillManifestV2(cognitiveModelsFile, skillManifest as ISkillManifestV2);
-                    break;
-                }
-            }
+            const rawManifest: string = await this.manifestUtils.getRawManifestFromResource(this.configuration);
+            this.manifest = await this.manifestUtils.getManifest(rawManifest, this.logger);
+            await this.connectSkillManifest(cognitiveModelsFile, this.manifest);
 
             return true;
            
@@ -406,35 +293,15 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         }
     }
 
-    private async AddSkill(assistantSkillsFile: IAppSetting, assistantSkills: ISkill[], skill: ISkillManifestV1 | ISkillManifestV2): Promise<void> {
-
-        if (this.skillManifestValidated == manifestVersion.V1) {
-            const skillManifestV1: ISkillManifestV1 = skill as ISkillManifestV1;
-            assistantSkills.push({
-                id: skillManifestV1.id,
-                appId: skillManifestV1.msaAppId,
-                skillEndpoint: skillManifestV1.endpoint,
-                name: skillManifestV1.name,
-                description: skillManifestV1.description
-            });
-            assistantSkillsFile.botFrameworkSkills = assistantSkills;
-        }
-
-        if (this.skillManifestValidated == manifestVersion.V2) {
-            const skillManifestV2: ISkillManifestV2 = skill as ISkillManifestV2;
-            const endpoint: IEndpoint = skillManifestV2.endpoints.find((endpoint: IEndpoint): boolean => endpoint.name === this.configuration.endpointName) 
-            || skillManifestV2.endpoints[0];
-            
-            assistantSkills.push({
-                id: skillManifestV2.$id,
-                appId: endpoint.msAppId,
-                skillEndpoint: endpoint.endpointUrl,
-                name: skillManifestV2.name,
-                description: skillManifestV2.description
-            });
-            assistantSkillsFile.botFrameworkSkills = assistantSkills;
-        }
-        
+    private async AddSkill(assistantSkillsFile: IAppSetting, assistantSkills: ISkill[], skill: IManifest): Promise<void> {
+        assistantSkills.push({
+            id: skill.id,
+            appId: skill.msaAppId,
+            skillEndpoint: skill.endpoint,
+            name: skill.name,
+            description: skill.description
+        });
+         
         if (assistantSkillsFile.skillHostEndpoint === undefined || assistantSkillsFile.skillHostEndpoint.trim().length === 0) {
             const channel: string = await isCloudGovernment() ? 'us' : 'net';
             assistantSkillsFile.skillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.${ channel }/api/skills`;
@@ -442,7 +309,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     }
 
-    private async connectSkillManifestV1(cognitiveModelsFile: ICognitiveModel, skillManifest: ISkillManifestV1): Promise<void> {
+    private async connectSkillManifest(cognitiveModelsFile: ICognitiveModel, skillManifest: IManifest): Promise<void> {
         try {
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
@@ -454,13 +321,11 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 return;
             }
 
-            // Process the manifest to get the intents and cultures of each intent
-            const luisDictionary: Map<string, string[]> = await this.processManifestV1(skillManifest);
             // Validate cultures
-            await this.validateCultures(cognitiveModelsFile, luisDictionary);
+            await this.validateCultures(cognitiveModelsFile, skillManifest.luisDictionary);
             // Updating Dispatch
             this.logger.message('Updating Dispatch');
-            await this.updateModel(luisDictionary, skillManifest.id);
+            await this.updateModel(skillManifest.luisDictionary, skillManifest.id);
             // Adding the skill manifest to the assistant skills array
             this.logger.message(`Appending '${ skillManifest.name }' manifest to your assistant's skills configuration file.`);
             // Updating the assistant skills file's skills property with the assistant skills array
@@ -474,58 +339,5 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         } catch (err) {
             this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
         }
-    }
-
-    private async connectSkillManifestV2(cognitiveModelsFile: ICognitiveModel, skillManifest: ISkillManifestV2): Promise<void> {
-        try {
-            // Take VA Skills configurations
-            const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
-
-            // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.$id)) {
-                this.logger.warning(`The skill '${ skillManifest.name }' is already registered.`);
-                return;
-            }
-            this.skillManifest = skillManifest;
-            const luisDictionary: Map<string, string[]> = await this.processManifestV2(skillManifest);
-
-            // Validate cultures
-            await this.validateCultures(cognitiveModelsFile, luisDictionary);
-            // Updating Dispatch
-            this.logger.message('Updating Dispatch');
-            await this.updateModel(luisDictionary, skillManifest.$id);
-            // Adding the skill manifest to the assistant skills array
-            this.logger.message(`Appending '${ skillManifest.name }' manifest to your assistant's skills configuration file.`);
-            // Updating the assistant skills file's skills property with the assistant skills array
-            // Writing (and overriding) the assistant skills file
-            //writeFileSync(this.configuration.skillsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
-            await this.AddSkill(assistantSkillsFile, assistantSkills, skillManifest);
-            this.logger.success(`Successfully appended '${ skillManifest.name }' manifest to your assistant's skills configuration file!`);
-            // Configuring bot auth settings
-            //this.logger.message('Configuring bot auth settings');
-            //await this.authenticationUtils.authenticate(this.configuration, skillManifest, this.logger);
-            
-            return;
-        } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
-        }
-    }
-
-    private async processManifestV2(manifest: ISkillManifestV2): Promise<Map<string, string[]>> {
-        const acc: Map<string, string[]> = new Map();
-        const entries = Object.entries(manifest.dispatchModels.languages);
-
-        entries.forEach(([locale, value]): void => {
-            const luisApps: string[] = [];
-            value.forEach((model: IModel): void => {
-                luisApps.push(model.id);
-            });
-        
-            const filteredluisApps: string[] = [...new Set(luisApps)];
-            acc.set(locale, filteredluisApps);
-        });
-
-        return acc;
     }
 }

@@ -4,57 +4,15 @@
  */
 
 const { strictEqual } = require("assert");
-const { writeFileSync } = require("fs");
+const { writeFileSync, readFileSync } = require("fs");
 const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const testLogger = require("./helpers/testLogger");
-const { normalizeContent } = require("./helpers/normalizeUtils");
+const { getNormalizedFile } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
-const filledDispatch = normalizeContent(JSON.stringify(
-    {
-        "services": [
-            {
-                "name": "testDispatch",
-                "id": "1"
-            }
-        ],
-        "serviceIds": [
-            "1"
-        ]
-    },
-    null, 4));
+const filledDispatch = getNormalizedFile(resolve(__dirname, join("mocks", "success", "dispatch", "en-us", "filleden-usDispatch.dispatch")));
+const appsettingsWithTestSkill = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "appsettingsWithTestSkill.json")));
 
-const appsettingsWithTestSkill = normalizeContent(JSON.stringify(
-    {
-        "microsoftAppId": "",
-        "microsoftAppPassword": "",
-        "appInsights": {
-            "appId": "",
-            "instrumentationKey": ""
-        },
-        "blobStorage": {
-            "connectionString": "",
-            "container": ""
-        },
-        "cosmosDb": {
-            "authkey": "",
-            "collectionId": "",
-            "cosmosDBEndpoint": "",
-            "databaseId": ""
-        },
-        "contentModerator": {
-            "key": ""
-        },
-        "botFrameworkSkills": [{ 
-                "id": "testSkill",
-                "appId": "",
-                "skillEndpoint": "",
-                "name": "",
-                "description": ""
-            
-        }]
-    },
-    null, 4));
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "en-us", "filleden-usDispatchNoJson.dispatch")), filledDispatch);
     writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "en-us", "filleden-usDispatch.dispatch")), filledDispatch);
@@ -63,7 +21,6 @@ function undoChangesInTemporalFiles() {
 }
 
 describe("The disconnect command", function () {
-    
     beforeEach(function() {
         undoChangesInTemporalFiles();
         this.logger = new testLogger.TestLogger();
@@ -186,6 +143,27 @@ Please make sure to provide a valid path to your Luis Generate output folder usi
             strictEqual(errorList[errorList.length - 1], `The 'lgLanguage' argument is incorrect.
 It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
         });
+
+        it("when the appsettingsFile argument is missing", async function () {
+            const configuration = {
+                skillId : "testSkill",
+                outFolder : "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                appSettingsFile: "",
+                languages : "",
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
+                lgLanguage : "",
+                logger : this.logger
+            };
+
+            this.disconnector.configuration = configuration;
+            await this.disconnector.disconnectSkill();
+            const errorList = this.logger.getError();
+
+            strictEqual(errorList[errorList.length - 1], `The 'appSettingsFile' argument is absent or leads to a non-existing file.
+Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
+        });
     });
 
     describe("should show a warning", function () {
@@ -209,6 +187,27 @@ It should be either 'cs' or 'ts' depending on your assistant's language. Please 
             const warningList = this.logger.getWarning();
 
             strictEqual(warningList[warningList.length - 1], `Run 'botskills refresh --cs' command to refresh your connected skills`);
+        });
+
+        it("when skill is missing from the appsettings file", async function () {
+            const configuration = {
+                skillId : "absentSkill",
+                outFolder : "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                appSettingsFile: resolve(__dirname, join("mocks", "appsettings", "appsettingsWithTestSkill.json")),
+                languages : "",
+                dispatchFolder : resolve(__dirname, "mocks", "success", "dispatch"),
+                lgOutFolder : resolve(__dirname, "mocks", "success", "luis"),
+                lgLanguage : "cs",
+                logger : this.logger
+            };
+
+            this.disconnector.configuration = configuration;
+            await this.disconnector.disconnectSkill();
+            const errorList = this.logger.getWarning();
+
+            strictEqual(errorList[errorList.length - 1], `The skill '${ configuration.skillId }' is not present in the assistant Skills configuration file.
+Run 'botskills list --appSettingsFile "<YOUR-APPSETTINGS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
         });
     });
 
