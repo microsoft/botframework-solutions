@@ -40,9 +40,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ComposerDialogs\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Microsoft.BotFramework.Graph\ExtentionsLib.csproj" />
   </ItemGroup>
 </Project>
