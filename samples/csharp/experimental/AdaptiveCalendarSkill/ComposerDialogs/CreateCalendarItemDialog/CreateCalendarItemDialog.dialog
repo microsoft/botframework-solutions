@@ -1,7 +1,7 @@
 {
   "$type": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "name": "CreateCalendarItem",
+    "name": "CreateCalendarItemDialog",
     "description": "Creates a new appointment or meeting in the user's Microsoft Outlook Calendar.",
     "id": "469176"
   },
@@ -268,5 +268,5 @@
       ]
     }
   ],
-  "recognizer": "CreateCalendarItem.lu"
+  "recognizer": "CreateCalendarItemDialog.lu"
 }

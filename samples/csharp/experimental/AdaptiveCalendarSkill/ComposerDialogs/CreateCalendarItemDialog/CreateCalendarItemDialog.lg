@@ -1,0 +1,112 @@
+[import](common.lg)
+
+# bfdprompt-157007()
+- What is the title of the meeting?
+
+# bfdprompt-068494()
+- I've found the following times when all attendees are available. Would you like to schedule for one of these times?
+
+# bfdprompt-249205()
+- Where will the meeting be?
+
+# bfdprompt-575185()
+- What is the meeting description?
+
+# bfdprompt-847733()
+[Activity
+    Text = Is this correct?
+    Attachments = ${json(meetingDetailJson())}
+]
+
+# bfdactivity-655550()
+- I've cancelled the meeting.
+
+# bfdactivity-795785()
+- I've created the meeting.
+
+# datetimeprompt()
+- When should I schedule the meeting?
+
+# meetingDetailJson()
+- ```
+{
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "Container",
+            "backgroundImage": "${CardHeader()}",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "${dialog.title}",
+                    "size": "Medium",
+                    "weight": "Bolder"
+                },
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${formatDateTime(dialog.meetingTime.start, 'dddd, MMMM dd')}",
+                            "size": "Small",
+                            "spacing": "Small"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "${formatDateTime(dialog.meetingTime.start, 'h:mmt')} - ${formatDateTime(dialog.meetingTime.end, 'h:mmt')}",
+                            "size": "Small",
+                            "spacing": "Small"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "${if(dialog.location != null && !empty(dialog.location), dialog.location, "No location specified")}",
+                            "size": "Small",
+                            "spacing": "Small"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Recipients",
+                    "weight": "Bolder"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "${join(dialog.attendees, ', ')}",
+                    "size": "small",
+                    "wrap": true
+                }
+            ],
+            "separator": true
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Description",
+                    "weight": "Bolder"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "${dialog.description}",
+                    "wrap": true,
+                    "size": "small",
+                    "maxLines": 10
+                }
+            ],
+            "separator": true
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
+```
+
+# CardHeader
+- data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzA5LjA1IDMwOS4wNSI+PGRlZnM+PHN0eWxlPi5he2ZpbGw6IzY1YWZlMjt9LmJ7ZmlsbDojMDA1OGE4O30uYiwuZHtvcGFjaXR5OjAuMjU7fS5jLC5le29wYWNpdHk6MC4yO30uY3tmaWxsOnVybCgjYSk7fS5ke2ZpbGw6I2I2ZGNmMTt9LmV7ZmlsbDp1cmwoI2IpO308L3N0eWxlPjxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjI0MS4wMyIgeTE9IjEwNS45NyIgeDI9IjQ2MS41IiB5Mj0iMTA1Ljk3IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAuNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmZiIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJiIiB4MT0iMjQxLjAzIiB5MT0iNTkuOTUiIHgyPSI0NjEuNSIgeTI9IjU5Ljk1IiB4bGluazpocmVmPSIjYSIvPjwvZGVmcz48dGl0bGU+cGxhdGZvcm1zQXNzZXQgNDlxdWVzaXRvbnM8L3RpdGxlPjxwYXRoIGNsYXNzPSJhIiBkPSJNMjQyLjksNzYuNzcsMjU5LjcyLDYwbC02LjQ4LTYuNDhMMjQ3LDU5LjcxYTYuNDMsNi40MywwLDAsMS05LjA2LDBMMTc4LjI0LDBIMFYzMDkuMDVIMzA5LjA1VjE1MkwyNDIuOSw4NS44M0E2LjQzLDYuNDMsMCwwLDEsMjQyLjksNzYuNzdaIi8+PHBhdGggY2xhc3M9ImEiIGQ9Ik0yNDcsNTkuNzFsNi4yMy02LjI0TDIyNi4zMSwyNi41NGE2LjQyLDYuNDIsMCwwLDEsMC05TDI0My44LDBIMTc4LjI0TDIzOCw1OS43MUE2LjQzLDYuNDMsMCwwLDAsMjQ3LDU5LjcxWiIvPjxwYXRoIGNsYXNzPSJiIiBkPSJNMjQ3LDU5LjcxbDYuMjMtNi4yNEwyMjYuMzEsMjYuNTRhNi40Miw2LjQyLDAsMCwxLDAtOUwyNDMuOCwwSDE3OC4yNEwyMzgsNTkuNzFBNi40Myw2LjQzLDAsMCwwLDI0Nyw1OS43MVoiLz48cGF0aCBjbGFzcz0iYSIgZD0iTTI1OS43Miw2MCwyNDIuOSw3Ni43N2E2LjQzLDYuNDMsMCwwLDAsMCw5LjA2TDMwOS4wNSwxNTJ2LTQyLjdaIi8+PHBhdGggY2xhc3M9ImMiIGQ9Ik0yNTkuNzIsNjAsMjQyLjksNzYuNzdhNi40Myw2LjQzLDAsMCwwLDAsOS4wNkwzMDkuMDUsMTUydi00Mi43WiIvPjxwb2x5Z29uIGNsYXNzPSJhIiBwb2ludHM9IjMwOS4wNSAwIDMwNi43MiAwIDI1My4yNCA1My40NyAyNTkuNzIgNTkuOTUgMzA5LjA1IDEwLjYyIDMwOS4wNSAwIi8+PHBvbHlnb24gY2xhc3M9ImQiIHBvaW50cz0iMzA5LjA1IDAgMzA2LjcyIDAgMjUzLjI0IDUzLjQ3IDI1OS43MiA1OS45NSAzMDkuMDUgMTAuNjIgMzA5LjA1IDAiLz48cGF0aCBjbGFzcz0iYSIgZD0iTTI0My44LDAsMjI2LjMxLDE3LjQ5YTYuNDIsNi40MiwwLDAsMCwwLDkuMDVsMjYuOTMsMjYuOTNMMzA2LjcyLDBaIi8+PHBhdGggY2xhc3M9ImIiIGQ9Ik0yNDMuOCwwLDIyNi4zMSwxNy40OWE2LjQyLDYuNDIsMCwwLDAsMCw5LjA1bDI2LjkzLDI2LjkzTDMwNi43MiwwWiIvPjxwYXRoIGNsYXNzPSJkIiBkPSJNMjQzLjgsMCwyMjYuMzEsMTcuNDlhNi40Miw2LjQyLDAsMCwwLDAsOS4wNWwyNi45MywyNi45M0wzMDYuNzIsMFoiLz48cG9seWdvbiBjbGFzcz0iYSIgcG9pbnRzPSIyNTkuNzIgNTkuOTUgMzA5LjA1IDEwOS4yOCAzMDkuMDUgMTAuNjIgMjU5LjcyIDU5Ljk1Ii8+PHBvbHlnb24gY2xhc3M9ImUiIHBvaW50cz0iMjU5LjcyIDU5Ljk1IDMwOS4wNSAxMDkuMjggMzA5LjA1IDEwLjYyIDI1OS43MiA1OS45NSIvPjxwb2x5Z29uIGNsYXNzPSJkIiBwb2ludHM9IjI1OS43MiA1OS45NSAzMDkuMDUgMTA5LjI4IDMwOS4wNSAxMC42MiAyNTkuNzIgNTkuOTUiLz48L3N2Zz4=

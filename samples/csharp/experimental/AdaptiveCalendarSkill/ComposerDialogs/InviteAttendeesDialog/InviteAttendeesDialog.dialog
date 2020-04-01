@@ -1,8 +1,8 @@
 {
   "$type": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "name": "InviteAttendeesDialog",
-    "id": "499658"
+    "id": "349701",
+    "name": "InviteAttendeesDialog"
   },
   "autoEndDialog": "true",
   "defaultResultProperty": "dialog.result",
@@ -11,7 +11,7 @@
       "$type": "Microsoft.OnBeginDialog",
       "$designer": {
         "name": "BeginDialog",
-        "id": "330670"
+        "id": "393057"
       },
       "actions": [
         {
@@ -66,7 +66,7 @@
                     "name": "Set a property"
                   },
                   "property": "dialog.emailAddress",
-                  "value": "dialog.contactsList[0].EmailAddresses[0]"
+                  "value": "=dialog.contactsList[0].EmailAddresses[0]"
                 }
               ],
               "elseActions": [
@@ -85,7 +85,7 @@
                     "name": "Set a property"
                   },
                   "property": "dialog.emailChoiceList",
-                  "value": "foreach(dialog.contactsList, item, item.EmailAddresses[0])"
+                  "value": "=foreach(dialog.contactsList, item, item.EmailAddresses[0])"
                 },
                 {
                   "$type": "Microsoft.ChoiceInput",
@@ -163,5 +163,6 @@
         }
       ]
     }
-  ]
+  ],
+  "generator": "InviteAttendeesDialog.lg"
 }

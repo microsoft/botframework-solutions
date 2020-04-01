@@ -6,7 +6,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotProject", "BotProject.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{5AFADEA2-A18F-46DF-8080-2CA418880318}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtentionsLib", "..\Microsoft.BotFramework.Graph\ExtentionsLib.csproj", "{42B0AD7E-D01D-4621-A62B-4CBB30244586}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtentionsLib", "..\Microsoft.BotFramework.Graph\ExtentionsLib.csproj", "{FD9EEB6E-5853-442F-B426-B36C46728061}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{5AFADEA2-A18F-46DF-8080-2CA418880318}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AFADEA2-A18F-46DF-8080-2CA418880318}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AFADEA2-A18F-46DF-8080-2CA418880318}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42B0AD7E-D01D-4621-A62B-4CBB30244586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42B0AD7E-D01D-4621-A62B-4CBB30244586}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42B0AD7E-D01D-4621-A62B-4CBB30244586}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42B0AD7E-D01D-4621-A62B-4CBB30244586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD9EEB6E-5853-442F-B426-B36C46728061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD9EEB6E-5853-442F-B426-B36C46728061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD9EEB6E-5853-442F-B426-B36C46728061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD9EEB6E-5853-442F-B426-B36C46728061}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

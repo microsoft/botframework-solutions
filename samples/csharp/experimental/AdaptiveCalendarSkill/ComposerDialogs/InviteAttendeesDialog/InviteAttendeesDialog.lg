@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# bfdprompt-519351()
+- Who should I invite?
+
+# bfdactivity-134377()
+- I've found multiple contacts with that name.
+
+# bfdprompt-583361()
+- Which contact should I invite?
+
+# bfdactivity-004999()
+- I've added ${dialog.emailAddress} to the recipients list.
+
+# bfdactivity-549681()
+- I couldn't find a contact with that name.

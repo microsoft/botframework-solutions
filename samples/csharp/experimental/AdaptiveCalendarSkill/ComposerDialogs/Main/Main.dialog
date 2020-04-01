@@ -37,7 +37,7 @@
                     "id": "893608",
                     "name": "Send a response"
                   },
-                  "activity": "@{bfdactivity-893608()}"
+                  "activity": "${bfdactivity-893608()}"
                 }
               ]
             }
@@ -59,7 +59,7 @@
             "name": "Begin a new dialog"
           },
           "includeActivity": false,
-          "dialog": "CreateCalendarItem"
+          "dialog": "CreateCalendarItemDialog"
         }
       ]
     }

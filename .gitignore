@@ -375,4 +375,3 @@ ASALocalRun/
 .DS_Store
 /.project
 *.luis
-/samples/csharp/experimental/AdaptiveCalendarSkill/ComposerDialogs/settings/appsettings.json
