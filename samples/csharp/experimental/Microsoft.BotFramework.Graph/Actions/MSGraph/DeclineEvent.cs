@@ -21,7 +21,7 @@ namespace ExtensionsLib.Actions.MSGraph
         }
 
         [JsonProperty("resultProperty")]
-        public ValueExpression ResultProperty { get; set; }
+        public string ResultProperty { get; set; }
 
         [JsonProperty("token")]
         public StringExpression Token { get; set; }
@@ -42,7 +42,7 @@ namespace ExtensionsLib.Actions.MSGraph
 
             if (this.ResultProperty != null)
             {
-                this.ResultProperty.SetValue(result);
+                dcState.SetValue(ResultProperty, result);
             }
 
             // return the actionResult as the result of this operation

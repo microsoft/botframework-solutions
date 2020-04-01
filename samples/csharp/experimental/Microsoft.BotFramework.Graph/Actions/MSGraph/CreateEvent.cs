@@ -24,7 +24,7 @@ namespace ExtensionsLib.Actions.MSGraph
         }
 
         [JsonProperty("resultProperty")]
-        public ValueExpression ResultProperty { get; set; }
+        public string ResultProperty { get; set; }
 
         [JsonProperty("token")]
         public StringExpression Token { get; set; }
@@ -98,10 +98,10 @@ namespace ExtensionsLib.Actions.MSGraph
 
             var graphClient = GraphClient.GetAuthenticatedClient(token);
 
-            Event createdEvent = null;
+            Event result = null;
             try
             {
-                createdEvent = await graphClient.Me.Events.Request().AddAsync(newEvent);
+                result = await graphClient.Me.Events.Request().AddAsync(newEvent);
             }
             catch (ServiceException ex)
             {
@@ -109,15 +109,15 @@ namespace ExtensionsLib.Actions.MSGraph
             }
 
             // Write Trace Activity for the http request and response values
-            await dc.Context.TraceActivityAsync(nameof(CreateEvent), createdEvent, valueType: DeclarativeType, label: this.Id).ConfigureAwait(false);
+            await dc.Context.TraceActivityAsync(nameof(CreateEvent), result, valueType: DeclarativeType, label: this.Id).ConfigureAwait(false);
 
             if (this.ResultProperty != null)
             {
-                this.ResultProperty.SetValue(createdEvent);
+                dcState.SetValue(ResultProperty, result);
             }
 
             // return the actionResult as the result of this operation
-            return await dc.EndDialogAsync(result: createdEvent, cancellationToken: cancellationToken);
+            return await dc.EndDialogAsync(result: result, cancellationToken: cancellationToken);
         }
     }
 }
