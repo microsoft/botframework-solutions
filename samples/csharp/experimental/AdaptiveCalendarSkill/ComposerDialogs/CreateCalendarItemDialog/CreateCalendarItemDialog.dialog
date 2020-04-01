@@ -18,14 +18,15 @@
         {
           "$type": "Microsoft.OAuthInput",
           "$designer": {
-            "id": "317681",
+            "id": "985484",
             "name": "OAuth login"
           },
           "connectionName": "Outlook",
           "text": "Please sign in.",
           "title": "Login",
           "timeout": "900000",
-          "tokenProperty": "user.token"
+          "property": "user.token",
+          "alwaysPrompt": true
         },
         {
           "$type": "Microsoft.TextInput",
@@ -33,7 +34,7 @@
             "id": "240984",
             "name": "Text input"
           },
-          "prompt": "${bfdprompt-240984()}",
+          "prompt": "${bfdprompt-157007()}",
           "maxTurnCount": 3,
           "property": "dialog.title",
           "alwaysPrompt": false,
@@ -48,18 +49,6 @@
           "dialog": "InviteAttendeesDialog",
           "includeActivity": false,
           "resultProperty": "dialog.attendees"
-        },
-        {
-          "$type": "Microsoft.TextInput",
-          "$designer": {
-            "id": "240984",
-            "name": "Text input"
-          },
-          "prompt": "${bfdprompt-240984()}",
-          "maxTurnCount": 3,
-          "property": "dialog.title",
-          "alwaysPrompt": false,
-          "allowInterruptions": "false"
         },
         {
           "$type": "Microsoft.Graph.Calendar.FindMeetingTimes",
