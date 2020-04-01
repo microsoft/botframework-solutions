@@ -5,5 +5,4 @@
 # except build/, which is used as an MSBuild target.
 !**/[Pp]ackages/build/
 
-!Properties/launchSettings.json
 !packages/packages.json

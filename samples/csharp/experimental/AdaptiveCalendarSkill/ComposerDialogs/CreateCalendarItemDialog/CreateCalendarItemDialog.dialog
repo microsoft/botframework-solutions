@@ -268,5 +268,6 @@
       ]
     }
   ],
-  "recognizer": "CreateCalendarItemDialog.lu"
+  "recognizer": "CreateCalendarItemDialog.lu",
+  "generator": "CreateCalendarItemDialog.lg"
 }
