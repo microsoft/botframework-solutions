@@ -19,6 +19,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -106,7 +107,8 @@ namespace Microsoft.Bot.Builder.ComposerBot.Json
 
                 adapter.OnTurnError = async (turnContext, exception) =>
                 {
-                    await turnContext.SendActivityAsync(exception.Message).ConfigureAwait(false);
+                    await turnContext.SendActivityAsync("Something went wrong!").ConfigureAwait(false);
+                    await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"{exception.Message} | {exception.StackTrace}")).ConfigureAwait(false);
                     await conversationState.ClearStateAsync(turnContext).ConfigureAwait(false);
                     await conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
                 };
