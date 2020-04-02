@@ -94,6 +94,7 @@ This skill uses the following authentication scopes:
 - **User.Read**
 - **User.ReadBasic.All**
 - **Tasks.ReadWrite**
+- **Mail.Send**
 
 You must use [these steps]({{site.baseurl}}/{{site.data.urls.SkillManualAuth}}) to manually configure Authentication for the ToDo Skill. Due to a change in the Skill architecture this is not currently automated.
 
