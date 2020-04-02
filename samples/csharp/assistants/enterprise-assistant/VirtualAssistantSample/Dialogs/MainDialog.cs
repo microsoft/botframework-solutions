@@ -529,7 +529,6 @@ namespace VirtualAssistantSample.Dialogs
             if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_General.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Chitchat.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
-                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_HRBenefits.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
