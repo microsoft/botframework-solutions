@@ -1,0 +1,4 @@
+en-core-web-sm==2.2.5
+Flask==1.1.1
+Flask-Cors==3.0.8
+spacy==2.2.3
