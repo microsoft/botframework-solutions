@@ -359,6 +359,8 @@ ASALocalRun/
 **/remove_skill_log.txt
 **/publish_log.txt
 **/.deployment
+**/ComposerDialogs/generated
+**/ComposerDialogs/settings
 
 # Zip files
 *.7z
