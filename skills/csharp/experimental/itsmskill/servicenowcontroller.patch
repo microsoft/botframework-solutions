@@ -1,0 +1,1262 @@
+From 243d0b908dfc53c612e817e50df15c61ddf028e8 Mon Sep 17 00:00:00 2001
+From: Siddharth More <simore@microsoft.com>
+Date: Sun, 22 Mar 2020 14:21:39 -0700
+Subject: [PATCH 1/4] Implement ServiceNow Controller
+
+---
+ Adapters/DefaultAdapter.cs                    |  5 +-
+ Bots/DefaultActivityHandler.cs                | 87 ++++++++++++++++++-
+ Controllers/ServiceNow/IMessageReceiver.cs    | 20 +++++
+ .../ServiceNow/ServiceNowController.cs        | 36 ++++++++
+ .../ServiceNow/ServiceNowControllerBase.cs    | 32 +++++++
+ .../ServiceNow/ServiceNowMessageReceiver.cs   | 63 ++++++++++++++
+ Controllers/ServiceNow/ServiceResponse.cs     | 30 +++++++
+ .../ServiceNow/WebhookControllerBase.cs       | 29 +++++++
+ Controllers/ServiceNow/WebhookRequest.cs      | 35 ++++++++
+ ITSMSkill.csproj                              |  3 +-
+ Models/ServiceNow/ServiceNowNotification.cs   | 29 +++++++
+ Startup.cs                                    |  7 ++
+ 12 files changed, 371 insertions(+), 5 deletions(-)
+ create mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/IMessageReceiver.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/ServiceNowController.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/ServiceNowControllerBase.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/ServiceNowMessageReceiver.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/ServiceResponse.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/WebhookControllerBase.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/WebhookRequest.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Models/ServiceNow/ServiceNowNotification.cs
+
+diff --git a/Adapters/DefaultAdapter.cs b/Adapters/DefaultAdapter.cs
+index 45fcd0d58..2d28b929e 100644
+--- a/Adapters/DefaultAdapter.cs
++++ b/Adapters/DefaultAdapter.cs
+@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
+ using Microsoft.Bot.Connector.Authentication;
+ using Microsoft.Bot.Schema;
+ using Microsoft.Bot.Solutions.Middleware;
++using Microsoft.Bot.Solutions.Proactive;
+ using Microsoft.Bot.Solutions.Responses;
+ using Microsoft.Bot.Solutions.Skills;
+ using SkillServiceLibrary.Utilities;
+@@ -27,7 +28,8 @@ namespace ITSMSkill.Bots
+             ConversationState conversationState,
+             TelemetryInitializerMiddleware telemetryMiddleware,
+             IBotTelemetryClient telemetryClient,
+-            ResponseManager responseManager)
++            ResponseManager responseManager,
++            ProactiveState proactiveState)
+             : base(credentialProvider)
+         {
+             OnTurnError = async (context, exception) =>
+@@ -58,6 +60,7 @@ namespace ITSMSkill.Bots
+             Use(new EventDebuggerMiddleware());
+             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
+             Use(new SetSpeakMiddleware());
++            Use(new ProactiveStateMiddleware(proactiveState));
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Bots/DefaultActivityHandler.cs b/Bots/DefaultActivityHandler.cs
+index 3ddba6a8e..13a2d6eef 100644
+--- a/Bots/DefaultActivityHandler.cs
++++ b/Bots/DefaultActivityHandler.cs
+@@ -5,11 +5,16 @@ using System;
+ using System.Collections.Generic;
+ using System.Threading;
+ using System.Threading.Tasks;
++using ITSMSkill.Models.ServiceNow;
+ using Microsoft.Bot.Builder;
+ using Microsoft.Bot.Builder.Dialogs;
+ using Microsoft.Bot.Builder.Teams;
++using Microsoft.Bot.Connector.Authentication;
+ using Microsoft.Bot.Schema;
++using Microsoft.Bot.Solutions;
++using Microsoft.Bot.Solutions.Proactive;
+ using Microsoft.Extensions.DependencyInjection;
++using Newtonsoft.Json;
+ 
+ namespace ITSMSkill.Bots
+ {
+@@ -20,13 +25,21 @@ namespace ITSMSkill.Bots
+         private readonly BotState _conversationState;
+         private readonly BotState _userState;
+         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
++        private MicrosoftAppCredentials _appCredentials;
++        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
+ 
+-        public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
++        public DefaultActivityHandler(
++            IServiceProvider serviceProvider,
++            MicrosoftAppCredentials appCredentials,
++            ProactiveState proactiveState,
++            T dialog)
+         {
+             _dialog = dialog;
+             _conversationState = serviceProvider.GetService<ConversationState>();
+             _userState = serviceProvider.GetService<UserState>();
+             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
++            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
++            _appCredentials = appCredentials;
+         }
+ 
+         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+@@ -53,9 +66,77 @@ namespace ITSMSkill.Bots
+             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+         }
+ 
+-        protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
++        protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+         {
+-            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
++            var ev = turnContext.Activity.AsEventActivity();
++            var value = ev.Value?.ToString();
++
++            switch (ev.Name)
++            {
++                case TokenEvents.TokenResponseEventName:
++                    {
++                        // Forward the token response activity to the dialog waiting on the stack.
++                        await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
++                        break;
++                    }
++
++                case "Servicenow.Proactive":
++                    {
++                        var eventData = JsonConvert.DeserializeObject<ServiceNowNotification>(turnContext.Activity.Value.ToString());
++
++                        var proactiveModel = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
++
++                        var conversationReference = proactiveModel["9739bb1b8c007b42df6346cd42778fbb"].Conversation;
++
++                        await turnContext.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(turnContext, eventData), cancellationToken);
++                        break;
++                    }
++
++                default:
++                    {
++                        await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
++                        break;
++                    }
++            }
++        }
++
++        /// <summary>
++        /// Continue the conversation callback.
++        /// </summary>
++        /// <param name="context">Turn context.</param>
++        /// <param name="message">Activity text.</param>
++        /// <returns>Bot Callback Handler.</returns>
++        private BotCallbackHandler ContinueConversationCallback(ITurnContext context, ServiceNowNotification notification)
++        {
++            return async (turnContext, cancellationToken) =>
++            {
++                var activity = turnContext.Activity.CreateReply(notification.ToString());
++                EnsureActivity(activity);
++                await turnContext.SendActivityAsync(activity);
++            };
++        }
++
++        /// <summary>
++        /// This method is required for proactive notifications to work in Web Chat.
++        /// </summary>
++        /// <param name="activity">Proactive Activity.</param>
++        private void EnsureActivity(Activity activity)
++        {
++            if (activity != null)
++            {
++                if (activity.From != null)
++                {
++                    activity.From.Name = "User";
++                    activity.From.Properties["role"] = "user";
++                }
++
++                if (activity.Recipient != null)
++                {
++                    activity.Recipient.Id = "1";
++                    activity.Recipient.Name = "Bot";
++                    activity.Recipient.Properties["role"] = "bot";
++                }
++            }
+         }
+     }
+ }
+diff --git a/Controllers/ServiceNow/IMessageReceiver.cs b/Controllers/ServiceNow/IMessageReceiver.cs
+new file mode 100644
+index 000000000..90e5db625
+--- /dev/null
++++ b/Controllers/ServiceNow/IMessageReceiver.cs
+@@ -0,0 +1,20 @@
++﻿namespace ITSMSkill.Controllers.ServiceNow
++{
++    using System;
++    using System.Collections.Generic;
++    using System.Linq;
++    using System.Threading;
++    using System.Threading.Tasks;
++
++
++    public interface IMessageReceiver<in T>
++    {
++        /// <summary>
++        /// Create an Event Activity from an incoming event request and sends to Virtual Assistant.
++        /// </summary>
++        /// <param name="request">The incoming request.</param>
++        /// <param name="cancellationToken">The CancellationToken.</param>
++        /// <returns>The task of event processing.</returns>
++        Task<ServiceResponse> Receive(T request, CancellationToken cancellationToken);
++    }
++}
+diff --git a/Controllers/ServiceNow/ServiceNowController.cs b/Controllers/ServiceNow/ServiceNowController.cs
+new file mode 100644
+index 000000000..4b89e7d46
+--- /dev/null
++++ b/Controllers/ServiceNow/ServiceNowController.cs
+@@ -0,0 +1,36 @@
++﻿namespace ITSMSkill.Controllers.ServiceNow
++{
++    using ITSMSkill.Models.ServiceNow;
++    using Microsoft.AspNetCore.Http;
++    using Microsoft.AspNetCore.Mvc;
++    using Microsoft.Bot.Builder;
++    using Microsoft.Bot.Builder.Integration.AspNet.Core;
++    using Microsoft.Bot.Schema;
++    using Newtonsoft.Json;
++    using System;
++    using System.Collections.Generic;
++    using System.Linq;
++    using System.Threading;
++    using System.Threading.Tasks;
++
++    [Route("api/servicenow")]
++    [ApiController]
++    public class ServiceNowController : ServiceNowControllerBase
++    {
++        public ServiceNowController(
++            IBotFrameworkHttpAdapter httpAdapter,
++            IBot bot,
++            IMessageReceiver<ServiceNowNotification> messageReceiver,
++            IBotTelemetryClient telemetryClient)
++            : base(messageReceiver, telemetryClient)
++        {
++        }
++
++        [HttpPost]
++        public Task<IActionResult> Post([FromBody] string request, CancellationToken cancellationToken)
++        {
++            var notiication = JsonConvert.DeserializeObject<ServiceNowNotification>(request);
++            return this.Post(notiication, cancellationToken);
++        }
++    }
++}
+diff --git a/Controllers/ServiceNow/ServiceNowControllerBase.cs b/Controllers/ServiceNow/ServiceNowControllerBase.cs
+new file mode 100644
+index 000000000..293ed5a2e
+--- /dev/null
++++ b/Controllers/ServiceNow/ServiceNowControllerBase.cs
+@@ -0,0 +1,32 @@
++﻿namespace ITSMSkill.Controllers.ServiceNow
++{
++    using System;
++    using System.Collections.Generic;
++    using System.Linq;
++    using System.Threading;
++    using System.Threading.Tasks;
++    using ITSMSkill.Models.ServiceNow;
++    using Microsoft.AspNetCore.Mvc;
++    using Microsoft.Bot.Builder;
++    using Microsoft.Bot.Builder.Integration.AspNet.Core;
++
++    public abstract class ServiceNowControllerBase : WebhookControllerBase
++    {
++        protected ServiceNowControllerBase(
++            IMessageReceiver<ServiceNowNotification> messageReceiver,
++            IBotTelemetryClient telemetryClient)
++        : base(messageReceiver, telemetryClient)
++            {
++            }
++
++        public override async Task<IActionResult> Post(
++        ServiceNowNotification request,
++        CancellationToken cancellationToken)
++        {
++            ServiceResponse result = await this.MessageReceiver
++                .Receive(request, cancellationToken);
++
++            return new ContentResult { StatusCode = (int)result.Code, Content = result.Message };
++        }
++    }
++}
+diff --git a/Controllers/ServiceNow/ServiceNowMessageReceiver.cs b/Controllers/ServiceNow/ServiceNowMessageReceiver.cs
+new file mode 100644
+index 000000000..d2c9f7109
+--- /dev/null
++++ b/Controllers/ServiceNow/ServiceNowMessageReceiver.cs
+@@ -0,0 +1,63 @@
++﻿using ITSMSkill.Models.ServiceNow;
++using ITSMSkill.Services;
++using Microsoft.AspNetCore.Http;
++using Microsoft.Bot.Builder;
++using Microsoft.Bot.Builder.Integration.AspNet.Core;
++using Microsoft.Bot.Schema;
++using Newtonsoft.Json;
++using System;
++using System.Collections.Generic;
++using System.Linq;
++using System.Net;
++using System.Threading;
++using System.Threading.Tasks;
++
++namespace ITSMSkill.Controllers.ServiceNow
++{
++    /// <summary>
++    /// The webhook request receiver implementation.
++    /// </summary>
++    public class ServiceNowMessageReceiver : IMessageReceiver<ServiceNowNotification>
++    {
++        /// <summary>Virtual Assistant Bot to be injected.</summary>
++        private readonly IBot bot;
++        private readonly IBotFrameworkHttpAdapter _adapter;
++        private readonly BotServices botServices;
++
++        /// <summary>
++        /// Initializes a new instance of the <see cref="WebhookMessageReceiver"/> class.
++        /// </summary>
++        /// <param name="bot">The Virtual Assistant.</param>
++        /// <param name="botServices">The Bot services configuration.</param>
++        public ServiceNowMessageReceiver(IBotFrameworkHttpAdapter httpAdapter, IBot bot, BotServices botServices)
++        {
++            this.bot = bot;
++            this.botServices = botServices;
++            this._adapter = httpAdapter;
++        }
++
++        /// <summary>
++        /// Create an Event Activity from a Webhook event and sends to Virtual Assistant.
++        /// </summary>
++        /// <param name="request">The webhook request.</param>
++        /// <param name="cancellationToken">The CancellationToken.</param>
++        /// <returns>The task of event processing.</returns>
++        public virtual async Task<ServiceResponse> Receive(ServiceNowNotification request, CancellationToken cancellationToken)
++        {
++            var activity = new Activity
++            {
++                Type = ActivityTypes.Event,
++                ChannelId = "servicenowwebhook",
++                Conversation = new ConversationAccount(id: $"{Guid.NewGuid()}"),
++                From = new ChannelAccount(id: $"Webhooks.servicenowwebhook", name: $"Webhooks.ITSMSkill"),
++                Recipient = new ChannelAccount(id: $"Webhooks.servicenowwebhook", name: $"Webhooks.ITSMSkill"),
++                Name = "Servicenow.Proactive",
++                Value = JsonConvert.SerializeObject(request)
++            };
++
++            await bot.OnTurnAsync(new TurnContext((BotAdapter)_adapter, activity), cancellationToken);
++
++            return new ServiceResponse(HttpStatusCode.NoContent, string.Empty);
++        }
++    }
++}
+diff --git a/Controllers/ServiceNow/ServiceResponse.cs b/Controllers/ServiceNow/ServiceResponse.cs
+new file mode 100644
+index 000000000..a637ce7e0
+--- /dev/null
++++ b/Controllers/ServiceNow/ServiceResponse.cs
+@@ -0,0 +1,30 @@
++﻿namespace ITSMSkill.Controllers.ServiceNow
++{
++    using System;
++    using System.Collections.Generic;
++    using System.Linq;
++    using System.Net;
++    using System.Threading.Tasks;
++
++    /// <summary>Represents the response from a service call.</summary>
++    public class ServiceResponse
++    {
++        /// <summary>
++        /// Initializes a new instance of the <see cref="ServiceResponse"/> class.</summary>
++        /// <param name="code">indicates the overall status of the operation.</param>
++        /// <param name="message">provides details about the status of the operation.</param>
++        public ServiceResponse(
++            HttpStatusCode code,
++            string message)
++        {
++            this.Message = message;
++            this.Code = code;
++        }
++
++        /// <summary>Gets a code indicating the overall status of the operation.</summary>
++        public HttpStatusCode Code { get; }
++
++        /// <summary>Gets a message that provides details about the status of the operation.</summary>
++        public string Message { get; }
++    }
++}
+diff --git a/Controllers/ServiceNow/WebhookControllerBase.cs b/Controllers/ServiceNow/WebhookControllerBase.cs
+new file mode 100644
+index 000000000..1bef9d0a9
+--- /dev/null
++++ b/Controllers/ServiceNow/WebhookControllerBase.cs
+@@ -0,0 +1,29 @@
++﻿namespace ITSMSkill.Controllers.ServiceNow
++{
++    using System;
++    using System.Collections.Generic;
++    using System.Linq;
++    using System.Threading;
++    using System.Threading.Tasks;
++    using ITSMSkill.Models.ServiceNow;
++    using Microsoft.AspNetCore.Http;
++    using Microsoft.AspNetCore.Mvc;
++    using Microsoft.Bot.Builder;
++
++    public abstract class WebhookControllerBase : Controller
++    {
++        protected WebhookControllerBase(IMessageReceiver<ServiceNowNotification> messageReceiver, IBotTelemetryClient telemetryClient)
++        {
++            this.TelemetryClient = telemetryClient;
++            this.MessageReceiver = messageReceiver;
++        }
++
++        protected IMessageReceiver<ServiceNowNotification> MessageReceiver { get; }
++
++        protected IBotTelemetryClient TelemetryClient { get; }
++
++        public abstract Task<IActionResult> Post(
++            ServiceNowNotification request,
++            CancellationToken cancellationToken);
++    }
++}
+diff --git a/Controllers/ServiceNow/WebhookRequest.cs b/Controllers/ServiceNow/WebhookRequest.cs
+new file mode 100644
+index 000000000..20d1736aa
+--- /dev/null
++++ b/Controllers/ServiceNow/WebhookRequest.cs
+@@ -0,0 +1,35 @@
++﻿using Newtonsoft.Json;
++using Newtonsoft.Json.Linq;
++using System;
++using System.Collections.Generic;
++using System.Linq;
++using System.Threading.Tasks;
++
++namespace ITSMSkill.Controllers
++{
++    public class WebhookRequest
++    {
++        [JsonExtensionData]
++        public IDictionary<string, JToken> Data { get; set; }
++
++        public string WebhookId
++        {
++            get => this.GetPayloadProperty("WebhookId");
++
++            set
++            {
++                if (this.Data != null)
++                {
++                    this.Data["WebhookId"] = value;
++                }
++            }
++        }
++
++        public string Serialize() =>
++            JsonConvert.SerializeObject(this.Data);
++
++        public string GetPayloadProperty(string key) => this.Data != null && this.Data.ContainsKey(key)
++                ? this.Data[key].ToString()
++                : null;
++    }
++}
+diff --git a/ITSMSkill.csproj b/ITSMSkill.csproj
+index a7ed57de2..048e22f8d 100644
+--- a/ITSMSkill.csproj
++++ b/ITSMSkill.csproj
+@@ -45,6 +45,7 @@
+ 
+   <ItemGroup>
+     <PackageReference Include="AdaptiveCards" Version="1.2.3" />
++    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
+     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+     <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.2" />
+@@ -61,7 +62,7 @@
+     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+     <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+     <PackageReference Include="Microsoft.Graph" Version="1.12.0" />
+-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
++    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+     <PackageReference Include="RestSharp" Version="106.6.10" />
+   </ItemGroup>
+ 
+diff --git a/Models/ServiceNow/ServiceNowNotification.cs b/Models/ServiceNow/ServiceNowNotification.cs
+new file mode 100644
+index 000000000..ab3be7793
+--- /dev/null
++++ b/Models/ServiceNow/ServiceNowNotification.cs
+@@ -0,0 +1,29 @@
++﻿using Newtonsoft.Json;
++using System;
++using System.Collections.Generic;
++using System.Linq;
++using System.Threading.Tasks;
++
++namespace ITSMSkill.Models.ServiceNow
++{
++    public class ServiceNowNotification
++    {
++        [JsonProperty]
++        public string Id { get; set; }
++
++        [JsonProperty]
++        public string Title { get; set; }
++
++        [JsonProperty]
++        public string Description { get; set; }
++
++        [JsonProperty]
++        public string Category { get; set; }
++
++        [JsonProperty]
++        public string Impact { get; set; }
++
++        [JsonProperty]
++        public string Urgency { get; set; }
++    }
++}
+diff --git a/Startup.cs b/Startup.cs
+index 11b9bf4da..db82bc0c5 100644
+--- a/Startup.cs
++++ b/Startup.cs
+@@ -26,6 +26,11 @@ using Microsoft.Bot.Solutions.TaskExtensions;
+ using Microsoft.Extensions.Configuration;
+ using Microsoft.Extensions.DependencyInjection;
+ using Microsoft.Extensions.Hosting;
++using ITSMSkill.Controllers.ServiceNow;
++using ITSMSkill.Controllers;
++using Microsoft.Bot.Solutions.Proactive;
++using Microsoft.AspNetCore.Http;
++using ITSMSkill.Models.ServiceNow;
+ 
+ namespace ITSMSkill
+ {
+@@ -104,6 +109,8 @@ namespace ITSMSkill
+             // Configure proactive
+             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+             services.AddHostedService<QueuedHostedService>();
++            services.AddSingleton<ProactiveState>();
++            services.AddSingleton<IMessageReceiver<ServiceNowNotification>, ServiceNowMessageReceiver>();
+ 
+             // Configure responses
+             services.AddSingleton(sp => new ResponseManager(
+-- 
+2.17.1.windows.2
+
+
+From c6d6172c652c1fc05ae66112013be38aceecd7a9 Mon Sep 17 00:00:00 2001
+From: Siddharth More <simore@microsoft.com>
+Date: Tue, 24 Mar 2020 08:47:22 -0700
+Subject: [PATCH 2/4] Implement ServiceNowController Tests and add Copytright
+
+---
+ Bots/DefaultActivityHandler.cs                | 82 ++++++++++++++++++-
+ Controllers/ServiceNow/IMessageReceiver.cs    | 11 ++-
+ .../ServiceNow/ServiceNowController.cs        | 23 ++++--
+ .../ServiceNow/ServiceNowControllerBase.cs    | 24 +++---
+ .../ServiceNow/ServiceNowMessageReceiver.cs   | 40 ++++-----
+ Controllers/ServiceNow/ServiceResponse.cs     |  5 +-
+ .../ServiceNow/WebhookControllerBase.cs       | 29 -------
+ Controllers/ServiceNow/WebhookRequest.cs      | 35 --------
+ Proactive/ServiceNowEvents.cs                 | 13 +++
+ Startup.cs                                    |  8 +-
+ 10 files changed, 152 insertions(+), 118 deletions(-)
+ delete mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/WebhookControllerBase.cs
+ delete mode 100644 skills/csharp/experimental/itsmskill/Controllers/ServiceNow/WebhookRequest.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Proactive/ServiceNowEvents.cs
+
+diff --git a/Bots/DefaultActivityHandler.cs b/Bots/DefaultActivityHandler.cs
+index 13a2d6eef..cce6ecb87 100644
+--- a/Bots/DefaultActivityHandler.cs
++++ b/Bots/DefaultActivityHandler.cs
+@@ -5,7 +5,9 @@ using System;
+ using System.Collections.Generic;
+ using System.Threading;
+ using System.Threading.Tasks;
++using AdaptiveCards;
+ using ITSMSkill.Models.ServiceNow;
++using ITSMSkill.Proactive;
+ using Microsoft.Bot.Builder;
+ using Microsoft.Bot.Builder.Dialogs;
+ using Microsoft.Bot.Builder.Teams;
+@@ -80,13 +82,14 @@ namespace ITSMSkill.Bots
+                         break;
+                     }
+ 
+-                case "Servicenow.Proactive":
++                case ServiceNowEvents.Proactive:
+                     {
+                         var eventData = JsonConvert.DeserializeObject<ServiceNowNotification>(turnContext.Activity.Value.ToString());
+ 
+                         var proactiveModel = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
+ 
+-                        var conversationReference = proactiveModel["9739bb1b8c007b42df6346cd42778fbb"].Conversation;
++                        // TODO: Implement a proactive subscription manager for mapping Notification to ConversationReference
++                        var conversationReference = proactiveModel["key"].Conversation;
+ 
+                         await turnContext.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(turnContext, eventData), cancellationToken);
+                         break;
+@@ -100,6 +103,77 @@ namespace ITSMSkill.Bots
+             }
+         }
+ 
++        private IMessageActivity CreateAdaptiveCard(ITurnContext context, ServiceNowNotification serviceNowNotification)
++        {
++            Activity reply = context.Activity.CreateReply();
++            var card = new AdaptiveCard("1.0")
++            {
++                Body = new List<AdaptiveElement>
++                {
++                    new AdaptiveContainer
++                    {
++                        Items = new List<AdaptiveElement>
++                        {
++                            new AdaptiveColumnSet
++                            {
++                                Columns = new List<AdaptiveColumn>
++                                {
++                                    new AdaptiveColumn
++                                    {
++                                        Width = AdaptiveColumnWidth.Stretch,
++                                        Items = new List<AdaptiveElement>
++                                        {
++                                            new AdaptiveTextBlock
++                                            {
++                                                Text = $"Title: {serviceNowNotification.Title}",
++                                                Wrap = true,
++                                                Spacing = AdaptiveSpacing.Small,
++                                                Weight = AdaptiveTextWeight.Bolder
++                                            },
++                                            new AdaptiveTextBlock
++                                            {
++                                                // Incase of IcmForwarder, Triggers do not have incidentUrl hence being explicit here
++                                                Text = $"Urgency: {serviceNowNotification.Urgency}",
++                                                Color = AdaptiveTextColor.Good,
++                                                MaxLines = 1,
++                                                Weight = AdaptiveTextWeight.Bolder,
++                                                Size = AdaptiveTextSize.Large
++                                            },
++                                            new AdaptiveTextBlock
++                                            {
++                                                Text = $"Description: {serviceNowNotification.Description}",
++                                                Wrap = true,
++                                                Spacing = AdaptiveSpacing.Small,
++                                                Weight = AdaptiveTextWeight.Bolder
++                                            },
++                                            new AdaptiveTextBlock
++                                            {
++                                                Text = $"Impact: {serviceNowNotification.Impact}",
++                                                Wrap = true,
++                                                Spacing = AdaptiveSpacing.Small,
++                                                Weight = AdaptiveTextWeight.Bolder
++                                            },
++                                        }
++                                    }
++                                }
++                            }
++                        }
++                    }
++                }
++            };
++
++            reply.Attachments = new List<Attachment>
++            {
++                new Attachment
++                {
++                    ContentType = AdaptiveCard.ContentType,
++                    Content = card
++                }
++            };
++
++            return reply;
++        }
++
+         /// <summary>
+         /// Continue the conversation callback.
+         /// </summary>
+@@ -110,7 +184,7 @@ namespace ITSMSkill.Bots
+         {
+             return async (turnContext, cancellationToken) =>
+             {
+-                var activity = turnContext.Activity.CreateReply(notification.ToString());
++                var activity = CreateAdaptiveCard(context, notification);
+                 EnsureActivity(activity);
+                 await turnContext.SendActivityAsync(activity);
+             };
+@@ -120,7 +194,7 @@ namespace ITSMSkill.Bots
+         /// This method is required for proactive notifications to work in Web Chat.
+         /// </summary>
+         /// <param name="activity">Proactive Activity.</param>
+-        private void EnsureActivity(Activity activity)
++        private void EnsureActivity(IMessageActivity activity)
+         {
+             if (activity != null)
+             {
+diff --git a/Controllers/ServiceNow/IMessageReceiver.cs b/Controllers/ServiceNow/IMessageReceiver.cs
+index 90e5db625..1e9d068b5 100644
+--- a/Controllers/ServiceNow/IMessageReceiver.cs
++++ b/Controllers/ServiceNow/IMessageReceiver.cs
+@@ -1,16 +1,15 @@
+-﻿namespace ITSMSkill.Controllers.ServiceNow
++﻿// Copyright (c) Microsoft Corporation. All rights reserved.
++// Licensed under the MIT License.
++
++namespace ITSMSkill.Controllers.ServiceNow
+ {
+-    using System;
+-    using System.Collections.Generic;
+-    using System.Linq;
+     using System.Threading;
+     using System.Threading.Tasks;
+ 
+-
+     public interface IMessageReceiver<in T>
+     {
+         /// <summary>
+-        /// Create an Event Activity from an incoming event request and sends to Virtual Assistant.
++        /// Create an Event Activity from an incoming event request.
+         /// </summary>
+         /// <param name="request">The incoming request.</param>
+         /// <param name="cancellationToken">The CancellationToken.</param>
+diff --git a/Controllers/ServiceNow/ServiceNowController.cs b/Controllers/ServiceNow/ServiceNowController.cs
+index 4b89e7d46..434826828 100644
+--- a/Controllers/ServiceNow/ServiceNowController.cs
++++ b/Controllers/ServiceNow/ServiceNowController.cs
+@@ -1,25 +1,30 @@
+-﻿namespace ITSMSkill.Controllers.ServiceNow
++﻿// Copyright (c) Microsoft Corporation. All rights reserved.
++// Licensed under the MIT License.
++
++namespace ITSMSkill.Controllers.ServiceNow
+ {
++    using System.Threading;
++    using System.Threading.Tasks;
+     using ITSMSkill.Models.ServiceNow;
+-    using Microsoft.AspNetCore.Http;
+     using Microsoft.AspNetCore.Mvc;
+     using Microsoft.Bot.Builder;
+     using Microsoft.Bot.Builder.Integration.AspNet.Core;
+     using Microsoft.Bot.Schema;
+     using Newtonsoft.Json;
+-    using System;
+-    using System.Collections.Generic;
+-    using System.Linq;
+-    using System.Threading;
+-    using System.Threading.Tasks;
+ 
++    /// <summary>
++    /// Controller to Process ServiceNow Events
++    /// </summary>
+     [Route("api/servicenow")]
+     [ApiController]
+     public class ServiceNowController : ServiceNowControllerBase
+     {
++        /// <summary>
++        /// Initializes a new instance of the <see cref="ServiceNowController"/> class.
++        /// </summary>
++        /// <param name="messageReceiver">Botframework Adapter.</param>
++        /// <param name="telemetryClient">The Assistant.</param>
+         public ServiceNowController(
+-            IBotFrameworkHttpAdapter httpAdapter,
+-            IBot bot,
+             IMessageReceiver<ServiceNowNotification> messageReceiver,
+             IBotTelemetryClient telemetryClient)
+             : base(messageReceiver, telemetryClient)
+diff --git a/Controllers/ServiceNow/ServiceNowControllerBase.cs b/Controllers/ServiceNow/ServiceNowControllerBase.cs
+index 293ed5a2e..860a5f372 100644
+--- a/Controllers/ServiceNow/ServiceNowControllerBase.cs
++++ b/Controllers/ServiceNow/ServiceNowControllerBase.cs
+@@ -1,25 +1,29 @@
+-﻿namespace ITSMSkill.Controllers.ServiceNow
++﻿// Copyright (c) Microsoft Corporation. All rights reserved.
++// Licensed under the MIT License.
++
++namespace ITSMSkill.Controllers.ServiceNow
+ {
+-    using System;
+-    using System.Collections.Generic;
+-    using System.Linq;
+     using System.Threading;
+     using System.Threading.Tasks;
+     using ITSMSkill.Models.ServiceNow;
+     using Microsoft.AspNetCore.Mvc;
+     using Microsoft.Bot.Builder;
+-    using Microsoft.Bot.Builder.Integration.AspNet.Core;
+ 
+-    public abstract class ServiceNowControllerBase : WebhookControllerBase
++    public abstract class ServiceNowControllerBase : Controller
+     {
+         protected ServiceNowControllerBase(
+             IMessageReceiver<ServiceNowNotification> messageReceiver,
+             IBotTelemetryClient telemetryClient)
+-        : base(messageReceiver, telemetryClient)
+-            {
+-            }
++        {
++            this.TelemetryClient = telemetryClient;
++            this.MessageReceiver = messageReceiver;
++        }
++
++        protected IMessageReceiver<ServiceNowNotification> MessageReceiver { get; }
++
++        protected IBotTelemetryClient TelemetryClient { get; }
+ 
+-        public override async Task<IActionResult> Post(
++        public async Task<IActionResult> Post(
+         ServiceNowNotification request,
+         CancellationToken cancellationToken)
+         {
+diff --git a/Controllers/ServiceNow/ServiceNowMessageReceiver.cs b/Controllers/ServiceNow/ServiceNowMessageReceiver.cs
+index d2c9f7109..61e91e603 100644
+--- a/Controllers/ServiceNow/ServiceNowMessageReceiver.cs
++++ b/Controllers/ServiceNow/ServiceNowMessageReceiver.cs
+@@ -1,19 +1,20 @@
+-﻿using ITSMSkill.Models.ServiceNow;
+-using ITSMSkill.Services;
+-using Microsoft.AspNetCore.Http;
+-using Microsoft.Bot.Builder;
+-using Microsoft.Bot.Builder.Integration.AspNet.Core;
+-using Microsoft.Bot.Schema;
+-using Newtonsoft.Json;
+-using System;
+-using System.Collections.Generic;
+-using System.Linq;
+-using System.Net;
+-using System.Threading;
+-using System.Threading.Tasks;
++﻿// Copyright (c) Microsoft Corporation. All rights reserved.
++// Licensed under the MIT License.
+ 
+ namespace ITSMSkill.Controllers.ServiceNow
+ {
++    using System;
++    using System.Net;
++    using System.Threading;
++    using System.Threading.Tasks;
++    using ITSMSkill.Models.ServiceNow;
++    using ITSMSkill.Proactive;
++    using ITSMSkill.Services;
++    using Microsoft.Bot.Builder;
++    using Microsoft.Bot.Builder.Integration.AspNet.Core;
++    using Microsoft.Bot.Schema;
++    using Newtonsoft.Json;
++
+     /// <summary>
+     /// The webhook request receiver implementation.
+     /// </summary>
+@@ -25,9 +26,10 @@ namespace ITSMSkill.Controllers.ServiceNow
+         private readonly BotServices botServices;
+ 
+         /// <summary>
+-        /// Initializes a new instance of the <see cref="WebhookMessageReceiver"/> class.
++        /// Initializes a new instance of the <see cref="ServiceNowMessageReceiver"/> class.
+         /// </summary>
+-        /// <param name="bot">The Virtual Assistant.</param>
++        /// <param name="httpAdapter">Botframework Adapter.</param>
++        /// <param name="bot">The Assistant.</param>
+         /// <param name="botServices">The Bot services configuration.</param>
+         public ServiceNowMessageReceiver(IBotFrameworkHttpAdapter httpAdapter, IBot bot, BotServices botServices)
+         {
+@@ -47,11 +49,11 @@ namespace ITSMSkill.Controllers.ServiceNow
+             var activity = new Activity
+             {
+                 Type = ActivityTypes.Event,
+-                ChannelId = "servicenowwebhook",
++                ChannelId = "ServicenowNotification",
+                 Conversation = new ConversationAccount(id: $"{Guid.NewGuid()}"),
+-                From = new ChannelAccount(id: $"Webhooks.servicenowwebhook", name: $"Webhooks.ITSMSkill"),
+-                Recipient = new ChannelAccount(id: $"Webhooks.servicenowwebhook", name: $"Webhooks.ITSMSkill"),
+-                Name = "Servicenow.Proactive",
++                From = new ChannelAccount(id: $"Notification.ServicenowWebhook", name: $"Notification.ITSMSkill"),
++                Recipient = new ChannelAccount(id: $"Notification.ServicenowWebhook", name: $"Notification.ITSMSkill"),
++                Name = ServiceNowEvents.Proactive,
+                 Value = JsonConvert.SerializeObject(request)
+             };
+ 
+diff --git a/Controllers/ServiceNow/ServiceResponse.cs b/Controllers/ServiceNow/ServiceResponse.cs
+index a637ce7e0..2a891e61e 100644
+--- a/Controllers/ServiceNow/ServiceResponse.cs
++++ b/Controllers/ServiceNow/ServiceResponse.cs
+@@ -1,4 +1,7 @@
+-﻿namespace ITSMSkill.Controllers.ServiceNow
++﻿// Copyright (c) Microsoft Corporation. All rights reserved.
++// Licensed under the MIT License.
++
++namespace ITSMSkill.Controllers.ServiceNow
+ {
+     using System;
+     using System.Collections.Generic;
+diff --git a/Controllers/ServiceNow/WebhookControllerBase.cs b/Controllers/ServiceNow/WebhookControllerBase.cs
+deleted file mode 100644
+index 1bef9d0a9..000000000
+--- a/Controllers/ServiceNow/WebhookControllerBase.cs
++++ /dev/null
+@@ -1,29 +0,0 @@
+-﻿namespace ITSMSkill.Controllers.ServiceNow
+-{
+-    using System;
+-    using System.Collections.Generic;
+-    using System.Linq;
+-    using System.Threading;
+-    using System.Threading.Tasks;
+-    using ITSMSkill.Models.ServiceNow;
+-    using Microsoft.AspNetCore.Http;
+-    using Microsoft.AspNetCore.Mvc;
+-    using Microsoft.Bot.Builder;
+-
+-    public abstract class WebhookControllerBase : Controller
+-    {
+-        protected WebhookControllerBase(IMessageReceiver<ServiceNowNotification> messageReceiver, IBotTelemetryClient telemetryClient)
+-        {
+-            this.TelemetryClient = telemetryClient;
+-            this.MessageReceiver = messageReceiver;
+-        }
+-
+-        protected IMessageReceiver<ServiceNowNotification> MessageReceiver { get; }
+-
+-        protected IBotTelemetryClient TelemetryClient { get; }
+-
+-        public abstract Task<IActionResult> Post(
+-            ServiceNowNotification request,
+-            CancellationToken cancellationToken);
+-    }
+-}
+diff --git a/Controllers/ServiceNow/WebhookRequest.cs b/Controllers/ServiceNow/WebhookRequest.cs
+deleted file mode 100644
+index 20d1736aa..000000000
+--- a/Controllers/ServiceNow/WebhookRequest.cs
++++ /dev/null
+@@ -1,35 +0,0 @@
+-﻿using Newtonsoft.Json;
+-using Newtonsoft.Json.Linq;
+-using System;
+-using System.Collections.Generic;
+-using System.Linq;
+-using System.Threading.Tasks;
+-
+-namespace ITSMSkill.Controllers
+-{
+-    public class WebhookRequest
+-    {
+-        [JsonExtensionData]
+-        public IDictionary<string, JToken> Data { get; set; }
+-
+-        public string WebhookId
+-        {
+-            get => this.GetPayloadProperty("WebhookId");
+-
+-            set
+-            {
+-                if (this.Data != null)
+-                {
+-                    this.Data["WebhookId"] = value;
+-                }
+-            }
+-        }
+-
+-        public string Serialize() =>
+-            JsonConvert.SerializeObject(this.Data);
+-
+-        public string GetPayloadProperty(string key) => this.Data != null && this.Data.ContainsKey(key)
+-                ? this.Data[key].ToString()
+-                : null;
+-    }
+-}
+diff --git a/Proactive/ServiceNowEvents.cs b/Proactive/ServiceNowEvents.cs
+new file mode 100644
+index 000000000..ea8dfd3a5
+--- /dev/null
++++ b/Proactive/ServiceNowEvents.cs
+@@ -0,0 +1,13 @@
++﻿// Copyright (c) Microsoft Corporation. All rights reserved.
++// Licensed under the MIT License.
++
++namespace ITSMSkill.Proactive
++{
++    /// <summary>
++    /// Const strings related to ServiceNow Proactive Events.
++    /// </summary>
++    public static class ServiceNowEvents
++    {
++        public const string Proactive = "Servicenow.Proactive";
++    }
++}
+diff --git a/Startup.cs b/Startup.cs
+index db82bc0c5..50ef72b18 100644
+--- a/Startup.cs
++++ b/Startup.cs
+@@ -3,7 +3,9 @@
+ 
+ using System.Linq;
+ using ITSMSkill.Bots;
++using ITSMSkill.Controllers.ServiceNow;
+ using ITSMSkill.Dialogs;
++using ITSMSkill.Models.ServiceNow;
+ using ITSMSkill.Responses.Knowledge;
+ using ITSMSkill.Responses.Main;
+ using ITSMSkill.Responses.Shared;
+@@ -21,16 +23,12 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
+ using Microsoft.Bot.Builder.Integration.AspNet.Core;
+ using Microsoft.Bot.Connector.Authentication;
+ using Microsoft.Bot.Solutions;
++using Microsoft.Bot.Solutions.Proactive;
+ using Microsoft.Bot.Solutions.Responses;
+ using Microsoft.Bot.Solutions.TaskExtensions;
+ using Microsoft.Extensions.Configuration;
+ using Microsoft.Extensions.DependencyInjection;
+ using Microsoft.Extensions.Hosting;
+-using ITSMSkill.Controllers.ServiceNow;
+-using ITSMSkill.Controllers;
+-using Microsoft.Bot.Solutions.Proactive;
+-using Microsoft.AspNetCore.Http;
+-using ITSMSkill.Models.ServiceNow;
+ 
+ namespace ITSMSkill
+ {
+-- 
+2.17.1.windows.2
+
+
+From 60411f89e93c4be612211f00b2c4315e59091f8d Mon Sep 17 00:00:00 2001
+From: Siddharth More <simore@microsoft.com>
+Date: Tue, 24 Mar 2020 12:44:00 -0700
+Subject: [PATCH 3/4] Fix Broken UT and fix parameters of
+ DefaultActivityHandler
+
+---
+ Bots/DefaultActivityHandler.cs | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Bots/DefaultActivityHandler.cs b/Bots/DefaultActivityHandler.cs
+index cce6ecb87..822bb19f6 100644
+--- a/Bots/DefaultActivityHandler.cs
++++ b/Bots/DefaultActivityHandler.cs
+@@ -26,22 +26,22 @@ namespace ITSMSkill.Bots
+         private readonly Dialog _dialog;
+         private readonly BotState _conversationState;
+         private readonly BotState _userState;
++        private readonly ProactiveState _proactiveState;
+         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+         private MicrosoftAppCredentials _appCredentials;
+         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
+ 
+         public DefaultActivityHandler(
+             IServiceProvider serviceProvider,
+-            MicrosoftAppCredentials appCredentials,
+-            ProactiveState proactiveState,
+             T dialog)
+         {
+             _dialog = dialog;
+             _conversationState = serviceProvider.GetService<ConversationState>();
+             _userState = serviceProvider.GetService<UserState>();
++            _proactiveState = serviceProvider.GetService<ProactiveState>();
+             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+-            _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
+-            _appCredentials = appCredentials;
++            _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
++            _appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
+         }
+ 
+         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+-- 
+2.17.1.windows.2
+
+
+From 4d54a89ebe2c25a2b31fa92af4ed80018e64d835 Mon Sep 17 00:00:00 2001
+From: Siddharth More <simore@microsoft.com>
+Date: Wed, 25 Mar 2020 09:31:20 -0700
+Subject: [PATCH 4/4] Use ServiceNowPRoactiveState
+
+---
+ Adapters/DefaultAdapter.cs                    |  6 ++-
+ Bots/DefaultActivityHandler.cs                |  6 +--
+ .../ServiceNowProactiveStateMiddleware.cs     | 47 +++++++++++++++++++
+ Proactive/ServiceNowProactiveState.cs         | 25 ++++++++++
+ Startup.cs                                    |  4 +-
+ 5 files changed, 82 insertions(+), 6 deletions(-)
+ create mode 100644 skills/csharp/experimental/itsmskill/Middleware/ServiceNowProactiveStateMiddleware.cs
+ create mode 100644 skills/csharp/experimental/itsmskill/Proactive/ServiceNowProactiveState.cs
+
+diff --git a/Adapters/DefaultAdapter.cs b/Adapters/DefaultAdapter.cs
+index 2d28b929e..24c30819c 100644
+--- a/Adapters/DefaultAdapter.cs
++++ b/Adapters/DefaultAdapter.cs
+@@ -2,6 +2,8 @@
+ // Licensed under the MIT License.
+ 
+ using System.Globalization;
++using ITSMSkill.Middleware;
++using ITSMSkill.Proactive;
+ using ITSMSkill.Responses.Shared;
+ using ITSMSkill.Services;
+ using Microsoft.Bot.Builder;
+@@ -29,7 +31,7 @@ namespace ITSMSkill.Bots
+             TelemetryInitializerMiddleware telemetryMiddleware,
+             IBotTelemetryClient telemetryClient,
+             ResponseManager responseManager,
+-            ProactiveState proactiveState)
++            ServiceNowProactiveState proactiveState)
+             : base(credentialProvider)
+         {
+             OnTurnError = async (context, exception) =>
+@@ -60,7 +62,7 @@ namespace ITSMSkill.Bots
+             Use(new EventDebuggerMiddleware());
+             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
+             Use(new SetSpeakMiddleware());
+-            Use(new ProactiveStateMiddleware(proactiveState));
++            Use(new ServiceNowProactiveStateMiddleware(proactiveState));
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/Bots/DefaultActivityHandler.cs b/Bots/DefaultActivityHandler.cs
+index 822bb19f6..30571639a 100644
+--- a/Bots/DefaultActivityHandler.cs
++++ b/Bots/DefaultActivityHandler.cs
+@@ -26,7 +26,7 @@ namespace ITSMSkill.Bots
+         private readonly Dialog _dialog;
+         private readonly BotState _conversationState;
+         private readonly BotState _userState;
+-        private readonly ProactiveState _proactiveState;
++        private readonly ServiceNowProactiveState _proactiveState;
+         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+         private MicrosoftAppCredentials _appCredentials;
+         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
+@@ -38,7 +38,7 @@ namespace ITSMSkill.Bots
+             _dialog = dialog;
+             _conversationState = serviceProvider.GetService<ConversationState>();
+             _userState = serviceProvider.GetService<UserState>();
+-            _proactiveState = serviceProvider.GetService<ProactiveState>();
++            _proactiveState = serviceProvider.GetService<ServiceNowProactiveState>();
+             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+             _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
+             _appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
+@@ -89,7 +89,7 @@ namespace ITSMSkill.Bots
+                         var proactiveModel = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel());
+ 
+                         // TODO: Implement a proactive subscription manager for mapping Notification to ConversationReference
+-                        var conversationReference = proactiveModel["key"].Conversation;
++                        var conversationReference = proactiveModel["29:1L2z9sqte3pWsVlRFyFpw5RiB8N0eoUM9MBkywGgU6rGNKPd95Jx15AvIetaNLO5L8ZJ3C76pmnuy-mx5_oIDDQ"].Conversation;
+ 
+                         await turnContext.Adapter.ContinueConversationAsync(_appCredentials.MicrosoftAppId, conversationReference, ContinueConversationCallback(turnContext, eventData), cancellationToken);
+                         break;
+diff --git a/Middleware/ServiceNowProactiveStateMiddleware.cs b/Middleware/ServiceNowProactiveStateMiddleware.cs
+new file mode 100644
+index 000000000..8ff27b42a
+--- /dev/null
++++ b/Middleware/ServiceNowProactiveStateMiddleware.cs
+@@ -0,0 +1,47 @@
++﻿namespace ITSMSkill.Middleware
++{
++    using System.Threading;
++    using System.Threading.Tasks;
++    using ITSMSkill.Proactive;
++    using Microsoft.Bot.Builder;
++    using Microsoft.Bot.Schema;
++    using Microsoft.Bot.Solutions.Proactive;
++
++    /// <summary>
++    /// A Middleware for saving the proactive model data
++    /// This middleware will refresh user's latest conversation reference and save it to state.
++    /// </summary>
++    public class ServiceNowProactiveStateMiddleware : IMiddleware
++    {
++        private readonly ServiceNowProactiveState _proactiveState;
++        private readonly IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
++
++        public ServiceNowProactiveStateMiddleware(ServiceNowProactiveState proactiveState)
++        {
++            _proactiveState = proactiveState;
++            _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
++        }
++
++        public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default(CancellationToken))
++        {
++            ProactiveModel proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel(), cancellationToken);
++            string userId = turnContext.Activity.From.Id;
++            ConversationReference conversationReference = turnContext.Activity.GetConversationReference();
++
++            if (proactiveState.TryGetValue(userId, out ProactiveModel.ProactiveData data))
++            {
++                data.Conversation = conversationReference;
++            }
++            else
++            {
++                data = new ProactiveModel.ProactiveData { Conversation = conversationReference };
++            }
++
++            proactiveState[userId] = data;
++            await _proactiveStateAccessor.SetAsync(turnContext, proactiveState, cancellationToken);
++            await _proactiveState.SaveChangesAsync(turnContext, cancellationToken: cancellationToken);
++
++            await next(cancellationToken).ConfigureAwait(false);
++        }
++    }
++}
+diff --git a/Proactive/ServiceNowProactiveState.cs b/Proactive/ServiceNowProactiveState.cs
+new file mode 100644
+index 000000000..bb8c5b304
+--- /dev/null
++++ b/Proactive/ServiceNowProactiveState.cs
+@@ -0,0 +1,25 @@
++﻿namespace ITSMSkill.Proactive
++{
++    using Microsoft.Bot.Builder;
++
++    public class ServiceNowProactiveState : BotState
++    {
++        /// <summary>The key used to cache the state information in the turn context.</summary>
++        private const string StorageKey = "ProactiveState";
++
++        /// <summary>
++        /// Initializes a new instance of the <see cref="ServiceNowProactiveState"/> class.</summary>
++        /// <param name="storage">The storage provider to use.</param>
++        public ServiceNowProactiveState(IStorage storage)
++            : base(storage, StorageKey)
++        {
++        }
++
++        /// <inheritdoc />
++        /// <summary>Gets the storage key for caching state information.</summary>
++        /// <param name="turnContext">A <see cref="T:Microsoft.Bot.Builder.ITurnContext" /> containing all the data needed
++        /// for processing this conversation turn.</param>
++        /// <returns>The storage key.</returns>
++        protected override string GetStorageKey(ITurnContext turnContext) => StorageKey;
++    }
++}
+diff --git a/Startup.cs b/Startup.cs
+index 50ef72b18..414bbc041 100644
+--- a/Startup.cs
++++ b/Startup.cs
+@@ -6,6 +6,7 @@ using ITSMSkill.Bots;
+ using ITSMSkill.Controllers.ServiceNow;
+ using ITSMSkill.Dialogs;
+ using ITSMSkill.Models.ServiceNow;
++using ITSMSkill.Proactive;
+ using ITSMSkill.Responses.Knowledge;
+ using ITSMSkill.Responses.Main;
+ using ITSMSkill.Responses.Shared;
+@@ -105,9 +106,10 @@ namespace ITSMSkill
+             });
+ 
+             // Configure proactive
++            services.AddSingleton(new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword));
+             services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+             services.AddHostedService<QueuedHostedService>();
+-            services.AddSingleton<ProactiveState>();
++            services.AddSingleton<ServiceNowProactiveState>();
+             services.AddSingleton<IMessageReceiver<ServiceNowNotification>, ServiceNowMessageReceiver>();
+ 
+             // Configure responses
+-- 
+2.17.1.windows.2
+

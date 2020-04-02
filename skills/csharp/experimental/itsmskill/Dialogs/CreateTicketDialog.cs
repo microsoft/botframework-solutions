@@ -7,6 +7,8 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using ITSMSkill.Dialogs.Teams;
 using ITSMSkill.Models;
 using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Knowledge;
@@ -51,6 +53,13 @@ namespace ITSMSkill.Dialogs
                 CreateTicket
             };
 
+            var createTicketTaskModule = new WaterfallStep[]
+            {
+                GetAuthToken,
+                AfterGetAuthToken,
+                CreateTicketTeamsTaskModuleStep
+            };
+
             var displayExisting = new WaterfallStep[]
             {
                 GetAuthToken,
@@ -61,6 +70,7 @@ namespace ITSMSkill.Dialogs
 
             AddDialog(new WaterfallDialog(Actions.CreateTicket, createTicket));
             AddDialog(new WaterfallDialog(Actions.DisplayExisting, displayExisting));
+            AddDialog(new WaterfallDialog(Actions.CreateTickTeamsTaskModule, createTicketTaskModule));
 
             InitialDialogId = Actions.CreateTicket;
 
@@ -71,6 +81,16 @@ namespace ITSMSkill.Dialogs
             ShowKnowledgeResponse = KnowledgeResponses.IfExistingSolve;
             ShowKnowledgePrompt = Actions.NavigateYesNoPrompt;
             KnowledgeHelpLoop = Actions.DisplayExisting;
+        }
+
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default)
+        {
+            if (dc.Context.Activity.ChannelId.Contains("msteams"))
+            {
+                return await dc.BeginDialogAsync(Actions.CreateTickTeamsTaskModule, options, cancellationToken);
+            }
+
+            return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
 
         protected async Task<DialogTurnResult> DisplayExistingLoop(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -86,6 +106,21 @@ namespace ITSMSkill.Dialogs
             {
                 return await sc.NextAsync();
             }
+        }
+
+        protected async Task<DialogTurnResult> CreateTicketTeamsTaskModuleStep(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var reply = sc.Context.Activity.CreateReply();
+
+            var adaptiveCard = TicketDialogHelper.ServiceNowTickHubAdaptiveCard();
+            reply = sc.Context.Activity.CreateReply();
+            reply.Attachments = new List<Attachment>()
+            {
+                new Microsoft.Bot.Schema.Attachment() { ContentType = AdaptiveCard.ContentType, Content = adaptiveCard }
+            };
+
+            await sc.Context.SendActivityAsync(reply, cancellationToken);
+            return await sc.EndDialogAsync();
         }
 
         protected async Task<DialogTurnResult> CreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))

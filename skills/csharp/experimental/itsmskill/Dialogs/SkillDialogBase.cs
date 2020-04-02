@@ -224,6 +224,7 @@ namespace ITSMSkill.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
+                    state.AccessTokenResponse = providerTokenResponse.TokenResponse;
                     return await sc.NextAsync(providerTokenResponse.TokenResponse);
                 }
                 else
@@ -1157,6 +1158,8 @@ namespace ITSMSkill.Dialogs
 
             public const string ShowKnowledge = "ShowKnowledge";
             public const string ShowKnowledgeLoop = "ShowKnowledgeLoop";
+
+            public const string CreateTickTeamsTaskModule = "CreateTickTeamsTaskModule";
         }
     }
 }

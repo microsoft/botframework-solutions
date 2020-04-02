@@ -33,6 +33,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions.Proactive;
+using ITSMSkill.Models;
 
 namespace ITSMSkill.Tests.Flow
 {
@@ -151,7 +152,7 @@ namespace ITSMSkill.Tests.Flow
         {
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
-            adapter.AddUserToken(AuthenticationProvider, adapter.Conversation.ChannelId, adapter.Conversation.User.Id, TestToken, MagicCode);
+
 
             StartActivity = Activity.CreateConversationUpdateActivity();
             StartActivity.MembersAdded = new ChannelAccount[] { adapter.Conversation.User, adapter.Conversation.Bot };

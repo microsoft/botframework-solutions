@@ -1,29 +1,29 @@
 {
-  "defaultLocale": "en-us",
   "cognitiveModels": {
     "en-us": {
       "languageModels": [
         {
-          "id": "General",
-          "name": "",
-          "appId": "",
-          "version": "",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
+          "authoringRegion": "westus",
+          "name": "ServiceNowProactiveen-us_General",
+          "authoringkey": "411c25f8f70d4b13b0d2276cb525bfaa",
+          "region": "westus",
+          "appid": "7044cd1c-f537-4618-927b-32c3bf84f538",
+          "subscriptionkey": "df0dfe45d91840019eedc45a5714a773",
+          "version": "0.1",
+          "id": "General"
         },
         {
-          "id": "ITSM",
-          "name": "",
-          "appId": "",
-          "version": "",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
+          "authoringRegion": "westus",
+          "name": "ServiceNowProactiveen-us_ITSM",
+          "authoringkey": "411c25f8f70d4b13b0d2276cb525bfaa",
+          "region": "westus",
+          "appid": "31f72404-69ae-4938-bafc-a3f5f38a25a6",
+          "subscriptionkey": "df0dfe45d91840019eedc45a5714a773",
+          "version": "0.1",
+          "id": "ITSM"
         }
       ]
     }
-  }
+  },
+  "defaultLocale": "en-us"
 }

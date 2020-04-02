@@ -47,6 +47,8 @@ namespace ITSMSkill.Models
         // INC[0-9]{7}
         public string TicketNumber { get; set; }
 
+        public TokenResponse AccessTokenResponse { get; set; }
+
         // from OnInterruptDialogAsync
         public GeneralLuis.Intent GeneralIntent { get; set; }
 

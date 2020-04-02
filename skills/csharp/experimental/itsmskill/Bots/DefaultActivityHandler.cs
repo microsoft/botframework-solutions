@@ -3,12 +3,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
+using ITSMSkill.Extensions.Teams.TaskModule;
 using ITSMSkill.Models.ServiceNow;
 using ITSMSkill.Proactive;
+using ITSMSkill.Services;
+using ITSMSkill.TeamsChannels.Invoke;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector.Authentication;
@@ -30,6 +35,10 @@ namespace ITSMSkill.Bots
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private MicrosoftAppCredentials _appCredentials;
         private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
+        private BotSettings _botSettings;
+        private BotServices _botServices;
+        private IServiceManager _serviceManager;
+        private BotTelemetryClient _botTelemetryClient;
 
         public DefaultActivityHandler(
             IServiceProvider serviceProvider,
@@ -42,6 +51,10 @@ namespace ITSMSkill.Bots
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _proactiveStateAccessor = _proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
             _appCredentials = serviceProvider.GetService<MicrosoftAppCredentials>();
+            _botSettings = serviceProvider.GetService<BotSettings>();
+            _botServices = serviceProvider.GetService<BotServices>();
+            _serviceManager = serviceProvider.GetService<ServiceManager>();
+            _botTelemetryClient = serviceProvider.GetService<BotTelemetryClient>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -101,6 +114,18 @@ namespace ITSMSkill.Bots
                         break;
                     }
             }
+        }
+
+        protected override async Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            var itsmTeamsActivityHandler = new ITSMTeamsInvokeActivityHandlerFactory(_botSettings, _botServices, (ConversationState)_conversationState, _serviceManager, _botTelemetryClient);
+            ITeamsInvokeEnvelope teamsInvokeEnvelope = await itsmTeamsActivityHandler.GetInvokeEnvelope(turnContext, cancellationToken);
+
+            return new InvokeResponse()
+            {
+                Status = (int)HttpStatusCode.OK,
+                Body = teamsInvokeEnvelope
+            };
         }
 
         private IMessageActivity CreateAdaptiveCard(ITurnContext context, ServiceNowNotification serviceNowNotification)
