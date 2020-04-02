@@ -61,13 +61,6 @@
           "attendeesProperty": "=dialog.attendees"
         },
         {
-          "$type": "Microsoft.TraceActivity",
-          "$designer": {
-            "id": "276564",
-            "name": "Emit a trace event"
-          }
-        },
-        {
           "$type": "Microsoft.SetProperty",
           "$designer": {
             "id": "848316",
@@ -75,13 +68,6 @@
           },
           "property": "dialog.meetingTimeChoices",
           "value": "=foreach(dialog.meetingTimeSuggestions, item, item.display)"
-        },
-        {
-          "$type": "Microsoft.TraceActivity",
-          "$designer": {
-            "id": "276564",
-            "name": "Emit a trace event"
-          }
         },
         {
           "$type": "Microsoft.EditArray",
@@ -192,14 +178,6 @@
           "allowInterruptions": "false"
         },
         {
-          "$type": "Microsoft.TraceActivity",
-          "$designer": {
-            "id": "659063",
-            "name": "Emit a trace event"
-          },
-          "name": "Trace for event properties"
-        },
-        {
           "$type": "Microsoft.ConfirmInput",
           "$designer": {
             "id": "847733",
@@ -209,7 +187,7 @@
           "maxTurnCount": 3,
           "property": "dialog.isCreationConfirmed",
           "alwaysPrompt": false,
-          "allowInterruptions": "false",
+          "allowInterruptions": "true",
           "defaultLocale": "en-us",
           "style": "Auto",
           "choiceOptions": {
@@ -268,6 +246,66 @@
             "id": "595235",
             "name": "End this dialog"
           }
+        }
+      ]
+    },
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "628856"
+      },
+      "condition": "turn.dialogevent.value.intents.SetTitle.score > 0.5",
+      "actions": [
+        {
+          "$type": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "049848",
+            "name": "Set a property"
+          },
+          "property": "dialog.title",
+          "value": "=@title"
+        }
+      ],
+      "intent": "SetTitle"
+    },
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "860683"
+      },
+      "intent": "SetLocation",
+      "condition": "turn.dialogevent.value.intents.SetLocation.score > 0.5",
+      "actions": [
+        {
+          "$type": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "360525",
+            "name": "Set a property"
+          },
+          "property": "dialog.location",
+          "value": "=@location"
+        }
+      ]
+    },
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "588430"
+      },
+      "intent": "SetDateTime",
+      "condition": "turn.dialogevent.value.intents.SetDateTime.score > 0.5",
+      "actions": [
+        {
+          "$type": "Microsoft.Graph.Calendar.EventDateTimeInput",
+          "$designer": {
+            "id": "240984",
+            "name": "Event DateTime Input"
+          },
+          "prompt": "${datetimeprompt()}",
+          "property": "dialog.meetingTime",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false",
+          "value": "=@datetimeV2"
         }
       ]
     }

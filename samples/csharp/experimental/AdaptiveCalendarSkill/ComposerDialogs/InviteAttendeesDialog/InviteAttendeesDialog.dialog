@@ -37,13 +37,6 @@
           "token": "=user.token.token"
         },
         {
-          "$type": "Microsoft.TraceActivity",
-          "$designer": {
-            "id": "597054",
-            "name": "Emit a trace event"
-          }
-        },
-        {
           "$type": "Microsoft.IfCondition",
           "$designer": {
             "id": "545997",
@@ -124,13 +117,6 @@
               "changeType": "Push",
               "itemsProperty": "dialog.attendees",
               "value": "=dialog.emailAddress"
-            },
-            {
-              "$type": "Microsoft.TraceActivity",
-              "$designer": {
-                "id": "597054",
-                "name": "Emit a trace event"
-              }
             },
             {
               "$type": "Microsoft.SendActivity",

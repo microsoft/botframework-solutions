@@ -1,30 +1,44 @@
 > To learn more about the LU file format, read the documentation at
 > https://github.com/microsoft/botframework-cli/blob/master/packages/lu/docs/lu-file-format.md
 
-# EditTitle
+
+
+
+# SetTitle
 - Change the title to {title=team meeting}
 - Set the title to {title=lunch meeting}
 - Update the title to {title=engineering review}
 
-# EditDateTime
-- Change the time to 5pm
-- Move this to next week
-- Can you move this to Thursday?
+@ ml title
 
-# EditLocation
-- Set the location to {location=Bellevue}
-- Change the location to {location=City Center}
-- Update the location
-- Change the location to {location=Dough Zone in Bellevue}
 
-# EditAttendees
+# SetAttendees
 - Invite Ted to this
 - Add Elaine
 - Invite Dewain
 - Invite john@email.com
 
 @ prebuilt personName
-@ prebuilt datetimeV2
-@ prebuilt email
-@ ml title
+
+
+# SetLocation
+- Set the location to {location=Bellevue}
+- Change the location to {location=City Center}
+- Update the location
+- Change the location to {location=Dough Zone in Bellevue}
+
 @ ml location
+
+
+# SetDateTime
+- Change the time to 5pm
+- Move this to next week
+- Can you move this to Thursday?
+
+@ prebuilt datetimeV2
+
+
+# NewIntent
+- My name is {name=lauren}
+
+@ ml name
