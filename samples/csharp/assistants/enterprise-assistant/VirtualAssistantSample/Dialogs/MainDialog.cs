@@ -17,6 +17,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.DependencyInjection;
+using VirtualAssistantSample.Feedback;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 
@@ -33,16 +34,20 @@ namespace VirtualAssistantSample.Dialogs
         private LocaleTemplateManager _templateManager;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
         private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+        private IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
+        private FeedbackOptions _feedbackOptions;
 
         public MainDialog(
             IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IBotTelemetryClient telemetryClient
+            )
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
             _settings = serviceProvider.GetService<BotSettings>();
             _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
             _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
+            _feedbackOptions = serviceProvider.GetService<FeedbackOptions>();
             TelemetryClient = telemetryClient;
 
             var userState = serviceProvider.GetService<UserState>();
@@ -50,17 +55,27 @@ namespace VirtualAssistantSample.Dialogs
 
             var conversationState = serviceProvider.GetService<ConversationState>();
             _previousResponseAccessor = conversationState.CreateProperty<List<Activity>>(StateProperties.PreviousBotResponse);
+            _feedbackAccessor = conversationState.CreateProperty<FeedbackRecord>(nameof(FeedbackRecord));
 
-            var steps = new WaterfallStep[]
+            var steps = new List<WaterfallStep>()
             {
                 OnboardingStepAsync,
                 IntroStepAsync,
                 RouteStepAsync,
-                FinalStepAsync,
             };
 
+            if (_feedbackOptions.FeedbackEnabled)
+            {
+                steps.Add(RequestFeedback);
+                steps.Add(RequestFeedbackComment);
+                steps.Add(ProcessFeedback);
+                AddDialog(new TextPrompt(DialogIds.FeedbackPrompt));
+                AddDialog(new TextPrompt(DialogIds.FeedbackCommentPrompt));
+            }
+            steps.Add(FinalStepAsync);
+
             AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
-            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new TextPrompt(DialogIds.NextActionPrompt));
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
@@ -301,9 +316,14 @@ namespace VirtualAssistantSample.Dialogs
 
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
+            if (stepContext.Options is FeedbackUtil.RouteQueryFlag)
+            {
+                return await stepContext.NextAsync();
+            }
+
             if (stepContext.SuppressCompletionMessage())
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions(), cancellationToken);
+                return await stepContext.PromptAsync(DialogIds.NextActionPrompt, new PromptOptions(), cancellationToken);
             }
 
             // Use the text provided in FinalStepAsync or the default if it is the first time.
@@ -312,7 +332,7 @@ namespace VirtualAssistantSample.Dialogs
                 Prompt = stepContext.Options as Activity ?? _templateManager.GenerateActivityForLocale("FirstPromptMessage")
             };
 
-            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            return await stepContext.PromptAsync(DialogIds.NextActionPrompt, promptOptions, cancellationToken);
         }
 
         private async Task<DialogTurnResult> RouteStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
@@ -363,10 +383,98 @@ namespace VirtualAssistantSample.Dialogs
             }
         }
 
+        // Wil only be included if _feedbackOptions.FeedbackEnabled is set to true
+        private async Task<DialogTurnResult> RequestFeedback(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            return await stepContext.PromptAsync(DialogIds.FeedbackPrompt, new PromptOptions()
+            {
+                Prompt = FeedbackUtil.CreateFeedbackActivity(stepContext.Context),
+            });
+        }
+
+        // Will only be included if _feedbackOptions.FeedbackEnabled is set to true
+        private async Task<DialogTurnResult> RequestFeedbackComment(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            // Clear feedback state
+            await _feedbackAccessor.DeleteAsync(stepContext.Context).ConfigureAwait(false);
+
+            var userResponse = stepContext.Context.Activity.Text;
+            if (userResponse == (string)_feedbackOptions.DismissAction.Value)
+            {
+                // user dismissed feedback action prompt
+                return await stepContext.NextAsync();
+            }
+
+            var botResponses = await _previousResponseAccessor.GetAsync(stepContext.Context, () => new List<Activity>());
+            // Get last activity of previous dialog to send with feedback data
+            var feedbackActivity = botResponses.Count >= 2 ? botResponses[botResponses.Count - 2] : botResponses.LastOrDefault();
+            var record = new FeedbackRecord() { Request = feedbackActivity, Tag = "EndOfDialogFeedback" };
+
+            if (_feedbackOptions.FeedbackActions.Any(f => userResponse == (string)f.Value))
+            {
+                // user selected a feedback action
+                record.Feedback = userResponse;
+                await _feedbackAccessor.SetAsync(stepContext.Context, record).ConfigureAwait(false);
+                if (_feedbackOptions.CommentsEnabled)
+                {
+                    return await stepContext.PromptAsync(DialogIds.FeedbackPrompt, new PromptOptions()
+                    {
+                        Prompt = FeedbackUtil.GetFeedbackCommentPrompt(stepContext.Context),
+                    });
+                }
+                else
+                {
+                    return await stepContext.NextAsync();
+                }
+            }
+            else
+            {
+                // user sent a query unrelated to feedback
+                return await stepContext.NextAsync(new FeedbackUtil.RouteQueryFlag { RouteQuery = true });
+            }
+        }
+
+        // Will only be included if _feedbackOptions.FeedbackEnabled is set to true
+        private async Task<DialogTurnResult> ProcessFeedback(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            var record = await _feedbackAccessor.GetAsync(stepContext.Context, () => new FeedbackRecord()).ConfigureAwait(false);
+            var passQueryToNext = stepContext.Result is FeedbackUtil.RouteQueryFlag;
+            var userResponse = stepContext.Context.Activity.Text;
+            if (passQueryToNext)
+            {
+                // skip this step and pass the query into next step
+                return await stepContext.NextAsync(stepContext.Result);
+            }
+            else if (userResponse == (string)_feedbackOptions.DismissAction.Value && record.Feedback == null)
+            {
+                // user dismissed first feedback prompt, skip this step
+                return await stepContext.NextAsync();
+            }
+
+            if (_feedbackOptions.CommentsEnabled)
+            {
+                if (userResponse != (string)_feedbackOptions.DismissAction.Value)
+                {
+                    // user responded to first feedback prompt and replied to comment prompt
+                    record.Comment = userResponse;
+                    FeedbackUtil.LogFeedback(record, TelemetryClient);
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text(_feedbackOptions.FeedbackReceivedMessage));
+                    return await stepContext.NextAsync();
+                }
+            }
+
+            FeedbackUtil.LogFeedback(record, TelemetryClient);
+            return await stepContext.NextAsync();
+        }
+
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Restart the main dialog with a different message the second time around
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateManager.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
+            var passQueryToNext = stepContext.Result is FeedbackUtil.RouteQueryFlag;
+
+            // if user provided a query on previous feedback prompt then pass the query Activity to be handled by new main dialog
+            var result = passQueryToNext ? stepContext.Result : _templateManager.GenerateActivityForLocale("CompletedMessage");
+
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, result, cancellationToken);
         }
 
         private async Task LogUserOut(DialogContext dc)
@@ -428,6 +536,13 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             return true;
+        }
+
+        private static class DialogIds
+        {
+            public const string FeedbackPrompt = "feedbackPrompt";
+            public const string NextActionPrompt = "nextActionPrompt";
+            public const string FeedbackCommentPrompt = "feedbackCommentPrompt";
         }
     }
 }

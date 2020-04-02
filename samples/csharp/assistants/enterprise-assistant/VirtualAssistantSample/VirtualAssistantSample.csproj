@@ -94,6 +94,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Feedback\FeedbackResponses.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Update="StyleCop.Analyzers" Version="1.1.118" />
   </ItemGroup>
 

@@ -6,13 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveCards" Version="1.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.8.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.8.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.8.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.8.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.8.1" />
-    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.9.0-daily252" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.1" />
+    <PackageReference Include="Microsoft.Bot.Solutions" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

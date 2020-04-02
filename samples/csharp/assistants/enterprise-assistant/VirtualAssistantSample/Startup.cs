@@ -30,6 +30,7 @@ using VirtualAssistantSample.Adapters;
 using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
+using VirtualAssistantSample.Feedback;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample
@@ -77,6 +78,7 @@ namespace VirtualAssistantSample
             services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
             services.AddSingleton<TelemetryInitializerMiddleware>();
             services.AddSingleton<TelemetryLoggerMiddleware>();
+            services.AddSingleton(new FeedbackOptions());
 
             // Configure bot services
             services.AddSingleton<BotServices>();
