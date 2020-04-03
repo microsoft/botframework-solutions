@@ -83,7 +83,7 @@ export class BotServices {
             }
         }
         if (cognitiveModels === undefined) {
-            throw new Error(`There's no matching locale for '${locale}' or its root language '${locale.substring(0, 2)}'.
+            throw new Error(`There's no matching locale for '${ locale }' or its root language '${ locale.substring(0, 2) }'.
             Please review your available locales in your cognitivemodels.json file.`);
         }
 

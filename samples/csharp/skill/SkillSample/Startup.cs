@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SkillSample.Adapters;
+using SkillSample.Authentication;
 using SkillSample.Bots;
 using SkillSample.Dialogs;
 using SkillSample.Services;
@@ -37,8 +38,6 @@ namespace SkillSample
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("cognitivemodels.json", optional: true)
                 .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
-                .AddJsonFile("skills.json", optional: true)
-                .AddJsonFile($"skills.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -50,7 +49,7 @@ namespace SkillSample
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure MVC
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             // Configure server options
             services.Configure<KestrelServerOptions>(options =>
@@ -72,6 +71,9 @@ namespace SkillSample
             // Configure channel provider
             services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
 
+            // Register AuthConfiguration to enable custom claim validation.
+            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>()) });
+
             // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
@@ -89,7 +91,7 @@ namespace SkillSample
             // Configure storage
             // Uncomment the following line for local development without Cosmos Db
             // services.AddSingleton<IStorage, MemoryStorage>();
-            services.AddSingleton<IStorage>(new CosmosDbStorage(settings.CosmosDb));
+            services.AddSingleton<IStorage>(new CosmosDbPartitionedStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
 
@@ -98,30 +100,21 @@ namespace SkillSample
             services.AddHostedService<QueuedHostedService>();
 
             // Configure localized responses
-            var localizedTemplates = new Dictionary<string, List<string>>();
-            var templateFiles = new List<string>() { "MainResponses", "SampleResponses" };
+            var localizedTemplates = new Dictionary<string, string>();
+            var templateFile = "AllResponses";
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
             foreach (var locale in supportedLocales)
             {
-                var localeTemplateFiles = new List<string>();
-                foreach (var template in templateFiles)
-                {
-                    // LG template for en-us does not include locale in file extension.
-                    if (locale.Equals("en-us"))
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
-                    }
-                    else
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
-                    }
-                }
+                // LG template for en-us does not include locale in file extension.
+                var localeTemplateFile = locale.Equals("en-us")
+                    ? Path.Combine(".", "Responses", $"{templateFile}.lg")
+                    : Path.Combine(".", "Responses", $"{templateFile}.{locale}.lg");
 
-                localizedTemplates.Add(locale, localeTemplateFiles);
+                localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            services.AddSingleton(new LocaleTemplateEngineManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            services.AddSingleton(new LocaleTemplateManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register dialogs
             services.AddTransient<SampleDialog>();
@@ -148,6 +141,9 @@ namespace SkillSample
                 .UseWebSockets()
                 .UseRouting()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
         }
     }
 }

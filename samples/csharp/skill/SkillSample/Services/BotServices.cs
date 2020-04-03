@@ -28,12 +28,12 @@ namespace SkillSample.Services
 
                 var telemetryClient = client;
 
-                LuisRecognizerOptionsV2 luisOptions;
+                LuisRecognizerOptionsV3 luisOptions;
 
                 if (config.DispatchModel != null)
                 {
                     var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                    luisOptions = new LuisRecognizerOptionsV2(dispatchApp)
+                    luisOptions = new LuisRecognizerOptionsV3(dispatchApp)
                     {
                         TelemetryClient = telemetryClient,
                         LogPersonalInformation = true,
@@ -46,7 +46,7 @@ namespace SkillSample.Services
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        luisOptions = new LuisRecognizerOptionsV2(luisApp)
+                        luisOptions = new LuisRecognizerOptionsV3(luisApp)
                         {
                             TelemetryClient = telemetryClient,
                             LogPersonalInformation = true,

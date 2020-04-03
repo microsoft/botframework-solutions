@@ -262,7 +262,7 @@ FakesAssemblies/
 .ntvs_analysis.dat
 /solutions/**/node_modules/
 /templates/**/node_modules/
-/lib/**/node_modules/
+/sdk/**/node_modules/
 /tools/**/node_modules/
 /skills/**/node_modules/
 /samples/**/node_modules/

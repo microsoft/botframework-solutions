@@ -16,7 +16,7 @@
                 "query": "Help",
                 "topScoringIntent": {
                     "intent": "Help",
-                    "score": 0.989662349
+                    "score": 0.9892016
                 },
                 "entities": [
                     {
@@ -34,13 +34,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "431",
+            "429",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "ecc1a774-1737-42f8-8520-b380dece06b2",
+            "94fea574-55d5-4e2c-8553-3fc9f4b8a84e",
             "Request-Id",
-            "ecc1a774-1737-42f8-8520-b380dece06b2",
+            "94fea574-55d5-4e2c-8553-3fc9f4b8a84e",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +50,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:30 GMT",
+            "Tue, 10 Mar 2020 12:19:56 GMT",
             "Connection",
             "close"
         ]
@@ -65,7 +65,7 @@
             "query": "Help",
             "topScoringIntent": {
                 "intent": "Help",
-                "score": 0.989662349
+                "score": 0.9892016
             },
             "entities": [
                 {
@@ -82,13 +82,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "247",
+            "245",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "ce93c14d-f411-4b28-9099-afe07b5bb7dd",
+            "053ae143-d71e-4cf6-b873-a03673f6b5f5",
             "Request-Id",
-            "ce93c14d-f411-4b28-9099-afe07b5bb7dd",
+            "053ae143-d71e-4cf6-b873-a03673f6b5f5",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -96,7 +98,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:30 GMT",
+            "Tue, 10 Mar 2020 12:19:57 GMT",
             "Connection",
             "close"
         ]

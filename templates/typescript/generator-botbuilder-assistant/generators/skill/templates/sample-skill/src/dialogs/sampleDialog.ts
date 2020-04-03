@@ -19,7 +19,6 @@ import { SkillDialogBase } from './skillDialogBase';
 import { LocaleTemplateEngineManager } from 'botbuilder-solutions';
 
 export class SampleDialog extends SkillDialogBase {
-
     private readonly nameKey: string = 'name';
 
     // Constructor
@@ -69,8 +68,4 @@ export class SampleDialog extends SkillDialogBase {
     private async end(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         return sc.endDialog();
     }
-}
-
-enum DialogIds {
-    namePrompt = 'namePrompt'
 }

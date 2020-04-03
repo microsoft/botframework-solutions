@@ -343,13 +343,13 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the ludown parse command:
-Command: ludown parse toluis --in "${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.lu")}" --luis_culture ${configuration.languages[0]} --out_folder "${join(configuration.luisFolder, configuration.languages[0])}" --out connectableSkill.luis
+Error: There was an error in the bf luis:convert command:
+Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.lu")}" --culture ${configuration.languages[0]} --out "${join(configuration.luisFolder, configuration.languages[0], 'connectableSkill.luis')}" --name "ConnectableSkill"
 Error: Path to connectableSkill.luis (${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.luis")}) leads to a nonexistent file.`);
         });
 
         it("when the dispatch add command fails", async function () {
-            sandbox.replace(this.connector, "executeLudownParse", () => {
+            sandbox.replace(this.connector, "executeLuisConvert", () => {
                 return Promise.resolve("Mocked function successfully");
             });
             sandbox.replace(this.connector, "runCommand", () => {
@@ -437,9 +437,9 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the ludown parse command:
-Command: ludown parse toluis --in "${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.lu")}" --luis_culture ${configuration.languages[0]} --out_folder "${join(configuration.luisFolder, configuration.languages[0])}" --out connectableSkill.luis
-Error: The execution of the ludown command failed with the following error:
+Error: There was an error in the bf luis:convert command:
+Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "connectableSkill.lu")}" --culture ${configuration.languages[0]} --out "${join(configuration.luisFolder, configuration.languages[0], 'connectableSkill.luis')}" --name "ConnectableSkill"
+Error: The execution of the bf luis:convert command failed with the following error:
 Error: Mocked function throws an Error`);
 		});
 

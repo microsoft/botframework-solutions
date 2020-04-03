@@ -58,23 +58,21 @@ export class RefreshSkill {
         }
     }
 
-    private async executeLuisGen(dispatchName: string, executionModelByCulture: Map<string, string>): Promise<void> {
-        const luisgenCommand: string[] = ['luisgen'];
+    private async executeLuisGenerate(dispatchName: string, executionModelByCulture: Map<string, string>): Promise<void> {
+        const luisGenerateCommand: string[] = ['bf', `luis:generate:${ this.configuration.lgLanguage }`];
         try {
-            this.logger.message(`Running LuisGen for ${ dispatchName }...`);
-            const dispatchJsonFilePath: string = executionModelByCulture.get('dispatchJsonFilePath') as string;
-            const luisgenCommandArguments: string [] = [
-                wrapPathWithQuotes(dispatchJsonFilePath),
-                `-${ this.configuration.lgLanguage }`,
-                '-o'
+            this.logger.message(`Running Luis Generate for ${ dispatchName }...`);
+            const luisGenerateCommandArguments: string [] = [
+                '--in',
+                '--out'
             ];
-            luisgenCommandArguments.forEach((argument: string): void => {
+            luisGenerateCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
-                luisgenCommand.push(...[argument, argumentValue]);
+                luisGenerateCommand.push(...[argument, argumentValue]);
             });
-            await this.runCommand(luisgenCommand, `Executing luisgen for the ${ dispatchName } file`);
+            await this.runCommand(luisGenerateCommand, `Executing luisgen for the ${ dispatchName } file`);
         } catch (err) {
-            throw new Error(`There was an error in the luisgen command:\nCommand: ${ luisgenCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the bf luis:generate:${ this.configuration.lgLanguage } command:\nCommand: ${ luisGenerateCommand.join(' ') }\n${ err }`);
         }
     }
     
@@ -96,9 +94,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('dispatchJsonFilePath', dispatchJsonFilePath);
         executionModelMap.set('--dispatch', dispatchFilePath);
         executionModelMap.set('--dataFolder', dataFolder);
-        executionModelMap.set(wrapPathWithQuotes(dispatchJsonFilePath), '');
-        executionModelMap.set(`-${ this.configuration.lgLanguage }`, wrapPathWithQuotes('DispatchLuis'));
-        executionModelMap.set('-o', wrapPathWithQuotes(this.configuration.lgOutFolder));
+        executionModelMap.set('--in', wrapPathWithQuotes(dispatchJsonFilePath));
+        executionModelMap.set('--out', wrapPathWithQuotes(this.configuration.lgOutFolder));
 
         return executionModelMap;
     }
@@ -122,7 +119,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 const executionModelByCulture: Map<string, string> = item[1];
                 const dispatchName: string = dispatchNames.get(culture) as string;
                 await this.executeDispatchRefresh(dispatchName, executionModelByCulture);
-                await this.executeLuisGen(dispatchName, executionModelByCulture);
+                await this.executeLuisGenerate(dispatchName, executionModelByCulture);
             }));
     }
 

@@ -16,6 +16,14 @@ import { BotServices } from '../services/botServices';
 import { LocaleTemplateEngineManager, DialogContextEx } from 'botbuilder-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
 
+enum DialogIds {
+    NamePrompt = 'namePrompt',
+}
+
+export enum StateProperties {
+    GeneralResult = 'generalResult',
+}
+
 // Example onboarding dialog to initial user profile information.
 export class OnboardingDialog extends ComponentDialog {
     private services: BotServices;
@@ -40,7 +48,7 @@ export class OnboardingDialog extends ComponentDialog {
 
         // To capture built-in waterfall dialog telemetry, set the telemetry client
         // to the new waterfall dialog and add it to the component dialog
-        this.telemetryClient = telemetryClient
+        this.telemetryClient = telemetryClient;
         this.addDialog(new WaterfallDialog(OnboardingDialog.name, onboarding));
         this.addDialog(new TextPrompt(DialogIds.NamePrompt));
     }
@@ -82,7 +90,7 @@ export class OnboardingDialog extends ComponentDialog {
         // Captialize name
         userProfile.name = name.toLowerCase()
             .split(' ')
-            .map(word => word.charAt(0)
+            .map((word: string): string => word.charAt(0)
                 .toUpperCase() + word.substring(1))
             .join(' ');
 
@@ -95,12 +103,4 @@ export class OnboardingDialog extends ComponentDialog {
 
         return await sc.endDialog();
     }
-}
-
-enum DialogIds {
-    NamePrompt = 'namePrompt',
-}
-
-export enum StateProperties {
-    GeneralResult = "generalResult",
 }

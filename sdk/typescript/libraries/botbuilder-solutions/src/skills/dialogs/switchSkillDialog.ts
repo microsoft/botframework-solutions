@@ -10,15 +10,20 @@ import {
     WaterfallStep,
     DialogContext,
     DialogTurnResult,
-    WaterfallStepContext } from "botbuilder-dialogs";
+    WaterfallStepContext } from 'botbuilder-dialogs';
 import { 
     StatePropertyAccessor,
     ConversationState,
     Activity } from 'botbuilder';
-import { SwitchSkillDialogOptions } from "./switchSkillDialogOptions";
+import { SwitchSkillDialogOptions } from './switchSkillDialogOptions';
+
+export enum Properties {
+    skillId = 'skillSwitchValue',
+    lastActivity = 'skillSwitchActivity'
+}
 
 export class SwitchSkillDialog extends ComponentDialog {
-    private static confirmPromptId: string = "ConfirmSkillSwitch";
+    private static confirmPromptId: string = 'ConfirmSkillSwitch';
     private skillIdAccessor: StatePropertyAccessor<string>;
     private lastActivityAccessor: StatePropertyAccessor<Activity>;
 
@@ -61,9 +66,9 @@ export class SwitchSkillDialog extends ComponentDialog {
     // Prompts user to switch to a new skill.
     private async promptToSwitch(stepContext: WaterfallStepContext): Promise<DialogTurnResult>
     {
-        const options: SwitchSkillDialogOptions = <SwitchSkillDialogOptions> stepContext.options;
+        const options: SwitchSkillDialogOptions = stepContext.options as SwitchSkillDialogOptions;
         if (options === undefined) {
-            throw new Error (`You must provide options of type ${typeof(SwitchSkillDialogOptions).toString()}`) 
+            throw new Error (`You must provide options of type ${ typeof(SwitchSkillDialogOptions).toString() }`); 
         }
 
         if (options.skill !== undefined) {
@@ -77,12 +82,7 @@ export class SwitchSkillDialog extends ComponentDialog {
     // Ends this dialog, returning the prompt result.
     private async end(stepContext: WaterfallStepContext): Promise<DialogTurnResult>
     {
-        const result: boolean = <boolean> stepContext.result;
+        const result: boolean = stepContext.result as boolean;
         return await stepContext.endDialog(result);
     }
-}
-
-export enum Properties {
-    skillId = 'skillSwitchValue',
-    lastActivity = 'skillSwitchActivity'
 }

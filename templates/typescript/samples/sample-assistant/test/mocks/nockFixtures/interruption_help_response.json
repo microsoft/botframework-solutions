@@ -16,7 +16,7 @@
                 "query": "Help",
                 "topScoringIntent": {
                     "intent": "Help",
-                    "score": 0.989662349
+                    "score": 0.9892016
                 },
                 "entities": [
                     {
@@ -34,13 +34,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "431",
+            "429",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "57340429-fc47-4057-a88b-7a24e065a404",
+            "58b4d30a-c239-4c73-8e87-6d28b868ccfb",
             "Request-Id",
-            "57340429-fc47-4057-a88b-7a24e065a404",
+            "58b4d30a-c239-4c73-8e87-6d28b868ccfb",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +50,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:28 GMT",
+            "Tue, 10 Mar 2020 12:19:55 GMT",
             "Connection",
             "close"
         ]
@@ -65,7 +65,7 @@
             "query": "Help",
             "topScoringIntent": {
                 "intent": "Help",
-                "score": 0.989662349
+                "score": 0.9892016
             },
             "entities": [
                 {
@@ -82,23 +82,23 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "247",
+            "245",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "65f5529d-f634-4786-8dbb-1803b2377895",
+            "48bd6d55-15d2-4485-a65b-f534a1f024cf",
             "Request-Id",
-            "65f5529d-f634-4786-8dbb-1803b2377895",
+            "48bd6d55-15d2-4485-a65b-f534a1f024cf",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
-            "Request-Context",
-            "appId=cid-v1:26a3540d-a02a-4998-a060-715488fd769b",
             "X-Content-Type-Options",
             "nosniff",
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:29 GMT",
+            "Tue, 10 Mar 2020 12:19:55 GMT",
             "Connection",
             "close"
         ]

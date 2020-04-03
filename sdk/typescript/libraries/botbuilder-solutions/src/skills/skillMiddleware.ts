@@ -22,7 +22,7 @@ export class SkillMiddleware implements Middleware {
         conversationState: ConversationState,
         dialogState: StatePropertyAccessor<DialogState>
     ) {
-        this.userState = userState
+        this.userState = userState;
         this.conversationState = conversationState;
         this.dialogState = dialogState;
     }

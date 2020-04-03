@@ -25,9 +25,6 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
     var packageJSON;
     var manifestTemplate;
     const manifestTemplatePath = join(`src`, `manifestTemplate.json`);
-    const dialogBotPath = join(`src`, `bots`, `dialogBot.ts`);
-    const mainDialogPath = join(`src`, `dialogs`, `mainDialog.ts`);
-    const skillDialogBasePath = join(`src`, `dialogs`, `skillDialogBase.ts`);
     const testCognitiveModelsPath = join(`test`, `mocks`, `resources`, `cognitiveModels.json`);
 
     const templatesFiles = [
@@ -36,9 +33,6 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
         `.gitignore`,
         `.nycrc`,
         manifestTemplatePath,
-        dialogBotPath,
-        mainDialogPath,
-        skillDialogBasePath,
         testCognitiveModelsPath
     ];
 
@@ -147,18 +141,13 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
                 done();
             });
 
-            it(`a description property with given name`, function(done) {
-                assert.strictEqual(manifestTemplate.description, `This is the description of the ${skillNameCamelCase}`);
-                done();
-            });
-
             it(`an id of an action property with given name`, function(done) {
                 assert.strictEqual(manifestTemplate.actions[0].id, `${skillNameCamelCase}_Sample`);
                 done();
             });
 
             it(`a description definition of an action property with given name`, function(done) {
-                assert.strictEqual(manifestTemplate.actions[0].definition.description, `Trigger ${skillNameCamelCase}`);
+                assert.strictEqual(manifestTemplate.actions[0].definition.description, `${skillNameCamelCase} action with no slots`);
                 done();
             });
 
@@ -179,37 +168,7 @@ describe(`The generator-botbuilder-assistant skill tests`, function() {
                 done();
             });
         });
-
-        describe(`and have in the dialogBot file`, function() {
-            it(`a private property with the given name`, function(done) {
-                assert.fileContent(
-                  join(skillGenerationPath, skillName, dialogBotPath),
-                  `private readonly solutionName: string = '${skillNameCamelCase}';`
-                );
-                done();
-              });
-        });       
         
-        describe(`and have in the mainDialog file`, function() {
-            it(`a private property with the given name`, function(done) {
-                assert.fileContent(
-                  join(skillGenerationPath, skillName, mainDialogPath),
-                  `private readonly solutionName: string = '${skillNameCamelCase}';`
-                );
-                done();
-              });
-        });
-        
-        describe(`and have in the skillDialogBase file`, function() {
-            it(`a private property with the given name`, function(done) {
-                assert.fileContent(
-                  join(skillGenerationPath, skillName, skillDialogBasePath),
-                  `private readonly solutionName: string = '${skillNameCamelCase}';`
-                );
-                done();
-              });
-        });
-
         describe(`and have in the cognitiveModels file`, function() {
             it(`an id property with the given name`, function(done) {
                 assert.fileContent(

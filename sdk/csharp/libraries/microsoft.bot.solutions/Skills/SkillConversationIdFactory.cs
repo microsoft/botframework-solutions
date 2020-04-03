@@ -25,41 +25,44 @@ namespace Microsoft.Bot.Solutions.Skills
             _storage = storage ?? throw new ArgumentNullException(nameof(storage));
         }
 
-        public override async Task<string> CreateSkillConversationIdAsync(ConversationReference conversationReference, CancellationToken cancellationToken)
+        public override async Task<string> CreateSkillConversationIdAsync(SkillConversationIdFactoryOptions options, CancellationToken cancellationToken)
         {
-            if (conversationReference == null)
+            if (options == null)
             {
-                throw new ArgumentNullException(nameof(conversationReference));
+                throw new ArgumentNullException(nameof(options));
             }
 
-            if (string.IsNullOrWhiteSpace(conversationReference.Conversation.Id))
-            {
-                throw new NullReferenceException($"ConversationId in {nameof(conversationReference)} can't be null.");
-            }
+            // Create the storage key based on the SkillConversationIdFactoryOptions
+            var conversationReference = options.Activity.GetConversationReference();
+            var storageKey = $"{conversationReference.Conversation.Id}-{options.BotFrameworkSkill.Id}-{conversationReference.ChannelId}-skillconvo";
 
-            if (string.IsNullOrWhiteSpace(conversationReference.ChannelId))
+            // Create the SkillConversationReference
+            var skillConversationReference = new SkillConversationReference
             {
-                throw new NullReferenceException($"ChannelId in {nameof(conversationReference)} can't be null.");
-            }
+                ConversationReference = conversationReference,
+                OAuthScope = options.FromBotOAuthScope,
+            };
 
-            var storageKey = $"{conversationReference.Conversation.Id}-{conversationReference.ChannelId}-skillconvo";
-            var skillConversationInfo = new Dictionary<string, object> { { storageKey, JObject.FromObject(conversationReference) } };
+            // Store the SkillConversationReference
+            var skillConversationInfo = new Dictionary<string, object> { { storageKey, JObject.FromObject(skillConversationReference) } };
             await _storage.WriteAsync(skillConversationInfo, cancellationToken).ConfigureAwait(false);
 
+            // Return the storageKey (that will be also used as the conversation ID to call the skill)
             return storageKey;
         }
 
-        public override async Task<ConversationReference> GetConversationReferenceAsync(string skillConversationId, CancellationToken cancellationToken)
+        public override async Task<SkillConversationReference> GetSkillConversationReferenceAsync(string skillConversationId, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(skillConversationId))
             {
                 throw new ArgumentNullException(nameof(skillConversationId));
             }
 
+            // Get the SkillConversationReference from storage for the given skillConversationId.
             var skillConversationInfo = await _storage.ReadAsync(new[] { skillConversationId }, cancellationToken).ConfigureAwait(false);
             if (skillConversationInfo.Any())
             {
-                var conversationInfo = ((JObject)skillConversationInfo[skillConversationId]).ToObject<ConversationReference>();
+                var conversationInfo = ((JObject)skillConversationInfo[skillConversationId]).ToObject<SkillConversationReference>();
                 return conversationInfo;
             }
 
@@ -68,6 +71,7 @@ namespace Microsoft.Bot.Solutions.Skills
 
         public override async Task DeleteConversationReferenceAsync(string skillConversationId, CancellationToken cancellationToken)
         {
+            // Delete the SkillConversationReference from storage
             await _storage.DeleteAsync(new[] { skillConversationId }, cancellationToken).ConfigureAwait(false);
         }
     }

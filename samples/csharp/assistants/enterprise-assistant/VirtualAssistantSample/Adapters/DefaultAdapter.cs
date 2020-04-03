@@ -5,12 +5,12 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Solutions.Feedback;
-using Microsoft.Bot.Builder.Solutions.Middleware;
-using Microsoft.Bot.Builder.Solutions.Proactive;
-using Microsoft.Bot.Builder.Solutions.Responses;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Feedback;
+using Microsoft.Bot.Solutions.Middleware;
+using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Solutions.Responses;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Adapters
@@ -19,18 +19,19 @@ namespace VirtualAssistantSample.Adapters
     {
         public DefaultAdapter(
             BotSettings settings,
-            LocaleTemplateEngineManager templateEngine,
-            ConversationState conversationState,
             ICredentialProvider credentialProvider,
+            IChannelProvider channelProvider,
+            LocaleTemplateManager templateFile,
+            ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
             ProactiveState proactiveState)
-            : base(credentialProvider)
+            : base(credentialProvider, channelProvider)
         {
             OnTurnError = async (turnContext, exception) =>
             {
                 await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateEngine.GenerateActivityForLocale("ErrorMessage"));
+                await turnContext.SendActivityAsync(templateFile.GenerateActivityForLocale("ErrorMessage", settings.DefaultLocale));
                 telemetryClient.TrackException(exception);
             };
 
@@ -42,6 +43,7 @@ namespace VirtualAssistantSample.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
+            Use(new SetSpeakMiddleware());
 
             // SAMPLE: Proactive notifications
             Use(new ProactiveStateMiddleware(proactiveState));

@@ -46,5 +46,5 @@ export async function isCloudGovernment(): Promise<boolean> {
     // tslint:disable-next-line: no-unsafe-any
     const azCloudList: ICloud[] =  JSON.parse(await childProcess.tryExecute(azCloudListCommand));
 
-    return azCloudList.some((cloud: ICloud) => cloud.isActive && cloud.name === 'AzureUSGovernment');
+    return azCloudList.some((cloud: ICloud): boolean => cloud.isActive && cloud.name === 'AzureUSGovernment');
 }

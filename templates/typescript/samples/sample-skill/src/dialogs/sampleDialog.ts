@@ -18,6 +18,10 @@ import { IBotSettings } from '../services/botSettings';
 import { SkillDialogBase } from './skillDialogBase';
 import { LocaleTemplateEngineManager } from 'botbuilder-solutions';
 
+enum DialogIds {
+    namePrompt = 'namePrompt'
+}
+
 export class SampleDialog extends SkillDialogBase {
 
     private readonly nameKey: string = 'name';
@@ -69,8 +73,4 @@ export class SampleDialog extends SkillDialogBase {
     private async end(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         return sc.endDialog();
     }
-}
-
-enum DialogIds {
-    namePrompt = 'namePrompt'
 }

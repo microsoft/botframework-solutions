@@ -12,6 +12,7 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Feedback
 {
+    [Obsolete("FeedbackMiddleware will no longer work with any VA built with the 0.8 release or newer. For more information, refer to https://aka.ms/bfFeedbackDoc.", false)]
     public class FeedbackMiddleware : IMiddleware
     {
         private static FeedbackOptions _options;

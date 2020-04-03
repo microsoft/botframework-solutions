@@ -4,6 +4,7 @@
  */
 
 import {
+    BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
     ConversationState,
@@ -11,12 +12,9 @@ import {
     StatePropertyAccessor,
     TurnContext,
     UserState, 
-    TelemetryLoggerMiddleware,
-    BotFrameworkAdapter } from 'botbuilder';
+    TelemetryLoggerMiddleware } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import {
-    CosmosDbPartitionedStorageOptions,
-    CosmosDbPartitionedStorage} from 'botbuilder-azure';
+import { CosmosDbPartitionedStorageOptions, CosmosDbPartitionedStorage } from 'botbuilder-azure';
 import {
     Dialog } from 'botbuilder-dialogs';
 import {

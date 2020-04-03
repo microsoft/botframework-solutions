@@ -45,7 +45,7 @@ program
 
 const args: program.Command = program.parse(process.argv);
 
-let appSettingsFile: string = '';
+let appSettingsFile = '';
 
 logger.isVerbose = args.verbose;
 

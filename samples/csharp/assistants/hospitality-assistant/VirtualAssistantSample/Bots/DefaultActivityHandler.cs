@@ -24,7 +24,7 @@ namespace VirtualAssistantSample.Bots
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private IStatePropertyAccessor<UserProfileState> _userProfileState;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateManager;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -33,7 +33,7 @@ namespace VirtualAssistantSample.Bots
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -52,12 +52,12 @@ namespace VirtualAssistantSample.Bots
             if (string.IsNullOrEmpty(userProfile.Name))
             {
                 // Send new user intro card.
-                await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("NewUserIntroCard", userProfile));
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("NewUserIntroCard", userProfile));
             }
             else
             {
                 // Send returning user intro card.
-                await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ReturningUserIntroCard", userProfile));
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ReturningUserIntroCard", userProfile));
             }
 
             await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);

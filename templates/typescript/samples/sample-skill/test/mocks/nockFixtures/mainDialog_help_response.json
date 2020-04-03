@@ -3,30 +3,15 @@
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
         "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "body": "help",
         "status": 200,
         "response": {
-            "query": "Help",
+            "query": "help",
             "topScoringIntent": {
-                "intent": "l_general",
-                "score": 0.9991404
+                "intent": "None",
+                "score": 0.873317
             },
-            "entities": [],
-            "connectedServiceResult": {
-                "query": "Help",
-                "topScoringIntent": {
-                    "intent": "Help",
-                    "score": 0.989662349
-                },
-                "entities": [
-                    {
-                        "entity": "help",
-                        "type": "builtin.personName",
-                        "startIndex": 0,
-                        "endIndex": 3
-                    }
-                ]
-            }
+            "entities": []
         },
         "rawHeaders": [
             "Cache-Control",
@@ -34,15 +19,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "431",
+            "119",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "c8dbba8f-9e2c-45d5-8c63-322da17831af",
             "Request-Id",
-            "d1e85dac-394a-43a0-baeb-fbf15daa39bb",
+            "c8dbba8f-9e2c-45d5-8c63-322da17831af",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|2",
+            "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -50,7 +35,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Tue, 10 Mar 2020 13:14:32 GMT",
             "Connection",
             "close"
         ]
@@ -59,22 +44,15 @@
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
         "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "body": "help",
         "status": 200,
         "response": {
-            "query": "Help",
+            "query": "help",
             "topScoringIntent": {
                 "intent": "Help",
-                "score": 0.989662349
+                "score": 0.9877897
             },
-            "entities": [
-                {
-                    "entity": "help",
-                    "type": "builtin.personName",
-                    "startIndex": 0,
-                    "endIndex": 3
-                }
-            ]
+            "entities": []
         },
         "rawHeaders": [
             "Cache-Control",
@@ -82,13 +60,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "247",
+            "120",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "cfd4b518-43b7-494a-a2c6-864e6e28a4f2",
             "Request-Id",
-            "eb4d8b34-ee0d-4e37-91a5-727d18c4a726",
+            "cfd4b518-43b7-494a-a2c6-864e6e28a4f2",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -96,7 +76,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:36 GMT",
+            "Tue, 10 Mar 2020 13:14:32 GMT",
             "Connection",
             "close"
         ]

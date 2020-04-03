@@ -6,20 +6,20 @@
 import { SentimentType } from '../models';
 
 export namespace LuisRecognizerEx {
-    export const sentiment: string = "sentiment";
-    export const positiveSentiment: string = "positive";
-    export const neutralSentiment: string = "neutral";
-    export const negativeSentiment: string = "negative";
+    export const sentiment = 'sentiment';
+    export const positiveSentiment = 'positive';
+    export const neutralSentiment = 'neutral';
+    export const negativeSentiment = 'negative';
 
     export function getSentimentInfo<T>(luisConverter: T, propertyAccessor: (luisConverter: T) => Map<string, Object>): [SentimentType, number] {
         let sentimentLabel: SentimentType = SentimentType.None;
-        let maxScore: number = 0.0;
+        let maxScore = 0.0;
 
         const luisProperty: Map<string, Object> = propertyAccessor(luisConverter);
         const result: Object | undefined = luisProperty.get(sentiment);
 
         if(luisProperty !== undefined && result !== undefined) {
-            let sentimentInfo: any = JSON.parse(<string>result);
+            let sentimentInfo: any = JSON.parse(result.toString());
             sentimentLabel = getSentimentType(sentimentInfo.label);
             maxScore = sentimentInfo.score !== undefined ? sentimentInfo.score : 0.0;
         }
@@ -28,7 +28,7 @@ export namespace LuisRecognizerEx {
     }
 
    
-    export function getSentimentType (label: string): SentimentType {
+    export function getSentimentType(label: string): SentimentType {
         let sentimentType: SentimentType = SentimentType.None;
 
         if (label === positiveSentiment) {

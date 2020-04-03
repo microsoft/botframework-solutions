@@ -25,7 +25,7 @@ export class EventPrompt extends ActivityPrompt {
         const activity: Activity = context.activity;
 
         if (activity.type === ActivityTypes.Event && activity.name !== undefined && activity.name.trim().length > 0) {
-            const ev: IEventActivity = <IEventActivity>activity;
+            const ev: IEventActivity = activity as IEventActivity;
 
             if(ev.name === this.eventName) {
                 result.succeeded = true;

@@ -309,4 +309,5 @@ export class MainDialog extends ComponentDialog {
             throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter')
         }
     }
+  
 }

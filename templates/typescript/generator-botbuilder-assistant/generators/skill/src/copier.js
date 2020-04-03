@@ -80,20 +80,8 @@ class Copier {
       join(`pipeline`, `${newSkill.skillName}.yml`)
     );
     templateFiles.set(
-      join(`src`, `bots`, `_defaultActivityHandler.ts`),
-      join(`src`, `bots`, `defaultActivityHandler.ts`)
-    );
-    templateFiles.set(
       join(`src`, `_manifestTemplate.json`),
       join(`src`, `manifestTemplate.json`)
-    );
-    templateFiles.set(
-      join(`src`, `dialogs`, `_mainDialog.ts`),
-      join(`src`, `dialogs`, `mainDialog.ts`)
-    );
-    templateFiles.set(
-      join(`src`, `dialogs`, `_skillDialogBase.ts`),
-      join(`src`, `dialogs`, `skillDialogBase.ts`)
     );
     templateFiles.set(
       join(`test`, `mocks`, `resources`, `_cognitiveModels.json`),

@@ -20,12 +20,7 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private dialogStateAccessor: StatePropertyAccessor<DialogState>;
     private templateEngine: LocaleTemplateEngineManager;
 
-    public constructor(
-        conversationState: BotState,
-        userState: BotState,
-        templateEngine: LocaleTemplateEngineManager,
-        dialog: T
-    ) {
+    public constructor(conversationState: BotState, userState: BotState, templateEngine: LocaleTemplateEngineManager, dialog: T) {
         super();
         this.dialog = dialog;
         this.conversationState = conversationState;

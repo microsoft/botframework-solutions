@@ -4,7 +4,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector.DirectLine;
@@ -65,8 +64,8 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             var profileState = new UserProfileState { Name = TestName };
 
-            var allNamePromptVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("HaveNameMessage", profileState);
+            var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
 
             var conversation = await StartBotConversationAsync();
 

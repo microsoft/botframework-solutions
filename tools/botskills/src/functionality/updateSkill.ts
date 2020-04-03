@@ -102,7 +102,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             // Manifest schema validation
             const validVersion: manifestVersion = this.validateManifestSchema(skillManifest);
 
-            let skillId: string = '';
+            let skillId = '';
             if(validVersion === manifestVersion.V1) {
                 const skillManifestV1 = skillManifest as ISkillManifestV1;
                 skillId = skillManifestV1.id;
