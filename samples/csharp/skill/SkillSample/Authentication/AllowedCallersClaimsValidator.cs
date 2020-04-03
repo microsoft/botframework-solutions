@@ -16,7 +16,7 @@ namespace SkillSample.Authentication
     /// </summary>
     public class AllowedCallersClaimsValidator : ClaimsValidator
     {
-        private const string _configKey = "allowedCallers";
+        private const string ConfigKey = "allowedCallers";
         private readonly List<string> _allowedCallers;
 
         public AllowedCallersClaimsValidator(IConfiguration config)
@@ -31,11 +31,11 @@ namespace SkillSample.Authentication
             // To add a new parent bot, simply edit the AllowedCallers and add
             // the parent bot's Microsoft app ID to the list.
             // In this sample, we allow all callers if AllowedCallers contains an "*".
-            var section = config.GetSection(_configKey);
+            var section = config.GetSection(ConfigKey);
             var appsList = section.Get<string[]>();
             if (appsList == null)
             {
-                throw new ArgumentNullException($"\"{_configKey}\" not found in configuration.");
+                throw new ArgumentNullException($"\"{ConfigKey}\" not found in configuration.");
             }
 
             _allowedCallers = new List<string>(appsList);

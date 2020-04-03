@@ -56,7 +56,7 @@ namespace $safeprojectname$.TokenExchange
 
         protected override async Task<ResourceResponse> OnSendToConversationAsync(ClaimsIdentity claimsIdentity, string conversationId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_tokenExchangeConfig != null && await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
+            if (_tokenExchangeConfig != null && await InterceptOAuthCardsAsync(claimsIdentity, activity).ConfigureAwait(false))
             {
                 return new ResourceResponse(Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture));
             }
@@ -66,7 +66,7 @@ namespace $safeprojectname$.TokenExchange
 
         protected override async Task<ResourceResponse> OnReplyToActivityAsync(ClaimsIdentity claimsIdentity, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_tokenExchangeConfig != null && await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
+            if (_tokenExchangeConfig != null && await InterceptOAuthCardsAsync(claimsIdentity, activity).ConfigureAwait(false))
             {
                 return new ResourceResponse(Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture));
             }
@@ -86,13 +86,17 @@ namespace $safeprojectname$.TokenExchange
             return _skillsConfig.Skills.Values.FirstOrDefault(s => string.Equals(s.AppId, appId, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        private async Task<bool> InterceptOAuthCards(ClaimsIdentity claimsIdentity, Activity activity)
+        private async Task<bool> InterceptOAuthCardsAsync(ClaimsIdentity claimsIdentity, Activity activity)
         {
             if (activity.Attachments != null)
             {
+                BotFrameworkSkill targetSkill = null;
                 foreach (var attachment in activity.Attachments.Where(a => a?.ContentType == OAuthCard.ContentType))
                 {
-                    var targetSkill = GetCallingSkill(claimsIdentity);
+                    if (targetSkill == null)
+                    {
+                        targetSkill = GetCallingSkill(claimsIdentity);
+                    }
 
                     if (targetSkill != null)
                     {
@@ -131,10 +135,10 @@ namespace $safeprojectname$.TokenExchange
 
         private async Task<bool> SendTokenExchangeInvokeToSkill(Activity incomingActivity, string id, string token, string connectionName, BotFrameworkSkill targetSkill, CancellationToken cancellationToken)
         {
-            var activity = incomingActivity.CreateReply() as Activity;
+            var activity = incomingActivity.CreateReply();
             activity.Type = ActivityTypes.Invoke;
             activity.Name = SignInConstants.TokenExchangeOperationName;
-            activity.Value = new TokenExchangeInvokeRequest()
+            activity.Value = new TokenExchangeInvokeRequest
             {
                 Id = id,
                 Token = token,
