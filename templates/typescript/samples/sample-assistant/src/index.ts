@@ -40,7 +40,7 @@ import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 import { Activity, ResourceResponse } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import { IUserProfileState } from './models/userProfileState'
+import { IUserProfileState } from './models/userProfileState';
 import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
 
 // Configure internationalization and default locale
@@ -108,7 +108,7 @@ const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
     databaseId: botSettings.cosmosDb.databaseId,
     cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint
 };
-const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions)
+const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 
@@ -122,7 +122,7 @@ supportedLocales.forEach((locale: string) => {
     templateFiles.forEach(template => {
         // LG template for en-us does not include locale in file extension.
         if (locale === 'en-us') {
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.lg`));
+            localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.lg`));
         }
         else {
             localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.${ locale }.lg`));
@@ -132,7 +132,7 @@ supportedLocales.forEach((locale: string) => {
     localizedTemplates.set(locale, localeTemplateFiles);
 });
 
-const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
+const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
 // Register the Bot Framework Adapter with error handling enabled.
 // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
@@ -148,7 +148,7 @@ const adapter: DefaultAdapter = new DefaultAdapter(
 // Register AuthConfiguration to enable custom claim validation.
 let authenticationConfiguration: AuthenticationConfiguration = new AuthenticationConfiguration();
 // Create the skills configuration class
-let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], "") ;
+let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], '') ;
 
 // Register the skills conversation ID factory, the client.
 const skillConversationIdFactory: SkillConversationIdFactory = new SkillConversationIdFactory(storage);
@@ -171,7 +171,7 @@ try {
     if (skills !== undefined && skills.length > 0) {
         const hostEndpoint: string = appsettings.skillHostEndpoint;
         if (hostEndpoint === undefined || hostEndpoint.trim().length === 0) {
-            throw new Error("'skillHostEndpoint' is not in the configuration");
+            throw new Error('\'skillHostEndpoint\' is not in the configuration');
         } else {
             skillsConfiguration = new SkillsConfiguration(skills, hostEndpoint);
             const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillsConfiguration);
@@ -190,7 +190,7 @@ try {
                     skillHostEndpoint: hostEndpoint,
                     skill: skill,
                     conversationState: conversationState
-                }
+                };
                 return new SkillDialog(skillDialogOptions, skill.id);
             });
         }
@@ -225,7 +225,7 @@ server.use(restify.plugins.authorizationParser());
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || '3979', (): void => {
-    console.log(` ${server.name} listening to ${server.url} `);
+    console.log(` ${ server.name } listening to ${ server.url } `);
     console.log(`Get the Emulator: https://aka.ms/botframework-emulator`);
     console.log(`To talk to your bot, open your '.bot' file in the Emulator`);
 });
@@ -244,10 +244,10 @@ const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationId
     
 server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
     const activity: Activity = JSON.parse(JSON.stringify(req.body));
-    return await handler.handleReplyToActivity(req.headers.authorization || "", req.params.conversationId, req.params.activityId, activity);
+    return await handler.handleReplyToActivity(req.headers.authorization || '', req.params.conversationId, req.params.activityId, activity);
 });
 
 server.post('/api/skills/v3/conversations/:conversationId/activities', async (req: restify.Request): Promise<ResourceResponse> => {
     const activity: Activity = JSON.parse(JSON.stringify(req.body));
-    return await handler.handleSendToConversation(req.headers.authorization || "", req.params.conversationId, activity);
+    return await handler.handleSendToConversation(req.headers.authorization || '', req.params.conversationId, activity);
 });

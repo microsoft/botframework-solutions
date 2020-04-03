@@ -69,7 +69,7 @@ export class MainDialog extends ComponentDialog {
         this.settings = settings,
         this.templateEngine = templateEngine,
         this.skillsConfig = skillsConfig,
-        this.telemetryClient = telemetryClient
+        this.telemetryClient = telemetryClient;
         
         this.userProfileState = userProfileState;
         this.previousResponseAccesor = previousResponseAccessor;
@@ -100,10 +100,10 @@ export class MainDialog extends ComponentDialog {
                 // The following line is a workaround until the method getQnAClient of QnAMakerDialog is fixed
                 // as per issue https://github.com/microsoft/botbuilder-js/issues/1885
                 new URL(value.host).hostname.split('.')[0],
-                this.templateEngine.generateActivityForLocale("UnsupportedMessage") as Activity,
+                this.templateEngine.generateActivityForLocale('UnsupportedMessage') as Activity,
                 0.3,
-                this.templateEngine.generateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").text,
-                this.templateEngine.generateActivityForLocale("QnaMakerNoMatchText").text)
+                this.templateEngine.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle').text,
+                this.templateEngine.generateActivityForLocale('QnaMakerNoMatchText').text);
             qnaDialog.id = key;
             this.addDialog(qnaDialog);
         });
@@ -126,7 +126,7 @@ export class MainDialog extends ComponentDialog {
             const intent: string = LuisRecognizer.topIntent(dispatchResult);
             if (intent === 'l_general') {
                 // Run LUIS recognition on General model and store result in turn state.
-                const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices.get("general");
+                const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices.get('general');
                 if (generalLuis !== undefined) {
                     const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
                     innerDc.context.turnState.set(StateProperties.GeneralResult, generalResult);
@@ -183,7 +183,7 @@ export class MainDialog extends ComponentDialog {
     }
 
     private async interruptDialog(innerDc: DialogContext): Promise<boolean> {
-        let interrupted: boolean = false;
+        let interrupted = false;
         const activity: Activity = innerDc.context.activity;
         const userProfile: IUserProfileState = await this.userProfileState.get(innerDc.context, { name: '' });
         const dialog: Dialog | undefined = innerDc.activeDialog !== undefined ? innerDc.findDialog(innerDc.activeDialog.id) : undefined;
@@ -205,7 +205,7 @@ export class MainDialog extends ComponentDialog {
                         await innerDc.beginDialog(this.switchSkillDialog.id, new SwitchSkillDialogOptions(prompt as Activity, identifiedSkill));
                         interrupted = true;
                     } else {
-                        throw new Error(`${intent} is not in the skills configuration`);
+                        throw new Error(`${ intent } is not in the skills configuration`);
                     }
                 }
             } 
@@ -215,7 +215,7 @@ export class MainDialog extends ComponentDialog {
                 const generalResult: RecognizerResult = innerDc.context.turnState.get(StateProperties.GeneralResult);
                 const intent: string = LuisRecognizer.topIntent(generalResult);
 
-                 if (generalResult.intents[intent].score > 0.5) {
+                if (generalResult.intents[intent].score > 0.5) {
                     switch(intent) {
                         case 'Cancel': { 
                             await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('CancelledMessage', userProfile));
@@ -269,7 +269,7 @@ export class MainDialog extends ComponentDialog {
                         }
 
                         case 'StartOver': {
-                            await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('StartOverMessage', userProfile))
+                            await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('StartOverMessage', userProfile));
 
                             // Cancel all dialogs on the stack.
                             await innerDc.cancelAllDialogs();
@@ -302,7 +302,7 @@ export class MainDialog extends ComponentDialog {
     private async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // Use the text provided in FinalStepAsync or the default if it is the first time.
         const promptOptions: PromptOptions = {
-            prompt: stepContext.options as Activity || this.templateEngine.generateActivityForLocale("FirstPromptMessage")
+            prompt: stepContext.options as Activity || this.templateEngine.generateActivityForLocale('FirstPromptMessage')
         };
 
         return await stepContext.prompt(TextPrompt.name, promptOptions);
@@ -321,7 +321,7 @@ export class MainDialog extends ComponentDialog {
                 const dispatchIntentSkill: string = dispatch;
                 const skillDialogArgs: BeginSkillDialogOptions = {
                     activity: activity as Activity
-                }
+                };
                 
                 // Start the skill dialog.
                 return await stepContext.beginDialog(dispatchIntentSkill, skillDialogArgs);      
@@ -347,7 +347,7 @@ export class MainDialog extends ComponentDialog {
 
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // Restart the main dialog with a different message the second time around
-        return await stepContext.replaceDialog(this.initialDialogId, this.templateEngine.generateActivityForLocale("CompletedMessage"));
+        return await stepContext.replaceDialog(this.initialDialogId, this.templateEngine.generateActivityForLocale('CompletedMessage'));
     }
 
     private async logUserOut(dc: DialogContext): Promise<void> {
@@ -377,7 +377,7 @@ export class MainDialog extends ComponentDialog {
 
             // Get only the activities sent in response to last user message
             botResponse = botResponse.concat(messageActivities)
-                        .filter(a => a.replyToId === turnContext.activity.id);
+                .filter(a => a.replyToId === turnContext.activity.id);
 
             await this.previousResponseAccesor.set(turnContext, botResponse);
         }

@@ -12,7 +12,7 @@ import { SkillsConfiguration } from 'botbuilder-solutions';
 export class AllowedCallersClaimsValidator {
     private readonly allowedSkills: string[];
 
-    public constructor (skillsConfig: SkillsConfiguration) {
+    public constructor(skillsConfig: SkillsConfiguration) {
         if (skillsConfig === undefined) {
             throw new Error ('The value of skillsConfig is undefined');
         }
