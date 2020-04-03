@@ -128,7 +128,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             // Validate if the user has the necessary tools to run the command
             await validateLibrary([libraries.BotFrameworkCLI], this.logger);
             if (this.logger.isError) {
-                throw new Error('You have not installed required the required tools to run this command');
+                throw new Error('You have not installed the required tools to run this command');
             }
             
             await this.updateModel();
