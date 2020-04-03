@@ -127,6 +127,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
+Error: There was a problem while getting the remote manifest:
 RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net nonexistentskill.azurewebsites.net:80`);
         });
 

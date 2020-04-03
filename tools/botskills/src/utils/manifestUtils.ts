@@ -31,14 +31,12 @@ export class ManifestUtils {
     }
 
     private async getRemoteManifest(manifestURI: string): Promise<string> {
-        try {
-            return get({
-                uri: manifestURI,
-                json: true
-            });
-        } catch (err) {
+        return get({
+            uri: manifestURI,
+            json: true
+        }).catch( err=> { 
             throw new Error(`There was a problem while getting the remote manifest:\n${ err }`);
-        }
+        });
     }
     
     private getLocalManifest(manifestFilepath: string): string {
