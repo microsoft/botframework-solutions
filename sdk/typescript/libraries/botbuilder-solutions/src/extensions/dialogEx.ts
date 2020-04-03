@@ -23,7 +23,11 @@ export namespace DialogEx {
                 const activeDialogContext: DialogContext =  getActiveDialogContext(dialogContext);
 
                 const remoteCancelText: string = "Skill was canceled through an EndOfConversation activity from the parent.";
-                await turnContext.sendTraceActivity(`${Dialog.name}.run()`, undefined, undefined, remoteCancelText);
+                await turnContext.sendActivity({
+                    type: ActivityTypes.Trace,
+                    name: `${Dialog.name}.run()`,
+                    label: remoteCancelText
+                })
 
                 // Send cancellation message to the top dialog in the stack to ensure all the parents are canceled in the right order.
                 await activeDialogContext.cancelAllDialogs(true);
@@ -38,14 +42,22 @@ export namespace DialogEx {
                 let result: DialogTurnResult = await dialogContext.continueDialog();
                 if (result.status === DialogTurnStatus.empty) {
                     const startMessageText: string = `Starting ${dialog.id}.`;
-                    await turnContext.sendTraceActivity(`${Dialog.name}.run()`, undefined, undefined, startMessageText);
+                    await turnContext.sendActivity({
+                        type: ActivityTypes.Trace,
+                        name: `${Dialog.name}.run()`,
+                        label: startMessageText
+                    })
                     result = await dialogContext.beginDialog(dialog.id);
                 }
 
                 // Send end of conversation if it is completed or cancelled.
                 if (result.status === DialogTurnStatus.complete || result.status === DialogTurnStatus.cancelled) {
                     const endMessageText: string = `Dialog ${dialog.id} has **completed**. Sending EndOfConversation.`;
-                    await turnContext.sendTraceActivity(`${Dialog.name}.run()`, undefined, endMessageText);
+                    await turnContext.sendActivity({
+                        type: ActivityTypes.Trace,
+                        name: `${Dialog.name}.run()`,
+                        label: endMessageText
+                    })
 
                     // Send End of conversation at the end.
                     const activity: Partial<Activity> = {
