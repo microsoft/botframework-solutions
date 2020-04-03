@@ -20,7 +20,7 @@ import {
     IModel,
     IEndpoint
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, manifestV1Validation, manifestV2Validation } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, libraries, manifestV1Validation, manifestV2Validation, validateLibrary } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 
 enum manifestVersion {
@@ -370,6 +370,12 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
     public async connectSkill(): Promise<boolean> {
         try {
+            // Validate if the user has the necessary tools to run the command
+            await validateLibrary([libraries.BotFrameworkCLI], this.logger);
+            if (this.logger.isError) {
+                throw new Error('You have not installed required the required tools to run this command');
+            }
+
             // Validate if no manifest path or URL was passed
             if (!this.configuration.localManifest && !this.configuration.remoteManifest) {
                 throw new Error(`Either the 'localManifest' or 'remoteManifest' argument should be passed.`);
