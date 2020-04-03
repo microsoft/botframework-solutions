@@ -54,10 +54,10 @@ export class SwitchSkillDialog extends ComponentDialog {
             // If user decided to switch, replace current skill dialog with new skill dialog.
             const skillDialogOptions: BeginSkillDialogOptions = {
                 activity: outerDc.context.activity
-            }
+            };
 
             // End the SwitchSkillDialog without triggering the ResumeDialog function of current SkillDialog
-            outerDc.stack.shift()
+            outerDc.stack.shift();
 
             // Start the skill dialog.
             return await outerDc.replaceDialog(skillId, skillDialogOptions);

@@ -3,9 +3,9 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { Dialog, DialogState, DialogSet, DialogContext, DialogTurnResult, DialogTurnStatus, DialogEvents } from "botbuilder-dialogs";
-import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity } from "botbuilder";
-import { ClaimsIdentity, SkillValidation } from "botframework-connector";
+import { Dialog, DialogState, DialogSet, DialogContext, DialogTurnResult, DialogTurnStatus, DialogEvents } from 'botbuilder-dialogs';
+import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity } from 'botbuilder';
+import { ClaimsIdentity, SkillValidation } from 'botframework-connector';
 
 export namespace DialogEx {
     export async function run(dialog: Dialog, turnContext: TurnContext, accessor: StatePropertyAccessor<DialogState>): Promise<void> {
@@ -22,12 +22,12 @@ export namespace DialogEx {
                 // Handle remote cancellation request from parent.
                 const activeDialogContext: DialogContext =  getActiveDialogContext(dialogContext);
 
-                const remoteCancelText: string = "Skill was canceled through an EndOfConversation activity from the parent.";
+                const remoteCancelText = 'Skill was canceled through an EndOfConversation activity from the parent.';
                 await turnContext.sendActivity({
                     type: ActivityTypes.Trace,
-                    name: `${Dialog.name}.run()`,
+                    name: `${ Dialog.name }.run()`,
                     label: remoteCancelText
-                })
+                });
 
                 // Send cancellation message to the top dialog in the stack to ensure all the parents are canceled in the right order.
                 await activeDialogContext.cancelAllDialogs(true);
@@ -41,29 +41,29 @@ export namespace DialogEx {
                 // Run the Dialog with the new message Activity and capture the results so we can send end of conversation if needed.
                 let result: DialogTurnResult = await dialogContext.continueDialog();
                 if (result.status === DialogTurnStatus.empty) {
-                    const startMessageText: string = `Starting ${dialog.id}.`;
+                    const startMessageText = `Starting ${ dialog.id }.`;
                     await turnContext.sendActivity({
                         type: ActivityTypes.Trace,
-                        name: `${Dialog.name}.run()`,
+                        name: `${ Dialog.name }.run()`,
                         label: startMessageText
-                    })
+                    });
                     result = await dialogContext.beginDialog(dialog.id);
                 }
 
                 // Send end of conversation if it is completed or cancelled.
                 if (result.status === DialogTurnStatus.complete || result.status === DialogTurnStatus.cancelled) {
-                    const endMessageText: string = `Dialog ${dialog.id} has **completed**. Sending EndOfConversation.`;
+                    const endMessageText = `Dialog ${ dialog.id } has **completed**. Sending EndOfConversation.`;
                     await turnContext.sendActivity({
                         type: ActivityTypes.Trace,
-                        name: `${Dialog.name}.run()`,
+                        name: `${ Dialog.name }.run()`,
                         label: endMessageText
-                    })
+                    });
 
                     // Send End of conversation at the end.
                     const activity: Partial<Activity> = {
                         type: ActivityTypes.EndOfConversation,
                         value: result.result
-                    }
+                    };
                     await turnContext.sendActivity(activity);
                 }
             }

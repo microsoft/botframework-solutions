@@ -19,19 +19,19 @@ export class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     }
 
     public async createSkillConversationIdWithOptions(options: SkillConversationIdFactoryOptions): Promise<string> {
-        if (options === undefined) { throw new Error('The value of options is undefined')};
+        if (options === undefined) { throw new Error('The value of options is undefined');};
 
         // Create the storage key based on the SkillConversationIdFactoryOptions
         const conversationReference: Partial<ConversationReference> = TurnContext.getConversationReference(options.activity);
         if (conversationReference === undefined) { throw new Error('The value of conversationReference is undefined'); }
         if (conversationReference.conversation === undefined) { throw new Error('The value of conversationReference.conversation is undefined'); }
-        const storageKey: string = `${conversationReference.conversation.id}-${options.botFrameworkSkill.id}-${conversationReference.channelId}-skillconvo`;
+        const storageKey = `${ conversationReference.conversation.id }-${ options.botFrameworkSkill.id }-${ conversationReference.channelId }-skillconvo`;
 
         // Create the SkillConversationReference
         const skillConversationReference: SkillConversationReference = {
             conversationReference: conversationReference as ConversationReference,
             oAuthScope: options.fromBotOAuthScope
-        }
+        };
 
         // Store the SkillConversationReference
         const skillConversationInfo: StoreItems = {} as StoreItems;

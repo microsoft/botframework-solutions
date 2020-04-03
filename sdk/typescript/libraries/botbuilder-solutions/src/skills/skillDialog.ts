@@ -40,11 +40,11 @@ export class SkillDialog extends Dialog {
         skillHostEndpoint: string
     ) {
         super(skill.id);
-        if (configuration === undefined) { throw new Error ('configuration has no value') }
-        if (configuration.microsoftAppId === undefined || configuration.microsoftAppId === "") { throw new Error ('The bot ID is not in configuration') }
-        if (skillClient === undefined) { throw new Error ('skillClient has no value') }
-        if (skill === undefined) { throw new Error ('skill has no value') }
-        if (conversationState === undefined) { throw new Error ('conversationState has no value') }
+        if (configuration === undefined) { throw new Error ('configuration has no value'); }
+        if (configuration.microsoftAppId === undefined || configuration.microsoftAppId === '') { throw new Error ('The bot ID is not in configuration'); }
+        if (skillClient === undefined) { throw new Error ('skillClient has no value'); }
+        if (skill === undefined) { throw new Error ('skill has no value'); }
+        if (conversationState === undefined) { throw new Error ('conversationState has no value'); }
         
         this.botId = configuration.microsoftAppId;
         this.skillHostEndpoint = skillHostEndpoint;
@@ -62,7 +62,7 @@ export class SkillDialog extends Dialog {
      */
     public async beginDialog(dc: DialogContext, options?: object): Promise<DialogTurnResult> {
         if (!(options instanceof SkillDialogArgs)) {
-            throw new Error("Unable to cast 'options' to SkillDialogArgs");
+            throw new Error('Unable to cast \'options\' to SkillDialogArgs');
         }
         
         let dialogArgs: SkillDialogArgs = options;
@@ -77,15 +77,15 @@ export class SkillDialog extends Dialog {
                 eventActivity.name = dialogArgs.name;
                 const reference: Partial<ConversationReference> = TurnContext.getConversationReference(dc.context.activity);
                 eventActivity = ActivityEx.applyConversationReference(eventActivity, reference, true);
-                skillActivity = <Activity>eventActivity;
+                skillActivity = eventActivity as Activity;
                 break;
             case ActivityTypes.Message:
                 let messageActivity = ActivityEx.createMessageActivity();
                 messageActivity.text = dc.context.activity.text;
-                skillActivity = <Activity>messageActivity;
+                skillActivity = messageActivity as Activity;
                 break;
             default:
-                throw new Error(`Invalid activity type in ${ dialogArgs.activityType } in ${ SkillDialogArgs.name }`)
+                throw new Error(`Invalid activity type in ${ dialogArgs.activityType } in ${ SkillDialogArgs.name }`);
         }
         
         this.applyParentActivityProperties(dc.context, skillActivity, dialogArgs);
@@ -110,15 +110,15 @@ export class SkillDialog extends Dialog {
         return await this.sendToSkill(dc, dc.context.activity);
     }
 
-    public async resumeDialog (dc: DialogContext, reason: DialogReason, result: Object): Promise<DialogTurnResult> {
+    public async resumeDialog(dc: DialogContext, reason: DialogReason, result: Object): Promise<DialogTurnResult> {
         return SkillDialog.EndOfTurn;
     }
 
     public async endDialog(turnContext: TurnContext, instance: DialogInstance, reason: DialogReason): Promise<void> {
         if (reason === DialogReason.cancelCalled || reason === DialogReason.replaceCalled) {
-            await turnContext.sendTraceActivity(`${ SkillDialog.name }.endDialog()`, undefined, undefined, `ActivityType: ${turnContext.activity.type}`);
+            await turnContext.sendTraceActivity(`${ SkillDialog.name }.endDialog()`, undefined, undefined, `ActivityType: ${ turnContext.activity.type }`);
 
-            const activity: Activity = <Activity>ActivityEx.createEndOfConversationActivity();
+            const activity: Activity = ActivityEx.createEndOfConversationActivity() as Activity;
             this.applyParentActivityProperties(turnContext, activity);
 
             await this.sendToSkill(undefined, activity);
@@ -127,17 +127,17 @@ export class SkillDialog extends Dialog {
         await super.endDialog(turnContext, instance, reason);
     }
 
-    private applyParentActivityProperties(turnContext: TurnContext, skillActivity: Activity, dialogArgs?: SkillDialogArgs) {
+    private applyParentActivityProperties(turnContext: TurnContext, skillActivity: Activity, dialogArgs?: SkillDialogArgs): void {
         // Apply conversation reference and common properties from incoming activity before sending.
         const reference: Partial<ConversationReference> = TurnContext.getConversationReference(turnContext.activity);
-        skillActivity = <Activity>ActivityEx.applyConversationReference(skillActivity, reference, true);
+        skillActivity = ActivityEx.applyConversationReference(skillActivity, reference, true) as Activity;
         skillActivity.channelData = turnContext.activity.channelData;
         // PENDING, the property 'Properties' does not exists in Activity
         //skillActivity.properties = turnContext.activity.properties;
 
         if (dialogArgs !== undefined)
         {
-            skillActivity.value = dialogArgs.value
+            skillActivity.value = dialogArgs.value;
         }
     }
 

@@ -3,9 +3,9 @@
  * Licensed under the MIT License.
  */
 
-import { PromptOptions } from "botbuilder-dialogs";
-import { Activity } from "botbuilder";
-import { IEnhancedBotFrameworkSkill } from "../enhancedBotFrameworkSkill";
+import { PromptOptions } from 'botbuilder-dialogs';
+import { Activity } from 'botbuilder';
+import { IEnhancedBotFrameworkSkill } from '../enhancedBotFrameworkSkill';
 
 export class SwitchSkillDialogOptions implements PromptOptions {
     public skill?: IEnhancedBotFrameworkSkill; 
