@@ -6,6 +6,7 @@
 import {
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
+    ChannelServiceRoutes,
     ConversationState,
     NullTelemetryClient,
     StatePropertyAccessor,
@@ -24,7 +25,7 @@ import {
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
     SkillsConfiguration, 
-    SkillConversationIdFactory} from 'botbuilder-solutions';
+    SkillConversationIdFactory } from 'botbuilder-solutions';
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
@@ -38,7 +39,7 @@ import { MainDialog } from './dialogs/mainDialog';
 import { OnboardingDialog } from './dialogs/onboardingDialog';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
-import { Activity, ResourceResponse } from 'botframework-schema';
+import { Activity } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState';
 import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
@@ -241,13 +242,5 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
 
 // Register the request handler.
 const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authenticationConfiguration);
-    
-server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
-    const activity: Activity = JSON.parse(JSON.stringify(req.body));
-    return await handler.handleReplyToActivity(req.headers.authorization || '', req.params.conversationId, req.params.activityId, activity);
-});
-
-server.post('/api/skills/v3/conversations/:conversationId/activities', async (req: restify.Request): Promise<ResourceResponse> => {
-    const activity: Activity = JSON.parse(JSON.stringify(req.body));
-    return await handler.handleSendToConversation(req.headers.authorization || '', req.params.conversationId, activity);
-});
+const skillEndpoint = new ChannelServiceRoutes(handler);
+skillEndpoint.register(server, '/api/skills');
