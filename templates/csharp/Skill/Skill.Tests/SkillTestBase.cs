@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Responses;
@@ -27,7 +29,7 @@ namespace $safeprojectname$
     {
         public IServiceCollection Services { get; set; }
 
-        public LocaleTemplateEngineManager TemplateEngine { get; set; }
+        public LocaleTemplateManager TemplateEngine { get; set; }
 
         [TestInitialize]
         public virtual void InitializeSkill()
@@ -62,31 +64,22 @@ namespace $safeprojectname$
                 return new BotStateSet(userState, conversationState);
             });
 
-            var localizedTemplates = new Dictionary<string, List<string>>();
-            var templateFiles = new List<string>() { "MainResponses", "SampleResponses" };
+            var localizedTemplates = new Dictionary<string, string>();
+            var templateFile = "AllResponses";
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
             foreach (var locale in supportedLocales)
             {
-                var localeTemplateFiles = new List<string>();
-                foreach (var template in templateFiles)
-                {
-                    // LG template for en-us does not include locale in file extension.
-                    if (locale.Equals("en-us"))
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
-                    }
-                    else
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
-                    }
-                }
+                // LG template for en-us does not include locale in file extension.
+                var localeTemplateFile = locale.Equals("en-us")
+                    ? Path.Combine(".", "Responses", $"{templateFile}.lg")
+                    : Path.Combine(".", "Responses", $"{templateFile}.{locale}.lg");
 
-                localizedTemplates.Add(locale, localeTemplateFiles);
+                localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            TemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
-            System.Threading.Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-us");
+            TemplateEngine = new LocaleTemplateManager(localizedTemplates, "en-us");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-us");
             Services.AddSingleton(TemplateEngine);
             Services.AddTransient<MainDialog>();
             Services.AddTransient<SampleDialog>();
@@ -132,7 +125,11 @@ namespace $safeprojectname$
 
         public string[] GetTemplates(string name, object data = null)
         {
-            return TemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate(name, data).ToArray();
+            var path = CultureInfo.CurrentCulture.Name.ToLower() == "en-us" ?
+                       Path.Combine(".", "Responses", $"AllResponses.lg") :
+                       Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
+
+            return Templates.ParseFile(path).ExpandTemplate(name, data).ToArray();
         }
     }
 }

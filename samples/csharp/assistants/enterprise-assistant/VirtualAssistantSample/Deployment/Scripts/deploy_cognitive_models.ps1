@@ -7,6 +7,7 @@ Param(
 	[string] $luisAccountName,
     [string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
+    [string] $luisEndpoint,
 	[string] $resourceGroup,
     [string] $qnaSubscriptionKey,
     [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
@@ -190,11 +191,10 @@ foreach ($language in $languageArr)
 			# Deploy LUIS model
 			$luisApp = DeployLUIS `
 				-name $name `
-				-lu_file $lu `
-				-region $luisAuthoringRegion `
-				-authoringKey $luisAuthoringKey `
-				-language $language `
-                -gov $gov `
+				-luFile $lu `
+				-endpoint $luisEndpoint `
+				-subscriptionKey $luisAuthoringKey `
+				-culture $language `
 				-log $logFile
 
 			Write-Host "> Setting LUIS subscription key ..." -NoNewline
@@ -239,8 +239,8 @@ foreach ($language in $languageArr)
 					id = $lu.BaseName
 					name = $luisApp.name
 					appid = $luisApp.id
+                    endpoint = $luisEndpoint
 					authoringkey = $luisAuthoringKey
-                    authoringRegion = $luisAuthoringRegion
 					subscriptionkey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion
@@ -265,7 +265,7 @@ foreach ($language in $languageArr)
                 # Deploy QnA Knowledgebase
 				$qnaKb = DeployKB `
                     -name $name `
-                    -lu_file $lu `
+                    -luFile $lu `
                     -qnaSubscriptionKey $qnaSubscriptionKey `
                     -qnaEndpoint $qnaEndpoint `
                     -language $langCode `

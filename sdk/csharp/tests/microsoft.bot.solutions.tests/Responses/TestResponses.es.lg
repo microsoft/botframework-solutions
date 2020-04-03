@@ -1,4 +1,4 @@
 ﻿# HaveNameMessage
-- Hola {Name}!
-- Hola {Name}!
-- Mucho gusto {Name}
+- Hola ${Name}!
+- Hola ${Name}!
+- Mucho gusto ${Name}

@@ -23,7 +23,7 @@ namespace $safeprojectname$.Dialogs
         private BotServices _services;
         private SampleDialog _sampleDialog;
         private SampleAction _sampleAction;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateEngine;
         private IStatePropertyAccessor<SkillState> _stateAccessor;
 
         public MainDialog(
@@ -32,7 +32,7 @@ namespace $safeprojectname$.Dialogs
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateManager>();
             TelemetryClient = telemetryClient;
 
             // Create conversation state properties
@@ -78,10 +78,10 @@ namespace $safeprojectname$.Dialogs
                 // Check for any interruptions
                 var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
 
-                if (interrupted)
+                if (interrupted != null)
                 {
-                    // If dialog was interrupted, return EndOfTurn
-                    return EndOfTurn;
+                    // If dialog was interrupted, return interrupted result
+                    return interrupted;
                 }
             }
 
@@ -109,10 +109,10 @@ namespace $safeprojectname$.Dialogs
                 // Check for any interruptions
                 var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
 
-                if (interrupted)
+                if (interrupted != null)
                 {
-                    // If dialog was interrupted, return EndOfTurn
-                    return EndOfTurn;
+                    // If dialog was interrupted, return interrupted result
+                    return interrupted;
                 }
             }
 
@@ -120,9 +120,9 @@ namespace $safeprojectname$.Dialogs
         }
 
         // Runs on every turn of the conversation to check if the conversation should be interrupted.
-        protected async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
         {
-            var interrupted = false;
+            DialogTurnResult interrupted = null;
             var activity = innerDc.Context.Activity;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
@@ -139,8 +139,15 @@ namespace $safeprojectname$.Dialogs
                             {
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage"));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
-                                interrupted = true;
+                                if (innerDc.Context.IsSkill())
+                                {
+                                    interrupted = await innerDc.EndDialogAsync(cancellationToken: cancellationToken);
+                                }
+                                else
+                                {
+                                    interrupted = await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
+                                }
+
                                 break;
                             }
 
@@ -148,7 +155,7 @@ namespace $safeprojectname$.Dialogs
                             {
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpCard"));
                                 await innerDc.RepromptDialogAsync();
-                                interrupted = true;
+                                interrupted = EndOfTurn;
                                 break;
                             }
 
@@ -159,8 +166,15 @@ namespace $safeprojectname$.Dialogs
 
                                 await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage"));
                                 await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
-                                interrupted = true;
+                                if (innerDc.Context.IsSkill())
+                                {
+                                    interrupted = await innerDc.EndDialogAsync(cancellationToken: cancellationToken);
+                                }
+                                else
+                                {
+                                    interrupted = await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
+                                }
+
                                 break;
                             }
                     }
@@ -255,7 +269,6 @@ namespace $safeprojectname$.Dialogs
                                 await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
                                 break;
                             }
-
                     }
                 }
                 else
@@ -273,15 +286,9 @@ namespace $safeprojectname$.Dialogs
         {
             if (stepContext.Context.IsSkill())
             {
-                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
-                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
-                {
-                    Code = EndOfConversationCodes.CompletedSuccessfully,
-                    Value = stepContext.Result,
-                };
+                var result = stepContext.Result;
 
-                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
-                return await stepContext.EndDialogAsync();
+                return await stepContext.EndDialogAsync(result, cancellationToken);
             }
             else
             {

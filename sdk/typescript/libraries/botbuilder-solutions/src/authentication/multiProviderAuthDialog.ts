@@ -19,6 +19,12 @@ import { AuthenticationResponses } from './authenticationResponses';
 import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
 
+enum DialogIds {
+    providerPrompt = 'ProviderPrompt',
+    firstStepPrompt = 'FirstStep',
+    authPrompt = 'AuthPrompt',
+}
+
 /**
  * Provides the ability to prompt for which Authentication provider the user wishes to use.
  */
@@ -35,7 +41,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     ) {
         super(MultiProviderAuthDialog.name);
 
-        if (authenticationConnections === undefined) { throw new Error('The value of authenticationConnections cannot be undefined') }
+        if (authenticationConnections === undefined) { throw new Error('The value of authenticationConnections cannot be undefined'); }
         this.authenticationConnections = authenticationConnections;
         this.appCredentials = appCredentials;
 
@@ -160,7 +166,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             return await stepContext.next(result);
         }
 
-        const adapter: BotFrameworkAdapter = <BotFrameworkAdapter> stepContext.context.adapter;
+        const adapter: BotFrameworkAdapter = stepContext.context.adapter as BotFrameworkAdapter;
         if (adapter !== undefined) {
             const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(
                 stepContext.context,
@@ -222,7 +228,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         if (typeof stepContext.result === 'string') {
             this.selectedAuthType = stepContext.result;
         } else {
-            const choice: FoundChoice = <FoundChoice> stepContext.result;
+            const choice: FoundChoice = stepContext.result as FoundChoice;
             if (choice !== undefined) {
                 this.selectedAuthType = choice.value;
             }
@@ -299,7 +305,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         const eventActivity: Activity = promptContext.context.activity;
         if (eventActivity !== undefined && eventActivity.name === TokenEvents.tokenResponseEventName) {
-            promptContext.recognized.value = <TokenResponse> eventActivity.value;
+            promptContext.recognized.value = eventActivity.value as TokenResponse;
 
             return Promise.resolve(true);
         }
@@ -310,10 +316,4 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
         return Promise.resolve(false);
     }
-}
-
-enum DialogIds {
-    providerPrompt = 'ProviderPrompt',
-    firstStepPrompt = 'FirstStep',
-    authPrompt = 'AuthPrompt',
 }

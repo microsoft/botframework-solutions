@@ -20,24 +20,17 @@ namespace SkillSample.Dialogs
     // Dialog providing activity routing and message/event processing.
     public class MainDialog : ComponentDialog
     {
-        private BotServices _services;
-        private SampleDialog _sampleDialog;
-        private SampleAction _sampleAction;
-        private LocaleTemplateEngineManager _templateEngine;
-        private IStatePropertyAccessor<SkillState> _stateAccessor;
+        private readonly BotServices _services;
+        private readonly SampleDialog _sampleDialog;
+        private readonly SampleAction _sampleAction;
+        private readonly LocaleTemplateManager _templateEngine;
 
         public MainDialog(
-            IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IServiceProvider serviceProvider)
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
-            TelemetryClient = telemetryClient;
-
-            // Create conversation state properties
-            var conversationState = serviceProvider.GetService<ConversationState>();
-            _stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+            _templateEngine = serviceProvider.GetService<LocaleTemplateManager>();
 
             var steps = new WaterfallStep[]
             {
@@ -78,10 +71,10 @@ namespace SkillSample.Dialogs
                 // Check for any interruptions
                 var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
 
-                if (interrupted)
+                if (interrupted != null)
                 {
-                    // If dialog was interrupted, return EndOfTurn
-                    return EndOfTurn;
+                    // If dialog was interrupted, return interrupted result
+                    return interrupted;
                 }
             }
 
@@ -109,10 +102,10 @@ namespace SkillSample.Dialogs
                 // Check for any interruptions
                 var interrupted = await InterruptDialogAsync(innerDc, cancellationToken);
 
-                if (interrupted)
+                if (interrupted != null)
                 {
-                    // If dialog was interrupted, return EndOfTurn
-                    return EndOfTurn;
+                    // If dialog was interrupted, return interrupted result
+                    return interrupted;
                 }
             }
 
@@ -120,9 +113,9 @@ namespace SkillSample.Dialogs
         }
 
         // Runs on every turn of the conversation to check if the conversation should be interrupted.
-        protected async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
         {
-            var interrupted = false;
+            DialogTurnResult interrupted = null;
             var activity = innerDc.Context.Activity;
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
@@ -137,30 +130,44 @@ namespace SkillSample.Dialogs
                     {
                         case GeneralLuis.Intent.Cancel:
                             {
-                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage"));
-                                await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
-                                interrupted = true;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("CancelledMessage"), cancellationToken);
+                                await innerDc.CancelAllDialogsAsync(cancellationToken);
+                                if (innerDc.Context.IsSkill())
+                                {
+                                    interrupted = await innerDc.EndDialogAsync(cancellationToken: cancellationToken);
+                                }
+                                else
+                                {
+                                    interrupted = await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
+                                }
+
                                 break;
                             }
 
                         case GeneralLuis.Intent.Help:
                             {
-                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpCard"));
-                                await innerDc.RepromptDialogAsync();
-                                interrupted = true;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("HelpCard"), cancellationToken);
+                                await innerDc.RepromptDialogAsync(cancellationToken);
+                                interrupted = EndOfTurn;
                                 break;
                             }
 
                         case GeneralLuis.Intent.Logout:
                             {
                                 // Log user out of all accounts.
-                                await LogUserOut(innerDc);
+                                await LogUserOutAsync(innerDc, cancellationToken);
 
-                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage"));
-                                await innerDc.CancelAllDialogsAsync();
-                                await innerDc.BeginDialogAsync(InitialDialogId);
-                                interrupted = true;
+                                await innerDc.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("LogoutMessage"), cancellationToken);
+                                await innerDc.CancelAllDialogsAsync(cancellationToken);
+                                if (innerDc.Context.IsSkill())
+                                {
+                                    interrupted = await innerDc.EndDialogAsync(cancellationToken: cancellationToken);
+                                }
+                                else
+                                {
+                                    interrupted = await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
+                                }
+
                                 break;
                             }
                     }
@@ -176,18 +183,16 @@ namespace SkillSample.Dialogs
             if (stepContext.Context.IsSkill())
             {
                 // If the bot is in skill mode, skip directly to route and do not prompt
-                return await stepContext.NextAsync();
+                return await stepContext.NextAsync(cancellationToken: cancellationToken);
             }
-            else
-            {
-                // If bot is in local mode, prompt with intro or continuation message
-                var promptOptions = new PromptOptions
-                {
-                    Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale("FirstPromptMessage")
-                };
 
-                return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
-            }
+            // If bot is in local mode, prompt with intro or continuation message
+            var promptOptions = new PromptOptions
+            {
+                Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale("FirstPromptMessage")
+            };
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
         }
 
         // Handles routing to additional dialogs logic.
@@ -212,15 +217,15 @@ namespace SkillSample.Dialogs
                     {
                         case SkillSampleLuis.Intent.Sample:
                             {
-                                return await stepContext.BeginDialogAsync(_sampleDialog.Id);
+                                return await stepContext.BeginDialogAsync(_sampleDialog.Id, cancellationToken: cancellationToken);
                             }
 
                         case SkillSampleLuis.Intent.None:
                         default:
                             {
                                 // intent was identified but not yet implemented
-                                await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage"));
-                                return await stepContext.NextAsync();
+                                await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage"), cancellationToken);
+                                return await stepContext.NextAsync(cancellationToken: cancellationToken);
                             }
                     }
                 }
@@ -247,24 +252,24 @@ namespace SkillSample.Dialogs
                                 }
 
                                 // Invoke the SampleAction dialog passing input data if available
-                                return await stepContext.BeginDialogAsync(nameof(SampleAction), actionData);
+                                return await stepContext.BeginDialogAsync(nameof(SampleAction), actionData, cancellationToken);
                             }
 
                         default:
                             {
-                                await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                                await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."), cancellationToken);
                                 break;
                             }
                     }
                 }
                 else
                 {
-                    await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"An event with no name was received but not processed."));
+                    await stepContext.Context.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: "An event with no name was received but not processed."), cancellationToken);
                 }
             }
 
             // If activity was unhandled, flow should continue to next step
-            return await stepContext.NextAsync();
+            return await stepContext.NextAsync(cancellationToken: cancellationToken);
         }
 
         // Handles conversation cleanup.
@@ -272,15 +277,9 @@ namespace SkillSample.Dialogs
         {
             if (stepContext.Context.IsSkill())
             {
-                // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
-                var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
-                {
-                    Code = EndOfConversationCodes.CompletedSuccessfully,
-                    Value = stepContext.Result,
-                };
+                var result = stepContext.Result;
 
-                await stepContext.Context.SendActivityAsync(endOfConversation, cancellationToken);
-                return await stepContext.EndDialogAsync();
+                return await stepContext.EndDialogAsync(result, cancellationToken);
             }
             else
             {
@@ -288,23 +287,22 @@ namespace SkillSample.Dialogs
             }
         }
 
-        private async Task LogUserOut(DialogContext dc)
+        private async Task LogUserOutAsync(DialogContext dc, CancellationToken cancellationToken)
         {
-            IUserTokenProvider tokenProvider;
             var supported = dc.Context.Adapter is IUserTokenProvider;
             if (supported)
             {
-                tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
+                var tokenProvider = (IUserTokenProvider)dc.Context.Adapter;
 
                 // Sign out user
-                var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id);
+                var tokens = await tokenProvider.GetTokenStatusAsync(dc.Context, dc.Context.Activity.From.Id, cancellationToken: cancellationToken);
                 foreach (var token in tokens)
                 {
-                    await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName);
+                    await tokenProvider.SignOutUserAsync(dc.Context, token.ConnectionName, cancellationToken: cancellationToken);
                 }
 
                 // Cancel all active dialogs
-                await dc.CancelAllDialogsAsync();
+                await dc.CancelAllDialogsAsync(cancellationToken);
             }
             else
             {

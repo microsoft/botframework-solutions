@@ -29,7 +29,7 @@ namespace $safeprojectname$.Dialogs
         {
             Settings = serviceProvider.GetService<BotSettings>();
             Services = serviceProvider.GetService<BotServices>();
-            TemplateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            TemplateEngine = serviceProvider.GetService<LocaleTemplateManager>();
             TelemetryClient = telemetryClient;
 
             // Initialize skill state
@@ -51,7 +51,7 @@ namespace $safeprojectname$.Dialogs
 
         protected IStatePropertyAccessor<SkillState> StateAccessor { get; set; }
 
-        protected LocaleTemplateEngineManager TemplateEngine { get; set; }
+        protected LocaleTemplateManager TemplateEngine { get; set; }
 
         protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken)
         {

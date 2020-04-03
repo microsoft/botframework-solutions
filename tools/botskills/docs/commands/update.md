@@ -23,7 +23,7 @@ botskills update [options]
 | --luisFolder [path]           | (OPTIONAL) Path to the folder containing your Skills' `.lu` files (defaults to `./deployment/resources/skills/en` inside your Virtual Assistant folder)                     |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)  |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your Virtual Assistant's root folder)                                                                |
-| --lgOutFolder [path]          | (OPTIONAL) Path for the LuisGen output (defaults to a 'service' folder inside your Virtual Assistant's folder)                                                              |
+| --lgOutFolder [path]          | (OPTIONAL) Path for the Luis Generate output (defaults to a 'service' folder inside your Virtual Assistant's folder)                                                              |
 | --skillsFile [path]           | (OPTIONAL) Path to your Virtual Assistant Skills configuration file (defaults to the `skills.json` inside your Virtual Assistant's folder)                                  |
 | --resourceGroup [name]        | (OPTIONAL) Name of your Virtual Assistant's resource group in Azure (defaults to your Virtual Assistant's bot name)                                                         |
 | --appSettingsFile [path]      | (OPTIONAL) Path to your appsettings file (defaults to `appsettings.json` inside your Virtual Assistant's folder)                                                            |

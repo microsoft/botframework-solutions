@@ -12,12 +12,15 @@ import {
     TextPrompt,
     WaterfallDialog,
     WaterfallStepContext } from 'botbuilder-dialogs';
-import { ResponseManager } from 'botbuilder-solutions';
 import { SkillState } from '../models/skillState';
-import { SampleResponses } from '../responses/sample/sampleResponses';
 import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { SkillDialogBase } from './skillDialogBase';
+import { LocaleTemplateEngineManager } from 'botbuilder-solutions';
+
+enum DialogIds {
+    namePrompt = 'namePrompt'
+}
 
 export class SampleDialog extends SkillDialogBase {
 
@@ -27,11 +30,11 @@ export class SampleDialog extends SkillDialogBase {
     public constructor(
         settings: Partial<IBotSettings>,
         services: BotServices,
-        responseManager: ResponseManager,
         stateAccessor: StatePropertyAccessor<SkillState>,
-        telemetryClient: BotTelemetryClient
+        telemetryClient: BotTelemetryClient,
+        templateEngine: LocaleTemplateEngineManager
     ) {
-        super(SampleDialog.name, settings, services, responseManager, stateAccessor, telemetryClient);
+        super(SampleDialog.name, settings, services, stateAccessor, telemetryClient, templateEngine);
 
         const sample: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             // NOTE: Uncomment these lines to include authentication steps to this dialog
@@ -50,12 +53,9 @@ export class SampleDialog extends SkillDialogBase {
 
     private async promptForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         // NOTE: Uncomment the following lines to access LUIS result for this turn.
-        // var state = await StateAccessor.GetAsync(stepContext.Context);
-        // var intent = state.LuisResult.TopIntent().intent;
-        // var entities = state.LuisResult.Entities;
+        //const luisResult = sc.context.turnState.get(StateProperties.skillLuisResult);
 
-        const prompt: Partial<Activity> = this.responseManager.getResponse(SampleResponses.namePrompt);
-
+        const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('NamePrompt');
         return sc.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
@@ -64,7 +64,7 @@ export class SampleDialog extends SkillDialogBase {
         tokens.set(this.nameKey, sc.result as string);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response: any = this.responseManager.getResponse(SampleResponses.haveNameMessage, tokens);
+        const response: any = this.templateEngine.generateActivityForLocale('HaveNameMessage', tokens);
         await sc.context.sendActivity(response);
 
         return sc.next();
@@ -73,8 +73,4 @@ export class SampleDialog extends SkillDialogBase {
     private async end(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         return sc.endDialog();
     }
-}
-
-enum DialogIds {
-    namePrompt = 'namePrompt'
 }

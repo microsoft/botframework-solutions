@@ -39,21 +39,21 @@ namespace Microsoft.Bot.Solutions.Skills.Dialogs
             var lastActivity = await _lastActivityAccessor.GetAsync(outerDc.Context, () => null).ConfigureAwait(false);
             outerDc.Context.Activity.Text = lastActivity.Text;
 
-            // Ends this dialog.
-            await outerDc.EndDialogAsync().ConfigureAwait(false);
-
             if ((bool)result)
             {
                 // If user decided to switch, replace current skill dialog with new skill dialog.
-                var skillDialogArgs = new SkillDialogArgs { SkillId = skillId };
+                var skillDialogOptions = new BeginSkillDialogOptions { Activity = outerDc.Context.Activity };
+
+                // End the SwitchSkillDialog without triggering the ResumeDialog function of current SkillDialog
+                outerDc.Stack.RemoveAt(0);
 
                 // Start the skill dialog.
-                return await outerDc.ReplaceDialogAsync(skillId, skillDialogArgs).ConfigureAwait(false);
+                return await outerDc.ReplaceDialogAsync(skillId, skillDialogOptions).ConfigureAwait(false);
             }
             else
             {
-                // Otherwise, continue the waiting skill dialog with the user's previous utterance.
-                return await outerDc.ContinueDialogAsync().ConfigureAwait(false);
+                // Ends this dialog.
+                return await outerDc.EndDialogAsync().ConfigureAwait(false);
             }
         }
 

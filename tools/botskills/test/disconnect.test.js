@@ -186,7 +186,7 @@ Error: Mocked function throws an Error`);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `The 'lgOutFolder' argument is absent or leads to a non-existing folder.
-Please make sure to provide a valid path to your LUISGen output folder using the '--lgOutFolder' argument.`);
+Please make sure to provide a valid path to your Luis Generate output folder using the '--lgOutFolder' argument.`);
         });
 
         it("when the lgLanguage argument is invalid", async function () {

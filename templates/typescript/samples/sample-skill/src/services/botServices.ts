@@ -74,10 +74,10 @@ export class BotServices {
         }
     }
 
-    public getCognitiveModel(): Partial<ICognitiveModelSet> {
-        // get current activity locale
+    public getCognitiveModels(): Partial<ICognitiveModelSet> {
+        // Get cognitive models for locale
         const locale: string = i18next.language;
-        let cognitiveModels: Partial<ICognitiveModelSet> | undefined  = this.cognitiveModelSets.get(locale);
+        let cognitiveModels: Partial<ICognitiveModelSet> | undefined = this.cognitiveModelSets.get(locale);
 
         if (cognitiveModels === undefined) {
             const keyFound: string | undefined = Array.from(this.cognitiveModelSets.keys())
@@ -92,7 +92,8 @@ export class BotServices {
             }
         }
         if (cognitiveModels === undefined) {
-            throw new Error('There is no value in cognitiveModels');
+            throw new Error(`There's no matching locale for '${ locale }' or its root language '${ locale.substring(0, 2) }'.
+            Please review your available locales in your cognitivemodels.json file.`);
         }
 
         return cognitiveModels;

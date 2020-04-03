@@ -36,7 +36,7 @@ program
     .option('--languages [languages]', '[OPTIONAL] Comma separated list of locales used for LUIS culture (defaults to \'en-us\')')
     .option('--dispatchFolder [path]', '[OPTIONAL] Path to the folder containing your assistant\'s \'.dispatch\' file (defaults to \'./deployment/resources/dispatch\' inside your assistant folder)')
     .option('--outFolder [path]', '[OPTIONAL] Path for any output file that may be generated (defaults to your assistant\'s root folder)')
-    .option('--lgOutFolder [path]', '[OPTIONAL] Path for the LuisGen output (defaults to a \'service\' folder inside your assistant\'s folder)')
+    .option('--lgOutFolder [path]', '[OPTIONAL] Path for the Luis Generate output (defaults to a \'service\' folder inside your assistant\'s folder)')
     .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--cognitiveModelsFile [path]', '[OPTIONAL] Path to your Cognitive Models file (defaults to \'cognitivemodels.json\' inside your assistant\'s folder)')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
@@ -49,7 +49,7 @@ if (process.argv.length < 3) {
     process.exit(0);
 }
 
-let skillId: string = '';
+let skillId = '';
 let outFolder: string;
 let noRefresh = false;
 let cognitiveModelsFile: string;

@@ -1,17 +1,14 @@
 {
   "id": "<%= skillNameCamelCase %>",
   "name": "<%= skillNameCamelCase %>",
-  "description": "This is the description of the <%= skillNameCamelCase %>",
-  "endpoint": "",
-  "responses": "",
-  "msaAppId": "",
+  "description": "",
   "iconUrl": "",
   "authenticationConnections": [],
   "actions": [
     {
       "id": "<%= skillNameCamelCase %>_Sample",
       "definition": {
-        "description": "Trigger <%= skillNameCamelCase %>",
+        "description": "<%= skillNameCamelCase %> action with no slots",
         "slots": [],
         "triggers": {
           "utteranceSources": [

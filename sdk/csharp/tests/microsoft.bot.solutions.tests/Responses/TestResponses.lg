@@ -1,4 +1,4 @@
 ﻿# HaveNameMessage
-- Hi {Name}!
-- Hi There {Name}!
-- Pleased to meet you {Name}
+- Hi ${Name}!
+- Hi There ${Name}!
+- Pleased to meet you ${Name}

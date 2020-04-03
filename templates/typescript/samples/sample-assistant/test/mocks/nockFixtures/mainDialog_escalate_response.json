@@ -16,7 +16,7 @@
                 "query": "I want to talk to a human",
                 "topScoringIntent": {
                     "intent": "Escalate",
-                    "score": 0.95761466
+                    "score": 0.9560676
                 },
                 "entities": [
                     {
@@ -34,13 +34,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "481",
+            "480",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "e463f713-0ad0-41ff-91f3-bb97f01ecea3",
+            "fd4c19c3-67e1-491c-89e6-4a34a9a9eaa0",
             "Request-Id",
-            "e463f713-0ad0-41ff-91f3-bb97f01ecea3",
+            "fd4c19c3-67e1-491c-89e6-4a34a9a9eaa0",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +50,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:37 GMT",
+            "Tue, 10 Mar 2020 12:20:03 GMT",
             "Connection",
             "close"
         ]
@@ -65,7 +65,7 @@
             "query": "I want to talk to a human",
             "topScoringIntent": {
                 "intent": "Escalate",
-                "score": 0.95761466
+                "score": 0.9560676
             },
             "entities": [
                 {
@@ -82,13 +82,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "276",
+            "275",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "18bb553c-d699-4aed-bfae-219801008cf2",
+            "4110d306-6f12-49f9-9872-04242098f780",
             "Request-Id",
-            "18bb553c-d699-4aed-bfae-219801008cf2",
+            "4110d306-6f12-49f9-9872-04242098f780",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -96,7 +98,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Fri, 24 Jan 2020 13:58:38 GMT",
+            "Tue, 10 Mar 2020 12:20:04 GMT",
             "Connection",
             "close"
         ]

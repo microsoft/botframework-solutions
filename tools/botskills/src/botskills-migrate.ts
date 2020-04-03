@@ -39,15 +39,15 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills migrate')
     .description('Migrate all the skills currently connected to your assistant to the new configuration settings (appSettings.json)')
-    .option('--sourceFile [path]', '[OPTIONAL] Path to your skills file from that you want to migrate (defaults to \'skills.json\' inside your assistant\'s folder)')
-    .option('--destFile [path]', '[OPTIONAL] Path to your app settings file to migrate the skills (defaults to \'appsettings.json\' inside your assistant\'s folder)')
+    .option('--sourceFile [path]', '[OPTIONAL] Path to your skills.json file, which contains the skills that will be migrated (defaults to \'skills.json\' inside your Virtual Assistant\'s folder)')
+    .option('--destFile [path]', '[OPTIONAL] Path to your appsettings file. The skills information will be migrated to this file (defaults to \'appsettings.json\' inside your Virtual Assistant\'s folder)')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command): undefined => undefined);
 
 const args: program.Command = program.parse(process.argv);
 
-let destFile: string = '';
-let sourceFile: string = '';
+let destFile = '';
+let sourceFile = '';
 
 logger.isVerbose = args.verbose;
 

@@ -94,6 +94,12 @@
         <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.yml">SkillSample.yml</ProjectItem>
       </Folder>
       <Folder Name="Responses" TargetFolderName="Responses">
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.lg">AllResponses.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.de-de.lg">AllResponses.de-de.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.es-es.lg">AllResponses.es-es.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.fr-fr.lg">AllResponses.fr-fr.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.it-it.lg">AllResponses.it-it.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.zh-cn.lg">AllResponses.zh-cn.lg</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.lg">MainResponses.lg</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.de-de.lg">MainResponses.de-de.lg</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.es-es.lg">MainResponses.es-es.lg</ProjectItem>

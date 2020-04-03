@@ -4,7 +4,7 @@
  */
 
 import { ISkillManifestV1 } from '../models/manifestV1/skillManifestV1';
-import { ISkillManifestV2, IEndpoint } from '../models/manifestV2/skillManifestV2';
+import { ISkillManifestV2 } from '../models/manifestV2/skillManifestV2';
 import { ILogger } from '../logger';
 
 /**

@@ -21,7 +21,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
 
-            var allIntroCardTitleVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -48,7 +48,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("de-de");
 
-            var allIntroCardTitleVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -75,7 +75,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("fr-fr");
 
-            var allIntroCardTitleVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -102,7 +102,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("it-it");
 
-            var allIntroCardTitleVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()
@@ -129,7 +129,7 @@ namespace VirtualAssistantSample.Tests
         {
             CultureInfo.CurrentUICulture = new CultureInfo("zh-cn");
 
-            var allIntroCardTitleVariations = TestLocaleLGFileManager.LGFilesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NewUserIntroCardTitle");
+            var allIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(new Activity()

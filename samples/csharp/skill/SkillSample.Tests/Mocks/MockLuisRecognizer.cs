@@ -19,7 +19,7 @@ namespace SkillSample.Tests.Mocks
         };
 
         public MockLuisRecognizer(IRecognizerConvert defaultIntent)
-            : base(new LuisRecognizerOptionsV2(mockApplication))
+            : base(new LuisRecognizerOptionsV3(mockApplication))
         {
             TestUtterances = new Dictionary<string, IRecognizerConvert>();
             DefaultIntent = defaultIntent;

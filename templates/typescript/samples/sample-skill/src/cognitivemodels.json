@@ -1,5 +1,4 @@
 {
-  "defaultLocale": "en-us",
   "cognitiveModels": {
     "en-us": {
       "languageModels": [
@@ -25,5 +24,6 @@
         }
       ]
     }
-  }
+  },
+  "defaultLocale": "en-us"
 }

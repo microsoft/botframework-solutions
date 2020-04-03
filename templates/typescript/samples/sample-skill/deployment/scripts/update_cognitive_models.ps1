@@ -40,7 +40,7 @@ foreach ($langCode in $languageMap.Keys) {
                     --subscriptionKey $luisApp.subscriptionKey `
                     --region $luisApp.authoringRegion | ConvertFrom-Json).culture
 
-            Write-Host "> Updating local $($luisApp.id).lu file" 
+            Write-Host "> Updating local $($luisApp.id).lu file"
             luis export version `
                 --appId "$($luisApp.appId)" `
                 --versionId "$($luisApp.version)" `

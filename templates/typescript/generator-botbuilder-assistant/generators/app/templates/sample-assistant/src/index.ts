@@ -43,7 +43,7 @@ import { IBotSettings } from './services/botSettings';
 import { skills as skillsRaw } from './skills.json';
 import { Activity } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import { IUserProfileState } from './models/userProfileState'
+import { IUserProfileState } from './models/userProfileState';
 
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
@@ -60,9 +60,9 @@ i18next.use(i18nextNodeFsBackend)
 
 const skills: ISkillManifest[] = skillsRaw;
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
-const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
-const cognitiveModelMap: Map<string, Object>  = new Map(Object.entries(cognitiveModelDictionary));
-cognitiveModelMap.forEach((value: Object, key: string): void => {
+const cognitiveModelDictionary: { [key: string]: Record<string, any> } = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap: Map<string, Record<string, any>>  = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value: Record<string, any>, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
@@ -121,22 +121,22 @@ const localizedTemplates: Map<string, string[]> = new Map<string, string[]>();
 const templateFiles: string[] = ['MainResponses','OnboardingResponses'];
 const supportedLocales: string[] =  ['en-us','de-de','es-es','fr-fr','it-it','zh-cn'];
     
-supportedLocales.forEach((locale: string) => {
+supportedLocales.forEach((locale: string): void => {
     const localeTemplateFiles: string[] = [];
-    templateFiles.forEach(template => {
+    templateFiles.forEach((template: string): void => {
         // LG template for default locale should not include locale in file extension.
         if (locale === (botSettings.defaultLocale || 'en-us')) {
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.lg`));
+            localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.lg`));
         }
         else {
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${template}.${locale}.lg`));
+            localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.${ locale }.lg`));
         }
     });
 
     localizedTemplates.set(locale, localeTemplateFiles);
 });
     
-const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
+const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
 const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
 const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);

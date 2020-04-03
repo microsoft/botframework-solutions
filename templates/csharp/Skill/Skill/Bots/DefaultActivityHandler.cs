@@ -20,7 +20,7 @@ namespace $safeprojectname$.Bots
         private readonly BotState _conversationState;
         private readonly BotState _userState;
         private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private LocaleTemplateEngineManager _templateEngine;
+        private LocaleTemplateManager _templateEngine;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -28,7 +28,7 @@ namespace $safeprojectname$.Bots
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateManager>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -52,6 +52,11 @@ namespace $safeprojectname$.Bots
         }
 
         protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+        }
+
+        protected override Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
         {
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }

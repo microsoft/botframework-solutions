@@ -4,51 +4,62 @@
  */
 
 import {
+    ActivityTypes,
     BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
-    ConversationState,
     ShowTypingMiddleware,
     TelemetryLoggerMiddleware,
     TranscriptLoggerMiddleware,
-    TranscriptStore } from 'botbuilder';
+    TranscriptStore, 
+    TurnContext } from 'botbuilder';
 import { AzureBlobTranscriptStore } from 'botbuilder-azure';
-import { WhitelistAuthenticationProvider } from 'botbuilder-skills';
 import {
     EventDebuggerMiddleware,
-    FeedbackMiddleware,
+    LocaleTemplateEngineManager,
     SetLocaleMiddleware } from 'botbuilder-solutions';
 import { IBotSettings } from '../services/botSettings';
+import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
-    private whitelistAuthenticationProvider: WhitelistAuthenticationProvider;
 
     public constructor(
         settings: Partial<IBotSettings>,
-        adapterSettings: Partial<BotFrameworkAdapterSettings>,
-        conversationState: ConversationState,
+        templateEngine: LocaleTemplateEngineManager,
+        telemetryMiddleware: TelemetryInitializerMiddleware,
         telemetryClient: BotTelemetryClient,
-        whitelistAuthenticationProvider: WhitelistAuthenticationProvider
-    ) {
+        adapterSettings: Partial<BotFrameworkAdapterSettings>) {
         super(adapterSettings);
 
+        this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+            await context.sendActivity({
+                type: ActivityTypes.Trace,
+                text: error.message || JSON.stringify(error)
+            });
+            await context.sendActivity({
+                type: ActivityTypes.Trace,
+                text: error.stack
+            });
+            await context.sendActivity(templateEngine.generateActivityForLocale('ErrorMessage'));
+            telemetryClient.trackException({ exception: error });
+        };
+        
         if (settings.blobStorage === undefined) {
             throw new Error('There is no blobStorage value in appsettings file');
         }
-
+        
         const transcriptStore: TranscriptStore = new AzureBlobTranscriptStore({
             containerName: settings.blobStorage.container,
             storageAccountOrConnectionString: settings.blobStorage.connectionString
         });
-
-        this.whitelistAuthenticationProvider = whitelistAuthenticationProvider;
+        
+        this.use(telemetryMiddleware);
 
         // Uncomment the following line for local development without Azure Storage
         // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
         this.use(new TranscriptLoggerMiddleware(transcriptStore));
         this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new ShowTypingMiddleware());
-        this.use(new FeedbackMiddleware(conversationState, telemetryClient));
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
     }

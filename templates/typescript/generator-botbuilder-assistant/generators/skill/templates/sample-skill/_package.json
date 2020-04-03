@@ -24,7 +24,6 @@
         "botbuilder-applicationinsights": "^4.7.0",
         "botbuilder-azure": "^4.7.0",
         "botbuilder-dialogs": "^4.7.0",
-        "botbuilder-skills": "^4.4.9",
         "botbuilder-solutions": "^4.4.9",
         "botframework-config": "^4.7.0",
         "botframework-connector": "^4.7.0",

@@ -56,12 +56,20 @@ namespace Microsoft.Bot.Solutions
         public List<OAuthConnection> OAuthConnections { get; set; }
 
         /// <summary>
+        /// Gets or sets the OAuthCredentials for OAuth.
+        /// </summary>
+        /// <value>
+        /// The OAuthCredentials for OAuth for the bot.
+        /// </value>
+        public OAuthCredentialsConfiguration OAuthCredentials { get; set; }
+
+        /// <summary>
         /// Gets or sets the CosmosDB Configuration for the bot.
         /// </summary>
         /// <value>
         /// The CosmosDB Configuration for the bot.
         /// </value>
-        public CosmosDbStorageOptions CosmosDb { get; set; }
+        public CosmosDbPartitionedStorageOptions CosmosDb { get; set; }
 
         /// <summary>
         /// Gets or sets the Application Insights configuration for the bot.
@@ -171,6 +179,25 @@ namespace Microsoft.Bot.Solutions
             // TODO #3139: Add required cognitive model class in Solutions SDK.
             public List<QnAMakerService> Knowledgebases { get; set; }
 #pragma warning restore CS0618 // Type or member is obsolete
+        }
+
+        public class OAuthCredentialsConfiguration
+        {
+            /// <summary>
+            /// Gets or sets the Microsoft App Id for OAuth.
+            /// </summary>
+            /// <value>
+            /// The microsoft app id for OAuth.
+            /// </value>
+            public string MicrosoftAppId { get; set; }
+
+            /// <summary>
+            /// Gets or sets the Microsoft App Password for OAuth.
+            /// </summary>
+            /// <value>
+            /// The microsoft app password for OAuth.
+            /// </value>
+            public string MicrosoftAppPassword { get; set; }
         }
     }
 }
