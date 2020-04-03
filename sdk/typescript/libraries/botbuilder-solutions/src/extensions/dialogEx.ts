@@ -23,7 +23,7 @@ export namespace DialogEx {
                 const activeDialogContext: DialogContext =  getActiveDialogContext(dialogContext);
 
                 const remoteCancelText = 'Skill was canceled through an EndOfConversation activity from the parent.';
-                await turnContext.sendActivity({
+                turnContext.sendActivity({
                     type: ActivityTypes.Trace,
                     name: `${ Dialog.name }.run()`,
                     label: remoteCancelText
@@ -42,7 +42,7 @@ export namespace DialogEx {
                 let result: DialogTurnResult = await dialogContext.continueDialog();
                 if (result.status === DialogTurnStatus.empty) {
                     const startMessageText = `Starting ${ dialog.id }.`;
-                    await turnContext.sendActivity({
+                    turnContext.sendActivity({
                         type: ActivityTypes.Trace,
                         name: `${ Dialog.name }.run()`,
                         label: startMessageText
@@ -53,7 +53,7 @@ export namespace DialogEx {
                 // Send end of conversation if it is completed or cancelled.
                 if (result.status === DialogTurnStatus.complete || result.status === DialogTurnStatus.cancelled) {
                     const endMessageText = `Dialog ${ dialog.id } has **completed**. Sending EndOfConversation.`;
-                    await turnContext.sendActivity({
+                    turnContext.sendActivity({
                         type: ActivityTypes.Trace,
                         name: `${ Dialog.name }.run()`,
                         label: endMessageText
