@@ -94,7 +94,7 @@ const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
     databaseId: botSettings.cosmosDb.databaseId,
     cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint
 };
-const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions)
+const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
@@ -111,7 +111,7 @@ supportedLocales.forEach((locale: string): void => {
         if (locale === 'en-us') {
             localeTemplateFiles.push(join(__dirname, '..', 'src', 'responses', `${ template }.lg`));
         } else {
-            localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${template}.${locale}.lg`));
+            localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${ template }.${ locale }.lg`));
         }
     });
 

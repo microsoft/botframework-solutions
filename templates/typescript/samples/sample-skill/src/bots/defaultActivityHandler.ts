@@ -26,7 +26,7 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
-        this.templateEngine = templateEngine
+        this.templateEngine = templateEngine;
         super.onMembersAdded(this.membersAdded.bind(this));
     }
 

@@ -21,7 +21,7 @@ import { IBotSettings } from '../services/botSettings';
 import { TurnContextEx } from '../extensions/turnContextEx';
 import { AzureBlobTranscriptStore, BlobStorageSettings } from 'botbuilder-azure';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import { Activity } from 'botframework-schema'
+import { Activity } from 'botframework-schema';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
 
@@ -53,7 +53,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
                     type: ActivityTypes.EndOfConversation,
                     code: 'SkillError',
                     text: error.message
-                }
+                };
                 await context.sendActivity(endOfconversation);
             }
         };
@@ -75,7 +75,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             throw new Error('There is no blobStorage value in appsettings file');
         }
 
-        this.use(telemetryMiddleware)
+        this.use(telemetryMiddleware);
         
         // Uncomment the following line for local development without Azure Storage
         // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));

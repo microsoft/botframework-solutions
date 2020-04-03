@@ -88,14 +88,14 @@ export class MainDialog extends ComponentDialog {
             const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
 
             // Run LUIS recognition on Skill model and store result in turn state.
-            const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("sampleSkill") : undefined;
+            const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('sampleSkill') : undefined;
             if (skillLuis !== undefined) {
                 const skillResult: RecognizerResult = await skillLuis.recognize(innerDc.context);
                 innerDc.context.turnState.set(this.stateProperties.skillLuisResult, skillResult);
             }
             
             // Run LUIS recognition on General model and store result in turn state.
-            const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("general") : undefined;
+            const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('general') : undefined;
             if (generalLuis !== undefined) {
                 const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
                 innerDc.context.turnState.set(this.stateProperties.generalLuisResult, generalResult);
@@ -120,14 +120,14 @@ export class MainDialog extends ComponentDialog {
             // Get cognitive models for the current locale.
             const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
             // Run LUIS recognition on Skill model and store result in turn state.
-            const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("sampleSkill") : undefined;
+            const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('sampleSkill') : undefined;
             if (skillLuis !== undefined) {
                 const skillResult: RecognizerResult = await skillLuis.recognize(innerDc.context);
                 innerDc.context.turnState.set(this.stateProperties.skillLuisResult, skillResult);
             }
 
             // Run LUIS recognition on General model and store result in turn state.
-            const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get("general") : undefined;
+            const generalLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('general') : undefined;
             if (generalLuis !== undefined) {
                 const generalResult: RecognizerResult = await generalLuis.recognize(innerDc.context);
                 innerDc.context.turnState.set(this.stateProperties.generalLuisResult, generalResult);
@@ -147,7 +147,7 @@ export class MainDialog extends ComponentDialog {
 
     // Runs on every turn of the conversation to check if the conversation should be interrupted.
     protected async interruptDialog(innerDc: DialogContext): Promise<Boolean> {
-        let interrupted: boolean = false;
+        let interrupted = false;
         const activity: Activity = innerDc.context.activity;
 
         if (activity.type === ActivityTypes.Message && activity.text !== undefined && activity.text.trim().length > 0) {
@@ -198,7 +198,7 @@ export class MainDialog extends ComponentDialog {
         } else {
             // If bot is in local mode, prompt with intro or continuation message
             const promptOptions: PromptOptions = {
-                prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateEngine.generateActivityForLocale("FirstPromptMessage")
+                prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateEngine.generateActivityForLocale('FirstPromptMessage')
             };
             return await stepContext.prompt(TextPrompt.name, promptOptions);
         }
@@ -234,14 +234,14 @@ export class MainDialog extends ComponentDialog {
                     }
                 }  
             } else {
-                throw new Error("The specified LUIS Model could not be found in your Bot Services configuration.");
+                throw new Error('The specified LUIS Model could not be found in your Bot Services configuration.');
             } 
         } else if (activity.type === ActivityTypes.Event) {
             // PENDING const ev = activity.AsEventActivity();
             const ev = activity;
             if (ev.name !== undefined && ev.name.trim().length > 0 ) {
                 switch (ev.name) {      
-                    case "SampleAction": {
+                    case 'SampleAction': {
                         let actionData: Object = {};
 
                         if (ev.value !== undefined && actionData !== undefined) {
@@ -255,7 +255,7 @@ export class MainDialog extends ComponentDialog {
                     default: {
                         await stepContext.context.sendActivity({ 
                             type: ActivityTypes.Trace, 
-                            text: `Unknown Event ${ev.name ? ev.name : 'undefined' } was received but not processed.`                       
+                            text: `Unknown Event ${ ev.name ? ev.name : 'undefined' } was received but not processed.`                       
                         });
                         break;
                     }  
@@ -287,7 +287,7 @@ export class MainDialog extends ComponentDialog {
             return await stepContext.endDialog();
         } else {
             
-            return await stepContext.replaceDialog(this.id, this.templateEngine.generateActivityForLocale("CompletedMessage"));
+            return await stepContext.replaceDialog(this.id, this.templateEngine.generateActivityForLocale('CompletedMessage'));
         }
     }
 
@@ -295,7 +295,7 @@ export class MainDialog extends ComponentDialog {
         const supported: BotFrameworkAdapter = dc.context.adapter as BotFrameworkAdapter;
         if (supported !== undefined){
             // Sign out user
-            const tokens: TokenStatus[] = await supported.getTokenStatus(dc.context, dc.context.activity.from.id)
+            const tokens: TokenStatus[] = await supported.getTokenStatus(dc.context, dc.context.activity.from.id);
             tokens.forEach(async (token: TokenStatus): Promise<void> => {
                 if (token.connectionName !== undefined) {
                     await supported.signOutUser(dc.context, token.connectionName);
@@ -306,7 +306,7 @@ export class MainDialog extends ComponentDialog {
             await dc.cancelAllDialogs();
 
         } else {
-            throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter')
+            throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter');
         }
     }
   

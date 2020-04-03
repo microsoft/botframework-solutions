@@ -15,17 +15,21 @@ import { SkillState } from '../models/skillState';
 import { IBotSettings } from '../services/botSettings';
 
 export class SampleActionInput {
-    public name: string = '';
+    public name = '';
 }
 
 export class SampleActionOutput {
-    public customerId: number = 0;
+    public customerId = 0;
+}
+
+enum DialogIds {
+    namePrompt = 'namePrompt'
 }
 
 export class SampleAction extends SkillDialogBase {
     private readonly nameKey: string = 'name';
 
-    public constructor (
+    public constructor(
         settings: Partial<IBotSettings>,
         services: BotServices,
         stateAccessor: StatePropertyAccessor<SkillState>,
@@ -55,13 +59,13 @@ export class SampleAction extends SkillDialogBase {
             return await stepContext.next(actionInput.name);
         }
 
-        const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale("NamePrompt");
+        const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('NamePrompt');
         return await stepContext.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
     private async greetUser(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const data: Object = { name: stepContext.result as string };
-        const response: Partial<Activity> = this.templateEngine.generateActivityForLocale("HaveNameMessage", data);
+        const response: Partial<Activity> = this.templateEngine.generateActivityForLocale('HaveNameMessage', data);
         await stepContext.context.sendActivity(response);
 
         // Pass the response which we'll return to the user onto the next step
@@ -76,8 +80,4 @@ export class SampleAction extends SkillDialogBase {
         // We end the dialog (generating an EndOfConversation event) which will serialize the result object in the Value field of the Activity
         return await stepContext.endDialog(actionResponse);
     }
-}
-
-enum DialogIds {
-    namePrompt = 'namePrompt'
 }
