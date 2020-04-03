@@ -17,7 +17,6 @@ namespace $safeprojectname$
     public class LocalizationTests : BotTestBase
     {
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_Spanish()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("es-es");
@@ -45,7 +44,6 @@ namespace $safeprojectname$
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_German()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("de-de");
@@ -73,7 +71,6 @@ namespace $safeprojectname$
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_French()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("fr-fr");
@@ -101,7 +98,6 @@ namespace $safeprojectname$
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_Italian()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("it-it");
@@ -129,7 +125,6 @@ namespace $safeprojectname$
         }
 
         [TestMethod]
-        [Ignore]
         public async Task Test_Localization_Chinese()
         {
             CultureInfo.CurrentUICulture = new CultureInfo("zh-cn");
