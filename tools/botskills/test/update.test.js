@@ -132,9 +132,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             await this.updater.updateSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
-Error: There was a problem while getting the remote manifest:
-RequestError: Error: getaddrinfo ENOTFOUND nonexistentskill.azurewebsites.net nonexistentskill.azurewebsites.net:80`);            
+            strictEqual(errorList[errorList.length - 1].includes('getaddrinfo ENOTFOUND'), true);
         });
     });
 
