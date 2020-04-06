@@ -50,14 +50,9 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         super.onMembersAdded(this.membersAdded.bind(this));
     }
 
-    public async turn(turnContext: TurnContext): Promise<void> {
-        super.onTurnActivity(turnContext);
-        const dc: DialogContext = await this.dialogs.createContext(turnContext);
-        if (dc.activeDialog !== undefined) {
-            await dc.continueDialog();
-        } else {
-            await dc.beginDialog(this.rootDialogId);
-        }
+    public async onTurnActivity(turnContext: TurnContext): Promise<void> {
+        await super.onTurnActivity(turnContext);
+
         // Save any state changes that might have occured during the turn.
         await this.conversationState.saveChanges(turnContext, false);
         await this.userState.saveChanges(turnContext, false);
