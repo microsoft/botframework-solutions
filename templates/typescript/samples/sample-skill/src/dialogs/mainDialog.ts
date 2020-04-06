@@ -275,16 +275,9 @@ export class MainDialog extends ComponentDialog {
     // Handles conversation cleanup.
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (TurnContextEx.isSkill(stepContext.context)) {
-            // EndOfConversation activity should be passed back to indicate that VA should resume control of the conversation
-            const endOfConversation: Partial <Activity> = ({
-                type: ActivityTypes.EndOfConversation,
-                code: EndOfConversationCodes.CompletedSuccessfully,
-                value: stepContext.result
-            });
+            const result = stepContext.result;
 
-            await stepContext.context.sendActivity(endOfConversation);
-
-            return await stepContext.endDialog();
+            return await stepContext.endDialog(result);
         } else {
             
             return await stepContext.replaceDialog(this.id, this.templateEngine.generateActivityForLocale('CompletedMessage'));
