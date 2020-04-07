@@ -440,7 +440,7 @@ Error: Mocked function throws an Error`);
             await this.connector.connectSkill();
             const warningList = this.logger.getWarning();
             
-			strictEqual(warningList[warningList.length - 1], `The skill 'Test Skill' is already registered.`);
+			strictEqual(warningList[warningList.length - 1], `The skill with ID 'testSkill' is already registered.`);
         });
 
         it("when the noRefresh argument is present", async function () {

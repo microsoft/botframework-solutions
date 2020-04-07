@@ -48,7 +48,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 if (!this.logger.isError){
 
                     if (destAssistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skill.id)) {
-                        this.logger.warning(`The skill '${ skill.name }' is already registered.`);
+                        this.logger.warning(`The skill with ID '${ skill.id }' is already registered.`);
                         return;
                     }
 

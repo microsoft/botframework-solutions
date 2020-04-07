@@ -317,7 +317,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             // Check if the skill is already connected to the assistant
             if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.id)) {
-                this.logger.warning(`The skill '${ skillManifest.name }' is already registered.`);
+                this.logger.warning(`The skill with ID '${ skillManifest.id }' is already registered.`);
                 return;
             }
 
