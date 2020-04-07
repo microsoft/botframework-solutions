@@ -1,7 +1,0 @@
-﻿[import](../AddToDo/AddToDoTexts.lg)
-[import](../DeleteToDo/DeleteToDoTexts.lg)
-[import](../Main/ToDoMainTexts.lg)
-[import](../MarkToDo/MarkToDoTexts.lg)
-[import](../Shared/ToDoSharedTexts.lg)
-[import](../ShowToDo/ShowToDoTexts.lg)
-[import](../Shared/Card.lg)
