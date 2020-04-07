@@ -8,9 +8,7 @@ import {
     BotFrameworkAdapter,
     BotTelemetryClient,
     RecognizerResult,
-    StatePropertyAccessor,
-    EndOfConversationCodes
-} from 'botbuilder';
+    StatePropertyAccessor } from 'botbuilder';
 import { LuisRecognizer } from 'botbuilder-ai';
 import {
     DialogContext,
@@ -19,12 +17,8 @@ import {
     WaterfallDialog,
     TextPrompt,
     PromptOptions,
-    ComponentDialog
-} from 'botbuilder-dialogs';
-import {
-    ICognitiveModelSet,
-    LocaleTemplateEngineManager 
-} from 'botbuilder-solutions';
+    ComponentDialog } from 'botbuilder-dialogs';
+import { ICognitiveModelSet, LocaleTemplateEngineManager } from 'botbuilder-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';
