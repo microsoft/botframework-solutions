@@ -57,6 +57,8 @@ export class ConnectSkill {
         let dispatchFile = '';
         let dispatchFolderPath = '';
         let dispatchFilePath = '';
+        let allowedIntents: string[] = [];
+        let useAllIntents: boolean = false;
 
         if (this.manifestVersion == manifestVersion.V1)
         {
@@ -77,6 +79,8 @@ export class ConnectSkill {
                 const currentLocaleApps = entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model];
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
+                allowedIntents = Object.keys(this.skillManifest?.dispatchModels.intents);
+                useAllIntents = allowedIntents.some(e => e === '*');
                 
                 if (currentApp.url.startsWith('file')) {
                     luFilePath = currentApp.url.split('file://')[1];
@@ -149,6 +153,14 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('--intentName', intentName);
         executionModelMap.set('--dataFolder', dispatchFolderPath);
         executionModelMap.set('--dispatch', dispatchFilePath);
+
+        if (useAllIntents && allowedIntents.length > 2) {
+            this.logger.warning("Found intent with name '*'. Adding all intents.");
+        }
+        
+        if (!useAllIntents && allowedIntents.length > 0) {
+            executionModelMap.set('--includedIntents', allowedIntents.join(','));
+        }
 
         return executionModelMap;
     }
@@ -311,7 +323,13 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             const luisApp: string = executionModelByCulture.get('luisApp') as string;
             // Update Dispatch file
-            const dispatchAddCommandArguments: string[] = ['--type', '--name', '--filePath', '--intentName', '--dataFolder', '--dispatch'];
+            const dispatchAddCommandArguments: string[] = ['--type', '--name', '--filePath', '--intentName', '--dataFolder', '--dispatch']; 
+            
+            // In cause of using specific intentsm we pass them to Dispatch
+            if (executionModelByCulture.has('--includedIntents')) {
+                dispatchAddCommandArguments.push('--includedIntents');
+            }
+
             dispatchAddCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
                 dispatchAddCommand.push(...[argument, argumentValue]);
