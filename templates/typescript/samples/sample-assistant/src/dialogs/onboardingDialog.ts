@@ -8,9 +8,8 @@ import {
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
-    WaterfallStepContext,
-    WaterfallStep
-} from 'botbuilder-dialogs';
+    WaterfallStepContext, 
+    WaterfallStep } from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
 import { LocaleTemplateEngineManager, DialogContextEx } from 'botbuilder-solutions';
@@ -55,7 +54,7 @@ export class OnboardingDialog extends ComponentDialog {
     }
 
     public async askForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        const state: IUserProfileState = await this.accessor.get(sc.context, { name: '' });
+        const state: IUserProfileState = await this.accessor.get(sc.context, { name: ''});
 
         if (state.name !== undefined && state.name.trim().length > 0) {
             return await sc.next(state.name);
@@ -103,13 +102,4 @@ export class OnboardingDialog extends ComponentDialog {
 
         return await sc.endDialog();
     }
-}
-
-enum DialogIds {
-    NamePrompt = 'namePrompt',
-}
-
-export enum StateProperties {
-    DispatchResult = "dispatchResult",
-    GeneralResult = "generalResult",
 }
