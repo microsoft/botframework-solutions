@@ -154,7 +154,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('--dataFolder', dispatchFolderPath);
         executionModelMap.set('--dispatch', dispatchFilePath);
 
-        if (useAllIntents && allowedIntents.length > 2) {
+        if (useAllIntents && allowedIntents.length > 1) {
             this.logger.warning("Found intent with name '*'. Adding all intents.");
         }
         
