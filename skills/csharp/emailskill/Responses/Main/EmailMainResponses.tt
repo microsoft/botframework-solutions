@@ -1,3 +1,0 @@
-﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ output extension=".cs" #>
-<#@ include file="..\Shared\ResponseIdCollection.t4"#>
