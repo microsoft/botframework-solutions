@@ -7,6 +7,12 @@
     InputHint = acceptingInput
 ]
 
+# FirstPromptMessage
+[Activity
+    Text = @{FirstPromptText()}
+    InputHint = acceptingInput
+]
+
 # HelpMessage
 [Activity
     Attachments = @{HelpCard()}
@@ -63,6 +69,12 @@
 
 # IntroText
 - ¡Bienvenido a tu skill personalizada!
+
+# FirstPromptText
+- ¿En qué puedo ayudarte hoy?
+- ¿Qué puedo hacer por usted?
+- ¿Hay algo que pueda hacer por ti?
+- ¿Cómo puedo ayudarle?
 
 # HelpTitle
 - Ayuda

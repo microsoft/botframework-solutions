@@ -28,6 +28,7 @@ const SkillState = require("../../lib/models/skillState").SkillState;
 const DefaultActivityHandler = require("../../lib/bots/defaultActivityHandler.js").DefaultActivityHandler;
 const MainDialog = require("../../lib/dialogs/mainDialog.js").MainDialog;
 const SampleDialog = require("../../lib/dialogs/sampleDialog.js").SampleDialog;
+const SampleAction = require("../../lib/dialogs/sampleAction.js").SampleAction;
 const BotServices = require("../../lib/services/botServices.js").BotServices;
 let appsettings;
 let cognitiveModels = new Map();
@@ -55,7 +56,6 @@ supportedLocales.forEach(locale => {
 });
 
 const templateEngine = new LocaleTemplateEngineManager(localizedTemplates, 'en-us');
-
 
 const getCognitiveModels = function(cognitiveModelsRaw) {
     const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
@@ -94,8 +94,8 @@ const configuration = async function() {
 };
 
 /**
-* Initializes the properties for the bot to be tested.
-*/
+ * Initializes the properties for the bot to be tested.
+ */
 const initialize = async function() {
     await configuration();
     const botSettings = {
@@ -121,20 +121,28 @@ const initialize = async function() {
         telemetryClient,
         templateEngine
     );
-    const mainDialog = new MainDialog(
+    const sampleAction = new SampleAction(
+        botSettings,
         botServices,
         stateAccessor,
-        sampleDialog,
         telemetryClient,
-        templateEngine,
+        templateEngine
     );
-    this.bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
+    const mainDialog = new MainDialog(
+        botServices,
+        telemetryClient,
+        stateAccessor,
+        sampleDialog,
+        sampleAction,
+        templateEngine
+    );
+    this.bot = new DefaultActivityHandler(conversationState, userState, templateEngine, mainDialog);
 };
 
 /**
-* Initializes the TestAdapter.
-* @returns {TestAdapter} with the Bot logic configured.
-*/
+ * Initializes the TestAdapter.
+ * @returns {TestAdapter} with the Bot logic configured.
+ */
 const getTestAdapter = function() {
     const bot = this.bot;
 
@@ -176,10 +184,6 @@ const getTelemetryClient = function(settings) {
 
 const getTemplates = function(name) {
     return templateEngine.templateEnginesPerLocale.get(i18next.language).expandTemplate(name);
-};
-
-const getTemplates = function(name) {
-  return templateEngine.templateEnginesPerLocale.get(i18next.language).expandTemplate(name);
 };
 
 module.exports = {

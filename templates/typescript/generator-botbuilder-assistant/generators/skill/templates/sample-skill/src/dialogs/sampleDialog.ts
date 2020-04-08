@@ -18,7 +18,12 @@ import { IBotSettings } from '../services/botSettings';
 import { SkillDialogBase } from './skillDialogBase';
 import { LocaleTemplateEngineManager } from 'botbuilder-solutions';
 
+enum DialogIds {
+    namePrompt = 'namePrompt'
+}
+
 export class SampleDialog extends SkillDialogBase {
+
     private readonly nameKey: string = 'name';
 
     // Constructor
@@ -46,26 +51,25 @@ export class SampleDialog extends SkillDialogBase {
         this.initialDialogId = SampleDialog.name;
     }
 
-    private async promptForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async promptForName(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // NOTE: Uncomment the following lines to access LUIS result for this turn.
         //const luisResult = sc.context.turnState.get(StateProperties.skillLuisResult);
-
         const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('NamePrompt');
-        return sc.prompt(DialogIds.namePrompt, { prompt: prompt });
+        return await stepContext.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
-    private async greetUser(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    private async greetUser(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const tokens: Map<string, string> = new Map<string, string>();
-        tokens.set(this.nameKey, sc.result as string);
+        tokens.set(this.nameKey, stepContext.result as string);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const response: any = this.templateEngine.generateActivityForLocale('HaveNameMessage', tokens);
-        await sc.context.sendActivity(response);
+        await stepContext.context.sendActivity(response);
 
-        return sc.next();
+        return await stepContext.next();
     }
 
-    private async end(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        return sc.endDialog();
+    private async end(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
+        return stepContext.endDialog();
     }
 }

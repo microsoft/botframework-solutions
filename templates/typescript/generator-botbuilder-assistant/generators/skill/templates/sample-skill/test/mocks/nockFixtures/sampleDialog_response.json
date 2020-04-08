@@ -23,9 +23,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "ee38eee6-9c24-4881-bf9f-5d0b67c5f589",
+            "aa0d5d59-a4a7-4278-a2e2-dfe73fdb9273",
             "Request-Id",
-            "ee38eee6-9c24-4881-bf9f-5d0b67c5f589",
+            "aa0d5d59-a4a7-4278-a2e2-dfe73fdb9273",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
@@ -35,7 +35,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 13:14:35 GMT",
+            "Tue, 07 Apr 2020 15:15:30 GMT",
             "Connection",
             "close"
         ]
@@ -50,7 +50,7 @@
             "query": "sample dialog",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.104476847
+                "score": 0.12141446
             },
             "entities": []
         },
@@ -60,13 +60,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "134",
+            "133",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "a8f85544-e1ba-4dad-9095-fbb2dcf58f94",
+            "489fec91-4487-49ea-adda-261431361f8c",
             "Request-Id",
-            "a8f85544-e1ba-4dad-9095-fbb2dcf58f94",
+            "489fec91-4487-49ea-adda-261431361f8c",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
@@ -76,7 +76,123 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 13:14:37 GMT",
+            "Tue, 07 Apr 2020 15:15:31 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://dc.services.visualstudio.com:443",
+        "method": "POST",
+        "path": "/v2/track",
+        "body": "1f8b080000000000000aed9d5d8fdd3819c7eff914e608696fc6911d27b1d31b346d818eb66fb4b354422b212776e684c949ce2639333bad2aed0217850b04574815880509092484b842bcec6a25f6abb465eff62b60e74cdbe9ccb4fb329d3db1cf23556d272f3e39c96ffe7efecf63c7f7267bba9d5ca01b934ecee695be257b6d7e246463d2cb9d6e72e1de4496819ccfab32977dd9d4c170fc84062420930dbb53e9bd32d741a9cce6e596bc6a162a689b4a6fd55d2febdc3439b97671737b7bf37b57b7aedfc057376f6edfb8f9c2e94df703dd76e603cca177ca5a35fbdd8fae6f236a3e26a08225ec78d3f6389d1d6b63b3cda765aff37ed1da03de4da26307dcac645f34edccecdc2f6b162e779775afdb5a5641a7769f5f46dd287d8106a1f9a2f737264af6d2de8e4c767afb606e9bffce9eaefbcb76fbc6b0f9f2e121c32d0a3726f3b699ebb62ff5701f8bb6996dd99bb4e8ccfe8d49ded4e6c06eb8abd7e54c2f6f5fd5e4b23afc7fabf3725e9acf184ecb9afee8b6c3532e0e5b6ddb871bde32ad53b3a9d7eff6e6c7e56345aa9455b363bf47fdecbc6bbaebe48ebea5735dee6935b96ff6966fea03b357c559182a95632299c0912c429c164ce13c298aacd011a7ca3e90c3b6ae9579db744dd1079bcf41318fbedc99f65df0b42ddb946dc93674b49d60b88df68acba1b5908404930813be4de30bf64f121092fe7072ff1bf780d6af8bd6233771a02fd692c689c8704c0a8d232515964c094c15177991ca4c09dbb0bdb6da72777b7840cfb6dcce9be13b9220e524e63c3e84f6e82f8439ac5c7efce4dedb936f95874fe36d7339f7ef9bfdef2c74d72fbfeccba8beba28bb5bba5b54fd7869e6411cc640f3d74a73abe7d5c166de977b657f3030474ee8eb9797e51714f73469bdadeb11cbaa055100882b95d5229419cb688e6359c438a2b9c0599a8498132ed23ccd898ec95159bdd4d44569aefca4aed29046348a92f51556118411039e415801c4f503f1f2a058036fd764592f7f34673ebd47c39ed03c59c1788ccda354b84808c52c27028761aab82211cfe851deee98c7d516b2aa6ef7b205e103dece85b78dc9ed5ecf0f252f6b16b542e61bb48ddd7a3a8c76fb98598c8045df3ae167f9a43b53d9a35cd6680b4d75354707cd02ed97fd14f58d9207df76b4b7e6402ce4429dc8855a5ac1b4432ed417cb9e32c885ae3a5a08c1b25b102108805ca82fc29a0609879400082b80b886209e6b6eaa6d16bd763337655984dcd4ca585cdaa0d369644596d298709cc729c5112b52ac6466030059c84c878a51e960661e88739bb853f4cf7cd86cde7fb76987ada08140e41802c317f3f36567f3f22db24cb99892b790425a681d52f2b686e468261e205d7dcae8cb66e2af37f5697978c119a3fc6cd9a263243b90240a49c0622078d5b140b4f649a201c40440742afb7ec5eadd29254d21424ec3b5d35243205432414bc7012268298008200288e701a257992680740590c2e0cf33d00a3ec9b194130cfe7c39cd3ca640b36f53455c0c02780c3551b7d24f30f8f3e53c8741c408f00cc20a20ae1f885f68f0a7a43a614651715ec419ce1256e050b014e73a1142e42149b8706fb81df0e6346f5e4d841f580477e35d27ecef4478207605c4422ef42cb486402be442bdb0eccc100229a855470b305f73001126c2432ed41f613506137806610510d70fc473cd4db93b111e585c2d8baf9a961c6719c9949458e599c4218b521c25598ab34cf244a754169a38989907e2dc26cebb89f040a49f81a15fc3932da4b0f2d13aa4e4737bfb2b4773f180e9ea9346239a0a7f82651712455110c38b71561e0fc0bcb901449849ec58067ea978a71436532e62ced6504fe320e4e0af404f47012204a7de81f8cc39dd7873036dbd31434b95acca7a67e9f95b3d486880aeea1ecd34daad9b7d5416686b18b5a71a24eb837e6a0fd755a791b953f6bc000807c2cf945cfd9c44e96bcaf71f461cc02430f9b9e5ce57942e5fd3bc10a01168fc6a6fa1e739896243988e0c755122182e6446b0715f82e45cea84440e963b81379779f36b2212b0e8b7ffb9626ccd8bf3905cac741a4a054cdd1c75a55369acf4098ce929844e4ea974ba59d98c034600cb558be739cee22cab6ab799cd748dee2ed0d6b4d53394e97ad1dfd5add2455997e6baccce6ed71cf84d27759511982637c248948592d14845380a4566fc7691e3dc06a6948554709a2421899d743ec09bbbbcf9e67c8045bf3b6f8d76655da3329f9abebb36fdb4b14085aedd34408cc04299a33640bac3e6bcb53340140c90bf1afadf3f5c343bcde595b6228efac5d2ea2073395d63be6879572ae9a8f1a1f0369b1106a291ca744a33f3b87262fe8a238ea9e40916226152676144a9a3c60778739637ef8c0fb0e873a7fdf115798064b5d3a077161acd175a493495b96ed1bc69515f3a6a8028b8f5511ba0a2c545bb7e0628042cfdd5d243fb6364f4930fd05ed3bde07fac01ea3ef98bee1c7540216494461891a6899411170a0ba5094ed238b1ff5338ca148d751417599abbe98080376779f3ce0185309bd7df5efbfb83ed293bfc63f3af9dedb3d72c3a475d0f803a6ed753f6b8ec4f90ecbdeb613068d85ffdbcb8343d7d836a5d55b6ee234f147eee9aab75d4f74450b21c611c5a2491cc9294e32ca102172a6598311e6211f3824891f38c48377d0ff0e62c6fdef91e60d1e37efb5253a3bce9a4313d5dd720592eac3696a8d9d971b5e803bc8edbfee81a2fd670d45b04f6c75f19bda3abbc996964fccff0ae987cd1f5cdcce9593e31c8e80843d02ca58a6ace719e45144b3b02296249665849084f432653ceddb43cc09bb3bc79677980459ffb6aef165ab5c4c2f0cc519b9ebb539cd7eb677a6258facf5f217df2d73f7efaf12f9ffcee4f8f1ffcfdc94ffefcbf873f7bfcb7878f1ffce3c92fdefbf4a71f7df6e1fb8e4a29bc65788481a8093a392724c55cd2145321139c8828c305d3e6892b99ea823a6a7c2031e42a6ffe191f60d1e3fefab73f7ff49ff71efdebc19307bf361df4a37ffefbd1471f3c7effe172a3edbe7ff59bcf3efcbda3bd36903b6a03b4a6551f0e03d8fd15540fab3eb064d5188351ae79a49989430bc9188e8b24c33a8f429c5016a62ac984a0a19be60778739637efcc0fb0e8735ffdbceaa39aa78bf3385aec0150c7ed754e40fcd596f0b5d549779d8f80971cc002be870b4e1e23d985e5269380325835d5bb78c0bdfede829800884e2ddf7bc5eadd298bf70a11f2c139ad9b960a020341404b4701228cee001001c435047135267ef958915ae659dd74f3865678a78c636e7eb988f46941282731e7f1d982d09751ed4234ca839841551e8280518008cede2d677fa9a98bd25cf9495da5218d681425eb2bac220819d87c105600710d41fc42e34a08e582c7698475628794c4269ce5566d13a999a6992409d50e8e6302de5ce6cdaf714c9645c82c79d7093fcb275d69f68f4d5e7771101350ba2ef9cfb7eaa9ac55a5159a2dc17434070ac4aedeacbfae114d8c11929ecda7bf0a6b17bc7a1a10581c6be56142085edd8208b5254882fa25ae3c847c00882b80b886209e6b62aa6d16bd763331052c7a298a478cbef992fda2364fb33a405b3649f5467ffc0d8b76125e6b894275b31fa0cd79637e39ccc5068e8a2b64043c12d7a23497efaeb8028b236431e4051552e45848a6b1b4c0e42461388f0a2685e2454163072b9e963778e192abbcf955f10416fd0e2c37ab0aa9a6d601baaa7b34d368d7c48ea82c9631a67d9b83ac0ffa6959ef205d75dad55012105e8772a80fd3410cad310ca077ab140ad3415e4233234104dabbf2f001462d5b10995d77e6ff951f7111432d0100",
+        "status": 200,
+        "response": {
+            "itemsReceived": 115,
+            "itemsAccepted": 115,
+            "errors": []
+        },
+        "rawHeaders": [
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "x-ms-session-id",
+            "04B4ED9D-1F06-485E-A968-2C76CD164563",
+            "Strict-Transport-Security",
+            "max-age=31536000",
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Name, Content-Type, Accept, Sdk-Context",
+            "Access-Control-Allow-Origin",
+            "*",
+            "Access-Control-Max-Age",
+            "3600",
+            "X-Content-Type-Options",
+            "nosniff",
+            "Date",
+            "Tue, 07 Apr 2020 15:15:31 GMT",
+            "Connection",
+            "close",
+            "Content-Length",
+            "53"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "sample dialog",
+        "status": 200,
+        "response": {
+            "query": "sample dialog",
+            "topScoringIntent": {
+                "intent": "Sample",
+                "score": 0.9705775
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "131",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "c820ee0a-3ccf-4a48-ba0e-3f8e5cc0e6e8",
+            "Request-Id",
+            "c820ee0a-3ccf-4a48-ba0e-3f8e5cc0e6e8",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Tue, 07 Apr 2020 15:15:31 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
+        "body": "sample dialog",
+        "status": 200,
+        "response": {
+            "query": "sample dialog",
+            "topScoringIntent": {
+                "intent": "Confirm",
+                "score": 0.12141446
+            },
+            "entities": []
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "133",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "4ddfd754-27d0-427a-a899-95a747de255c",
+            "Request-Id",
+            "4ddfd754-27d0-427a-a899-95a747de255c",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction|1",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Tue, 07 Apr 2020 15:15:32 GMT",
             "Connection",
             "close"
         ]
@@ -105,9 +221,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "382d0a35-4859-49f7-97c6-54f7b08f167c",
+            "2f4a7d98-351f-499d-9ca8-14a5296f4946",
             "Request-Id",
-            "382d0a35-4859-49f7-97c6-54f7b08f167c",
+            "2f4a7d98-351f-499d-9ca8-14a5296f4946",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
@@ -117,7 +233,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 13:14:37 GMT",
+            "Tue, 07 Apr 2020 15:15:32 GMT",
             "Connection",
             "close"
         ]
@@ -132,7 +248,7 @@
             "query": "custom",
             "topScoringIntent": {
                 "intent": "Confirm",
-                "score": 0.275855362
+                "score": 0.3304704
             },
             "entities": []
         },
@@ -142,13 +258,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "127",
+            "125",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "289a0ade-a86d-456a-a069-32793073243c",
+            "5f3c1b8a-23e4-4692-bf7a-82ec8827242e",
             "Request-Id",
-            "289a0ade-a86d-456a-a069-32793073243c",
+            "5f3c1b8a-23e4-4692-bf7a-82ec8827242e",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
@@ -158,7 +274,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 13:14:37 GMT",
+            "Tue, 07 Apr 2020 15:15:33 GMT",
             "Connection",
             "close"
         ]
