@@ -12,27 +12,24 @@ import { SkillsConfiguration } from 'botbuilder-solutions';
 export class AllowedCallersClaimsValidator {
     private readonly allowedSkills: string[];
 
-    public constructor (skillsConfig: SkillsConfiguration) {
-        if (skillsConfig === undefined){
+    public constructor(skillsConfig: SkillsConfiguration) {
+        if (skillsConfig === undefined) {
             throw new Error ('The value of skillsConfig is undefined');
         }
 
         // Load the appIds for the configured skills (we will only allow responses from skills we have configured).
-        // this.allowedSkills = (from skill in skillsConfig.Skills.Values select skill.AppId).ToList(); PENDING
+        this.allowedSkills = [...skillsConfig.skills.values()].map(skill => skill.appId);
     }
 
-    public async validateClaims(claims: Claim[])
-    {
-        if (SkillValidation.isSkillClaim(claims))
-        {
+    public async validateClaims(claims: Claim[]): Promise<void> {
+        if (SkillValidation.isSkillClaim(claims)) {
             // Check that the appId claim in the skill request is in the list of skills configured for this bot.
             const appId = JwtTokenValidation.getAppIdFromClaims(claims);
-            if (this.allowedSkills.includes(appId) !== undefined)
-            {
-                throw new Error(`Received a request from an application with an appID of \ ${appId} \. To enable requests from this skill, add the skill to your configuration file.`);
+            if (!this.allowedSkills.includes(appId)) {
+                throw new Error(`Received a request from a bot with an app ID of "${ appId }". To enable requests from this caller, add the app ID to your configuration file.`);
             }
         }
 
-        return Promise.resolve;
+        return Promise.resolve();
     }
 }
