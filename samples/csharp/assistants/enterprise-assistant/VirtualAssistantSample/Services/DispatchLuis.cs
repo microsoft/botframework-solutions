@@ -21,8 +21,7 @@ namespace Luis
         public enum Intent {
             l_General, 
             q_Chitchat, 
-            q_Faq, 
-            q_HRBenefits, 
+            q_Faq,
             None
         };
         [JsonProperty("intents")]

@@ -1,1 +1,0 @@
-﻿Please refer to the [phone skill document](https://github.com/microsoft/botframework-solutions/blob/master/docs/_docs/skills/samples/phone.md) for instructions on creating your skill.

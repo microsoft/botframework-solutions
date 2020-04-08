@@ -69,7 +69,7 @@ if (Test-Path $zipPath) {
 }
 
 # Perform dotnet publish step ahead of zipping up
-$publishFolder = $(Join-Path $projFolder 'bin\Release\netcoreapp3.0')
+$publishFolder = $(Join-Path $projFolder 'bin\release\netcoreapp3.0')
 dotnet publish -c release -o $publishFolder -v q > $logFile
 
 if($?) {
