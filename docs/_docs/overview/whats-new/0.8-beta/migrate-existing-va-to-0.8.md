@@ -81,17 +81,16 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
 ### TypeScript
 
-1. Open the `package.json` of your old Virtual Assistant using Visual Studio Code. Update all BotBuilder package references to 4.7.2. The easiest way to do this is by replacing your BotBuilder package references with the fragment below.
+1. Open the `package.json` of your old Virtual Assistant using Visual Studio Code. Update all BotBuilder package references to [4.8.0](https://www.npmjs.com/package/botbuilder/v/4.8.0). The easiest way to do this is by replacing your BotBuilder package references with the fragment below.
 
    ```JSON
-        "botbuilder": "4.7.2",
-        "botbuilder-ai": "4.7.2",
-        "botbuilder-applicationinsights": "4.7.2",
-        "botbuilder-azure": "4.7.2",
-        "botbuilder-dialogs": "4.7.2",
-        "botframework-config": "4.7.2",
-        "botframework-connector": "4.7.2",
-        "botbuilder-lg": "4.7.2-preview"
+        "botbuilder": "^4.8.0",
+        "botbuilder-ai": "^4.8.0",
+        "botbuilder-applicationinsights": "^4.8.0",
+        "botbuilder-azure": "^4.8.0",
+        "botbuilder-dialogs": "^4.8.0",
+        "botframework-config": "^4.8.0",
+        "botframework-connector": "^4.8.0"
     ```
 
 1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `botbuilder-solutions`.
@@ -237,25 +236,20 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
     ```typescript
     import {
-        ConversationState,
-        TurnContext, 
-        UserState,
-        TeamsActivityHandler,
-        StatePropertyAccessor, 
-        Activity,
-        ActivityTypes,
-        BotState } from 'botbuilder';
-    import {
-        Dialog,
-        DialogContext,
-        DialogSet,
-        DialogState } from 'botbuilder-dialogs';
+    ConversationState,
+    TurnContext, 
+    UserState,
+    TeamsActivityHandler,
+    StatePropertyAccessor, 
+    Activity,
+    ActivityTypes,
+    BotState } from 'botbuilder';
+    import { Dialog, DialogContext, DialogSet, DialogState } from 'botbuilder-dialogs';
     import { DialogEx, LocaleTemplateEngineManager, TokenEvents } from 'botbuilder-solutions';
 
     export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
         private readonly conversationState: BotState;
         private readonly userState: BotState;
-        private readonly solutionName: string = 'sampleAssistant';
         private readonly rootDialogId: string;
         private readonly dialogs: DialogSet;
         private readonly dialog: Dialog;
@@ -263,73 +257,70 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
         private userProfileState: StatePropertyAccessor;
         private templateEngine: LocaleTemplateEngineManager;
 
-    public constructor(
-        conversationState: ConversationState,
-        userState: UserState,
-        templateEngine: LocaleTemplateEngineManager,
-        dialog: T
-        ) {
-        super();
-        this.dialog = dialog;
-        this.rootDialogId = this.dialog.id;
-        this.conversationState = conversationState;
-        this.userState = userState;
-        this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
-        this.templateEngine = templateEngine;
-        this.dialogs = new DialogSet(this.dialogStateAccessor);
-        this.dialogs.add(this.dialog);
-        this.userProfileState = userState.createProperty<DialogState>('UserProfileState');
+        public constructor(
+            conversationState: ConversationState,
+            userState: UserState,
+            templateEngine: LocaleTemplateEngineManager,
+            dialog: T) {
+            super();
+            this.dialog = dialog;
+            this.rootDialogId = this.dialog.id;
+            this.conversationState = conversationState;
+            this.userState = userState;
+            this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
+            this.templateEngine = templateEngine;
+            this.dialogs = new DialogSet(this.dialogStateAccessor);
+            this.dialogs.add(this.dialog);
+            this.userProfileState = userState.createProperty<DialogState>('UserProfileState');
 
-        this.onTurn(this.turn.bind(this));
-        this.onMembersAdded(this.membersAdded.bind(this));
-    }
-
-    public async turn(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        super.onTurn(next);
-        const dc: DialogContext = await this.dialogs.createContext(turnContext);
-        if (dc.activeDialog !== undefined) {
-            await dc.continueDialog();
-        } else {
-            await dc.beginDialog(this.rootDialogId);
+            super.onMembersAdded(this.membersAdded.bind(this));
         }
-        // Save any state changes that might have occured during the turn.
-        await this.conversationState.saveChanges(turnContext, false);
-        await this.userState.saveChanges(turnContext, false);
-    }
 
-    protected async membersAdded(turnContext: TurnContext): Promise<void> {
-        let userProfile = await this.userProfileState.get(turnContext, () => { name: '' })
+        public async onTurnActivity(turnContext: TurnContext): Promise<void> {
+            await super.onTurnActivity(turnContext);
 
-        if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
-            // Send new user intro card.
-            await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('NewUserIntroCard', userProfile));
-        } else {
-            // Send returning user intro card.
-            await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('ReturningUserIntroCard', userProfile));
+            // Save any state changes that might have occured during the turn.
+            await this.conversationState.saveChanges(turnContext, false);
+            await this.userState.saveChanges(turnContext, false);
         }
-        
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
-    }
 
-    protected async onMessageActivity(turnContext: TurnContext): Promise<any> {
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
-    }
+        protected async membersAdded(turnContext: TurnContext): Promise<void> {
+            const userProfile = await this.userProfileState.get(turnContext, () => { name: ''; });
 
-    protected async onTeamsSigninVerifyState(turnContext: TurnContext): Promise<any> {
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
-    }
+            if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
+                // Send new user intro card.
+                await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('NewUserIntroCard', userProfile));
+            } else {
+                // Send returning user intro card.
+                await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('ReturningUserIntroCard', userProfile));
+            }
+            
+            await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
 
-    protected async onEventActivity(turnContext: TurnContext): Promise<any> {
-        const ev: Activity = turnContext.activity;
-        const value: string = ev.value?.toString();
+        protected async onMessageActivity(turnContext: TurnContext): Promise<void> {
+            return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
 
-        switch (ev.name) {
-            case TokenEvents.tokenResponseEventName:
-                // Forward the token response activity to the dialog waiting on the stack.
-                return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
-        
-            default:
-                return turnContext.sendActivity({ type: ActivityTypes.Trace, text: `Unknown Event '${ev.name ?? 'undefined' }' was received but not processed.` });
+        protected async onTeamsSigninVerifyState(turnContext: TurnContext): Promise<void> {
+            return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
+
+        protected async onEventActivity(turnContext: TurnContext): Promise<void> {
+            const ev: Activity = turnContext.activity;
+
+            switch (ev.name) {
+                case TokenEvents.tokenResponseEventName:
+                    await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+                    break;
+                default:
+                    await turnContext.sendActivity({ type: ActivityTypes.Trace, text: `Unknown Event '${ ev.name ?? 'undefined' }' was received but not processed.` });
+                    break;
+            }
+        }
+
+        protected async onEndOfConversationActivity(turnContext: TurnContext): Promise<void>{
+            await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
         }
     }
     ```
@@ -397,7 +388,12 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
 ### TypeScript
 
-1. Within the `index.ts` file, you have to import the `SimpleCredentialProvider` and `AuthenticationConfiguration` classes from `botframework-connector`. Also, the `ResourceResponse` class from `botframework-schema`.
+1. Within the `index.ts` file, you have to import the following classes/interfaces:
+ - `SimpleCredentialProvider` and `AuthenticationConfiguration` classes from `botframework-connector`
+ - `ChannelServiceRoutes`, `SkillHandler` classes from `botbuilder`
+ - `SkillConversationIdFactory` from `botbuilder-solutions`
+
+
 Besides, add the following lines into the plugins list in the `index` file.
 
     ```typescript
@@ -408,19 +404,10 @@ Besides, add the following lines into the plugins list in the `index` file.
     Finally, add the endpoints to handle the response messages from a Skill.
 
     ```typescript
-    let handler: ChannelServiceHandler = new ChannelServiceHandler(
-        new SimpleCredentialProvider(botSettings.microsoftAppId || "",
-        botSettings.microsoftAppPassword || ""), new AuthenticationConfiguration());
-
-        server.post('/api/skills/v3/conversations/:conversationId/activities/:activityId', async (req: restify.Request): Promise<ResourceResponse> => {
-        const activity: Activity = JSON.parse(req.body);
-        return await handler.handleReplyToActivity(req.authorization?.credentials || "", req.params.conversationId, req.params.activityId, activity);
-    });
-
-    server.post('/api/skills/v3/conversations/:conversationId/activities', async (req: restify.Request): Promise<ResourceResponse> => {
-        const activity: Activity = JSON.parse(req.body);
-        return await handler.handleSendToConversation(req.authorization?.credentials || "", req.params.conversationId, activity);
-    });
+    const skillConversationIdFactory: SkillConversationIdFactory = new SkillConversationIdFactory(storage);
+    const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authenticationConfiguration);
+    const skillEndpoint = new ChannelServiceRoutes(handler);
+    skillEndpoint.register(server, '/api/skills');
     ```
 
 ## Skill Validation
@@ -488,19 +475,19 @@ Besides, add the following lines into the plugins list in the `index` file.
     /**
     * Sample claims validator that loads an allowed list from configuration if present and checks that responses are coming from configured skills.
     */
-    export class allowedCallersClaimsValidator {
+    export class AllowedCallersClaimsValidator {
         private readonly allowedSkills: string[];
 
-        public constructor (skillsConfig: SkillsConfiguration) {
+        public constructor(skillsConfig: SkillsConfiguration) {
             if (skillsConfig === undefined) {
-                throw new Error ('the value of skillsConfig is undefined');
+                throw new Error ('The value of skillsConfig is undefined');
             }
 
             // Load the appIds for the configured skills (we will only allow responses from skills we have configured).
             this.allowedSkills = [...skillsConfig.skills.values()].map(skill => skill.appId);
         }
 
-        public async validateClaims(claims: Claim[]) {
+        public async validateClaims(claims: Claim[]): Promise<void> {
             if (SkillValidation.isSkillClaim(claims)) {
                 // Check that the appId claim in the skill request is in the list of skills configured for this bot.
                 const appId = JwtTokenValidation.getAppIdFromClaims(claims);
@@ -509,7 +496,7 @@ Besides, add the following lines into the plugins list in the `index` file.
                 }
             }
 
-            return Promise.resolve;
+            return Promise.resolve();
         }
     }
     ```
@@ -599,16 +586,20 @@ Besides, add the following lines into the plugins list in the `index` file.
         "SkillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
         "BotFrameworkSkills": [
             {
-                "Id": "{Skill1}",
-                "Name": "{Skill1}",
-                "AppId": "{Skill1MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill1}",
+                "name": "{Skill1}",
+                "description": "{Skill1Description}",
+                "appId": "{Skill1MsAppId}",
+                "skillEndpoint": "https://{Skill1Endpoint}/api/messages",
+                "description": "{Skill1Description}"
             },
             {
-                "Id": "{Skill2}",
-                "Name": "{Skill2}",
-                "AppId": "{Skill2MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill2}",
+                "name": "{Skill2}",
+                "description": "{Skill2Description}",
+                "appId": "{Skill2MsAppId}",
+                "skillEndpoint": "https://{Skill1Endpoint}/api/messages",
+                "description": "{Skill2Description}"
             }]
     }
     ```
@@ -619,61 +610,87 @@ Please also refer to the documentation to [Migrate existing skills to the new Sk
 
 1. In index.ts, add these changes:
 
-    ```typescript	
-    // Create the skills configuration class
-    const skillConfiguration: SkillsConfiguration = new SkillsConfiguration(botSettings.skills, botSettings.skillHostEndpoint);
-
-    // Create AuthConfiguration to enable custom claim validation.
-    const AuthConfig: AuthenticationConfiguration = new AuthenticationConfiguration(
-        undefined,
-        //new allowedCallersClaimsValidator(skillConfiguration); PENDING: Missing ClaimsValidator interface in BotBuilder-JS
-    );
-    ```
-
     Change the `dialogBot` registration to make use of the defaultActivityHandler
 
     ```typescript
         let bot: DefaultActivityHandler<Dialog>;
-        bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
+        bot = new DefaultActivityHandler(conversationState, userState, localeTemplateEngine, mainDialog);
     ```
 
 1. Register the Skill infrastructure and a SkillDialog for each configured skill.
 
     ```typescript
-         let skillDialogs: EnhancedBotFrameworkSkill[] = [];
-    if (botSettings.skills !== undefined && botSettings.skills.length > 0) {
-        if (botSettings.skillHostEndpoint === undefined) {
-            throw new Error("$'skillHostEndpoint' is not in the configuration");
-        }
+    // Register AuthConfiguration to enable custom claim validation.
+    let authenticationConfiguration: AuthenticationConfiguration = new AuthenticationConfiguration();
+    // Create the skills configuration class
+    let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], '') ;
 
-        skillDialogs = botSettings.skills.map((skill: EnhancedBotFrameworkSkill): EnhancedBotFrameworkSkill => {
-            new SkillDialog(skill, credentials, telemetryClient, skillContextAccessor, authDialog);
-        });
-    }
-    ```
-1. Initialize SwitchSkillDialog which will be used on the MainDialog class initialization.
+    // Register the skills conversation ID factory, the client.
+    const skillHttpClient: SkillHttpClient = new SkillHttpClient(credentialProvider, skillConversationIdFactory);
 
-    ```typescript
+    // Configure bot
+    let bot: DefaultActivityHandler<Dialog>;
+    try {
+        // Configure bot services
+        const botServices: BotServices = new BotServices(botSettings, telemetryClient);
+
+        const userProfileStateAccesor: StatePropertyAccessor<IUserProfileState> = userState.createProperty<IUserProfileState>('IUserProfileState');
+        const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateEngine, telemetryClient);
         const switchSkillDialog: SwitchSkillDialog = new SwitchSkillDialog(conversationState);
+        const previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]> = userState.createProperty<Partial<Activity>[]>('Activity');
+
+        let skillDialogs: SkillDialog[] = [];
+        // Register the SkillDialogs (remote skills).
+        const skills: IEnhancedBotFrameworkSkill[] = appsettings.botFrameworkSkills;
+        if (skills !== undefined && skills.length > 0) {
+            const hostEndpoint: string = appsettings.skillHostEndpoint;
+            if (hostEndpoint === undefined || hostEndpoint.trim().length === 0) {
+                throw new Error('\'skillHostEndpoint\' is not in the configuration');
+            } else {
+                skillsConfiguration = new SkillsConfiguration(skills, hostEndpoint);
+                const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillsConfiguration);
+        
+                // Create AuthConfiguration to enable custom claim validation.
+                authenticationConfiguration = new AuthenticationConfiguration(
+                    undefined,
+                    (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+                );
+
+                skillDialogs = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
+                    const skillDialogOptions: SkillDialogOptions = {
+                        botId: appsettings.microsoftAppId,
+                        conversationIdFactory: skillConversationIdFactory,
+                        skillClient: skillHttpClient,
+                        skillHostEndpoint: hostEndpoint,
+                        skill: skill,
+                        conversationState: conversationState
+                    };
+                    return new SkillDialog(skillDialogOptions, skill.id);
+                });
+            }
+        }
+    }
     ```
 
 1. If you have already added skills to your assistant these are stored in `skills.json`. The new Skills configuration section has been simplified and is stored as part of `appSettings.json`. Create a new section as shown below in appSettings.json and update with the configured skills.
 
     ```json
     {
-        "SkillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
-        "BotFrameworkSkills": [
+        "skillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
+        "botFrameworkSkills": [
             {
-                "Id": "{Skill1}",
-                "Name": "{Skill1}",
-                "AppId": "{Skill1MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill1}",
+                "name": "{Skill1}",
+                "appId": "{Skill1MsAppId}",
+                "skillEndpoint": "https://{Skill1Endpoint}/api/messages",
+                "description": "{Skill1Description}"
             },
             {
-                "Id": "{Skill2}",
-                "Name": "{Skill2}",
-                "AppId": "{Skill2MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill2}",
+                "name": "{Skill2}",
+                "appId": "{Skill2MsAppId}",
+                "skillEndpoint": "https://{Skill2Endpoint}/api/messages",
+                "description": "{Skill2Description}"
             }]
     }
     ```
