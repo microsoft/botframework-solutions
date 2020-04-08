@@ -396,19 +396,17 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
 Besides, add the following lines into the plugins list in the `index` file.
 
-    ```typescript
+```typescript
     server.use(restify.plugins.queryParser());
     server.use(restify.plugins.authorizationParser());
-    ```
-
-    Finally, add the endpoints to handle the response messages from a Skill.
-
-    ```typescript
+```
+Finally, add the endpoints to handle the response messages from a Skill.
+```typescript
     const skillConversationIdFactory: SkillConversationIdFactory = new SkillConversationIdFactory(storage);
     const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authenticationConfiguration);
     const skillEndpoint = new ChannelServiceRoutes(handler);
     skillEndpoint.register(server, '/api/skills');
-    ```
+```
 
 ## Skill Validation
 
