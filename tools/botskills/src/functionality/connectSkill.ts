@@ -410,12 +410,12 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             switch (this.skillManifestValidated) {
                 case manifestVersion.V1: {
                     this.manifestVersion = manifestVersion.V1;
-                    this.connectSkillManifestV1(cognitiveModelsFile, skillManifest as ISkillManifestV1);
+                    await this.connectSkillManifestV1(cognitiveModelsFile, skillManifest as ISkillManifestV1);
                     break;
                 }
                 case manifestVersion.V2: {
                     this.manifestVersion = manifestVersion.V2;
-                    this.connectSkillManifestV2(cognitiveModelsFile, skillManifest as ISkillManifestV2);
+                    await this.connectSkillManifestV2(cognitiveModelsFile, skillManifest as ISkillManifestV2);
                     break;
                 }
             }

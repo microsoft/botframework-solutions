@@ -1,0 +1,201 @@
+{
+    "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
+    "$id": "testSkill",
+    "name": "Test Skill",
+    "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+    "publisherName": "Microsoft",
+    "version": "1.0",
+    "iconUrl": "https://myskill.contoso.com/calendarSkill.png",
+    "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+    "license": "",
+    "privacyUrl": "https://myskill.contoso.com/privacy.html",
+    "tags": [
+        "calendar", "meetings", "events", "outlook"
+    ],
+    "endpoints": [
+        {
+            "name": "americas",
+            "protocol": "BotFrameworkV3",
+            "description": "Production endpoint for SkillBot in the Americas",
+            "endpointUrl": "http://localhost:3980/api/skill/Americas",
+            "msAppId": "11111111-0000-0000-0000-000000000000"
+        }
+    ],
+    "dispatchModels": {
+        "languages": {
+            "en-us": [
+                {
+                    "id": "kobukModel-en",
+                    "name": "SkillBot LU (English)",
+                    "contentType": "application/lu",
+                    "url": "file://testSkill.lu",
+                    "description": "English language model for the skill"
+                }
+			],
+			"es-es": [
+				{
+                    "id": "generalModel-es",
+                    "name": "SkillBot LU (Spanish)",
+                    "contentType": "application/lu",
+                    "url": "file://testSkill.lu",
+                    "description": "Spanish language model for the skill"
+                }
+			]
+        },
+        "intents": {
+            "createEvent": "#/activities/createEvent",
+            "updateEvent": "#/activities/updateEvent",
+            "changeEventStatus": "#/activities/changeEventStatus",
+            "summary": "#/activities/summary",
+            "timeRemaining": "#/activities/timeRemaining",
+            "joinEvent": "#/activities/joinEvent",
+            "*": "#/activities/message"
+         }
+    },
+    "activities": {
+        "createEvent": {
+            "description": "Create a new event",
+            "type": "event",
+            "name": "CreateEvent",
+            "value": {
+                "$ref": "#/definitions/eventInfo"
+            },
+            "resultValue": {}
+        },
+        "updateEvent": {
+            "description": "Update an existing event",
+            "type": "event",
+            "name": "updateEvent",
+            "value": {
+                "$ref": "#/definitions/eventInfo"
+            },
+            "resultValue": {}
+        },
+        "changeEventStatus": {
+            "description": "Update an existing event",
+            "type": "event",
+            "name": "changeEventStatus",
+            "value": {
+                "$ref": "#/definitions/changeEventStatusInfo"
+            },
+            "resultValue": {}
+        },
+        "summary": {
+            "description": "Retrieve a summary of meetings",
+            "type": "event",
+            "name": "summary",
+            "value": {
+                "$ref": "#/definitions/timezone"
+            },
+            "resultValue": {
+                "$ref": "#/definitions/eventSummary"
+            }
+        },
+        "timeRemaining": {
+            "description": "Find out how long until the next event",
+            "type": "event",
+            "name": "timeRemaining",
+            "value": {
+                "$ref": "#/definitions/timezone"
+            },
+            "resultValue": {}
+        },
+        "joinEvent": {
+            "description": "Join the upcoming meeting",
+            "type": "event",
+            "name": "joinEvent",
+            "value": {
+                "$ref": "#/definitions/timezone"
+            },
+            "resultValue": {}
+        },
+        "message": {
+            "type": "message",
+            "description": "Receives the user's' utterance and attempts to resolve it using the skill's LU models"
+        }
+    },
+    "activitiesSent": {
+        
+    },
+    "definitions": {
+        "eventInfo": {
+            "type": "object",
+            "required": [],
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Title of the meeting"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Description of the meeting"
+                },
+                "attendees": {
+                    "type": "string",
+                    "description": "Semicolon separated list of email addresses to invite"
+                },
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date of the meeting in YYYY-MM-DD format"
+                },
+                "startTime": {
+                    "type": "string",
+                    "description": "Start time of the meeting in HH-MM format"
+                },
+                "endDate": {
+                    "type": "string",
+                    "description": "End date of the meeting in YYYY-MM-DD format"
+                },
+                "endTime": {
+                    "type": "string",
+                    "description": "End time of the meeting in HH-MM format"
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "The duration of the meeting in minutes"
+                },
+                "location": {
+                    "type": "string",
+                    "description": "The location for the meeting"
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "The timezone to create the meeting in"
+                }
+            }
+        },
+        "changeEventStatusInfo": {
+            "type": "object",
+            "required": [],
+            "properties": {
+                "startDate": {
+                    "type": "string",
+                    "description": "Start date of the meeting in YYYY-MM-DD format"
+                },
+                "startTime": {
+                    "type": "string",
+                    "description": "Start time of the meeting in HH-MM format"
+                },
+                "status": {
+                    "type": "boolean",
+                    "description": "Accept or Decline the meeting"
+                }
+            }
+        },
+        "timezone": {
+            "type": "object",
+            "properties": {
+                "locale": {
+                    "type": "string",
+                    "description": "The current user's timezone"
+                }
+            }
+        },
+        "eventSummary": {
+            "type": "array",
+            "items" : {
+                "$ref" : "#/definitions/eventInfo"
+            }            
+        }
+    }
+}
