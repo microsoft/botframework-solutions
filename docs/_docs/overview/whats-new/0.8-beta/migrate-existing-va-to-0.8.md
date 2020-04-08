@@ -15,7 +15,7 @@ toc: true
 
 # Updated Virtual Assistant Template
 
-As part of the 0.8 release, we published a new version of the Virtual Assistant template. In this new version, we have transitioned the Skills capabilities into the 4.7 release of BotBuilder SDK as it reached the [General Availability milestone](https://github.com/microsoft/botbuilder-dotnet/releases/tag/v4.7.0).
+As part of the 0.8 release, we published a new version of the Virtual Assistant template. In this new version, we have transitioned the Skills capabilities into the 4.7 release of BotBuilder SDK as it reached the General Availability milestone in [C#](https://github.com/microsoft/botbuilder-dotnet/releases/tag/v4.7.0) and [JS](https://github.com/microsoft/botbuilder-js/releases/tag/4.8) as well.
 
 This is expected to be our last major template change ahead of the General Availability milestone planned for March 2020.
 
