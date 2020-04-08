@@ -4,7 +4,7 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { isAbsolute, join, resolve } from 'path';
+import { isAbsolute, join, resolve, basename } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
@@ -106,9 +106,8 @@ export class ConnectSkill {
                 if(!existsSync(luFilePath)) {
                     throw new Error(`Path to the LU file (${luFilePath}) leads to a nonexistent file.`);
                 }
-
-                if (luFile.trim.length === 0) {
-                    luFile = luFilePath.split('\\').reverse()[0];
+                if (luFile.trim().length === 0) {
+                    luFile = basename(luFilePath);
                     luisFile = `${luFile.toLowerCase()}is`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);
@@ -303,7 +302,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the ludown parse command:\nCommand: ${ ludownParseCommand.join(' ') }\n${ err }`);
+            this.logger.error(`There was an error in the ludown parse command:\nCommand: ${ ludownParseCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -319,7 +318,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             });
             await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${ culture } ${ luisApp } LU file`);
         } catch (err) {
-            throw new Error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
+            this.logger.error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -355,8 +354,14 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                     const culture: string = item[0];
                     const executionModelByCulture: Map<string, string> = item[1];
                     await this.executeLudownParse(culture, executionModelByCulture);
-                    await this.executeDispatchAdd(culture, executionModelByCulture);
+                    if (!this.logger.isError) {
+                        await this.executeDispatchAdd(culture, executionModelByCulture);
+                    }
                 }));
+
+            if (this.logger.isError) {
+                throw new Error(`There were issues while converting the LU files.`);
+            }
 
             // Check if it is necessary to refresh the skill
             if (!this.configuration.noRefresh) {
@@ -416,12 +421,13 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         if (this.skillManifestValidated == manifestVersion.V1) {
             const skillManifestV1: ISkillManifestV1 = skill as ISkillManifestV1;
             assistantSkills.push({
-                Id: skillManifestV1.id,
-                AppId: skillManifestV1.msaAppId,
-                SkillEndpoint: skillManifestV1.endpoint,
-                Name: skillManifestV1.name
+                id: skillManifestV1.id,
+                appId: skillManifestV1.msaAppId,
+                skillEndpoint: skillManifestV1.endpoint,
+                name: skillManifestV1.name,
+                description: skillManifestV1.description
             });
-            assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+            assistantSkillsFile.botFrameworkSkills = assistantSkills;
         }
 
         if (this.skillManifestValidated == manifestVersion.V2) {
@@ -430,17 +436,18 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             || skillManifestV2.endpoints[0];
             
             assistantSkills.push({
-                Id: skillManifestV2.$id,
-                AppId: endpoint.msAppId,
-                SkillEndpoint: endpoint.endpointUrl,
-                Name: skillManifestV2.name,
+                id: skillManifestV2.$id,
+                appId: endpoint.msAppId,
+                skillEndpoint: endpoint.endpointUrl,
+                name: skillManifestV2.name,
+                description: skillManifestV2.description
             });
-            assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+            assistantSkillsFile.botFrameworkSkills = assistantSkills;
         }
         
-        if (assistantSkillsFile.SkillHostEndpoint === undefined || assistantSkillsFile.SkillHostEndpoint.trim().length === 0) {
+        if (assistantSkillsFile.skillHostEndpoint === undefined || assistantSkillsFile.skillHostEndpoint.trim().length === 0) {
             const channel: string = await isCloudGovernment() ? 'us' : 'net';
-            assistantSkillsFile.SkillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.${ channel }/api/skills`;
+            assistantSkillsFile.skillHostEndpoint = `https://${ this.configuration.botName }.azurewebsites.${ channel }/api/skills`;
         }
         writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));
     }
@@ -449,10 +456,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.id)) {
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.id)) {
                 this.logger.warning(`The skill '${skillManifest.name}' is already registered.`);
                 return;
             }
@@ -483,10 +490,10 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant
-            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skillManifest.$id)) {
+            if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.$id)) {
                 this.logger.warning(`The skill '${skillManifest.name}' is already registered.`);
                 return;
             }

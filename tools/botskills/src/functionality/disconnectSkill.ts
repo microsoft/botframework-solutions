@@ -98,11 +98,11 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             // Take VA Skills configurations
             const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
-            const assistantSkills: ISkill[] = assistantSkillsFile.BotFrameworkSkills !== undefined ? assistantSkillsFile.BotFrameworkSkills : [];
+            const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is present in the assistant
             const skillToRemove: ISkill | undefined = assistantSkills.find((assistantSkill: ISkill): boolean =>
-                assistantSkill.Id === this.configuration.skillId
+                assistantSkill.id === this.configuration.skillId
             );
 
             if (!skillToRemove) {
@@ -128,7 +128,7 @@ Please make sure to provide a valid path to your LUISGen output folder using the
                 assistantSkills.splice(assistantSkills.indexOf(skillToRemove), 1);
 
                 // Updating the assistant skills file's skills property with the assistant skills array
-                assistantSkillsFile.BotFrameworkSkills = assistantSkills;
+                assistantSkillsFile.botFrameworkSkills = assistantSkills;
 
                 // Writing (and overriding) the assistant skills file
                 writeFileSync(this.configuration.appSettingsFile, JSON.stringify(assistantSkillsFile, undefined, 4));

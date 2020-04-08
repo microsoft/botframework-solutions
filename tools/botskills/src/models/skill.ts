@@ -4,8 +4,9 @@
  */
 
 export interface ISkill {
-    Id: string;
-    AppId: string;
-    SkillEndpoint: string;
-    Name: string;
+    id: string;
+    appId: string;
+    skillEndpoint: string;
+    name: string;
+    description: string;
 }

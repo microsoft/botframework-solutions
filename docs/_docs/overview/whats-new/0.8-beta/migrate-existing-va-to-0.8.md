@@ -581,12 +581,11 @@ Finally, add the endpoints to handle the response messages from a Skill.
 
     ```json
     {
-        "SkillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
-        "BotFrameworkSkills": [
+        "skillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
+        "botFrameworkSkills": [
             {
                 "id": "{Skill1}",
                 "name": "{Skill1}",
-                "description": "{Skill1Description}",
                 "appId": "{Skill1MsAppId}",
                 "skillEndpoint": "https://{Skill1Endpoint}/api/messages",
                 "description": "{Skill1Description}"
@@ -594,9 +593,8 @@ Finally, add the endpoints to handle the response messages from a Skill.
             {
                 "id": "{Skill2}",
                 "name": "{Skill2}",
-                "description": "{Skill2Description}",
                 "appId": "{Skill2MsAppId}",
-                "skillEndpoint": "https://{Skill1Endpoint}/api/messages",
+                "skillEndpoint": "https://{Skill2Endpoint}/api/messages",
                 "description": "{Skill2Description}"
             }]
     }

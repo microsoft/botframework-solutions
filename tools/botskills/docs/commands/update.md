@@ -14,19 +14,19 @@ botskills update [options]
 
 | Option                        | Description                                                                                                                                                                 |
 |-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| -l, --localManifest \<path>   | Path to local Skill Manifest file                                                                                                                                           |
-| -r, --remoteManifest \<url>   | URL to remote Skill Manifest                                                                                                                                                |
+| -l, --localManifest [path]   | Path to local Skill Manifest file                                                                                                                                           |
+| -r, --remoteManifest [url]   | URL to remote Skill Manifest                                                                                |
+| -e, --endpointName [name]  | (OPTIONAL) Name of the endpoint to connect to your assistant which is case sensitive (defaults to using the first endpoint, used for V2 manifest)                                   |
 | --cs                          | Determine your Virtual Assistant project structure to be a csharp-like structure                                                                                            |
 | --ts                          | Determine your Virtual Assistant project structure to be a TypeScript-like structure                                                                                        |
 | --noRefresh [true\|FALSE]                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be trained (by default they are trained)                                                   |
 | --languages [languages]       | (OPTIONAL) Comma separated list of locales used for LUIS culture (defaults to `en-us`)                                                                                      |
-| --luisFolder [path]           | (OPTIONAL) Path to the folder containing your Skills' `.lu` files (defaults to `./deployment/resources/skills/en` inside your Virtual Assistant folder)                     |
+| --luisFolder [path]           | (OPTIONAL) Path to the folder containing your Skills' `.lu` files (defaults to `./deployment/resources/skills/en-us` inside your Virtual Assistant folder)                     |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)  |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your Virtual Assistant's root folder)                                                                |
 | --lgOutFolder [path]          | (OPTIONAL) Path for the LuisGen output (defaults to a 'service' folder inside your Virtual Assistant's folder)                                                              |
-| --skillsFile [path]           | (OPTIONAL) Path to your Virtual Assistant Skills configuration file (defaults to the `skills.json` inside your Virtual Assistant's folder)                                  |
 | --resourceGroup [name]        | (OPTIONAL) Name of your Virtual Assistant's resource group in Azure (defaults to your Virtual Assistant's bot name)                                                         |
-| --appSettingsFile [path]      | (OPTIONAL) Path to your appsettings file (defaults to `appsettings.json` inside your Virtual Assistant's folder)                                                            |
+| --appSettingsFile [path]      | (OPTIONAL) Path to your appsettings file where the skills are stored (defaults to `appsettings.json` inside your Virtual Assistant's folder)                         |
 | --cognitiveModelsFile [path]  | (OPTIONAL) Path to your Cognitive Models file (defaults to `cognitivemodels.json` inside your Virtual Assistant's folder)                                                   |
 | --verbose                     | (OPTIONAL) Output detailed information about the processing of the tool                                                                                                     |
 | -h, --help                    | Output usage information                                                                                                                                                    |
@@ -34,13 +34,13 @@ botskills update [options]
 An example on how to use it with a local Skill manifest file:
 
 ```bash
-botskills update --localManifest "./skills/customSkill/customSkillManifest.json" --skillsFile "./skills.json" --cs --verbose
+botskills update --localManifest "./skills/customSkill/customSkillManifest.json" --cs
 ```
 
-> **Note:** The paths to both the Skill Manifest and the Virtual Assistant Skills configuration file can be relative or absolute paths equally, and should be explicitly a `.json` file.
+> **Note:** The paths to the Skill Manifest can be relative or absolute paths equally, and should be explicitly a `.json` file.
 
 An example on how to use it with a remote Skill manifest:
 
 ```bash
-botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --skillsFile "./skills.json" --cs --verbose
+botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
 ```

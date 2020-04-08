@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "TestSkill",
+  "name": "Test Skill",
+  "description": "Test skill",
+  "publisherName": "Microsoft",
+  "version": "0.8",
+  "iconUrl": "https://{YOUR_SKILL_URL}/images.png",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
+  "tags": [
+    "skill"
+  ],
+  "endpoints": [
+    {
+      "name": "ManifestV2",
+      "protocol": "TEST",
+      "description": "Test Endpoint Skill",
+      "endpointUrl": "",
+      "msAppId": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "dispatchModels": {
+    "languages": {
+      "en-us": [
+        {
+          "id": "TestLuModel-en-us",
+          "name": "Test LU (English)",
+          "contentType": "application/lu",
+          "url": "file://Test-en-us.lu",
+          "description": "English language model for the skill"
+        }
+      ]
+    },
+    "intents": {}
+  },
+  "activities": {
+    "message": {
+      "type": "message",
+      "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  }
+}

@@ -13,7 +13,7 @@ order: 2
 
 The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an open framework that lets you describe your content as you see fit and deliver it beautifully wherever your customers are.
 
-1. Copy and paste the following JSON payload to demonstrate how you can start customizing the look and feel of your Assistant. Note the inline references (`@{NewUserIntroCardTitle()}`) to other LG elements to further adapt the contents at runtime.
+1. Copy and paste the following JSON payload to demonstrate how you can start customizing the look and feel of your Assistant. Note the inline references (`${NewUserIntroCardTitle()}`) to other LG elements to further adapt the contents at runtime.
 
 ```json
 {
@@ -43,7 +43,7 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
                     "size": "Large",
                     "weight": "Bolder",
                     "color": "Light",
-                    "text": "@{NewUserIntroCardTitle()}",
+                    "text": "${NewUserIntroCardTitle()}",
                     "wrap": true
                 },
                 {
@@ -78,7 +78,7 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.0",
-    "speak": "@{NewUserIntroCardTitle()}"
+    "speak": "${NewUserIntroCardTitle()}"
 }
 ```
 

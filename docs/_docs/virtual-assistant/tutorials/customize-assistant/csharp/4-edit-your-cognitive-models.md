@@ -39,7 +39,7 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
         }
     ```
 
-    The `kbID`, `hostName` and `endpoint key` can all be found within the **Publish** page on the [QnA Maker portal](https://qnamaker.ai). The subscription key is available from your QnA resource in the Azure Portal.
+    The `kbID`, `hostname` and `endpointKey` can all be found within the **Publish** page on the [QnA Maker portal](https://qnamaker.ai). The subscription key is available from your QnA resource in the Azure Portal.
 
 1. The final step is to update your dispatch model and associated strongly typed class (LuisGen). We have provided the `update_cognitive_models.ps1` script to simplify this for you. The optional `-RemoteToLocal` parameter will generate the matching LU file on disk for your new knowledgebase (if you created using portal). The script will then refresh the dispatcher. 
 
@@ -59,6 +59,6 @@ As you build out your assistant you will likely update the LUIS models and QnA M
 
 Run the following command from within  Powershell (pwsh.exe) within your **project directory**.
 
-    ```shell
-        ./Deployment/Scripts/update_cognitive_models.ps1 -RemoteToLocal
-    ```
+```shell
+    ./Deployment/Scripts/update_cognitive_models.ps1 -RemoteToLocal
+```

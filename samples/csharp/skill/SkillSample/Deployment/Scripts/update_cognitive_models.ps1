@@ -140,7 +140,7 @@ foreach ($langCode in $languageMap.Keys) {
                 --versionId $luisApp.version `
                 --region $luisApp.authoringRegion `
                 --cloud $cloud `
-                --authoringKey $luisApp.authoringKey > $(Join-Path $luisFolder $langCode "$($luisApp.id).json")
+                --authoringKey $luisApp.authoringKey | Out-File -Encoding oem $(Join-Path $luisFolder $langCode "$($luisApp.id).json")
 
             bf luis:convert `
                 --in $(Join-Path $luisFolder $langCode "$($luisApp.id).json") `
@@ -196,7 +196,7 @@ foreach ($langCode in $languageMap.Keys) {
                 --endpoint $qnaEndpoint `
                 --environment Prod `
                 --kbId $kb.kbId `
-                --subscriptionKey $kb.subscriptionKey > $(Join-Path $qnaFolder $langCode "$($kb.id).json")
+                --subscriptionKey $kb.subscriptionKey | Out-File -Encoding oem $(Join-Path $qnaFolder $langCode "$($kb.id).json")
                 
             bf qnamaker:convert `
                 --in $(Join-Path $qnaFolder $langCode "$($kb.id).json") `
