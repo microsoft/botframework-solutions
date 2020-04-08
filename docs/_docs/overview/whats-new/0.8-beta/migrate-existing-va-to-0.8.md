@@ -602,7 +602,7 @@ Finally, add the endpoints to handle the response messages from a Skill.
     }
     ```
 
-Please also refer to the documentation to [Migrate existing skills to the new Skill capability.](https://microsoft.github.io/botframework-solutions/skills/tutorials/migrate-to-new-skill/csharp/1-how-to)  
+Please also refer to the documentation to [Migrate existing skills to the new Skill capability.](https://microsoft.github.io/botframework-solutions/overview/whats-new/0.8-beta/migrate-existing-skills-to-0.8/)
 
 ### TypeScript
 
@@ -693,6 +693,6 @@ Please also refer to the documentation to [Migrate existing skills to the new Sk
     }
     ```
 
-Please also refer to the documentation to [Migrate existing skills to the new Skill capability.](https://microsoft.github.io/botframework-solutions/skills/tutorials/migrate-to-new-skill/csharp/1-how-to)  
+Please also refer to the documentation to [Migrate existing skills to the new Skill capability.](https://microsoft.github.io/botframework-solutions/overview/whats-new/0.8-beta/migrate-existing-skills-to-0.8/)
 
 Once complete you have transitioned your exiting Virtual Assistant to support the new Generally Available Bot Framework Skills capability.

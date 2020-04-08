@@ -229,7 +229,7 @@ One migration step will be to create a new Skill project and migrate your custom
 
 1. Add code in the exception handler of the adapter to send an EndOfConversation activity back
 
-    In the exception handler of the `DefaultAdapter` normally located in the `Adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when exception happens:
+    In the exception handler of the `DefaultAdapter` normally located in the `Adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when an exception is thrown:
 
     ```csharp
     OnTurnError = async (turnContext, exception) =>
@@ -255,7 +255,7 @@ One migration step will be to create a new Skill project and migrate your custom
 
 1. Add code in the exception handler of the adapter to send an EndOfConversation activity back
 
-    In the exception handler of the `defaultAdapter` normally located in the `adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when exception happens:
+    In the exception handler of the `defaultAdapter` normally located in the `adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when an exception is thrown:
 
     ```typescript
     this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
