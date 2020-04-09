@@ -54,25 +54,12 @@ describe("main dialog", function() {
             const allResponseVariations = skillTestBase.templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("UnsupportedText", { name: '' });
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
+                .send("sample dialog")
+                .assertReplyOneOf(skillTestBase.getTemplates('FirstPromptText'))
                 .send("Unhandled message")
                 .assertReplyOneOf(allResponseVariations);
 
             testNock.resolveWithMocks("mainDialog_unhandled_response", done, flow);
-        });
-    });
-
-    describe("test single turn", function() {
-        it("send 'single turn' and check you get the expected response", function(done) {
-            const allResponseVariations = skillTestBase.templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("UnsupportedText", { name: '' });
-            const testAdapter = skillTestBase.getTestAdapter();
-            const flow = testAdapter
-                .send("single turn")
-                .assertReplyOneOf(allResponseVariations)
-                .assertReply(function(activity) {
-                    assert.strictEqual(ActivityTypes.Handoff, activity.type);
-                });
-
-            testNock.resolveWithMocks("mainDialog_singleTurn_response", done, flow);
         });
     });
 });

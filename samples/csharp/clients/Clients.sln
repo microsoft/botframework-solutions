@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHandler", "event-handl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectLine.Console", "DirectLine.Console\DirectLine.Console.csproj", "{A5EBD2E0-1E26-45CC-B37D-2819D71A9EAE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectLine.Web", "directline.web\DirectLine.Web.csproj", "{624718CE-67F5-45CA-9487-3FCCEFF17853}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{A5EBD2E0-1E26-45CC-B37D-2819D71A9EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5EBD2E0-1E26-45CC-B37D-2819D71A9EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5EBD2E0-1E26-45CC-B37D-2819D71A9EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{624718CE-67F5-45CA-9487-3FCCEFF17853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{624718CE-67F5-45CA-9487-3FCCEFF17853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{624718CE-67F5-45CA-9487-3FCCEFF17853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{624718CE-67F5-45CA-9487-3FCCEFF17853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{F58582EF-15F7-4F4E-AE66-B6EAA43F06F7} = {88089BB6-78F6-4FE6-B46E-D05A8DEEA3B6}
 		{43C272FD-6CDA-45A3-813A-F982BBB2D7ED} = {88089BB6-78F6-4FE6-B46E-D05A8DEEA3B6}
 		{A5EBD2E0-1E26-45CC-B37D-2819D71A9EAE} = {5F06C9BF-6FD8-4499-A97A-E88CD777A307}
+		{624718CE-67F5-45CA-9487-3FCCEFF17853} = {5F06C9BF-6FD8-4499-A97A-E88CD777A307}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A781834D-DC50-470B-92E1-A5CF12F07365}

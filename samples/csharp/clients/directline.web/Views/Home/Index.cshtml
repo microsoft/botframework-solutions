@@ -1,0 +1,76 @@
+﻿<div id="webchat" role="main"></div>
+<script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+<script>
+    (async function () {
+        const store = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+            if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+                dispatch({
+                    type: 'WEB_CHAT/SEND_EVENT',
+                    payload: {
+                        name: 'webchat/join',
+                        value: {
+                            language: window.navigator.language
+                        }
+                    }
+                });
+            }
+
+            return next(action);
+        });
+
+        const settings = {
+            locale: '@ViewData["Locale"]',
+            store,
+            userID: '@ViewData["UserId"]'
+        };
+
+        let adapters = null;
+        const mode = '@ViewData["Mode"]';
+
+        if (mode === 'DIRECTLINESPEECH') {
+            const fetchCredentials = async () => {
+                const region = '@ViewData["SpeechServiceRegionIdentifier"]';
+
+                const response = await fetch(`https://${region}.api.cognitive.microsoft.com/sts/v1.0/issuetoken`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+                        'Ocp-Apim-Subscription-Key': '@ViewData["SpeechServiceSubscriptionKey"]'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch authorization token.');
+                }
+
+                const authorizationToken = await response.text();
+
+                return { authorizationToken, region };
+            };
+
+            adapters = await window.WebChat.createDirectLineSpeechAdapters({
+                fetchCredentials
+            });
+        } else if (mode === 'DIRECTLINE') {
+            adapters = {
+                directLine: window.WebChat.createDirectLine({
+                    token: '@ViewData["DirectLineToken"]'
+                })
+            };
+        } else {
+            throw new Error(
+                'Application mode could not be determined from specified application settings. ' +
+                'Please specify either a valid speech service region identifier and key for Direct Line Speech, ' +
+                'or a valid Direct Line secret for Direct Line.');
+        }
+
+        window.WebChat.renderWebChat(
+            {
+                ...adapters,
+                ...settings
+            },
+            document.getElementById('webchat'));
+
+        document.querySelector('#webchat > *').focus();
+    })().catch(err => console.error(err))
+</script>

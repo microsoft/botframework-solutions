@@ -4,7 +4,7 @@
  */
 
 export class SkillState {
-    public token: string = '';
+    public token = '';
     public timeZone: Date = new Date();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     public clear(): void {}

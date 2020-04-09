@@ -3,5 +3,4 @@
  * Licensed under the MIT License.
  */
 
-export * from './customSkillAdapter';
 export * from './defaultAdapter';
