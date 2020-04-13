@@ -55,69 +55,132 @@ namespace ITSMSkill.Tests.Flow.TeamsTaskModule
             }
         }
 
-        [TestMethod]
-        public async Task CreateTestTaskModuleGetUserInputCard()
-        {
-            var sp = Services.BuildServiceProvider();
-            var adapter = sp.GetService<TestAdapter>();
-            adapter.AddUserToken(AuthenticationProvider, adapter.Conversation.ChannelId, adapter.Conversation.User.Id, TestToken, MagicCode);
-            var settings = sp.GetService<BotSettings>();
-            var taskFetch = "{\r\n  \"data\": {\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n      \"Submit\": false\r\n    },\r\n    \"type\": \"task / fetch\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}";
-            var activity = new Activity
-            {
-                Type = ActivityTypes.Invoke,
-                Name = "task/fetch",
-                Value = JObject.Parse(taskFetch)
-            };
+        //[TestMethod]
+        //public async Task CreateTestTaskModuleGetUserInputCard()
+        //{
+        //    var sp = Services.BuildServiceProvider();
+        //    var adapter = sp.GetService<TestAdapter>();
+        //    adapter.AddUserToken(AuthenticationProvider, adapter.Conversation.ChannelId, adapter.Conversation.User.Id, TestToken, MagicCode);
+        //    var settings = sp.GetService<BotSettings>();
+        //    var taskFetch = "{\r\n  \"data\": {\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n      \"Submit\": false\r\n    },\r\n    \"type\": \"task / fetch\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}";
+        //    var activity = new Activity
+        //    {
+        //        Type = ActivityTypes.Invoke,
+        //        Name = "task/fetch",
+        //        Value = JObject.Parse(taskFetch)
+        //    };
 
-            var turnContext = new TurnContext(adapter, activity);
+        //    var turnContext = new TurnContext(adapter, activity);
 
-            var teamsImplementation = new CreateTicketTeamsImplementation(
-                 sp.GetService<BotSettings>(),
-                 sp.GetService<BotServices>(),
-                 sp.GetService<ConversationState>(),
-                 sp.GetService<IServiceManager>(),
-                 sp.GetService<IBotTelemetryClient>());
+        //    var teamsImplementation = new CreateTicketTeamsImplementation(
+        //         sp.GetService<BotSettings>(),
+        //         sp.GetService<BotServices>(),
+        //         sp.GetService<ConversationState>(),
+        //         sp.GetService<IServiceManager>(),
+        //         sp.GetService<IBotTelemetryClient>());
 
-            var response = await teamsImplementation.Handle(turnContext, CancellationToken.None);
-            Assert.IsNotNull(response);
-        }
+        //    var response = await teamsImplementation.Handle(turnContext, CancellationToken.None);
+        //    Assert.IsNotNull(response);
+        //}
 
-        [TestMethod]
-        public async Task CreateTestTaskModuleSubmitUserResposne()
-        {
-            var sp = Services.BuildServiceProvider();
-            var adapter = sp.GetService<TestAdapter>();
-            var conversationState = sp.GetService<ConversationState>();
-            var stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
-            var skillState = new SkillState();
-            skillState.AccessTokenResponse = new TokenResponse { Token = "Test" };
+        //[TestMethod]
+        //public async Task CreateTestTaskModuleSubmitUserResposne()
+        //{
+        //    var sp = Services.BuildServiceProvider();
+        //    var adapter = sp.GetService<TestAdapter>();
+        //    var conversationState = sp.GetService<ConversationState>();
+        //    var stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+        //    var skillState = new SkillState();
+        //    skillState.AccessTokenResponse = new TokenResponse { Token = "Test" };
 
-            var settings = sp.GetService<BotSettings>();
+        //    var settings = sp.GetService<BotSettings>();
 
-            // TaskModule Activity For Submit
-            var taskSubmit = "{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n      \"Submit\": true\r\n    },\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}";
-            var activity = new Activity
-            {
-                ChannelId = "test",
-                Conversation = new ConversationAccount { Id = "Test"},
-                Type = ActivityTypes.Invoke,
-                Name = "task/fetch",
-                Value = JObject.Parse(taskSubmit)
-            };
+        //    // TaskModule Activity For Submit
+        //    var taskSubmit = "{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n      \"Submit\": true\r\n    },\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}";
+        //    var activity = new Activity
+        //    {
+        //        ChannelId = "test",
+        //        Conversation = new ConversationAccount { Id = "Test"},
+        //        Type = ActivityTypes.Invoke,
+        //        Name = "task/fetch",
+        //        Value = JObject.Parse(taskSubmit)
+        //    };
 
-            var turnContext = new TurnContext(adapter, activity);
-            await stateAccessor.SetAsync(turnContext, skillState, CancellationToken.None);
+        //    var turnContext = new TurnContext(adapter, activity);
+        //    await stateAccessor.SetAsync(turnContext, skillState, CancellationToken.None);
 
-            var teamsImplementation = new CreateTicketTeamsImplementation(
-                 sp.GetService<BotSettings>(),
-                 sp.GetService<BotServices>(),
-                 sp.GetService<ConversationState>(),
-                 sp.GetService<IServiceManager>(),
-                 sp.GetService<IBotTelemetryClient>());
+        //    var teamsImplementation = new CreateTicketTeamsImplementation(
+        //         sp.GetService<BotSettings>(),
+        //         sp.GetService<BotServices>(),
+        //         sp.GetService<ConversationState>(),
+        //         sp.GetService<IServiceManager>(),
+        //         sp.GetService<IBotTelemetryClient>());
 
-            var response = await teamsImplementation.Handle(turnContext, CancellationToken.None);
-            Assert.IsNotNull(response);
-        }
+        //    var response = await teamsImplementation.Handle(turnContext, CancellationToken.None);
+        //    Assert.IsNotNull(response);
+        //}        //[TestMethod]
+        //public async Task CreateTestTaskModuleGetUserInputCard()
+        //{
+        //    var sp = Services.BuildServiceProvider();
+        //    var adapter = sp.GetService<TestAdapter>();
+        //    adapter.AddUserToken(AuthenticationProvider, adapter.Conversation.ChannelId, adapter.Conversation.User.Id, TestToken, MagicCode);
+        //    var settings = sp.GetService<BotSettings>();
+        //    var taskFetch = "{\r\n  \"data\": {\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n      \"Submit\": false\r\n    },\r\n    \"type\": \"task / fetch\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}";
+        //    var activity = new Activity
+        //    {
+        //        Type = ActivityTypes.Invoke,
+        //        Name = "task/fetch",
+        //        Value = JObject.Parse(taskFetch)
+        //    };
+
+        //    var turnContext = new TurnContext(adapter, activity);
+
+        //    var teamsImplementation = new CreateTicketTeamsImplementation(
+        //         sp.GetService<BotSettings>(),
+        //         sp.GetService<BotServices>(),
+        //         sp.GetService<ConversationState>(),
+        //         sp.GetService<IServiceManager>(),
+        //         sp.GetService<IBotTelemetryClient>());
+
+        //    var response = await teamsImplementation.Handle(turnContext, CancellationToken.None);
+        //    Assert.IsNotNull(response);
+        //}
+
+        //[TestMethod]
+        //public async Task CreateTestTaskModuleSubmitUserResposne()
+        //{
+        //    var sp = Services.BuildServiceProvider();
+        //    var adapter = sp.GetService<TestAdapter>();
+        //    var conversationState = sp.GetService<ConversationState>();
+        //    var stateAccessor = conversationState.CreateProperty<SkillState>(nameof(SkillState));
+        //    var skillState = new SkillState();
+        //    skillState.AccessTokenResponse = new TokenResponse { Token = "Test" };
+
+        //    var settings = sp.GetService<BotSettings>();
+
+        //    // TaskModule Activity For Submit
+        //    var taskSubmit = "{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n      \"Submit\": true\r\n    },\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}";
+        //    var activity = new Activity
+        //    {
+        //        ChannelId = "test",
+        //        Conversation = new ConversationAccount { Id = "Test"},
+        //        Type = ActivityTypes.Invoke,
+        //        Name = "task/fetch",
+        //        Value = JObject.Parse(taskSubmit)
+        //    };
+
+        //    var turnContext = new TurnContext(adapter, activity);
+        //    await stateAccessor.SetAsync(turnContext, skillState, CancellationToken.None);
+
+        //    var teamsImplementation = new CreateTicketTeamsImplementation(
+        //         sp.GetService<BotSettings>(),
+        //         sp.GetService<BotServices>(),
+        //         sp.GetService<ConversationState>(),
+        //         sp.GetService<IServiceManager>(),
+        //         sp.GetService<IBotTelemetryClient>());
+
+        //    var response = await teamsImplementation.Handle(turnContext, CancellationToken.None);
+        //    Assert.IsNotNull(response);
+        //}
     }
 }

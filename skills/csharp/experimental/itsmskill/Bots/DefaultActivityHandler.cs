@@ -122,7 +122,8 @@ namespace ITSMSkill.Bots
         protected override async Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
             var itsmTeamsActivityHandler = new ITSMTeamsInvokeActivityHandlerFactory(_botSettings, _botServices, (ConversationState)_conversationState, _serviceManager, _botTelemetryClient, _connectorClient);
-            ITeamsInvokeEnvelope teamsInvokeEnvelope = await itsmTeamsActivityHandler.GetInvokeEnvelope(turnContext, cancellationToken);
+            //ITeamsInvokeEnvelope teamsInvokeEnvelope = await itsmTeamsActivityHandler.GetInvokeEnvelope(turnContext, cancellationToken);
+            var teamsInvokeEnvelope = await itsmTeamsActivityHandler.HandleTaskModuleActivity(turnContext, cancellationToken);
 
             return new InvokeResponse()
             {

@@ -19,6 +19,18 @@
                 && activity.IsTaskModuleActivity();
         }
 
+        public static bool IsTaskModuleFetchActivity(this Activity activity)
+        {
+            return StringComparer.OrdinalIgnoreCase.Equals(activity.Type, ActivityTypes.Invoke)
+                && StringComparer.OrdinalIgnoreCase.Equals(activity.Name, FetchType);
+        }
+
+        public static bool IsTaskModuleSubmitActivity(this Activity activity)
+        {
+            return StringComparer.OrdinalIgnoreCase.Equals(activity.Type, ActivityTypes.Invoke)
+                && StringComparer.OrdinalIgnoreCase.Equals(activity.Name, SubmitType);
+        }
+
         public static bool IsTaskModuleActivity(this Activity activity)
         {
             return StringComparer.OrdinalIgnoreCase.Equals(activity.Type, ActivityTypes.Invoke)

@@ -92,10 +92,10 @@ namespace ITSMSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default)
         {
-            //if (dc.Context.Activity.ChannelId.Contains("msteams"))
-            //{
-            //    return await dc.BeginDialogAsync(Actions.CreateTickTeamsTaskModule, options, cancellationToken);
-            //}
+            if (dc.Context.Activity.ChannelId.Contains("msteams"))
+            {
+                return await dc.BeginDialogAsync(Actions.CreateTickTeamsTaskModule, options, cancellationToken);
+            }
 
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }

@@ -9,11 +9,15 @@
     using ITSMSkill.Extensions.Teams.TaskModule;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Schema;
+    using Microsoft.Bot.Schema.Teams;
 
     public abstract class TeamsInvokeActivityHandlerFactory
     {
         protected IDictionary<string, Func<ITeamsInvokeActivityHandler<TaskEnvelope>>> TaskModuleHandlerMap { get; set; }
             = new Dictionary<string, Func<ITeamsInvokeActivityHandler<TaskEnvelope>>>();
+
+        protected IDictionary<string, Func<ITeamsTaskModuleHandler<TaskModuleResponse>>> TaskModuleFetchSubmitMap { get; set; }
+            = new Dictionary<string, Func<ITeamsTaskModuleHandler<TaskModuleResponse>>>();
 
         /// <summary>
         /// Router for getting Invoke Handler.
@@ -28,6 +32,33 @@
             return null;
         }
 
+        public async Task<TaskModuleResponse> HandleTaskModuleActivity(ITurnContext context, CancellationToken cancellationToken)
+        {
+            if (context.Activity.IsTaskModuleFetchActivity() || context.Activity.IsExtensionActionActivity())
+            {
+                return await this.GetTaskModuleFetch(context, cancellationToken);
+            }
+
+            //if (context.Activity.IsTaskModuleSubmitActivity() || context.Activity.IsExtensionActionActivity())
+            //{
+            //    return await this.GetTaskModuleSubmit(context, cancellationToken);
+            //}
+
+            return null;
+        }
+
+        protected virtual async Task<TaskModuleResponse> GetTaskModuleFetch(ITurnContext context, CancellationToken cancellationToken)
+        {
+            ITeamsTaskModuleHandler<TaskModuleResponse> taskModuleHandler = this.GetTaskModuleFetchSubmitHandler(context.Activity);
+            return await taskModuleHandler.OnTeamsTaskModuleFetchAsync(context, cancellationToken);
+        }
+
+        //protected virtual async Task<ITeamsTaskModuleHandler<TaskModuleResponse>> GetTaskModuleSubmit(ITurnContext context, CancellationToken cancellationToken)
+        //{
+        //    ITeamsTaskModuleHandler<TaskModuleResponse> taskModuleHandler = this.GetTaskModuleFetchSubmit(context.Activity);
+        //    return await taskModuleHandler.Handle(context, cancellationToken);
+        //}
+
         protected virtual async Task<ITeamsInvokeEnvelope> GetTaskEnvelope(ITurnContext context, CancellationToken cancellationToken)
         {
             ITeamsInvokeActivityHandler<TaskEnvelope> taskModuleHandler = this.GetTaskModuleHandler(context.Activity);
@@ -36,6 +67,9 @@
 
         protected ITeamsInvokeActivityHandler<TaskEnvelope> GetTaskModuleHandler(Activity activity) =>
             this.GetTaskModuleHandler(activity.GetTaskModuleMetadata<TaskModuleMetadata>().TaskModuleFlowType);
+
+        protected ITeamsTaskModuleHandler<TaskModuleResponse> GetTaskModuleFetchSubmitHandler(Activity activity) =>
+            this.GetTaskModuleFetchSubmitHandlerMap(activity.GetTaskModuleMetadata<TaskModuleMetadata>().TaskModuleFlowType);
 
         /// <summary>
         /// Gets Teams task module handler by registered name.
@@ -47,5 +81,10 @@
             this.TaskModuleHandlerMap.TryGetValue(handlerName, out Func<ITeamsInvokeActivityHandler<TaskEnvelope>> handlerFactory)
                 ? handlerFactory()
                 : throw new NotImplementedException($"Message Extension flow type undefined for handler {handlerName}");
+
+        protected ITeamsTaskModuleHandler<TaskModuleResponse> GetTaskModuleFetchSubmitHandlerMap(string handlerName) =>
+                this.TaskModuleFetchSubmitMap.TryGetValue(handlerName, out Func<ITeamsTaskModuleHandler<TaskModuleResponse>> handlerFactory)
+                    ? handlerFactory()
+                    : throw new NotImplementedException($"Message Extension flow type undefined for handler {handlerName}");
     }
 }
