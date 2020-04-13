@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using AdaptiveCards;
 using ITSMSkill.Dialogs.Teams;
 using ITSMSkill.Models;
+using ITSMSkill.Models.UpdateActivity;
 using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Knowledge;
 using ITSMSkill.Responses.Shared;
@@ -27,6 +28,9 @@ namespace ITSMSkill.Dialogs
 {
     public class CreateTicketDialog : SkillDialogBase
     {
+        private readonly IStatePropertyAccessor<ActivityReferenceMap> _activityReferenceMapAccessor;
+        private readonly ConversationState _conversationState;
+
         public CreateTicketDialog(
              BotSettings settings,
              BotServices services,
@@ -36,6 +40,9 @@ namespace ITSMSkill.Dialogs
              IBotTelemetryClient telemetryClient)
             : base(nameof(CreateTicketDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
+            _activityReferenceMapAccessor = conversationState.CreateProperty<ActivityReferenceMap>(nameof(ActivityReferenceMap));
+            _conversationState = conversationState;
+
             var createTicket = new WaterfallStep[]
             {
                 CheckTitle,
@@ -48,22 +55,22 @@ namespace ITSMSkill.Dialogs
                 CheckUrgency,
                 InputUrgency,
                 SetUrgency,
-                GetAuthToken,
-                AfterGetAuthToken,
+                //GetAuthToken,
+                //AfterGetAuthToken,
                 CreateTicket
             };
 
             var createTicketTaskModule = new WaterfallStep[]
             {
-                GetAuthToken,
-                AfterGetAuthToken,
+                //GetAuthToken,
+                //AfterGetAuthToken,
                 CreateTicketTeamsTaskModuleStep
             };
 
             var displayExisting = new WaterfallStep[]
             {
-                GetAuthToken,
-                AfterGetAuthToken,
+                //GetAuthToken,
+                //AfterGetAuthToken,
                 ShowKnowledge,
                 IfKnowledgeHelp
             };
@@ -85,10 +92,10 @@ namespace ITSMSkill.Dialogs
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext dc, object options, CancellationToken cancellationToken = default)
         {
-            if (dc.Context.Activity.ChannelId.Contains("msteams"))
-            {
-                return await dc.BeginDialogAsync(Actions.CreateTickTeamsTaskModule, options, cancellationToken);
-            }
+            //if (dc.Context.Activity.ChannelId.Contains("msteams"))
+            //{
+            //    return await dc.BeginDialogAsync(Actions.CreateTickTeamsTaskModule, options, cancellationToken);
+            //}
 
             return await base.OnBeginDialogAsync(dc, options, cancellationToken);
         }
@@ -97,12 +104,12 @@ namespace ITSMSkill.Dialogs
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
 
-            if (state.DisplayExisting)
-            {
-                state.PageIndex = -1;
-                return await sc.BeginDialogAsync(Actions.DisplayExisting);
-            }
-            else
+            //if (state.DisplayExisting)
+            //{
+            //    state.PageIndex = -1;
+            //    return await sc.BeginDialogAsync(Actions.DisplayExisting);
+            //}
+            //else
             {
                 return await sc.NextAsync();
             }
@@ -119,15 +126,31 @@ namespace ITSMSkill.Dialogs
                 new Microsoft.Bot.Schema.Attachment() { ContentType = AdaptiveCard.ContentType, Content = adaptiveCard }
             };
 
-            await sc.Context.SendActivityAsync(reply, cancellationToken);
+            ResourceResponse resourceResponse = await sc.Context.SendActivityAsync(reply, cancellationToken);
+            ActivityReferenceMap activityReferenceMap = await _activityReferenceMapAccessor.GetAsync(
+                sc.Context,
+                () => new ActivityReferenceMap(),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+            activityReferenceMap[sc.Context.Activity.Conversation.Id] = new ActivityReference
+            {
+                ActivityId = resourceResponse.Id,
+                ThreadId = sc.Context.Activity.Conversation.Id,
+            };
+            await _activityReferenceMapAccessor.SetAsync(sc.Context, activityReferenceMap).ConfigureAwait(false);
+
+            await _conversationState
+                .SaveChangesAsync(sc.Context);
             return await sc.EndDialogAsync();
         }
 
         protected async Task<DialogTurnResult> CreateTicket(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState());
-            var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
-            var result = await management.CreateTicket(state.TicketTitle, state.TicketDescription, state.UrgencyLevel);
+            //var management = ServiceManager.CreateManagement(Settings, sc.Result as TokenResponse, state.ServiceCache);
+            //var result = await management.CreateTicket(state.TicketTitle, state.TicketDescription, state.UrgencyLevel);
+            var result = new TicketsResult { Success = true, Tickets = new Ticket[] { new Ticket { Title = state.TicketTitle, Description = state.TicketDescription, Urgency = state.UrgencyLevel } } };
 
             if (!result.Success)
             {

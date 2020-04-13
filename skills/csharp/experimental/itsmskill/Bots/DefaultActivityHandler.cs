@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Teams;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
@@ -39,6 +40,7 @@ namespace ITSMSkill.Bots
         private BotServices _botServices;
         private IServiceManager _serviceManager;
         private BotTelemetryClient _botTelemetryClient;
+        private IConnectorClient _connectorClient;
 
         public DefaultActivityHandler(
             IServiceProvider serviceProvider,
@@ -55,6 +57,7 @@ namespace ITSMSkill.Bots
             _botServices = serviceProvider.GetService<BotServices>();
             _serviceManager = serviceProvider.GetService<ServiceManager>();
             _botTelemetryClient = serviceProvider.GetService<BotTelemetryClient>();
+            _connectorClient = serviceProvider.GetService<IConnectorClient>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -118,7 +121,7 @@ namespace ITSMSkill.Bots
 
         protected override async Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
-            var itsmTeamsActivityHandler = new ITSMTeamsInvokeActivityHandlerFactory(_botSettings, _botServices, (ConversationState)_conversationState, _serviceManager, _botTelemetryClient);
+            var itsmTeamsActivityHandler = new ITSMTeamsInvokeActivityHandlerFactory(_botSettings, _botServices, (ConversationState)_conversationState, _serviceManager, _botTelemetryClient, _connectorClient);
             ITeamsInvokeEnvelope teamsInvokeEnvelope = await itsmTeamsActivityHandler.GetInvokeEnvelope(turnContext, cancellationToken);
 
             return new InvokeResponse()

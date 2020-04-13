@@ -110,15 +110,15 @@ namespace ITSMSkill.Dialogs
             {
                 InputTicketNumber,
                 SetTicketNumber,
-                GetAuthToken,
-                AfterGetAuthToken,
-                SetIdFromNumber,
+                //GetAuthToken,
+                //AfterGetAuthToken,
+                //SetIdFromNumber,
             };
 
             var baseAuth = new WaterfallStep[]
             {
-                GetAuthToken,
-                AfterGetAuthToken,
+                //GetAuthToken,
+                //AfterGetAuthToken,
                 BeginInitialDialog
             };
 

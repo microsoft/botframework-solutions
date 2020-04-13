@@ -66,7 +66,7 @@
                     TaskInfo = new TaskInfo()
                     {
                         Title = "Incident Added",
-                        Height = "medium",
+                        Height = "small",
                         Width = 500,
                         Card = new Attachment
                         {

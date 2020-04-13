@@ -63,6 +63,7 @@ namespace ITSMSkill.Bots
             Use(new SkillMiddleware(userState, conversationState, conversationState.CreateProperty<DialogState>(nameof(DialogState))));
             Use(new SetSpeakMiddleware());
             Use(new ServiceNowProactiveStateMiddleware(proactiveState));
+            Use(new SetConnectorClientMiddleware(credentialProvider));
         }
     }
 }

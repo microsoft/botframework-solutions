@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Linq;
 using ITSMSkill.Bots;
 using ITSMSkill.Controllers.ServiceNow;
@@ -22,6 +23,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Proactive;
@@ -111,6 +113,7 @@ namespace ITSMSkill
             services.AddHostedService<QueuedHostedService>();
             services.AddSingleton<ServiceNowProactiveState>();
             services.AddSingleton<IMessageReceiver<ServiceNowNotification>, ServiceNowMessageReceiver>();
+            services.AddSingleton<IConnectorClient>(new ConnectorClient(new Uri("https://smba.trafficmanager.net/amer/"), new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword)));
 
             // Configure responses
             services.AddSingleton(sp => new ResponseManager(
