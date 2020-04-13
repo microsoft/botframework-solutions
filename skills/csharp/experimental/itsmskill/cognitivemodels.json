@@ -3,24 +3,24 @@
     "en-us": {
       "languageModels": [
         {
-          "authoringRegion": "westus",
-          "name": "ServiceNowProactiveen-us_General",
-          "authoringkey": "411c25f8f70d4b13b0d2276cb525bfaa",
-          "region": "westus",
-          "appid": "7044cd1c-f537-4618-927b-32c3bf84f538",
-          "subscriptionkey": "df0dfe45d91840019eedc45a5714a773",
+          "name": "ServiceNowSkillen-us_General",
+          "id": "General",
+          "subscriptionkey": "a329c63eef2c447e8b7a4b1fb6a58f02",
           "version": "0.1",
-          "id": "General"
+          "region": "westus",
+          "appid": "f1bfa51d-7826-4b31-bc91-e9ec891e9681",
+          "authoringkey": "9b2016b3cf1347b49aa33f5f6504ef93",
+          "authoringRegion": "westus"
         },
         {
-          "authoringRegion": "westus",
-          "name": "ServiceNowProactiveen-us_ITSM",
-          "authoringkey": "411c25f8f70d4b13b0d2276cb525bfaa",
-          "region": "westus",
-          "appid": "31f72404-69ae-4938-bafc-a3f5f38a25a6",
-          "subscriptionkey": "df0dfe45d91840019eedc45a5714a773",
+          "name": "ServiceNowSkillen-us_ITSM",
+          "id": "ITSM",
+          "subscriptionkey": "a329c63eef2c447e8b7a4b1fb6a58f02",
           "version": "0.1",
-          "id": "ITSM"
+          "region": "westus",
+          "appid": "0e0176cd-bd2b-49d8-8ff5-312f0d144629",
+          "authoringkey": "9b2016b3cf1347b49aa33f5f6504ef93",
+          "authoringRegion": "westus"
         }
       ]
     }
