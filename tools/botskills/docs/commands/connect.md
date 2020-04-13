@@ -13,6 +13,15 @@ botskills connect [options]
 ## Skill Deployment
 See the [Skills Overview]({{site.baseurl}}/overview/skills) section for details on the Skills provided as part of the Virtual Assistant Solution Accelerator. Follow the deployment instructions required for each skill you wish to use and then return to this section to add these skills to your Virtual Assistant.
 
+## Intent Filtering
+You can specify which of the skill intents should be included when connecting it to the Virtual Assistant.
+
+Botskills will check the Skill's manifest `dispatchModel` property and extract the list of intents, adding only these intents to the Virtual Assistant manifest.
+
+If Botskills finds an intent whose name is an asterisk (`*`), it will override the filtering functionality, including all the intents disregarding any other one specified inside the `dispatchModel`.
+
+> **Note:** If the skill manifest includes a wildcard intent (`*`) along with other intents, a warning will be shown alerting that all of the skill intents will be included.
+
 ## Manual Authentication Connection configuration
 
 If a Skill requires Authentication connections to Office/Office 365 in most cases the above script will automatically add this configuration to your Bot and associated Azure AD Application.
