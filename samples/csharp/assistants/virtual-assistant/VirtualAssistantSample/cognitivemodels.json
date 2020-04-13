@@ -2,34 +2,43 @@
   "cognitiveModels": {
     "en-us": {
       "dispatchModel": {
-        "appid": "",
-        "authoringkey": "",
-        "authoringRegion": "",
-        "name": "",
-        "region": "",
-        "subscriptionkey": "",
-        "type": "dispatch"
+        "name": "VAITSMen-us_Dispatch",
+        "type": "dispatch",
+        "authoringRegion": "westus",
+        "subscriptionkey": "1ca65cbe0f864dc480f016d2517d0c67",
+        "version": "Dispatch",
+        "region": "westus",
+        "appid": "b64d6fce-fd87-4dea-a8bb-3f498cdc1d40",
+        "authoringkey": "b63c25c21a43489396f0b5d3c2f57239"
       },
       "languageModels": [
         {
-          "appid": "",
-          "authoringkey": "",
-          "authoringRegion": "",
-          "id": "",
-          "name": "",
-          "region": "",
-          "subscriptionkey": "",
-          "version": ""
+          "name": "VAITSMen-us_General",
+          "id": "General",
+          "subscriptionkey": "1ca65cbe0f864dc480f016d2517d0c67",
+          "version": "0.1",
+          "region": "westus",
+          "appid": "2b5f0117-3ae7-45a6-9c79-72a9acdd3ed0",
+          "authoringkey": "b63c25c21a43489396f0b5d3c2f57239",
+          "authoringRegion": "westus"
         }
       ],
       "knowledgebases": [
         {
-          "endpointKey": "",
-          "hostname": "",
-          "id": "",
-          "kbId": "",
-          "name": "",
-          "subscriptionKey": ""
+          "kbId": "f021dcf6-e605-4078-ace3-c0dbfdc03411",
+          "hostname": "https://vaitsm-qnahost-pmhgrac.azurewebsites.net",
+          "subscriptionKey": "b111f7db6f3b48dcb2f91bf06824144d",
+          "name": "Chitchat",
+          "id": "Chitchat",
+          "endpointKey": "47aa8649-92d5-4784-9659-49ef8b9931a7"
+        },
+        {
+          "kbId": "d8b24778-a53d-44d0-bc47-7b074628063d",
+          "hostname": "https://vaitsm-qnahost-pmhgrac.azurewebsites.net",
+          "subscriptionKey": "b111f7db6f3b48dcb2f91bf06824144d",
+          "name": "Faq",
+          "id": "Faq",
+          "endpointKey": "47aa8649-92d5-4784-9659-49ef8b9931a7"
         }
       ]
     }
