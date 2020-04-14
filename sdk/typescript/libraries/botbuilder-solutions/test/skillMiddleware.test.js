@@ -10,7 +10,7 @@ const { SkillMiddleware } = require("../lib/skills/skillMiddleware");
 const { SkillEvents } = require("../lib/skills/models/skillEvents");
 
 const storage = new MemoryStorage();
-const userState = new UserState(storage)
+const userState = new UserState(storage);
 const conversationState = new ConversationState(storage); 
 const dialogStateAccessor = conversationState.createProperty("DialogState");
 
@@ -19,10 +19,8 @@ describe("skill middleware", function() {
     it("should cancel all skill dialogs", async function() {
         let afterEvent = false;
         let index = 0;
-        const cancelEvent = {
-            type: ActivityTypes.Event,
-            name: SkillEvents.cancelAllSkillDialogsEventName,
-            text: ActivityTypes.Event
+        const cancelAllSkillDialogsEvent = {
+            name: SkillEvents.cancelAllSkillDialogsEventName
         };
 
         const testAdapter = new TestAdapter(async function(context) {
@@ -36,8 +34,8 @@ describe("skill middleware", function() {
             }
             
             actual.dialogStack.push(`Element ${actual.dialogStack.length}`)
-            await dialogStateAccessor.set(context, actual);
             await conversationState.saveChanges(context, true);
+            await dialogStateAccessor.set(context, actual);
             await context.sendActivity(context.activity.text);
         })
         .use(async function(context, next) {
@@ -51,11 +49,6 @@ describe("skill middleware", function() {
         })
         .use(new SkillMiddleware(userState, conversationState, dialogStateAccessor));
 
-        await testAdapter.test('hello', 'hello')
-            .test('test', 'test')
-            .test('test', 'test')
-            .send(cancelEvent)
-            .test('test', 'test')
-            .test('bye', 'bye');
+        await testAdapter.test(cancelAllSkillDialogsEvent);
     });
 });

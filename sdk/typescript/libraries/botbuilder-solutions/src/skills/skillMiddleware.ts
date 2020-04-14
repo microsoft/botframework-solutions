@@ -6,7 +6,6 @@
 import { ConversationState, Middleware, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
 import { DialogState } from 'botbuilder-dialogs';
 import { Activity, ActivityTypes } from 'botframework-schema';
-import { SkillEvents } from './models';
 
 /**
  * The Skill middleware is responsible for processing Skill mode specifics,
@@ -29,14 +28,12 @@ export class SkillMiddleware implements Middleware {
 
     public async onTurn(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
         const activity: Activity = turnContext.activity;
-        if (activity !== undefined && activity.type === ActivityTypes.Event) {
-            if (activity.name === SkillEvents.cancelAllSkillDialogsEventName) {
-                await this.dialogState.delete(turnContext);
-                await this.conversationState.clear(turnContext);
-                await this.conversationState.saveChanges(turnContext, true);
+        if (activity !== undefined && activity.type === ActivityTypes.EndOfConversation) {
+            await this.dialogState.delete(turnContext);
+            await this.conversationState.clear(turnContext);
+            await this.conversationState.saveChanges(turnContext, true);
 
-                return;
-            }
+            return;
         }
 
         await next();
