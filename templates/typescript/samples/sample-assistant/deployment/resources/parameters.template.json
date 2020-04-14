@@ -20,8 +20,11 @@
     "botServiceSku": {
       "value": "F0"
     },
-    "luisServiceSku": {
+    "luisRuntimeSku": {
       "value": "F0"
+    },
+    "qnaMakerServiceLocation": {
+      "value": "westus"
     },
     "qnaMakerServiceSku": {
       "value": "F0"

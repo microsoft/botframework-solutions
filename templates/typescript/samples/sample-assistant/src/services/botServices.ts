@@ -4,7 +4,7 @@
  */
 
 import { BotTelemetryClient } from 'botbuilder';
-import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMaker, QnAMakerEndpoint } from 'botbuilder-ai';
+import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMakerEndpoint } from 'botbuilder-ai';
 import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'botbuilder-solutions';
 import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
 import i18next from 'i18next';
@@ -36,7 +36,8 @@ export class BotServices {
                 const cognitiveModelSet: ICognitiveModelSet = {
                     dispatchService: new LuisRecognizer(dispatchApp, luisPredictionOptions),
                     luisServices: new Map(),
-                    qnaServices: new Map()
+                    qnaServices: new Map(),
+                    qnaConfiguration: new Map()
                 };
 
                 if (config.languageModels !== undefined) {
@@ -57,7 +58,7 @@ export class BotServices {
                             endpointKey: kb.endpointKey,
                             host: kb.hostname
                         };
-                        cognitiveModelSet.qnaServices.set(kb.id, new QnAMaker(qnaEndpoint, undefined, telemetryClient, true));
+                        cognitiveModelSet.qnaConfiguration.set(kb.id, qnaEndpoint);
                     });
                 }
                 this.cognitiveModelSets.set(language, cognitiveModelSet);

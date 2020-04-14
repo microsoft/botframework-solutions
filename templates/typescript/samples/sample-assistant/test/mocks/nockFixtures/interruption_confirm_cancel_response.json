@@ -9,14 +9,14 @@
             "query": "Cancel",
             "topScoringIntent": {
                 "intent": "l_general",
-                "score": 0.9925641
+                "score": 0.998841941
             },
             "entities": [],
             "connectedServiceResult": {
                 "query": "Cancel",
                 "topScoringIntent": {
                     "intent": "Cancel",
-                    "score": 0.99789983
+                    "score": 0.997884154
                 },
                 "entities": []
             }
@@ -27,13 +27,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "297",
+            "300",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "0290dc38-77a7-46dd-9496-e3159e3cbb98",
+            "6ebcbffe-da10-43f1-a652-491af912b700",
             "Request-Id",
-            "0290dc38-77a7-46dd-9496-e3159e3cbb98",
+            "6ebcbffe-da10-43f1-a652-491af912b700",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -43,7 +43,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 12:19:59 GMT",
+            "Tue, 07 Apr 2020 19:11:01 GMT",
             "Connection",
             "close"
         ]
@@ -58,7 +58,7 @@
             "query": "Cancel",
             "topScoringIntent": {
                 "intent": "Cancel",
-                "score": 0.99789983
+                "score": 0.997884154
             },
             "entities": []
         },
@@ -68,13 +68,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "125",
+            "126",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "29608c68-eb70-431a-a212-d101a744ceb5",
+            "b7ce8912-06e0-4e82-b6ec-3231f1e3ae68",
             "Request-Id",
-            "29608c68-eb70-431a-a212-d101a744ceb5",
+            "b7ce8912-06e0-4e82-b6ec-3231f1e3ae68",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
@@ -84,7 +84,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 12:19:59 GMT",
+            "Tue, 07 Apr 2020 19:11:02 GMT",
             "Connection",
             "close"
         ]

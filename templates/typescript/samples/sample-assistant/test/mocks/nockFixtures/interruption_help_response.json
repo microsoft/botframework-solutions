@@ -9,14 +9,21 @@
             "query": "Help",
             "topScoringIntent": {
                 "intent": "l_general",
-                "score": 0.9991404
+                "score": 0.999744
             },
-            "entities": [],
+            "entities": [
+                {
+                    "entity": "help",
+                    "type": "builtin.personName",
+                    "startIndex": 0,
+                    "endIndex": 3
+                }
+            ],
             "connectedServiceResult": {
                 "query": "Help",
                 "topScoringIntent": {
                     "intent": "Help",
-                    "score": 0.9892016
+                    "score": 0.9876724
                 },
                 "entities": [
                     {
@@ -34,13 +41,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "429",
+            "553",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "58b4d30a-c239-4c73-8e87-6d28b868ccfb",
+            "3583ab97-b19c-4ecf-8c50-ee07fba6a263",
             "Request-Id",
-            "58b4d30a-c239-4c73-8e87-6d28b868ccfb",
+            "3583ab97-b19c-4ecf-8c50-ee07fba6a263",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +57,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 12:19:55 GMT",
+            "Tue, 07 Apr 2020 19:10:56 GMT",
             "Connection",
             "close"
         ]
@@ -65,7 +72,7 @@
             "query": "Help",
             "topScoringIntent": {
                 "intent": "Help",
-                "score": 0.9892016
+                "score": 0.9876724
             },
             "entities": [
                 {
@@ -86,9 +93,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "48bd6d55-15d2-4485-a65b-f534a1f024cf",
+            "d52f32a6-ed5b-4fd3-a2c8-c80eb77832b2",
             "Request-Id",
-            "48bd6d55-15d2-4485-a65b-f534a1f024cf",
+            "d52f32a6-ed5b-4fd3-a2c8-c80eb77832b2",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
@@ -98,7 +105,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 12:19:55 GMT",
+            "Tue, 07 Apr 2020 19:10:57 GMT",
             "Connection",
             "close"
         ]
