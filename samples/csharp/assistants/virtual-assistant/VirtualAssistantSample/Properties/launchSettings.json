@@ -19,9 +19,10 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
+        "CLR_OPENSSL_VERSION_OVERRIDE": "1.1",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:1205/"
+      "applicationUrl": "http://localhost:1210/"
     }
   }
 }

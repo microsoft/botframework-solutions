@@ -323,7 +323,7 @@ namespace VirtualAssistantSample.Dialogs
                 if (IsSkillIntent(dispatchIntent))
                 {
                     var dispatchIntentSkill = dispatchIntent.ToString();
-                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill };
+                    var skillDialogArgs = new SkillDialogArgs { SkillId = dispatchIntentSkill, Value = "Hello" };
 
                     // Start the skill dialog.
                     return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs);

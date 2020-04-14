@@ -1,0 +1,49 @@
+﻿# TicketShow
+
+> be
+
+- what is the status of my ticket
+- what's the status of my incident
+- what are the statuses of my issues
+
+> look
+
+- i would like to have a look at my tickets
+
+> search
+
+- search tickets
+- search issues
+- search incidents
+- search for tickets
+- search for issues about {TicketTitle}
+- search for incidents about {TicketTitle}
+
+> see
+
+- i would like to see my tickets
+- i would like to see urgency low issues
+- i would like to see incidents about {TicketTitle}
+
+> show
+
+- show my tickets
+- show my issues
+- show my incidents
+- show my urgency high tickets
+- show my tickets about {TicketTitle}
+- show me all high priority tickets
+- show me all high priority issues
+- show me all high priority incidents
+- show me all urgent tickets
+- show me all urgent issues
+- show me all urgent incidents
+
+> view
+
+- view my tickets
+- view my issues
+- view my incidents
+- view my urgency low tickets
+- view my tickets about {TicketTitle}
+- i would like to view my tickets

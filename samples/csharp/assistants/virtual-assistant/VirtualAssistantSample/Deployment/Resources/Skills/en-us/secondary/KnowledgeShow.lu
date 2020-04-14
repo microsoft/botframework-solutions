@@ -1,0 +1,40 @@
+﻿# KnowledgeShow
+
+> check
+
+- Check KBs about {TicketTitle}
+
+> explore
+
+- explore knowledge articles
+- explore knowledge database
+- explore knowledgebase
+- explore knowledgebase for {TicketTitle}
+
+> search
+
+- search kb for {TicketTitle}
+- search knowledge articles
+- search knowledge database
+- search knowledge for {TicketTitle}
+- search knowledgebase
+- search knowledgebase about {TicketTitle}
+- search knowledgebase for {TicketTitle}
+- search old issues for {TicketTitle}
+
+> show
+
+- show articles about {TicketTitle}
+- show knowledge articles
+- show knowledge articles about {TicketTitle}
+- show knowledge articles related to {TicketTitle}
+- show knowledge database
+- show knowledgebase
+- show me articles about {TicketTitle}
+- show me kb about {TicketTitle}
+- show me kb articles about {TicketTitle}
+
+> view
+
+- i'd like to view kbs about {TicketTitle}
+- view kbs

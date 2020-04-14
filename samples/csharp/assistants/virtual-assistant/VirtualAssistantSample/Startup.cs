@@ -4,6 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Security.Authentication;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +55,8 @@ namespace VirtualAssistantSample
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
             // Configure MVC
             services.AddControllers().AddNewtonsoftJson();
 
@@ -128,12 +133,21 @@ namespace VirtualAssistantSample
             services.AddSingleton<BotFrameworkHttpAdapter, DefaultAdapter>();
             services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
 
+            ServicePointManager.ServerCertificateValidationCallback +=
+(sender, certificate, chain, errors) =>
+{
+            // local dev, just approve all certs
+            return true;
+};
             // Configure bot
             services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
 
             // Register the skills conversation ID factory, the client and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
-            services.AddHttpClient<SkillHttpClient>();
+            services.AddHttpClient<SkillHttpClient>().ConfigurePrimaryHttpMessageHandler(sp => new HttpClientHandler()
+            {
+                ServerCertificateCustomValidationCallback = (message, certificate2, arg3, arg4) => true
+            });
             services.AddSingleton<ChannelServiceHandler, SkillHandler>();
 
             // Register the SkillDialogs (remote skills).
