@@ -1,5 +1,5 @@
 {
-    "id": "connectableSkill",
+    "id": "testSkill",
     "msaAppId": "00000000-0000-0000-0000-000000000000",
     "name": "Test Skill",
     "endpoint": "https://bftestskill.azurewebsites.net/api/skill/messages",
@@ -7,7 +7,7 @@
     "authenticationConnections": [],
     "actions": [
         {
-            "id": "connectableSkill_testAction",
+            "id": "testSkill_testAction",
             "definition": {
                 "description": "Test Action",
                 "slots": [],
@@ -16,24 +16,7 @@
                         {
                             "locale": "en-us",
                             "source": [
-                                "connectableSkill#Test"
-                            ]
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "id": "connectableSkill_testAction",
-            "definition": {
-                "description": "Test Action",
-                "slots": [],
-                "triggers": {
-                    "utteranceSources": [
-                        {
-                            "locale": "es-es",
-                            "source": [
-                                "connectableSkill#Prueba"
+                                "test#Test"
                             ]
                         }
                     ]

@@ -14,9 +14,26 @@
                 "triggers": {
                     "utteranceSources": [
                         {
-                            "locale": "en",
+                            "locale": "en-us",
                             "source": [
-                                "test#Test"
+                                "testSkill#Test"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "testSkill_testAction",
+            "definition": {
+                "description": "Test Action",
+                "slots": [],
+                "triggers": {
+                    "utteranceSources": [
+                        {
+                            "locale": "es-es",
+                            "source": [
+                                "testSkill#Prueba"
                             ]
                         }
                     ]

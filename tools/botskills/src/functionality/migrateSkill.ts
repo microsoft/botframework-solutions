@@ -41,22 +41,23 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             const destFile: IAppSetting = JSON.parse(readFileSync(configuration.destFile, 'UTF8'));
 
-            const destAssistantSkills: ISkill[] = destFile.BotFrameworkSkills || [];
+            const destAssistantSkills: ISkill[] = destFile.botFrameworkSkills || [];
 
             sourceAssistantSkills.skills.forEach((skill): void => {
                 manifestV1Validation(skill, this.logger);
                 if (!this.logger.isError){
 
-                    if (destAssistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.Id === skill.id)) {
-                        this.logger.warning(`The skill '${ skill.name }' is already registered.`);
+                    if (destAssistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skill.id)) {
+                        this.logger.warning(`The skill with ID '${ skill.id }' is already registered.`);
                         return;
                     }
 
                     destAssistantSkills.push({
-                        Id: skill.id,
-                        AppId: skill.msaAppId,
-                        SkillEndpoint: skill.endpoint,
-                        Name: skill.name
+                        id: skill.id,
+                        appId: skill.msaAppId,
+                        skillEndpoint: skill.endpoint,
+                        name: skill.name,
+                        description: skill.description
                     });
                 }
                 else {
@@ -64,7 +65,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 }
             });
 
-            destFile.BotFrameworkSkills = destAssistantSkills;
+            destFile.botFrameworkSkills = destAssistantSkills;
             writeFileSync(configuration.destFile, JSON.stringify(destFile, undefined, 4));
 
             this.logger.success(`Successfully migrated all the skills to the new version.`);
