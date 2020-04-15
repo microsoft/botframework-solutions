@@ -4,6 +4,7 @@
  */
 
 import { 
+    BeginSkillDialogOptions,
     ComponentDialog,
     WaterfallDialog,
     ConfirmPrompt,
@@ -41,7 +42,6 @@ export class SwitchSkillDialog extends ComponentDialog {
         this.addDialog(new ConfirmPrompt(SwitchSkillDialog.confirmPromptId));
     }
 
-
     // Runs when this dialog ends. Handles result of prompt to switch skills or resume waiting dialog.
     protected async endComponent(outerDc: DialogContext, result: object): Promise<DialogTurnResult> {
         const skillId: string | undefined = await this.skillIdAccessor.get(outerDc.context);
@@ -50,16 +50,21 @@ export class SwitchSkillDialog extends ComponentDialog {
             outerDc.context.activity.text = lastActivity.text;
         }
 
-        // Ends this dialog.
-        await outerDc.endDialog();
-
         if (!!result && skillId !== undefined) {
             // If user decided to switch, replace current skill dialog with new skill dialog.
-            return await outerDc.replaceDialog(skillId);
+            const skillDialogOptions: BeginSkillDialogOptions = {
+                activity: outerDc.context.activity
+            };
+
+            // End the SwitchSkillDialog without triggering the ResumeDialog function of current SkillDialog
+            outerDc.stack.shift();
+
+            // Start the skill dialog.
+            return await outerDc.replaceDialog(skillId, skillDialogOptions);
         }
         else {
-            // Otherwise, continue the waiting skill dialog with the user's previous utterance.
-            return await outerDc.continueDialog();
+            // Ends this dialog.
+            return await outerDc.endDialog();
         }
     }
 

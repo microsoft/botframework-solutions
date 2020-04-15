@@ -3,6 +3,5 @@
  * Licensed under the MIT License.
  */
 
-export * from './skillDialogOptions';
 export * from './skillEvents';
 export * from './manifest';

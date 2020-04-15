@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 
+import { CosmosDbPartitionedStorageOptions } from 'botbuilder-azure';
 import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
 import { IOAuthConnection } from './authentication';
 
@@ -38,7 +39,7 @@ export interface IBotSettingsBase {
     /**
      * Gets or sets the CosmosDB Configuration for the bot.
      */
-    cosmosDb: ICosmosDbConfiguration;
+    cosmosDb: CosmosDbPartitionedStorageOptions;
 
     /**
      * Gets or sets the Application Insights configuration for the bot.

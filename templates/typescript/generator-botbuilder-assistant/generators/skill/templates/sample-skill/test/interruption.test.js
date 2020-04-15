@@ -17,6 +17,8 @@ describe("interruption", function() {
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
                 .send("sample dialog")
+                .assertReplyOneOf(skillTestBase.getTemplates('FirstPromptText'))
+                .send("sample dialog")
                 .assertReplyOneOf(skillTestBase.getTemplates('NamePromptText'))
                 .send("help")
                 .assertReply(function (activity) {
@@ -31,6 +33,8 @@ describe("interruption", function() {
         it("send 'cancel' during the sample dialog", function(done) {
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
+                .send("sample dialog")
+                .assertReplyOneOf(skillTestBase.getTemplates('FirstPromptText'))
                 .send("sample dialog")
                 .assertReplyOneOf(skillTestBase.getTemplates('NamePromptText'))
                 .send("cancel")

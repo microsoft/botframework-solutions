@@ -6,6 +6,7 @@
 import { ISkillManifestV1 } from '../models/manifestV1/skillManifestV1';
 import { ISkillManifestV2 } from '../models/manifestV2/skillManifestV2';
 import { ILogger } from '../logger';
+import { ChildProcessUtils } from '../utils';
 
 /**
  * @param arg1 First argument of the pair of arguments.
@@ -111,3 +112,26 @@ export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: IL
         logger.error(`Missing property 'activities' of the manifest`);
     }
 }
+
+export async function validateLibrary(libs: libraries[], logger: ILogger): Promise<void> {
+    await Promise.all(libs.map(async (library: libraries) => {
+        const lib: libraryCommand = commands[library];
+        await new ChildProcessUtils().execute(lib.cmd, lib.args).catch( err => {
+            logger.error(`You are missing the library ${ libraries[library] }. Please visit ${ lib.package }.`);
+        });
+    }));
+}
+
+export enum libraries {
+    BotFrameworkCLI
+}
+
+interface libraryCommand {
+    cmd: string;
+    args: string[];
+    package: string;
+}
+
+const commands: { [key: number]: libraryCommand; } = {
+    0: { cmd: 'bf', args: ['-v'], package: 'https://www.npmjs.com/package/@microsoft/botframework-cli' }
+};

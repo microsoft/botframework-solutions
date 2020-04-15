@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "name": {
@@ -27,6 +27,14 @@
     "cosmosDbName": {
       "type": "string",
       "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+    },
+    "cosmosDbDatabaseName": {
+      "type": "string",
+      "defaultValue": "botstate-db"
+    },
+    "cosmosDbDatabaseThroughput": {
+      "type": "int",
+      "defaultValue": 400
     },
     "useStorage": {
       "type": "bool",
@@ -67,24 +75,47 @@
       "type": "string",
       "defaultValue": "S1"
     },
-    "luisServiceName": {
+    "luisRuntimeName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-luis-', parameters('suffix'))]"
+      "defaultValue": "[concat(parameters('name'), '-luisruntime-', parameters('suffix'))]"
     },
-    "luisServiceSku": {
+    "luisRuntimeSku": {
       "type": "string",
       "defaultValue": "S0"
     },
-    "luisServiceLocation": {
+    "luisRuntimeLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
+    },
+    "useLuisAuthoring": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "luisAuthoringName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-luisauthoring-', parameters('suffix'))]"
+    },
+    "luisAuthoringSku": {
+      "type": "string",
+      "defaultValue": "F0"
+    },
+    "luisAuthoringLocation": {
+      "type": "string"
+    },
+    "resourceTagName": {
+      "type": "string",
+      "defaultValue": "bot"
+    },
+    "resourceTagValue": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     }
   },
   "variables": {
     "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
+    "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
-    "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
-    "botEndpoint": "[concat('https://', toLower(variables('botWebAppName')), '.azurewebsites.net/api/messages')]"
+    "cosmosDbAccountName": "[toLower(take(replace(replace(parameters('cosmosDbName'), '-', ''), '_', ''), 31))]"
   },
   "resources": [
     {
@@ -116,7 +147,26 @@
           }
         ]
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useCosmosDb')]"
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "name": "[concat(variables('cosmosDbAccountName'), '/', parameters('cosmosDbDatabaseName'))]",
+      "apiVersion": "2019-12-12",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))]"
+      ],
+      "properties": {
+        "resource": {
+          "id": "[parameters('cosmosDbDatabaseName')]"
+        },
+        "options": {
+          "throughput": "[parameters('cosmosDbDatabaseThroughput')]"
+        }
+      }
     },
     {
       "comments": "storage account",
@@ -128,6 +178,9 @@
       "sku": {
         "name": "Standard_LRS"
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "condition": "[parameters('useStorage')]"
     },
     {
@@ -137,7 +190,10 @@
       "name": "[parameters('appServicePlanName')]",
       "location": "[parameters('location')]",
       "sku": "[parameters('appServicePlanSku')]",
-      "properties": {}
+      "properties": {},
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      }
     },
     {
       "comments": "app insights",
@@ -148,6 +204,9 @@
       "location": "[parameters('appInsightsLocation')]",
       "properties": {
         "Application_Type": "web"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
@@ -172,6 +231,9 @@
           ]
         }
       },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', parameters('appServicePlanName'))]"
       ]
@@ -181,29 +243,58 @@
       "type": "Microsoft.BotService/botServices",
       "kind": "sdk",
       "apiVersion": "2018-07-12",
-      "name": "[parameters('botServiceName')]",
+      "name": "[variables('botServiceName')]",
       "location": "global",
       "sku": {
         "name": "[parameters('botServiceSku')]"
       },
       "properties": {
-        "displayName": "[parameters('botServiceName')]",
-        "endpoint": "[variables('botEndpoint')]",
+        "displayName": "[variables('botServiceName')]",
         "msaAppId": "[parameters('microsoftAppId')]",
+        "isStreamingSupported": true,
+        "endpoint": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('botWebAppName'))).hostNames[0], '/api/messages')]",
         "developerAppInsightKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).instrumentationKey]",
         "developerAppInsightsApplicationId": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).ApplicationId]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
     },
     {
-      "comments": "Cognitive service key for all LUIS apps.",
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('luisRuntimeName')]",
+      "location": "[parameters('luisRuntimeLocation')]",
       "type": "Microsoft.CognitiveServices/accounts",
       "kind": "LUIS",
-      "apiVersion": "2017-04-18",
-      "name": "[parameters('luisServiceName')]",
-      "location": "[parameters('luisServiceLocation')]",
       "sku": {
-        "name": "[parameters('luisServiceSku')]"
+        "name": "[parameters('luisRuntimeSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisRuntimeName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       }
+    },
+    {
+      "apiVersion": "2016-02-01-preview",
+      "name": "[parameters('luisAuthoringName')]",
+      "location": "[parameters('luisAuthoringLocation')]",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "kind": "LUIS.Authoring",
+      "sku": {
+        "name": "[parameters('luisAuthoringSku')]"
+      },
+      "properties": {
+        "customSubDomainName": "[parameters('luisAuthoringName')]"
+      },
+      "tags": {
+        "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
+      ],
+      "condition": "[parameters('useLuisAuthoring')]"
     }
   ],
   "outputs": {
@@ -231,19 +322,22 @@
     "cosmosDb": {
       "type": "object",
       "value": {
-        "cosmosDBEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
+        "cosmosDbEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
         "authKey": "[if(parameters('useCosmosDb'), listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName')), '2015-04-08').primaryMasterKey, '')]",
-        "databaseId": "botstate-db",
-        "collectionId": "botstate-collection"
+        "databaseId": "[parameters('cosmosDbDatabaseName')]",
+        "containerId": "[concat(parameters('name'), '-state')]"
       }
     },
     "luis": {
       "type": "object",
       "value": {
-        "accountName": "[parameters('luisServiceName')]",
-        "region": "[parameters('luisServiceLocation')]",
-        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]"
-      }   
+        "accountName": "[parameters('luisRuntimeName')]",
+        "region": "[parameters('luisRuntimeLocation')]",
+        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
+        "authoringRegion": "[parameters('luisAuthoringLocation')]",
+        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]",
+        "endpoint": "[if(parameters('useLuisAuthoring'), reference(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').endpoint, '')]"
+      }
     }
   }
 }

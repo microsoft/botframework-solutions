@@ -4,187 +4,92 @@
  */
 
 import {
-    Activity,
     ActivityTypes,
-    BotTelemetryClient,
-    SemanticAction,
-    StatePropertyAccessor,
-    TurnContext } from 'botbuilder';
+    TurnContext, 
+    ConversationState,
+    SkillHttpClient} from 'botbuilder';
 import {
-    ComponentDialog,
     DialogContext,
     DialogInstance,
     DialogReason,
-    DialogTurnResult,
-    DialogTurnStatus } from 'botbuilder-dialogs';
-import {
-    ActivityEx,
-    IProviderTokenResponse,
-    isProviderTokenResponse,
-    MultiProviderAuthDialog,
-    TokenEvents } from '../';
-import {
-    ISkillTransport,
-    SkillConstants,
-    SkillContext,
-    SkillDialogOption,
-    TokenRequestHandler } from './';
-import { IServiceClientCredentials } from './auth';
-import { SkillHttpTransport } from './http';
-import {
-    IAction,
-    ISkillManifest,
-    ISlot } from './models';
+    DialogTurnResult, 
+    Dialog} from 'botbuilder-dialogs';
+import { IEnhancedBotFrameworkSkill } from './enhancedBotFrameworkSkill';
+import { SkillDialogArgs } from './skillDialogArgs';
+import { IBotSettingsBase } from '../botSettings';
+import { Activity, ConversationReference } from 'botframework-schema';
+import { ActivityEx } from '../extensions';
 
 
 /**
- * The SkillDialog class provides the ability for a Bot to send/receive messages to a remote Skill (itself a Bot).
- * The dialog name is that of the underlying Skill it's wrapping.
+ * A sample dialog that can wrap remote calls to a skill.
+ * @remarks The options parameter in BeginDialogAsync must be a SkillDialogArgs instance with the initial parameters for the dialog.
  */
-export class SkillDialog extends ComponentDialog {
-    private readonly authDialog?: MultiProviderAuthDialog;
-    private serviceClientCredentials: IServiceClientCredentials;
-    private skillContextAccessor: StatePropertyAccessor<SkillContext>;
-    private skillManifest: ISkillManifest;
-    private skillTransport: ISkillTransport;
-    private queuedResponses: Partial<Activity>[] = [];
-    private authDialogCancelled: boolean = false;
+export class SkillDialog extends Dialog {
+    private readonly botId: string; 
+    private readonly conversationState: ConversationState;
+    private readonly skillClient: SkillHttpClient;
+    private readonly skill: IEnhancedBotFrameworkSkill;
+    private readonly skillHostEndpoint: string;
 
-    /**
-     * Initializes a new instance of the SkillDialog class
-     * SkillDialog constructor that accepts the manifest description of a Skill along with TelemetryClient for end to end telemetry.
-     * @param skillManifest Skill manifest.
-     * @param serviceClientCredentials Service client credentials.
-     * @param telemetryClient Telemetry Client.
-     * @param skillContextAccessor SkillContext Accessor.
-     * @param authDialog Auth Dialog.
-     * @param skillTransport Transport used for skill invocation.
-     */
     public constructor(
-        skillManifest: ISkillManifest,
-        serviceClientCredentials: IServiceClientCredentials,
-        telemetryClient: BotTelemetryClient,
-        skillContextAccessor: StatePropertyAccessor<SkillContext>,
-        authDialog?: MultiProviderAuthDialog,
-        skillTransport?: ISkillTransport
+        conversationState: ConversationState,
+        skillClient: SkillHttpClient,
+        skill: IEnhancedBotFrameworkSkill,
+        configuration: IBotSettingsBase,
+        skillHostEndpoint: string
     ) {
-        super(skillManifest.id);
-        if (skillManifest === undefined) { throw new Error('skillManifest has no value'); }
-        if (serviceClientCredentials === undefined) { throw new Error('serviceClientCredentials has no value'); }
-        this.skillManifest = skillManifest;
-        this.serviceClientCredentials = serviceClientCredentials;
-        this.skillContextAccessor = skillContextAccessor;
-        this.skillTransport = skillTransport || new SkillHttpTransport(skillManifest, this.serviceClientCredentials);
-
-        if (authDialog !== undefined) {
-            this.authDialog = authDialog;
-            this.addDialog(this.authDialog);
-        }
-
-        // TODO It overwrites all added dialogs. See DialogSet
-        this.telemetryClient = telemetryClient;
-    }
-
-    public async endDialog(turnContext: TurnContext, instance: DialogInstance, reason: DialogReason): Promise<void> {
-        if (reason === DialogReason.cancelCalled || reason === DialogReason.replaceCalled) {
-            // when dialog is being ended/cancelled, send an activity to skill
-            // to cancel all dialogs on the skill side
-            if (this.skillTransport !== undefined) {
-                await this.skillTransport.cancelRemoteDialogs(turnContext);
-            }
-        }
-
-        await super.endDialog(turnContext, instance, reason);
+        super(skill.id);
+        if (configuration === undefined) { throw new Error ('configuration has no value'); }
+        if (configuration.microsoftAppId === undefined || configuration.microsoftAppId === '') { throw new Error ('The bot ID is not in configuration'); }
+        if (skillClient === undefined) { throw new Error ('skillClient has no value'); }
+        if (skill === undefined) { throw new Error ('skill has no value'); }
+        if (conversationState === undefined) { throw new Error ('conversationState has no value'); }
+        
+        this.botId = configuration.microsoftAppId;
+        this.skillHostEndpoint = skillHostEndpoint;
+        this.skillClient = skillClient;
+        this.skill = skill;
+        this.conversationState = conversationState;
     }
 
     /**
      * When a SkillDialog is started, a skillBegin event is sent which firstly indicates the Skill is being invoked in Skill mode,
      * also slots are also provided where the information exists in the parent Bot.
-     * @param innerDC inner dialog context.
+     * @param dc inner dialog context.
      * @param options options
      * @returns dialog turn result.
      */
-    protected async onBeginDialog(innerDC: DialogContext, options?: object): Promise<DialogTurnResult> {
-        let slots: SkillContext = new SkillContext();
-
-        // Retrieve the SkillContext state object to identify slots (parameters) that can be used to slot-fill when invoking the skill
-        const sc: SkillContext = await this.skillContextAccessor.get(innerDC.context, new SkillContext());
-        const skillContext: SkillContext = Object.assign(new SkillContext(), sc);
-        const dialogOptions: SkillDialogOption = options as SkillDialogOption !== undefined
-            ? options as SkillDialogOption
-            : new SkillDialogOption();
-        const actionName: string = dialogOptions.action;
-
-        const activity: Activity = innerDC.context.activity;
-
-        // only set SemanticAction if it's not populated
-        if (activity.semanticAction === undefined) {
-            const semanticAction: SemanticAction = { id: actionName, entities: {}, state : '' };
-
-            if (actionName !== undefined && actionName !== '') {
-                // only set the semantic state if action is not empty
-                semanticAction.state = SkillConstants.skillStart;
-
-                // Find the specified within the selected Skill for slot filling evaluation
-                const action: IAction | undefined = this.skillManifest.actions.find((item: IAction): boolean => {
-                    return item.id === actionName;
-                });
-                if (action !== undefined) {
-                    // If the action doesn't define any Slots or SkillContext is empty then we skip slot evaluation
-                    if (action.definition.slots !== undefined && skillContext.count > 0) {
-                        // Match Slots to Skill Context
-                        slots = await this.matchSkillContextToSlots(innerDC, action.definition.slots, skillContext);
-                    }
-                } else {
-                    const message = `Passed Action (${
-                        actionName
-                    }) could not be found within the ${
-                        this.skillManifest.id
-                    } skill manifest action definition.`;
-
-                    throw new Error(message);
-                }
-            } else {
-                // The caller hasn't got the capability of identifying the action as well as the Skill so we enumerate
-                // actions and slot data to pass what we have
-
-                // Retrieve a distinct list of all slots,
-                // some actions may use the same slot so we use distinct to ensure we only get 1 instance.
-                const skillSlots: ISlot[] = this.skillManifest.actions.reduce(
-                    (acc: ISlot[], curr: IAction): ISlot[] => {
-                        const currDistinct: ISlot[] = curr.definition.slots.filter(
-                            (slot: ISlot): boolean => !acc.find((item: ISlot): boolean => item.name === slot.name)
-                        );
-
-                        return acc.concat(currDistinct);
-                    },
-                    []);
-
-                if (skillSlots !== undefined && skillContext !== undefined) {
-                    // Match Slots to Skill Context
-                    slots = await this.matchSkillContextToSlots(innerDC, skillSlots, skillContext);
-                }
-            }
-
-            slots.forEachObj((value: Object, key: string): void => {
-                // eslint-disable-next-line @typescript-eslint/tslint/config, @typescript-eslint/no-explicit-any
-                semanticAction.entities[key] = {
-                    properties: value
-                } as any;
-            });
-
-            activity.semanticAction = semanticAction;
+    public async beginDialog(dc: DialogContext, options?: object): Promise<DialogTurnResult> {
+        if (!(options instanceof SkillDialogArgs)) {
+            throw new Error('Unable to cast \'options\' to SkillDialogArgs');
         }
+        
+        let dialogArgs: SkillDialogArgs = options;
+        //let skillId = dialogArgs.skillId; //skillId is not being used, but for parity with C#, this line is commented instead of removed
+        await dc.context.sendTraceActivity(`${ SkillDialog.name }.onBeginDialog()`, undefined, undefined, `Using activity of type: ${ dialogArgs.activityType }`);
+        
+        let skillActivity: Activity;
 
-        await innerDC.context.sendActivity({
-            type: ActivityTypes.Trace,
-            text: `-->Handing off to the ${ this.skillManifest.name } skill.`
-        });
-
-        const dialogResult: DialogTurnResult = await this.forwardToSkill(innerDC, activity);
-        this.skillTransport.disconnect();
-
-        return dialogResult;
+        switch (dialogArgs.activityType) {
+            case ActivityTypes.Event:
+                let eventActivity = ActivityEx.createEventActivity();
+                eventActivity.name = dialogArgs.name;
+                const reference: Partial<ConversationReference> = TurnContext.getConversationReference(dc.context.activity);
+                eventActivity = ActivityEx.applyConversationReference(eventActivity, reference, true);
+                skillActivity = eventActivity as Activity;
+                break;
+            case ActivityTypes.Message:
+                let messageActivity = ActivityEx.createMessageActivity();
+                messageActivity.text = dc.context.activity.text;
+                skillActivity = messageActivity as Activity;
+                break;
+            default:
+                throw new Error(`Invalid activity type in ${ dialogArgs.activityType } in ${ SkillDialogArgs.name }`);
+        }
+        
+        this.applyParentActivityProperties(dc.context, skillActivity, dialogArgs);
+        return await this.sendToSkill(dc, skillActivity);
     }
 
     /**
@@ -192,147 +97,64 @@ export class SkillDialog extends ComponentDialog {
      * @param innerDC Inner Dialog Context.
      * @returns DialogTurnResult.
      */
-    protected async onContinueDialog(innerDC: DialogContext): Promise<DialogTurnResult> {
-        const activity: Activity = innerDC.context.activity;
-        if (this.authDialog !== undefined && innerDC.activeDialog !== undefined && innerDC.activeDialog.id === this.authDialog.id) {
-            // Handle magic code auth
-            const result: DialogTurnResult<Object> = await innerDC.continueDialog();
-
-            // forward the token response to the skill
-            if (result.status === DialogTurnStatus.complete && isProviderTokenResponse(result.result)) {
-                activity.type = ActivityTypes.Event;
-                activity.name = TokenEvents.tokenResponseEventName;
-                activity.value = result.result;
-            } else {
-                return result;
-            }
+    public async continueDialog(dc: DialogContext): Promise<DialogTurnResult> {
+        await dc.context.sendTraceActivity(`${ SkillDialog.name }.continueDialog()`, undefined, undefined, `ActivityType: ${ dc.context.activity.type }`);
+        
+        if (dc.context.activity.type === ActivityTypes.EndOfConversation)
+        {
+            await dc.context.sendTraceActivity(`${ SkillDialog.name }.continueDialog()`, undefined, undefined, 'Got EndOfConversation');
+            return await dc.endDialog(dc.context.activity.value);
         }
 
-        const dialogResult: DialogTurnResult = await this.forwardToSkill(innerDC, activity);
-
-        this.skillTransport.disconnect();
-
-        return dialogResult;
+        // Just forward to the remote skill
+        return await this.sendToSkill(dc, dc.context.activity);
     }
 
-    /**
-     * Map Skill slots to what we have in SkillContext.
-     * This is a synchronous operation whereby all response activities are aggregated and returned in one batch.
-     * @param innerDc Inner DialogContext.
-     * @param actionSlots The Slots within an Action.
-     * @param Calling Bot's SkillContext.
-     * @returns A filtered SkillContext for the Skill.
-     */
-    private async matchSkillContextToSlots(innerDc: DialogContext, actionSlots: ISlot[], skillContext: SkillContext): Promise<SkillContext> {
-        const slots: SkillContext = new SkillContext();
-        if (actionSlots !== undefined) {
-            actionSlots.forEach(async (slot: ISlot): Promise<void> => {
-                // For each slot we check to see if there is an exact match, if so we pass this slot across to the skill
-                const value: Object|undefined = skillContext.getObj(slot.name);
-                if (skillContext !== undefined && value !== undefined) {
-                    slots.setObj(slot.name, value);
+    public async resumeDialog(dc: DialogContext, reason: DialogReason, result: Object): Promise<DialogTurnResult> {
+        return SkillDialog.EndOfTurn;
+    }
 
-                    // Send trace to emulator
-                    await innerDc.context.sendActivity({
-                        type: ActivityTypes.Trace,
-                        text: `-->Matched the ${ slot.name } slot within SkillContext and passing to the Skill.`
-                    });
-                }
-            });
+    public async endDialog(turnContext: TurnContext, instance: DialogInstance, reason: DialogReason): Promise<void> {
+        if (reason === DialogReason.cancelCalled || reason === DialogReason.replaceCalled) {
+            await turnContext.sendTraceActivity(`${ SkillDialog.name }.endDialog()`, undefined, undefined, `ActivityType: ${ turnContext.activity.type }`);
+
+            const activity: Activity = ActivityEx.createEndOfConversationActivity() as Activity;
+            this.applyParentActivityProperties(turnContext, activity);
+
+            await this.sendToSkill(undefined, activity);
         }
 
-        return slots;
+        await super.endDialog(turnContext, instance, reason);
     }
 
-    /**
-     * Forward an inbound activity on to the Skill.
-     * This is a synchronous operation whereby all response activities are aggregated and returned in one batch.
-     * @param innerDc Inner DialogContext.
-     * @param activity Activity.
-     * @returns DialogTurnResult.
-     */
-    private async forwardToSkill(innerDc: DialogContext, activity: Partial<Activity>): Promise<DialogTurnResult> {
-        try {
-            //PENDING: handoffActivity should be Activity instead of boolean
-            const handoffActivity: boolean = await this.skillTransport.forwardToSkill(
-                innerDc.context,
-                activity,
-                this.getTokenRequestCallback(innerDc)
-            );
+    private applyParentActivityProperties(turnContext: TurnContext, skillActivity: Activity, dialogArgs?: SkillDialogArgs): void {
+        // Apply conversation reference and common properties from incoming activity before sending.
+        const reference: Partial<ConversationReference> = TurnContext.getConversationReference(turnContext.activity);
+        skillActivity = ActivityEx.applyConversationReference(skillActivity, reference, true) as Activity;
+        skillActivity.channelData = turnContext.activity.channelData;
+        // PENDING, the property 'Properties' does not exists in Activity
+        //skillActivity.properties = turnContext.activity.properties;
 
-            if (handoffActivity) {
-                await innerDc.context.sendActivity({
-                    type: ActivityTypes.Trace,
-                    text: `<--Ending the skill conversation with the ${ this.skillManifest.name } Skill and handing off to Parent Bot.`
-                });
-
-                return await innerDc.endDialog();
-            } else if (this.authDialogCancelled) {
-                // cancel remote skill dialog if AuthDialog is cancelled
-                await this.skillTransport.cancelRemoteDialogs(innerDc.context);
-
-                await innerDc.context.sendActivity({
-                    type: ActivityTypes.Trace,
-                    text: `<--Ending the skill conversation with the ${
-                        this.skillManifest.name } Skill and handing off to Parent Bot due to unable to obtain token for user.`
-                });
-
-                return await innerDc.endDialog();
-            } else {
-                let dialogResult: DialogTurnResult = {
-                    status: DialogTurnStatus.waiting
-                };
-
-                // if there's any response we need to send to the skill queued
-                // forward to skill and start a new turn
-                while (this.queuedResponses.length > 0) {
-                    const lastEvent: Partial<Activity> | undefined = this.queuedResponses.shift();
-
-                    if (lastEvent !== undefined) {
-                        dialogResult = await this.forwardToSkill(innerDc, lastEvent);
-                    }
-                }
-
-                return dialogResult;
-            }
-        } catch (error) {
-            // something went wrong forwarding to the skill, so end dialog cleanly and throw so the error is logged.
-            // NOTE: errors within the skill itself are handled by the OnTurnError handler on the adapter.
-            await innerDc.endDialog();
-            throw error;
+        if (dialogArgs !== undefined)
+        {
+            skillActivity.value = dialogArgs.value;
         }
     }
 
-    private getTokenRequestCallback(dialogContext: DialogContext): TokenRequestHandler {
-        return async (activity: Activity): Promise<void> => {
-            // Send trace to emulator
-            await dialogContext.context.sendActivity({
-                type: ActivityTypes.Trace,
-                text: '<--Received a Token Request from a skill'
-            });
+    private async sendToSkill(dc: DialogContext | undefined, activity: Activity): Promise<DialogTurnResult> {
+        if (dc !== undefined)
+        {
+            // Always save state before forwarding
+            // (the dialog stack won't get updated with the skillDialog and things won't work if you don't)
+            await this.conversationState.saveChanges(dc.context, true);
+        }
 
-            const result: DialogTurnResult = await dialogContext.beginDialog(this.authDialog ? this.authDialog.id : '');
+        const response = await this.skillClient.postToSkill(this.botId, this.skill, this.skillHostEndpoint, activity);
+        if (!(response.status >= 200 && response.status <= 299))
+        {
+            throw new Error (`Error invoking the skill id: "${ this.skill.id }" at "${ this.skill.skillEndpoint }" (status is ${ response.status }).\r\n${ response.body }`);
+        }
 
-            if (result.status === DialogTurnStatus.complete) {
-                const tokenResponse: IProviderTokenResponse = result.result as IProviderTokenResponse;
-
-                if (isProviderTokenResponse(tokenResponse)) {
-                    const tokenEvent: Activity = ActivityEx.createReply(activity);
-                    tokenEvent.type = ActivityTypes.Event;
-                    tokenEvent.name = TokenEvents.tokenResponseEventName;
-                    tokenEvent.value = tokenResponse;
-
-                    this.queuedResponses.push(tokenEvent);
-                } else {
-                    this.authDialogCancelled = true;
-                }
-            }
-        };
+        return SkillDialog.EndOfTurn;
     }
-}
-
-//  eslint-disable-next-line @typescript-eslint/no-unused-vars
-enum DialogIds {
-    confirmSkillSwitchPrompt = 'confirmSkillSwitchPrompt',
-    confirmSkillSwitchFlow = 'confirmSkillSwitchFlow'
 }

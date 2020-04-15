@@ -15,7 +15,7 @@ import {
     ISkill,
     IModel
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils, libraries, validateLibrary } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 import { IManifest } from '../models/manifest';
 
@@ -267,6 +267,12 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
     public async connectSkill(): Promise<boolean> {
         try {
+            // Validate if the user has the necessary tools to run the command
+            await validateLibrary([libraries.BotFrameworkCLI], this.logger);
+            if (this.logger.isError) {
+                throw new Error('You have not installed the required tools to run this command');
+            }
+
             // Validate if no manifest path or URL was passed
             if (!this.configuration.localManifest && !this.configuration.remoteManifest) {
                 throw new Error(`Either the 'localManifest' or 'remoteManifest' argument should be passed.`);
