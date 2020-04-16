@@ -11,7 +11,7 @@ order: 4
 
 ## {{ page.title }}
 
-The Skill template requires the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
+The Skill Template requires the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
 - Azure Web App
 - Azure Storage Account (Transcripts)
