@@ -1,0 +1,44 @@
+{
+    "id": "testSkill",
+    "msaAppId": "11111111-0000-0000-0000-000000000000",
+    "name": "Test Skill",
+    "endpoint": "http://localhost:3980/api/skill/Americas",
+    "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+    "authenticationConnections": [],
+    "actions": [
+        {
+            "id": "testSkill_testAction",
+            "definition": {
+                "description": "Test Action",
+                "slots": [],
+                "triggers": {
+                    "utteranceSources": [
+                        {
+                            "locale": "en-us",
+                            "source": [
+                                "testSkill#Test"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "testSkill_testAction",
+            "definition": {
+                "description": "Test Action",
+                "slots": [],
+                "triggers": {
+                    "utteranceSources": [
+                        {
+                            "locale": "es-es",
+                            "source": [
+                                "testSkill#Prueba"
+                            ]
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

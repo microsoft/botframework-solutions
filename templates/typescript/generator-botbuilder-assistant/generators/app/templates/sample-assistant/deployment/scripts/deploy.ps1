@@ -1,15 +1,19 @@
 #Requires -Version 6
 
 Param(
-	[string] $name,
+    [string] $name,
 	[string] $resourceGroup,
-	[string] $location,
+    [string] $location,
 	[string] $appId,
-	[string] $appPassword,
-	[string] $luisAuthoringKey,
-	[string] $luisAuthoringRegion,
-	[string] $parametersFile,
+    [string] $appPassword,
+    [string] $parametersFile,
+	[switch] $createLuisAuthoring,
+    [string] $luisAuthoringKey,
+    [string] $luisAuthoringRegion,
+    [string] $armLuisAuthoringRegion,
+    [switch] $useGov,
 	[string] $languages = "en-us",
+    [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
 	[string] $projDir = $(Get-Location),
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
@@ -25,9 +29,36 @@ else {
 	New-Item -Path $logFile | Out-Null
 }
 
+# Check for AZ CLI and confirm version
+if (Get-Command az -ErrorAction SilentlyContinue) {
+    $azcliversionoutput = az -v
+    [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
+    [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
+    [version]$minversion = '2.2.0'
+
+    if ($azcliversion -ge $minversion) {
+        $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
+        Write-Debug $azclipassmessage
+        $azclipassmessage | Out-File -Append -FilePath $logfile
+    }
+    else {
+        $azcliwarnmessage = "You are using an older version of the AZ CLI, `
+    please ensure you are using version $minversion or newer. `
+    The most recent version can be found here: http://aka.ms/installazurecliwindows"
+        Write-Warning $azcliwarnmessage
+        $azcliwarnmessage | Out-File -Append -FilePath $logfile
+    }
+}
+else {
+    $azclierrormessage = 'AZ CLI not found. Please install latest version.'
+    Write-Error $azclierrormessage
+    $azclierrormessage | Out-File -Append -FilePath $logfile
+}
+
+
 if (-not (Test-Path (Join-Path $srcDir 'appsettings.json')))
 {
-	Write-Host "! Could not find an 'appsettings.json' file in the current directory." -ForegroundColor DarkRed
+	Write-Host "! Could not find an 'appsettings.json' file in the current directory." -ForegroundColor Red
 	Write-Host "+ Please re-run this script from your project directory." -ForegroundColor Magenta
 	Break
 }
@@ -49,33 +80,29 @@ if (-not $appPassword) {
     $appPassword = Read-Host "? Password for MSA app registration (must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character)"
 }
 
-if (-not $luisAuthoringRegion) {
-    $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, or australiaeast)"
+if (-not $luisAuthoringKey) {
+    if (-not $PSBoundParameters.ContainsKey("createLuisAuthoring")) {
+        $confirmCreateKey = Read-Host "? Create a new LUIS Authoring Resource? [y/n]"
+
+        if ($confirmCreateKey -ne 'y') {
+            $luisAuthoringKey = Read-Host "? LUIS Authoring Key"
+            $luisEndpoint = Read-Host "? LUIS Endpoint"
+            $createLuisAuthoring = $false
+        }
+        else {
+            $createLuisAuthoring = $true
+        }
+    } 
+}
+else {
+    $createLuisAuthoring = $false
+    if (-not $luisEndpoint) {
+        $luisEndpoint = Read-Host "? LUIS Endpoint"
+    }
 }
 
-if (-not $luisAuthoringKey) {
-	Switch ($luisAuthoringRegion) {
-		"westus" { 
-			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://luis.ai/user/settings)"
-			Break
-		}
-		"westeurope" {
-		    $luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://eu.luis.ai/user/settings)"
-			Break
-		}
-		"australiaeast" {
-			$luisAuthoringKey = Read-Host "? LUIS Authoring Key (found at https://au.luis.ai/user/settings)"
-			Break
-		}
-		default {
-			Write-Host "! $($luisAuthoringRegion) is not a valid LUIS authoring region." -ForegroundColor DarkRed
-			Break
-		}
-	}
-
-	if (-not $luisAuthoringKey) {
-		Break
-	}
+if (-not $luisAuthoringRegion) {
+    $luisAuthoringRegion = Read-Host "? LUIS Authoring Region (westus, westeurope, or australiaeast)"
 }
 
 if (-not $appId) {
@@ -93,59 +120,67 @@ if (-not $appId) {
 	}
 
 	if(-not $appId) {
-		Write-Host "! Could not provision Microsoft App Registration automatically. Review the log for more information." -ForegroundColor DarkRed
-		Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+		Write-Host "! Could not provision Microsoft App Registration automatically. Review the log for more information." -ForegroundColor Red
+		Write-Host "! Log: $($logFile)" -ForegroundColor Red
 		Write-Host "+ Provision an app manually in the Azure Portal, then try again providing the -appId and -appPassword arguments. See https://aka.ms/vamanualappcreation for more information." -ForegroundColor Magenta
 		Break
 	}
+}
+
+if (-not $armLuisAuthoringRegion) {
+    $armLuisAuthoringRegion = $luisAuthoringRegion
 }
 
 # Get timestamp
 $timestamp = Get-Date -f MMddyyyyHHmmss
 
 # Create resource group
-Write-Host "> Creating resource group ..."
+Write-Host "> Creating resource group ..." -NoNewline
 (az group create --name $resourceGroup --location $location --output json) 2>> $logFile | Out-Null
+Write-Host "Done." -ForegroundColor Green
 
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 if ($parametersFile) {
-	Write-Host "> Validating Azure deployment ..."
-	$validation = az group deployment validate `
+	Write-Host "> Validating Azure deployment ..." -NoNewline
+	$validation = az deployment group validate `
 		--resource-group $resourcegroup `
-		--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
-		--output json
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+        --output json
 
-	if ($validation) {
+	if ($validation) {    
 		$validation >> $logFile
 		$validation = $validation | ConvertFrom-Json
 	
 		if (-not $validation.error) {
-			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow
-			$deployment = az group deployment create `
+            Write-Host "Done." -ForegroundColor Green
+			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
+			$deployment = az deployment group create `
 				--name $timestamp `
 				--resource-group $resourceGroup `
-				--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 				--parameters "@$($parametersFile)" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
-                --output json
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+                --output json 2>> $logFile | Out-Null
+
+            Write-Host "Done." -ForegroundColor Green
 		}
 		else {
-			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
-			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor DarkRed
-			Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor Red
+			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor Red
+			Write-Host "! Log: $($logFile)" -ForegroundColor Red
 			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 			Break
 		}
 	}
 }
 else {
-	Write-Host "> Validating Azure deployment ..."
-	$validation = az group deployment validate `
+	Write-Host "> Validating Azure deployment ..." -NoNewline
+	$validation = az deployment group validate `
 		--resource-group $resourcegroup `
-		--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
+		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
         --output json
 
 	if ($validation) {
@@ -153,18 +188,21 @@ else {
 		$validation = $validation | ConvertFrom-Json
 
 		if (-not $validation.error) {
-			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow
-			$deployment = az group deployment create `
+            Write-Host "Done." -ForegroundColor Green
+			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
+			$deployment = az deployment group create `
 				--name $timestamp `
 				--resource-group $resourceGroup `
-				--template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" `
-                --output json
+				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
+				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+                --output json 2>> $logFile | Out-Null
+
+            Write-Host "Done." -ForegroundColor Green
 		}
 		else {
-			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor DarkRed
-			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor DarkRed
-			Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor Red
+			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor Red
+			Write-Host "! Log: $($logFile)" -ForegroundColor Red
 			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
 			Break
 		}
@@ -172,7 +210,7 @@ else {
 }
 
 # Get deployment outputs
-$outputs = (az group deployment show `
+$outputs = (az deployment group show `
 	--name $timestamp `
 	--resource-group $resourceGroup `
 	--query properties.outputs `
@@ -187,10 +225,14 @@ if ($outputs)
 	$outputMap = @{}
 	$outputs.PSObject.Properties | Foreach-Object { $outputMap[$_.Name] = $_.Value }
 
+	# Update AD app with homepage
+	$botWebAppUrl = "https://$($outputs.botWebAppName.value).azurewebsites.net"
+	az ad app update --id $appId --homepage $botWebAppUrl
+
 	# Update appsettings.json
-	Write-Host "> Updating appsettings.json ..."
+	Write-Host "> Updating appsettings.json ..." -NoNewline
 	if (Test-Path $(Join-Path $srcDir appsettings.json)) {
-		$settings = Get-Content $(Join-Path $srcDir appsettings.json) -Encoding utf8 | ConvertFrom-Json
+		$settings = Get-Content -Encoding utf8 $(Join-Path $srcDir appsettings.json) | ConvertFrom-Json
 	}
 	else {
 		$settings = New-Object PSObject
@@ -198,32 +240,53 @@ if ($outputs)
 
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppId' -Value $appId
 	$settings | Add-Member -Type NoteProperty -Force -Name 'microsoftAppPassword' -Value $appPassword
-	foreach ($key in $outputMap.Keys) { $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value }
-	$settings | ConvertTo-Json -depth 100 | Out-File $(Join-Path $srcDir appsettings.json)
+
+    if ($useGov) {
+        $settings | Add-Member -Type NoteProperty -Force -Name 'ChannelService' -Value "https://botframework.azure.us"
+    }
+	
+	foreach ($key in $outputMap.Keys) {
+        $settings | Add-Member -Type NoteProperty -Force -Name $key -Value $outputMap[$key].value
+    }
+	
+	$settings | ConvertTo-Json -depth 100 | Out-File -Encoding utf8 $(Join-Path $srcDir appsettings.json)
 
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
+    if (-not $luisAuthoringKey) { $luisAuthoringKey = $outputs.luis.value.authoringKey }
+    if (-not $luisEndpoint) { $luisEndpoint = $outputs.luis.value.endpoint }
+    
+    Write-Host "Done." -ForegroundColor Green
 
 	# Delay to let QnA Maker finish setting up
 	Start-Sleep -s 30
 
 	# Deploy cognitive models
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -luisAuthoringRegion $($luisAuthoringRegion) -luisAuthoringKey $($luisAuthoringKey) -luisAccountName $($outputs.luis.value.accountName) -luisAccountRegion $($outputs.luis.value.region) -luisSubscriptionKey $($outputs.luis.value.key) -resourceGroup $($resourceGroup) -qnaSubscriptionKey '$($qnaSubscriptionKey)' -outFolder '$($srcDir)' -languages '$($languages)'"
+	if ($useGov) {
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($srcDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)' -useGov"
+    }
+    else {
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($srcDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)'"
+	}
+	
+    # Publish bot
+	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
 
 	# Summary 
-	Write-Host "Summary of the deployed resources:" -ForegroundColor Yellow
+	Write-Host "+ Summary of the deployed resources:" -ForegroundColor Magenta
+	Write-Host "    - Resource Group: $($resourceGroup)" -ForegroundColor Magenta
+	Write-Host "    - Bot Web App: $($outputs.botWebAppName.value)" -ForegroundColor Magenta
+	Write-Host "    - Microsoft App Id: $($appId)" -ForegroundColor Magenta
+	Write-Host "    - Microsoft App Password: $($appPassword)" -ForegroundColor Magenta
 
-	Write-Host "- Resource Group: $($resourceGroup)" -ForegroundColor Yellow
-	
-	Write-Host "- Bot Web App: $($outputs.botWebAppName.value)`n" -ForegroundColor Yellow
+	Write-Host "> Deployment complete." -ForegroundColor Green
 
-	# Publish bot
-	Invoke-Expression "& '$(Join-Path $PSScriptRoot 'publish.ps1')' -name $($outputs.botWebAppName.value) -resourceGroup $($resourceGroup) -projFolder '$($projDir)'"
-	Write-Host "> Done."
+	Write-Host "Test your deployed bot on the bot framework emulator with the following link (copy and paste link into windows -> run to open the emulator with your deployed bot configured)" -ForegroundColor Green
+	Write-Host "bfemulator://livechat.open?botUrl=$($botWebAppUrl)/api/messages&msaAppId=$($appId)&msaAppPassword=$($appPassword)" -ForegroundColor Green
 }
 else
 {
 	# Check for failed deployments
-	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
+	$operations = (az deployment operation group list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
 	
 	if ($operations) {
 		$operations = $operations | ConvertFrom-Json
@@ -232,8 +295,8 @@ else
 			foreach ($operation in $failedOperations) {
 				switch ($operation.properties.statusmessage.error.code) {
 					"MissingRegistrationForLocation" {
-						Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor DarkRed
-						Write-Host "+ Update the .\Deployment\resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
+						Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType). This resource is not avaliable in the location provided." -ForegroundColor Red
+						Write-Host "+ Update the .\Deployment\Resources\parameters.template.json file with a valid region for this resource and provide the file path in the -parametersFile parameter." -ForegroundColor Magenta
 					}
 					default {
 						Write-Host "! Deployment failed for resource of type $($operation.properties.targetResource.resourceType)."
@@ -245,8 +308,8 @@ else
 		}
 	}
 	else {
-		Write-Host "! Deployment failed. Please refer to the log file for more information." -ForegroundColor DarkRed
-		Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
+		Write-Host "! Deployment failed. Please refer to the log file for more information." -ForegroundColor Red
+		Write-Host "! Log: $($logFile)" -ForegroundColor Red
 	}
 	
 	Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta

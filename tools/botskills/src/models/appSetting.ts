@@ -12,6 +12,6 @@ export interface IAppSetting {
     microsoftAppPassword: string;
     botWebAppName: string;
     resourceGroupName: string;
-    BotFrameworkSkills?: ISkill[];
-    SkillHostEndpoint?: string;
+    botFrameworkSkills?: ISkill[];
+    skillHostEndpoint?: string;
 }

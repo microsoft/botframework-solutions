@@ -58,9 +58,9 @@ describe("Main Dialog", function () {
         });
     });
 	
-    describe("confused", function () {
+    xdescribe("confused", function () {
         it("send an unhandled message", function (done) {
-			const allResponseVariations = templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("UnsupportedMessage", { name: '' });
+			const allResponseVariations = templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("UnsupportedMessage", testUserProfileState);
 
 			getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
