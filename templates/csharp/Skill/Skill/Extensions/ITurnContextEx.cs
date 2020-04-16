@@ -11,7 +11,7 @@ namespace $safeprojectname$.Extensions
     {
         public static bool IsSkill(this ITurnContext turnContext)
         {
-            return turnContext.TurnState.Get<ClaimsIdentity>("BotIdentity") is ClaimsIdentity botIdentity && SkillValidation.IsSkillClaim(botIdentity.Claims) ? true : false;
+            return turnContext.TurnState.Get<ClaimsIdentity>(BotAdapter.BotIdentityKey) is ClaimsIdentity botIdentity && SkillValidation.IsSkillClaim(botIdentity.Claims) ? true : false;
         }
     }
 }

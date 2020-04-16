@@ -1,0 +1,26 @@
+{
+    "GetResponseText": {
+        "replies": [
+            {
+                "text": "El texto",
+                "speak": "El habla",
+                "cardText": "El texto de la tarjeta"
+            }
+        ],
+        "inputHint": "expectingInput",
+        "suggestedActions": [
+            "Sugerencia 1",
+            "Sugerencia 2"
+        ]
+    },
+    "MultiLanguage": {
+        "replies": [
+            {
+                "text": "Esto sería en español",
+                "speak": "Esto es en Español",
+                "cardText": "Esto es en Español"
+            }
+        ],
+        "inputHint": "expectingInput"
+    }
+}

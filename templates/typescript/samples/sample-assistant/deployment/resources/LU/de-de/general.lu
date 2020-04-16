@@ -105,18 +105,10 @@
 
 
 ## ExtractName
-- rufen Sie mich steve !
-- ich bin anna
-- ich bin john jackson.
-- ich bin Lily
-- es ist jackson .
-- es ist alice anderson!
-- mein Name ist bill jones
-- dies ist john w.smith .
-- ([Sie können]| [bitte]) Ruf mich an  {PersonName.Any} [.]
-- mein Name ist  {PersonName.Any} [.]
-- (i'm|i am)  {PersonName.Any} [.]
-- (es ist|es ist|dies ist)  {PersonName.Any} [.]
+- ([Sie können]|[bitte]) Ruf mich an {PersonName.Any} [.]
+- mein Name ist {PersonName.Any} [.]
+- (i'm|i am) {PersonName.Any} [.]
+- (es ist|es ist|dies ist) {PersonName.Any} [.]
 
 
 ## FinishTask
@@ -529,7 +521,6 @@ $PREBUILT:number
 
 $PREBUILT:ordinal
 
-$PREBUILT:personName
 
 > # Phrase list definitions
 

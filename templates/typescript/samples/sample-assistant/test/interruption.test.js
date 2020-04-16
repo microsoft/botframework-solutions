@@ -100,23 +100,9 @@ describe("Interruption", function() {
 
             getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
-                    .send({
-                        type: "conversationUpdate",
-                        membersAdded: [
-                            {
-                                id: "1",
-                                name: "user"
-                            }
-                        ],
-                    })
-                    .assertReply((activity, description) => {
-                        assert.strictEqual(1, activity.attachments.length)
-                    })
+                    .send('')
                     .assertReplyOneOf(allNamePromptVariations)
                     .send("Repeat")
-                    .assertReply((activity, description) => {
-                        assert.strictEqual(1, activity.attachments.length)
-                    })
                     .assertReplyOneOf(allNamePromptVariations)
                 return testNock.resolveWithMocks("interruption_repeat_response", done, flow);
             });

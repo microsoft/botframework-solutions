@@ -1,9 +1,15 @@
-﻿> ------------ Activity templates ------------
+> ------------ Activity templates ------------
 
 # IntroMessage
 [Activity
     Text = @{IntroText()}
     SuggestedActions = Help
+    InputHint = acceptingInput
+]
+
+# FirstPromptMessage
+[Activity
+    Text = @{FirstPromptText()}
     InputHint = acceptingInput
 ]
 
@@ -63,6 +69,12 @@
 
 # IntroText
 - Welcome to your custom skill!
+
+# FirstPromptText
+- What can I help you with today?
+- What can I do for you?
+- Is there anything I can do for you?
+- How can I help you?
 
 # HelpTitle
 - Help

@@ -38,7 +38,7 @@
     "eslint-config-prettier": "^4.1.0",
     "eslint-config-xo": "^0.26.0",
     "eslint-plugin-prettier": "^3.0.1",
-    "mocha": "^6.1.4",
+    "mocha": "^6.2.3",
     "mocha-junit-reporter": "^1.22.0",
     "nyc": "^14.1.1",
     "typescript": "^3.4.5",

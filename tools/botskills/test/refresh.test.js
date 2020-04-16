@@ -114,10 +114,11 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
             this.refresher.configuration = configuration;
             await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
+            const localePlaceholder = errorList[errorList.length - 1].includes('en-us') ? 'en-us' : 'es-es';
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
 Error: There was an error in the dispatch refresh command:
-Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\en-us
+Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\${ localePlaceholder }\\filled${ localePlaceholder }Dispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\${ localePlaceholder }
 Error: Mocked function throws an Error`);
         });
 

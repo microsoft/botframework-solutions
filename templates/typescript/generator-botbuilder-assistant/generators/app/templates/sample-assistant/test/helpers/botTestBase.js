@@ -5,10 +5,9 @@
 
 const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
-const { SkillContext } = require('botbuilder-solutions');
 const { TestAdapter } = require('botbuilder-core');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
-const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateEngineManager, SetLocaleMiddleware, SwitchSkillDialog } = require('botbuilder-solutions');
+const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateEngineManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('botbuilder-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const { BotServices } = require('../../lib/services/botServices');
@@ -20,7 +19,6 @@ const TEST_MODE = require('./testBase').testMode;
 const resourcesDir = TEST_MODE === 'lockdown' ? join('..', 'mocks', 'resources') : join('..', '..', 'src');
 
 const appSettings = require(join(resourcesDir, 'appsettings.json'));
-const skills = require(join(resourcesDir, 'skills.json')).skills;
 const cognitiveModelsRaw = require(join(resourcesDir, 'cognitivemodels.json'));
 const cognitiveModels = new Map();
 const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
@@ -61,6 +59,7 @@ async function initConfiguration() {
     })
     .then(async () => {
         await Locales.addResourcesFromPath(i18next, 'common');
+        await i18next.changeLanguage('en-us');
     });
 }
 
@@ -79,11 +78,8 @@ async function getTestAdapterDefault(settings) {
         blobStorage: appSettings.blobStorage,
         contentModerator: '',
         cognitiveModels: cognitiveModels,
-        properties: {},
-        skills: skills
+        properties: {}
     };
-
-    
 
     const telemetryClient = new NullTelemetryClient();
     const storage = settings.storage || new MemoryStorage();
@@ -92,27 +88,27 @@ async function getTestAdapterDefault(settings) {
     const userState = new UserState(storage);
 
     const botServices = new BotServices(botSettings);
-    const skillContextAccessor = userState.createProperty(SkillContext.name);
     const botServicesAccesor = userState.createProperty(BotServices.name)
     const onboardingDialog = new OnboardingDialog(botServicesAccesor, botServices, templateEngine, telemetryClient);
     const skillDialogs = [];
     const userProfileStateAccesor = userState.createProperty('IUserProfileState');
     const previousResponseAccesor = userState.createProperty('Activity');
     const switchSkillDialog = new SwitchSkillDialog(conversationState);
+    const skillsConfig = new SkillsConfiguration([], '');
     const mainDialog = new MainDialog(
         botSettings,
         botServices,
         templateEngine,
         userProfileStateAccesor,
-        skillContextAccessor,
         previousResponseAccesor,
         onboardingDialog,
         switchSkillDialog,
         skillDialogs,
-        telemetryClient,
+        skillsConfig,
+        telemetryClient
     );
 
-    const botLogic = new DefaultActivityHandler(conversationState, userState, mainDialog);
+    const botLogic = new DefaultActivityHandler(conversationState, userState, templateEngine, mainDialog);
     const adapter = new TestAdapter(botLogic.run.bind(botLogic));
 
     adapter.onTurnError = async function(context, error) {

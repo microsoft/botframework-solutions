@@ -6,6 +6,7 @@
 import { ISkillManifestV1 } from '../models/manifestV1/skillManifestV1';
 import { ISkillManifestV2 } from '../models/manifestV2/skillManifestV2';
 import { ILogger } from '../logger';
+import { ChildProcessUtils } from '../utils';
 
 /**
  * @param arg1 First argument of the pair of arguments.
@@ -45,63 +46,92 @@ export function isValidCultures(availableCultures: string[], targetedCultures: s
 }
 
 export function manifestV1Validation(skillManifest: ISkillManifestV1, logger: ILogger): void {
-    if (!skillManifest.name) {
+    if (skillManifest.name === undefined || skillManifest.name === "") {
         logger.error(`Missing property 'name' of the manifest`);
     }
-    if (!skillManifest.id) {
+
+    if (skillManifest.id === undefined || skillManifest.id === "") {
         logger.error(`Missing property 'id' of the manifest`);
     } else if (skillManifest.id.match(/^\d|[^\w]/g) !== null) {
         logger.error(`The 'id' of the manifest contains some characters not allowed. Make sure the 'id' contains only letters, numbers and underscores, but doesn't start with number.`);
     }
-    if (!skillManifest.endpoint) {
+
+    if (skillManifest.endpoint === undefined || skillManifest.endpoint === "") {
         logger.error(`Missing property 'endpoint' of the manifest`);
     } else if (skillManifest.endpoint.match(/^(https?:\/\/)?((([a-zA-F\d]([a-zA-F\d-]*[a-zA-F\d])*)\.)+[a-zA-F]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-zA-F\d%_.~+]*)*(\?[;&a-zA-F\d%_.~+=-]*)?(\#[-a-zA-F\d_]*)?$/g) === null) {
         logger.error(`The 'endpoint' property contains some characters not allowed.`);
     }
-    if (skillManifest.authenticationConnections === undefined || !skillManifest.authenticationConnections) {
+
+    if (skillManifest.authenticationConnections === undefined) {
         logger.error(`Missing property 'authenticationConnections' of the manifest`);
     }
-    if (!skillManifest.actions || skillManifest.actions === undefined || skillManifest.actions[0] === undefined) {
+
+    if (skillManifest.actions === undefined || skillManifest.actions[0] === undefined) {
         logger.error(`Missing property 'actions' of the manifest`);
     }
 
 }
 
 export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: ILogger, endpointName?: string): void {
-    if (!skillManifest.$schema) {
+    if (skillManifest.$schema === undefined || skillManifest.$schema === "") {
         logger.error(`Missing property '$schema' of the manifest`);
     }
-    if (!skillManifest.$id) {
+
+    if (skillManifest.$id === undefined || skillManifest.$id === "") {
         logger.error(`Missing property '$id' of the manifest`);
     } else if (skillManifest.$id.match(/^\d|[^\w]/g) !== null) {
         logger.error(`The '$id' of the manifest contains some characters not allowed. Make sure the '$id' contains only letters, numbers and underscores, but doesn't start with number.`);
     }
-    if (!skillManifest.endpoints) {
+
+    if (skillManifest.endpoints === undefined || skillManifest.endpoints.length === 0) {
         logger.error(`Missing property 'endpoints' of the manifest`);
+    } else {
+        let currentEndpoint = skillManifest.endpoints.find((endpoint): boolean =>  endpoint.name == endpointName) || skillManifest.endpoints[0];
+        if (currentEndpoint.name === undefined || currentEndpoint.name === ""){
+            logger.error(`Missing property 'name' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
+        }
+
+        if (currentEndpoint.msAppId === undefined || currentEndpoint.msAppId === ""){
+            logger.error(`Missing property 'msAppId' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
+        } else if (currentEndpoint.msAppId.match(/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/g) === null) {
+            logger.error(`The 'msAppId' property of the selected endpoint contains invalid characters or does not comply with the GUID format. If you didn't select any endpoint, the first one is taken by default.`);
+        }
+
+        if (currentEndpoint.endpointUrl === undefined || currentEndpoint.endpointUrl === ""){
+            logger.error(`Missing property 'endpointUrl' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
+        } else if (currentEndpoint.endpointUrl.match(/^(https?:\/\/)?((([a-zA-F\d]([a-zA-F\d-]*[a-zA-F\d])*)\.)+[a-zA-F]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-zA-F\d%_.~+]*)*(\?[;&a-zA-F\d%_.~+=-]*)?(\#[-a-zA-F\d_]*)?$/g) === null) {
+            logger.error(`The 'endpointUrl' property of the selected endpoint contains invalid characters or does not comply with the URL format. If you didn't select any endpoint, the first one is taken by default.`);
+        }
     }
 
-    let currentEndpoint = skillManifest.endpoints.find((endpoint): boolean =>  endpoint.name == endpointName) || skillManifest.endpoints[0];
-    if (!currentEndpoint.name){
-        logger.error(`Missing property 'name' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
-    }
-
-    if (!currentEndpoint.msAppId){
-        logger.error(`Missing property 'msAppId' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
-    } else if (currentEndpoint.msAppId.match(/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/g) === null) {
-        logger.error(`The 'msAppId' property contains some characters not allowed at the selected endpoint. If you didn't select any endpoint, the first one is taken by default.`);
-    }
-
-    if (!currentEndpoint.endpointUrl){
-        logger.error(`Missing property 'endpointUrl' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
-    } else if (currentEndpoint.endpointUrl.match(/^(https?:\/\/)?((([a-zA-F\d]([a-zA-F\d-]*[a-zA-F\d])*)\.)+[a-zA-F]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-zA-F\d%_.~+]*)*(\?[;&a-zA-F\d%_.~+=-]*)?(\#[-a-zA-F\d_]*)?$/g) === null) {
-        logger.error(`The 'endpointUrl' property contains some characters not allowed at the selected endpoint. If you didn't select any endpoint, the first one is taken by default.`);
-    }
-
-    if (!skillManifest.dispatchModels || skillManifest.dispatchModels === undefined) {
+    if (skillManifest.dispatchModels === undefined || Object.keys(skillManifest.dispatchModels).length === 0) {
         logger.error(`Missing property 'dispatchModels' of the manifest`);
     }
-    if (!skillManifest.activities ||  Object.keys(skillManifest.activities).length === 0) {
+
+    if (!skillManifest.activities || Object.keys(skillManifest.activities).length === 0) {
         logger.error(`Missing property 'activities' of the manifest`);
     }
-    
 }
+
+export async function validateLibrary(libs: libraries[], logger: ILogger): Promise<void> {
+    await Promise.all(libs.map(async (library: libraries) => {
+        const lib: libraryCommand = commands[library];
+        await new ChildProcessUtils().execute(lib.cmd, lib.args).catch( err => {
+            logger.error(`You are missing the library ${ libraries[library] }. Please visit ${ lib.package }.`);
+        });
+    }));
+}
+
+export enum libraries {
+    BotFrameworkCLI
+}
+
+interface libraryCommand {
+    cmd: string;
+    args: string[];
+    package: string;
+}
+
+const commands: { [key: number]: libraryCommand; } = {
+    0: { cmd: 'bf', args: ['-v'], package: 'https://www.npmjs.com/package/@microsoft/botframework-cli' }
+};

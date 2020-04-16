@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
 import { ICognitiveModel, IRefreshConfiguration } from '../models';
-import { ChildProcessUtils, getDispatchNames, isCloudGovernment, wrapPathWithQuotes } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isCloudGovernment, libraries, validateLibrary, wrapPathWithQuotes } from '../utils';
 
 export class RefreshSkill {
     public logger: ILogger;
@@ -125,6 +125,12 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
 
     public async refreshSkill(): Promise<boolean> {
         try {
+            // Validate if the user has the necessary tools to run the command
+            await validateLibrary([libraries.BotFrameworkCLI], this.logger);
+            if (this.logger.isError) {
+                throw new Error('You have not installed the required tools to run this command');
+            }
+            
             await this.updateModel();
                 
             this.logger.success('Successfully refreshed Dispatch model');

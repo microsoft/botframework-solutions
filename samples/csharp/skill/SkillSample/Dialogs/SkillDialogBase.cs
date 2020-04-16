@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -23,14 +22,12 @@ namespace SkillSample.Dialogs
     {
         public SkillDialogBase(
              string dialogId,
-             IServiceProvider serviceProvider,
-             IBotTelemetryClient telemetryClient)
+             IServiceProvider serviceProvider)
              : base(dialogId)
         {
             Settings = serviceProvider.GetService<BotSettings>();
             Services = serviceProvider.GetService<BotServices>();
             TemplateEngine = serviceProvider.GetService<LocaleTemplateManager>();
-            TelemetryClient = telemetryClient;
 
             // Initialize skill state
             var conversationState = serviceProvider.GetService<ConversationState>();
@@ -45,33 +42,33 @@ namespace SkillSample.Dialogs
             // AddDialog(new MultiProviderAuthDialog(Settings.OAuthConnections));
         }
 
-        protected BotSettings Settings { get; set; }
+        protected BotSettings Settings { get; }
 
-        protected BotServices Services { get; set; }
+        protected BotServices Services { get; }
 
-        protected IStatePropertyAccessor<SkillState> StateAccessor { get; set; }
+        protected IStatePropertyAccessor<SkillState> StateAccessor { get; }
 
-        protected LocaleTemplateManager TemplateEngine { get; set; }
+        protected LocaleTemplateManager TemplateEngine { get; }
 
-        protected async Task<DialogTurnResult> GetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken)
+        protected async Task<DialogTurnResult> GetAuthTokenAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             try
             {
-                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
+                return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions(), cancellationToken);
             }
             catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptionsAsync(sc, ex, cancellationToken);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
-                await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptionsAsync(sc, ex, cancellationToken);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
-        protected async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        protected async Task<DialogTurnResult> AfterGetAuthTokenAsync(WaterfallStepContext sc, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -79,26 +76,26 @@ namespace SkillSample.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    var state = await StateAccessor.GetAsync(sc.Context);
+                    var state = await StateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
                     state.Token = providerTokenResponse.TokenResponse.Token;
                 }
 
-                return await sc.NextAsync();
+                return await sc.NextAsync(cancellationToken: cancellationToken);
             }
             catch (SkillException ex)
             {
-                await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptionsAsync(sc, ex, cancellationToken);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
             catch (Exception ex)
             {
-                await HandleDialogExceptions(sc, ex);
+                await HandleDialogExceptionsAsync(sc, ex, cancellationToken);
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
             }
         }
 
         // Validators
-        protected Task<bool> TokenResponseValidator(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
+        protected Task<bool> TokenResponseValidatorAsync(PromptValidatorContext<Activity> pc, CancellationToken cancellationToken)
         {
             var activity = pc.Recognized.Value;
             if (activity != null && activity.Type == ActivityTypes.Event)
@@ -111,7 +108,7 @@ namespace SkillSample.Dialogs
             }
         }
 
-        protected Task<bool> AuthPromptValidator(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
+        protected Task<bool> AuthPromptValidatorAsync(PromptValidatorContext<TokenResponse> promptContext, CancellationToken cancellationToken)
         {
             var token = promptContext.Recognized.Value;
             if (token != null)
@@ -125,20 +122,20 @@ namespace SkillSample.Dialogs
         }
 
         // This method is called by any waterfall step that throws an exception to ensure consistency
-        protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+        protected async Task HandleDialogExceptionsAsync(WaterfallStepContext sc, Exception ex, CancellationToken cancellationToken)
         {
             // send trace back to emulator
             var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
-            await sc.Context.SendActivityAsync(trace);
+            await sc.Context.SendActivityAsync(trace, cancellationToken);
 
             // log exception
             TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
             // send error message to bot user
-            await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("ErrorMessage"));
+            await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("ErrorMessage"), cancellationToken);
 
             // clear state
-            var state = await StateAccessor.GetAsync(sc.Context);
+            var state = await StateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
             state.Clear();
         }
     }

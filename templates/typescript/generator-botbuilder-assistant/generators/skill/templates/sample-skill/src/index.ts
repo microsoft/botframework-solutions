@@ -4,6 +4,7 @@
  */
 
 import {
+    BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
     ConversationState,
@@ -11,29 +12,27 @@ import {
     StatePropertyAccessor,
     TurnContext,
     UserState, 
-    TelemetryLoggerMiddleware} from 'botbuilder';
+    TelemetryLoggerMiddleware } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import {
-    CosmosDbStorage,
-    CosmosDbStorageSettings } from 'botbuilder-azure';
+import { CosmosDbPartitionedStorageOptions, CosmosDbPartitionedStorage } from 'botbuilder-azure';
 import {
     Dialog } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
     Locales,
     LocaleTemplateEngineManager,
-    manifestGenerator,
-    SkillHttpAdapter } from 'botbuilder-solutions';
+    manifestGenerator } from 'botbuilder-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
-import { CustomSkillAdapter, DefaultAdapter } from './adapters';
+import { DefaultAdapter } from './adapters';
 import * as appsettings from './appsettings.json';
 import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
 import { SampleDialog } from './dialogs/sampleDialog';
+import { SampleAction } from './dialogs/sampleAction';
 import { SkillState } from './models/skillState';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
@@ -49,12 +48,13 @@ i18next.use(i18nextNodeFsBackend)
     });
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
-const cognitiveModelDictionary: { [key: string]: Record<string, any> } = cognitiveModelsRaw.cognitiveModels;
-const cognitiveModelMap: Map<string, Record<string, any>>  = new Map(Object.entries(cognitiveModelDictionary));
-cognitiveModelMap.forEach((value: Record<string, any>, key: string): void => {
+const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
+const cognitiveModelMap: Map<string, Object> = new Map(Object.entries(cognitiveModelDictionary));
+cognitiveModelMap.forEach((value: Object, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
 
+// Load settings
 const botSettings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
@@ -78,20 +78,23 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
     return new NullTelemetryClient();
 }
 
+// Configure telemetry
 const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
+const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
+const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 
 if (botSettings.cosmosDb === undefined) {
     throw new Error();
 }
 
-const cosmosDbStorageSettings: CosmosDbStorageSettings = {
+// Configure storage
+const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
     authKey: botSettings.cosmosDb.authKey,
-    collectionId: botSettings.cosmosDb.collectionId,
+    containerId: botSettings.cosmosDb.containerId,
     databaseId: botSettings.cosmosDb.databaseId,
-    serviceEndpoint: botSettings.cosmosDb.cosmosDBEndpoint
+    cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint
 };
-
-const storage: CosmosDbStorage = new CosmosDbStorage(cosmosDbStorageSettings);
+const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
@@ -104,8 +107,8 @@ const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it',
 supportedLocales.forEach((locale: string): void => {
     const localeTemplateFiles: string[] = [];
     templateFiles.forEach((template: string): void => {
-        // LG template for default locale should not include locale in file extension.
-        if (locale === (botSettings.defaultLocale || 'en-us')) {
+        // LG template for en-us does not include locale in file extension.
+        if (locale === 'en-us') {
             localeTemplateFiles.push(join(__dirname, '..', 'src', 'responses', `${ template }.lg`));
         } else {
             localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${ template }.${ locale }.lg`));
@@ -117,9 +120,6 @@ supportedLocales.forEach((locale: string): void => {
 
 const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
-const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
-const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
-
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
@@ -127,24 +127,27 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
-    localeTemplateEngine,
-    telemetryInitializerMiddleware,
-    telemetryClient,
-    adapterSettings);
-
-const customSkillAdapter: CustomSkillAdapter = new CustomSkillAdapter(
-    botSettings,
-    userState,
-    conversationState,
+    adapterSettings,
     localeTemplateEngine,
     telemetryInitializerMiddleware,
     telemetryClient);
-const adapter: SkillHttpAdapter = new SkillHttpAdapter(customSkillAdapter);
+
+const adapter: BotFrameworkAdapter = defaultAdapter;
 
 let bot: DefaultActivityHandler<Dialog>;
 try {
+    // Configure bot services
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
+
+    // Register dialogs
     const sampleDialog: SampleDialog = new SampleDialog(
+        botSettings,
+        botServices,
+        stateAccessor,
+        telemetryClient,
+        localeTemplateEngine
+    );
+    const sampleAction: SampleAction = new SampleAction(
         botSettings,
         botServices,
         stateAccessor,
@@ -153,13 +156,14 @@ try {
     );
     const mainDialog: MainDialog = new MainDialog(
         botServices,
+        telemetryClient,
         stateAccessor,
         sampleDialog,
-        telemetryClient,
+        sampleAction,
         localeTemplateEngine
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateEngine, mainDialog);
 } catch (err) {
     throw err;
 }
@@ -180,6 +184,14 @@ server.listen(process.env.port || process.env.PORT || '3980', (): void => {
 
 // Listen for incoming requests
 server.post('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
+    // Route received a request to adapter for processing
+    await defaultAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
+        // route to bot activity handler.
+        await bot.run(turnContext);
+    });
+});
+
+server.get('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
     // Route received a request to adapter for processing
     await defaultAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
         // route to bot activity handler.

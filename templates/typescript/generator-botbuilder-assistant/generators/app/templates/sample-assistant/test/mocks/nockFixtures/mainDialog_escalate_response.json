@@ -9,14 +9,21 @@
             "query": "I want to talk to a human",
             "topScoringIntent": {
                 "intent": "l_general",
-                "score": 0.8168505
+                "score": 0.8587723
             },
-            "entities": [],
+            "entities": [
+                {
+                    "entity": "a human",
+                    "type": "builtin.personName",
+                    "startIndex": 18,
+                    "endIndex": 24
+                }
+            ],
             "connectedServiceResult": {
                 "query": "I want to talk to a human",
                 "topScoringIntent": {
                     "intent": "Escalate",
-                    "score": 0.9560676
+                    "score": 0.9560153
                 },
                 "entities": [
                     {
@@ -34,13 +41,13 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "480",
+            "610",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "fd4c19c3-67e1-491c-89e6-4a34a9a9eaa0",
+            "231d2dba-9f81-4e5f-9882-9b9abb75307c",
             "Request-Id",
-            "fd4c19c3-67e1-491c-89e6-4a34a9a9eaa0",
+            "231d2dba-9f81-4e5f-9882-9b9abb75307c",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|2",
             "Strict-Transport-Security",
@@ -50,7 +57,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 12:20:03 GMT",
+            "Tue, 07 Apr 2020 19:11:05 GMT",
             "Connection",
             "close"
         ]
@@ -65,7 +72,7 @@
             "query": "I want to talk to a human",
             "topScoringIntent": {
                 "intent": "Escalate",
-                "score": 0.9560676
+                "score": 0.9560153
             },
             "entities": [
                 {
@@ -86,9 +93,9 @@
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "4110d306-6f12-49f9-9872-04242098f780",
+            "cf3731ba-288f-4498-8137-447c152ec4ce",
             "Request-Id",
-            "4110d306-6f12-49f9-9872-04242098f780",
+            "cf3731ba-288f-4498-8137-447c152ec4ce",
             "CSP-Billing-Usage",
             "CognitiveServices.LUIS.Transaction|1",
             "Strict-Transport-Security",
@@ -98,7 +105,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 10 Mar 2020 12:20:04 GMT",
+            "Tue, 07 Apr 2020 19:11:06 GMT",
             "Connection",
             "close"
         ]

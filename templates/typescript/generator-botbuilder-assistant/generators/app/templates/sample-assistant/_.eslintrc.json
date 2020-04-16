@@ -28,6 +28,7 @@
         "@typescript-eslint/no-object-literal-type-assertion": ["error", {
             "allowAsParameter": true
          }],
-         "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": true }]
+        "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": true }],
+        "@typescript-eslint/ban-types": 0
     }
 }

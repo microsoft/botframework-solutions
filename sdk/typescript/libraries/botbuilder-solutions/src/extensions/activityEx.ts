@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { Activity, ActivityTypes, ChannelAccount, ConversationReference } from 'botframework-schema';
+import { Activity, ActivityTypes, ChannelAccount, ConversationReference, IEventActivity, IEndOfConversationActivity, IMessageActivity } from 'botframework-schema';
 
 export namespace ActivityEx {
     export function createReply(source: Activity, text?: string, local?: string): Activity {
@@ -74,5 +74,57 @@ export namespace ActivityEx {
             default:
                 return false;
         }
+    }
+
+    export function createEventActivity(): Partial<IEventActivity> {
+        return { type: ActivityTypes.Event };
+    }
+
+    export function createMessageActivity(): Partial<IMessageActivity> {
+        return { type: ActivityTypes.Message };
+    }
+
+    export function createEndOfConversationActivity(): Partial<IEndOfConversationActivity> {
+        return { type: ActivityTypes.EndOfConversation };
+    }
+
+    export function applyConversationReference(source: Partial<Activity>, reference: Partial<ConversationReference>, isComming?: boolean): Partial<Activity> {
+        if (reference.channelId !== undefined) {
+            source.channelId = reference.channelId;
+        }
+
+        if (reference.serviceUrl !== undefined) {
+            source.serviceUrl = reference.serviceUrl;
+        }
+        
+        if (reference.conversation !== undefined) {
+            source.conversation = reference.conversation;
+        }
+
+        if(isComming) {
+            if (reference.user !== undefined) {
+                
+            }
+
+            if (reference.bot !== undefined) {
+                source.recipient = reference.bot;
+            }
+
+            if(reference.activityId !== undefined) {
+                source.id = reference.activityId;
+            }
+        } else {
+            if(reference.bot !== undefined) {
+                source.from = reference.bot;
+            }
+            if(reference.user !== undefined) {
+                source.recipient = reference.user;
+            }
+            if(reference.activityId !== undefined) {
+                source.replyToId = reference.activityId;
+            }
+        }
+
+        return source;
     }
 }

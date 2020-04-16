@@ -3,10 +3,11 @@
  * Licensed under the MIT License.
  */
 
-import { LuisRecognizerTelemetryClient, LuisRecognizer, QnAMaker } from 'botbuilder-ai';
+import { LuisRecognizerTelemetryClient, LuisRecognizer, QnAMaker, QnAMakerEndpoint } from 'botbuilder-ai';
 
 export interface ICognitiveModelSet {
     dispatchService: LuisRecognizerTelemetryClient;
     luisServices: Map<string, LuisRecognizer>; 
     qnaServices: Map<string, QnAMaker>;
+    qnaConfiguration: Map<string, QnAMakerEndpoint>;
 }

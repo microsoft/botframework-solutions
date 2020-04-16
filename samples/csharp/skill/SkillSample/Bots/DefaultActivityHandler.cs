@@ -19,12 +19,13 @@ namespace SkillSample.Bots
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private LocaleTemplateManager _templateEngine;
+        private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private readonly LocaleTemplateManager _templateEngine;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
             _dialog = dialog;
+            _dialog.TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
@@ -42,7 +43,7 @@ namespace SkillSample.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("IntroMessage"));
+            await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("IntroMessage"), cancellationToken);
             await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 

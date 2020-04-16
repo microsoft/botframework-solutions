@@ -1,35 +1,34 @@
-function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
+function DeployKB ($name, $luFile, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
 {
-    $id = $lu_file.BaseName
-    $outFile = "$($id).qna"
-    $outFolder = $lu_file.DirectoryName
+    $id = $luFile.BaseName
+    $outFile = "$($id).json"
+    $outFolder = $luFile.DirectoryName
 
     # Parse LU file
-    Write-Host "> Parsing $($id) LU file ..."
-    ludown parse toqna `
-        --in $lu_file `
-        --out_folder $outFolder `
-        --out $outFile
-
+    Write-Host "> Converting $($language) $($id) QnA file ..." -NoNewline
+	bf qnamaker:convert `
+        --in $luFile `
+        --out $(Join-Path $outFolder $outFile) `
+        --force 2>> $log | Out-Null
+    Write-Host "Done." -ForegroundColor Green
+        
 	# Create QnA Maker kb
-    Write-Host "> Deploying $($id) QnA kb ..."
+    Write-Host "> Deploying $($language) $($id) QnA kb ..." -NoNewline
 
 	# These values pretty much guarantee success. We can decrease them if the QnA backend gets faster
-    $initialDelaySeconds = 30;
-    $retryAttemptsRemaining = 3;
+    $initialDelaySeconds = 60;
+    $retryAttemptsRemaining = 4;
     $retryDelaySeconds = 15;
     $retryDelayIncrease = 30;
 
     while ($retryAttemptsRemaining -ge 0) {
-		$qnaKb = (qnamaker create kb `
-			--name $id `
+		$bfconfig = (bf qnamaker:kb:create `
+			--name $name `
 			--subscriptionKey $qnaSubscriptionKey `
-			--in $(Join-Path $outFolder $outFile) `
-			--force `
-			--wait `
-			--msbot) 2>> $log
+            --endpoint $qnaEndpoint `
+			--in $(Join-Path $outFolder $outFile) | ConvertFrom-Json) 2>> $log
 
-		if (-not $qnaKb) {
+		if (-not $bfconfig.kbId) {
 			$retryAttemptsRemaining = $retryAttemptsRemaining - 1
 			Write-Host $retryAttemptsRemaining
 			Start-Sleep -s $retryDelaySeconds
@@ -48,40 +47,49 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $log)
 		}
     }
 
-	if (-not $qnaKb) {
+	if (-not $bfconfig.kbId) {
 		Write-Host "! Could not deploy knowledgebase. Review the log for more information." -ForegroundColor DarkRed
 		Write-Host "! Log: $($log)" -ForegroundColor DarkRed
 		Return $null
 	}
 	else {
-		$qnaKb = $qnaKb | ConvertFrom-Json
-
 	    # Publish QnA Maker knowledgebase
-		$(qnamaker publish kb --kbId $qnaKb.kbId --subscriptionKey $qnaSubscriptionKey) 2>> $log | Out-Null
+        Write-Host "Done." -ForegroundColor Green
+		bf qnamaker:kb:publish `
+            --kbId $bfconfig.kbId `
+            --subscriptionKey $qnaSubscriptionKey `
+            --endpoint $qnaEndpoint 2>> $log | Out-Null
 
-		Return $qnaKb
+		Return $bfconfig
 	}
 }
 
-function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey)
+function UpdateKB ($luFile, $kbId, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
 {
-    $id = $lu_file.BaseName
-    $outFile = "$($id).qna"
-    $outFolder = $lu_file.DirectoryName
+    $id = $luFile.BaseName
+    $outFile = "$($id).json"
+    $outFolder = $luFile.DirectoryName
 
     # Parse LU file
-    Write-Host "> Parsing $($id) LU file ..."
-    ludown parse toqna `
-        --in $lu_file `
-        --out_folder $outFolder `
-        --out $outFile
+    Write-Host "> Converting $($language) $($id) QnA file ..." -NoNewline
+	bf qnamaker:convert `
+        --in $luFile `
+        --out $(Join-Path $outFolder $outFile) `
+        --force 2>> $log | Out-Null
+    Write-Host "Done." -ForegroundColor Green
 
-    Write-Host "> Replacing $($id) QnA kb ..."
-	qnamaker replace kb `
+    Write-Host "> Replacing $($language) $($id) QnA kb ..." -NoNewline
+	bf qnamaker:kb:replace `
         --in $(Join-Path $outFolder $outFile) `
         --kbId $kbId `
-        --subscriptionKey $qnaSubscriptionKey
+        --subscriptionKey $qnaSubscriptionKey `
+		--endpoint $qnaEndpoint 2>> $log | Out-Null
 
     # Publish QnA Maker knowledgebase
-	$(qnamaker publish kb --kbId $kbId --subscriptionKey $qnaSubscriptionKey) 2>&1 | Out-Null
+	bf qnamaker:kb:publish `
+        --kbId $kbId `
+        --endpoint $qnaEndpoint `
+        --subscriptionKey $qnaSubscriptionKey 2>> $log | Out-Null
+
+    Write-Host "Done." -ForegroundColor Green
 }

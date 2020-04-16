@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using $safeprojectname$.Adapters;
+using $safeprojectname$.Authentication;
 using $safeprojectname$.Bots;
 using $safeprojectname$.Dialogs;
 using $safeprojectname$.Services;
@@ -48,7 +49,7 @@ namespace $safeprojectname$
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure MVC
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             // Configure server options
             services.Configure<KestrelServerOptions>(options =>
@@ -70,6 +71,9 @@ namespace $safeprojectname$
             // Configure channel provider
             services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
 
+            // Register AuthConfiguration to enable custom claim validation.
+            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>()) });
+
             // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
@@ -86,7 +90,7 @@ namespace $safeprojectname$
 
             // Configure storage
             // Uncomment the following line for local development without Cosmos Db
-            // services.AddSingleton<IStorage, MemoryStorage>();
+            // services.AddSingleton<IStorage>(new MemoryStorage());
             services.AddSingleton<IStorage>(new CosmosDbPartitionedStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
@@ -137,6 +141,9 @@ namespace $safeprojectname$
                 .UseWebSockets()
                 .UseRouting()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
         }
     }
 }

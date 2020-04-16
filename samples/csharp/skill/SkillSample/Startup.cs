@@ -21,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SkillSample.Adapters;
+using SkillSample.Authentication;
 using SkillSample.Bots;
 using SkillSample.Dialogs;
 using SkillSample.Services;
@@ -48,7 +49,7 @@ namespace SkillSample
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure MVC
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
             // Configure server options
             services.Configure<KestrelServerOptions>(options =>
@@ -70,6 +71,9 @@ namespace SkillSample
             // Configure channel provider
             services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
 
+            // Register AuthConfiguration to enable custom claim validation.
+            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>()) });
+
             // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
@@ -86,7 +90,7 @@ namespace SkillSample
 
             // Configure storage
             // Uncomment the following line for local development without Cosmos Db
-            // services.AddSingleton<IStorage, MemoryStorage>();
+            // services.AddSingleton<IStorage>(new MemoryStorage());
             services.AddSingleton<IStorage>(new CosmosDbPartitionedStorage(settings.CosmosDb));
             services.AddSingleton<UserState>();
             services.AddSingleton<ConversationState>();
@@ -137,6 +141,9 @@ namespace SkillSample
                 .UseWebSockets()
                 .UseRouting()
                 .UseEndpoints(endpoints => endpoints.MapControllers());
+
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
         }
     }
 }

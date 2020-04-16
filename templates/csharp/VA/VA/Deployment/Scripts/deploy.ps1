@@ -32,7 +32,7 @@ if (Get-Command az -ErrorAction SilentlyContinue) {
     $azcliversionoutput = az -v
     [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
     [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
+    [version]$minversion = '2.2.0'
 
     if ($azcliversion -ge $minversion) {
         $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
@@ -140,7 +140,7 @@ Write-Host "Done." -ForegroundColor Green
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 if ($parametersFile) {
 	Write-Host "> Validating Azure deployment ..." -NoNewline
-	$validation = az group deployment validate `
+	$validation = az deployment group validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
@@ -154,7 +154,7 @@ if ($parametersFile) {
 		if (-not $validation.error) {
             Write-Host "Done." -ForegroundColor Green
 			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
-			$deployment = az group deployment create `
+			$deployment = az deployment group create `
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
@@ -175,7 +175,7 @@ if ($parametersFile) {
 }
 else {
 	Write-Host "> Validating Azure deployment ..." -NoNewline
-	$validation = az group deployment validate `
+	$validation = az deployment group validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
@@ -188,7 +188,7 @@ else {
 		if (-not $validation.error) {
             Write-Host "Done." -ForegroundColor Green
 			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
-			$deployment = az group deployment create `
+			$deployment = az deployment group create `
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
@@ -208,7 +208,7 @@ else {
 }
 
 # Get deployment outputs
-$outputs = (az group deployment show `
+$outputs = (az deployment group show `
 	--name $timestamp `
 	--resource-group $resourceGroup `
 	--query properties.outputs `
@@ -260,10 +260,10 @@ if ($outputs)
 
 	# Deploy cognitive models
     if ($useGov) {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($outputs.luis.value.endpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)' -useGov"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)' -useGov"
     }
     else {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($outputs.luis.value.endpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)'"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)'"
     }
 	
     # Publish bot
@@ -284,7 +284,7 @@ if ($outputs)
 else
 {
 	# Check for failed deployments
-	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
+	$operations = (az deployment operation group list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
 	
 	if ($operations) {
 		$operations = $operations | ConvertFrom-Json

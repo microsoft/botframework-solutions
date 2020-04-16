@@ -1,20 +1,17 @@
-// Copyright(c) Microsoft Corporation.All rights reserved.
+﻿// Copyright(c) Microsoft Corporation.All rights reserved.
 // Licensed under the MIT License.
 
-using AdaptiveCards;
-using AdaptiveCards.Rendering;
-using AdaptiveCards.Rendering.Wpf;
-using Microsoft.Bot.Connector.DirectLine;
-using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Connector.DirectLine;
+using Newtonsoft.Json;
 using WebSocketSharp;
+using Activity = Microsoft.Bot.Connector.DirectLine.Activity;
 
-namespace DirectLineExample
+namespace DirectLine.Console
 {
     /// <summary>
     /// A sample Application to demonstrate the use of DirectLine (WebSockets) to communicate with a Virtual Assistant
@@ -32,10 +29,10 @@ namespace DirectLineExample
 
         static async Task Main(string[] args)
         {
-            DirectLineClientCredentials creds = new DirectLineClientCredentials(botDirectLineSecret);
-            DirectLineClient client = new DirectLineClient(creds);
+            var creds = new DirectLineClientCredentials(botDirectLineSecret);
+            var client = new DirectLineClient(creds);
 
-            Conversation conversation = await client.Conversations.StartConversationAsync();
+            var conversation = await client.Conversations.StartConversationAsync();
 
             using (var webSocketClient = new WebSocket(conversation.StreamUrl))
             {
@@ -48,7 +45,7 @@ namespace DirectLineExample
 
                 while (true)
                 {
-                    string input = Console.ReadLine().Trim();
+                    var input = System.Console.ReadLine().Trim();
 
                     if (input.ToLower() == "exit")
                     {
@@ -58,7 +55,7 @@ namespace DirectLineExample
                     {
                         if (input.Length > 0)
                         {
-                            Activity userMessage = new Activity
+                            var userMessage = new Activity
                             {
                                 From = new ChannelAccount(fromUserId, fromUserName),
                                 Text = input,
@@ -77,9 +74,9 @@ namespace DirectLineExample
         /// These are sample startup events used in the Virtual Assistant for setting 
         /// locale and providing a user's current coordinates.
         /// </summary>
-        private async static Task SendStartupEvents(DirectLineClient client, Conversation conversation)
+        private static async Task SendStartupEvents(DirectLineClient client, Conversation conversation)
         {
-            Activity locationEvent = new Activity
+            var locationEvent = new Activity
             {
                 Name = "VA.Location",
                 From = new ChannelAccount(fromUserId, fromUserName),
@@ -89,7 +86,7 @@ namespace DirectLineExample
 
             await client.Conversations.PostActivityAsync(conversation.ConversationId, locationEvent);
 
-            Activity timezoneEvent = new Activity
+            var timezoneEvent = new Activity
             {
                 Name = "VA.Timezone",
                 From = new ChannelAccount(fromUserId, fromUserName),
@@ -98,12 +95,11 @@ namespace DirectLineExample
             };
 
             await client.Conversations.PostActivityAsync(conversation.ConversationId, timezoneEvent);
-        }    
+        }
 
-        private async static void WebSocketClient_OnMessage(object sender, MessageEventArgs e)
+        private static async void WebSocketClient_OnMessage(object sender, MessageEventArgs e)
         {
-            // Occasionally, the Direct Line service sends an empty message as a liveness ping. Ignore these messages.
-
+            // Occasionally, the Direct Line service sends an empty message as a live ping test. Ignore these messages.
             if (string.IsNullOrWhiteSpace(e.Data))
             {
                 return;
@@ -114,26 +110,27 @@ namespace DirectLineExample
                              where x.From.Id == botId
                              select x;
 
-            foreach (Activity activity in activities)
+            foreach (var activity in activities)
             {
                 switch (activity.Type)
-                {                
+                {
                     case ActivityTypes.Message:
 
-                        // No visual cards so let's use Speak property to be more descriptive.                
-                        Console.WriteLine(activity.Speak ?? activity.Text ?? "No activity text found");
+                        // No visual cards so let's use Speak property to be more descriptive.
+                        System.Console.WriteLine(activity.Speak ?? activity.Text ?? "No activity text found");
 
                         // Do we have any attachments on this message?
                         if (activity.Attachments != null && activity.Attachments.Count > 0)
                         {
                             // There could be multiple attachments (e.g. carousel) but we only want one for the Speech variant
-                            Attachment attachment = activity.Attachments.First<Attachment>();
+                            var attachment = activity.Attachments.First<Attachment>();
 
                             switch (attachment.ContentType)
                             {
                                 case "application/vnd.microsoft.card.hero":
                                 case "application/vnd.microsoft.card.oauth":
-                                    Console.WriteLine(activity.Speak ?? activity.Text);
+                                    System.Console.WriteLine(activity.Speak ?? activity.Text);
+
                                     // Show how to open up the card in case it's needed.
                                     RenderHeroCard(attachment);
                                     break;
@@ -142,7 +139,7 @@ namespace DirectLineExample
                                     await RenderAdaptiveCard(attachment);
                                     break;
                                 case "image/png":
-                                    Console.WriteLine($"Opening the requested image '{attachment.ContentUrl}'");
+                                    System.Console.WriteLine($"Opening the requested image '{attachment.ContentUrl}'");
                                     Process.Start(attachment.ContentUrl);
                                     break;
                             }
@@ -151,18 +148,17 @@ namespace DirectLineExample
                         // If input is being accepted show prompt
                         if (activity.InputHint == InputHints.ExpectingInput || activity.InputHint == InputHints.AcceptingInput)
                         {
-                            Console.Write("Message> ");
+                            System.Console.Write("Message> ");
                         }
 
                         break;
                     case ActivityTypes.Event:
-
-                        Console.ForegroundColor = ConsoleColor.Magenta;
-                        Console.WriteLine($"* Received {activity.Name} event from the Virtual Assistant. * ");
-                        Console.ForegroundColor = ConsoleColor.Gray;
+                        System.Console.ForegroundColor = ConsoleColor.Magenta;
+                        System.Console.WriteLine($"* Received {activity.Name} event from the Virtual Assistant. * ");
+                        System.Console.ForegroundColor = ConsoleColor.Gray;
                         break;
                 }
-            }            
+            }
         }
 
         private static void RenderHeroCard(Attachment attachment)
@@ -174,61 +170,39 @@ namespace DirectLineExample
 
             if (heroCard != null)
             {
-                Console.WriteLine("/{0}", new string('*', Width + 1));
-                Console.WriteLine("*{0}*", contentLine(heroCard.Title));
-                Console.WriteLine("*{0}*", new string(' ', Width));
-                Console.WriteLine("*{0}*", contentLine(heroCard.Text));
-                Console.WriteLine("{0}/", new string('*', Width + 1));
+                System.Console.WriteLine("/{0}", new string('*', Width + 1));
+                System.Console.WriteLine("*{0}*", contentLine(heroCard.Title));
+                System.Console.WriteLine("*{0}*", new string(' ', Width));
+                System.Console.WriteLine("*{0}*", contentLine(heroCard.Text));
+                System.Console.WriteLine("{0}/", new string('*', Width + 1));
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Hero card could not be parsed");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                System.Console.ForegroundColor = ConsoleColor.Red;
+                System.Console.WriteLine("Hero card could not be parsed");
+                System.Console.ForegroundColor = ConsoleColor.Gray;
             }
         }
 
-        private async static Task RenderAdaptiveCard(Attachment attachment)
+        private static async Task RenderAdaptiveCard(Attachment attachment)
         {
-            // This is entirely optional, just shows how to render an adaptive card which in a console app isn't really very practical!
-
+            // Adaptive Cards cannot be rendered in a console app, so display the Speak property if available
             try
             {
-                AdaptiveCardParseResult result = AdaptiveCard.FromJson(attachment.Content.ToString());
-                
+                var result = AdaptiveCard.FromJson(attachment.Content.ToString());
+
                 var adaptiveCard = AdaptiveCard.FromJson(attachment.Content.ToString());
                 if (adaptiveCard != null)
                 {
-                    // Create a host config with no interactivity 
-                    // (buttons in images would be deceiving)
-                    AdaptiveHostConfig hostConfig = new AdaptiveHostConfig()
-                    {
-                        SupportsInteractivity = false
-                    };
-
-                    // Create a renderer
-                    AdaptiveCardRenderer renderer = new AdaptiveCardRenderer(hostConfig);
-
-                    // Render the card to png
-                    RenderedAdaptiveCardImage renderedCard = await renderer.RenderCardToImageAsync(adaptiveCard.Card, createStaThread: true, cancellationToken: default(CancellationToken));
-                    string fileName = $"{Guid.NewGuid()}.png";
-                    using (var fileStream = File.Create(fileName))
-                    {
-                        renderedCard.ImageStream.Seek(0, SeekOrigin.Begin);
-                        renderedCard.ImageStream.CopyTo(fileStream);
-                    }
-
-                    Console.WriteLine($"Adaptive Card rendered to {fileName} for debug purposes.");
-                    Process.Start(fileName);
+                    System.Console.WriteLine($"Adaptive Card Speak Property: {adaptiveCard.Card.Speak}");
                 }
 
-                Console.WriteLine($"Adaptive Card Speak Property: {adaptiveCard.Card.Speak}");
             }
             catch (Exception)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Adaptive card not parsed");
-                Console.ForegroundColor = ConsoleColor.Gray;
+                System.Console.ForegroundColor = ConsoleColor.Red;
+                System.Console.WriteLine("Adaptive card not parsed");
+                System.Console.ForegroundColor = ConsoleColor.Gray;
             }
         }
     }

@@ -20,6 +20,8 @@ describe("sample dialog", function() {
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
                 .send("sample dialog")
+                .assertReplyOneOf(skillTestBase.getTemplates('FirstPromptText'))
+                .send("sample dialog")
                 .assertReplyOneOf(haveNameMessageTextResponse)
                 .send(nameInput)
                 .assertReplyOneOf(namePromptTextResponse);

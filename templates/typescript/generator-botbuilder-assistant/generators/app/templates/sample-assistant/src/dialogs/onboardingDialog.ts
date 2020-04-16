@@ -8,9 +8,8 @@ import {
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
-    WaterfallStepContext,
-    WaterfallStep
-} from 'botbuilder-dialogs';
+    WaterfallStepContext, 
+    WaterfallStep } from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
 import { LocaleTemplateEngineManager, DialogContextEx } from 'botbuilder-solutions';
@@ -21,6 +20,7 @@ enum DialogIds {
 }
 
 export enum StateProperties {
+    DispatchResult = 'dispatchResult',
     GeneralResult = 'generalResult',
 }
 
@@ -54,7 +54,7 @@ export class OnboardingDialog extends ComponentDialog {
     }
 
     public async askForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        const state: IUserProfileState = await this.accessor.get(sc.context, { name: '' });
+        const state: IUserProfileState = await this.accessor.get(sc.context, { name: ''});
 
         if (state.name !== undefined && state.name.trim().length > 0) {
             return await sc.next(state.name);
@@ -97,7 +97,6 @@ export class OnboardingDialog extends ComponentDialog {
         await this.accessor.set(sc.context, userProfile);
 
         await sc.context.sendActivity(this.templateEngine.generateActivityForLocale('HaveNameMessage', userProfile));
-        await sc.context.sendActivity(this.templateEngine.generateActivityForLocale('FirstPromptMessage', userProfile));
 
         DialogContextEx.suppressCompletionMessage(sc, true);
 
