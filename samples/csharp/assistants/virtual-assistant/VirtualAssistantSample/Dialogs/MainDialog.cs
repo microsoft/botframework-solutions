@@ -338,7 +338,7 @@ namespace VirtualAssistantSample.Dialogs
                     return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
                 }
 
-                if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
+                if (ShouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore))
                 {
                     stepContext.SuppressCompletionMessage(true);
 
@@ -440,13 +440,48 @@ namespace VirtualAssistantSample.Dialogs
         {
             if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_General.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
-                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Chitchat.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// A simple set of heuristics to govern if we should invoke the personality <see cref="QnAMakerDialog"/>.
+        /// </summary>
+        /// <param name="stepContext">Current dialog context</param>
+        /// <param name="dispatchIntent">Intent that Dispatch thinks should be invoked</param>
+        /// <param name="dispatchScore">Confidence score for intent</param>
+        /// <param name="threshold">User provided threshold, if above this threshold do NOT show chitchat</param>
+        /// <returns>A <see cref="bool"/> indicating if we should invoke the personality dialog</returns>
+        private bool ShouldBeginChitChatDialog(WaterfallStepContext stepContext, DispatchLuis.Intent dispatchIntent, double dispatchScore, double threshold = 0.5)
+        {
+            if (IsSkillIntent(dispatchIntent))
+            {
+                return false;
+            }
+            else if (dispatchIntent == DispatchLuis.Intent.None)
+            {
+                return true;
+            }
+            else if (dispatchIntent == DispatchLuis.Intent.l_General)
+            {
+                // If dispatch classifies user query as general, we should check against the cached general Luis score instead.
+                var generalResult = stepContext.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
+                if (generalResult != null)
+                {
+                    (var _, var generalScore) = generalResult.TopIntent();
+                    return generalScore < threshold;
+                }
+            }
+            else if (dispatchScore < threshold)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
