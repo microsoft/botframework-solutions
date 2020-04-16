@@ -11,7 +11,7 @@ order: 4
 
 ## {{ page.title }}
 
-The Virtual Assistant require the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
+The Skill template requires the following dependencies for end to end operation which are created through an ARM script which you can modify as required.
 
 - Azure Web App
 - Azure Storage Account (Transcripts)
@@ -21,7 +21,15 @@ The Virtual Assistant require the following dependencies for end to end operatio
 
 > Review the pricing and terms for the services and adjust to suit your scenario.
 
-1. Run **PowerShell Core** (pwsh.exe) and **change directory to the project directory** of your assistant/skill.
+To deploy your Skill using the Azure Resource Manager (ARM) template provided in the project template, follow these steps:
+
+1. Open **PowerShell Core** (pwsh.exe)
+1. Change to the **project directory** of your skill.
+1. Run the following command to login to Azure:
+    ```shell
+    az login
+    ```
+1. If you have multiple subscriptions on your Azure account, [change the active subscription](https://docs.microsoft.com/en-us/cli/azure/manage-azure-subscriptions-azure-cli?view=azure-cli-latest#change-the-active-subscription) to the subscription you wish to deploy your Azure resources to.
 2. Run the following command:
 
     ```shell
