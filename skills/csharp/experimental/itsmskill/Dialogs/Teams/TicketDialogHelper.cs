@@ -21,7 +21,7 @@
 
                 adaptiveCard.Actions.Add(new AdaptiveSubmitAction()
                 {
-                    Title = "SubmitIncident",
+                    Title = "Submit Incident",
                     Data = new AdaptiveCardValue<TaskModuleMetadata>()
                     {
                         Data = new TaskModuleMetadata()

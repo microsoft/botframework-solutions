@@ -60,6 +60,7 @@ namespace ITSMSkill.Dialogs
                 CreateTicket
             };
 
+            // Create Ticket TaskModule
             var createTicketTaskModule = new WaterfallStep[]
             {
                 //GetAuthToken,
@@ -119,6 +120,7 @@ namespace ITSMSkill.Dialogs
         {
             var reply = sc.Context.Activity.CreateReply();
 
+            // Present Create Ticket Adaptive Card
             var adaptiveCard = TicketDialogHelper.ServiceNowTickHubAdaptiveCard();
             reply = sc.Context.Activity.CreateReply();
             reply.Attachments = new List<Attachment>()
@@ -126,13 +128,17 @@ namespace ITSMSkill.Dialogs
                 new Microsoft.Bot.Schema.Attachment() { ContentType = AdaptiveCard.ContentType, Content = adaptiveCard }
             };
 
+            // Get Response SendActivity
             ResourceResponse resourceResponse = await sc.Context.SendActivityAsync(reply, cancellationToken);
+
+            // ActivityReference Map
             ActivityReferenceMap activityReferenceMap = await _activityReferenceMapAccessor.GetAsync(
                 sc.Context,
                 () => new ActivityReferenceMap(),
                 cancellationToken)
             .ConfigureAwait(false);
 
+            // Store Activity to map to conversation id
             activityReferenceMap[sc.Context.Activity.Conversation.Id] = new ActivityReference
             {
                 ActivityId = resourceResponse.Id,

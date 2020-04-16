@@ -81,7 +81,7 @@
         }
 
         /// <returns>Adaptive Card.</returns>
-        private static AdaptiveCard ImpactTrackerResponseCard(string trackerResponse)
+        public static AdaptiveCard ImpactTrackerResponseCard(string trackerResponse)
         {
             var card = new AdaptiveCard("1.0");
 

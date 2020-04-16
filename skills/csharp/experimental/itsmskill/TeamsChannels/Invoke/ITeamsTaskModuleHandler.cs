@@ -22,6 +22,6 @@ namespace ITSMSkill.TeamsChannels.Invoke
 
     public interface ITeamsSubmitActivityHandler<T>
     {
-        Task<T> OnSubmitActivity(ITurnContext context, CancellationToken cancellationToken);
+        Task<T> OnTeamsTaskModuleSubmitAsync(ITurnContext context, CancellationToken cancellationToken);
     }
 }

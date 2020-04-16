@@ -52,61 +52,85 @@
             _connectorClient = connectorClient;
         }
 
-        public async Task<TaskEnvelope> Handle(ITurnContext context, CancellationToken cancellationToken)
+        public async Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext context, CancellationToken cancellationToken)
         {
-            var taskModuleMetadata = context.Activity.GetTaskModuleMetadata<TaskModuleMetadata>();
-            if (taskModuleMetadata.Submit)
+            var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+
+            ActivityReferenceMap activityReferenceMap = await _activityReferenceMapAccessor.GetAsync(
+                context,
+                () => new ActivityReferenceMap(),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+            // Get Activity Id from ActivityReferenceMap
+            activityReferenceMap.TryGetValue(context.Activity.Conversation.Id, out var activityReference);
+
+            // Get User Input from AdatptiveCard
+            var activityValueObject = JObject.FromObject(context.Activity.Value);
+
+            var isDataObject = activityValueObject.TryGetValue("data", StringComparison.InvariantCultureIgnoreCase, out JToken dataValue);
+            JObject dataObject = null;
+            if (isDataObject)
             {
-                var state = await _stateAccessor.GetAsync(context, () => new SkillState());
+                dataObject = dataValue as JObject;
 
-                ActivityReferenceMap activityReferenceMap = await _activityReferenceMapAccessor.GetAsync(
-                    context,
-                    () => new ActivityReferenceMap(),
-                    cancellationToken)
-                .ConfigureAwait(false);
+                // Get Title
+                var title = dataObject.GetValue("IncidentTitle");
 
-                // Get Activity Id from ActivityReferenceMap
-                activityReferenceMap.TryGetValue(context.Activity.Conversation.Id, out var activityReference);
+                // Get Description
+                var description = dataObject.GetValue("IncidentDescription");
 
-                // Get Response from User
-                var activityValueObject = JObject.FromObject(context.Activity.Value);
-                var isDataObject = activityValueObject.TryGetValue("data", StringComparison.InvariantCultureIgnoreCase, out JToken dataValue);
-                JObject dataObject = null;
-                if (isDataObject)
+                // Get Urgency
+                var urgency = dataObject.GetValue("IncidentUrgency");
+
+                // Create Ticket
+                var ticketResults = await CreateTicketAsync(title.Value<string>(), description.Value<string>(), (UrgencyLevel)Enum.Parse(typeof(UrgencyLevel), urgency.Value<string>()));
+
+                // If Ticket Created Update Activity
+                if (ticketResults.Success)
                 {
-                    dataObject = dataValue as JObject;
-
-                    // Get Title
-                    var title = dataObject.GetValue("IncidentTitle");
-
-                    // Get Description
-                    var description = dataObject.GetValue("IncidentDescription");
-
-                    // Get Urgency
-                    var urgency = dataObject.GetValue("IncidentUrgency");
-
-                    var ticketResults = await CreateTicketAsync(title.Value<string>(), description.Value<string>(), (UrgencyLevel)Enum.Parse(typeof(UrgencyLevel), urgency.Value<string>()));
-
-                    // If Ticket add is successful Update activity in place
-                    // Show Incident add Task Envelope
-                    if (ticketResults.Success)
+                    await UpdateActivityHelper.UpdateTaskModuleActivityAsync(context, activityReference, ticketResults.Tickets.FirstOrDefault(), _connectorClient, cancellationToken);
+                    // Return Added Incident Envelope
+                    return new TaskModuleResponse()
                     {
-                        await UpdateActivityHelper.UpdateTaskModuleActivityAsync(context, activityReference, ticketResults.Tickets.FirstOrDefault(), _connectorClient, cancellationToken);
-                        return RenderCreateIncidentHelper.ImpactAddEnvelope();
+                        Task = new TaskModuleContinueResponse()
+                        {
+                            Type = "continue",
+                            Value = new TaskModuleTaskInfo()
+                            {
+                                Title = "Incident Added",
+                                Height = "small",
+                                Width = 300,
+                                Card = new Attachment
+                                {
+                                    ContentType = AdaptiveCard.ContentType,
+                                    Content = RenderCreateIncidentHelper.ImpactTrackerResponseCard("Incident has been created")
+                                }
+                            }
+                        }
+                    };
+                }
+            }
+
+            // Failed to create incident
+            return new TaskModuleResponse
+            {
+                Task = new TaskModuleContinueResponse()
+                {
+                    Type = "continue",
+                    Value = new TaskModuleTaskInfo()
+                    {
+                        Title = "Incident Create Failed",
+                        Height = "medium",
+                        Width = 500,
+                        Card = new Attachment
+                        {
+                            ContentType = AdaptiveCard.ContentType,
+                            Content = RenderCreateIncidentHelper.ImpactTrackerResponseCard("Incident Create Failed")
+                        }
                     }
                 }
-
-                return RenderCreateIncidentHelper.IncidentAddFailed();
-            }
-            else
-            {
-                return RenderCreateIncidentHelper.GetUserInput();
-            }
-        }
-
-        public Task<TaskModuleResponse> OnSubmitActivity(ITurnContext context, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            };
         }
 
         public async Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext context, CancellationToken cancellationToken)
