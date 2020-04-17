@@ -76,7 +76,7 @@ One migration step will be to create a new Skill project and migrate your custom
         "botframework-connector": "^4.8.0",
     ```
 
-1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `botbuilder-solutions`.
+1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `bot-solutions`.
 
 **Note:** Take into account that `botbuilder-solutions` will be deprecated and it should be `bot-solutions@1.0.0` instead following the C# pattern.
 
