@@ -64,7 +64,7 @@ const bigBot =
   chalk.blue.bold(`//`) +
   ` () () ` +
   chalk.blue.bold(`\\\\`) +
-  `  │   BotBuilder Virtual Assistant  │\n` +
+  `  │      Bot Virtual Assistant      │\n` +
   `  ` +
   chalk.blue.bold(`\\\\`) +
   `       ` +
@@ -336,9 +336,7 @@ module.exports = class extends Generator {
         if (containsSpecialCharacter) {
           this.log(
             chalk.yellow(
-              `\nYour virtual assistant name (${
-                this.props.assistantName
-              }) had special characters, it was changed to '${finalAssistantName}'`
+              `\nYour virtual assistant name (${this.props.assistantName}) had special characters, it was changed to '${finalAssistantName}'`
             )
           );
         }

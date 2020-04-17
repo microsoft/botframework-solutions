@@ -13,7 +13,7 @@ const semver = require('semver');
 const someLanguages = [`zh-cn`, `de-de`, `en-us`];
 const sinon = require(`sinon`);
 
-describe(`The generator-botbuilder-assistant tests`, function() {
+describe(`The generator-bot-virtualassistant tests`, function() {
     var assistantName;
     var assistantDesc;
     var assistantNameCamelCase;

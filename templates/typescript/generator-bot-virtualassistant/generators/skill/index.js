@@ -63,7 +63,7 @@ const bigBot =
   chalk.blue.bold(`//`) +
   ` () () ` +
   chalk.blue.bold(`\\\\`) +
-  `  │    BotBuilder Skill   │\n` +
+  `  │       Bot Skill       │\n` +
   `  ` +
   chalk.blue.bold(`\\\\`) +
   `       ` +
@@ -330,9 +330,7 @@ module.exports = class extends Generator {
         if (containsSpecialCharacter) {
           this.log(
             chalk.yellow(
-              `\nYour skill name (${
-                this.props.skillName
-              }) had special characters, it was changed to '${finalSkillName}'`
+              `\nYour skill name (${this.props.skillName}) had special characters, it was changed to '${finalSkillName}'`
             )
           );
         }
