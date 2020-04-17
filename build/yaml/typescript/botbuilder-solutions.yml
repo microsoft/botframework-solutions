@@ -7,7 +7,7 @@ trigger:
 
   paths:
     include:
-    - 'sdk/typescript/libraries/botbuilder-solutions/*'
+    - 'sdk/typescript/libraries/bot-solutions/*'
 
 # By default will disable PR builds
 pr: none
@@ -23,14 +23,14 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: 'sdk/typescript/libraries/botbuilder-solutions'
+    workingDir: 'sdk/typescript/libraries/bot-solutions'
     verbose: false
 
 - task: Npm@1
   displayName: 'npm run build'
   inputs:
     command: custom
-    workingDir: 'sdk/typescript/libraries/botbuilder-solutions'
+    workingDir: 'sdk/typescript/libraries/bot-solutions'
     verbose: false
     customCommand: 'run build'
 
@@ -38,7 +38,7 @@ steps:
   displayName: 'npm test - coverage'
   inputs:
     command: custom
-    workingDir: 'sdk/typescript/libraries/botbuilder-solutions'
+    workingDir: 'sdk/typescript/libraries/bot-solutions'
     verbose: false
     customCommand: 'run test-coverage-ci'
 
@@ -46,7 +46,7 @@ steps:
   displayName: 'Publish Test Results '
   inputs:
     testResultsFiles: 'test-results.xml'
-    searchFolder: 'sdk/typescript/libraries/botbuilder-solutions'
+    searchFolder: 'sdk/typescript/libraries/bot-solutions'
     failTaskOnFailedTests: true
 
 - task: PublishCodeCoverageResults@1
@@ -54,5 +54,5 @@ steps:
   condition: succeededOrFailed()
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: 'sdk/typescript/libraries/botbuilder-solutions/coverage/cobertura-coverage.xml'
-    reportDirectory: 'sdk/typescript/libraries/botbuilder-solutions/coverage/'
+    summaryFileLocation: 'sdk/typescript/libraries/bot-solutions/coverage/cobertura-coverage.xml'
+    reportDirectory: 'sdk/typescript/libraries/bot-solutions/coverage/'

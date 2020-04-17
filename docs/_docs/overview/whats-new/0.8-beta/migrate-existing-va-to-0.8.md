@@ -15,7 +15,7 @@ toc: true
 
 # Updated Virtual Assistant Template
 
-As part of the 0.8 release, we published a new version of the Virtual Assistant template. In this new version, we have transitioned the Skills capabilities into the 4.7 release of BotBuilder SDK as it reached the [General Availability milestone](https://github.com/microsoft/botbuilder-dotnet/releases/tag/v4.7.0).
+As part of the 0.8 release, we published a new version of the Virtual Assistant template. In this new version, we have transitioned the Skills capabilities into the 4.7 release of BotBuilder SDK as it reached the General Availability milestone in [C#](https://github.com/microsoft/botbuilder-dotnet/releases/tag/v4.7.0) and [JS](https://github.com/microsoft/botbuilder-js/releases/tag/4.8) as well.
 
 This is expected to be our last major template change ahead of the General Availability milestone planned for March 2020.
 
@@ -28,6 +28,8 @@ If however you wish to to upgrade your in-place project, this documentation page
 The Virtual Assistant you are migrating from has to be created with the Virtual Assistant Template from version >= 4.5.4 which was includes in release 0.6 and beyond. 
 
 ## Solution and Package Changes
+
+### C#
 
 1. Open your old Virtual Assistant solution using Visual Studio. Right click your (.csproj) project file in Solution Explorer and Choose `Edit Project`. Change the project to a .net core 3.0 app as shown below.
 
@@ -77,9 +79,35 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
         Use(new SetSpeakMiddleware());
     ```
 
+### TypeScript
+
+1. Open the `package.json` of your old Virtual Assistant using Visual Studio Code. Update all BotBuilder package references to [4.8.0](https://www.npmjs.com/package/botbuilder/v/4.8.0). The easiest way to do this is by replacing your BotBuilder package references with the fragment below.
+
+   ```JSON
+        "botbuilder": "^4.8.0",
+        "botbuilder-ai": "^4.8.0",
+        "botbuilder-applicationinsights": "^4.8.0",
+        "botbuilder-azure": "^4.8.0",
+        "botbuilder-dialogs": "^4.8.0",
+        "botframework-config": "^4.8.0",
+        "botframework-connector": "^4.8.0"
+    ```
+
+1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `botbuilder-solutions`.
+
+**Note:** Take into account that `botbuilder-solutions` will be deprecated and it should be `bot-solutions@1.0.0` instead following the C# pattern.
+
+1. Within `adapters/defaultAdapter.ts`, add SetSpeakMiddleware into the middleware list of the adapter ensuring Speech scenarios work as expected out of the box.
+
+    ```typescript
+    this.use(new SetSpeakMiddleware());
+    ```
+
 ## ActivityHandler and Controller changes
 
-1. Within the `Bot`s folder of your project, change the existing `IBot` implementation to `DefaultActivityHandler.cs` as shown below.
+### C#
+
+1. Within the `Bots` folder of your project, change the existing `IBot` implementation to `DefaultActivityHandler.cs` as shown below.
 
     ```csharp
     using System;
@@ -204,7 +232,104 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
         }
     ```
 
+### TypeScript
+
+1. Within the `bots` folder of your project, change the existing `dialogBot` implementation to `defaultActivityHandler.ts` as shown below.
+
+    ```typescript
+    import {
+    ConversationState,
+    TurnContext, 
+    UserState,
+    TeamsActivityHandler,
+    StatePropertyAccessor, 
+    Activity,
+    ActivityTypes,
+    BotState } from 'botbuilder';
+    import { Dialog, DialogContext, DialogSet, DialogState } from 'botbuilder-dialogs';
+    import { DialogEx, LocaleTemplateEngineManager, TokenEvents } from 'bot-solutions';
+
+    export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
+        private readonly conversationState: BotState;
+        private readonly userState: BotState;
+        private readonly rootDialogId: string;
+        private readonly dialogs: DialogSet;
+        private readonly dialog: Dialog;
+        private dialogStateAccessor: StatePropertyAccessor;
+        private userProfileState: StatePropertyAccessor;
+        private templateEngine: LocaleTemplateEngineManager;
+
+        public constructor(
+            conversationState: ConversationState,
+            userState: UserState,
+            templateEngine: LocaleTemplateEngineManager,
+            dialog: T) {
+            super();
+            this.dialog = dialog;
+            this.rootDialogId = this.dialog.id;
+            this.conversationState = conversationState;
+            this.userState = userState;
+            this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
+            this.templateEngine = templateEngine;
+            this.dialogs = new DialogSet(this.dialogStateAccessor);
+            this.dialogs.add(this.dialog);
+            this.userProfileState = userState.createProperty<DialogState>('UserProfileState');
+
+            super.onMembersAdded(this.membersAdded.bind(this));
+        }
+
+        public async onTurnActivity(turnContext: TurnContext): Promise<void> {
+            await super.onTurnActivity(turnContext);
+
+            // Save any state changes that might have occured during the turn.
+            await this.conversationState.saveChanges(turnContext, false);
+            await this.userState.saveChanges(turnContext, false);
+        }
+
+        protected async membersAdded(turnContext: TurnContext): Promise<void> {
+            const userProfile = await this.userProfileState.get(turnContext, () => { name: ''; });
+
+            if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
+                // Send new user intro card.
+                await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('NewUserIntroCard', userProfile));
+            } else {
+                // Send returning user intro card.
+                await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('ReturningUserIntroCard', userProfile));
+            }
+            
+            await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
+
+        protected async onMessageActivity(turnContext: TurnContext): Promise<void> {
+            return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
+
+        protected async onTeamsSigninVerifyState(turnContext: TurnContext): Promise<void> {
+            return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
+
+        protected async onEventActivity(turnContext: TurnContext): Promise<void> {
+            const ev: Activity = turnContext.activity;
+
+            switch (ev.name) {
+                case TokenEvents.tokenResponseEventName:
+                    await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+                    break;
+                default:
+                    await turnContext.sendActivity({ type: ActivityTypes.Trace, text: `Unknown Event '${ ev.name ?? 'undefined' }' was received but not processed.` });
+                    break;
+            }
+        }
+
+        protected async onEndOfConversationActivity(turnContext: TurnContext): Promise<void>{
+            await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
+    }
+    ```
+
 ## New SkillController
+
+### C#
 
 1. Within the `Controllers` folder, add a new class called `SkillController.cs`. This controller will handle response messages from a Skill.
 
@@ -263,7 +388,31 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
     }
     ```
 
+### TypeScript
+
+1. Within the `index.ts` file, you have to import the following classes/interfaces:
+ - `SimpleCredentialProvider` and `AuthenticationConfiguration` classes from `botframework-connector`
+ - `ChannelServiceRoutes`, `SkillHandler` classes from `botbuilder`
+ - `SkillConversationIdFactory` from `bot-solutions`
+
+
+Besides, add the following lines into the plugins list in the `index` file.
+
+```typescript
+    server.use(restify.plugins.queryParser());
+    server.use(restify.plugins.authorizationParser());
+```
+Finally, add the endpoints to handle the response messages from a Skill.
+```typescript
+    const skillConversationIdFactory: SkillConversationIdFactory = new SkillConversationIdFactory(storage);
+    const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authenticationConfiguration);
+    const skillEndpoint = new ChannelServiceRoutes(handler);
+    skillEndpoint.register(server, '/api/skills');
+```
+
 ## Skill Validation
+
+### C#
 
 1. Add a new class called `AllowedCallersClaimsValidator.cs` within the `Authentication` folder of your project. This enables your assistant to validate that Skill responses are only received from configured skill.
 
@@ -315,11 +464,56 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
     }
     ```
 
+### TypeScript
+
+1. Add a new class called `allowedCallersClaimsValidator.ts` within the `authentication` folder of your project. This enables your assistant to validate that Skill responses are only received from configured skill.
+
+    ```typescript
+    import { Claim, JwtTokenValidation, SkillValidation } from 'botframework-connector';
+    import { SkillsConfiguration } from 'bot-solutions';
+
+    /**
+    * Sample claims validator that loads an allowed list from configuration if present and checks that responses are coming from configured skills.
+    */
+    export class AllowedCallersClaimsValidator {
+        private readonly allowedSkills: string[];
+
+        public constructor(skillsConfig: SkillsConfiguration) {
+            if (skillsConfig === undefined) {
+                throw new Error ('The value of skillsConfig is undefined');
+            }
+
+            // Load the appIds for the configured skills (we will only allow responses from skills we have configured).
+            this.allowedSkills = [...skillsConfig.skills.values()].map(skill => skill.appId);
+        }
+
+        public async validateClaims(claims: Claim[]): Promise<void> {
+            if (SkillValidation.isSkillClaim(claims)) {
+                // Check that the appId claim in the skill request is in the list of skills configured for this bot.
+                const appId = JwtTokenValidation.getAppIdFromClaims(claims);
+                if (!this.allowedSkills.includes(appId)) {
+                    throw new Error(`Received a request from a bot with an app ID of "${ appId }". To enable requests from this caller, add the app ID to your configuration file.`);
+                }
+            }
+
+            return Promise.resolve();
+        }
+    }
+    ```
+
 ## MainDialog changes
+
+### C#
 
 1. Within `Dialogs/MainDialog.cs`, you will likely have a number of changes relating to your project. Refer to the [latest version of MainDialog.cs](https://github.com/microsoft/botframework-solutions/blob/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs) to incorporate all changes.
 
+### TypeScript
+
+1. Within `dialogs/mainDialog.ts`, you will likely have a number of changes relating to your project. Refer to the [latest version of mainDialog.ts](https://github.com/microsoft/botframework-solutions/blob/master/templates/typescript/samples/sample-assistant/src/dialogs/mainDialog.ts) to incorporate all changes.
+
 ## Startup.cs changes
+
+### C#
 
 1. In Startup.cs, add these changes:
 
@@ -389,23 +583,116 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 
     ```json
     {
-        "SkillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
-        "BotFrameworkSkills": [
+        "skillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
+        "botFrameworkSkills": [
             {
-                "Id": "{Skill1}",
-                "Name": "{Skill1}",
-                "AppId": "{Skill1MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill1}",
+                "name": "{Skill1}",
+                "appId": "{Skill1MsAppId}",
+                "skillEndpoint": "https://{Skill1Endpoint}/api/messages",
+                "description": "{Skill1Description}"
             },
             {
-                "Id": "{Skill2}",
-                "Name": "{Skill2}",
-                "AppId": "{Skill2MsAppId}",
-                "SkillEndpoint": "https://{Skill1Endpoint}/api/messages"
+                "id": "{Skill2}",
+                "name": "{Skill2}",
+                "appId": "{Skill2MsAppId}",
+                "skillEndpoint": "https://{Skill2Endpoint}/api/messages",
+                "description": "{Skill2Description}"
             }]
     }
     ```
 
-Once complete you have transitioned your exiting Virtual Assistant to support the new Generally Available Bot Framework Skills capability.
+Please also refer to the documentation to [Migrate existing skills to the new Skill capability.](https://microsoft.github.io/botframework-solutions/overview/whats-new/0.8-beta/migrate-existing-skills-to-0.8/)
 
-Please also refer to the documentation to [Migrate existing skills to the new Skill capability.](https://microsoft.github.io/botframework-solutions/skills/tutorials/migrate-to-new-skill/csharp/1-how-to)  
+### TypeScript
+
+1. In index.ts, add these changes:
+
+    Change the `dialogBot` registration to make use of the defaultActivityHandler
+
+    ```typescript
+        let bot: DefaultActivityHandler<Dialog>;
+        bot = new DefaultActivityHandler(conversationState, userState, localeTemplateEngine, mainDialog);
+    ```
+
+1. Register the Skill infrastructure and a SkillDialog for each configured skill.
+
+    ```typescript
+    // Register AuthConfiguration to enable custom claim validation.
+    let authenticationConfiguration: AuthenticationConfiguration = new AuthenticationConfiguration();
+    // Create the skills configuration class
+    let skillsConfiguration: SkillsConfiguration = new SkillsConfiguration([], '') ;
+
+    // Register the skills conversation ID factory, the client.
+    const skillHttpClient: SkillHttpClient = new SkillHttpClient(credentialProvider, skillConversationIdFactory);
+
+    // Configure bot
+    let bot: DefaultActivityHandler<Dialog>;
+    try {
+        // Configure bot services
+        const botServices: BotServices = new BotServices(botSettings, telemetryClient);
+
+        const userProfileStateAccesor: StatePropertyAccessor<IUserProfileState> = userState.createProperty<IUserProfileState>('IUserProfileState');
+        const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateEngine, telemetryClient);
+        const switchSkillDialog: SwitchSkillDialog = new SwitchSkillDialog(conversationState);
+        const previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]> = userState.createProperty<Partial<Activity>[]>('Activity');
+
+        let skillDialogs: SkillDialog[] = [];
+        // Register the SkillDialogs (remote skills).
+        const skills: IEnhancedBotFrameworkSkill[] = appsettings.botFrameworkSkills;
+        if (skills !== undefined && skills.length > 0) {
+            const hostEndpoint: string = appsettings.skillHostEndpoint;
+            if (hostEndpoint === undefined || hostEndpoint.trim().length === 0) {
+                throw new Error('\'skillHostEndpoint\' is not in the configuration');
+            } else {
+                skillsConfiguration = new SkillsConfiguration(skills, hostEndpoint);
+                const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillsConfiguration);
+        
+                // Create AuthConfiguration to enable custom claim validation.
+                authenticationConfiguration = new AuthenticationConfiguration(
+                    undefined,
+                    (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+                );
+
+                skillDialogs = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
+                    const skillDialogOptions: SkillDialogOptions = {
+                        botId: appsettings.microsoftAppId,
+                        conversationIdFactory: skillConversationIdFactory,
+                        skillClient: skillHttpClient,
+                        skillHostEndpoint: hostEndpoint,
+                        skill: skill,
+                        conversationState: conversationState
+                    };
+                    return new SkillDialog(skillDialogOptions, skill.id);
+                });
+            }
+        }
+    }
+    ```
+
+1. If you have already added skills to your assistant these are stored in `skills.json`. The new Skills configuration section has been simplified and is stored as part of `appSettings.json`. Create a new section as shown below in appSettings.json and update with the configured skills.
+
+    ```json
+    {
+        "skillHostEndpoint": "https://{yourvirtualassistant}.azurewebsites.net/api/skills/",
+        "botFrameworkSkills": [
+            {
+                "id": "{Skill1}",
+                "name": "{Skill1}",
+                "appId": "{Skill1MsAppId}",
+                "skillEndpoint": "https://{Skill1Endpoint}/api/messages",
+                "description": "{Skill1Description}"
+            },
+            {
+                "id": "{Skill2}",
+                "name": "{Skill2}",
+                "appId": "{Skill2MsAppId}",
+                "skillEndpoint": "https://{Skill2Endpoint}/api/messages",
+                "description": "{Skill2Description}"
+            }]
+    }
+    ```
+
+Please also refer to the documentation to [Migrate existing skills to the new Skill capability.](https://microsoft.github.io/botframework-solutions/overview/whats-new/0.8-beta/migrate-existing-skills-to-0.8/)
+
+Once complete you have transitioned your exiting Virtual Assistant to support the new Generally Available Bot Framework Skills capability.

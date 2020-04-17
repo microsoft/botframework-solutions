@@ -15,7 +15,7 @@ toc: true
 
 # Updated Skill Template
 
-As part of the 0.8 release, we published a new version of the Virtual Assistant template. In this new version, we have transitioned the Skills capabilities into the 4.7 release of BotBuilder SDK as it reached the [General Availability milestone](https://github.com/microsoft/botbuilder-dotnet/releases/tag/v4.7.0).
+As part of the 0.8 release, we published a new version of the Virtual Assistant template. In this new version, we have transitioned the Skills capabilities into the 4.7 release of BotBuilder SDK as it reached the General Availability milestone in [C#](https://github.com/microsoft/botbuilder-dotnet/releases/tag/v4.7.0) and [JS](https://github.com/microsoft/botbuilder-js/releases/tag/4.8) as well.
 
 This is expected to be our last major template change ahead of the General Availability milestone planned for March 2020.
 
@@ -27,6 +27,8 @@ One migration step will be to create a new Skill project and migrate your custom
 - Review the `Dialogs\MainDialog.cs` file. If `MainDialog` derives from `RouterDialog` rather than `ActivityHandlerDialog` follow [these instructions](https://aka.ms/bfvarouting) to reflect dialog routing changes made in the last release.
 
 ## Solution and Package Changes
+
+### C#
 
 1. Open your old Skill solution using Visual Studio. Right click your (.csproj) project file in Solution Explorer and Choose `Edit Project`. Change the project to a .net core 3.0 app as shown below.
 
@@ -60,7 +62,27 @@ One migration step will be to create a new Skill project and migrate your custom
 
 1. Change all namespace statements across the project to use `Microsoft.Bot.Solutions` instead of `Microsoft.Bot.Builder.Solutions`
 
+### TypeScript
+
+1. Open the `package.json` of your old Virtual Assistant using Visual Studio Code. Update all BotBuilder package references to [4.8.0](https://www.npmjs.com/package/botbuilder/v/4.8.0). The easiest way to do this is by replacing your BotBuilder package references with the fragment below.
+
+   ```JSON
+        "botbuilder": "^4.8.0",
+        "botbuilder-ai": "^4.8.0",
+        "botbuilder-applicationinsights": "^4.8.0",
+        "botbuilder-azure": "^4.8.0",
+        "botbuilder-dialogs": "^4.8.0",
+        "botframework-config": "^4.8.0",
+        "botframework-connector": "^4.8.0",
+    ```
+
+1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `botbuilder-solutions`.
+
+**Note:** Take into account that `botbuilder-solutions` will be deprecated and it should be `bot-solutions@1.0.0` instead following the C# pattern.
+
 ## BotController changes
+
+### C#
 
 1. Update BotController.cs
 
@@ -99,7 +121,25 @@ One migration step will be to create a new Skill project and migrate your custom
     }
     ```
 
+### TypeScript
+
+1. Update index.ts
+
+    Add the GET api/messages endpoint in `index.ts` for incoming requests as shown below:
+
+    ```typescript
+    server.get('/api/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
+        // Route received a request to adapter for processing
+        await defaultAdapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
+            // route to bot activity handler.
+            await bot.run(turnContext);
+        });
+    });
+    ```
+
 ## Removal Steps
+
+### C#
 
 1. Remove registrations in `Startup.cs`
 
@@ -123,7 +163,35 @@ One migration step will be to create a new Skill project and migrate your custom
 
     If you have implemented your own class for the interface `IWhitelistAuthenticationProvider` instead of using the WhitelistAuthenticationProvider class from the Solutions lib this can be removed.
 
+
+### TypeScript
+
+1. Remove `WhitelistAuthenticationProvider` registrations in `index.ts`
+
+    In the current Skill Template, there are registrations for WhitelistAuthenticatoinProvider that are no longer needed in the Skill protocol. They should be removed from index.ts within your Skill project.
+
+    Remove this line:
+    ```typescript
+        const whitelistAuthenticationProvider: WhitelistAuthenticationProvider = new WhitelistAuthenticationProvider(botSettings);
+    ```
+
+    Update the defaultAdapter's initialization removing the whitelistAuthenticationProvider parameter
+    ```typescript
+        const defaultAdapter: DefaultAdapter = new DefaultAdapter(
+            botSettings,
+            adapterSettings,
+            localeTemplateEngine,
+            telemetryInitializerMiddleware,
+            telemetryClient);
+    ```
+
+1. Remove customSkillAdapter.ts
+
+    A custom adapter is no longer needed, you can therefore remove `adapters\customSkillAdapter.ts` from your project.
+
 ## Handle EndOfConversation
+
+### C#
 
 1. Add code to handle the `EndOfConversation` activity from parent bot
 
@@ -139,9 +207,8 @@ One migration step will be to create a new Skill project and migrate your custom
         await _conversationState.SaveChangesAsync(turnContext, force: true).ConfigureAwait(false);
         return;
     }
-
     ```
-    
+
     With this block of code, when your skill receives an EndOfConversation activity it will clear out the existing dialog state so the skill will be in a clean state ready for the next conversation.
 
 1. Update to use `EndOfConversation` instead of Handoff when a conversation completed
@@ -164,7 +231,7 @@ One migration step will be to create a new Skill project and migrate your custom
 
 1. Add code in the exception handler of the adapter to send an EndOfConversation activity back
 
-    In the exception handler of the `DefaultAdapter` normally located in the `Adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when exception happens:
+    In the exception handler of the `DefaultAdapter` normally located in the `Adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when an exception is thrown:
 
     ```csharp
     OnTurnError = async (turnContext, exception) =>
@@ -178,6 +245,29 @@ One migration step will be to create a new Skill project and migrate your custom
         ...
     };
 
+### TypeScript
+
+1. The EndOfConversation activity is handled by `botbuilder@4.8.0`. Just be sure to override the `onMessageActivity` method in the `DefaultActivityHandler` bot as follows:
+
+    ```typescript
+        protected onMessageActivity(turnContext: TurnContext): Promise<void> {
+            return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        }
+    ```
+
+1. Add code in the exception handler of the adapter to send an EndOfConversation activity back
+
+    In the exception handler of the `defaultAdapter` normally located in the `adapters` folder, add code to send an `EndOfConversation` activity back to complete a conversation when an exception is thrown:
+
+    ```typescript
+    this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
+            const endOfconversation: Partial<Activity> = {
+                type: ActivityTypes.EndOfConversation,
+                code: 'SkillError',
+                text: error.message
+            }
+            await context.sendActivity(endOfconversation);
+    };
     ```
 
 ## MultiProviderAuthDialog
