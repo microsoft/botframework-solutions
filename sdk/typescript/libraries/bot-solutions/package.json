@@ -1,6 +1,6 @@
 {
-    "name": "botbuilder-solutions",
-    "version": "4.4.6",
+    "name": "bot-solutions",
+    "version": "1.0.0",
     "description": "Shared library for Conversational AI Virtual Assistants and Skills.",
     "homepage": "https://github.com/microsoft/botframework-solutions",
     "author": "Microsoft",
