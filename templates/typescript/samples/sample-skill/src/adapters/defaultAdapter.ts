@@ -16,7 +16,7 @@ import {
     EventDebuggerMiddleware,
     SetLocaleMiddleware,
     LocaleTemplateEngineManager,
-    SetSpeakMiddleware } from 'botbuilder-solutions';
+    SetSpeakMiddleware } from 'bot-solutions';
 import { IBotSettings } from '../services/botSettings';
 import { TurnContextEx } from '../extensions/turnContextEx';
 import { AzureBlobTranscriptStore, BlobStorageSettings } from 'botbuilder-azure';

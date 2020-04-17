@@ -18,7 +18,7 @@ import {
     TextPrompt,
     PromptOptions,
     ComponentDialog } from 'botbuilder-dialogs';
-import { ICognitiveModelSet, LocaleTemplateEngineManager } from 'botbuilder-solutions';
+import { ICognitiveModelSet, LocaleTemplateEngineManager } from 'bot-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';

@@ -5,7 +5,7 @@
 
 import { BotTelemetryClient } from 'botbuilder';
 import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMaker, QnAMakerEndpoint } from 'botbuilder-ai';
-import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'botbuilder-solutions';
+import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'bot-solutions';
 import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
 import i18next from 'i18next';
 import { IBotSettings } from './botSettings';
