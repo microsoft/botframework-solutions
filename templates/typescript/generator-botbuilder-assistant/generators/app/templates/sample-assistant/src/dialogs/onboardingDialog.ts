@@ -12,7 +12,7 @@ import {
     WaterfallStep } from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateEngineManager, DialogContextEx } from 'botbuilder-solutions';
+import { LocaleTemplateEngineManager, DialogContextEx } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
 
 enum DialogIds {

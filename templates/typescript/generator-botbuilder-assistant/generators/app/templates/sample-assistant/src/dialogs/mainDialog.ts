@@ -30,7 +30,7 @@ import {
     SwitchSkillDialog,
     SwitchSkillDialogOptions, 
     SkillsConfiguration,
-    IEnhancedBotFrameworkSkill } from 'botbuilder-solutions';
+    IEnhancedBotFrameworkSkill } from 'bot-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'botframework-schema';
 import { IUserProfileState } from '../models/userProfileState';

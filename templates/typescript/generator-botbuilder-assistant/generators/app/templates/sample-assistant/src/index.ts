@@ -25,7 +25,7 @@ import {
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
     SkillsConfiguration, 
-    SkillConversationIdFactory } from 'botbuilder-solutions';
+    SkillConversationIdFactory } from 'bot-solutions';
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';

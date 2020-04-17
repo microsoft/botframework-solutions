@@ -18,7 +18,7 @@ import {
     CommonUtil,
     IProviderTokenResponse,
     MultiProviderAuthDialog,
-    LocaleTemplateEngineManager } from 'botbuilder-solutions';
+    LocaleTemplateEngineManager } from 'bot-solutions';
 import { TokenResponse } from 'botframework-schema';
 import { SkillState } from '../models/skillState';
 import { BotServices} from '../services/botServices';
