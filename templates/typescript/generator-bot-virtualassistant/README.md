@@ -22,7 +22,7 @@ npm install -g generator-bot-virtualassistant
 
 Install the dependencies and dev dependencies of the project you want to test, i.e. bot-virtualassistant.
 ```bash
-cd .templates/typescript/generator-bot-virtualassistant
+cd ./templates/typescript/generator-bot-virtualassistant
 npm install
 ```
 
