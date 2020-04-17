@@ -462,11 +462,13 @@ namespace VirtualAssistantSample.Dialogs
             {
                 return false;
             }
-            else if (dispatchIntent == DispatchLuis.Intent.None)
+
+            if (dispatchIntent == DispatchLuis.Intent.None)
             {
                 return true;
             }
-            else if (dispatchIntent == DispatchLuis.Intent.l_General)
+
+            if (dispatchIntent == DispatchLuis.Intent.l_General)
             {
                 // If dispatch classifies user query as general, we should check against the cached general Luis score instead.
                 var generalResult = stepContext.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
