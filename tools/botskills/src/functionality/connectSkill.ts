@@ -51,7 +51,6 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         let luisFilePath = '';
         let dispatchFolderPath = '';
         let dispatchFilePath = '';
-        let allowedIntents: string[] = [];
         let useAllIntents: boolean = false;
 
         dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
@@ -78,9 +77,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 const currentLocaleApps = this.manifest.entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model]
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
-                allowedIntents = Object.keys(this.skillManifest?.dispatchModels.intents);
-                useAllIntents = allowedIntents.some(e => e === '*');
-                
+
                 if (currentApp.url.startsWith('file')) {
                     luFilePath = currentApp.url.split('file://')[1];
                     if(!existsSync(luFilePath)) {
@@ -138,14 +135,19 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         executionModelMap.set('--dataFolder', dispatchFolderPath);
         executionModelMap.set('--dispatch', dispatchFilePath);
 
-        if (useAllIntents && allowedIntents.length > 1) {
-            this.logger.warning("Found intent with name '*'. Adding all intents.");
+        // Validation of filtered intents
+        if (this.manifest !== undefined) {
+            useAllIntents = this.manifest.allowedIntents.some(e => e === '*');
+
+            if (useAllIntents && this.manifest.allowedIntents.length > 1) {
+                this.logger.warning("Found intent with name '*'. Adding all intents.");
+            }
+            
+            if (!useAllIntents && this.manifest.allowedIntents.length > 0) {
+                executionModelMap.set('--includedIntents', this.manifest.allowedIntents.join(','));
+            }
         }
         
-        if (!useAllIntents && allowedIntents.length > 0) {
-            executionModelMap.set('--includedIntents', allowedIntents.join(','));
-        }
-
         return executionModelMap;
     }
 

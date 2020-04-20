@@ -11,6 +11,7 @@ import { IConnectConfiguration } from '../models';
 export class ManifestUtils {
     public async getManifest(rawManifest: string, logger: ILogger, endpointName?: string): Promise<IManifest> {
         const tempManifest = JSON.parse(rawManifest);
+        //const tempManifest = rawManifest;
         const manifest: IManifest | undefined = tempManifest.id !== undefined
             ? await this.getManifestFromV1(tempManifest, logger)
             : tempManifest.$id !== undefined
@@ -27,7 +28,7 @@ export class ManifestUtils {
     public async getRawManifestFromResource(configuration: IConnectConfiguration): Promise<string> {
         return configuration.localManifest
             ? this.getLocalManifest(configuration.localManifest)
-            : await this.getRemoteManifest(configuration.remoteManifest);
+            : JSON.stringify( await this.getRemoteManifest(configuration.remoteManifest), null, 0);
     }
 
     private async getRemoteManifest(manifestURI: string): Promise<string> {
@@ -65,7 +66,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             endpoint: manifest.endpoint,
             luisDictionary: await this.processManifestV1(manifest),
             version: '',
-            schema: ''
+            schema: '',
+            allowedIntents: ['*']
         }
     }
 
@@ -86,7 +88,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             luisDictionary: await this.processManifestV2(manifest),
             version: manifest.version,
             schema: manifest.$schema,
-            entries: Object.entries(manifest?.dispatchModels.languages)
+            entries: Object.entries(manifest?.dispatchModels.languages),
+            allowedIntents: Object.keys(manifest?.dispatchModels.intents)
         }
     }
 
