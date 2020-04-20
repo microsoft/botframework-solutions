@@ -451,16 +451,16 @@ namespace VirtualAssistantSample.Dialogs
         /// <summary>
         /// A simple set of heuristics to govern if we should invoke the personality <see cref="QnAMakerDialog"/>.
         /// </summary>
-        /// <param name="stepContext">Current dialog context</param>
-        /// <param name="dispatchIntent">Intent that Dispatch thinks should be invoked</param>
-        /// <param name="dispatchScore">Confidence score for intent</param>
-        /// <param name="threshold">User provided threshold, if above this threshold do NOT show chitchat</param>
-        /// <returns>A <see cref="bool"/> indicating if we should invoke the personality dialog</returns>
+        /// <param name="stepContext">Current dialog context.</param>
+        /// <param name="dispatchIntent">Intent that Dispatch thinks should be invoked.</param>
+        /// <param name="dispatchScore">Confidence score for intent.</param>
+        /// <param name="threshold">User provided threshold between 0.0 and 1.0, if above this threshold do NOT show chitchat.</param>
+        /// <returns>A <see cref="bool"/> indicating if we should invoke the personality dialog.</returns>
         private bool ShouldBeginChitChatDialog(WaterfallStepContext stepContext, DispatchLuis.Intent dispatchIntent, double dispatchScore, double threshold = 0.5)
         {
-            if (IsSkillIntent(dispatchIntent))
+            if (threshold < 0.0 || threshold > 1.0)
             {
-                return false;
+                throw new ArgumentOutOfRangeException(nameof(threshold));
             }
 
             if (dispatchIntent == DispatchLuis.Intent.None)

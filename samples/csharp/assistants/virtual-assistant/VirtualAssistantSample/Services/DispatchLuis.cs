@@ -21,7 +21,6 @@ namespace Luis
         public enum Intent
         {
             l_General,
-            q_Chitchat,
             q_Faq,
             None
         };
