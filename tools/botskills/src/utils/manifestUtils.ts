@@ -28,13 +28,13 @@ export class ManifestUtils {
     public async getRawManifestFromResource(configuration: IConnectConfiguration): Promise<string> {
         return configuration.localManifest
             ? this.getLocalManifest(configuration.localManifest)
-            : JSON.stringify( await this.getRemoteManifest(configuration.remoteManifest), null, 0);
+            : await this.getRemoteManifest(configuration.remoteManifest);
     }
 
     private async getRemoteManifest(manifestURI: string): Promise<string> {
         return get({
             uri: manifestURI,
-            json: true
+            json: false
         }).catch( err=> { 
             throw new Error(`There was a problem while getting the remote manifest:\n${ err }`);
         });

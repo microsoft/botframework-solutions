@@ -327,6 +327,8 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             name: skill.name,
             description: skill.description
         });
+
+        assistantSkillsFile.botFrameworkSkills = assistantSkills;
          
         if (assistantSkillsFile.skillHostEndpoint === undefined || assistantSkillsFile.skillHostEndpoint.trim().length === 0) {
             const channel: string = await isCloudGovernment() ? 'us' : 'net';
