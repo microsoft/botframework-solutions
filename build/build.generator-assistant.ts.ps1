@@ -3,10 +3,10 @@ Param(
 )
 
 if (-not $version) {
-    Write-Host "Version for generator-botbuilder-assistant required!.  Please use the param -version" -ForegroundColor DarkRed
+    Write-Host "Version for generator-bot-virtualassistant required!.  Please use the param -version" -ForegroundColor DarkRed
 }
 
-pushd templates/typescript/generator-botbuilder-assistant
+pushd templates/typescript/generator-bot-virtualassistant
 
 npm install
 npm version $($version) --allow-same-version
@@ -21,6 +21,6 @@ if (-not(test-path ".\outputpackages"))
 
 pushd .\outputpackages
 
-npm pack ..\templates\typescript\generator-botbuilder-assistant
+npm pack ..\templates\typescript\generator-bot-virtualassistant
 
 popd

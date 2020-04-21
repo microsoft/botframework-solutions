@@ -14,7 +14,7 @@ const someLanguages = [`zh-cn`, `de-de`, `en-us`];
 const { join } = require(`path`);
 const sinon = require(`sinon`);
 
-describe(`The generator-botbuilder-assistant skill tests`, function() {
+describe(`The generator-bot-virtualassistant skill tests`, function() {
     var skillName;
     var skillNameCamelCase;
     var skillDesc;

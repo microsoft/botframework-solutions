@@ -1,4 +1,4 @@
-# Bot Builder Assistant Generator
+# Bot Virtual Assistant Generator
 
 ## Generate assistant
 
@@ -6,7 +6,7 @@
 - Run the following command for generating your new project.
 
 ```bash
-> yo botbuilder-assistant
+> yo bot-virtualassistant
 ```
 
 #### **At this point you have two different options to procedure**
@@ -47,7 +47,7 @@
 #### Example
 
 ```bash
-> yo botbuilder-assistant -n "Virtual Assistant" -d "A description for my new assistant" -l "en-us,es-es" -p "\aPath" --noPrompt
+> yo bot-virtualassistant -n "Virtual Assistant" -d "A description for my new assistant" -l "en-us,es-es" -p "\aPath" --noPrompt
 ```
 
 After this, you can check the summary in your screen:

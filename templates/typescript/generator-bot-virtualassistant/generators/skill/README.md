@@ -1,4 +1,4 @@
-# Bot Builder Skill Generator
+# Bot Skill Generator
 
 ## Generate skill
 
@@ -6,7 +6,7 @@
 - Run the following command for generating your new project.
 
 ```bash
-> yo botbuilder-assistant:skill
+> yo bot-virtualassistant:skill
 ```
 
 #### **At this point you have two different options to procedure**
@@ -47,7 +47,7 @@
 #### Example
 
 ```bash
-> yo botbuilder-skill -n "My Skill" -d "A description for my new skill" -l "en-us,es-es" -p "\aPath" --noPrompt
+> yo bot-virtualassistant:skill -n "My Skill" -d "A description for my new skill" -l "en-us,es-es" -p "\aPath" --noPrompt
 ```
 
 After this, you can check the summary in your screen:
