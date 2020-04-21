@@ -11,7 +11,6 @@ import { IConnectConfiguration } from '../models';
 export class ManifestUtils {
     public async getManifest(rawManifest: string, logger: ILogger, endpointName?: string): Promise<IManifest> {
         const tempManifest = JSON.parse(rawManifest);
-        //const tempManifest = rawManifest;
         const manifest: IManifest | undefined = tempManifest.id !== undefined
             ? await this.getManifestFromV1(tempManifest, logger)
             : tempManifest.$id !== undefined
