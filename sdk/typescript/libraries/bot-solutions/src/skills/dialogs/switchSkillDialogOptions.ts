@@ -8,7 +8,7 @@ import { Activity } from 'botbuilder';
 import { IEnhancedBotFrameworkSkill } from '../models/enhancedBotFrameworkSkill';
 
 export class SwitchSkillDialogOptions implements PromptOptions {
-    public skill?: IEnhancedBotFrameworkSkill; 
+    public skill: IEnhancedBotFrameworkSkill; 
     public prompt?: string | Partial<Activity>;
     
     /**
