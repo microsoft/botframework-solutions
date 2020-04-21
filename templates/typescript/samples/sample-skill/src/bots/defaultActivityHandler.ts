@@ -11,7 +11,7 @@ import {
 import {
     Dialog,
     DialogState } from 'botbuilder-dialogs';
-import { LocaleTemplateEngineManager, DialogEx } from 'botbuilder-solutions';
+import { LocaleTemplateEngineManager, DialogEx } from 'bot-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly dialog: Dialog;

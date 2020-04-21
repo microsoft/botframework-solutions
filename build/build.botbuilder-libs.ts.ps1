@@ -3,7 +3,7 @@ Param(
 )
 
 if (-not $version) {
-    Write-Host "Version for botbuilder-libs required!.  Please use the param -version" -ForegroundColor DarkRed
+    Write-Host "Version for bot-libs required!.  Please use the param -version" -ForegroundColor DarkRed
 }
 
 pushd sdk\typescript\libraries
@@ -12,14 +12,7 @@ node .\common\scripts\install-run-rush.js install --no-link
 
 node .\common\scripts\install-run-rush.js link
 
-pushd .\botbuilder-solutions
-
-npm version $($version) --allow-same-version
-npm run build
-
-popd
-
-pushd .\botbuilder-skills
+pushd .\bot-solutions
 
 npm version $($version) --allow-same-version
 npm run build
@@ -35,7 +28,6 @@ if (-not(test-path ".\outputpackages"))
 
 pushd .\outputpackages
 
-npm pack ..\sdk\typescript\libraries\botbuilder-solutions
-npm pack ..\sdk\typescript\libraries\botbuilder-skills
+npm pack ..\sdk\typescript\libraries\bot-solutions
 
 popd

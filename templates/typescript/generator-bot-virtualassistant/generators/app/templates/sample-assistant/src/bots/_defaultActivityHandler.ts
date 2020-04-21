@@ -17,7 +17,7 @@ import {
     DialogContext,
     DialogSet,
     DialogState } from 'botbuilder-dialogs';
-import { DialogEx, LocaleTemplateEngineManager, TokenEvents } from 'botbuilder-solutions';
+import { DialogEx, LocaleTemplateEngineManager, TokenEvents } from 'bot-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
     private readonly conversationState: BotState;

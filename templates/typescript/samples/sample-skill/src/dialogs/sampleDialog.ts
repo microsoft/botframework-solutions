@@ -16,7 +16,7 @@ import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { SkillDialogBase } from './skillDialogBase';
-import { LocaleTemplateEngineManager } from 'botbuilder-solutions';
+import { LocaleTemplateEngineManager } from 'bot-solutions';
 
 enum DialogIds {
     namePrompt = 'namePrompt'

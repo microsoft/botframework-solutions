@@ -10,7 +10,7 @@ import {
 import { SkillDialogBase } from './skillDialogBase';
 import { BotTelemetryClient, StatePropertyAccessor, Activity } from 'botbuilder';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateEngineManager } from 'botbuilder-solutions';
+import { LocaleTemplateEngineManager } from 'bot-solutions';
 import { SkillState } from '../models/skillState';
 import { IBotSettings } from '../services/botSettings';
 

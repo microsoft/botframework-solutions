@@ -21,7 +21,7 @@ import {
     ICognitiveModelConfiguration,
     Locales,
     LocaleTemplateEngineManager,
-    manifestGenerator } from 'botbuilder-solutions';
+    manifestGenerator } from 'bot-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';

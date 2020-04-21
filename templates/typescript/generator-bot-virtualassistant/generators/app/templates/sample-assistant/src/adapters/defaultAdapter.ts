@@ -21,7 +21,7 @@ import {
     LocaleTemplateEngineManager,
     SetLocaleMiddleware, 
     SetSpeakMiddleware,
-    FeedbackOptions} from 'botbuilder-solutions';
+    FeedbackOptions} from 'bot-solutions';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IBotSettings } from '../services/botSettings.js';
 

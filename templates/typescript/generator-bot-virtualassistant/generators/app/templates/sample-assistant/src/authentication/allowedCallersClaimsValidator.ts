@@ -4,7 +4,7 @@
  */
 
 import { Claim, JwtTokenValidation, SkillValidation } from 'botframework-connector';
-import { SkillsConfiguration } from 'botbuilder-solutions';
+import { SkillsConfiguration } from 'bot-solutions';
 
 /**
  * Sample claims validator that loads an allowed list from configuration if present and checks that responses are coming from configured skills.

@@ -20,7 +20,7 @@ const {
     Locales,
     SetLocaleMiddleware,
     LocaleTemplateEngineManager,
-} = require("botbuilder-solutions");
+} = require("bot-solutions");
 const { ActivityTypes } = require("botframework-schema");
 const i18next = require("i18next");
 const i18nextNodeFsBackend = require("i18next-node-fs-backend");
