@@ -12,6 +12,7 @@ namespace Microsoft.Bot.Solutions.Middleware
     using System.Xml.Linq;
     using Microsoft.Bot.Builder;
     using Microsoft.Bot.Schema;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Set Speech Synthesis Markup Language (SSML) on an Activity's Speak property with locale and voice input.
@@ -23,7 +24,7 @@ namespace Microsoft.Bot.Solutions.Middleware
         private static readonly IDictionary<string, string> DefaultVoiceFonts = new Dictionary<string, string>()
         {
             { "de-DE", "Microsoft Server Speech Text to Speech Voice (de-DE, Hedda)" },
-            { "en-US", "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)" },
+            { "en-US", "Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)" },
             { "es-ES", "Microsoft Server Speech Text to Speech Voice (es-ES, Laura, Apollo)" },
             { "fr-FR", "Microsoft Server Speech Text to Speech Voice (fr-FR, Julie, Apollo)" },
             { "it-IT", "Microsoft Server Speech Text to Speech Voice (it-IT, Cosimo, Apollo)" },
@@ -73,7 +74,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                     switch (activity.Type)
                     {
                         case ActivityTypes.Message:
-                            activity.Speak = activity.Speak ?? activity.Text;
+                            activity.Speak = GetActivitySpeakText(activity);
 
                             if (_channels.Contains(activity.ChannelId))
                             {
@@ -91,11 +92,39 @@ namespace Microsoft.Bot.Solutions.Middleware
         }
 
         /// <summary>
-        /// Formats an existing string to be formatted for Speech Synthesis Markup Language with a voice font.
+        /// Gets the speak text for the activity.
         /// </summary>
         /// <param name="activity">Outgoing bot Activity.</param>
-        /// <returns>SSML-formatted string to be used with synthetic speech.</returns>
-        private static string DecorateSSML(Activity activity)
+        /// <returns>speech text string value.</returns>
+        private static string GetActivitySpeakText(Activity activity)
+        {
+            // return speak or text value if they already exist in the activity
+            var result = activity.Speak ?? activity.Text;
+            if (result != null)
+            {
+                return result;
+            }
+
+            // return speak value of first attachment if an attachment exists and has a speak value
+            if (activity.Attachments.Count > 0)
+            {
+                var attachmentContent = activity.Attachments[0].Content;
+                if (attachmentContent != null && attachmentContent.GetType() == typeof(JObject))
+                {
+                    var contentObj = (JObject)attachmentContent;
+                    return contentObj["speak"]?.ToString();
+                }
+            }
+
+            return null;
+        }
+
+            /// <summary>
+            /// Formats an existing string to be formatted for Speech Synthesis Markup Language with a voice font.
+            /// </summary>
+            /// <param name="activity">Outgoing bot Activity.</param>
+            /// <returns>SSML-formatted string to be used with synthetic speech.</returns>
+            private static string DecorateSSML(Activity activity)
         {
             if (string.IsNullOrWhiteSpace(activity.Speak))
             {
