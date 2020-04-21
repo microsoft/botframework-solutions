@@ -15,14 +15,14 @@ npm install -g yo
 To install the generator using npm:
 
 ```bash
-npm install -g generator-botbuilder-assistant
+npm install -g generator-bot-virtualassistant
 ```
 
 ## Build and test locally
 
-Install the dependencies and dev dependencies of the project you want to test, i.e. botbuilder-assistant.
+Install the dependencies and dev dependencies of the project you want to test, i.e. bot-virtualassistant.
 ```bash
-cd ./templates/Virtual-Assistant-Template/src/typescript/generator-botbuilder-assistant/
+cd ./templates/typescript/generator-bot-virtualassistant
 npm install
 ```
 
@@ -33,13 +33,13 @@ npm link
 > **Note:** You can test your local changes to the generator immediately if using this command.
 Now you can execute the generator with this command.
 ```bash
-yo botbuilder-assistant
+yo bot-virtualassistant
 ```
 
 | Generator                                           | Description                                     |
 |-----------------------------------------------------|-------------------------------------------------|
-| [botbuilder-assistant](generators/app/README.md)    | Generator that creates a basic assistant        |
-| [botbuilder-assistant:skill](generators/skill/README.md)    | Generator that creates a basic skill        |
+| [bot-virtualassistant](generators/app/README.md)    | Generator that creates a basic Virtual Assistant        |
+| [bot-virtualassistant:skill](generators/skill/README.md)    | Generator that creates a basic skill        |
 
 
 ## License

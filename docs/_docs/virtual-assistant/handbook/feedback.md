@@ -18,6 +18,7 @@ This implementation allows for feedback to be collected when a child dialog of m
 
 ## Steps to implement feedback
 
+1) If you are using an older VA template it may contain references to `FeedbackMiddleware`. Check your bot adapter class (default adapter being `defaultadapter.cs`) and remove any reference to FeedbackMiddleware in your bot adapter.
 1) To start collecting user feedback, add the feedback directory found in the **VirtualAssistantSample** project within the Enterprise Assistant sample to your VA. This will have all the utility and helper functions you will need.
 1) Add feedback options to startup.cs
     ```csharp
@@ -40,7 +41,7 @@ This implementation allows for feedback to be collected when a child dialog of m
 3. Copy the feedback waterfall steps from Maindialog.cs in the Enterprise Assistant solution (RequestFeedback, RequestFeedbackComment, ProcessFeedback) and add them to your VAs mainDialog.cs waterfall flow.
     - Add corresponding steps and prompts to the Maindialog constructor (use enterprise assistant for reference)
 1. When you copy the waterfall steps over ensure you resolve any unknown object/function references with the implementations added in step 1. 
-    - There are separate implementations in the lib, do not use those for this feedback solution, use the implementations you manually added in step 1.
+    - There are separate implementations in the lib, **do not use those for this feedback solution, use the implementations you manually added in step 1**.
 1. If you have followed these steps and used the Enterprise Assistant as a reference then you should now have all you need.
 1. Run through any dialog in your VA, when the dialog ends and returns to MainDialog.cs then the feedback flow should be triggered. 
     - If the user ignores the feedback prompt and sends an unrelated query to the bot then they're query will skip feedback and be routed accordingly. 

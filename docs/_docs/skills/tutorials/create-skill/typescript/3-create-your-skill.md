@@ -11,16 +11,16 @@ order: 3
 
 ## {{ page.title }}
 
-Install the botbuilder-assistant generator
+Install the bot-virtualassistant generator
 
 ```bash
-npm install -g generator-botbuilder-assistant
+npm install -g generator-bot-virtualassistant
 ```
 
 Now you can execute the Skill sub-generator with this command.
 
 ```bash
-yo botbuilder-assistant:skill
+yo bot-virtualassistant:skill
 ```
 
 **At this point you have two different options to proceed:**
@@ -61,7 +61,7 @@ yo botbuilder-assistant:skill
 #### Example
 
 ```bash
-> yo botbuilder-assistant:skill -n "My skill" -d "A description for my new skill" -l "en" -p "\aPath" --noPrompt
+> yo bot-virtualassistant:skill -n "My skill" -d "A description for my new skill" -l "en" -p "\aPath" --noPrompt
 ```
 
 After this, you can check the summary in your screen:

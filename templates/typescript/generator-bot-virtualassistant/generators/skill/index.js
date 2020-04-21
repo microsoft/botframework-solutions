@@ -2,7 +2,6 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-
 "use strict";
 const { Copier } = require("./src/copier");
 const Generator = require(`yeoman-generator`);
@@ -13,12 +12,12 @@ const pkg = require(`../../package.json`);
 const _pick = require(`lodash/pick`);
 const _kebabCase = require(`lodash/kebabCase`);
 const _camelCase = require(`lodash/camelCase`);
-const templateName = "sample-assistant";
+const templateName = "sample-skill";
 const languages = [`zh-cn`, `de-de`, `en-us`, `fr-fr`, `it-it`, `es-es`];
-let assistantGenerationPath = process.cwd();
+let skillGenerationPath = process.cwd();
 let isAlreadyCreated = false;
 let containsSpecialCharacter = false;
-let finalAssistantName = "";
+let finalSkillName = "";
 
 const languagesChoice = [
   {
@@ -54,27 +53,27 @@ const languagesChoice = [
 ];
 
 const bigBot =
-  `               ╭─────────────────────────────────╮\n` +
+  `               ╭───────────────────────╮\n` +
   `   ` +
   chalk.blue.bold(`//`) +
   `     ` +
   chalk.blue.bold(`\\\\`) +
-  `   │        Welcome to the           │\n` +
+  `   │     Welcome to the    │\n` +
   `  ` +
   chalk.blue.bold(`//`) +
   ` () () ` +
   chalk.blue.bold(`\\\\`) +
-  `  │   BotBuilder Virtual Assistant  │\n` +
+  `  │       Bot Skill       │\n` +
   `  ` +
   chalk.blue.bold(`\\\\`) +
   `       ` +
   chalk.blue.bold(`//`) +
-  ` /│          generator!             │\n` +
+  ` /│       generator!      │\n` +
   `   ` +
   chalk.blue.bold(`\\\\`) +
   `     ` +
   chalk.blue.bold(`//`) +
-  `   ╰─────────────────────────────────╯\n` +
+  `   ╰───────────────────────╯\n` +
   `                                    v${pkg.version}`;
 
 const tinyBot =
@@ -84,28 +83,28 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    this.option(`assistantName`, {
-      description: `The name you want to give to your assistant.`,
+    this.option(`skillName`, {
+      description: `The name you want to give to your skill.`,
       type: String,
-      default: `sample-assistant`,
+      default: `sample-skill`,
       alias: `n`
     });
 
-    this.option(`assistantDesc`, {
-      description: `A brief bit of text used to describe what your assistant does.`,
+    this.option(`skillDesc`, {
+      description: `A brief bit of text used to describe what your skill does.`,
       type: String,
       alias: `d`
     });
 
-    this.option(`assistantLang`, {
-      description: `The languages you want to use with your assistant.`,
+    this.option(`skillLang`, {
+      description: `The languages you want to use with your skill.`,
       type: String,
       alias: `l`,
       default: languages.join()
     });
 
-    this.option(`assistantGenerationPath`, {
-      description: `The path where the assistant will be generated.`,
+    this.option(`skillGenerationPath`, {
+      description: `The path where the skill will be generated.`,
       type: String,
       default: process.cwd(),
       alias: `p`
@@ -124,12 +123,12 @@ module.exports = class extends Generator {
   prompting() {
     this.log(bigBot);
     // Validate language option
-    if (this.options.assistantLang) {
-      this.options.assistantLang = this.options.assistantLang
+    if (this.options.skillLang) {
+      this.options.skillLang = this.options.skillLang
         .replace(/\s/g, "")
         .split(",");
       if (
-        !this.options.assistantLang.every(language => {
+        !this.options.skillLang.every(language => {
           return languages.includes(language);
         })
       ) {
@@ -149,34 +148,34 @@ module.exports = class extends Generator {
 
     // Generate the main prompts
     const prompts = [
-      // Name of the assistant
+      // Name of the skill
       {
         type: `input`,
-        name: `assistantName`,
-        message: `What's the name of your assistant?`,
-        default: this.options.assistantName
-          ? this.options.assistantName
-          : `sample-assistant`
+        name: `skillName`,
+        message: `What's the name of your skill?`,
+        default: this.options.skillName
+          ? this.options.skillName
+          : `sample-skill`
       },
-      // Description of the assistant
+      // Description of the skill
       {
         type: `input`,
-        name: `assistantDesc`,
-        message: `What's the description of your assistant?`,
-        default: this.options.assistantDesc ? this.options.assistantDesc : ``
+        name: `skillDesc`,
+        message: `What's the description of your skill?`,
+        default: this.options.skillDesc ? this.options.skillDesc : ``
       },
-      // Language of the assistant
+      // Language of the skill
       {
         type: "checkbox",
-        name: "assistantLang",
-        message: "Which languages will your assistant use?",
+        name: "skillLang",
+        message: "Which languages will your skill use?",
         choices: languagesChoice
       },
-      // Path of the assistant
+      // Path of the skill
       {
         type: `confirm`,
         name: `pathConfirmation`,
-        message: `Do you want to change the new assistant's location?`,
+        message: `Do you want to change the new skill's location?`,
         default: false
       },
       {
@@ -184,10 +183,10 @@ module.exports = class extends Generator {
           return response.pathConfirmation === true;
         },
         type: `input`,
-        name: `assistantGenerationPath`,
-        message: `Where do you want to generate the assistant?`,
-        default: this.options.assistantGenerationPath
-          ? this.options.assistantGenerationPath
+        name: `skillGenerationPath`,
+        message: `Where do you want to generate the skill?`,
+        default: this.options.skillGenerationPath
+          ? this.options.skillGenerationPath
           : process.cwd(),
         validate: path => {
           if (fs.existsSync(path)) {
@@ -202,11 +201,11 @@ module.exports = class extends Generator {
           );
         }
       },
-      // Final confirmation of the assistant
+      // Final confirmation of the skill
       {
         type: `confirm`,
         name: `finalConfirmation`,
-        message: `Looking good. Shall I go ahead and create your new assistant?`,
+        message: `Looking good. Shall I go ahead and create your new skill?`,
         default: true
       }
     ];
@@ -214,16 +213,16 @@ module.exports = class extends Generator {
     // Check that if it was generated with CLI commands
     if (this.options.noPrompt) {
       this.props = _pick(this.options, [
-        `assistantName`,
-        `assistantDesc`,
-        `assistantLang`,
-        `assistantGenerationPath`
+        `skillName`,
+        `skillDesc`,
+        `skillLang`,
+        `skillGenerationPath`
       ]);
 
       // Validate we have what we need, or we'll need to throw
-      if (!this.props.assistantName) {
+      if (!this.props.skillName) {
         this.log.error(
-          `ERROR: Must specify a name for your assistant when using --noPrompt argument. Use --assistantName or -n option.`
+          `ERROR: Must specify a name for your skill when using --noPrompt argument. Use --skillName or -n option.`
         );
         process.exit(1);
       }
@@ -238,65 +237,60 @@ module.exports = class extends Generator {
   }
 
   writing() {
-    const assistantLang = this.props.assistantLang;
+    const skillLang = this.props.skillLang;
     if (this.props.finalConfirmation !== true) {
       return;
     }
 
-    const assistantDesc = this.props.assistantDesc;
-    if (!this.props.assistantName.replace(/\s/g, ``).length) {
-      this.props.assistantName = templateName;
+    const skillDesc = this.props.skillDesc;
+    if (!this.props.skillName.replace(/\s/g, ``).length) {
+      this.props.skillName = templateName;
     }
 
-    const assistantName = _kebabCase(this.props.assistantName).replace(
+    const skillName = _kebabCase(this.props.skillName).replace(
       /([^a-z0-9-]+)/gi,
       ``
     );
-
-    const assistantNameCamelCase = _camelCase(this.props.assistantName).replace(
-      /([^a-z0-9-]+)/gi,
-      ``
-    );
-
-    if (this.props.assistantName !== assistantName) {
-      finalAssistantName = assistantName;
-      containsSpecialCharacter = true;
-    }
-
-    assistantGenerationPath = path.join(assistantGenerationPath, assistantName);
-    if (this.props.assistantGenerationPath !== undefined) {
-      assistantGenerationPath = path.join(
-        this.props.assistantGenerationPath,
-        assistantName
+    skillGenerationPath = path.join(skillGenerationPath, skillName);
+    if (this.props.skillGenerationPath !== undefined) {
+      skillGenerationPath = path.join(
+        this.props.skillGenerationPath,
+        skillName
       );
     }
 
-    if (fs.existsSync(assistantGenerationPath)) {
+    if (this.props.skillName !== skillName) {
+      finalSkillName = skillName;
+      containsSpecialCharacter = true;
+    }
+
+    const skillNameCamelCase = _camelCase(this.props.skillName).replace(
+      /([^a-z0-9-]+)/gi,
+      ``
+    );
+
+    if (fs.existsSync(skillGenerationPath)) {
       isAlreadyCreated = true;
       return;
     }
 
-    this.log(chalk.magenta(`\nCurrent values for the new assistant:`));
-    this.log(chalk.magenta(`Name: ` + assistantName));
-    this.log(chalk.magenta(`Description: ` + assistantDesc));
-    this.log(chalk.magenta(`Selected languages: ` + assistantLang.join()));
-    this.log(chalk.magenta(`Path: ` + assistantGenerationPath + `\n`));
+    this.log(chalk.magenta(`\nCurrent values for the new skill:`));
+    this.log(chalk.magenta(`Name: ` + skillName));
+    this.log(chalk.magenta(`Description: ` + skillDesc));
+    this.log(chalk.magenta(`Selected languages: ` + skillLang.join()));
+    this.log(chalk.magenta(`Path: ` + skillGenerationPath + `\n`));
 
-    // Create new assistant obj
-    const newAssistant = {
-      assistantName: assistantName,
-      assistantNameCamelCase: assistantNameCamelCase,
-      assistantDescription: assistantDesc
+    // Create new skill obj
+    const newSkill = {
+      skillName: skillName,
+      skillNameCamelCase: skillNameCamelCase,
+      skillDescription: skillDesc
     };
 
     // Start the copy of the template
-    this.copier.selectLanguages(assistantLang);
-    this.copier.copyTemplate(templateName, assistantGenerationPath);
-    this.copier.copyTemplateFiles(
-      templateName,
-      assistantGenerationPath,
-      newAssistant
-    );
+    this.copier.selectLanguages(skillLang);
+    this.copier.copyTemplate(templateName, skillGenerationPath);
+    this.copier.copyTemplateFiles(templateName, skillGenerationPath, newSkill);
   }
 
   install() {
@@ -304,7 +298,7 @@ module.exports = class extends Generator {
       return;
     }
 
-    process.chdir(assistantGenerationPath);
+    process.chdir(skillGenerationPath);
     this.installDependencies({ npm: true, bower: false });
   }
 
@@ -318,7 +312,7 @@ module.exports = class extends Generator {
         );
         this.log(
           chalk.red.bold(
-            ` ERROR: It's seems like you already have an assistant with the same name in the destination path. `
+            ` ERROR: It's seems like you already have an skill with the same name in the destination path. `
           )
         );
         this.log(
@@ -336,31 +330,29 @@ module.exports = class extends Generator {
         if (containsSpecialCharacter) {
           this.log(
             chalk.yellow(
-              `\nYour virtual assistant name (${
-                this.props.assistantName
-              }) had special characters, it was changed to '${finalAssistantName}'`
+              `\nYour skill name (${this.props.skillName}) had special characters, it was changed to '${finalSkillName}'`
             )
           );
         }
 
         this.log(chalk.green(`------------------------ `));
-        this.log(chalk.green(` Your new assistant is ready!  `));
+        this.log(chalk.green(` Your new skill is ready!  `));
         this.log(chalk.green(`------------------------ `));
         this.log(
           `Open the ` +
             chalk.green.bold(`README.md`) +
-            ` to learn how to run your assistant. `
+            ` to learn how to run your skill. `
         );
         this.log(
           chalk.blue(
-            `\nNext step - being in the root of your generated assistant, to deploy it execute the following command:`
+            `\nNext step - being in the root of your generated skill, to deploy it execute the following command:`
           )
         );
         this.log(chalk.blue(`pwsh -File deployment\\scripts\\deploy.ps1`));
       }
     } else {
       this.log(chalk.red.bold(`-------------------------------- `));
-      this.log(chalk.red.bold(` New assistant creation was canceled. `));
+      this.log(chalk.red.bold(` New skill creation was canceled. `));
       this.log(chalk.red.bold(`-------------------------------- `));
     }
 

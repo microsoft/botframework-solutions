@@ -11,16 +11,16 @@ order: 3
 
 ## Create your Virtual Assistant project
 
-Install the botbuilder-assistant generator
+Install the bot-virtualassistant generator
 
 ```bash
-    npm install -g generator-botbuilder-assistant
+    npm install -g generator-bot-virtualassistant
 ```
 
 Now you can execute the Virtual Assistant generator with this command.
 
 ```bash
-yo botbuilder-assistant
+yo bot-virtualassistant
 ```
 
 **At this point you can proceed with two different options:**
@@ -61,7 +61,7 @@ yo botbuilder-assistant
 #### Example
 
 ```bash
-> yo botbuilder-assistant -n "Virtual Assistant" -d "A description for my new assistant" -l "en,es" -p "\aPath" --noPrompt
+> yo bot-virtualassistant -n "Virtual Assistant" -d "A description for my new assistant" -l "en,es" -p "\aPath" --noPrompt
 ```
 
 After this, you can check the summary on your screen:

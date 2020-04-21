@@ -7,7 +7,7 @@ trigger:
 
   paths:
     include:
-    - 'templates/typescript/generator-botbuilder-assistant/*'
+    - 'templates/typescript/generator-bot-virtualassistant/*'
 
 # By default will disable PR builds
 pr: none 
@@ -23,14 +23,14 @@ steps:
 - task: Npm@1
   displayName: 'npm install'
   inputs:
-    workingDir: 'templates/typescript/generator-botbuilder-assistant'
+    workingDir: 'templates/typescript/generator-bot-virtualassistant'
     verbose: false
 
 - task: Npm@1
   displayName: 'npm test - coverage'
   inputs:
     command: custom
-    workingDir: 'templates/typescript/generator-botbuilder-assistant'
+    workingDir: 'templates/typescript/generator-bot-virtualassistant'
     verbose: false
     customCommand: 'run test-coverage-ci'
 
@@ -38,12 +38,12 @@ steps:
   displayName: 'publish test results'
   inputs:
     testResultsFiles: 'test-results.xml'
-    searchFolder: 'templates/typescript/generator-botbuilder-assistant'
+    searchFolder: 'templates/typescript/generator-bot-virtualassistant'
     failTaskOnFailedTests: true
 
 - task: PublishCodeCoverageResults@1
   displayName: 'publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: 'templates/typescript/generator-botbuilder-assistant/coverage/cobertura-coverage.xml'
-    reportDirectory: 'templates/typescript/generator-botbuilder-assistant/coverage/'
+    summaryFileLocation: 'templates/typescript/generator-bot-virtualassistant/coverage/cobertura-coverage.xml'
+    reportDirectory: 'templates/typescript/generator-bot-virtualassistant/coverage/'
