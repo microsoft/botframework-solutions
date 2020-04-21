@@ -4,7 +4,7 @@ subcategory: What's New
 language: 1_0_release
 title: Enable SSO with Skills using OAuthCredentials setting
 date: 2020-03-31
-order: 1
+order: 2
 toc: true
 ---
 
