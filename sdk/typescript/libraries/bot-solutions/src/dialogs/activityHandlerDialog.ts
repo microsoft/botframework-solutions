@@ -12,6 +12,7 @@ import { Activity, ActivityTypes } from 'botbuilder';
 /** 
  * Provides interruption logic and methods for handling incoming activities based on type.
  */ 
+// OBSOLETE: ActivityHandlerDialog is being deprecated. For more information, refer to https://aka.ms/bfvarouting.
 export abstract class ActivityHandlerDialog extends InterruptableDialog {
 
     public constructor(dialogId: string, telemetryClient: BotTelemetryClient ) {
