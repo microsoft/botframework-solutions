@@ -1,57 +1,57 @@
-> ------------ Activity templates ------------
+﻿> ------------ Activity templates ------------
 
 # IntroMessage
 [Activity
-    Text = @{IntroText()}
+    Text = ${IntroText()}
     SuggestedActions = Help
     InputHint = acceptingInput
 ]
 
 # FirstPromptMessage
 [Activity
-    Text = @{FirstPromptText()}
+    Text = ${FirstPromptText()}
     InputHint = acceptingInput
 ]
 
 # HelpMessage
 [Activity
-    Attachments = @{HelpCard()}
+    Attachments = ${HelpCard()}
     InputHint = acceptingInput
 ]
 
 # CancelledMessage
 [Activity
-    Text = @{CancelledText()}
+    Text = ${CancelledText()}
     InputHint = acceptingInput
 ]
 
 # CompletedMessage
 [Activity
-    Text = @{CompletedText()}
+    Text = ${CompletedText()}
     InputHint = acceptingInput
 ]
 
 # UnsupportedMessage
 [Activity
-    Text = @{UnsupportedText()}
+    Text = ${UnsupportedText()}
     InputHint = acceptingInput
 ]
 
 # ConfusedMessage
 [Activity
-    Text = @{ConfusedText()}
+    Text = ${ConfusedText()}
     InputHint = acceptingInput
 ]
 
 # ErrorMessage
 [Activity
-    Text = @{ErrorText()}
+    Text = ${ErrorText()}
     InputHint = acceptingInput
 ]
 
 # LogoutMessage
 [Activity
-    Text = @{LogoutText()}
+    Text = ${LogoutText()}
     InputHint = acceptingInput
 ]
 
@@ -60,8 +60,9 @@
 
 # HelpCard
 [HeroCard 
-    title= @{HelpTitle()}
-    subtitle= @{HelpSubtitle()}
+    title= ${HelpTitle()}
+    subtitle= ${HelpSubtitle()}
+    speak = ${HelpSubtitle()}
 ]
 
 
