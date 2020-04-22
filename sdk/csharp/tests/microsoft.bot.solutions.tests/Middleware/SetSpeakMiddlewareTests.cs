@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Solutions.Tests.Middleware
                     Assert.AreEqual(rootElement.Name.LocalName, "speak");
                     Assert.AreEqual(rootElement.Attribute(XNamespace.Xml + "lang").Value, "en-US");
                     var voiceElement = rootElement.Element("voice");
-                    Assert.AreEqual(voiceElement.Attribute("name").Value, "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)");
+                    Assert.AreEqual(voiceElement.Attribute("name").Value, "Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)");
                     Assert.AreEqual(voiceElement.Value, response);
                 })
                 .StartTestAsync();
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Solutions.Tests.Middleware
                     Assert.AreEqual(rootElement.Name.LocalName, "speak");
                     Assert.AreEqual(rootElement.Attribute(XNamespace.Xml + "lang").Value, "en-US");
                     var voiceElement = rootElement.Element("voice");
-                    Assert.AreEqual(voiceElement.Attribute("name").Value, "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)");
+                    Assert.AreEqual(voiceElement.Attribute("name").Value, "Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)");
                     Assert.AreEqual(voiceElement.Value, response);
                 })
                 .StartTestAsync();
