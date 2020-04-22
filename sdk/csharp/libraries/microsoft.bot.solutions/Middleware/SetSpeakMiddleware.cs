@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Solutions.Middleware
         /// Initializes a new instance of the <see cref="SetSpeakMiddleware"/> class.
         /// </summary>
         /// <param name="locale">If null, use en-US.</param>
-        /// <param name="voiceFonts">Map voice font for locale like en-US to "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS)".</param>
+        /// <param name="voiceFonts">Map voice font for locale like en-US to "Microsoft Server Speech Text to Speech Voice (en-US, Jessa24kRUS)".</param>
         /// <param name="channels">Set SSML for these channels. If null, use <see cref="Connector.Channels.DirectlineSpeech"/> and <see cref="Connector.Channels.Emulator"/>.</param>
         public SetSpeakMiddleware(string locale = null, IDictionary<string, string> voiceFonts = null, ISet<string> channels = null)
         {
@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Solutions.Middleware
                 var attachmentContent = activity.Attachments[0].Content;
                 if (attachmentContent != null && attachmentContent.GetType() == typeof(JObject))
                 {
-                    var contentObj = (JObject)attachmentContent;
+                    var contentObj = attachmentContent as JObject;
                     return contentObj["speak"]?.ToString();
                 }
             }
