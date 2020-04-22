@@ -15,7 +15,8 @@ Param(
 	[switch] $useDispatch = $true,
 	[string] $languages = "en-us",
 	[string] $outFolder = $(Join-Path $(Get-Location) "src"),
-	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
+	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt"),
+	[string[]] $excludedKbFromDispatch = @("chitchat")
 )
 
 . $PSScriptRoot\luis_functions.ps1
@@ -273,7 +274,7 @@ foreach ($language in $languageArr)
                     -log $logFile
        
 				if ($qnaKb) {
-					if ($useDispatch) {
+					if ($useDispatch -and -not $excludedKbFromDispatch.Contains($lu.BaseName)) {
 						Write-Host "> Adding $($langCode) $($lu.BaseName) kb to dispatch model ..." -NoNewline    
 						(dispatch add `
 							--type "qna" `
