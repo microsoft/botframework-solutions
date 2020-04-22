@@ -1,29 +1,29 @@
 {
-  "defaultLocale": "en-us",
   "cognitiveModels": {
     "en-us": {
       "languageModels": [
         {
-          "name": "MyServiceNowSkillen-us_General",
-          "region": "westus",
-          "version": "0.1",
           "id": "General",
-          "appid": "7fc2d4ed-d781-41ff-b8c2-379957b7dc03",
-          "subscriptionkey": "f9acd0df60ff4181b8061ab11d3b6d71",
-          "authoringkey": "b05e20392e43407796da282cbfbf058c",
-          "authoringRegion": "westus"
+          "version": "0.1",
+          "authoringkey": "1e821c0c17f94d1c88b9df96c1fe2038",
+          "subscriptionkey": "d13563019d9e46519b55a837c43858c2",
+          "authoringRegion": "westus",
+          "appid": "ca261968-d776-4c7f-bb27-0057dc9224c5",
+          "name": "ServiceNowUsersignen-us_General",
+          "region": "westus"
         },
         {
-          "name": "MyServiceNowSkillen-us_ITSM",
-          "region": "westus",
-          "version": "0.1",
           "id": "ITSM",
-          "appid": "1567966c-ecd0-4f7b-b2db-5151662bee9c",
-          "subscriptionkey": "f9acd0df60ff4181b8061ab11d3b6d71",
-          "authoringkey": "b05e20392e43407796da282cbfbf058c",
-          "authoringRegion": "westus"
+          "version": "0.1",
+          "authoringkey": "1e821c0c17f94d1c88b9df96c1fe2038",
+          "subscriptionkey": "d13563019d9e46519b55a837c43858c2",
+          "authoringRegion": "westus",
+          "appid": "611191d2-c8cd-4dde-b720-5bc5a91feb05",
+          "name": "ServiceNowUsersignen-us_ITSM",
+          "region": "westus"
         }
       ]
     }
-  }
+  },
+  "defaultLocale": "en-us"
 }
