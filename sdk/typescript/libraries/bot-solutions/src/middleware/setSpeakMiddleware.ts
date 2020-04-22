@@ -39,7 +39,7 @@ export class SetSpeakMiddleware implements Middleware {
     }
 
     /**
-     * If outgoing Activities are messages and using the Direct Line Speech channel.
+     * If outgoing Activities are messages and using the Direct Line Speech channel,
      * decorate the Speak property with an SSML formatted string.
      * @param context The Bot Context object.
      * @param next The next middleware component to run.
