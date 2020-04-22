@@ -4,10 +4,13 @@
  */
 
 import {
+    Activity,
     ActivityHandler,
-    TurnContext,
+    ActivityTypes,
     BotState,
-    StatePropertyAccessor } from 'botbuilder';
+    Channels,
+    StatePropertyAccessor, 
+    TurnContext } from 'botbuilder';
 import {
     Dialog,
     DialogState } from 'botbuilder-dialogs';
@@ -44,6 +47,13 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     }
 
     protected onMessageActivity(turnContext: TurnContext): Promise<void> {
+        // directline speech occasionally sends empty message activities that should be ignored
+        const activity: Activity = turnContext.activity;
+        if (activity.channelId === Channels.DirectlineSpeech &&
+            activity.type === ActivityTypes.Message &&
+            (activity.text === undefined || activity.text.trim().length === 0)) {
+            return Promise.resolve();
+        }
         return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
