@@ -404,9 +404,9 @@ export class MainDialog extends ComponentDialog {
      * @param threshold - user provided threshold between 0.0 and 1.0, if above this threshold do NOT show chitchat.
      * @returns A bool indicating if we should invoke the personality dialog.
      */
-    private shouldBeginChitChatDialog(stepContext: WaterfallStepContext, dispatchIntent: string, dispatchScore: number, threshold: number = 0.5): boolean {
+    private shouldBeginChitChatDialog(stepContext: WaterfallStepContext, dispatchIntent: string, dispatchScore: number, threshold = 0.5): boolean {
         if (threshold < 0.0 || threshold > 1.0) {
-            throw new Error(`The argument ${threshold} is out of range`);
+            throw new Error(`The argument ${ threshold } is out of range`);
         }
 
         if (dispatchIntent === 'none') {
