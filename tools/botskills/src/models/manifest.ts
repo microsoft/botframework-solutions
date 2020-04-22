@@ -7,5 +7,6 @@ export interface IManifest {
     luisDictionary: Map<string, string[]>;
     msaAppId: string;
     endpoint: string;
-    entries?: [string, any][]
+    entries?: [string, any][];
+    allowedIntents: string[];
 }

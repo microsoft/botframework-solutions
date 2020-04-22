@@ -473,6 +473,34 @@ Error: Mocked function throws an Error`);
 
             strictEqual(warningList[warningList.length - 1], `Run 'botskills refresh --${configuration.lgLanguage}' command to refresh your connected skills`);
         });
+
+        it("when a wildcard intent is included in the skill manifest", async function () {
+            sandbox.replace(this.connector, "executeDispatchAdd", (command, args) => {
+                return Promise.resolve("Mocked function successfully");
+            });
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "manifests", "v2", "manifestWithWildcardIntent.json")),
+                remoteManifest: "",
+                languages: ["en-us"],
+                luisFolder: resolve(__dirname, join("mocks", "success", "luis")),
+                dispatchFolder: resolve(__dirname, join("mocks", "success", "dispatch")),
+                outFolder: "",
+                lgOutFolder: "",
+                skillsFile: resolve(__dirname, join("mocks", "virtualAssistant", "filledSkills.json")),
+                resourceGroup: "",
+                appSettingsFile: resolve(__dirname, join("mocks", "appsettings", "authConnectionAppsettings.json")),
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const warningMessage = this.logger.getWarning();
+
+			strictEqual(warningMessage[0], `Found intent with name '*'. Adding all intents.`);
+		});
     });
 
     describe("should show a message", function () {

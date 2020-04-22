@@ -51,6 +51,7 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         let luisFilePath = '';
         let dispatchFolderPath = '';
         let dispatchFilePath = '';
+        let useAllIntents: boolean = false;
 
         dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
         dispatchFilePath = join(dispatchFolderPath, `${dispatchName}.dispatch`);
@@ -76,7 +77,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 const currentLocaleApps = this.manifest.entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model]
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
-                
+
                 if (currentApp.url.startsWith('file')) {
                     luFilePath = currentApp.url.split('file://')[1];
                     if(!existsSync(luFilePath)) {
@@ -134,6 +135,19 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         executionModelMap.set('--dataFolder', dispatchFolderPath);
         executionModelMap.set('--dispatch', dispatchFilePath);
 
+        // Validation of filtered intents
+        if (this.manifest !== undefined) {
+            useAllIntents = this.manifest.allowedIntents.some(e => e === '*');
+
+            if (useAllIntents && this.manifest.allowedIntents.length > 1) {
+                this.logger.warning("Found intent with name '*'. Adding all intents.");
+            }
+            
+            if (!useAllIntents && this.manifest.allowedIntents.length > 0) {
+                executionModelMap.set('--includedIntents', this.manifest.allowedIntents.join(','));
+            }
+        }
+        
         return executionModelMap;
     }
 
@@ -208,7 +222,13 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
         try {
             const luisApp: string = executionModelByCulture.get('luisApp') as string;
             // Update Dispatch file
-            const dispatchAddCommandArguments: string[] = ['--type', '--name', '--filePath', '--intentName', '--dataFolder', '--dispatch'];
+            const dispatchAddCommandArguments: string[] = ['--type', '--name', '--filePath', '--intentName', '--dataFolder', '--dispatch']; 
+            
+            // In cause of using specific intentsm we pass them to Dispatch
+            if (executionModelByCulture.has('--includedIntents')) {
+                dispatchAddCommandArguments.push('--includedIntents');
+            }
+
             dispatchAddCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
                 dispatchAddCommand.push(...[argument, argumentValue]);
@@ -307,6 +327,8 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             name: skill.name,
             description: skill.description
         });
+
+        assistantSkillsFile.botFrameworkSkills = assistantSkills;
          
         if (assistantSkillsFile.skillHostEndpoint === undefined || assistantSkillsFile.skillHostEndpoint.trim().length === 0) {
             const channel: string = await isCloudGovernment() ? 'us' : 'net';

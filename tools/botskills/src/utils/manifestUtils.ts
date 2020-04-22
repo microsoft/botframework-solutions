@@ -33,7 +33,7 @@ export class ManifestUtils {
     private async getRemoteManifest(manifestURI: string): Promise<string> {
         return get({
             uri: manifestURI,
-            json: true
+            json: false
         }).catch( err=> { 
             throw new Error(`There was a problem while getting the remote manifest:\n${ err }`);
         });
@@ -65,7 +65,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             endpoint: manifest.endpoint,
             luisDictionary: await this.processManifestV1(manifest),
             version: '',
-            schema: ''
+            schema: '',
+            allowedIntents: ['*']
         }
     }
 
@@ -86,7 +87,8 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             luisDictionary: await this.processManifestV2(manifest),
             version: manifest.version,
             schema: manifest.$schema,
-            entries: Object.entries(manifest?.dispatchModels.languages)
+            entries: Object.entries(manifest?.dispatchModels.languages),
+            allowedIntents: Object.keys(manifest?.dispatchModels.intents)
         }
     }
 

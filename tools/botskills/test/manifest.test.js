@@ -112,6 +112,7 @@ describe("The Manifest Util", function () {
             manifest.schema = "";
             manifest.version = "";
             manifest.entries = undefined;
+            manifest.allowedIntents = ['*'];
             manifest.luisDictionary = new Map(JSON.parse(manifest.luisDictionary));
   
             strictEqual(JSON.stringify(manifest), JSON.stringify(parsedManifest));
