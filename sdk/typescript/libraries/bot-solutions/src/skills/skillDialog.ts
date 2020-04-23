@@ -14,7 +14,7 @@ import {
     DialogReason,
     DialogTurnResult, 
     Dialog} from 'botbuilder-dialogs';
-import { IEnhancedBotFrameworkSkill } from './enhancedBotFrameworkSkill';
+import { IEnhancedBotFrameworkSkill } from './models/enhancedBotFrameworkSkill';
 import { SkillDialogArgs } from './skillDialogArgs';
 import { IBotSettingsBase } from '../botSettings';
 import { Activity, ConversationReference } from 'botframework-schema';

@@ -5,7 +5,7 @@
 
 import { PromptOptions } from 'botbuilder-dialogs';
 import { Activity } from 'botbuilder';
-import { IEnhancedBotFrameworkSkill } from '../enhancedBotFrameworkSkill';
+import { IEnhancedBotFrameworkSkill } from '../models/enhancedBotFrameworkSkill';
 
 export class SwitchSkillDialogOptions implements PromptOptions {
     public skill?: IEnhancedBotFrameworkSkill; 

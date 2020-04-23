@@ -15,4 +15,3 @@ export * from './skillDialogOption';
 export * from './skillConversationIdFactory';
 export * from './skillDialogArgs';
 export * from './skillsConfiguration';
-export * from './enhancedBotFrameworkSkill';
