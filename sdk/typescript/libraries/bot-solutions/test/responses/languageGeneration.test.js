@@ -25,6 +25,8 @@ describe("language generation", function() {
     
     describe("get response with language generation english", function() {
         it("should return the correct response included in the possible responses of the locale", function() {
+            let defaultCulture =  i18next.language;
+
             i18next.changeLanguage("en-us");
 
             // Generate English response using LG with data
@@ -35,11 +37,15 @@ describe("language generation", function() {
             let possibleResponses = localeTemplateManager.lgPerLocale.get('en-us').expandTemplate("HaveNameMessage", data);
 
             ok(possibleResponses.includes(response.text));
+
+            i18next.language = defaultCulture;
         });
     });
 
     describe("get response with language generation spanish", function() {
         it("should return the correct response included in the possible responses of the locale", function() {
+            let defaultCulture =  i18next.language;
+
             i18next.changeLanguage("es-es");
 
             // Generate Spanish response using LG with data
@@ -50,12 +56,16 @@ describe("language generation", function() {
             var possibleResponses = localeTemplateManager.lgPerLocale.get('es-es').expandTemplate("HaveNameMessage", data);
 
             ok(possibleResponses.includes(response.text));
+
+            i18next.language = defaultCulture;
         });
     });
 
     xdescribe("get response with language generation fallback", function() {
         // This test will remain commented until the fallback for Template Engine is implemented
         it("should return a list that contains the response text of the fallback language", function() {
+            let defaultCulture =  i18next.language;
+
             // German locale not supported, locale template engine should fallback to english as per default in Test Setup.
             i18next.changeLanguage("de-de");
 
@@ -68,6 +78,8 @@ describe("language generation", function() {
             var possibleResponses = localeTemplateManager.templateEnginesPerLocale["en-us"].expandTemplate("HaveNameMessage", data);
 
             strictEqual(possibleResponses.includes(response.text));
+
+            i18next.language = defaultCulture;
         });
     });
 });
