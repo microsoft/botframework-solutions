@@ -29,13 +29,13 @@ export class SetSpeakMiddleware implements Middleware {
     /**
      * Initializes a new instance of the SetSpeakMiddleware class.
      * @param locale If null, use en-US.
-     * @param voiceFonts Map voice font for locale like en-US to "Microsoft Server Speech Text to Speech Voice (en-US, ZiraRUS).
+     * @param voiceFonts Map voice font for locale like en-US to "Microsoft Server Speech Text to Speech Voice (en-us, Jessa24kRUS).
      * @param channels Set SSML for these channels. If null, use DirectlineSpeech and Emulator.
      */
     public constructor(locale: string = '', voiceFonts: Map<string, string> = new Map<string, string>(), channels: Set<string> = new Set()) {
         this.locale = locale || SetSpeakMiddleware.defaultLocale;
-        this.voiceFonts = voiceFonts || SetSpeakMiddleware.defaultVoiceFonts;
-        this.channels = channels || SetSpeakMiddleware.defaultChannels;
+        this.voiceFonts = voiceFonts.size > 0 ? voiceFonts : SetSpeakMiddleware.defaultVoiceFonts;
+        this.channels = channels.size > 0 ? channels : SetSpeakMiddleware.defaultChannels;
     }
 
     /**
@@ -131,7 +131,7 @@ export class SetSpeakMiddleware implements Middleware {
         }
 
         this.addAttributeIfMissing(rootElement, 'version', '1.0');
-        this.addAttributeIfMissing(rootElement, 'xml:lang', `lang${ locale }`);
+        this.addAttributeIfMissing(rootElement, 'xml:lang', `${ locale }`);
         this.addAttributeIfMissing(rootElement, 'xmlns:mstts', 'https://www.w3.org/2001/mstts');
 
         // Fix issue with 'number_digit' interpreter
