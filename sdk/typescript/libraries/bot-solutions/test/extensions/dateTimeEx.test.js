@@ -7,15 +7,15 @@ require("dayjs/locale/de");
 require("dayjs/locale/es");
 require("dayjs/locale/it");
 require("dayjs/locale/fr");
-require("../lib/resources/customizeLocale/zh");
+require("../../lib/resources/customizeLocale/zh");
 const { strictEqual } = require("assert");
 const dayjs = require("dayjs");
 const { join } = require("path");
 const i18next = require("i18next").default;
 const i18nextNodeFsBackend = require("i18next-node-fs-backend");
-const { DateTimeTestData } = require("./helpers/dateTimeTestData");
-const { Locales } = require(join("..", "lib", "localesUtils"));
-const { DateTimeEx } = require(join("..", "lib", "extensions", "dateTimeEx"));
+const { DateTimeTestData } = require(join("..", "helpers", "dateTimeTestData"));
+const { Locales } = require(join("..", "..", "lib", "localesUtils"));
+const { DateTimeEx } = require(join("..", "..", "lib", "extensions", "dateTimeEx"));
 
 describe("date time extensions", function() {
 

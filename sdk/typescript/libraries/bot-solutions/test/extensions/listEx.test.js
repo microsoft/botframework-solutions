@@ -6,8 +6,8 @@
 const { strictEqual } = require("assert");
 const { join } = require("path");
 const i18next = require("i18next").default;
-const { SomeComplexType } = require(join(__dirname, "helpers", "someComplexType"));
-const { ListEx } = require(join("..", "lib", "extensions", "listEx"));
+const { SomeComplexType } = require(join(__dirname, "..", "helpers", "someComplexType"));
+const { ListEx } = require(join("..", "..", "lib", "extensions", "listEx"));
 
 describe("list extensions", function() {
     
