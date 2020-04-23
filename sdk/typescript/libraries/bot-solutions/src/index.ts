@@ -20,5 +20,4 @@ export * from './util';
 export * from './botSettings';
 export * from './cognitiveModelSet';
 export * from './localesUtils';
-export * from './remoteUserTokenProvider';
 export * from './tokenEvents';
