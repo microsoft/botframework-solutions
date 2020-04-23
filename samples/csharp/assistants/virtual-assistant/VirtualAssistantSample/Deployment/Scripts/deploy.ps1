@@ -135,7 +135,7 @@ Write-Host "Done." -ForegroundColor Green
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 if ($parametersFile) {
 	Write-Host "> Validating Azure deployment ..." -NoNewline
-	$validation = az group deployment validate `
+	$validation = az deployment group validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters "@$($parametersFile)" `
@@ -149,7 +149,7 @@ if ($parametersFile) {
 		if (-not $validation.error) {
             Write-Host "Done." -ForegroundColor Green
 			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
-			$deployment = az group deployment create `
+			$deployment = az deployment group create `
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
@@ -170,7 +170,7 @@ if ($parametersFile) {
 }
 else {
 	Write-Host "> Validating Azure deployment ..." -NoNewline
-	$validation = az group deployment validate `
+	$validation = az deployment group validate `
 		--resource-group $resourcegroup `
 		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
 		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
@@ -183,7 +183,7 @@ else {
 		if (-not $validation.error) {
             Write-Host "Done." -ForegroundColor Green
 			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
-			$deployment = az group deployment create `
+			$deployment = az deployment group create `
 				--name $timestamp `
 				--resource-group $resourceGroup `
 				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
@@ -203,7 +203,7 @@ else {
 }
 
 # Get deployment outputs
-$outputs = (az group deployment show `
+$outputs = (az deployment group show `
 	--name $timestamp `
 	--resource-group $resourceGroup `
 	--query properties.outputs `
@@ -274,7 +274,7 @@ if ($outputs)
 else
 {
 	# Check for failed deployments
-	$operations = (az group deployment operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
+	$operations = (az deployment group operation list -g $resourceGroup -n $timestamp --output json) 2>> $logFile | Out-Null 
 	
 	if ($operations) {
 		$operations = $operations | ConvertFrom-Json
