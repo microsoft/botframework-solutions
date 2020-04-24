@@ -87,7 +87,7 @@ export class SetSpeakMiddleware implements Middleware {
         // return speak value of first attachment if an attachment exists and has a speak value
         if (activity.attachments !== undefined && activity.attachments.length > 0) {
             const attachmentContent = activity.attachments[0].content;
-            if (attachmentContent !== undefined && attachmentContent instanceof Object) {
+            if (attachmentContent !== undefined) {
                 const contentObj = JSON.parse(attachmentContent);
                 return contentObj['speak'].toString();
             }
