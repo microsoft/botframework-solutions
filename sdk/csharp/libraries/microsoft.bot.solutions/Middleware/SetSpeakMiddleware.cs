@@ -109,10 +109,10 @@ namespace Microsoft.Bot.Solutions.Middleware
             if (activity.Attachments.Count > 0)
             {
                 var attachmentContent = activity.Attachments[0].Content;
-                if (attachmentContent != null && attachmentContent.GetType() == typeof(JObject))
+                if (attachmentContent != null)
                 {
                     var contentObj = attachmentContent as JObject;
-                    return contentObj["speak"]?.ToString();
+                    return contentObj?["speak"]?.ToString();
                 }
             }
 
