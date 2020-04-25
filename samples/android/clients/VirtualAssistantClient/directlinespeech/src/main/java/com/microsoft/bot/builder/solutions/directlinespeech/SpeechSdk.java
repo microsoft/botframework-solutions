@@ -1,5 +1,6 @@
 package com.microsoft.bot.builder.solutions.directlinespeech;
 
+import android.app.Dialog;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -8,11 +9,13 @@ import com.google.gson.Gson;
 import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.directlinespeech.utils.DateUtils;
 import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
+import com.microsoft.cognitiveservices.speech.PropertyId;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionCanceledEventArgs;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionResult;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
 import com.microsoft.cognitiveservices.speech.audio.PullAudioOutputStream;
 import com.microsoft.cognitiveservices.speech.dialog.BotFrameworkConfig;
+import com.microsoft.cognitiveservices.speech.dialog.CustomCommandsConfig;
 import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConfig;
 import com.microsoft.cognitiveservices.speech.dialog.DialogServiceConnector;
 
@@ -146,18 +149,14 @@ public class SpeechSdk {
         AudioConfig audioInput = null;
         if (haveRecordAudioPermission) audioInput = AudioConfig.fromDefaultMicrophoneInput();//AudioConfig.fromStreamInput(createMicrophoneStream());
 
-        DialogServiceConfig botConfig = BotFrameworkConfig.fromSubscription(
-                configuration.serviceKey,
-                configuration.serviceRegion);
-        botConfig.setProperty("SPEECH-RecoLanguage", configuration.locale);
-
+        DialogServiceConfig dialogServiceConfig = createDialogServiceConfiguration();
 
         // Only needed for USB mic array. Ignored (i.e. safe) if usb audio is not used.
         // Linear mic array config:
-        botConfig.setProperty("DeviceGeometry", "Linear4");
-        botConfig.setProperty("SelectedGeometry", "Linear4");
-        botConfig.setProperty("CARBON-INTERNAL-PmaDumpAudioToFilePrefix", localLogDirectory +"/pma");
-        botConnector = new DialogServiceConnector(botConfig, audioInput);
+        dialogServiceConfig.setProperty("DeviceGeometry", "Linear4");
+        dialogServiceConfig.setProperty("SelectedGeometry", "Linear4");
+        dialogServiceConfig.setProperty("CARBON-INTERNAL-PmaDumpAudioToFilePrefix", localLogDirectory +"/pma");
+        botConnector = new DialogServiceConnector(dialogServiceConfig, audioInput);
 
         botConnector.recognizing.addEventListener((o, speechRecognitionResultEventArgs) -> {
             final String recognizedSpeech = speechRecognitionResultEventArgs.getResult().getText();
@@ -227,6 +226,31 @@ public class SpeechSdk {
 
             activityReceived(json);
         });
+    }
+
+    private DialogServiceConfig createDialogServiceConfiguration() {
+        DialogServiceConfig dialogServiceConfig;
+
+        if (configuration.customCommandsAppId == null || configuration.customCommandsAppId.isEmpty()) {
+            dialogServiceConfig = BotFrameworkConfig.fromSubscription(
+                    configuration.serviceKey,
+                    configuration.serviceRegion);
+        } else {
+            dialogServiceConfig = CustomCommandsConfig.fromSubscription(
+                    configuration.customCommandsAppId,
+                    configuration.serviceKey,
+                    configuration.serviceRegion);
+        }
+
+        dialogServiceConfig.setProperty("SPEECH-RecoLanguage", configuration.locale);
+        if (!(configuration.customVoiceDeploymentIds == null || configuration.customVoiceDeploymentIds.isEmpty())) {
+            dialogServiceConfig.setProperty(PropertyId.Conversation_Custom_Voice_Deployment_Ids, configuration.customVoiceDeploymentIds);
+        }
+        if (!(configuration.customVoiceDeploymentIds == null || configuration.customVoiceDeploymentIds.isEmpty())) {
+            dialogServiceConfig.setProperty(PropertyId.SpeechServiceConnection_Endpoint, configuration.speechServiceConnectionEndpoint);
+        }
+
+        return dialogServiceConfig;
     }
 
     /**
