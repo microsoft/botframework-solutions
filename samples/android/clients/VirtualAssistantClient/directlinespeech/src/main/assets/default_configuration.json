@@ -1,6 +1,9 @@
 {
   "service_key": "SPEECH_SERVICE_SUBSCRIPTION_KEY",
   "service_region": "westus2",
+  "custom_commands_app_id": "",
+  "custom_voice_deployment_ids": "",
+  "speech_service_connection_endpoint": "",
   "user_id": "android",
   "user_name": "Android",
   "locale": "en-us",

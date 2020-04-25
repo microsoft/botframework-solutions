@@ -38,6 +38,9 @@ There are two configuration files used to provide your environment settings.
   "service_key": "SPEECH_SERVICE_SUBSCRIPTION_KEY", // Replace with your Speech Service subscription key
   "service_region": "westus2",
   "bot_id": "DIRECT_LINE_SPEECH_SECRET_KEY", // Replace with your Direct Line Speech secret
+  "custom_commands_app_id": "", // Optional, if you are connecting to a Custom Commands application
+  "custom_voice_deployment_ids": "", // Optional, to point to custom voices
+  "speech_service_connection_endpoint": "", // Optional, to point to a customized speech recognition endpoint
   "user_id": "android",
   "user_name": "Android",
   "locale": "en-us",
