@@ -6,9 +6,9 @@
 const { ok } = require("assert");
 const { join } = require("path");
 const i18next = require("i18next").default;
-const { LocaleTemplateEngineManager } = require(join("..", "lib", "responses", "localeTemplateEngineManager"));
+const { LocaleTemplateManager } = require(join("..", "lib", "responses", "localeTemplateManager"));
 
-let localeTemplateEngineManager;
+let localeTemplateManager;
 
 describe("language generation", function() {
     after(async function() {
@@ -17,10 +17,10 @@ describe("language generation", function() {
 
     before(async function() {
         const localeLgFiles = new Map();
-        localeLgFiles.set("en-us", [join(__dirname, "responses", "testResponses.lg")]);
-        localeLgFiles.set("es-es", [join(__dirname, "responses", "testResponses.es.lg")]);
-
-        localeTemplateEngineManager = new LocaleTemplateEngineManager(localeLgFiles, "en-us");
+        localeLgFiles.set("en-us", join(__dirname, "responses", "testResponses.lg"));
+        localeLgFiles.set("es-es", join(__dirname, "responses", "testResponses.es.lg"));
+        
+        localeTemplateManager = new LocaleTemplateManager(localeLgFiles, "en-us");
     });
     
     describe("get response with language generation english", function() {
@@ -29,10 +29,10 @@ describe("language generation", function() {
 
             // Generate English response using LG with data
             let data = { Name: "Darren" };
-            let response = localeTemplateEngineManager.generateActivityForLocale("HaveNameMessage", data);
+            let response = localeTemplateManager.generateActivityForLocale("HaveNameMessage", data);
 
             // Retrieve possible responses directly from the correct template to validate logic
-            let possibleResponses = localeTemplateEngineManager.templateEnginesPerLocale.get("en-us").expandTemplate("HaveNameMessage", data);
+            let possibleResponses = localeTemplateManager.lgPerLocale.get('en-us').expandTemplate("HaveNameMessage", data);
 
             ok(possibleResponses.includes(response.text));
         });
@@ -44,10 +44,10 @@ describe("language generation", function() {
 
             // Generate Spanish response using LG with data
             let data = { name: "Darren" };
-            let response = localeTemplateEngineManager.generateActivityForLocale("HaveNameMessage", data);
+            let response = localeTemplateManager.generateActivityForLocale("HaveNameMessage", data);
 
             // Retrieve possible responses directly from the correct template to validate logic
-            var possibleResponses = localeTemplateEngineManager.templateEnginesPerLocale.get("es-es").expandTemplate("HaveNameMessage", data);
+            var possibleResponses = localeTemplateManager.lgPerLocale.get('es-es').expandTemplate("HaveNameMessage", data);
 
             ok(possibleResponses.includes(response.text));
         });
@@ -61,11 +61,11 @@ describe("language generation", function() {
 
             // Generate English response using LG with data
             let data = { name: "Darren" };
-            let response = localeTemplateEngineManager.generateActivityForLocale("HaveNameMessage", data);
+            let response = localeTemplateManager.generateActivityForLocale("HaveNameMessage", data);
 
             // Retrieve possible responses directly from the correct template to validate logic
             // Logic should fallback to english due to unsupported locale
-            var possibleResponses = localeTemplateEngineManager.templateEnginesPerLocale["en-us"].expandTemplate("HaveNameMessage", data);
+            var possibleResponses = localeTemplateManager.templateEnginesPerLocale["en-us"].expandTemplate("HaveNameMessage", data);
 
             strictEqual(possibleResponses.includes(response.text));
         });
