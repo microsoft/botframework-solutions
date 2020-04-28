@@ -7,13 +7,14 @@ const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
-const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateEngineManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
+const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const { BotServices } = require('../../lib/services/botServices');
 const { DefaultActivityHandler } = require('../../lib/bots/defaultActivityHandler');
 const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog');
 const { MainDialog } = require('../../lib/dialogs/mainDialog');
+const { Templates } = require('botbuilder-lg');
 
 const TEST_MODE = require('./testBase').testMode;
 const resourcesDir = TEST_MODE === 'lockdown' ? join('..', 'mocks', 'resources') : join('..', '..', 'src');
@@ -27,24 +28,25 @@ cognitiveModelMap.forEach((value, key) => {
     cognitiveModels.set(key, value);
 });
 const localizedTemplates = new Map();
-const templateFiles = ['MainResponses','OnboardingResponses'];
-const supportedLocales =  ['en-us','de-de','es-es','fr-fr','it-it','zh-cn'];
-supportedLocales.forEach(locale => {
-    const localeTemplateFiles = [];
-    templateFiles.forEach(template => {
-        // LG template for default locale should not include locale in file extension.
-        if (locale === 'en-us'){
-            localeTemplateFiles.push(join(__dirname, '..', '..', 'lib', 'responses', `${template}.lg`));
-        }
-        else {
-            localeTemplateFiles.push(join(__dirname, '..', '..', 'lib', 'responses', `${template}.${locale}.lg`));
-        }
-    });
+const templateFile = 'AllResponses';
+const supportedLocales = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
 
-    localizedTemplates.set(locale, localeTemplateFiles);
+function getAllResponsesTemplates(locale) {
+    const path = locale === 'en-us'
+        ? join(__dirname, '..', '..', 'lib', 'responses', `AllResponses.lg`)
+        : join(__dirname, '..', '..', 'lib', 'responses', `AllResponses.${ locale }.lg`);
+    return Templates.parseFile(path);
+}
+
+supportedLocales.forEach((locale) => {
+    // LG template for en-us does not include locale in file extension.
+    const localTemplateFile = locale === 'en-us'
+        ? join(__dirname, '..', '..', 'lib', 'responses', `${ templateFile }.lg`)
+        : join(__dirname, '..', '..', 'lib', 'responses', `${ templateFile }.${ locale }.lg`);
+    localizedTemplates.set(locale, localTemplateFile);
 });
 
-const templateEngine = new LocaleTemplateEngineManager(localizedTemplates, 'en-us');
+const templateManager = new LocaleTemplateManager(localizedTemplates, 'en-us');
 const testUserProfileState = { name: 'Bot' };
 
 async function initConfiguration() {
@@ -89,7 +91,7 @@ async function getTestAdapterDefault(settings) {
 
     const botServices = new BotServices(botSettings);
     const botServicesAccesor = userState.createProperty(BotServices.name)
-    const onboardingDialog = new OnboardingDialog(botServicesAccesor, botServices, templateEngine, telemetryClient);
+    const onboardingDialog = new OnboardingDialog(botServicesAccesor, botServices, templateManager, telemetryClient);
     const skillDialogs = [];
     const userProfileStateAccesor = userState.createProperty('IUserProfileState');
     const previousResponseAccesor = userState.createProperty('Activity');
@@ -98,7 +100,7 @@ async function getTestAdapterDefault(settings) {
     const mainDialog = new MainDialog(
         botSettings,
         botServices,
-        templateEngine,
+        templateManager,
         userProfileStateAccesor,
         previousResponseAccesor,
         onboardingDialog,
@@ -108,7 +110,7 @@ async function getTestAdapterDefault(settings) {
         telemetryClient
     );
 
-    const botLogic = new DefaultActivityHandler(conversationState, userState, templateEngine, mainDialog);
+    const botLogic = new DefaultActivityHandler(conversationState, userState, templateManager, mainDialog);
     const adapter = new TestAdapter(botLogic.run.bind(botLogic));
 
     adapter.onTurnError = async function(context, error) {
@@ -133,7 +135,8 @@ async function getTestAdapterDefault(settings) {
 }
 
 module.exports = {
+    getAllResponsesTemplates: getAllResponsesTemplates,
     getTestAdapterDefault: getTestAdapterDefault,
-    templateEngine: templateEngine,
+    templateManager: templateManager,
     testUserProfileState: testUserProfileState
 }

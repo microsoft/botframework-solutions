@@ -20,7 +20,7 @@ import {
 import {
     ICognitiveModelConfiguration,
     Locales,
-    LocaleTemplateEngineManager,
+    LocaleTemplateManager,
     manifestGenerator } from 'bot-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
@@ -101,25 +101,19 @@ const conversationState: ConversationState = new ConversationState(storage);
 const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
 
 // Configure localized responses
-const localizedTemplates: Map<string, string[]> = new Map<string, string[]>();
-const templateFiles: string[] = ['MainResponses', 'SampleResponses'];
+const localizedTemplates: Map<string, string> = new Map<string, string>();
+const templateFile = 'AllResponses';
 const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
 
-supportedLocales.forEach((locale: string): void => {
-    const localeTemplateFiles: string[] = [];
-    templateFiles.forEach((template: string): void => {
-        // LG template for en-us does not include locale in file extension.
-        if (locale === 'en-us') {
-            localeTemplateFiles.push(join(__dirname, '..', 'src', 'responses', `${ template }.lg`));
-        } else {
-            localeTemplateFiles.push(join(__dirname, '..', 'src',  'responses', `${ template }.${ locale }.lg`));
-        }
-    });
-
-    localizedTemplates.set(locale, localeTemplateFiles);    
+supportedLocales.forEach((locale: string) => {
+    // LG template for en-us does not include locale in file extension.
+    const localTemplateFile = locale === 'en-us'
+        ? join(__dirname, 'responses', `${ templateFile }.lg`)
+        : join(__dirname, 'responses', `${ templateFile }.${ locale }.lg`);
+    localizedTemplates.set(locale, localTemplateFile);
 });
 
-const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
@@ -129,7 +123,7 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
     adapterSettings,
-    localeTemplateEngine,
+    localeTemplateManager,
     telemetryInitializerMiddleware,
     telemetryClient);
 
@@ -146,14 +140,14 @@ try {
         botServices,
         stateAccessor,
         telemetryClient,
-        localeTemplateEngine
+        localeTemplateManager
     );
     const sampleAction: SampleAction = new SampleAction(
         botSettings,
         botServices,
         stateAccessor,
         telemetryClient,
-        localeTemplateEngine
+        localeTemplateManager
     );
     const mainDialog: MainDialog = new MainDialog(
         botServices,
@@ -161,10 +155,10 @@ try {
         stateAccessor,
         sampleDialog,
         sampleAction,
-        localeTemplateEngine
+        localeTemplateManager
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateEngine, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, mainDialog);
 } catch (err) {
     throw err;
 }

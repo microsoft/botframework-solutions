@@ -21,7 +21,7 @@ import { Dialog, SkillDialog, SkillDialogOptions } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
     Locales,
-    LocaleTemplateEngineManager,
+    LocaleTemplateManager,
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
     SkillsConfiguration, 
@@ -29,7 +29,7 @@ import {
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
-import * as path from 'path';
+import { join } from 'path';
 import * as restify from 'restify';
 import { DefaultAdapter } from './adapters/defaultAdapter';
 import * as appsettings from './appsettings.json';
@@ -51,7 +51,7 @@ i18next.use(i18nextNodeFsBackend)
         fallbackLng: 'en-us',
         preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
         backend: {
-            loadPath: path.join(__dirname, 'locales', '{{lng}}.json')
+            loadPath: join(__dirname, 'locales', '{{lng}}.json')
         }
     })
     .then(async (): Promise<void> => {
@@ -115,32 +115,25 @@ const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
 
 // Configure localized responses
-const localizedTemplates: Map<string, string[]> = new Map<string, string[]>();
-const templateFiles: string[] = ['MainResponses', 'OnboardingResponses'];
+const localizedTemplates: Map<string, string> = new Map<string, string>();
+const templateFile = 'AllResponses';
 const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
 
 supportedLocales.forEach((locale: string) => {
-    const localeTemplateFiles: string[] = [];
-    templateFiles.forEach(template => {
-        // LG template for en-us does not include locale in file extension.
-        if (locale === 'en-us') {
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.lg`));
-        }
-        else {
-            localeTemplateFiles.push(path.join(__dirname, 'responses', `${ template }.${ locale }.lg`));
-        }
-    });
-
-    localizedTemplates.set(locale, localeTemplateFiles);
+    // LG template for en-us does not include locale in file extension.
+    const localTemplateFile = locale === 'en-us'
+        ? join(__dirname, 'responses', `${ templateFile }.lg`)
+        : join(__dirname, 'responses', `${ templateFile }.${ locale }.lg`);
+    localizedTemplates.set(locale, localTemplateFile);
 });
 
-const localeTemplateEngine: LocaleTemplateEngineManager = new LocaleTemplateEngineManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
 // Register the Bot Framework Adapter with error handling enabled.
 // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
 const adapter: DefaultAdapter = new DefaultAdapter(
     botSettings,
-    localeTemplateEngine,
+    localeTemplateManager,
     conversationState,
     adapterSettings,
     telemetryInitializerMiddleware,
@@ -163,7 +156,7 @@ try {
     const botServices: BotServices = new BotServices(botSettings, telemetryClient);
 
     const userProfileStateAccesor: StatePropertyAccessor<IUserProfileState> = userState.createProperty<IUserProfileState>('IUserProfileState');
-    const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateEngine, telemetryClient);
+    const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateManager, telemetryClient);
     const switchSkillDialog: SwitchSkillDialog = new SwitchSkillDialog(conversationState);
     const previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]> = userState.createProperty<Partial<Activity>[]>('Activity');
 
@@ -201,7 +194,7 @@ try {
     const mainDialog: MainDialog = new MainDialog(
         botSettings as IBotSettings,
         botServices,
-        localeTemplateEngine,
+        localeTemplateManager,
         userProfileStateAccesor,
         previousResponseAccesor,
         onboardingDialog,
@@ -211,7 +204,7 @@ try {
         telemetryClient,
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateEngine, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, mainDialog);
 } catch (err) {
     throw err;
 }
