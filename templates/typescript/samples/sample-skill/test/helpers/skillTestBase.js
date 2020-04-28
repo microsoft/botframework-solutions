@@ -19,7 +19,7 @@ const {
     EventDebuggerMiddleware,
     Locales,
     SetLocaleMiddleware,
-    LocaleTemplateEngineManager,
+    LocaleTemplateManager,
 } = require("bot-solutions");
 const { ActivityTypes } = require("botframework-schema");
 const i18next = require("i18next");
@@ -38,24 +38,18 @@ let conversationState;
 let cognitiveModelsRaw;
 const TEST_MODE = require("./testBase").testMode;
 const localizedTemplates = new Map();
-const templateFiles = ['MainResponses','SampleResponses'];
-const supportedLocales =  ['en-us','de-de','es-es','fr-fr','it-it','zh-cn'];
-supportedLocales.forEach(locale => {
-    const localeTemplateFiles = [];
-    templateFiles.forEach(template => {
-        // LG template for default locale should not include locale in file extension.
-        if (locale === 'en-us'){
-            localeTemplateFiles.push(join(__dirname, '..', '..', 'src', 'responses', `${template}.lg`));
-        }
-        else {
-            localeTemplateFiles.push(join(__dirname, '..', '..', 'src', 'responses', `${template}.${locale}.lg`));
-        }
-    });
+const templateFile = 'AllResponses';
+const supportedLocales = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
 
-    localizedTemplates.set(locale, localeTemplateFiles);
+supportedLocales.forEach((locale) => {
+    // LG template for en-us does not include locale in file extension.
+    const localTemplateFile = locale === 'en-us'
+        ? join(__dirname, '..', '..', 'lib', 'responses', `${templateFile}.lg`)
+        : join(__dirname, '..', '..', 'lib', 'responses', `${templateFile}.${locale}.lg`)
+    localizedTemplates.set(locale, localTemplateFile);
 });
 
-const templateEngine = new LocaleTemplateEngineManager(localizedTemplates, 'en-us');
+const templateManager = new LocaleTemplateManager(localizedTemplates);
 
 const getCognitiveModels = function(cognitiveModelsRaw) {
     const cognitiveModelDictionary = cognitiveModelsRaw.cognitiveModels;
@@ -119,14 +113,14 @@ const initialize = async function() {
         botServices,
         stateAccessor,
         telemetryClient,
-        templateEngine
+        templateManager
     );
     const sampleAction = new SampleAction(
         botSettings,
         botServices,
         stateAccessor,
         telemetryClient,
-        templateEngine
+        templateManager
     );
     const mainDialog = new MainDialog(
         botServices,
@@ -134,9 +128,9 @@ const initialize = async function() {
         stateAccessor,
         sampleDialog,
         sampleAction,
-        templateEngine
+        templateManager
     );
-    this.bot = new DefaultActivityHandler(conversationState, userState, templateEngine, mainDialog);
+    this.bot = new DefaultActivityHandler(conversationState, userState, templateManager, mainDialog);
 };
 
 /**
@@ -183,13 +177,13 @@ const getTelemetryClient = function(settings) {
 };
 
 const getTemplates = function(name) {
-    return templateEngine.templateEnginesPerLocale.get(i18next.language).expandTemplate(name);
+    return templateManager.lgPerLocale.get(i18next.language).expandTemplate(name);
 };
 
 module.exports = {
     configuration: configuration,
     initialize: initialize,
     getTestAdapter: getTestAdapter,
-    templateEngine: templateEngine,
+    templateManager: templateManager,
     getTemplates: getTemplates
 };

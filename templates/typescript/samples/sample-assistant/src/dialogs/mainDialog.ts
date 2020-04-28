@@ -26,7 +26,7 @@ import {
 import {
     DialogContextEx,
     ICognitiveModelSet,
-    LocaleTemplateEngineManager,
+    LocaleTemplateManager,
     SwitchSkillDialog,
     SwitchSkillDialogOptions, 
     SkillsConfiguration,
@@ -47,14 +47,14 @@ export class MainDialog extends ComponentDialog {
     private onBoardingDialog: OnboardingDialog;
     private switchSkillDialog: SwitchSkillDialog;
     private skillsConfig: SkillsConfiguration;
-    private templateEngine: LocaleTemplateEngineManager;
+    private templateManager: LocaleTemplateManager;
     private userProfileState: StatePropertyAccessor<IUserProfileState>;
     private previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]>;
     
     public constructor(
         settings: IBotSettings,
         services: BotServices,
-        templateEngine: LocaleTemplateEngineManager,
+        templateManager: LocaleTemplateManager,
         userProfileState: StatePropertyAccessor<IUserProfileState>,
         previousResponseAccessor: StatePropertyAccessor<Partial<Activity>[]>,
         onBoardingDialog: OnboardingDialog,
@@ -67,7 +67,7 @@ export class MainDialog extends ComponentDialog {
 
         this.services = services,
         this.settings = settings,
-        this.templateEngine = templateEngine,
+        this.templateManager = templateManager,
         this.skillsConfig = skillsConfig,
         this.telemetryClient = telemetryClient;
         
@@ -100,10 +100,10 @@ export class MainDialog extends ComponentDialog {
                 // The following line is a workaround until the method getQnAClient of QnAMakerDialog is fixed
                 // as per issue https://github.com/microsoft/botbuilder-js/issues/1885
                 new URL(value.host).hostname.split('.')[0],
-                this.templateEngine.generateActivityForLocale('UnsupportedMessage') as Activity,
+                this.templateManager.generateActivityForLocale('UnsupportedMessage') as Activity,
                 0.3,
-                this.templateEngine.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle').text,
-                this.templateEngine.generateActivityForLocale('QnaMakerNoMatchText').text);
+                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle').text,
+                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText').text);
             qnaDialog.id = key;
             this.addDialog(qnaDialog);
         });
@@ -201,7 +201,7 @@ export class MainDialog extends ComponentDialog {
                 if (isSkill && this.isSkillIntent(intent) && intent !== dialog.id && dispatchResult.intents[intent].score > 0.9) {
                     const identifiedSkill: IEnhancedBotFrameworkSkill | undefined = this.skillsConfig.skills.get(intent);
                     if (identifiedSkill !== undefined) {
-                        const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('SkillSwitchPrompt', { skill: identifiedSkill.name });
+                        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('SkillSwitchPrompt', { skill: identifiedSkill.name });
                         await innerDc.beginDialog(this.switchSkillDialog.id, new SwitchSkillDialogOptions(prompt as Activity, identifiedSkill));
                         interrupted = true;
                     } else {
@@ -218,7 +218,7 @@ export class MainDialog extends ComponentDialog {
                 if (generalResult.intents[intent].score > 0.5) {
                     switch(intent) {
                         case 'Cancel': { 
-                            await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('CancelledMessage', userProfile));
+                            await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('CancelledMessage', userProfile));
                             await innerDc.cancelAllDialogs();
                             await innerDc.beginDialog(this.initialDialogId);
                             interrupted = true;
@@ -226,7 +226,7 @@ export class MainDialog extends ComponentDialog {
                         } 
 
                         case 'Escalate': {
-                            await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('EscalateMessage', userProfile));
+                            await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('EscalateMessage', userProfile));
                             await innerDc.repromptDialog();
                             interrupted = true;
                             break;
@@ -235,7 +235,7 @@ export class MainDialog extends ComponentDialog {
                         case 'Help': {
                             if (!isSkill) {
                                 // If current dialog is a skill, allow it to handle its own help intent.
-                                await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('HelpCard', userProfile));
+                                await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('HelpCard', userProfile));
                                 await innerDc.repromptDialog();
                                 interrupted = true;
                             }
@@ -247,7 +247,7 @@ export class MainDialog extends ComponentDialog {
                             // Log user out of all accounts.
                             await this.logUserOut(innerDc);
                             
-                            await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('LogoutMessage', userProfile));
+                            await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('LogoutMessage', userProfile));
                             await innerDc.cancelAllDialogs();
                             await innerDc.beginDialog(this.initialDialogId);
                             interrupted = true;
@@ -269,7 +269,7 @@ export class MainDialog extends ComponentDialog {
                         }
 
                         case 'StartOver': {
-                            await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('StartOverMessage', userProfile));
+                            await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('StartOverMessage', userProfile));
 
                             // Cancel all dialogs on the stack.
                             await innerDc.cancelAllDialogs();
@@ -302,7 +302,7 @@ export class MainDialog extends ComponentDialog {
     private async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // Use the text provided in FinalStepAsync or the default if it is the first time.
         const promptOptions: PromptOptions = {
-            prompt: stepContext.options as Activity || this.templateEngine.generateActivityForLocale('FirstPromptMessage')
+            prompt: stepContext.options as Activity || this.templateManager.generateActivityForLocale('FirstPromptMessage')
         };
 
         return await stepContext.prompt(TextPrompt.name, promptOptions);
@@ -335,7 +335,7 @@ export class MainDialog extends ComponentDialog {
                 return await stepContext.beginDialog('chitchat');
             } else {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
-                await stepContext.context.sendActivity(this.templateEngine.generateActivityForLocale('UnsupportedMessage', userProfile));
+                await stepContext.context.sendActivity(this.templateManager.generateActivityForLocale('UnsupportedMessage', userProfile));
                 
                 return await stepContext.next();
             } 
@@ -347,7 +347,7 @@ export class MainDialog extends ComponentDialog {
 
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // Restart the main dialog with a different message the second time around
-        return await stepContext.replaceDialog(this.initialDialogId, this.templateEngine.generateActivityForLocale('CompletedMessage'));
+        return await stepContext.replaceDialog(this.initialDialogId, this.templateManager.generateActivityForLocale('CompletedMessage'));
     }
 
     private async logUserOut(dc: DialogContext): Promise<void> {

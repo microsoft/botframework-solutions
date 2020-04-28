@@ -15,7 +15,7 @@ import {
 import {
     EventDebuggerMiddleware,
     SetLocaleMiddleware,
-    LocaleTemplateEngineManager,
+    LocaleTemplateManager,
     SetSpeakMiddleware } from 'bot-solutions';
 import { IBotSettings } from '../services/botSettings';
 import { TurnContextEx } from '../extensions/turnContextEx';
@@ -28,7 +28,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
     public constructor(
         settings: Partial<IBotSettings>,
         adapterSettings: Partial<BotFrameworkAdapterSettings>,
-        templateEngine: LocaleTemplateEngineManager,
+        templateManager: LocaleTemplateManager,
         telemetryMiddleware: TelemetryInitializerMiddleware,
         telemetryClient: BotTelemetryClient,
     ) {
@@ -43,7 +43,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
                 text: error.stack
             });
             
-            await context.sendActivity(templateEngine.generateActivityForLocale('ErrorMessage'));
+            await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage'));
             telemetryClient.trackException({ exception: error });
 
             if (TurnContextEx.isSkill(context)){
@@ -67,7 +67,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
                 type: ActivityTypes.Trace,
                 text: error.stack
             });
-            await context.sendActivity(templateEngine.generateActivityForLocale('ErrorMessage'));
+            await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage'));
             telemetryClient.trackException({ exception: error });
         };
         

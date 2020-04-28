@@ -5,7 +5,7 @@
 
 const assert = require('assert');
 const { MemoryStorage } = require('botbuilder-core')
-const { getTestAdapterDefault, templateEngine } = require('./helpers/botTestBase');
+const { getAllResponsesTemplates, getTestAdapterDefault } = require('./helpers/botTestBase');
 const testNock = require('./helpers/testBase');
 let testStorage = new MemoryStorage();
 
@@ -21,8 +21,8 @@ describe("Onboarding Dialog", function () {
 
             const profileState = { name: testName };
 
-            const allNamePromptVariations = templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("NamePrompt");
-            const allHaveMessageVariations = templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("HaveNameMessage", profileState);
+            const allNamePromptVariations = getAllResponsesTemplates("en-us").expandTemplate("NamePrompt");
+            const allHaveMessageVariations = getAllResponsesTemplates("en-us").expandTemplate("HaveNameMessage", profileState);
 
             getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {
                 const flow = testAdapter

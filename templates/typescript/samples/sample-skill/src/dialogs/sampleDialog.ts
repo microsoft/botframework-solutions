@@ -16,7 +16,7 @@ import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { SkillDialogBase } from './skillDialogBase';
-import { LocaleTemplateEngineManager } from 'bot-solutions';
+import { LocaleTemplateManager } from 'bot-solutions';
 
 enum DialogIds {
     namePrompt = 'namePrompt'
@@ -32,9 +32,9 @@ export class SampleDialog extends SkillDialogBase {
         services: BotServices,
         stateAccessor: StatePropertyAccessor<SkillState>,
         telemetryClient: BotTelemetryClient,
-        templateEngine: LocaleTemplateEngineManager
+        templateManager: LocaleTemplateManager
     ) {
-        super(SampleDialog.name, settings, services, stateAccessor, telemetryClient, templateEngine);
+        super(SampleDialog.name, settings, services, stateAccessor, telemetryClient, templateManager);
 
         const sample: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             // NOTE: Uncomment these lines to include authentication steps to this dialog
@@ -54,7 +54,7 @@ export class SampleDialog extends SkillDialogBase {
     private async promptForName(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // NOTE: Uncomment the following lines to access LUIS result for this turn.
         //const luisResult = sc.context.turnState.get(StateProperties.skillLuisResult);
-        const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('NamePrompt');
+        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('NamePrompt');
         return await stepContext.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
@@ -63,7 +63,7 @@ export class SampleDialog extends SkillDialogBase {
         tokens.set(this.nameKey, stepContext.result as string);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response: any = this.templateEngine.generateActivityForLocale('HaveNameMessage', tokens);
+        const response: any = this.templateManager.generateActivityForLocale('HaveNameMessage', tokens);
         await stepContext.context.sendActivity(response);
 
         return await stepContext.next();

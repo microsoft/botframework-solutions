@@ -18,7 +18,7 @@ import {
     CommonUtil,
     IProviderTokenResponse,
     MultiProviderAuthDialog,
-    LocaleTemplateEngineManager } from 'bot-solutions';
+    LocaleTemplateManager } from 'bot-solutions';
 import { TokenResponse } from 'botframework-schema';
 import { SkillState } from '../models/skillState';
 import { BotServices} from '../services/botServices';
@@ -28,7 +28,7 @@ export class SkillDialogBase extends ComponentDialog {
     protected settings: Partial<IBotSettings>;
     protected services: BotServices;
     protected stateAccessor: StatePropertyAccessor<SkillState>;
-    protected templateEngine: LocaleTemplateEngineManager;
+    protected templateManager: LocaleTemplateManager;
 
     public constructor(
         dialogId: string,
@@ -36,14 +36,14 @@ export class SkillDialogBase extends ComponentDialog {
         services: BotServices,
         stateAccessor: StatePropertyAccessor<SkillState>,
         telemetryClient: BotTelemetryClient,
-        templateEngine: LocaleTemplateEngineManager
+        templateManager: LocaleTemplateManager
     ) {
         super(dialogId);
         this.services = services;
         this.stateAccessor = stateAccessor;
         this.telemetryClient = telemetryClient;
         this.settings = settings;
-        this.templateEngine = templateEngine;
+        this.templateManager = templateManager;
 
         // NOTE: Uncomment the following if your skill requires authentication
         // if (!services.authenticationConnections.any())
@@ -124,7 +124,7 @@ export class SkillDialogBase extends ComponentDialog {
         });
 
         // send error message to bot user
-        await sc.context.sendActivity(this.templateEngine.generateActivityForLocale('ErrorMessage'));
+        await sc.context.sendActivity(this.templateManager.generateActivityForLocale('ErrorMessage'));
 
         // clear state
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

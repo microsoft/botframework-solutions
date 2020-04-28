@@ -17,7 +17,7 @@ import {
     DialogContext,
     DialogSet,
     DialogState } from 'botbuilder-dialogs';
-import { DialogEx, LocaleTemplateEngineManager, TokenEvents } from 'bot-solutions';
+import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
     private readonly conversationState: BotState;
@@ -28,12 +28,12 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     private readonly dialog: Dialog;
     private dialogStateAccessor: StatePropertyAccessor;
     private userProfileState: StatePropertyAccessor;
-    private templateEngine: LocaleTemplateEngineManager;
+    private templateManager: LocaleTemplateManager;
 
     public constructor(
         conversationState: ConversationState,
         userState: UserState,
-        templateEngine: LocaleTemplateEngineManager,
+        templateManager: LocaleTemplateManager,
         dialog: T
     ) {
         super();
@@ -42,7 +42,7 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
-        this.templateEngine = templateEngine;
+        this.templateManager = templateManager;
         this.dialogs = new DialogSet(this.dialogStateAccessor);
         this.dialogs.add(this.dialog);
         this.userProfileState = userState.createProperty<DialogState>('UserProfileState');
@@ -63,10 +63,10 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
 
         if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
             // Send new user intro card.
-            await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('NewUserIntroCard', userProfile));
+            await turnContext.sendActivity(this.templateManager.generateActivityForLocale('NewUserIntroCard', userProfile));
         } else {
             // Send returning user intro card.
-            await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('ReturningUserIntroCard', userProfile));
+            await turnContext.sendActivity(this.templateManager.generateActivityForLocale('ReturningUserIntroCard', userProfile));
         }
         
         await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
