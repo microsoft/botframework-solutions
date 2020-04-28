@@ -92,7 +92,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     protected async tokenResponseValidator(promptContext: PromptValidatorContext<Activity>): Promise<boolean> {
         const activity: Activity | undefined = promptContext.recognized.value;
         if (activity !== undefined && 
-            ((activity.type === ActivityTypes.Event && activity.name === TokenEvents.tokenRequestEventName) || 
+            ((activity.type === ActivityTypes.Event && activity.name === TokenEvents.tokenResponseEventName) || 
             (activity.type === ActivityTypes.Invoke && activity.name === 'signin/verifyState'))) {
             return Promise.resolve(true);
         }
