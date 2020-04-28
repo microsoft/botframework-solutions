@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Schema;
@@ -26,6 +27,11 @@ namespace Microsoft.Bot.Solutions.Responses
         public LocaleTemplateManager(Dictionary<string, string> localeTemplateFiles, string fallbackLocale)
             : base(fallbackLocale == null ? localeTemplateFiles : new Dictionary<string, string>(localeTemplateFiles) { { string.Empty, localeTemplateFiles[fallbackLocale] } })
         {
+            foreach (KeyValuePair<string, string> filePerLocale in localeTemplateFiles)
+            {
+                TemplateEnginesPerLocale[filePerLocale.Key] = Templates.ParseFile(filePerLocale.Value);
+            }
+
             // only throw when fallbackLocale is empty string
             if (fallbackLocale != null && (fallbackLocale == string.Empty || fallbackLocale.Trim() == string.Empty))
             {
@@ -34,6 +40,8 @@ namespace Microsoft.Bot.Solutions.Responses
 
             _fallbackLocale = fallbackLocale;
         }
+
+        public Dictionary<string, Templates> TemplateEnginesPerLocale { get; set; } = new Dictionary<string, Templates>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Create an activity through Language Generation using the thread culture or provided override.
@@ -62,6 +70,20 @@ namespace Microsoft.Bot.Solutions.Responses
             var locale = localeOverride ?? CultureInfo.CurrentUICulture.Name ?? _fallbackLocale;
 
             return ActivityFactory.FromObject(Generate($"${{{templateName}()}}", data, locale));
+        }
+
+        public Templates GetTemplates()
+        {
+            // Get cognitive models for locale
+            var locale = CultureInfo.CurrentUICulture.Name.ToLower();
+
+            var templates = TemplateEnginesPerLocale.ContainsKey(locale)
+                ? TemplateEnginesPerLocale[locale]
+                : TemplateEnginesPerLocale.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
+                  ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
+                                         "Please review your available locales in your LG files.");
+
+            return templates;
         }
     }
 }
