@@ -75,6 +75,7 @@ class Copier {
     templateFiles.set(`_.eslintrc.json`, `.eslintrc.json`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.nycrc`, `.nycrc`);
+    templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(
       join(`pipeline`, `_sample-skill.yml`),
       join(`pipeline`, `${newSkill.skillName}.yml`)

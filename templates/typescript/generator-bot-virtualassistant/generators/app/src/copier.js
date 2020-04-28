@@ -77,6 +77,7 @@ class Copier {
     templateFiles.set(`_.eslintignore`, `.eslintignore`);
     templateFiles.set(`_.gitignore`, `.gitignore`);
     templateFiles.set(`_.nycrc`, `.nycrc`);
+    templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(
       join(`src`, `bots`, `_defaultActivityHandler.ts`),
       join(`src`, `bots`, `defaultActivityHandler.ts`)
