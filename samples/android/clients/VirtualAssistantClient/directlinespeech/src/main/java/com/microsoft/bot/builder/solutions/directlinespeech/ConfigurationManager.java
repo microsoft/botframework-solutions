@@ -49,11 +49,21 @@ public class ConfigurationManager {
     public Configuration getConfiguration(){
         String json = sharedPreferences.getString(SHARED_PREFS_CONFIGURATION, "{}");
         Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
+
         if (configuration.serviceKey == null) {
             configuration.serviceKey = defaultConfiguration.serviceKey;
         }
         if (configuration.serviceRegion == null) {
             configuration.serviceRegion = defaultConfiguration.serviceRegion;
+        }
+        if (configuration.customCommandsAppId == null) {
+            configuration.customCommandsAppId = defaultConfiguration.customCommandsAppId;
+        }
+        if (configuration.customVoiceDeploymentIds == null) {
+            configuration.customVoiceDeploymentIds = defaultConfiguration.customVoiceDeploymentIds;
+        }
+        if (configuration.speechServiceConnectionEndpoint == null) {
+            configuration.speechServiceConnectionEndpoint = defaultConfiguration.speechServiceConnectionEndpoint;
         }
         if (configuration.userId == null) {
             configuration.userId = defaultConfiguration.userId;
