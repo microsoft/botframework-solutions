@@ -24,7 +24,7 @@ namespace VirtualAssistantSample.Services
         {
             foreach (var pair in settings.CognitiveModels)
             {
-                var set = new CognitiveModelSet();
+                var set = new AdaptiveCognitiveModelSet();
                 var language = pair.Key;
                 var config = pair.Value;
 
@@ -78,9 +78,9 @@ namespace VirtualAssistantSample.Services
             }
         }
 
-        public Dictionary<string, CognitiveModelSet> CognitiveModelSets { get; set; } = new Dictionary<string, CognitiveModelSet>();
+        public Dictionary<string, AdaptiveCognitiveModelSet> CognitiveModelSets { get; set; } = new Dictionary<string, AdaptiveCognitiveModelSet>();
 
-        public CognitiveModelSet GetCognitiveModels()
+        public AdaptiveCognitiveModelSet GetCognitiveModels()
         {
             // Get cognitive models for locale
             var locale = CultureInfo.CurrentUICulture.Name.ToLower();
