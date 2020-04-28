@@ -24,7 +24,7 @@
         "botbuilder-applicationinsights": "^4.8.0",
         "botbuilder-azure": "^4.8.0",
         "botbuilder-dialogs": "^4.8.0",
-        "bot-solutions": "^1.0.0",
+        "bot-solutions": "^1.0.0-rc1",
         "botframework-config": "^4.8.0",
         "botframework-connector": "^4.8.0",
         "dotenv": "^6.0.0",
