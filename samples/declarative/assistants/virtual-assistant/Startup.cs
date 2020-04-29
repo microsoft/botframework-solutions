@@ -17,6 +17,7 @@ using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions.Skills;
 using VirtualAssistantSample.Authentication;
@@ -28,6 +29,8 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using VirtualAssistantSample.TokenExchange;
 using Microsoft.Bot.Builder.Dialogs;
 using System;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace VirtualAssistantSample
 {
@@ -92,9 +95,12 @@ namespace VirtualAssistantSample
             services.AddSingleton<ConversationState>();
 
             // Configure localized responses
-            var localizedTemplates = new Dictionary<string, string>();
             var templateFile = "AllResponses";
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+            var multiLanguageGenerator = new MultiLanguageGenerator() 
+            { 
+                LanguagePolicy = new LanguagePolicy(settings.DefaultLocale ?? "en-us") 
+            };
 
             foreach (var locale in supportedLocales)
             {
@@ -103,10 +109,12 @@ namespace VirtualAssistantSample
                     ? Path.Combine(".", "Responses", $"{templateFile}.lg")
                     : Path.Combine(".", "Responses", $"{templateFile}.{locale}.lg");
 
-                localizedTemplates.Add(locale, localeTemplateFile);
+                var localeTemplateEngine = Templates.ParseFile(localeTemplateFile);
+
+                multiLanguageGenerator.LanguageGenerators[locale] = new TemplateEngineLanguageGenerator(localeTemplateEngine);
             }
 
-            services.AddSingleton(new LocaleTemplateManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            services.AddSingleton(multiLanguageGenerator);
 
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.

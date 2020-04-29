@@ -26,63 +26,60 @@ namespace VirtualAssistantSample.Dialogs
 
         public FaqDialog(
             BotServices botServices,
-            LocaleTemplateManager localeTemplateManager)
+            MultiLanguageGenerator multiLanguageGenerator)
             : base(nameof(FaqDialog))
         { 
-            // TODO: Handle localization/multi-language
             var localizedServices = botServices.GetCognitiveModels();
-            var localizedTemplateEngine = localeTemplateManager.GetTemplates();
             localizedServices.QnAConfiguration.TryGetValue("Faq", out QnAMakerEndpoint faqQnAMakerEndpoint);
 
-            var faqDialog = new AdaptiveDialog(DialogId)
-            {
-                Generator = new TemplateEngineLanguageGenerator(localizedTemplateEngine),
-                Triggers =
-                {
-                    new OnBeginDialog()
-                    {
-                        Actions =
-                        {
-                            new QnAMakerDialog(
-                                knowledgeBaseId: faqQnAMakerEndpoint.KnowledgeBaseId,
-                                endpointKey: faqQnAMakerEndpoint.EndpointKey,
-                                hostName: faqQnAMakerEndpoint.Host),
-                        }
-                    }
-                }
-            };
-
-            // TODO: Follow up with 400 error when using QnAMakerRecognizer
             //var faqDialog = new AdaptiveDialog(DialogId)
             //{
-            //    Recognizer = GetQnAMakerRecognizer(KnowledgebaseId, localizedServices),
-            //    Generator = new TemplateEngineLanguageGenerator(localizedTemplateEngine),
             //    Triggers =
             //    {
-            //        new OnQnAMatch()
+            //        new OnBeginDialog()
             //        {
-            //            Actions = new List<Dialog>()
+            //            Actions =
             //            {
-            //                new SendActivity()
-            //                {
-            //                    Activity = new ActivityTemplate("${@answer}")
-            //                }
-            //            }
-            //        },
-            //        new OnUnknownIntent()
-            //        {
-            //            Actions = new List<Dialog>()
-            //            {
-            //                new SendActivity("Wha?")
+            //                new QnAMakerDialog(
+            //                    knowledgeBaseId: faqQnAMakerEndpoint.KnowledgeBaseId,
+            //                    endpointKey: faqQnAMakerEndpoint.EndpointKey,
+            //                    hostName: faqQnAMakerEndpoint.Host),
             //            }
             //        }
             //    }
             //};
 
+            // TODO: Follow up with 400 error when using QnAMakerRecognizer
+            var faqDialog = new AdaptiveDialog(DialogId)
+            {
+                Recognizer = GetQnAMakerRecognizer(KnowledgebaseId, localizedServices),
+                Generator = multiLanguageGenerator,
+                Triggers =
+                {
+                    new OnQnAMatch()
+                    {
+                        Actions = new List<Dialog>()
+                        {
+                            new SendActivity()
+                            {
+                                Activity = new ActivityTemplate("${@answer}")
+                            }
+                        }
+                    },
+                    new OnUnknownIntent()
+                    {
+                        Actions = new List<Dialog>()
+                        {
+                            new SendActivity("Wha?")
+                        }
+                    }
+                }
+            };
+
             AddDialog(faqDialog);
         }
 
-        private QnAMakerRecognizer GetQnAMakerRecognizer(string knowledgebaseId, CognitiveModelSet cognitiveModels)
+        private QnAMakerRecognizer GetQnAMakerRecognizer(string knowledgebaseId, AdaptiveCognitiveModelSet cognitiveModels)
         {
             if (!cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint)
                 || qnaEndpoint == null)

@@ -28,7 +28,7 @@ namespace VirtualAssistantSample.Dialogs
     public class RootDialog : ComponentDialog
     {
         private readonly BotServices _botServices;
-        private readonly LocaleTemplateManager _localeTemplateManager;
+        private readonly MultiLanguageGenerator _multiLanguageGenerator;
         private readonly string DialogId = $"{nameof(RootDialog)}.adaptive";
 
         private static OnboardingDialog _onboardingDialog;
@@ -42,16 +42,15 @@ namespace VirtualAssistantSample.Dialogs
             : base(nameof(RootDialog))
         {
             _botServices = serviceProvider.GetService<BotServices>();
-            _localeTemplateManager = serviceProvider.GetService<LocaleTemplateManager>();
+            _multiLanguageGenerator = serviceProvider.GetService<MultiLanguageGenerator>();
             _onboardingDialog = onboardingDialog;
 
             var localizedServices = _botServices.GetCognitiveModels();
-            var localizedTemplateEngine = _localeTemplateManager.GetTemplates();
 
             var dispatchDialog = new AdaptiveDialog(DialogId)
             {
                 Recognizer = localizedServices.DispatchService,
-                Generator = new TemplateEngineLanguageGenerator(localizedTemplateEngine),
+                Generator = _multiLanguageGenerator,
                 Triggers =
                 {
                     // Greet user added to the conversation

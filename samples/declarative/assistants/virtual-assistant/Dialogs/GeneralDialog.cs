@@ -30,18 +30,16 @@ namespace VirtualAssistantSample.Dialogs
 
         public GeneralDialog(
             BotServices botServices,
-            LocaleTemplateManager localeTemplateManager,
+            MultiLanguageGenerator multiLanguageGenerator,
             ChitchatDialog chitchatDialog)
             : base(nameof(GeneralDialog))
         {
             var localizedServices = botServices.GetCognitiveModels();
-            var localizedTemplateEngine = localeTemplateManager.GetTemplates();
-            localizedServices.QnAConfiguration.TryGetValue("Chitchat", out QnAMakerEndpoint chitChatQnaMakerEndpoint);
 
             var generalDialog = new AdaptiveDialog(DialogId)
             {
                 Recognizer = localizedServices.LuisServices[LanguageModelId],
-                Generator = new TemplateEngineLanguageGenerator(localizedTemplateEngine),
+                Generator = multiLanguageGenerator,
                 Triggers =
                 {
                     new OnIntent(GeneralLuis.Intent.Cancel.ToString())

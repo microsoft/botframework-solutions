@@ -23,14 +23,12 @@ namespace VirtualAssistantSample.Dialogs
 
         public OnboardingDialog(
             BotServices botServices,
-            LocaleTemplateManager localeTemplateManager)
+            MultiLanguageGenerator multiLanguageGenerator)
             : base(nameof(OnboardingDialog))
         {
-            var localizedTemplateEngine = localeTemplateManager.GetTemplates();
-
             var onboardingDialog = new AdaptiveDialog(DialogId)
             {
-                Generator = new TemplateEngineLanguageGenerator(localizedTemplateEngine),
+                Generator = multiLanguageGenerator,
                 Triggers =
                 {
                     new OnBeginDialog()

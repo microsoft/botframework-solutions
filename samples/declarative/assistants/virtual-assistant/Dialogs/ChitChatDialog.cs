@@ -24,18 +24,15 @@ namespace VirtualAssistantSample.Dialogs
 
         public ChitchatDialog(
             BotServices botServices,
-            LocaleTemplateManager localeTemplateManager)
+            MultiLanguageGenerator multiLanguageGenerator)
             : base(nameof(ChitchatDialog))
         { 
-            // TODO: Handle localization/multi-language
             var localizedServices = botServices.GetCognitiveModels();
-            var localizedTemplateEngine = localeTemplateManager.GetTemplates();
 
             localizedServices.QnAConfiguration.TryGetValue("Chitchat", out QnAMakerEndpoint chitChatQnaMakerEndpoint);
 
             var chitchatDialog = new AdaptiveDialog(DialogId)
             {
-                Generator = new TemplateEngineLanguageGenerator(localizedTemplateEngine),
                 Triggers =
                 {
                     new OnBeginDialog()
@@ -55,7 +52,7 @@ namespace VirtualAssistantSample.Dialogs
             //var chitchatDialog = new AdaptiveDialog(DialogId)
             //{
             //    Recognizer = GetQnAMakerRecognizer(KnowledgebaseId, localizedServices),
-            //    Generator = new TemplateEngineLanguageGenerator(localizedTemplateEngine),
+            //    Generator = multiLanguageGenerator,
             //    Triggers =
             //    {
             //        new OnQnAMatch()

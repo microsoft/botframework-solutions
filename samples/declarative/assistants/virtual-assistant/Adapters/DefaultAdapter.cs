@@ -12,6 +12,7 @@ using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace VirtualAssistantSample.Adapters
 {
@@ -22,7 +23,7 @@ namespace VirtualAssistantSample.Adapters
         private readonly IStorage _storage;
         private readonly UserState _userState;
         private readonly ConversationState _conversationState;
-        private readonly LocaleTemplateManager _templateEngine;
+        private readonly MultiLanguageGenerator _multiLanguageGenerator;
         private readonly IBotTelemetryClient _telemetryClient;
 
         public DefaultAdapter(
@@ -32,7 +33,7 @@ namespace VirtualAssistantSample.Adapters
             IStorage storage, 
             UserState userState, 
             ConversationState conversationState,
-            LocaleTemplateManager templateEngine,
+            MultiLanguageGenerator multiLanguageGenerator,
             IBotTelemetryClient telemetryClient)
             : base(configuration, logger: logger)
         {
@@ -43,7 +44,7 @@ namespace VirtualAssistantSample.Adapters
             _userState = userState ?? throw new ArgumentNullException(nameof(userState));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
 
-            _templateEngine = templateEngine ?? throw new ArgumentNullException(nameof(templateEngine));
+            _multiLanguageGenerator = multiLanguageGenerator ?? throw new ArgumentNullException(nameof(multiLanguageGenerator));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             OnTurnError = HandleTurnErrorAsync;
@@ -76,7 +77,7 @@ namespace VirtualAssistantSample.Adapters
                 _telemetryClient.TrackException(exception);
 
                 // Send a message to the user.
-                await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ErrorMessage"));
+                await turnContext.SendActivityAsync(await _multiLanguageGenerator.Generate(turnContext, "${ErrorMessage()}", null));
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator.
                 // Note: we return the entire exception in the value property to help the developer;
