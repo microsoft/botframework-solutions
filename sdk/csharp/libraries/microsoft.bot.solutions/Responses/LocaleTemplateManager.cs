@@ -72,6 +72,10 @@ namespace Microsoft.Bot.Solutions.Responses
             return ActivityFactory.FromObject(Generate($"${{{templateName}()}}", data, locale));
         }
 
+        /// <summary>
+        /// Get localized templates based on CultureInfo.
+        /// </summary>
+        /// <returns>Templates.</returns>
         public Templates GetTemplates()
         {
             // Get cognitive models for locale
