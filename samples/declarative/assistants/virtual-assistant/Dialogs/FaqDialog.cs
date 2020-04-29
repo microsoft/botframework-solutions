@@ -32,49 +32,49 @@ namespace VirtualAssistantSample.Dialogs
             var localizedServices = botServices.GetCognitiveModels();
             localizedServices.QnAConfiguration.TryGetValue("Faq", out QnAMakerEndpoint faqQnAMakerEndpoint);
 
-            //var faqDialog = new AdaptiveDialog(DialogId)
-            //{
-            //    Triggers =
-            //    {
-            //        new OnBeginDialog()
-            //        {
-            //            Actions =
-            //            {
-            //                new QnAMakerDialog(
-            //                    knowledgeBaseId: faqQnAMakerEndpoint.KnowledgeBaseId,
-            //                    endpointKey: faqQnAMakerEndpoint.EndpointKey,
-            //                    hostName: faqQnAMakerEndpoint.Host),
-            //            }
-            //        }
-            //    }
-            //};
-
-            // TODO: Follow up with 400 error when using QnAMakerRecognizer
             var faqDialog = new AdaptiveDialog(DialogId)
             {
-                Recognizer = GetQnAMakerRecognizer(KnowledgebaseId, localizedServices),
-                Generator = multiLanguageGenerator,
                 Triggers =
                 {
-                    new OnQnAMatch()
+                    new OnBeginDialog()
                     {
-                        Actions = new List<Dialog>()
+                        Actions =
                         {
-                            new SendActivity()
-                            {
-                                Activity = new ActivityTemplate("${@answer}")
-                            }
-                        }
-                    },
-                    new OnUnknownIntent()
-                    {
-                        Actions = new List<Dialog>()
-                        {
-                            new SendActivity("Wha?")
+                            new QnAMakerDialog(
+                                knowledgeBaseId: faqQnAMakerEndpoint.KnowledgeBaseId,
+                                endpointKey: faqQnAMakerEndpoint.EndpointKey,
+                                hostName: faqQnAMakerEndpoint.Host),
                         }
                     }
                 }
             };
+
+            // TODO: Follow up with 400 error when using QnAMakerRecognizer
+            //var faqDialog = new AdaptiveDialog(DialogId)
+            //{
+            //    Recognizer = GetQnAMakerRecognizer(KnowledgebaseId, localizedServices),
+            //    Generator = multiLanguageGenerator,
+            //    Triggers =
+            //    {
+            //        new OnQnAMatch()
+            //        {
+            //            Actions = new List<Dialog>()
+            //            {
+            //                new SendActivity()
+            //                {
+            //                    Activity = new ActivityTemplate("${@answer}")
+            //                }
+            //            }
+            //        },
+            //        new OnUnknownIntent()
+            //        {
+            //            Actions = new List<Dialog>()
+            //            {
+            //                new SendActivity("Wha?")
+            //            }
+            //        }
+            //    }
+            //};
 
             AddDialog(faqDialog);
         }
