@@ -1,6 +1,5 @@
 package com.microsoft.bot.builder.solutions.directlinespeech;
 
-import android.app.Dialog;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -10,6 +9,7 @@ import com.microsoft.bot.builder.solutions.directlinespeech.model.Configuration;
 import com.microsoft.bot.builder.solutions.directlinespeech.utils.DateUtils;
 import com.microsoft.cognitiveservices.speech.KeywordRecognitionModel;
 import com.microsoft.cognitiveservices.speech.PropertyId;
+import com.microsoft.cognitiveservices.speech.ServicePropertyChannel;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionCanceledEventArgs;
 import com.microsoft.cognitiveservices.speech.SpeechRecognitionResult;
 import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
@@ -247,7 +247,7 @@ public class SpeechSdk {
             dialogServiceConfig.setProperty(PropertyId.Conversation_Custom_Voice_Deployment_Ids, configuration.customVoiceDeploymentIds);
         }
         if (!(configuration.customVoiceDeploymentIds == null || configuration.customVoiceDeploymentIds.isEmpty())) {
-            dialogServiceConfig.setProperty(PropertyId.SpeechServiceConnection_Endpoint, configuration.speechServiceConnectionEndpoint);
+            dialogServiceConfig.setServiceProperty("cid", configuration.customSpeechRecognitionEndpointId, ServicePropertyChannel.UriQueryParameter);
         }
 
         return dialogServiceConfig;

@@ -53,7 +53,7 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.service_region) TextInputEditText serviceRegion;
     @BindView(R.id.custom_commands_app_id) TextInputEditText customCommandsAppId;
     @BindView(R.id.custom_voice_deployment_ids) TextInputEditText customVoiceDeploymentIds;
-    @BindView(R.id.speech_service_connection_endpoint) TextInputEditText speechServiceConnectionEndpoint;
+    @BindView(R.id.custom_sr_endpoint_id) TextInputEditText customSpeechRecognitionEndpointId;
     @BindView(R.id.user_id) TextInputEditText userId;
     @BindView(R.id.locale) TextInputEditText locale;
     @BindView(R.id.history_linecount) TextInputEditText historyLinecount;
@@ -324,7 +324,7 @@ public class SettingsActivity extends BaseActivity {
         serviceRegion.setText(configuration.serviceRegion);
         customCommandsAppId.setText(configuration.customCommandsAppId);
         customVoiceDeploymentIds.setText(configuration.customVoiceDeploymentIds);
-        speechServiceConnectionEndpoint.setText(configuration.speechServiceConnectionEndpoint);
+        customSpeechRecognitionEndpointId.setText(configuration.customSpeechRecognitionEndpointId);
         userId.setText(configuration.userId);
         locale.setText(configuration.locale);
 
@@ -403,7 +403,7 @@ public class SettingsActivity extends BaseActivity {
         configuration.serviceRegion = serviceRegion.getText().toString();
         configuration.customCommandsAppId = customCommandsAppId.getText().toString();
         configuration.customVoiceDeploymentIds = customVoiceDeploymentIds.getText().toString();
-        configuration.speechServiceConnectionEndpoint = speechServiceConnectionEndpoint.getText().toString();
+        configuration.customSpeechRecognitionEndpointId = customSpeechRecognitionEndpointId.getText().toString();
         configuration.userId = userId.getText().toString();
         configuration.locale = locale.getText().toString();
 

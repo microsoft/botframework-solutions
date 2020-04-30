@@ -90,16 +90,16 @@
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
-            <!-- SPEECH SERVICE CONNECTION ENDPOINT -->
+            <!-- SPEECH SERVICE CUSTOM SR ENDPOINT -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/speech_service_connection_endpoint_layout"
+                android:id="@+id/custom_sr_endpoint_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/configuration_service_connection_hint">
+                android:hint="@string/configuration_custom_sr_endpoint_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/speech_service_connection_endpoint"
+                    android:id="@+id/custom_sr_endpoint_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"

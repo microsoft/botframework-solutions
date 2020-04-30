@@ -62,8 +62,8 @@ public class ConfigurationManager {
         if (configuration.customVoiceDeploymentIds == null) {
             configuration.customVoiceDeploymentIds = defaultConfiguration.customVoiceDeploymentIds;
         }
-        if (configuration.speechServiceConnectionEndpoint == null) {
-            configuration.speechServiceConnectionEndpoint = defaultConfiguration.speechServiceConnectionEndpoint;
+        if (configuration.customSpeechRecognitionEndpointId == null) {
+            configuration.customSpeechRecognitionEndpointId = defaultConfiguration.customSpeechRecognitionEndpointId;
         }
         if (configuration.userId == null) {
             configuration.userId = defaultConfiguration.userId;

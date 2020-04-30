@@ -5,10 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Configuration {
 
-    @SerializedName("custom_commands_app_id")
-    @Expose
-    public String customCommandsAppId;
-
     @SerializedName("service_key")
     @Expose
     public String serviceKey;
@@ -16,6 +12,10 @@ public class Configuration {
     @SerializedName("service_region")
     @Expose
     public String serviceRegion;
+
+    @SerializedName("custom_commands_app_id")
+    @Expose
+    public String customCommandsAppId;
 
     @SerializedName("user_id")
     @Expose
@@ -25,9 +25,9 @@ public class Configuration {
     @Expose
     public String customVoiceDeploymentIds;
 
-    @SerializedName("speech_service_connection_endpoint")
+    @SerializedName("custom_speech_recognition_endpoint_id")
     @Expose
-    public String speechServiceConnectionEndpoint;
+    public String customSpeechRecognitionEndpointId;
 
     @SerializedName("locale")
     @Expose

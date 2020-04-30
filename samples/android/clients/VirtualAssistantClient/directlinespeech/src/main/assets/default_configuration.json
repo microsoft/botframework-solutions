@@ -3,7 +3,7 @@
   "service_region": "westus2",
   "custom_commands_app_id": "",
   "custom_voice_deployment_ids": "",
-  "speech_service_connection_endpoint": "",
+  "custom_speech_recognition_endpoint_id": "",
   "user_id": "android",
   "user_name": "Android",
   "locale": "en-us",
