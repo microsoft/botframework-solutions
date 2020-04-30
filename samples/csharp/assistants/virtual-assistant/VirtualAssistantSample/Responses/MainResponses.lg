@@ -215,7 +215,7 @@
 ]
 
 # HelpText
-- This can be used to display information to help your user interact with your bot.
+- This can be used to display information to help your user interact with your Virtual Assistant.
 
 # RandomName 
 - IF: ${Name && rand(0, 1000) > 500}
