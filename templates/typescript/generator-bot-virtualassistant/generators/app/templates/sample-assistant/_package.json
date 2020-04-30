@@ -27,7 +27,7 @@
         "botbuilder-azure": "^4.8.0",
         "botbuilder-dialogs": "^4.8.0",
         "botbuilder-lg": "^4.8.0-preview",
-        "bot-solutions": "^1.0.0",
+        "bot-solutions": "^1.0.0-rc1",
         "botframework-config": "^4.8.0",
         "botframework-connector": "^4.8.0",
         "i18next": "^15.0.6",
