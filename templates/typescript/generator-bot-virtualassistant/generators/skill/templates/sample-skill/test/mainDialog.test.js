@@ -51,7 +51,7 @@ describe("main dialog", function() {
 
     describe("test unhandled message", function() {
         it("send 'Unhandled message' and check you get the expected response", function(done) {
-            const allResponseVariations = skillTestBase.templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("UnsupportedText", { name: '' });
+            const allResponseVariations = skillTestBase.templateManager.lgPerLocale.get('en-us').expandTemplate("UnsupportedText", { name: '' });
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
                 .send("sample dialog")

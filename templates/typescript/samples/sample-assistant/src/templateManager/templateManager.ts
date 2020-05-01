@@ -14,7 +14,7 @@ export class TemplateManager {
     private languageFallback: string[] = [];
 
     /**
-     * Add a template engine for binding templates
+     * Add a template manager for binding templates
      */
     public register(renderer: ITemplateRenderer): TemplateManager {
         if (!this.templateRenders.some((x: ITemplateRenderer): boolean => x === renderer)) {
@@ -25,7 +25,7 @@ export class TemplateManager {
     }
 
     /**
-     * List registered template engines
+     * List registered template managers
      */
     public list(): ITemplateRenderer[] {
         return this.templateRenders;

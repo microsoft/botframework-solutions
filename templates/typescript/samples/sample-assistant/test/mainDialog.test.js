@@ -5,7 +5,7 @@
 
 const assert = require('assert');
 const testNock = require('./helpers/testBase');
-const { getTestAdapterDefault, templateEngine, testUserProfileState } = require('./helpers/botTestBase');
+const { getTestAdapterDefault, testUserProfileState } = require('./helpers/botTestBase');
 
 describe("Main Dialog", function () {
 	describe("intro card", function() {
@@ -60,7 +60,7 @@ describe("Main Dialog", function () {
 	
     xdescribe("confused", function () {
         it("send an unhandled message", function (done) {
-			const allResponseVariations = templateEngine.templateEnginesPerLocale.get('en-us').expandTemplate("UnsupportedMessage", testUserProfileState);
+			const allResponseVariations = getAllResponsesTemplates("en-us").expandTemplate("UnsupportedMessage", testUserProfileState);
 
 			getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter

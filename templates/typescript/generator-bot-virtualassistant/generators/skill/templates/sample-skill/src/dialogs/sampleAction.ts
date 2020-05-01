@@ -10,7 +10,7 @@ import {
 import { SkillDialogBase } from './skillDialogBase';
 import { BotTelemetryClient, StatePropertyAccessor, Activity } from 'botbuilder';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateEngineManager } from 'bot-solutions';
+import { LocaleTemplateManager } from 'bot-solutions';
 import { SkillState } from '../models/skillState';
 import { IBotSettings } from '../services/botSettings';
 
@@ -34,9 +34,9 @@ export class SampleAction extends SkillDialogBase {
         services: BotServices,
         stateAccessor: StatePropertyAccessor<SkillState>,
         telemetryClient: BotTelemetryClient,
-        templateEngine: LocaleTemplateEngineManager
+        templateManager: LocaleTemplateManager
     ) {
-        super(SampleAction.name, settings, services, stateAccessor, telemetryClient, templateEngine);
+        super(SampleAction.name, settings, services, stateAccessor, telemetryClient, templateManager);
         
         const sample: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             this.promptForName.bind(this),
@@ -59,13 +59,13 @@ export class SampleAction extends SkillDialogBase {
             return await stepContext.next(actionInput.name);
         }
 
-        const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('NamePrompt');
+        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('NamePrompt');
         return await stepContext.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
     private async greetUser(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const data: Object = { name: stepContext.result as string };
-        const response: Partial<Activity> = this.templateEngine.generateActivityForLocale('HaveNameMessage', data);
+        const response: Partial<Activity> = this.templateManager.generateActivityForLocale('HaveNameMessage', data);
         await stepContext.context.sendActivity(response);
 
         // Pass the response which we'll return to the user onto the next step

@@ -18,7 +18,7 @@ import {
     TextPrompt,
     PromptOptions,
     ComponentDialog } from 'botbuilder-dialogs';
-import { ICognitiveModelSet, LocaleTemplateEngineManager } from 'bot-solutions';
+import { ICognitiveModelSet, LocaleTemplateManager } from 'bot-solutions';
 import { TokenStatus } from 'botframework-connector';
 import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';
@@ -37,7 +37,7 @@ export class MainDialog extends ComponentDialog {
     private readonly services: BotServices;
     private readonly sampleDialog: SampleDialog;
     private readonly sampleAction: SampleAction;
-    private readonly templateEngine: LocaleTemplateEngineManager;
+    private readonly templateManager: LocaleTemplateManager;
     private readonly stateAccessor: StatePropertyAccessor<SkillState>;
     
     // Constructor
@@ -47,11 +47,11 @@ export class MainDialog extends ComponentDialog {
         stateAccessor: StatePropertyAccessor<SkillState>,
         sampleDialog: SampleDialog,
         sampleAction: SampleAction,
-        templateEngine: LocaleTemplateEngineManager
+        templateManager: LocaleTemplateManager
     ) {
         super(MainDialog.name);
         this.services = services;
-        this.templateEngine = templateEngine;
+        this.templateManager = templateManager;
         this.telemetryClient = telemetryClient;
 
         // Create conversationstate properties
@@ -153,7 +153,7 @@ export class MainDialog extends ComponentDialog {
                 switch(intent) {
                     case 'Cancel': { 
 
-                        await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('CancelledMessage'));
+                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('CancelledMessage'));
                         await innerDc.cancelAllDialogs();
                         await innerDc.beginDialog(this.initialDialogId);
                         interrupted = true;
@@ -161,7 +161,7 @@ export class MainDialog extends ComponentDialog {
                     } 
                     case 'Help': {
 
-                        await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('HelpCard'));
+                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('HelpCard'));
                         await innerDc.repromptDialog();
                         interrupted = true;
                         break;
@@ -171,7 +171,7 @@ export class MainDialog extends ComponentDialog {
                         // Log user out of all accounts.
                         await this.logUserOut(innerDc);
 
-                        await innerDc.context.sendActivity(this.templateEngine.generateActivityForLocale('LogoutMessage'));
+                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('LogoutMessage'));
                         await innerDc.cancelAllDialogs();
                         await innerDc.beginDialog(this.initialDialogId);
                         interrupted = true;
@@ -192,7 +192,7 @@ export class MainDialog extends ComponentDialog {
         } else {
             // If bot is in local mode, prompt with intro or continuation message
             const promptOptions: PromptOptions = {
-                prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateEngine.generateActivityForLocale('FirstPromptMessage')
+                prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateManager.generateActivityForLocale('FirstPromptMessage')
             };
             return await stepContext.prompt(TextPrompt.name, promptOptions);
         }
@@ -223,7 +223,7 @@ export class MainDialog extends ComponentDialog {
                     case 'None': 
                     default: {
                         // intent was identified but not yet implemented
-                        await stepContext.context.sendActivity(this.templateEngine.generateActivityForLocale('UnsupportedMessage'));
+                        await stepContext.context.sendActivity(this.templateManager.generateActivityForLocale('UnsupportedMessage'));
                         return await stepContext.next();
                     }
                 }  
@@ -274,7 +274,7 @@ export class MainDialog extends ComponentDialog {
             return await stepContext.endDialog(result);
         } else {
             
-            return await stepContext.replaceDialog(this.id, this.templateEngine.generateActivityForLocale('CompletedMessage'));
+            return await stepContext.replaceDialog(this.id, this.templateManager.generateActivityForLocale('CompletedMessage'));
         }
     }
 

@@ -12,7 +12,7 @@ import {
     WaterfallStep } from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateEngineManager, DialogContextEx } from 'bot-solutions';
+import { LocaleTemplateManager, DialogContextEx } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
 
 enum DialogIds {
@@ -27,16 +27,16 @@ export enum StateProperties {
 // Example onboarding dialog to initial user profile information.
 export class OnboardingDialog extends ComponentDialog {
     private services: BotServices;
-    private templateEngine: LocaleTemplateEngineManager;
+    private templateManager: LocaleTemplateManager;
     private accessor: StatePropertyAccessor<IUserProfileState>;
 
     public constructor(
         accessor: StatePropertyAccessor<IUserProfileState>,
         services: BotServices,
-        templateEngine: LocaleTemplateEngineManager,
+        templateManager: LocaleTemplateManager,
         telemetryClient: BotTelemetryClient) {
         super(OnboardingDialog.name);
-        this.templateEngine = templateEngine;
+        this.templateManager = templateManager;
 
         this.accessor = accessor;
         this.services = services;
@@ -61,7 +61,7 @@ export class OnboardingDialog extends ComponentDialog {
         }
         else {
             return await sc.prompt(DialogIds.NamePrompt, {
-                prompt: this.templateEngine.generateActivityForLocale('NamePrompt'),
+                prompt: this.templateManager.generateActivityForLocale('NamePrompt'),
             });
         }
     }
@@ -96,7 +96,7 @@ export class OnboardingDialog extends ComponentDialog {
 
         await this.accessor.set(sc.context, userProfile);
 
-        await sc.context.sendActivity(this.templateEngine.generateActivityForLocale('HaveNameMessage', userProfile));
+        await sc.context.sendActivity(this.templateManager.generateActivityForLocale('HaveNameMessage', userProfile));
 
         DialogContextEx.suppressCompletionMessage(sc, true);
 
