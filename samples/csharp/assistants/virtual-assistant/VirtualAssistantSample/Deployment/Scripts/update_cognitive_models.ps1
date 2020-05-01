@@ -110,7 +110,7 @@ foreach ($langCode in $languageMap.Keys) {
         {    
             # Add the knowledge base to the dispatch model. 
             # If the knowledge base id already exists within the model no action will be taken
-            if ($dispatch -and -not $excludedKbFromDispatch.Contains($kb.id))
+            if ($dispatch -and -not $excludedKbFromDispatch.Contains($kb.id)) {
                 Write-Host "> Adding $($langCode) $($kb.id) kb to dispatch file ..." -NoNewline
                 dispatch add `
                     --type "qna" `
