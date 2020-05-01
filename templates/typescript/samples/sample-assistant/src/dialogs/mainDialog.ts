@@ -316,20 +316,21 @@ export class MainDialog extends ComponentDialog {
         if (activity.text !== undefined && activity.text.trim().length > 0) {
             // Get dispatch result from turn state.
             const dispatchResult: RecognizerResult = stepContext.context.turnState.get(StateProperties.DispatchResult);
-            const dispatch: string = LuisRecognizer.topIntent(dispatchResult);
-            if (this.isSkillIntent(dispatch)) {
-                const dispatchIntentSkill: string = dispatch;
+            const dispatchIntent: string = LuisRecognizer.topIntent(dispatchResult);
+            const dispatchScore: number = dispatchResult.intents[dispatchIntent].score;
+            if (this.isSkillIntent(dispatchIntent)) {
+                const dispatchIntentSkill: string = dispatchIntent;
                 const skillDialogArgs: BeginSkillDialogOptions = {
                     activity: activity as Activity
                 };
                 
                 // Start the skill dialog.
                 return await stepContext.beginDialog(dispatchIntentSkill, skillDialogArgs);      
-            } else if (dispatch === 'q_faq') {
+            } else if (dispatchIntent === 'q_faq') {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
                 
                 return await stepContext.beginDialog('faq');
-            } else if (dispatch === 'q_chitchat') {
+            } else if (this.shouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore)) {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
                 
                 return await stepContext.beginDialog('chitchat');
@@ -387,7 +388,6 @@ export class MainDialog extends ComponentDialog {
 
     private isSkillIntent(dispatchIntent: string): boolean {
         if (dispatchIntent.toLowerCase() === 'l_general' || 
-            dispatchIntent.toLowerCase() === 'q_chitchat' || 
             dispatchIntent.toLowerCase() === 'q_faq' || 
             dispatchIntent.toLowerCase() === 'none') {
 
@@ -395,5 +395,37 @@ export class MainDialog extends ComponentDialog {
         }
 
         return true;
-    } 
+    }
+
+    /** A simple set of heuristics to govern if we should invoke the personality
+     * @param stepContext - current dialog context.
+     * @param dispatchIntent - Intent that Dispatch thinks should be invoked.
+     * @param dispatchScore - Confidence score for intent.
+     * @param threshold - user provided threshold between 0.0 and 1.0, if above this threshold do NOT show chitchat.
+     * @returns A bool indicating if we should invoke the personality dialog.
+     */
+    private shouldBeginChitChatDialog(stepContext: WaterfallStepContext, dispatchIntent: string, dispatchScore: number, threshold = 0.5): boolean {
+        if (threshold < 0.0 || threshold > 1.0) {
+            throw new Error(`The argument ${ threshold } is out of range`);
+        }
+
+        if (dispatchIntent === 'none') {
+            return true;
+        }
+
+        if (dispatchIntent === 'l_general') {
+            // If dispatch classifies user query as general, we should check against the cached general Luis score instead.
+            const generalResult: RecognizerResult = stepContext.context.turnState.get(StateProperties.GeneralResult);
+            if (generalResult !== undefined) {
+                const generalIntent: string = LuisRecognizer.topIntent(generalResult);
+                const generalScore: number = generalResult.intents[generalIntent].score;
+
+                return generalScore < threshold;
+            }
+        } else if (dispatchScore < threshold) {
+            return true;
+        }
+
+        return false;
+    }
 }
