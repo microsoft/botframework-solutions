@@ -133,7 +133,7 @@ public class SettingsActivity extends BaseActivity {
         showAppConfiguration();
     }
 
-    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.user_id, R.id.locale})
+    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.user_id, R.id.locale, R.id.custom_commands_app_id, R.id.custom_voice_deployment_ids, R.id.custom_sr_endpoint_id})
     boolean onEditorAction(int actionId, KeyEvent key){
         boolean handled = false;
         if (actionId == EditorInfo.IME_ACTION_SEND || (key != null && key.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
