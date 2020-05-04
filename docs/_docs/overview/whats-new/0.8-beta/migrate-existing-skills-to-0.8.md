@@ -278,6 +278,32 @@ One migration step will be to create a new Skill project and migrate your custom
 
     The existing `MultiProviderAuthDialog` if used will automatically adapt to this change and no changes are required. As required you can switch to using the `OAuthPrompt` directly.
 
+
+## LocaleTemplateManager
+
+The class `LocaleTemplateEngineManager` has been remamed to `LocaleTemplateManager` and its constructor has been slightly modified.
+
+1. Make sure rename the instances of `localeTemplateEngineManager` to `localeTemplateManager`.
+
+1. In `index.ts`, update the incialization of `LocaleTemplateManager` with the localized responses to this:
+
+	```typescript
+	// Configure localized responses
+	const localizedTemplates: Map<string, string> = new Map<string, string>();
+	const templateFile = 'AllResponses';
+	const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
+
+        supportedLocales.forEach((locale: string) => {
+            // LG template for en-us does not include locale in file extension.
+            const localTemplateFile = locale === 'en-us'
+                ? join(__dirname, 'responses', `${ templateFile }.lg`)
+                : join(__dirname, 'responses', `${ templateFile }.${ locale }.lg`);
+            localizedTemplates.set(locale, localTemplateFile);
+        });
+
+        const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+	```
+
 ## Manifest Changes
 
 The provided `manifestTemplate.json` schema type has been retired, therefore these steps will create a new Manifest supporting the new schema.

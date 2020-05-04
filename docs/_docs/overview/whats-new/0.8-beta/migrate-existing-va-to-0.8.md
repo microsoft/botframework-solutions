@@ -247,7 +247,7 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
     ActivityTypes,
     BotState } from 'botbuilder';
     import { Dialog, DialogContext, DialogSet, DialogState } from 'botbuilder-dialogs';
-    import { DialogEx, LocaleTemplateEngineManager, TokenEvents } from 'bot-solutions';
+    import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
 
     export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
         private readonly conversationState: BotState;
@@ -257,12 +257,12 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
         private readonly dialog: Dialog;
         private dialogStateAccessor: StatePropertyAccessor;
         private userProfileState: StatePropertyAccessor;
-        private templateEngine: LocaleTemplateEngineManager;
+        private templateEngine: LocaleTemplateManager;
 
         public constructor(
             conversationState: ConversationState,
             userState: UserState,
-            templateEngine: LocaleTemplateEngineManager,
+            templateEngine: LocaleTemplateManager,
             dialog: T) {
             super();
             this.dialog = dialog;
@@ -669,6 +669,26 @@ Please also refer to the documentation to [Migrate existing skills to the new Sk
         }
     }
     ```
+1. The class `LocaleTemplateEngineManager` has been remamed to `LocaleTemplateManager` and its constructor has been slightly modified. Make sure to rename the instances of `localeTemplateEngineManager` to `localeTemplateManager`.
+
+   In `index.ts`, update the incialization of `LocaleTemplateManager` with the localized responses to this:
+
+	```typescript
+	// Configure localized responses
+	const localizedTemplates: Map<string, string> = new Map<string, string>();
+	const templateFile = 'AllResponses';
+	const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
+
+        supportedLocales.forEach((locale: string) => {
+            // LG template for en-us does not include locale in file extension.
+            const localTemplateFile = locale === 'en-us'
+                ? join(__dirname, 'responses', `${ templateFile }.lg`)
+                : join(__dirname, 'responses', `${ templateFile }.${ locale }.lg`);
+            localizedTemplates.set(locale, localTemplateFile);
+        });
+
+        const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+	```
 
 1. If you have already added skills to your assistant these are stored in `skills.json`. The new Skills configuration section has been simplified and is stored as part of `appSettings.json`. Create a new section as shown below in appSettings.json and update with the configured skills.
 

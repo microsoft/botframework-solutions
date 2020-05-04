@@ -21,7 +21,7 @@ export class SetLocaleMiddleware implements Middleware {
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         const cultureInfo: string = context.activity.locale || this.defaultLocale;
 
-        await i18next.changeLanguage(cultureInfo);
+        await i18next.changeLanguage(cultureInfo.toLowerCase());
 
         await next();
     }

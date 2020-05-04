@@ -20,7 +20,7 @@ export declare type TemplateIdMap = Map<string, TemplateFunction>;
 export declare type LanguageTemplateDictionary = Map<string, TemplateIdMap | undefined>;
 
 /**
- * This is a simple template engine which has a resource map of template functions
+ * This is a simple template manager which has a resource map of template functions
  * let myTemplates  = {
  *      "en" : {
  *        "templateId": (context, data) => $"your name  is {data.name}",

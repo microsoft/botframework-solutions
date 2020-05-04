@@ -344,7 +344,7 @@ foreach ($language in $languageArr)
 					--resourceGroup $resourceGroup `
 					--armToken $azAccessToken.accessToken `
 					--azureSubscriptionId $azAccount.id `
-					--appId $dispatchApp.id `
+					--appId $dispatchApp.appId `
 					--endpoint $luisEndpoint `
 					--subscriptionKey $luisAuthoringKey 2>> $logFile
 

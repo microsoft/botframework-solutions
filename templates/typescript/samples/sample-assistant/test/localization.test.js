@@ -4,13 +4,13 @@
  */
 
 const assert = require('assert');
-const { getTestAdapterDefault, templateEngine } = require('./helpers/botTestBase');
+const { getAllResponsesTemplates, getTestAdapterDefault } = require('./helpers/botTestBase');
 const testNock = require('./helpers/testBase');
 
 describe("Localization", function() {
     describe("es-es locale", function () {
         it("send conversationUpdate and check the card is received with the es-es locale", function (done) {
-                const allIntroCardTitleVariations = templateEngine.templateEnginesPerLocale.get("es-es").expandTemplate("NewUserIntroCardTitle");
+                const allIntroCardTitleVariations = getAllResponsesTemplates("es-es").expandTemplate("NewUserIntroCardTitle");
 
                 getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
@@ -47,7 +47,7 @@ describe("Localization", function() {
 
 	describe("de-de locale", function () {
             it("send conversationUpdate and check the card is received with the de-de locale", function (done) {
-                const allIntroCardTitleVariations = templateEngine.templateEnginesPerLocale.get("de-de").expandTemplate("NewUserIntroCardTitle");
+                const allIntroCardTitleVariations = getAllResponsesTemplates("de-de").expandTemplate("NewUserIntroCardTitle");
 
                 getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
@@ -84,7 +84,7 @@ describe("Localization", function() {
 
 	describe("fr-fr locale", function () {
             it("send conversationUpdate and check the card is received with the fr-fr locale", function (done) {
-                const allIntroCardTitleVariations =  templateEngine.templateEnginesPerLocale.get("fr-fr").expandTemplate("NewUserIntroCardTitle");
+                const allIntroCardTitleVariations = getAllResponsesTemplates("fr-fr").expandTemplate("NewUserIntroCardTitle");
 
                 getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
@@ -121,7 +121,7 @@ describe("Localization", function() {
 
 	describe("it-it locale", function () {
             it("send conversationUpdate and check the card is received with the it-it locale", function (done) {
-                const allIntroCardTitleVariations =  templateEngine.templateEnginesPerLocale.get("it-it").expandTemplate("NewUserIntroCardTitle");
+                const allIntroCardTitleVariations = getAllResponsesTemplates("it-it").expandTemplate("NewUserIntroCardTitle");
 
                 getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
@@ -158,7 +158,7 @@ describe("Localization", function() {
 
 	describe("en-us locale", function () {
             it("send conversationUpdate and check the card is received with the en-us locale", function (done) {
-                const allIntroCardTitleVariations =  templateEngine.templateEnginesPerLocale.get("en-us").expandTemplate("NewUserIntroCardTitle");
+                const allIntroCardTitleVariations = getAllResponsesTemplates("en-us").expandTemplate("NewUserIntroCardTitle");
 
                 getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
@@ -195,7 +195,7 @@ describe("Localization", function() {
 
 	describe("zh-cn locale", function () {
             it("send conversationUpdate and check the card is received with the zh-cn locale", function (done) {
-                const allIntroCardTitleVariations =  templateEngine.templateEnginesPerLocale.get("zh-cn").expandTemplate("NewUserIntroCardTitle");
+                const allIntroCardTitleVariations = getAllResponsesTemplates("zh-cn").expandTemplate("NewUserIntroCardTitle");
 
                 getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
@@ -230,7 +230,7 @@ describe("Localization", function() {
         });
     });
 
-    // PENDING: the fallback functionality is not implemented in LocaleTemplateEngineManager currently
+    // PENDING: the fallback functionality is not implemented in LocaleTemplateManager currently
     xdescribe("defaulting localization", function () {
         it("fallback to a locale of the root language locale", function (done) {
             getTestAdapterDefault().then((testAdapter) => {

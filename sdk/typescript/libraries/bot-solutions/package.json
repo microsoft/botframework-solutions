@@ -12,7 +12,7 @@
     ],
     "scripts": {
         "clean": "rimraf ./lib",
-        "copy-templates": "copyfiles --up 1 \"./src/**/*.json\" \"./lib\"",
+        "copy-templates": "copyfiles --up 1 \"./src/**/*.{json,lg}\" \"./lib\"",
         "prebuild": "npm run lint",
         "build": "tsc --p tsconfig.json && npm run copy-templates",
         "lint": "eslint ./src/**/*.ts",
@@ -32,7 +32,7 @@
         "botbuilder-dialogs": "^4.8.0",
         "botframework-config": "^4.8.0",
         "botframework-connector": "^4.8.0",
-        "botbuilder-lg": "4.7.0-preview",
+        "botbuilder-lg": "4.8.0-preview",
         "dayjs": "1.8.17",
         "jwks-rsa": "1.5.0",
         "ms-rest-azure": "^2.5.0",

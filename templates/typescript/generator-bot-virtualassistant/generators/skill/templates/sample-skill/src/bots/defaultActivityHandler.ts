@@ -14,22 +14,22 @@ import {
 import {
     Dialog,
     DialogState } from 'botbuilder-dialogs';
-import { LocaleTemplateEngineManager, DialogEx } from 'bot-solutions';
+import { LocaleTemplateManager, DialogEx } from 'bot-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly dialog: Dialog;
     private readonly conversationState: BotState;
     private readonly userState: BotState;
     private dialogStateAccessor: StatePropertyAccessor<DialogState>;
-    private templateEngine: LocaleTemplateEngineManager;
+    private templateManager: LocaleTemplateManager;
 
-    public constructor(conversationState: BotState, userState: BotState, templateEngine: LocaleTemplateEngineManager, dialog: T) {
+    public constructor(conversationState: BotState, userState: BotState, templateManager: LocaleTemplateManager, dialog: T) {
         super();
         this.dialog = dialog;
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
-        this.templateEngine = templateEngine;
+        this.templateManager = templateManager;
         super.onMembersAdded(this.membersAdded.bind(this));
     }
 
@@ -42,7 +42,7 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     }
 
     protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('IntroMessage'));
+        await turnContext.sendActivity(this.templateManager.generateActivityForLocale('IntroMessage'));
         await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
