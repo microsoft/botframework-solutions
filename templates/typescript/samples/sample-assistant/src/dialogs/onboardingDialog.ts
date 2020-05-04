@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { BotTelemetryClient, StatePropertyAccessor, RecognizerResult } from 'botbuilder';
+import { StatePropertyAccessor, RecognizerResult } from 'botbuilder';
 import {
     ComponentDialog,
     DialogTurnResult,
@@ -11,6 +11,7 @@ import {
     WaterfallStepContext, 
     WaterfallStep } from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
+import { StateProperties } from '../models/stateProperties';
 import { BotServices } from '../services/botServices';
 import { LocaleTemplateManager, DialogContextEx } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
@@ -19,22 +20,16 @@ enum DialogIds {
     NamePrompt = 'namePrompt',
 }
 
-export enum StateProperties {
-    DispatchResult = 'dispatchResult',
-    GeneralResult = 'generalResult',
-}
-
 // Example onboarding dialog to initial user profile information.
 export class OnboardingDialog extends ComponentDialog {
-    private services: BotServices;
-    private templateManager: LocaleTemplateManager;
-    private accessor: StatePropertyAccessor<IUserProfileState>;
+    private readonly services: BotServices;
+    private readonly templateManager: LocaleTemplateManager;
+    private readonly accessor: StatePropertyAccessor<IUserProfileState>;
 
     public constructor(
         accessor: StatePropertyAccessor<IUserProfileState>,
         services: BotServices,
-        templateManager: LocaleTemplateManager,
-        telemetryClient: BotTelemetryClient) {
+        templateManager: LocaleTemplateManager) {
         super(OnboardingDialog.name);
         this.templateManager = templateManager;
 
@@ -46,9 +41,6 @@ export class OnboardingDialog extends ComponentDialog {
             this.finishOnboardingDialog.bind(this)
         ];
 
-        // To capture built-in waterfall dialog telemetry, set the telemetry client
-        // to the new waterfall dialog and add it to the component dialog
-        this.telemetryClient = telemetryClient;
         this.addDialog(new WaterfallDialog(OnboardingDialog.name, onboarding));
         this.addDialog(new TextPrompt(DialogIds.NamePrompt));
     }
@@ -59,31 +51,33 @@ export class OnboardingDialog extends ComponentDialog {
         if (state.name !== undefined && state.name.trim().length > 0) {
             return await sc.next(state.name);
         }
-        else {
-            return await sc.prompt(DialogIds.NamePrompt, {
-                prompt: this.templateManager.generateActivityForLocale('NamePrompt'),
-            });
-        }
+        
+        return await sc.prompt(DialogIds.NamePrompt, {
+            prompt: this.templateManager.generateActivityForLocale('NamePrompt'),
+        });
     }
 
     public async finishOnboardingDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
         const userProfile: IUserProfileState = await this.accessor.get(sc.context, { name: '' });
         let name: string = sc.result as string;
 
-        let generalResult: RecognizerResult = sc.context.turnState.get(StateProperties.GeneralResult);
-        if (generalResult) {
+        let generalResult: RecognizerResult | undefined = sc.context.turnState.get(StateProperties.GeneralResult);
+        if (generalResult === undefined) {
             const localizedServices = this.services.getCognitiveModels();
-            const generalLuisService: LuisRecognizer | undefined = await localizedServices.luisServices.get('General');
-            if (generalLuisService) {
-                generalResult = await generalLuisService.recognize(sc.context);
+            generalResult = await localizedServices.luisServices.get('General')?.recognize(sc.context);
+            if (generalResult) {
+                sc.context.turnState.set(StateProperties.GeneralResult, generalResult);
             }
         }
-        const intent: string = LuisRecognizer.topIntent(generalResult);
-        if (intent === 'ExtrackName' && generalResult.intents[intent].score > 0.5) {
-            if (generalResult.entities['PersonName_Any'] !== undefined) {
-                name = generalResult.entities['PersonName_Any'];
-            } else if (generalResult.entities['personName'] !== undefined) {
-                name = generalResult.entities['personName'];
+
+        if (generalResult !== undefined) {
+            const intent: string = LuisRecognizer.topIntent(generalResult);
+            if (intent === 'ExtractName' && generalResult.intents[intent].score > 0.5) {
+                if (generalResult.entities['PersonName_Any'] !== undefined) {
+                    name = generalResult.entities['PersonName_Any'];
+                } else if (generalResult.entities['personName'] !== undefined) {
+                    name = generalResult.entities['personName'];
+                }
             }
         }
 
@@ -97,8 +91,6 @@ export class OnboardingDialog extends ComponentDialog {
         await this.accessor.set(sc.context, userProfile);
 
         await sc.context.sendActivity(this.templateManager.generateActivityForLocale('HaveNameMessage', userProfile));
-
-        DialogContextEx.suppressCompletionMessage(sc, true);
 
         return await sc.endDialog();
     }
