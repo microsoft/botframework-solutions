@@ -17,6 +17,10 @@ public class Configuration {
     @Expose
     public String serviceRegion;
 
+    @SerializedName("custom_commands_app_id")
+    @Expose
+    public String customCommandsAppId;
+
     @SerializedName("user_id")
     @Expose
     public String userId;
@@ -25,9 +29,9 @@ public class Configuration {
     @Expose
     public String customVoiceDeploymentIds;
 
-    @SerializedName("speech_service_connection_endpoint")
+    @SerializedName("custom_speech_recognition_endpoint_id")
     @Expose
-    public String speechServiceConnectionEndpoint;
+    public String customSpeechRecognitionEndpointId;
 
     @SerializedName("locale")
     @Expose
