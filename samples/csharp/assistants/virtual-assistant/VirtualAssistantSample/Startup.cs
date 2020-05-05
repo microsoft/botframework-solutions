@@ -15,9 +15,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Extensions.Configuration;
@@ -108,7 +108,7 @@ namespace VirtualAssistantSample
                 localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            services.AddSingleton(new LocaleTemplateManager(localizedTemplates, settings.DefaultLocale ?? "en-us"));
+            services.AddSingleton(new MultiLanguageLG(localizedTemplates, settings.DefaultLocale ?? "en-us"));
 
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.

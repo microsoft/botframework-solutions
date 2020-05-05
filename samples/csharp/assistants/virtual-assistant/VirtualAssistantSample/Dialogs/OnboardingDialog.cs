@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
@@ -19,14 +19,14 @@ namespace VirtualAssistantSample.Dialogs
     public class OnboardingDialog : ComponentDialog
     {
         private readonly BotServices _services;
-        private readonly LocaleTemplateManager _templateManager;
+        private readonly MultiLanguageLG _templateManager;
         private readonly IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
             IServiceProvider serviceProvider)
             : base(nameof(OnboardingDialog))
         {
-            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
+            _templateManager = serviceProvider.GetService<MultiLanguageLG>();
 
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
@@ -53,7 +53,7 @@ namespace VirtualAssistantSample.Dialogs
 
             return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
             {
-                Prompt = _templateManager.GenerateActivityForLocale("NamePrompt"),
+                Prompt = ActivityFactory.FromObject(_templateManager.Generate("NamePrompt", null, string.Empty)),
             }, cancellationToken);
         }
 
@@ -88,7 +88,8 @@ namespace VirtualAssistantSample.Dialogs
 
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
-            await sc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HaveNameMessage", userProfile), cancellationToken);
+
+            await sc.Context.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("HaveNameMessage", userProfile, string.Empty)), cancellationToken);
 
             return await sc.EndDialogAsync(cancellationToken: cancellationToken);
         }

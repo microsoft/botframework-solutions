@@ -11,11 +11,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Extensions;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +34,7 @@ namespace VirtualAssistantSample.Dialogs
         private readonly OnboardingDialog _onboardingDialog;
         private readonly SwitchSkillDialog _switchSkillDialog;
         private readonly SkillsConfiguration _skillsConfig;
-        private readonly LocaleTemplateManager _templateManager;
+        private readonly MultiLanguageLG _templateManager;
         private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
         private readonly IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
@@ -44,7 +44,7 @@ namespace VirtualAssistantSample.Dialogs
             : base(nameof(MainDialog))
         {
             _services = serviceProvider.GetService<BotServices>();
-            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
+            _templateManager = serviceProvider.GetService<MultiLanguageLG>();
             _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
 
             var userState = serviceProvider.GetService<UserState>();
@@ -173,7 +173,8 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     if (_skillsConfig.Skills.TryGetValue(dispatchIntent.ToString(), out var identifiedSkill))
                     {
-                        var prompt = _templateManager.GenerateActivityForLocale("SkillSwitchPrompt", new { Skill = identifiedSkill.Name });
+                        var prompt = ActivityFactory.FromObject(_templateManager.Generate("SkillSwitchPrompt", new { Skill = identifiedSkill.Name }, string.Empty));
+
                         await innerDc.BeginDialogAsync(_switchSkillDialog.Id, new SwitchSkillDialogOptions(prompt, identifiedSkill), cancellationToken);
                         interrupted = true;
                     }
@@ -195,7 +196,7 @@ namespace VirtualAssistantSample.Dialogs
                         {
                             case GeneralLuis.Intent.Cancel:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("CancelledMessage", userProfile), cancellationToken);
+                                    await innerDc.Context.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("CancelledMessage", userProfile, string.Empty)), cancellationToken);
                                     await innerDc.CancelAllDialogsAsync(cancellationToken);
                                     await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
                                     interrupted = true;
@@ -204,7 +205,7 @@ namespace VirtualAssistantSample.Dialogs
 
                             case GeneralLuis.Intent.Escalate:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("EscalateMessage", userProfile), cancellationToken);
+                                    await innerDc.Context.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("EscalateMessage", userProfile, string.Empty)), cancellationToken);
                                     await innerDc.RepromptDialogAsync(cancellationToken);
                                     interrupted = true;
                                     break;
@@ -215,7 +216,7 @@ namespace VirtualAssistantSample.Dialogs
                                     if (!isSkill)
                                     {
                                         // If current dialog is a skill, allow it to handle its own help intent.
-                                        await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HelpCard", userProfile), cancellationToken);
+                                        await innerDc.Context.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("HelpCard", userProfile, string.Empty)), cancellationToken);
                                         await innerDc.RepromptDialogAsync(cancellationToken);
                                         interrupted = true;
                                     }
@@ -228,7 +229,7 @@ namespace VirtualAssistantSample.Dialogs
                                     // Log user out of all accounts.
                                     await LogUserOutAsync(innerDc, cancellationToken);
 
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("LogoutMessage", userProfile), cancellationToken);
+                                    await innerDc.Context.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("LogoutMessage", userProfile, string.Empty)), cancellationToken);
                                     await innerDc.CancelAllDialogsAsync(cancellationToken);
                                     await innerDc.BeginDialogAsync(InitialDialogId, cancellationToken: cancellationToken);
                                     interrupted = true;
@@ -253,7 +254,7 @@ namespace VirtualAssistantSample.Dialogs
 
                             case GeneralLuis.Intent.StartOver:
                                 {
-                                    await innerDc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("StartOverMessage", userProfile), cancellationToken);
+                                    await innerDc.Context.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("StartOverMessage", userProfile, string.Empty)), cancellationToken);
 
                                     // Cancel all dialogs on the stack.
                                     await innerDc.CancelAllDialogsAsync(cancellationToken);
@@ -296,7 +297,7 @@ namespace VirtualAssistantSample.Dialogs
             // Use the text provided in FinalStepAsync or the default if it is the first time.
             var promptOptions = new PromptOptions
             {
-                Prompt = stepContext.Options as Activity ?? _templateManager.GenerateActivityForLocale("FirstPromptMessage")
+                Prompt = stepContext.Options as Activity ?? ActivityFactory.FromObject(_templateManager.Generate("FirstPromptMessage", null, string.Empty))
             };
 
             return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
@@ -349,7 +350,7 @@ namespace VirtualAssistantSample.Dialogs
 
                 stepContext.SuppressCompletionMessage(true);
 
-                await stepContext.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("UnsupportedMessage", userProfile), cancellationToken);
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("UnsupportedMessage", userProfile, string.Empty)), cancellationToken);
                 return await stepContext.NextAsync(cancellationToken: cancellationToken);
             }
 
@@ -362,7 +363,7 @@ namespace VirtualAssistantSample.Dialogs
             await _activeSkillProperty.DeleteAsync(stepContext.Context, cancellationToken);
 
             // Restart the main dialog with a different message the second time around
-            return await stepContext.ReplaceDialogAsync(InitialDialogId, _templateManager.GenerateActivityForLocale("CompletedMessage"), cancellationToken);
+            return await stepContext.ReplaceDialogAsync(InitialDialogId, ActivityFactory.FromObject(_templateManager.Generate("CompletedMessage", null, string.Empty)), cancellationToken);
         }
 
         private async Task LogUserOutAsync(DialogContext dc, CancellationToken cancellationToken)
@@ -425,9 +426,9 @@ namespace VirtualAssistantSample.Dialogs
                     knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
                     endpointKey: qnaEndpoint.EndpointKey,
                     hostName: qnaEndpoint.Host,
-                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
-                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                    noAnswer: ActivityFactory.FromObject(_templateManager.Generate("UnsupportedMessage", null, string.Empty)),
+                    activeLearningCardTitle: ActivityFactory.FromObject(_templateManager.Generate("QnaMakerAdaptiveLearningCardTitle", null, string.Empty)).Text,
+                    cardNoMatchText: ActivityFactory.FromObject(_templateManager.Generate("QnaMakerNoMatchText", null, string.Empty)).Text)
                 {
                     Id = knowledgebaseId
                 };

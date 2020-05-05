@@ -9,12 +9,12 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Logging;
 using VirtualAssistantSample.Dialogs;
@@ -27,7 +27,7 @@ namespace VirtualAssistantSample.Adapters
         private readonly ConversationState _conversationState;
         private readonly ILogger _logger;
         private readonly IBotTelemetryClient _telemetryClient;
-        private readonly LocaleTemplateManager _templateEngine;
+        private readonly MultiLanguageLG _templateEngine;
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
         private readonly BotSettings _settings;
@@ -37,7 +37,7 @@ namespace VirtualAssistantSample.Adapters
             ICredentialProvider credentialProvider,
             IChannelProvider channelProvider,
             AuthenticationConfiguration authConfig,
-            LocaleTemplateManager templateEngine,
+            MultiLanguageLG templateEngine,
             ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
@@ -84,7 +84,7 @@ namespace VirtualAssistantSample.Adapters
                 _telemetryClient.TrackException(exception);
 
                 // Send a message to the user.
-                await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ErrorMessage"));
+                await turnContext.SendActivityAsync(ActivityFactory.FromObject(_templateEngine.Generate("ErrorMessage", null, string.Empty)));
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator.
                 // Note: we return the entire exception in the value property to help the developer;

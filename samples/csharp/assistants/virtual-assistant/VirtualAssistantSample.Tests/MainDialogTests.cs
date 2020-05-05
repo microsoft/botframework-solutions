@@ -34,7 +34,7 @@ namespace VirtualAssistantSample.Tests
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Help)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
@@ -47,7 +47,7 @@ namespace VirtualAssistantSample.Tests
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Escalate)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
@@ -62,9 +62,9 @@ namespace VirtualAssistantSample.Tests
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send("Unhandled message")
-                .AssertReplyOneOf(allResponseVariations.ToArray())
+                .AssertReplyOneOf(allResponseVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
     }

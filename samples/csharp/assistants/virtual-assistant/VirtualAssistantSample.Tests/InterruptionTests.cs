@@ -19,7 +19,7 @@ namespace VirtualAssistantSample.Tests
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Help)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
@@ -32,15 +32,14 @@ namespace VirtualAssistantSample.Tests
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Help)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
 
         [TestMethod]
-        [Ignore("the LG template 'UnsupportedMessage' has randomly generated response which makes this test unreliable")]
         public async Task Test_Cancel_Interruption()
         {
             var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
@@ -48,9 +47,9 @@ namespace VirtualAssistantSample.Tests
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Cancel)
-                .AssertReplyOneOf(allResponseVariations.ToArray())
+                .AssertReplyOneOf(allResponseVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
 
@@ -61,9 +60,9 @@ namespace VirtualAssistantSample.Tests
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Repeat)
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
     }

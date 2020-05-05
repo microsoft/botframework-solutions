@@ -3,16 +3,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 
@@ -26,7 +26,7 @@ namespace VirtualAssistantSample.Bots
         private readonly BotState _userState;
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
-        private readonly LocaleTemplateManager _templateManager;
+        private readonly MultiLanguageLG _templateManager;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -36,7 +36,7 @@ namespace VirtualAssistantSample.Bots
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
-            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
+            _templateManager = serviceProvider.GetService<MultiLanguageLG>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -55,12 +55,12 @@ namespace VirtualAssistantSample.Bots
             if (string.IsNullOrEmpty(userProfile.Name))
             {
                 // Send new user intro card.
-                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("NewUserIntroCard", userProfile), cancellationToken);
+                await turnContext.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("NewUserIntroCard", userProfile, string.Empty)), cancellationToken);
             }
             else
             {
                 // Send returning user intro card.
-                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ReturningUserIntroCard", userProfile), cancellationToken);
+                await turnContext.SendActivityAsync(ActivityFactory.FromObject(_templateManager.Generate("ReturningUserIntroCard", userProfile, string.Empty)), cancellationToken);
             }
 
             await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
