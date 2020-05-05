@@ -38,7 +38,11 @@
     <string name="configuration_service_region_hint">Speech Service Subscription Key Region</string>
     <string name="configuration_custom_commands_hint">Custom Commands App ID</string>
     <string name="configuration_voice_deployment_hint">Custom Voice Deployment IDs</string>
+<<<<<<< HEAD
     <string name="configuration_custom_sr_endpoint_hint">Custom Speech Recognition Endpoint ID</string>
+=======
+    <string name="configuration_service_connection_hint">Speech Service Connection Endpoint</string>
+>>>>>>> origin/master
     <string name="configuration_bot_id_hint">Direct Line Speech Secret Key</string>
     <string name="configuration_voice_name_hint">Voice Name</string>
     <string name="configuration_user_id_hint">User From Id</string>
