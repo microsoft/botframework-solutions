@@ -20,6 +20,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Solutions.Authentication;
 
 namespace ITSMSkill.Dialogs
 {
@@ -39,7 +40,7 @@ namespace ITSMSkill.Dialogs
                 CheckTitle,
                 InputTitle,
                 SetTitle,
-                DisplayExistingLoop,
+                //DisplayExistingLoop,
                 CheckDescription,
                 InputDescription,
                 SetDescription,
@@ -59,8 +60,10 @@ namespace ITSMSkill.Dialogs
                 IfKnowledgeHelp
             };
 
+
             AddDialog(new WaterfallDialog(Actions.CreateTicket, createTicket));
             AddDialog(new WaterfallDialog(Actions.DisplayExisting, displayExisting));
+            //AddDialog(new WaterfallDialog(Actions.UpdateToken, updateToken));
 
             InitialDialogId = Actions.CreateTicket;
 
@@ -96,7 +99,8 @@ namespace ITSMSkill.Dialogs
 
             if (!result.Success)
             {
-                return await SendServiceErrorAndCancel(sc, result);
+                return await sc.ReplaceDialogAsync(nameof(base.GetAuthToken));
+                //return await SendServiceErrorAndCancel(sc, result);
             }
 
             var card = GetTicketCard(sc.Context, result.Tickets[0]);

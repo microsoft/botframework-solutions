@@ -55,7 +55,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.2" />
-    <PackageReference Include="Microsoft.Bot.Solutions" Version="0.8.0-preview1" />
+    <!--<PackageReference Include="Microsoft.Bot.Solutions" Version="0.8.0-preview1" />-->
     <PackageReference Include="Microsoft.Bot.Configuration" Version="4.7.2" />
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.2" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
@@ -67,6 +67,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\shared\SkillServiceLibrary\SkillServiceLibrary.csproj" />
+    <ProjectReference Include="C:\botframework-solutions\sdk\csharp\libraries\microsoft.bot.solutions\Microsoft.Bot.Solutions.csproj" />
+
   </ItemGroup>
 
   <ItemGroup>

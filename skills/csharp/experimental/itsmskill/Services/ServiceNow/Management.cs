@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -114,13 +115,50 @@ namespace ITSMSkill.Services.ServiceNow
                     urgency = UrgencyToString[urgency]
                 };
                 request.AddJsonBody(body);
-                var result = await client.PostAsync<SingleTicketResponse>(request);
-
-                return new TicketsResult()
+                request.Method = Method.POST;
+                var response = client.Execute(request);
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    Success = true,
-                    Tickets = new Ticket[] { ConvertTicket(result.result) }
-                };
+                    var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
+                    return new TicketsResult()
+                    {
+                        Success = true,
+                        Tickets = new Ticket[] { ConvertTicket(result.result) }
+                    };
+                }
+                else
+                {
+                    return new TicketsResult()
+                    {
+                        Success = false,
+                        Tickets = null
+                    };
+                }
+
+                //client.ExecuteAsync(request, response =>
+                //{
+                //    if (response.StatusCode == HttpStatusCode.OK)
+                //    {
+                //        var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
+                //        return new TicketsResult()
+                //        {
+                //            Success = true,
+                //            Tickets = new Ticket[] { ConvertTicket(result.result) }
+                //        };
+                //        // OK
+                //    }
+                //    else
+                //    {
+                //        // NOK
+                //    }
+                //});
+                //var result = await client.PostAsync<SingleTicketResponse>(request);
+
+                //return new TicketsResult()
+                //{
+                //    Success = true,
+                //    Tickets = new Ticket[] { ConvertTicket(result.result) }
+                //};
             }
             catch (Exception ex)
             {
