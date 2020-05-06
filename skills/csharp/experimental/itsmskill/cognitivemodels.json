@@ -1,29 +1,29 @@
 {
+  "defaultLocale": "en-us",
   "cognitiveModels": {
     "en-us": {
       "languageModels": [
         {
-          "authoringRegion": "westus",
-          "authoringkey": "5b193ca96fdb4ad2a226c638a689dc44",
-          "region": "westus",
-          "subscriptionkey": "aacee8997f28488783f59be95003184c",
-          "version": "0.1",
           "id": "General",
-          "name": "ServicenowSkillMasteren-us_General",
-          "appid": "4fed35ff-b46e-467d-8633-56e0beb5d33b"
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
         },
         {
-          "authoringRegion": "westus",
-          "authoringkey": "5b193ca96fdb4ad2a226c638a689dc44",
-          "region": "westus",
-          "subscriptionkey": "aacee8997f28488783f59be95003184c",
-          "version": "0.1",
           "id": "ITSM",
-          "name": "ServicenowSkillMasteren-us_ITSM",
-          "appid": "b058b0b7-8d24-42a3-a012-23327b05fcc5"
+          "name": "",
+          "appId": "",
+          "version": "",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
         }
       ]
     }
-  },
-  "defaultLocale": "en-us"
+  }
 }
