@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Solutions.Responses
 
             var locale = localeOverride ?? CultureInfo.CurrentUICulture.Name ?? _fallbackLocale;
 
-            return ActivityFactory.FromObject(Generate($"${{{templateName}()}}", data, locale));
+            return ActivityFactory.FromObject(Generate(templateName, data, locale));
         }
     }
 }
