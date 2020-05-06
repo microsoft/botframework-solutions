@@ -5,10 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Configuration {
 
-    @SerializedName("custom_commands_app_id")
-    @Expose
-    public String customCommandsAppId;
-
     @SerializedName("service_key")
     @Expose
     public String serviceKey;
