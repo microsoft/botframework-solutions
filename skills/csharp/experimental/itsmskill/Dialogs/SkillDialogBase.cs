@@ -56,6 +56,8 @@ namespace ITSMSkill.Dialogs
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
 
+            AddDialog(new OAuthPrompt(dialogId: Actions.OauthPrompt, settings: new OAuthPromptSettings { ConnectionName = "ServiceNow", Text = "Login to ServiceNow", Title = "Login", Timeout = 300000 }));
+
             var setSearch = new WaterfallStep[]
             {
                 CheckSearch,
@@ -200,6 +202,24 @@ namespace ITSMSkill.Dialogs
             try
             {
                 return await sc.PromptAsync(nameof(MultiProviderAuthDialog), new PromptOptions());
+            }
+            catch (SkillException ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+            catch (Exception ex)
+            {
+                await HandleDialogExceptions(sc, ex);
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
+            }
+        }
+
+        protected async Task<DialogTurnResult> Relogin(WaterfallStepContext sc, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await sc.PromptAsync(nameof(OAuthPrompt), new PromptOptions());
             }
             catch (SkillException ex)
             {
@@ -1144,6 +1164,9 @@ namespace ITSMSkill.Dialogs
 
             public const string ShowKnowledge = "ShowKnowledge";
             public const string ShowKnowledgeLoop = "ShowKnowledgeLoop";
+
+            public const string UpdateToken = "UpdateToken";
+            public const string OauthPrompt = "OauthPrompt";
         }
     }
 }

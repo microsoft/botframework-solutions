@@ -60,10 +60,15 @@ namespace ITSMSkill.Dialogs
                 IfKnowledgeHelp
             };
 
+            var updateToken = new WaterfallStep[]
+            {
+                Relogin,
+                AfterGetAuthToken
+            };
 
             AddDialog(new WaterfallDialog(Actions.CreateTicket, createTicket));
             AddDialog(new WaterfallDialog(Actions.DisplayExisting, displayExisting));
-            //AddDialog(new WaterfallDialog(Actions.UpdateToken, updateToken));
+            AddDialog(new WaterfallDialog(Actions.UpdateToken, updateToken));
 
             InitialDialogId = Actions.CreateTicket;
 
@@ -99,13 +104,13 @@ namespace ITSMSkill.Dialogs
 
             if (!result.Success)
             {
-                return await sc.ReplaceDialogAsync(nameof(base.GetAuthToken));
-                //return await SendServiceErrorAndCancel(sc, result);
+               return await SendServiceErrorAndCancel(sc, result);
             }
 
             var card = GetTicketCard(sc.Context, result.Tickets[0]);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketCreated, card, null));
+            await sc.ReplaceDialogAsync(Actions.UpdateToken);
             return await sc.NextAsync();
         }
     }
