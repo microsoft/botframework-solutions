@@ -37,5 +37,6 @@ namespace ITSMSkill.Responses.Shared
         public const string ResultIndicator = "ResultIndicator";
         public const string ResultsIndicator = "ResultsIndicator";
         public const string ServiceFailed = "ServiceFailed";
+        public const string SignOut = "SignOut";
     }
 }

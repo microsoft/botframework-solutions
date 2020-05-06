@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
 using ITSMSkill.Models.ServiceNow;
@@ -15,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Serializers;
+using SkillServiceLibrary.Models.Foursquare;
 
 namespace ITSMSkill.Services.ServiceNow
 {
@@ -115,9 +118,10 @@ namespace ITSMSkill.Services.ServiceNow
                     urgency = UrgencyToString[urgency]
                 };
                 request.AddJsonBody(body);
-                request.Method = Method.POST;
-                var response = client.Execute(request);
-                if (response.StatusCode == HttpStatusCode.OK)
+
+                var response = await client.ExecuteTaskAsync(request, CancellationToken.None, Method.POST);
+
+                if (response.StatusCode == HttpStatusCode.Created)
                 {
                     var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
                     return new TicketsResult()
@@ -126,39 +130,22 @@ namespace ITSMSkill.Services.ServiceNow
                         Tickets = new Ticket[] { ConvertTicket(result.result) }
                     };
                 }
+                else if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return new TicketsResult
+                    {
+                        Success = false,
+                        Reason = "Unauthorized"
+                    };
+                }
                 else
                 {
                     return new TicketsResult()
                     {
                         Success = false,
-                        Tickets = null
+                        Reason = "Unknown"
                     };
                 }
-
-                //client.ExecuteAsync(request, response =>
-                //{
-                //    if (response.StatusCode == HttpStatusCode.OK)
-                //    {
-                //        var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
-                //        return new TicketsResult()
-                //        {
-                //            Success = true,
-                //            Tickets = new Ticket[] { ConvertTicket(result.result) }
-                //        };
-                //        // OK
-                //    }
-                //    else
-                //    {
-                //        // NOK
-                //    }
-                //});
-                //var result = await client.PostAsync<SingleTicketResponse>(request);
-
-                //return new TicketsResult()
-                //{
-                //    Success = true,
-                //    Tickets = new Ticket[] { ConvertTicket(result.result) }
-                //};
             }
             catch (Exception ex)
             {
@@ -241,15 +228,36 @@ namespace ITSMSkill.Services.ServiceNow
             };
             request.JsonSerializer = new JsonNoNull();
             request.AddJsonBody(body);
+
             try
             {
-                var result = await client.PatchAsync<SingleTicketResponse>(request);
+                var response = await client.ExecuteTaskAsync(request, CancellationToken.None, Method.PATCH);
 
-                return new TicketsResult()
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    Success = true,
-                    Tickets = new Ticket[] { ConvertTicket(result.result) }
-                };
+                    var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
+                    return new TicketsResult()
+                    {
+                        Success = true,
+                        Tickets = new Ticket[] { ConvertTicket(result.result) }
+                    };
+                }
+                else if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return new TicketsResult
+                    {
+                        Success = false,
+                        Reason = "Unauthorized"
+                    };
+                }
+                else
+                {
+                    return new TicketsResult()
+                    {
+                        Success = false,
+                        Reason = "Unknown"
+                    };
+                }
             }
             catch (Exception ex)
             {
@@ -274,16 +282,43 @@ namespace ITSMSkill.Services.ServiceNow
                     caller_id = userId,
                     close_notes = reason
                 };
+
                 request.JsonSerializer = new JsonNoNull();
                 request.AddJsonBody(body);
 
-                var result = await client.PatchAsync<SingleTicketResponse>(request);
+                var response = await client.ExecuteTaskAsync(request, CancellationToken.None, Method.PATCH);
 
-                return new TicketsResult()
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    Success = true,
-                    Tickets = new Ticket[] { ConvertTicket(result.result) }
-                };
+                    var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
+                    return new TicketsResult()
+                    {
+                        Success = true,
+                        Tickets = new Ticket[] { ConvertTicket(result.result) }
+                    };
+                }
+                else if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    return new TicketsResult
+                    {
+                        Success = false,
+                        Reason = "Unauthorized"
+                    };
+                }
+                else
+                {
+                    return new TicketsResult()
+                    {
+                        Success = false,
+                        Reason = "Unknown"
+                    };
+                }
+
+                //return new TicketsResult()
+                //{
+                //    Success = true,
+                //    Tickets = new Ticket[] { ConvertTicket(result.result) }
+                //};
             }
             catch (Exception ex)
             {

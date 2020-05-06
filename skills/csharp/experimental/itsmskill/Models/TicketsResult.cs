@@ -11,5 +11,7 @@ namespace ITSMSkill.Models
     public class TicketsResult : ResultBase
     {
         public Ticket[] Tickets { get; set; }
+
+        public string Reason { get; set; }
     }
 }

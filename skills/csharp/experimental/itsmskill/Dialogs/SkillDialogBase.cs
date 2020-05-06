@@ -56,8 +56,6 @@ namespace ITSMSkill.Dialogs
 
             AddDialog(new MultiProviderAuthDialog(settings.OAuthConnections));
 
-            AddDialog(new OAuthPrompt(dialogId: Actions.OauthPrompt, settings: new OAuthPromptSettings { ConnectionName = "ServiceNow", Text = "Login to ServiceNow", Title = "Login", Timeout = 300000 }));
-
             var setSearch = new WaterfallStep[]
             {
                 CheckSearch,
@@ -983,6 +981,16 @@ namespace ITSMSkill.Dialogs
             };
             await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ServiceFailed, errorReplacements));
             return await sc.CancelAllDialogsAsync();
+        }
+
+        protected async Task<DialogTurnResult> SignOutUser(WaterfallStepContext sc)
+        {
+            var errorReplacements = new StringDictionary
+            {
+                { "Logout", "Please Login Again" }
+            };
+            await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.SignOut, errorReplacements));
+            return await sc.EndDialogAsync();
         }
 
         protected string GetNavigateString(int page, int maxPage)

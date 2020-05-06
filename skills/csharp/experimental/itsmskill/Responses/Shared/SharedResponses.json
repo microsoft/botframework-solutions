@@ -315,5 +315,14 @@
       }
     ],
     "inputHint": "acceptingInput"
+  },
+  "SignOut": {
+    "replies": [
+      {
+        "text": "Logging Out as token is not valid.",
+        "speak": "Logging Out as token is not valid."
+      }
+    ],
+    "inputHint": "ignoringInput"
   }
 }

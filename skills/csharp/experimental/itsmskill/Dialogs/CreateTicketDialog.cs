@@ -1,31 +1,24 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models;
-using ITSMSkill.Prompts;
 using ITSMSkill.Responses.Knowledge;
-using ITSMSkill.Responses.Shared;
 using ITSMSkill.Responses.Ticket;
 using ITSMSkill.Services;
-using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Authentication;
+using System.Linq;
 
 namespace ITSMSkill.Dialogs
 {
     public class CreateTicketDialog : SkillDialogBase
     {
+        private BotSettings _botSettings;
+
         public CreateTicketDialog(
              BotSettings settings,
              BotServices services,
@@ -35,12 +28,14 @@ namespace ITSMSkill.Dialogs
              IBotTelemetryClient telemetryClient)
             : base(nameof(CreateTicketDialog), settings, services, responseManager, conversationState, serviceManager, telemetryClient)
         {
+            _botSettings = settings;
+
             var createTicket = new WaterfallStep[]
             {
                 CheckTitle,
                 InputTitle,
                 SetTitle,
-                //DisplayExistingLoop,
+                DisplayExistingLoop,
                 CheckDescription,
                 InputDescription,
                 SetDescription,
@@ -62,7 +57,7 @@ namespace ITSMSkill.Dialogs
 
             var updateToken = new WaterfallStep[]
             {
-                Relogin,
+                GetAuthToken,
                 AfterGetAuthToken
             };
 
@@ -104,13 +99,25 @@ namespace ITSMSkill.Dialogs
 
             if (!result.Success)
             {
-               return await SendServiceErrorAndCancel(sc, result);
+                // Check if the error is UnAuthorized
+                if (result.Reason.Equals("Unauthorized"))
+                {
+                    // Logout User
+                    var botAdapter = (BotFrameworkAdapter)sc.Context.Adapter;
+                    await botAdapter.SignOutUserAsync(sc.Context, _botSettings.OAuthConnections.FirstOrDefault().Name, null, cancellationToken);
+
+                    // Send Signout Message
+                    return await SignOutUser(sc);
+                }
+                else
+                {
+                    return await SendServiceErrorAndCancel(sc, result);
+                }
             }
 
             var card = GetTicketCard(sc.Context, result.Tickets[0]);
 
             await sc.Context.SendActivityAsync(ResponseManager.GetCardResponse(TicketResponses.TicketCreated, card, null));
-            await sc.ReplaceDialogAsync(Actions.UpdateToken);
             return await sc.NextAsync();
         }
     }

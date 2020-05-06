@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ITSMSkill.Models.ServiceNow;
 using Moq;
 using Moq.Protected;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace ITSMSkill.Tests.API.Fakes
@@ -135,8 +137,8 @@ namespace ITSMSkill.Tests.API.Fakes
                .ReturnsAsync(CreateIRestResponse(CountTicketResponse));
 
             mockClient
-               .Setup(c => c.ExecutePostTaskAsync<SingleTicketResponse>(It.Is<IRestRequest>(r => r.Resource.StartsWith("now/v1/table/incident"))))
-               .ReturnsAsync(CreateIRestResponse(CreateTicketResponse));
+               .Setup(c => c.ExecuteTaskAsync(It.Is<IRestRequest>(r => r.Resource.StartsWith("now/v1/table/incident")), It.IsIn(CancellationToken.None), It.IsIn(Method.POST)))
+               .ReturnsAsync(new RestResponse { StatusCode = System.Net.HttpStatusCode.Created, Content = JsonConvert.SerializeObject(CreateTicketResponse) });
 
             mockClient
                .Setup(c => c.ExecuteGetTaskAsync<MultiTicketsResponse>(It.Is<IRestRequest>(r => r.Resource.StartsWith("now/v1/table/incident"))))
@@ -149,12 +151,12 @@ namespace ITSMSkill.Tests.API.Fakes
 
             // TODO use id is not an ideal way to distinguish
             mockClient
-               .Setup(c => c.ExecuteTaskAsync<SingleTicketResponse>(It.Is<IRestRequest>(r => r.Resource.StartsWith($"now/v1/table/incident/{MockData.CreateTicketId}")), It.IsIn(Method.PATCH)))
-               .ReturnsAsync(CreateIRestResponse(CreateTicketResponse));
+               .Setup(c => c.ExecuteTaskAsync(It.Is<IRestRequest>(r => r.Resource.StartsWith($"now/v1/table/incident/{MockData.CreateTicketId}")), It.IsIn(CancellationToken.None), It.IsIn(Method.PATCH)))
+               .ReturnsAsync(new RestResponse { StatusCode = System.Net.HttpStatusCode.OK, Content = JsonConvert.SerializeObject(CreateTicketResponse) });
 
             mockClient
-               .Setup(c => c.ExecuteTaskAsync<SingleTicketResponse>(It.Is<IRestRequest>(r => r.Resource.StartsWith($"now/v1/table/incident/{MockData.CloseTicketId}")), It.IsIn(Method.PATCH)))
-               .ReturnsAsync(CreateIRestResponse(CloseTicketResponse));
+               .Setup(c => c.ExecuteTaskAsync(It.Is<IRestRequest>(r => r.Resource.StartsWith($"now/v1/table/incident/{MockData.CloseTicketId}")), It.IsIn(CancellationToken.None), It.IsIn(Method.PATCH)))
+               .ReturnsAsync(new RestResponse { StatusCode = System.Net.HttpStatusCode.OK, Content = JsonConvert.SerializeObject(CloseTicketResponse) });
 
             mockClient
                .Setup(c => c.ExecuteGetTaskAsync<MultiKnowledgesResponse>(It.Is<IRestRequest>(r => r.Resource.StartsWith("now/v1/table/kb_knowledge"))))
