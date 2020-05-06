@@ -36,9 +36,9 @@ namespace VirtualAssistantSample.Tests
                     MembersAdded = new List<ChannelAccount>() { new ChannelAccount("user") }
                 })
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .Send(testName)
-                .AssertReplyOneOf(allHaveMessageVariations.ToArray())
+                .AssertReplyOneOf(allHaveMessageVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
     }
