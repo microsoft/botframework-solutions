@@ -1,0 +1,144 @@
+# UserName 
+- IF: ${user.name && rand(0, 1000) > 500}
+    - ${concat(' ', user.name)}
+- ELSE:
+    - 
+# HowCanIHelp
+- What can I help you with?
+- What can I do for you?
+- How can I help you?
+- How can I help?
+
+
+# YouCanAskMeCard
+[Activity
+    Attachments = ${json(YouCanAskMeCardJson())}
+]
+
+# YouCanAskMeCardJson
+- ```
+{
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "You can ask me...",
+                    "size": "Large",
+                    "weight": "Bolder"
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 10,
+                    "items": [
+                        {
+                            "type": "Image",
+                            "altText": "",
+                            "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/4d2ca31ff05155319342982e3ad656f4b50d1967/assets/icons/f4dd-32.svg",
+                            "horizontalAlignment": "Center"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 90,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "What's new?",
+                            "size": "Medium",
+                            "color": "Accent"
+                        }
+                    ],
+                    "selectAction": {
+                        "type": "Action.Submit",
+                        "title": "What's new?",
+                        "data": "What's new?"                        
+                    }
+                }
+            ],
+            "separator": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 10,
+                    "items": [
+                        {
+                            "type": "Image",
+                            "altText": "",
+                            "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/a5d23916c2e2ccf1c764ddf6f10232e8e00ee0c8/assets/icons/e787-32.svg",
+                            "horizontalAlignment": "Center"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": 90,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "What's on my agenda today?",
+                            "size": "Medium",
+                            "color": "Accent"
+                        }
+                    ],
+                    "selectAction": {
+                        "type": "Action.Submit",
+                        "title": "What's on my agenda today?",
+                        "data": "What's on my agenda today?"
+                    }
+                }
+            ],
+            "separator": true
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 10,
+                    "items": [
+                        {
+                            "type": "Image",
+                            "altText": "",
+                            "url": "https://raw.githubusercontent.com/ryanlengel/adaptivecards/a5d23916c2e2ccf1c764ddf6f10232e8e00ee0c8/assets/icons/ecaf-32.svg",
+                            "horizontalAlignment": "Center"
+                        }
+                    ],
+                    "horizontalAlignment": "Center"
+                },
+                {
+                    "type": "Column",
+                    "width": 90,
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "What grocery stores are nearby?",
+                            "size": "Medium",
+                            "color": "Accent"
+                        }
+                    ],
+                    "selectAction": {
+                        "type": "Action.Submit",
+                        "title": "What grocery stores are nearby?",
+                        "data": "What grocery stores are nearby?"                            
+                    }
+                }
+            ],
+            "separator": true
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
+```

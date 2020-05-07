@@ -1,0 +1,159 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Z7zq15",
+    "name": "General"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ZCqxLB"
+      },
+      "intent": "Cancel",
+      "defaultResultProperty": "dialog.result",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "sP00qH"
+          },
+          "activity": "${SendActivity_sP00qH()}",
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "LSCKwy"
+          },
+          "activityProcessed": true
+        }
+      ],
+      "activityProcessed": true,
+      "condition": "turn.recognized.score > 0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "VU9lBw"
+      },
+      "intent": "Escalate",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "PdiSC5"
+          },
+          "activity": "${SendActivity_PdiSC5()}"
+        }
+      ],
+      "condition": "turn.recognized.score > 0.5",
+      "activityProcessed": true
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "YyS60G"
+      },
+      "intent": "Help",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "47AXPk"
+          },
+          "activity": "${SendActivity_47AXPk()}"
+        }
+      ],
+      "defaultResultProperty": "dialog.result",
+      "condition": "turn.recognized.score > 0.5",
+      "activityProcessed": true
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "TUb115"
+      },
+      "intent": "Logout",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "VLmE87"
+          },
+          "activity": "${SendActivity_VLmE87()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "xuWnPj"
+          },
+          "activityProcessed": true
+        }
+      ],
+      "condition": "turn.recognized.score > 0.5",
+      "defaultResultProperty": "dialog.result"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "9GPXRi"
+      },
+      "intent": "Repeat",
+      "condition": "turn.recognized.score > 0.5",
+      "defaultResultProperty": "dialog.result",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "0xYAZr"
+          },
+          "activity": "${SendActivity_0xYAZr()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "BP9bdU"
+      },
+      "intent": "StartOver",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "mVcIad"
+          },
+          "activity": "${SendActivity_mVcIad()}"
+        }
+      ],
+      "activityProcessed": true,
+      "condition": "turn.recognized.score > 0.5",
+      "defaultResultProperty": "dialog.result"
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "rDLKCy"
+      },
+      "defaultResultProperty": "dialog.result",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "bCLpi8"
+          },
+          "activityProcessed": true,
+          "dialog": "Chit-chat"
+        }
+      ],
+      "activityProcessed": true,
+      "condition": "turn.recognized.score < 0.5"
+    }
+  ],
+  "generator": "General.lg",
+  "recognizer": "General.lu",
+  "activityProcessed": true
+}

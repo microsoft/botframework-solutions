@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# SendActivity_kwEPBH()
+- ${ReturningUserGreeting()}
+
+# SendActivity_2wMiZd()
+[Activity
+Text = ${NewUserGreeting()}
+SuggestedActions = Get started
+]
+
+# Greeting()
+- Hi${UserName()}!
+- Hey${UserName()}!
+- Hello${UserName()}!
+- Hi there${UserName()}.
+- Hey there${UserName()}.
+
+# NewUserGreeting()
+- ${Greeting()} I'm your virtual assistant. I'm here to help you get things done.
+
+# ReturningUserGreeting()
+- ${Greeting()} ${HowCanIHelp()}
+- ${Greeting()} ${HowCanIHelp()}
+- ${Greeting()} ${HowCanIHelp()}
+
+# SendActivity_NHqHWz()
+- Placeholder to call Calendar Skill
+# SendActivity_TSVMAC()
+- Placeholder to call Who Skill

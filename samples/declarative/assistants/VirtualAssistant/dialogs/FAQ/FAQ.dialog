@@ -1,0 +1,30 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "aPIzw7",
+    "name": "FAQ"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "at9GwU"
+      },
+      "defaultResultProperty": "dialog.result",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "fNNMkR"
+          },
+          "activity": "${SendActivity_fNNMkR()}"
+        }
+      ]
+    }
+  ],
+  "generator": "FAQ.lg",
+  "activityProcessed": true
+}

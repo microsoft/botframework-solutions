@@ -1,0 +1,30 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ZOkcGt",
+    "name": "Chit-chat"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "RH7MlV"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "tgkjYk"
+          },
+          "activity": "${SendActivity_tgkjYk()}"
+        }
+      ],
+      "defaultResultProperty": "dialog.result"
+    }
+  ],
+  "generator": "Chit-chat.lg",
+  "activityProcessed": true
+}

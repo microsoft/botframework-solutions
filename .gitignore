@@ -377,3 +377,4 @@ ASALocalRun/
 .DS_Store
 /.project
 *.luis
+/samples/declarative/assistants/VirtualAssistant/generated

@@ -1,0 +1,174 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "VirtualAssistant",
+      "id": "jtIOWY"
+    }
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "TuUPFi"
+                  },
+                  "condition": "exists(user.name)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "kwEPBH"
+                      },
+                      "activity": "${SendActivity_kwEPBH()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "2wMiZd"
+                      },
+                      "activity": "${SendActivity_2wMiZd()}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "defaultResultProperty": "dialog.result",
+      "activityProcessed": true
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "YIXMIs"
+      },
+      "intent": "Onboarding",
+      "defaultResultProperty": "dialog.result",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "1cVIdC"
+          },
+          "activityProcessed": true,
+          "dialog": "Onboarding"
+        }
+      ],
+      "activityProcessed": true
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "X4FNKQ"
+      },
+      "intent": "General",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "5QEhEF"
+          },
+          "activityProcessed": false,
+          "dialog": "General"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "oT12r1"
+      },
+      "intent": "FAQ",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "tPVZt7"
+          },
+          "activityProcessed": true,
+          "dialog": "FAQ"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "osINvw"
+      },
+      "intent": "CalendarSkill",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "NHqHWz"
+          },
+          "activity": "${SendActivity_NHqHWz()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "bk4An6"
+      },
+      "intent": "WhoSkill",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "TSVMAC"
+          },
+          "activity": "${SendActivity_TSVMAC()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "f2bMTQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ng2bTc"
+          },
+          "activityProcessed": false,
+          "dialog": "Chit-chat"
+        }
+      ],
+      "activityProcessed": true
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "virtualassistant.lg",
+  "recognizer": "virtualassistant.lu",
+  "activityProcessed": true
+}
