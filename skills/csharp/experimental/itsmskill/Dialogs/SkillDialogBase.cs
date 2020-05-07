@@ -213,24 +213,6 @@ namespace ITSMSkill.Dialogs
             }
         }
 
-        protected async Task<DialogTurnResult> Relogin(WaterfallStepContext sc, CancellationToken cancellationToken)
-        {
-            try
-            {
-                return await sc.PromptAsync(nameof(OAuthPrompt), new PromptOptions());
-            }
-            catch (SkillException ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-            catch (Exception ex)
-            {
-                await HandleDialogExceptions(sc, ex);
-                return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-            }
-        }
-
         protected async Task<DialogTurnResult> AfterGetAuthToken(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
         {
             try
@@ -1167,14 +1149,10 @@ namespace ITSMSkill.Dialogs
             public const string ShowAttributePrompt = "ShowAttributePrompt";
             public const string ShowTicketLoop = "ShowTicketLoop";
             public const string ShowNavigatePrompt = "ShowNavigatePrompt";
-
             public const string CloseTicket = "CloseTicket";
-
             public const string ShowKnowledge = "ShowKnowledge";
             public const string ShowKnowledgeLoop = "ShowKnowledgeLoop";
-
             public const string UpdateToken = "UpdateToken";
-            public const string OauthPrompt = "OauthPrompt";
         }
     }
 }

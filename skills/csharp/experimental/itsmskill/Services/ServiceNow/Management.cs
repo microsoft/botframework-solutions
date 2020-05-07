@@ -23,44 +23,16 @@ namespace ITSMSkill.Services.ServiceNow
 {
     public class Management : IITServiceManagement
     {
-        private static readonly string Provider = "ServiceNow";
         private static readonly string TicketResource = "now/v1/table/incident";
         private static readonly string TicketCount = "now/v1/stats/incident";
         private static readonly string KnowledgeResource = "now/v1/table/kb_knowledge";
         private static readonly string KnowledgeCount = "now/v1/stats/kb_knowledge";
-        private static readonly Dictionary<UrgencyLevel, string> UrgencyToString;
-        private static readonly Dictionary<string, UrgencyLevel> StringToUrgency;
-        private static readonly Dictionary<TicketState, string> TicketStateToString;
-        private static readonly Dictionary<string, TicketState> StringToTicketState;
         private readonly IRestClient client;
         private readonly string getUserIdResource;
         private readonly string token;
         private readonly int limitSize;
         private readonly string knowledgeUrl;
         private readonly string userId;
-
-        static Management()
-        {
-            UrgencyToString = new Dictionary<UrgencyLevel, string>()
-            {
-                { UrgencyLevel.None, string.Empty },
-                { UrgencyLevel.Low, "3" },
-                { UrgencyLevel.Medium, "2" },
-                { UrgencyLevel.High, "1" }
-            };
-            StringToUrgency = new Dictionary<string, UrgencyLevel>(UrgencyToString.Select(pair => KeyValuePair.Create(pair.Value, pair.Key)));
-            TicketStateToString = new Dictionary<TicketState, string>()
-            {
-                { TicketState.None, string.Empty },
-                { TicketState.New, "1" },
-                { TicketState.InProgress, "2" },
-                { TicketState.OnHold, "3" },
-                { TicketState.Resolved, "6" },
-                { TicketState.Closed, "7" },
-                { TicketState.Canceled, "8" }
-            };
-            StringToTicketState = new Dictionary<string, TicketState>(TicketStateToString.Select(pair => KeyValuePair.Create(pair.Value, pair.Key)));
-        }
 
         public Management(string url, string token, int limitSize, string getUserIdResource, ServiceCache serviceCache = null, IRestClient restClient = null)
         {
@@ -115,37 +87,14 @@ namespace ITSMSkill.Services.ServiceNow
                     caller_id = userId,
                     short_description = title,
                     description = description,
-                    urgency = UrgencyToString[urgency]
+                    urgency = ServiceNowHelper.UrgencyToString[urgency]
                 };
                 request.AddJsonBody(body);
 
                 var response = await client.ExecuteTaskAsync(request, CancellationToken.None, Method.POST);
 
-                if (response.StatusCode == HttpStatusCode.Created)
-                {
-                    var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
-                    return new TicketsResult()
-                    {
-                        Success = true,
-                        Tickets = new Ticket[] { ConvertTicket(result.result) }
-                    };
-                }
-                else if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return new TicketsResult
-                    {
-                        Success = false,
-                        Reason = "Unauthorized"
-                    };
-                }
-                else
-                {
-                    return new TicketsResult()
-                    {
-                        Success = false,
-                        Reason = "Unknown"
-                    };
-                }
+                // Return Response
+                return response.ProcessIRestResponse();
             }
             catch (Exception ex)
             {
@@ -175,7 +124,7 @@ namespace ITSMSkill.Services.ServiceNow
                 return new TicketsResult()
                 {
                     Success = true,
-                    Tickets = result.result?.Select(r => ConvertTicket(r)).ToArray()
+                    Tickets = result.result?.Select(r => ServiceNowHelper.ConvertTicket(r)).ToArray()
                 };
             }
             catch (Exception ex)
@@ -224,7 +173,7 @@ namespace ITSMSkill.Services.ServiceNow
             {
                 short_description = title,
                 description = description,
-                urgency = urgency == UrgencyLevel.None ? null : UrgencyToString[urgency]
+                urgency = urgency == UrgencyLevel.None ? null : ServiceNowHelper.UrgencyToString[urgency]
             };
             request.JsonSerializer = new JsonNoNull();
             request.AddJsonBody(body);
@@ -233,31 +182,8 @@ namespace ITSMSkill.Services.ServiceNow
             {
                 var response = await client.ExecuteTaskAsync(request, CancellationToken.None, Method.PATCH);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
-                    return new TicketsResult()
-                    {
-                        Success = true,
-                        Tickets = new Ticket[] { ConvertTicket(result.result) }
-                    };
-                }
-                else if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return new TicketsResult
-                    {
-                        Success = false,
-                        Reason = "Unauthorized"
-                    };
-                }
-                else
-                {
-                    return new TicketsResult()
-                    {
-                        Success = false,
-                        Reason = "Unknown"
-                    };
-                }
+                // Process and Return Correct Response
+                return response.ProcessIRestResponse();
             }
             catch (Exception ex)
             {
@@ -288,37 +214,8 @@ namespace ITSMSkill.Services.ServiceNow
 
                 var response = await client.ExecuteTaskAsync(request, CancellationToken.None, Method.PATCH);
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var result = JsonConvert.DeserializeObject<SingleTicketResponse>(response.Content);
-                    return new TicketsResult()
-                    {
-                        Success = true,
-                        Tickets = new Ticket[] { ConvertTicket(result.result) }
-                    };
-                }
-                else if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    return new TicketsResult
-                    {
-                        Success = false,
-                        Reason = "Unauthorized"
-                    };
-                }
-                else
-                {
-                    return new TicketsResult()
-                    {
-                        Success = false,
-                        Reason = "Unknown"
-                    };
-                }
-
-                //return new TicketsResult()
-                //{
-                //    Success = true,
-                //    Tickets = new Ticket[] { ConvertTicket(result.result) }
-                //};
+                // Process and Return Correct Response
+                return response.ProcessIRestResponse();
             }
             catch (Exception ex)
             {
@@ -406,7 +303,7 @@ namespace ITSMSkill.Services.ServiceNow
 
             if (urgencies != null && urgencies.Count > 0)
             {
-                sysparmQuery.Add($"urgencyIN{string.Join(',', urgencies.Select(urgency => UrgencyToString[urgency]))}");
+                sysparmQuery.Add($"urgencyIN{string.Join(',', urgencies.Select(urgency => ServiceNowHelper.UrgencyToString[urgency]))}");
             }
 
             if (!string.IsNullOrEmpty(id))
@@ -416,7 +313,7 @@ namespace ITSMSkill.Services.ServiceNow
 
             if (states != null && states.Count > 0)
             {
-                sysparmQuery.Add($"stateIN{string.Join(',', states.Select(state => TicketStateToString[state]))}");
+                sysparmQuery.Add($"stateIN{string.Join(',', states.Select(state => ServiceNowHelper.TicketStateToString[state]))}");
             }
 
             if (!string.IsNullOrEmpty(number))
@@ -450,39 +347,6 @@ namespace ITSMSkill.Services.ServiceNow
             return userId.result;
         }
 
-        private Ticket ConvertTicket(TicketResponse ticketResponse)
-        {
-            var ticket = new Ticket()
-            {
-                Id = ticketResponse.sys_id,
-                Title = ticketResponse.short_description,
-                Description = ticketResponse.description,
-                Urgency = StringToUrgency[ticketResponse.urgency],
-                State = StringToTicketState[ticketResponse.state],
-                OpenedTime = DateTime.Parse(ticketResponse.opened_at),
-                Number = ticketResponse.number,
-                Provider = Provider,
-            };
-
-            if (!string.IsNullOrEmpty(ticketResponse.close_code))
-            {
-                if (!string.IsNullOrEmpty(ticketResponse.close_notes))
-                {
-                    ticket.ResolvedReason = $"{ticketResponse.close_code}:\r\n{ticketResponse.close_notes}";
-                }
-                else
-                {
-                    ticket.ResolvedReason = ticketResponse.close_code;
-                }
-            }
-            else
-            {
-                ticket.ResolvedReason = ticketResponse.close_notes;
-            }
-
-            return ticket;
-        }
-
         private Knowledge ConvertKnowledge(KnowledgeResponse knowledgeResponse)
         {
             var knowledge = new Knowledge()
@@ -492,7 +356,7 @@ namespace ITSMSkill.Services.ServiceNow
                 UpdatedTime = DateTime.Parse(knowledgeResponse.sys_updated_on),
                 Number = knowledgeResponse.number,
                 Url = string.Format(knowledgeUrl, knowledgeResponse.number),
-                Provider = Provider,
+                Provider = ServiceNowHelper.Provider,
             };
             if (!string.IsNullOrEmpty(knowledgeResponse.text))
             {
