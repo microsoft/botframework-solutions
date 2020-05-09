@@ -29,6 +29,10 @@ public class Configuration {
     @Expose
     public String customSpeechRecognitionEndpointId;
 
+    @SerializedName("barge_in_supported")
+    @Expose
+    public Boolean bargeInSupported;
+
     @SerializedName("locale")
     @Expose
     public String locale;

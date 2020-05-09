@@ -32,6 +32,7 @@
     <string name="nav_menu_enable_dark_mode" translatable="false">Enable dark mode</string>
     -->
     <string name="nav_menu_enable_kws" translatable="false">Enable KWS</string>
+    <string name="nav_menu_enable_barge_in" translatable="false">Enable Barge-In</string>
 
     <!-- CONFIGURATION -->
     <string name="configuration_service_key_hint">Speech Service Subscription Key</string>

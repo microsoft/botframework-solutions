@@ -149,6 +149,14 @@
                 android:paddingBottom="16dp"
                 android:text="@string/nav_menu_enable_kws"/>
 
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_enable_barge_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/nav_menu_enable_barge_in"/>
+
         </LinearLayout>
 
     </android.support.design.widget.NavigationView>
