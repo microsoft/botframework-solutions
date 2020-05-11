@@ -87,7 +87,14 @@ namespace VirtualAssistantSample.FunctionalTests
 
             // 1 response for the Adaptive Card and 1 response for the welcome back prompt
             Assert.AreEqual(2, responses.Count);
+
+            // Both should be message Activities.
+            Assert.AreEqual(ActivityTypes.Message, responses[0].GetActivityType());
+            Assert.AreEqual(ActivityTypes.Message, responses[1].GetActivityType());
+
+            // First Activity should have an adaptive card response.
             Assert.AreEqual(1, responses[0].Attachments.Count);
+            Assert.AreEqual("application/vnd.microsoft.card.adaptive", responses[0].Attachments[0].ContentType);
         }
 
         /// <summary>
@@ -112,6 +119,35 @@ namespace VirtualAssistantSample.FunctionalTests
 
             responses = await SendActivityAsync(conversation, CreateMessageActivity(fromUser, testFaqMessage));
             Assert.AreEqual(responses[3].Text, "Raise an issue on the [GitHub repo](https://aka.ms/virtualassistant)");
+        }
+
+        /// <summary>
+        /// Return a Start Conversation event with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
+        /// </summary>
+        /// <param name="fromUser">User identifier used for the conversation and activities.</param>
+        private static Activity CreateStartConversationEvent(string fromUser)
+        {
+            // An event activity to trigger the welcome message (method for using custom Web Chat).
+            return new Activity
+            {
+                From = new ChannelAccount(fromUser, TestName),
+                Name = "startConversation",
+                Type = ActivityTypes.Event
+            };
+        }
+
+        /// <summary>
+        /// Return a Message Activity with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
+        /// </summary>
+        /// <param name="fromUser">User identifier used for the conversation and activities.</param>
+        private static Activity CreateMessageActivity(string fromUser, string activityText)
+        {
+            return new Activity
+            {
+                From = new ChannelAccount(fromUser, TestName),
+                Text = activityText,
+                Type = ActivityTypes.Message
+            };
         }
 
         /// <summary>
@@ -196,35 +232,6 @@ namespace VirtualAssistantSample.FunctionalTests
                     Assert.Inconclusive("Environment variable 'BOTID' not found.");
                 }
             }
-        }
-
-        /// <summary>
-        /// Return a Start Conversation event with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
-        /// </summary>
-        /// <param name="fromUser">User identifier used for the conversation and activities.</param>
-        private Activity CreateStartConversationEvent(string fromUser)
-        {
-            // An event activity to trigger the welcome message (method for using custom Web Chat).
-            return new Activity
-            {
-                From = new ChannelAccount(fromUser, TestName),
-                Name = "startConversation",
-                Type = ActivityTypes.Event
-            };
-        }
-
-        /// <summary>
-        /// Return a Message Activity with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
-        /// </summary>
-        /// <param name="fromUser">User identifier used for the conversation and activities.</param>
-        private Activity CreateMessageActivity(string fromUser, string activityText)
-        {
-            return new Activity
-            {
-                From = new ChannelAccount(fromUser, TestName),
-                Text = activityText,
-                Type = ActivityTypes.Message
-            };
         }
     }
 }
