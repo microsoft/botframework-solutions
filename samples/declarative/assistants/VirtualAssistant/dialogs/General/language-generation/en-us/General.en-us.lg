@@ -1,25 +1,24 @@
 [import](common.lg)
 
-# SendActivity_sP00qH()
+# SendActivity_iyPcql()
 - OK.
 - Got it.
 - Sure.
 - Understood.
-# SendActivity_PdiSC5()
+# SendActivity_VjqZNv()
 - Sure, transferring you to an agent.
-# SendActivity_47AXPk()
+# SendActivity_r5U1pB()
 - ${YouCanAskMeCard()}
 
-# SendActivity_VLmE87()
+# SendActivity_jclMpJ()
 - OK${UserName()}, you're signed out.
 - Alright${UserName()}, you’re signed out.
 - No problem${UserName()}, I’ve signed you out.
 - Sure, you're signed out.
 
-# SendActivity_mVcIad()
-- OK${UserName()}, let's try again.
+# SendActivity_bPI4B1()
+- I said: 
+# SendActivity_iHk4km()
+- - OK${UserName()}, let's try again.
 - Sure${UserName()}, let's try again.
 - No problem${UserName()}, we can start over.
-
-# SendActivity_0xYAZr()
-- I said: 

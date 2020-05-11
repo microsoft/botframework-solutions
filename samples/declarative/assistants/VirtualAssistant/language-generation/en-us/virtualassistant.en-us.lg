@@ -1,9 +1,10 @@
 [import](common.lg)
 
-# SendActivity_kwEPBH()
+
+# SendActivity_TdzIdS()
 - ${ReturningUserGreeting()}
 
-# SendActivity_2wMiZd()
+# SendActivity_56MJVo()
 [Activity
 Text = ${NewUserGreeting()}
 SuggestedActions = Get started
@@ -24,7 +25,7 @@ SuggestedActions = Get started
 - ${Greeting()} ${HowCanIHelp()}
 - ${Greeting()} ${HowCanIHelp()}
 
-# SendActivity_NHqHWz()
-- Placeholder to call Calendar Skill
-# SendActivity_TSVMAC()
-- Placeholder to call Who Skill
+# SendActivity_D6ahL5()
+- Placeholder for Who Skill
+# SendActivity_k3oH9x()
+- Placeholder for Calendar Skill

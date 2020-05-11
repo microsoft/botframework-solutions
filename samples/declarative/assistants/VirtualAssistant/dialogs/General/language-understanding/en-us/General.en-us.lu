@@ -34,6 +34,7 @@
 - quit
 - sorry, don't do it
 
+
 # Escalate
 - can i talk to a person
 - contact support
@@ -49,6 +50,7 @@
 - is there any real human
 - is there any real person
 - talk to a human
+
 
 # Help
 - any help
@@ -67,12 +69,14 @@
 - some help
 - who can help me
 
+
 # Logout
 - forget me
 - log out
 - logout
 - sign out
 - signout
+
 
 # Repeat
 - again
@@ -91,6 +95,7 @@
 - what did you say
 - what was that again
 
+
 # StartOver
 - clear and start again
 - could you start it over
@@ -102,4 +107,3 @@
 - start over
 - start over it
 - turn over a new leaf
-

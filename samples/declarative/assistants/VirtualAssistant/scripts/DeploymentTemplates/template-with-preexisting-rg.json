@@ -22,7 +22,15 @@
       "type": "bool",
       "defaultValue": true
     },
+    "useAppInsights": {
+      "type": "bool",
+      "defaultValue": true
+    },
     "shouldCreateAuthoringResource": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "shouldCreateLuisResource": {
       "type": "bool",
       "defaultValue": true
     },
@@ -216,7 +224,8 @@
           "id": "botstate-db"
         },
         "options": {}
-      }
+      },
+      "condition": "[parameters('useCosmosDb')]"
     },
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
@@ -255,7 +264,8 @@
           }
         },
         "options": {}
-      }
+      },
+      "condition": "[parameters('useCosmosDb')]"
     },
     {
       "apiVersion": "2017-12-01",
@@ -289,7 +299,8 @@
       "location": "[parameters('appInsightsLocation')]",
       "properties": {
         "Application_Type": "web"
-      }
+      },
+      "condition": "[parameters('useAppInsights')]"
     },
     {
       "comments": "storage account",
@@ -324,14 +335,15 @@
       "location": "[parameters('luisServiceLocation')]",
       "sku": {
         "name": "[parameters('luisServiceRunTimeSku')]"
-      }
+      },
+      "condition": "[parameters('shouldCreateLuisResource')]"
     }
   ],
   "outputs": {
     "ApplicationInsights": {
       "type": "object",
       "value": {
-        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey]"
+        "InstrumentationKey": "[if(parameters('useAppInsights'), reference(resourceId('Microsoft.Insights/components', parameters('appInsightsName'))).InstrumentationKey, '')]"
       }
     },
     "cosmosDb": {
@@ -354,7 +366,7 @@
     "luis": {
       "type": "object",
       "value": {
-        "endpointKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1]",
+        "endpointKey": "[if(parameters('shouldCreateLuisResource'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisServiceName')),'2017-04-18').key1, '')]",
         "authoringKey": "[if(parameters('shouldCreateAuthoringResource'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('LuisAuthoringAccountName')),'2017-04-18').key1, parameters('luisAuthoringKey'))]",
         "region": "[parameters('luisServiceLocation')]"
       }
