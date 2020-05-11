@@ -4,20 +4,21 @@
  */
 
 import {
-    ConversationState,
-    TurnContext, 
-    UserState,
-    TeamsActivityHandler,
-    StatePropertyAccessor, 
     Activity,
     ActivityTypes,
-    BotState } from 'botbuilder';
+    BotState, 
+    Channels,
+    ConversationState,
+    StatePropertyAccessor,
+    TeamsActivityHandler,
+    TurnContext, 
+    UserState } from 'botbuilder';
 import {
     Dialog,
-    DialogContext,
     DialogSet,
     DialogState } from 'botbuilder-dialogs';
 import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
+import { IUserProfileState } from '../models/userProfileState';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
     private readonly conversationState: BotState;
@@ -59,7 +60,7 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     }
 
     protected async membersAdded(turnContext: TurnContext): Promise<void> {
-        const userProfile = await this.userProfileState.get(turnContext, () => { name: ''; });
+        const userProfile: IUserProfileState = await this.userProfileState.get(turnContext, () => { name: ''; });
 
         if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
             // Send new user intro card.
@@ -73,6 +74,13 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     }
 
     protected async onMessageActivity(turnContext: TurnContext): Promise<void> {
+        // directline speech occasionally sends empty message activities that should be ignored
+        const activity: Activity = turnContext.activity;
+        if (activity.channelId === Channels.DirectlineSpeech &&
+            activity.type === ActivityTypes.Message &&
+            (activity.text === undefined || activity.text.trim().length === 0)) {
+            return Promise.resolve();
+        }
         return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 

@@ -3,10 +3,18 @@
  * Licensed under the MIT License.
  */
 
-import { Activity, ActivityTypes, ChannelAccount, ConversationReference, IEventActivity, IEndOfConversationActivity, IMessageActivity } from 'botframework-schema';
+import {
+    Activity,
+    ActivityTypes,
+    ChannelAccount,
+    Channels,
+    ConversationReference,
+    IEndOfConversationActivity,
+    IEventActivity,
+    IMessageActivity } from 'botframework-schema';
 
 export namespace ActivityEx {
-    export function createReply(source: Activity, text?: string, local?: string): Activity {
+    export function createReply(source: Activity, text?: string, locale?: string): Activity {
         const reply: string = text || '';
 
         return {
@@ -14,7 +22,7 @@ export namespace ActivityEx {
             conversation: source.conversation,
             from: source.recipient,
             label: source.label,
-            locale: local,
+            locale: locale,
             callerId: source.callerId,
             recipient: source.from,
             replyToId: source.id,
@@ -48,19 +56,19 @@ export namespace ActivityEx {
 
     export function isStartActivity(activity: Activity): boolean {
         switch (activity.channelId) {
-            case 'skype': {
+            case Channels.Skype: {
                 if (activity.type === ActivityTypes.ContactRelationUpdate && activity.action === 'add') {
                     return true;
                 }
 
                 return false;
             }
-            case 'directline':
-            case 'emulator':
-            case 'webchat':
-            case 'msteams':
-            case 'directlinespeech':
-            case 'test': {
+            case Channels.Directline:
+            case Channels.Emulator:
+            case Channels.Webchat:
+            case Channels.Msteams:
+            case Channels.DirectlineSpeech:
+            case Channels.Test: {
                 if (activity.type === ActivityTypes.ConversationUpdate) {
                     // When bot is added to the conversation (triggers start only once per conversation)
                     if (activity.membersAdded !== undefined &&
