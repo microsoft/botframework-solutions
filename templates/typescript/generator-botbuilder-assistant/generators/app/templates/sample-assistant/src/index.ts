@@ -48,6 +48,7 @@ import { skills as skillsRaw } from './skills.json';
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
     .init({
+        lowerCaseLng: true,
         fallbackLng: 'en-us',
         preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
         backend: {
