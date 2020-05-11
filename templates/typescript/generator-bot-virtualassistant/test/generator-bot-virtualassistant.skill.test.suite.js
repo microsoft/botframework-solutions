@@ -25,8 +25,8 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
     var packageJSON;
     var manifest1_0;
     var manifest1_1;
-    const manifestPath1_0 = join(`src`, `manifests`, `manifest-1.0.json`);
-    const manifestPath1_1 = join(`src`, `manifests`, `manifest-1.0.json`);
+    const manifestPath1_0 = join(`src`, `manifest`, `manifest-1.0.json`);
+    const manifestPath1_1 = join(`src`, `manifest`, `manifest-1.1.json`);
     const testCognitiveModelsPath = join(`test`, `mocks`, `resources`, `cognitiveModels.json`);
 
     const templatesFiles = [
