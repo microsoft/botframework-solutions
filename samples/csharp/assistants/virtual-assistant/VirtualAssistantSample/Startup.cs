@@ -23,10 +23,13 @@ using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using VirtualAssistantSample.Adapters;
 using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
+using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 using VirtualAssistantSample.TokenExchange;
 
@@ -42,6 +45,7 @@ namespace VirtualAssistantSample
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("cognitivemodels.json", optional: true)
                 .AddJsonFile($"cognitivemodels.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("usersharedproperties.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
@@ -54,13 +58,15 @@ namespace VirtualAssistantSample
         {
             // Configure MVC
             services.AddControllers().AddNewtonsoftJson();
-
             services.AddSingleton(Configuration);
 
             // Load settings
             var settings = new BotSettings();
             Configuration.Bind(settings);
             services.AddSingleton(settings);
+
+
+            services.Configure<UserSharedSkillproperties>(Configuration);
 
             // Configure channel provider
             services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();

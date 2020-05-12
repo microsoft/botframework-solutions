@@ -1,0 +1,28 @@
+{
+  "UserSharedData": [
+    {
+      "name": "HomeAddress",
+      "properties": {
+        "type": "string",
+        "description": "User Home Address",
+        "permission": "r"
+      }
+    },
+    {
+      "name": "WorkAddress",
+      "properties": {
+        "type": "string",
+        "description": "User Work Address",
+        "permission": "r"
+      }
+    },
+    {
+      "name": "PhoneNo",
+      "properties": {
+        "type": "string",
+        "description": "User Phone No",
+        "permission": "r"
+      }
+    }
+  ]
+}
