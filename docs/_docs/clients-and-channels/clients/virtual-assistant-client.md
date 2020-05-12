@@ -41,10 +41,12 @@ There are two configuration files used to provide your environment settings.
   "custom_commands_app_id": "", // Optional, if you are connecting to a Custom Commands application
   "custom_voice_deployment_ids": "", // Optional, to point to custom voices
   "custom_speech_recognition_endpoint_id": "", // Optional, to point to a customized speech recognition endpoint
+  "barge_in_supported": false, // Whether or not to listen to keyword while TTS is playing. If true, TTS playback stops once Keyword is verified.
   "user_id": "android",
   "user_name": "Android",
   "locale": "en-us",
   "keyword": "computer",
+  "enableKWS": false, // Keyword spotting
   "linkedAccountEndpoint": "" // Optional if you enabled the Linked Accounts solution in the prerequisites
 }
 ```
