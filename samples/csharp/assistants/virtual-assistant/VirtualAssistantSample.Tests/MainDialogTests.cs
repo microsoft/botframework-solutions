@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,6 +54,11 @@ namespace VirtualAssistantSample.Tests
                 .StartTestAsync();
         }
 
+        /// <summary>
+        /// ChitChat is the default fallback which will not be configured at functional test time so a mock ensures QnAMaker returns no answer
+        /// enabling the unsupported message to be returned.
+        /// </summary>
+        /// <returns>Task.</returns>
         [TestMethod]
         public async Task Test_Unhandled_Message()
         {
@@ -63,7 +69,7 @@ namespace VirtualAssistantSample.Tests
                 .Send(string.Empty)
                 .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send("Unhandled message")
-                .AssertReplyOneOf(allResponseVariations.Cast<string>().ToArray())
+                 .AssertReplyOneOf(allResponseVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
     }

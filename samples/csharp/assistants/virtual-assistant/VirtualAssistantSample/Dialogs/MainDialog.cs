@@ -30,11 +30,11 @@ namespace VirtualAssistantSample.Dialogs
         // Conversation state property with the active skill (if any).
         public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
 
+        private readonly LocaleTemplateManager _templateManager;
         private readonly BotServices _services;
         private readonly OnboardingDialog _onboardingDialog;
         private readonly SwitchSkillDialog _switchSkillDialog;
         private readonly SkillsConfiguration _skillsConfig;
-        private readonly LocaleTemplateManager _templateManager;
         private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
         private readonly IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
@@ -150,6 +150,41 @@ namespace VirtualAssistantSample.Dialogs
             // Set up response caching for "repeat" functionality.
             innerDc.Context.OnSendActivities(StoreOutgoingActivitiesAsync);
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
+        /// <summary>
+        /// Creates a QnAMaker dialog for the correct locale if it's not already present on the dialog stack.
+        /// Virtual method enables test mock scenarios.
+        /// </summary>
+        /// <param name="knowledgebaseId">Knowledgebase Identifier.</param>
+        /// <param name="cognitiveModels">CognitiveModelSet configuration information.</param>
+        /// <returns>QnAMakerDialog instance.</returns>
+        protected virtual QnAMakerDialog TryCreateQnADialog(string knowledgebaseId, CognitiveModelSet cognitiveModels)
+        {
+            if (!cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint)
+                || qnaEndpoint == null)
+            {
+                throw new Exception($"Could not find QnA Maker knowledge base configuration with id: {knowledgebaseId}.");
+            }
+
+            // QnAMaker dialog already present on the stack?
+            if (Dialogs.Find(knowledgebaseId) == null)
+            {
+                return new QnAMakerDialog(
+                    knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
+                    endpointKey: qnaEndpoint.EndpointKey,
+                    hostName: qnaEndpoint.Host,
+                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                {
+                    Id = knowledgebaseId
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
@@ -334,7 +369,12 @@ namespace VirtualAssistantSample.Dialogs
                     stepContext.SuppressCompletionMessage(true);
 
                     var knowledgebaseId = "Faq";
-                    RegisterQnADialog(knowledgebaseId, localizedServices);
+                    var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
+                    if (qnaDialog != null)
+                    {
+                        Dialogs.Add(qnaDialog);
+                    }
+
                     return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
                 }
 
@@ -343,7 +383,12 @@ namespace VirtualAssistantSample.Dialogs
                     stepContext.SuppressCompletionMessage(true);
 
                     var knowledgebaseId = "Chitchat";
-                    RegisterQnADialog(knowledgebaseId, localizedServices);
+                    var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
+                    if (qnaDialog != null)
+                    {
+                        Dialogs.Add(qnaDialog);
+                    }
+
                     return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
                 }
 
@@ -409,31 +454,6 @@ namespace VirtualAssistantSample.Dialogs
             }
 
             return await next();
-        }
-
-        private void RegisterQnADialog(string knowledgebaseId, CognitiveModelSet cognitiveModels)
-        {
-            if (!cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint)
-                || qnaEndpoint == null)
-            {
-                throw new Exception($"Could not find QnA Maker knowledge base configuration with id: {knowledgebaseId}.");
-            }
-
-            if (Dialogs.Find(knowledgebaseId) == null)
-            {
-                var qnaDialog = new QnAMakerDialog(
-                    knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
-                    endpointKey: qnaEndpoint.EndpointKey,
-                    hostName: qnaEndpoint.Host,
-                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
-                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
-                {
-                    Id = knowledgebaseId
-                };
-
-                AddDialog(qnaDialog);
-            }
         }
 
         private bool IsSkillIntent(DispatchLuis.Intent dispatchIntent)
