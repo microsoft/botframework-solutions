@@ -24,14 +24,12 @@ In a non-skill scenario, a bot goes through these steps to perform OAuth for use
 ![OAuth Connection]({{site.baseurl}}/assets/images/OAuthConnection.png)
 
 1. once OAuth connection is configured correctly (Click 'Test Connection' to simulate an OAuth flow), in bot code, use OAuthPrompt (included in Microsoft.Bot.Builder.Dialogs library) to kick start an OAuth flow
-
 ![Test OAuth Connection]({{site.baseurl}}/assets/images/OAuthConnection-TestConnection.png)
-
 1. the bot will use OAuthPrompt to retrieve SignInUrl (depending on the channel) and include it inside the OAuthCard that the bot returns to the user
 1. the user will see an OAuthCard in the client and click on the Login button to go through an OAuth flow
 1. after the OAuth flow is finished (either through magic code or not) the bot will receive the OAuth token needed for the respective resource, and use that to perform subsequent steps
 
-![OAuth Transcript]({{site.baseurl}}/assets/images/OAuthtranscript.png)
+![OAuth Transcript]({{site.baseurl}}/assets/images/OAuth-Transcript.png)
 
 In a skill scenario, the overall flow is the same, with the virtual assistant being transparent, meaning that it would just be passing through the OAuthCard back to user from skill, or magic code back to skill from user. In the case of no magic code, the virtual assistant wouldn't pass through the actual token because that'll be considered unsafe (especially in the scenarios of 3rd party skills). In that case the skill will receive the token directly from Azure Bot Service TokenService. 
 
@@ -54,9 +52,6 @@ Identity Providers: https://docs.microsoft.com/en-us/azure/bot-service/bot-build
 During development we often run into issues when using OAuth. Here's some typical errors we get and how to troubleshoot for them
 
 1. Bad Request
-
 This happens when user clicks on the Login button in the OAuthCard. When this happens, it usually means when creating the OAuthPrompt instance, the connection name is wrong. The connection name needs to be the same as the connection setting in Bot Channel Registration page.
-
 1. API Error when calling the online resources
-
 This usually means the token you get back doesn't have enough permission to perform the tasks you're using the API for. Make sure you configure the correct Scope when you create the OAuth Connection.
