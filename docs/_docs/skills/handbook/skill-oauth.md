@@ -42,9 +42,9 @@ In previous versions of Virtual Assistant Template, we used to use the Virtual A
 
 The latest Azure Bot Service has infrastructure built in to support SSO (Single Sign on). Here are the documentation for it:
 
-Single Sign on overview in Azure Bot Service: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-sso?view=azure-bot-service-4.0
-Add Single Sign on to a bot: https://review.docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&branch=pr-en-us-2084&tabs=csharp%2Ceml
-Identity Providers: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-identity-providers?view=azure-bot-service-4.0&tabs=adv1%2Cga2
+1. Single Sign on overview in Azure Bot Service: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-sso?view=azure-bot-service-4.0
+1. Add Single Sign on to a bot: https://review.docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&branch=pr-en-us-2084&tabs=csharp%2Ceml
+1. Identity Providers: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-identity-providers?view=azure-bot-service-4.0&tabs=adv1%2Cga2
 
 
 ## Troubleshooting
