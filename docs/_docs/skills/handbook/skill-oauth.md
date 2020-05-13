@@ -13,7 +13,7 @@ toc: true
 
 ## Overview
 
-In azure bot service, a bot can use OAuth to gain access to online resources that require authentication. It's documented here: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=aadv1%2Ccsharp and https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-authentication?view=azure-bot-service-4.0. When your bot is working as a skill, meaning to your users, instead of talking to your bot directly through various channels, they are actually using your skill as a backend service when talking to another bot/virtual assistant, OAuth is also supported. 
+In azure bot service, a bot can use OAuth to gain access to online resources that require authentication. It's documented here: [Add Authentication to a bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=aadv1%2Ccsharp) and [Bot authentication](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-authentication?view=azure-bot-service-4.0). When your bot is working as a skill, meaning to your users, instead of talking to your bot directly through various channels, they are actually using your skill as a backend service when talking to another bot/virtual assistant, OAuth is also supported. 
 
 ## OAuth flow
 
@@ -42,9 +42,9 @@ In previous versions of Virtual Assistant Template, we used to use the Virtual A
 
 The latest Azure Bot Service has infrastructure built in to support SSO (Single Sign on). Here are the documentation for it:
 
-1. Single Sign on overview in Azure Bot Service: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-sso?view=azure-bot-service-4.0
-1. Add Single Sign on to a bot: https://review.docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&branch=pr-en-us-2084&tabs=csharp%2Ceml
-1. Identity Providers: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-identity-providers?view=azure-bot-service-4.0&tabs=adv1%2Cga2
+1. [Single Sign on overview in Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-sso?view=azure-bot-service-4.0)
+1. [Add Single Sign on to a bot](https://review.docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&branch=pr-en-us-2084&tabs=csharp%2Ceml)
+1. [Identity Providers](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-identity-providers?view=azure-bot-service-4.0&tabs=adv1%2Cga2)
 
 
 ## Troubleshooting
