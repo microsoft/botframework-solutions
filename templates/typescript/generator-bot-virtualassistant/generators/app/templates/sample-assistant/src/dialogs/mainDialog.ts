@@ -300,6 +300,10 @@ export class MainDialog extends ComponentDialog {
     }
     
     private async introStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
+        if (DialogContextEx.suppressCompletionMessageValidation(stepContext)) {
+            return await stepContext.prompt(TextPrompt.name, {});
+        }
+
         // Use the text provided in FinalStepAsync or the default if it is the first time.
         const promptOptions: PromptOptions = {
             prompt: stepContext.options as Activity || this.templateManager.generateActivityForLocale('FirstPromptMessage')
