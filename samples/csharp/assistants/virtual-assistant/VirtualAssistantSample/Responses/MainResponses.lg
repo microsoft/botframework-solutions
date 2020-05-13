@@ -121,6 +121,20 @@
   ],
   "actions": [
     {
+      "type": "Action.Submit",
+      "title": "Get started in RouteStepAsync",
+      "data": {
+        "action": "startOnboardingRoute"
+      }
+    },
+    {
+      "type": "Action.Submit",
+      "title": "Get started like InterruptDialogAsync",
+      "data": {
+        "action": "startOnboardingInterrupt"
+      }
+    },
+    {
       "type": "Action.OpenUrl",
       "title": "Documentation",
       "url": "https://aka.ms/virtualassistantdocs"

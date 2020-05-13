@@ -45,12 +45,6 @@ namespace VirtualAssistantSample.Dialogs
         public async Task<DialogTurnResult> AskForNameAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
             var state = await _accessor.GetAsync(sc.Context, () => new UserProfileState(), cancellationToken);
-
-            if (!string.IsNullOrEmpty(state.Name))
-            {
-                return await sc.NextAsync(state.Name, cancellationToken);
-            }
-
             return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
             {
                 Prompt = _templateManager.GenerateActivityForLocale("NamePrompt"),

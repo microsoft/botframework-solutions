@@ -19,6 +19,7 @@ using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 
@@ -29,7 +30,8 @@ namespace VirtualAssistantSample.Dialogs
     {
         // Conversation state property with the active skill (if any).
         public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
-
+        public static readonly string StartOnboardingRoute = "startOnboardingRoute";
+        public static readonly string StartOnboardingInterrupt = "startOnboardingInterrupt";
         private readonly LocaleTemplateManager _templateManager;
         private readonly BotServices _services;
         private readonly OnboardingDialog _onboardingDialog;
@@ -65,7 +67,7 @@ namespace VirtualAssistantSample.Dialogs
             };
 
             AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
-            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new TextPrompt(nameof(TextPrompt), PromptValidator));
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
@@ -80,6 +82,26 @@ namespace VirtualAssistantSample.Dialogs
             {
                 AddDialog(dialog);
             }
+        }
+
+        protected string GetAction(ITurnContext turnContext)
+        {
+            if (turnContext.Activity.Value is JObject jValue)
+            {
+                return jValue["action"].ToString();
+            }
+
+            return string.Empty;
+        }
+
+        protected Task<bool> PromptValidator(PromptValidatorContext<string> promptContext, CancellationToken cancellationToken)
+        {
+            if (GetAction(promptContext.Context) == StartOnboardingRoute)
+            {
+                return Task.FromResult(true);
+            }
+
+            return Task.FromResult(promptContext.Recognized.Succeeded);
         }
 
         protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default)
@@ -110,6 +132,12 @@ namespace VirtualAssistantSample.Dialogs
                     // If dialog was interrupted, return EndOfTurn
                     return EndOfTurn;
                 }
+            }
+
+            var result = await InterruptOnboardingAsync(innerDc, cancellationToken);
+            if (result != null)
+            {
+                return result;
             }
 
             // Set up response caching for "repeat" functionality.
@@ -145,6 +173,12 @@ namespace VirtualAssistantSample.Dialogs
                     // If dialog was interrupted, return EndOfTurn
                     return EndOfTurn;
                 }
+            }
+
+            var result = await InterruptOnboardingAsync(innerDc, cancellationToken);
+            if (result != null)
+            {
+                return result;
             }
 
             // Set up response caching for "repeat" functionality.
@@ -310,6 +344,16 @@ namespace VirtualAssistantSample.Dialogs
             return interrupted;
         }
 
+        private async Task<DialogTurnResult> InterruptOnboardingAsync(DialogContext innerDc, CancellationToken cancellationToken)
+        {
+            if (GetAction(innerDc.Context) == StartOnboardingInterrupt)
+            {
+                return await innerDc.BeginDialogAsync(_onboardingDialog.Id, cancellationToken: cancellationToken);
+            }
+
+            return null;
+        }
+
         private async Task<DialogTurnResult> OnboardingStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState(), cancellationToken);
@@ -396,6 +440,11 @@ namespace VirtualAssistantSample.Dialogs
 
                 await stepContext.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("UnsupportedMessage", userProfile), cancellationToken);
                 return await stepContext.NextAsync(cancellationToken: cancellationToken);
+            }
+
+            if (GetAction(stepContext.Context) == StartOnboardingRoute)
+            {
+                return await stepContext.BeginDialogAsync(_onboardingDialog.Id, cancellationToken: cancellationToken);
             }
 
             return await stepContext.NextAsync(cancellationToken: cancellationToken);
