@@ -74,18 +74,16 @@ describe("setSpeak middleware", function() {
             const reply = ActivityEx.createReply(context.activity, response, 'zh-cn');
             await context.sendActivity(reply);
         })
-        .use(new SetSpeakMiddleware());
-
-        await testAdapter.send("foo")
-        .assertReply((activity) => {
-            const elements = xml2js(activity.speak, { compact: false });
-            const rootElement = elements.elements[0];
-            strictEqual(rootElement.name, "speak");
-            strictEqual(rootElement.attributes["xml:lang"], "zh-cn");
-            const voiceElement = rootElement.elements[0];
-            strictEqual(voiceElement.attributes.name, "Microsoft Server Speech Text to Speech Voice (zh-CN, HuihuiRUS)");
-            strictEqual(voiceElement.elements[0].text, response);
-        })
-        .startTest();
+            .use(new SetSpeakMiddleware()).send("foo")
+            .assertReply((activity) => {
+                const elements = xml2js(activity.speak, { compact: false });
+                const rootElement = elements.elements[0];
+                strictEqual(rootElement.name, "speak");
+                strictEqual(rootElement.attributes["xml:lang"], "zh-cn");
+                const voiceElement = rootElement.elements[0];
+                strictEqual(voiceElement.attributes.name, "Microsoft Server Speech Text to Speech Voice (zh-CN, HuihuiRUS)");
+                strictEqual(voiceElement.elements[0].text, response);
+            })
+            .startTest();
     });
 });
