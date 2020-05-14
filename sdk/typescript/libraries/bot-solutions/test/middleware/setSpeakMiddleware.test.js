@@ -73,8 +73,7 @@ describe("setSpeak middleware", function() {
             context.activity.channelId = Channels.DirectlineSpeech;
             const reply = ActivityEx.createReply(context.activity, response, 'zh-cn');
             await context.sendActivity(reply);
-        })
-            .use(new SetSpeakMiddleware()).send("foo")
+        }).use(new SetSpeakMiddleware()).send("foo")
             .assertReply((activity) => {
                 const elements = xml2js(activity.speak, { compact: false });
                 const rootElement = elements.elements[0];

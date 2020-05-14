@@ -6,7 +6,7 @@
 const { ok } = require("assert");
 const { join } = require("path");
 const i18next = require("i18next").default;
-const { LocaleTemplateManager } = require(join("..", "lib", "responses", "localeTemplateManager"));
+const { LocaleTemplateManager } = require(join("..", "..", "lib", "responses", "localeTemplateManager"));
 
 let localeTemplateManager;
 
@@ -17,8 +17,8 @@ describe("language generation", function() {
 
     before(async function() {
         const localeLgFiles = new Map();
-        localeLgFiles.set("en-us", join(__dirname, "responses", "testResponses.lg"));
-        localeLgFiles.set("es-es", join(__dirname, "responses", "testResponses.es.lg"));
+        localeLgFiles.set("en-us", join(__dirname, "..", "responses", "testResponses.lg"));
+        localeLgFiles.set("es-es", join(__dirname, "..", "responses", "testResponses.es.lg"));
         
         localeTemplateManager = new LocaleTemplateManager(localeLgFiles, "en-us");
     });

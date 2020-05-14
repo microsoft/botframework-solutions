@@ -46,6 +46,7 @@
         "@microsoft/recognizers-text-choice": "^1.1.4"
     },
     "devDependencies": {
+        "@types/nock": "^10.0.3",
         "@types/request-promise-native": "^1.0.7",
         "@types/uuid": "^3.4.4",
         "@typescript-eslint/eslint-plugin": "^1.10.2",
@@ -55,13 +56,12 @@
         "eslint-plugin-only-warn": "^1.0.1",
         "mocha": "^6.2.3",
         "mocha-junit-reporter": "^1.22.0",
-        "nyc": "^14.1.1",
         "nock": "^11.7.1",
-        "replace": "^1.0.0",
+        "nyc": "^14.1.1",
+        "replace": "^1.2.0",
         "restify": "^8.3.2",
         "rimraf": "^2.6.2",
         "supertest": "^4.0.2",
-        "@types/nock": "^10.0.3",
         "typescript": "3.4.5"
     },
     "env": {
