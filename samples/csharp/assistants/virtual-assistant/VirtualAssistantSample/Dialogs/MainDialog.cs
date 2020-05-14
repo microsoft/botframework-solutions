@@ -29,6 +29,7 @@ namespace VirtualAssistantSample.Dialogs
     {
         // Conversation state property with the active skill (if any).
         public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
+        private const string FaqDialogId = "Faq";
 
         private readonly LocaleTemplateManager _templateManager;
         private readonly BotServices _services;
@@ -120,12 +121,12 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var activity = innerDc.Context.Activity;
+            
+            // Get cognitive models for the current locale.
+            var localizedServices = _services.GetCognitiveModels();
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
-                // Get cognitive models for the current locale.
-                var localizedServices = _services.GetCognitiveModels();
-
                 // Run LUIS recognition and store result in turn state.
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.DispatchResult, dispatchResult);
@@ -149,6 +150,16 @@ namespace VirtualAssistantSample.Dialogs
 
             // Set up response caching for "repeat" functionality.
             innerDc.Context.OnSendActivities(StoreOutgoingActivitiesAsync);
+            if (innerDc.ActiveDialog.Id == FaqDialogId)
+            {
+                // user is in a mult turn FAQ dialog
+                var qnaDialog = TryCreateQnADialog(FaqDialogId, localizedServices);
+                if (qnaDialog != null)
+                {
+                    Dialogs.Add(qnaDialog);
+                }
+            }
+
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
         }
 
@@ -368,7 +379,7 @@ namespace VirtualAssistantSample.Dialogs
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    var knowledgebaseId = "Faq";
+                    var knowledgebaseId = FaqDialogId;
                     var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
                     if (qnaDialog != null)
                     {
