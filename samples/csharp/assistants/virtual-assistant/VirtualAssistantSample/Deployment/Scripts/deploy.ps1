@@ -234,7 +234,7 @@ if ($parametersFile) {
         --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
         --output json `
         2>&1 `
-        | Tee-Object -FilePath $logFile -OutVariable validation
+        | Tee-Object -FilePath $logFile -OutVariable validation `
         | Out-Null
 
     # OutVariable always outputs the contents of the piped output stream as System.Collections.ArrayList, so now let's parse into
@@ -279,7 +279,7 @@ else {
         --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
         --output json `
         2>&1 `
-        | Tee-Object -FilePath $logFile -OutVariable validation
+        | Tee-Object -FilePath $logFile -OutVariable validation `
         | Out-Null
 
     # OutVariable always outputs the contents of the piped output stream as System.Collections.ArrayList, so now let's parse into
