@@ -17,6 +17,14 @@
       }
     },
     {
+      "name": "Location",
+      "properties": {
+        "type": "string",
+        "description": "User Location",
+        "permission": "r"
+      }
+    },
+    {
       "name": "PhoneNo",
       "properties": {
         "type": "string",
