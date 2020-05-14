@@ -29,6 +29,10 @@ public class Configuration {
     @Expose
     public String customSpeechRecognitionEndpointId;
 
+    @SerializedName("SpeechSDKLogEnabled")
+    @Expose
+    public Boolean speechSdkLogEnabled;
+
     @SerializedName("barge_in_supported")
     @Expose
     public Boolean bargeInSupported;

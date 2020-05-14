@@ -1,6 +1,5 @@
 package com.microsoft.bot.builder.solutions.directlinespeech;
 
-import android.app.Dialog;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -53,7 +52,7 @@ public class SpeechSdk {
 
     // CONSTANTS
     private static final String LOGTAG = "SpeechSdk";
-    public static final String CARBONLOGFILENAME = "carbon.log";
+    public static final String SPEECHSDKLOGFILENAME = "speechsdk.log";
     public static final String APPLOGFILENAME = "app.log";
     private final int RESPONSE_TIMEOUT_PERIOD_MS = 15 * 1000;
 
@@ -63,7 +62,7 @@ public class SpeechSdk {
     private Synthesizer synthesizer;
     private Gson gson;
     private ChannelAccount from_user;
-    private String localCarbonLogFilePath;
+    private String localSpeechSdkLogPath;
     private String localAppLogFilePath;
     private String localLogDirectory;
     private boolean isConnected;
@@ -74,6 +73,7 @@ public class SpeechSdk {
     private ArrayList<CardAction> suggestedActions;
     private String dateSentLocationEvent;
 
+    private File localSpeechSdkLogFile;
     private File localAppLogFile;
     private FileWriter streamWriter;
 
@@ -87,9 +87,10 @@ public class SpeechSdk {
         from_user = new ChannelAccount();
         from_user.setName(configuration.userName);
         from_user.setId(configuration.userId);
-        this.localCarbonLogFilePath = localLogFileDirectory + "/" + CARBONLOGFILENAME;
+        this.localSpeechSdkLogPath = localLogFileDirectory + "/" + SPEECHSDKLOGFILENAME;
         this.localAppLogFilePath = localLogFileDirectory + "/" + APPLOGFILENAME;
         this.localLogDirectory = localLogFileDirectory;
+        localSpeechSdkLogFile = new File(localSpeechSdkLogPath);
         intializeAppLogFile();
         initializeSpeech(configuration, haveRecordAudioPermission);
         handler = new Handler(Looper.getMainLooper());
@@ -250,6 +251,7 @@ public class SpeechSdk {
         if (!(configuration.customSpeechRecognitionEndpointId == null || configuration.customSpeechRecognitionEndpointId.isEmpty())) {
             dialogServiceConfig.setServiceProperty("cid", configuration.customSpeechRecognitionEndpointId, ServicePropertyChannel.UriQueryParameter);
         }
+        if (configuration.speechSdkLogEnabled) dialogServiceConfig.setProperty(PropertyId.Speech_LogFilename, localSpeechSdkLogFile.getAbsolutePath());;
 
         return dialogServiceConfig;
     }

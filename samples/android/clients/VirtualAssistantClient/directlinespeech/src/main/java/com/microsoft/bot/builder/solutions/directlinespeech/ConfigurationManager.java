@@ -65,6 +65,9 @@ public class ConfigurationManager {
         if (configuration.customSpeechRecognitionEndpointId == null) {
             configuration.customSpeechRecognitionEndpointId = defaultConfiguration.customSpeechRecognitionEndpointId;
         }
+        if (configuration.speechSdkLogEnabled == null) {
+            configuration.speechSdkLogEnabled = defaultConfiguration.speechSdkLogEnabled;
+        }
         if (configuration.bargeInSupported == null) {
             configuration.bargeInSupported = false;
         }
