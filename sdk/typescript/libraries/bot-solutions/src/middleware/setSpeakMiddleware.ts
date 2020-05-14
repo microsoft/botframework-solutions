@@ -88,7 +88,11 @@ export class SetSpeakMiddleware implements Middleware {
         if (activity.attachments !== undefined && activity.attachments.length > 0) {
             const attachmentContent = activity.attachments[0].content;
             if (attachmentContent !== undefined) {
-                const contentObj = JSON.parse(attachmentContent);
+                const contentObj = attachmentContent;
+                if(contentObj['speak'] == undefined)
+                {
+                    return '';
+                }
                 return contentObj['speak'].toString();
             }
         }

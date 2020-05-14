@@ -4,22 +4,34 @@
  * Licensed under the MIT License.
  */
 import { Dialog, DialogState, DialogSet, DialogContext, DialogTurnResult, DialogTurnStatus, DialogEvents } from 'botbuilder-dialogs';
-import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity } from 'botbuilder';
-import { ClaimsIdentity, SkillValidation } from 'botframework-connector';
+import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity, SkillHandler, SkillConversationReferenceKey, SkillConversationReference } from 'botbuilder';
+import { ClaimsIdentity, SkillValidation, AuthenticationConstants, GovernmentConstants } from 'botframework-connector';
 
 export namespace DialogEx {
+    /**
+     * Creates a dialog stack and starts a dialog, pushing it onto the stack.
+     * @param dialog The dialog to start.
+     * @param turnContext The context for the current turn of the conversation
+     * @param accessor The IStatePropertyAccessor{DialogState} accessor
+     * with which to manage the state of the dialog stack.
+     * @returns A Promise representing the asynchronous operation.
+     */
     export async function run(dialog: Dialog, turnContext: TurnContext, accessor: StatePropertyAccessor<DialogState>): Promise<void> {
         const dialogSet: DialogSet = new DialogSet(accessor);
         dialogSet.telemetryClient = dialog.telemetryClient;
         dialogSet.add(dialog);
 
         const dialogContext: DialogContext = await dialogSet.createContext(turnContext);
-        const botIdentity = turnContext.turnState.get((turnContext.adapter as any).BotIdentityKey);
-        
-        if (botIdentity instanceof ClaimsIdentity && SkillValidation.isSkillClaim(botIdentity.claims)) {
-            // The bot is running as a skill.
-            if (turnContext.activity.type === ActivityTypes.EndOfConversation && dialogContext.stack.length > 0 && isEocComingFromParent(turnContext)) {
-                // Handle remote cancellation request from parent.
+
+        // Handle EoC and Reprompt event from a parent bot (can be root bot to skill or skill to skill)
+        if (isFromParentToSkill(turnContext)) {
+            // Handle remote cancellation request from parent.
+            if (turnContext.activity.type === ActivityTypes.EndOfConversation) {
+                if(dialogContext.stack.length === 0) {
+                    // No dialogs to cancel, just return.
+                    return;
+                }
+
                 const activeDialogContext: DialogContext =  getActiveDialogContext(dialogContext);
 
                 const remoteCancelText = 'Skill was canceled through an EndOfConversation activity from the parent.';
@@ -31,58 +43,75 @@ export namespace DialogEx {
 
                 // Send cancellation message to the top dialog in the stack to ensure all the parents are canceled in the right order.
                 await activeDialogContext.cancelAllDialogs(true);
-            } else {
-                // Process a reprompt event sent from the parent.
-                if (turnContext.activity.type === ActivityTypes.Event && turnContext.activity.name === DialogEvents.repromptDialog && dialogContext.stack.length > 0) {
-                    await dialogContext.repromptDialog();
+
+                return;
+            }
+
+            // / Handle a reprompt event sent from the parent.
+            if (turnContext.activity.type === ActivityTypes.Event && turnContext.activity.name === DialogEvents.repromptDialog) {
+                if(dialogContext.stack.length === 0) {
+                    // No dialogs to cancel, just return.
                     return;
                 }
 
-                // Run the Dialog with the new message Activity and capture the results so we can send end of conversation if needed.
-                let result: DialogTurnResult = await dialogContext.continueDialog();
-                if (result.status === DialogTurnStatus.empty) {
-                    const startMessageText = `Starting ${ dialog.id }.`;
-                    await turnContext.sendActivity({
-                        type: ActivityTypes.Trace,
-                        name: `${ Dialog.name }.run()`,
-                        label: startMessageText
-                    });
-                    result = await dialogContext.beginDialog(dialog.id);
-                }
-
-                // Send end of conversation if it is completed or cancelled.
-                if (result.status === DialogTurnStatus.complete || result.status === DialogTurnStatus.cancelled) {
-                    const endMessageText = `Dialog ${ dialog.id } has **completed**. Sending EndOfConversation.`;
-                    await turnContext.sendActivity({
-                        type: ActivityTypes.Trace,
-                        name: `${ Dialog.name }.run()`,
-                        label: endMessageText
-                    });
-
-                    // Send End of conversation at the end.
-                    const activity: Partial<Activity> = {
-                        type: ActivityTypes.EndOfConversation,
-                        value: result.result
-                    };
-                    await turnContext.sendActivity(activity);
-                }
+                await dialogContext.repromptDialog();
+                return;
             }
-        } else {
-            // The bot is running as a standard bot.
-            const results: DialogTurnResult = await dialogContext.continueDialog();
-            if (results.status === DialogTurnStatus.empty) {
-                await dialogContext.beginDialog(dialog.id);
+        }
+
+        // Continue or start the dialog.
+        let result: DialogTurnResult = await dialogContext.continueDialog();
+        if (result.status === DialogTurnStatus.empty) {
+            result = await dialogContext.beginDialog(dialog.id, undefined);
+        }
+
+        // Skills should send EoC when the dialog completes.
+        if (result.status === DialogTurnStatus.complete || result.status == DialogTurnStatus.cancelled) {
+            if (sendEoCToParent(turnContext)) {
+                const endMessageText = `Dialog ${ dialog.id } has **completed**. Sending EndOfConversation.`;
+                await turnContext.sendActivity({
+                    type: ActivityTypes.Trace,
+                    name: `${ Dialog.name }.run()`,
+                    label: endMessageText,
+                    value: result.result
+                });
+
+                // Send End of conversation at the end.
+                const activity: Partial<Activity> = {
+                    type: ActivityTypes.EndOfConversation,
+                    value: result.result,
+                    locale:  turnContext.activity.locale
+                };
+                await turnContext.sendActivity(activity);
             }
         }
     }
 
-    // We should only cancel the current dialog stack if the EoC activity is coming from a parent (a root bot or another skill).
-    // When the EoC is coming back from a child, we should just process that EoC normally through the 
-    // dialog stack and let the child dialogs handle that.
-    export function isEocComingFromParent(turnContext: TurnContext): boolean {
-        // To determine the direction we check callerId property which is set to the parent bot
-        // by the BotFrameworkHttpClient on outgoing requests.
-        return turnContext.activity.callerId !== undefined && turnContext.activity.callerId.trim().length > 0;
+    // Helper to determine if we should send an EoC to the parent or not.
+    export function sendEoCToParent(turnContext: TurnContext): boolean {
+        const botIdentity = turnContext.turnState.get((turnContext.adapter as any).BotIdentityKey);
+        if (botIdentity instanceof ClaimsIdentity && SkillValidation.isSkillClaim(botIdentity.claims)) {
+            // EoC Activities returned by skills are bounced back to the bot by SkillHandler
+            // In those cases we will have a SkillConversationReference instance is state
+            const skillConversationReference: SkillConversationReference = turnContext.turnState.get(SkillConversationReferenceKey);
+            if (skillConversationReference !== undefined) {
+                // If the skillConversationReference.OAuthScope is for one of the supported channels, we are at the root and we should not send an EoC.
+                return skillConversationReference.oAuthScope !== AuthenticationConstants.ToChannelFromBotOAuthScope && skillConversationReference.oAuthScope !== GovernmentConstants.ToChannelFromBotOAuthScope;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    export function isFromParentToSkill(turnContext: TurnContext): boolean {
+        if (turnContext.turnState.get(SkillConversationReferenceKey) !== undefined) {
+            return false;
+        }
+
+        const botIdentity = turnContext.turnState.get((turnContext.adapter as any).BotIdentityKey);
+        return botIdentity instanceof ClaimsIdentity && SkillValidation.isSkillClaim(botIdentity.claims);
     }
 
     // Recursively walk up the DC stack to find the active DC.
