@@ -139,7 +139,7 @@ luisFolder = args.luisFolder ? sanitizePath(args.luisFolder) : join(outFolder, '
 dispatchFolder = args.dispatchFolder ? sanitizePath(args.dispatchFolder) : join(outFolder, 'Deployment', 'Resources', 'Dispatch');
 
 // lgOutFolder validation
-lgOutFolder = args.lgOutFolder ? sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services') : 'Services'));
+lgOutFolder = args.lgOutFolder ? sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services', 'DispatchLuis.ts') : join('Services', 'DispatchLuis.cs')));
 
 // Initialize an instance of IConnectConfiguration to send the needed arguments to the connectSkill function
 const configuration: IConnectConfiguration = {

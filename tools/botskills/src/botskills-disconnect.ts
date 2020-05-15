@@ -111,7 +111,7 @@ dispatchFolder = args.dispatchFolder ?
 
 // lgOutFolder validation
 lgOutFolder = args.lgOutFolder ?
-    sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services') : 'Services'));
+    sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services', 'DispatchLuis.ts') : join('Services', 'DispatchLuis.cs')));
 
 // End of arguments validation
 // Initialize an instance of IDisconnectConfiguration to send the needed arguments to the disconnectSkill function
