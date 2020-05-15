@@ -121,7 +121,7 @@ namespace VirtualAssistantSample.Dialogs
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
             var activity = innerDc.Context.Activity;
-            
+
             // Get cognitive models for the current locale.
             var localizedServices = _services.GetCognitiveModels();
 
