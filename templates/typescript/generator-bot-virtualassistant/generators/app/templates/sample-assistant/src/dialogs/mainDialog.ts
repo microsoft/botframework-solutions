@@ -43,6 +43,7 @@ import { OnboardingDialog } from './onboardingDialog';
  * Dialog providing activity routing and message/event processing.
  */
 export class MainDialog extends ComponentDialog {
+    private readonly faqDialogId: string = 'faq';
     private readonly services: BotServices;
     private readonly settings: IBotSettings;
     private onBoardingDialog: OnboardingDialog;
@@ -150,10 +151,10 @@ export class MainDialog extends ComponentDialog {
     }
 
     protected async onContinueDialog(innerDc: DialogContext): Promise<DialogTurnResult> {
-        if (innerDc.context.activity.type === ActivityTypes.Message) {
-            // Get cognitive models for the current locale.
-            const localizedServices = this.services.getCognitiveModels();
+        // Get cognitive models for the current locale.
+        const localizedServices = this.services.getCognitiveModels();
 
+        if (innerDc.context.activity.type === ActivityTypes.Message) {
             // Run LUIS recognition and store result in turn state.
             const dispatchResult: RecognizerResult = await localizedServices.dispatchService.recognize(innerDc.context);
             innerDc.context.turnState.set(StateProperties.DispatchResult, dispatchResult);
@@ -179,8 +180,39 @@ export class MainDialog extends ComponentDialog {
 
         // Set up response caching for "repeat" functionality.
         innerDc.context.onSendActivities(this.storeOutgoingActivities.bind(this));
+        if (innerDc.activeDialog?.id === this.faqDialogId) {
+            // user is in a mult turn FAQ dialog
+            const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(this.faqDialogId, localizedServices);
+            if (qnaDialog !== undefined) {
+                this.dialogs.add(qnaDialog);
+            }
+        }
 
         return await super.onContinueDialog(innerDc);
+    }
+
+    protected tryCreateQnADialog(knowledgebaseId: string, cognitiveModels: ICognitiveModelSet): QnAMakerDialog | undefined {
+        const qnaEndpoint: QnAMakerEndpoint | undefined = cognitiveModels.qnaConfiguration.get(knowledgebaseId);
+        if (qnaEndpoint === undefined) {
+            throw new Error(`Could not find QnA Maker knowledge base configuration with id: ${ knowledgebaseId }.`);
+        }
+
+        // QnAMaker dialog already present on the stack?
+        if (this.dialogs.find(knowledgebaseId) !== undefined) {
+            return new QnAMakerDialog(
+                qnaEndpoint.knowledgeBaseId,
+                qnaEndpoint.endpointKey,
+                qnaEndpoint.host,
+                this.templateManager.generateActivityForLocale('UnsupportedMessage') as Activity,
+                undefined,
+                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle').text,
+                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText').text,
+                undefined,
+                undefined,
+                undefined,
+                knowledgebaseId
+            );
+        }
     }
 
     private async interruptDialog(innerDc: DialogContext): Promise<boolean> {
@@ -319,6 +351,9 @@ export class MainDialog extends ComponentDialog {
         const userProfile: IUserProfileState = await this.userProfileState.get(stepContext.context, { name: '' });
 
         if (activity.text !== undefined && activity.text.trim().length > 0) {
+            // Get cognitive models for the current locale.
+            const localizedServices = this.services.getCognitiveModels();
+
             // Get dispatch result from turn state.
             const dispatchResult: RecognizerResult = stepContext.context.turnState.get(StateProperties.DispatchResult);
             const dispatchIntent: string = LuisRecognizer.topIntent(dispatchResult);
@@ -333,6 +368,12 @@ export class MainDialog extends ComponentDialog {
                 return await stepContext.beginDialog(dispatchIntentSkill, skillDialogArgs);      
             } else if (dispatchIntent === 'q_faq') {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
+                
+                const knowledgebaseId: string = this.faqDialogId;
+                const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(knowledgebaseId, localizedServices);
+                if (qnaDialog !== undefined) {
+                    this.dialogs.add(qnaDialog);
+                }
                 
                 return await stepContext.beginDialog('faq');
             } else if (this.shouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore)) {
