@@ -35,7 +35,7 @@
     "devDependencies": {
         "@types/i18next-node-fs-backend": "^0.0.30",
         "@types/node": "^10.10.1",
-        "@types/restify": "^7.2.4",
+        "@types/restify": "^8.4.2",
         "@typescript-eslint/eslint-plugin": "^2.0.0",
         "@typescript-eslint/parser": "^2.0.0",
         "copyfiles": "^2.1.0",
