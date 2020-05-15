@@ -70,6 +70,9 @@ export class RefreshSkill {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
                 luisGenerateCommand.push(...[argument, argumentValue]);
             });
+
+            // Force the bf luis:generate to overwrite the output file if it already exists
+            luisGenerateCommand.push('--force');
             await this.runCommand(luisGenerateCommand, `Executing luisgen for the ${ dispatchName } file`);
         } catch (err) {
             throw new Error(`There was an error in the bf luis:generate:${ this.configuration.lgLanguage } command:\nCommand: ${ luisGenerateCommand.join(' ') }\n${ err }`);
