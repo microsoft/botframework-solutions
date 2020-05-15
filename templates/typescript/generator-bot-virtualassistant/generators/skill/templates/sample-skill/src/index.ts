@@ -20,8 +20,7 @@ import {
 import {
     ICognitiveModelConfiguration,
     Locales,
-    LocaleTemplateManager,
-    manifestGenerator } from 'bot-solutions';
+    LocaleTemplateManager } from 'bot-solutions';
 import i18next from 'i18next';
 import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
@@ -169,6 +168,7 @@ const server: restify.Server = restify.createServer({ maxParamLength: 1000 });
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
 server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.queryParser());
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || '3980', (): void => {
@@ -192,21 +192,4 @@ server.get('/api/messages', async (req: restify.Request, res: restify.Response):
         // route to bot activity handler.
         await bot.run(turnContext);
     });
-});
-
-// Listen for incoming assistant requests
-server.post('/api/skill/messages', async (req: restify.Request, res: restify.Response): Promise<void> => {
-    // Route received a request to adapter for processing
-    await adapter.processActivity(req, res, async (turnContext: TurnContext): Promise<void> => {
-        // route to bot activity handler.
-        await bot.run(turnContext);
-    });
-});
-
-const manifestPath: string = join(__dirname, 'manifestTemplate.json');
-server.use(restify.plugins.queryParser());
-server.get('/api/skill/manifest', manifestGenerator(manifestPath, botSettings));
-// PENDING
-server.get('/api/skill/ping', async (req: restify.Request, res: restify.Response): Promise<void> => {
-    // await authentication.authenticate(req, res);
 });

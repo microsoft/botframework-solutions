@@ -23,8 +23,10 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
     var finalConfirmation;
     var run = true;
     var packageJSON;
-    var manifestTemplate;
-    const manifestTemplatePath = join(`src`, `manifestTemplate.json`);
+    var manifest1_0;
+    var manifest1_1;
+    const manifestPath1_0 = join(`src`, `manifest`, `manifest-1.0.json`);
+    const manifestPath1_1 = join(`src`, `manifest`, `manifest-1.1.json`);
     const testCognitiveModelsPath = join(`test`, `mocks`, `resources`, `cognitiveModels.json`);
 
     const templatesFiles = [
@@ -32,7 +34,8 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
         `.eslintrc.json`,
         `.gitignore`,
         `.nycrc`,
-        manifestTemplatePath,
+        manifestPath1_0,
+        manifestPath1_1,
         testCognitiveModelsPath
     ];
 
@@ -91,7 +94,8 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
             });;
 
             packageJSON = require(join(skillGenerationPath, skillName, `package.json`));
-            manifestTemplate = require(join(skillGenerationPath, skillName, manifestTemplatePath));
+            manifest1_0 = require(join(skillGenerationPath, skillName, manifestPath1_0));
+            manifest1_1 = require(join(skillGenerationPath, skillName, manifestPath1_1));
         });
 
         after(function() {
@@ -130,29 +134,56 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
             );
         });
 
-        describe(`and have in the manifestTemplate.json`, function() {
+        describe(`and have in the manifest-1.0.json`, function() {
             it(`an id property with the given name`, function(done) {
-                assert.strictEqual(manifestTemplate.id, skillNameCamelCase);
+                assert.strictEqual(manifest1_0.$id, skillNameCamelCase);
                 done();
             });
 
             it(`a name property with given name`, function(done) {
-                assert.strictEqual(manifestTemplate.name, skillNameCamelCase);
+                assert.strictEqual(manifest1_0.name, skillNameCamelCase);
                 done();
             });
 
-            it(`an id of an action property with given name`, function(done) {
-                assert.strictEqual(manifestTemplate.actions[0].id, `${skillNameCamelCase}_Sample`);
+            it(`a description with given name`, function(done) {
+                assert.strictEqual(manifest1_0.description, `${skillNameCamelCase} description`);
                 done();
             });
 
-            it(`a description definition of an action property with given name`, function(done) {
-                assert.strictEqual(manifestTemplate.actions[0].definition.description, `${skillNameCamelCase} action with no slots`);
+            it(`an iconUrl value with given name`, function(done) {
+                assert.strictEqual(manifest1_0.iconUrl, `https://{YOUR_SKILL_URL}/${skillNameCamelCase}.png`);
                 done();
             });
 
-            it(`an utterance source with given name`, function(done) {
-                assert.strictEqual(manifestTemplate.actions[0].definition.triggers.utteranceSources[0].source[0], `${skillNameCamelCase}#Sample`);
+            it(`a description definition of an endpoint with given name`, function(done) {
+                assert.strictEqual(manifest1_0.endpoints[0].description, `Production endpoint for the ${skillNameCamelCase}`);
+                done();
+            });
+        });
+
+        describe(`and have in the manifest-1.1.json`, function() {
+            it(`an id property with the given name`, function(done) {
+                assert.strictEqual(manifest1_1.$id, skillNameCamelCase);
+                done();
+            });
+
+            it(`a name property with given name`, function(done) {
+                assert.strictEqual(manifest1_1.name, skillNameCamelCase);
+                done();
+            });
+
+            it(`a description with given name`, function(done) {
+                assert.strictEqual(manifest1_1.description, `${skillNameCamelCase} description`);
+                done();
+            });
+
+            it(`an iconUrl value with given name`, function(done) {
+                assert.strictEqual(manifest1_1.iconUrl, `https://{YOUR_SKILL_URL}/${skillNameCamelCase}.png`);
+                done();
+            });
+
+            it(`a description definition of an endpoint with given name`, function(done) {
+                assert.strictEqual(manifest1_1.endpoints[0].description, `Production endpoint for the ${skillNameCamelCase}`);
                 done();
             });
         });
