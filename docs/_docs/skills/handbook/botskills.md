@@ -59,7 +59,7 @@ Once the connect command finish successfully, you can see under the `botFramewor
     "skillHostEndpoint": "<VA-SKILL_ENDPOINT>"
 ```
 
-For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/connect.md).
+For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/connect.md).
 
 ### Disconnect Skills
 {:.no_toc}
@@ -71,7 +71,7 @@ Here is an example:
 botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
 
-For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/disconnect.md).
+For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/disconnect.md).
 
 > Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
 
@@ -85,7 +85,7 @@ Here is an example:
 botskills update --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 ```
 
-For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/update.md).
+For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/update.md).
 
 ### Refresh connected Skills
 {:.no_toc}
@@ -97,7 +97,7 @@ Here is an example:
 botskills refresh --cs
 ```
 
-For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/refresh.md).
+For further information, see the [Refresh command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/refresh.md).
 
 ### List connected Skills
 {:.no_toc}
@@ -109,4 +109,4 @@ Here is an example:
 botskills list
 ```
 
-For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
