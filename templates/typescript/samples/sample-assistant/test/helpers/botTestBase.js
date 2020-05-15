@@ -6,7 +6,7 @@
 const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
-const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
+const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, BotFrameworkSkill } = require('botbuilder');
 const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
@@ -97,8 +97,8 @@ async function getTestAdapterDefault(settings) {
     const previousResponseAccesor = userState.createProperty('Activity');
     const switchSkillDialog = new SwitchSkillDialog(conversationState);
     const skillsConfig = new SkillsConfiguration([], '');
+    const activeSkillProperty = conversationState.createProperty('BotFrameworkSkill');
     const mainDialog = new MainDialog(
-        botSettings,
         botServices,
         templateManager,
         userProfileStateAccesor,
@@ -107,7 +107,7 @@ async function getTestAdapterDefault(settings) {
         switchSkillDialog,
         skillDialogs,
         skillsConfig,
-        telemetryClient
+        activeSkillProperty
     );
 
     const botLogic = new DefaultActivityHandler(conversationState, userState, templateManager, mainDialog);
