@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { IEnhancedBotFrameworkSkill } from './enhancedBotFrameworkSkill';
+import { IEnhancedBotFrameworkSkill } from './models/enhancedBotFrameworkSkill';
 
 /**
  * A helper class that loads Skills information from configuration.

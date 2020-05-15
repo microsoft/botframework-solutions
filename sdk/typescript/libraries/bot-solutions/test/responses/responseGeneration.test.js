@@ -5,8 +5,8 @@
 const { join } = require("path");
 const { strictEqual } = require("assert");
 const { InputHints } = require("botframework-schema");
-const { TestResponses } = require(join(__dirname, "helpers", "testResponses"));
-const { ResponseManager } = require(join("..", "lib", "responses", "responseManager"));
+const { TestResponses } = require(join(__dirname, "..", "helpers", "testResponses"));
+const { ResponseManager } = require(join("..", "..", "lib", "responses", "responseManager"));
 
 describe("response generation", function() {
     

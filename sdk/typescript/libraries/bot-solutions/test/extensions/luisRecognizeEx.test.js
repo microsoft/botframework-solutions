@@ -5,9 +5,9 @@
 
 const { strictEqual } = require("assert");
 const { join } = require("path");
-const { SkillLuis } = require(join(__dirname, "helpers", "skillLuis"));
-const { LuisRecognizerEx } = require(join("..", "lib", "extensions", "luisRecognizerEx"));
-const { SentimentType } = require(join("..", "lib", "models", "sentimentType"));
+const { SkillLuis } = require(join("..", "helpers", "skillLuis"));
+const { LuisRecognizerEx } = require(join("..", "..", "lib", "extensions", "luisRecognizerEx"));
+const { SentimentType } = require(join("..", "..", "lib", "models", "sentimentType"));
 const sentiment = "sentiment";
 
 describe("luis recognize extensions", function() {
