@@ -29,12 +29,13 @@ namespace $safeprojectname$.Dialogs
     {
         // Conversation state property with the active skill (if any).
         public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
+        private const string FaqDialogId = "Faq";
 
+        private readonly LocaleTemplateManager _templateManager;
         private readonly BotServices _services;
         private readonly OnboardingDialog _onboardingDialog;
         private readonly SwitchSkillDialog _switchSkillDialog;
         private readonly SkillsConfiguration _skillsConfig;
-        private readonly LocaleTemplateManager _templateManager;
         private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
         private readonly IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
@@ -121,11 +122,11 @@ namespace $safeprojectname$.Dialogs
         {
             var activity = innerDc.Context.Activity;
 
+            // Get cognitive models for the current locale.
+            var localizedServices = _services.GetCognitiveModels();
+
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
-                // Get cognitive models for the current locale.
-                var localizedServices = _services.GetCognitiveModels();
-
                 // Run LUIS recognition and store result in turn state.
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.DispatchResult, dispatchResult);
@@ -149,7 +150,52 @@ namespace $safeprojectname$.Dialogs
 
             // Set up response caching for "repeat" functionality.
             innerDc.Context.OnSendActivities(StoreOutgoingActivitiesAsync);
+            if (innerDc.ActiveDialog.Id == FaqDialogId)
+            {
+                // user is in a mult turn FAQ dialog
+                var qnaDialog = TryCreateQnADialog(FaqDialogId, localizedServices);
+                if (qnaDialog != null)
+                {
+                    Dialogs.Add(qnaDialog);
+                }
+            }
+
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
+        }
+
+        /// <summary>
+        /// Creates a QnAMaker dialog for the correct locale if it's not already present on the dialog stack.
+        /// Virtual method enables test mock scenarios.
+        /// </summary>
+        /// <param name="knowledgebaseId">Knowledgebase Identifier.</param>
+        /// <param name="cognitiveModels">CognitiveModelSet configuration information.</param>
+        /// <returns>QnAMakerDialog instance.</returns>
+        protected virtual QnAMakerDialog TryCreateQnADialog(string knowledgebaseId, CognitiveModelSet cognitiveModels)
+        {
+            if (!cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint)
+                || qnaEndpoint == null)
+            {
+                throw new Exception($"Could not find QnA Maker knowledge base configuration with id: {knowledgebaseId}.");
+            }
+
+            // QnAMaker dialog already present on the stack?
+            if (Dialogs.Find(knowledgebaseId) == null)
+            {
+                return new QnAMakerDialog(
+                    knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
+                    endpointKey: qnaEndpoint.EndpointKey,
+                    hostName: qnaEndpoint.Host,
+                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
+                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
+                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
+                {
+                    Id = knowledgebaseId
+                };
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private async Task<bool> InterruptDialogAsync(DialogContext innerDc, CancellationToken cancellationToken)
@@ -333,17 +379,27 @@ namespace $safeprojectname$.Dialogs
                 {
                     stepContext.SuppressCompletionMessage(true);
 
-                    var knowledgebaseId = "Faq";
-                    RegisterQnADialog(knowledgebaseId, localizedServices);
+                    var knowledgebaseId = FaqDialogId;
+                    var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
+                    if (qnaDialog != null)
+                    {
+                        Dialogs.Add(qnaDialog);
+                    }
+
                     return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
                 }
 
-                if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
+                if (ShouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore))
                 {
                     stepContext.SuppressCompletionMessage(true);
 
                     var knowledgebaseId = "Chitchat";
-                    RegisterQnADialog(knowledgebaseId, localizedServices);
+                    var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
+                    if (qnaDialog != null)
+                    {
+                        Dialogs.Add(qnaDialog);
+                    }
+
                     return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
                 }
 
@@ -411,42 +467,54 @@ namespace $safeprojectname$.Dialogs
             return await next();
         }
 
-        private void RegisterQnADialog(string knowledgebaseId, CognitiveModelSet cognitiveModels)
-        {
-            if (!cognitiveModels.QnAConfiguration.TryGetValue(knowledgebaseId, out QnAMakerEndpoint qnaEndpoint)
-                || qnaEndpoint == null)
-            {
-                throw new Exception($"Could not find QnA Maker knowledge base configuration with id: {knowledgebaseId}.");
-            }
-
-            if (Dialogs.Find(knowledgebaseId) == null)
-            {
-                var qnaDialog = new QnAMakerDialog(
-                    knowledgeBaseId: qnaEndpoint.KnowledgeBaseId,
-                    endpointKey: qnaEndpoint.EndpointKey,
-                    hostName: qnaEndpoint.Host,
-                    noAnswer: _templateManager.GenerateActivityForLocale("UnsupportedMessage"),
-                    activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
-                    cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
-                {
-                    Id = knowledgebaseId
-                };
-
-                AddDialog(qnaDialog);
-            }
-        }
-
         private bool IsSkillIntent(DispatchLuis.Intent dispatchIntent)
         {
             if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_General.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
-                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Chitchat.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// A simple set of heuristics to govern if we should invoke the personality <see cref="QnAMakerDialog"/>.
+        /// </summary>
+        /// <param name="stepContext">Current dialog context.</param>
+        /// <param name="dispatchIntent">Intent that Dispatch thinks should be invoked.</param>
+        /// <param name="dispatchScore">Confidence score for intent.</param>
+        /// <param name="threshold">User provided threshold between 0.0 and 1.0, if above this threshold do NOT show chitchat.</param>
+        /// <returns>A <see cref="bool"/> indicating if we should invoke the personality dialog.</returns>
+        private bool ShouldBeginChitChatDialog(WaterfallStepContext stepContext, DispatchLuis.Intent dispatchIntent, double dispatchScore, double threshold = 0.5)
+        {
+            if (threshold < 0.0 || threshold > 1.0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(threshold));
+            }
+
+            if (dispatchIntent == DispatchLuis.Intent.None)
+            {
+                return true;
+            }
+
+            if (dispatchIntent == DispatchLuis.Intent.l_General)
+            {
+                // If dispatch classifies user query as general, we should check against the cached general Luis score instead.
+                var generalResult = stepContext.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
+                if (generalResult != null)
+                {
+                    (var _, var generalScore) = generalResult.TopIntent();
+                    return generalScore < threshold;
+                }
+            }
+            else if (dispatchScore < threshold)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

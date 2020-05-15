@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace $safeprojectname$
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Help)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
@@ -47,14 +48,18 @@ namespace $safeprojectname$
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Escalate)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
         }
 
+        /// <summary>
+        /// ChitChat is the default fallback which will not be configured at functional test time so a mock ensures QnAMaker returns no answer
+        /// enabling the unsupported message to be returned.
+        /// </summary>
+        /// <returns>Task.</returns>
         [TestMethod]
-        [Ignore("the LG template 'UnsupportedMessage' has randomly generated response which makes this test unreliable")]
         public async Task Test_Unhandled_Message()
         {
             var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
@@ -62,9 +67,9 @@ namespace $safeprojectname$
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send("Unhandled message")
-                .AssertReplyOneOf(allResponseVariations.ToArray())
+                 .AssertReplyOneOf(allResponseVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
     }
