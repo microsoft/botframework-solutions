@@ -52,7 +52,7 @@ public class SpeechSdk {
 
     // CONSTANTS
     private static final String LOGTAG = "SpeechSdk";
-    public static final String SPEECHSDKLOGFILENAME = "speechsdk.log";
+    public static final String SPEECHSDKLOGFILENAME = "SpeechSdk.log";
     public static final String APPLOGFILENAME = "app.log";
     private final int RESPONSE_TIMEOUT_PERIOD_MS = 15 * 1000;
 
