@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +50,13 @@ namespace $safeprojectname$.Bots
 
         protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            // directline speech occasionally sends empty message activities that should be ignored
+            var activity = turnContext.Activity;
+            if (activity.ChannelId == Channels.DirectlineSpeech && activity.Type == ActivityTypes.Message && string.IsNullOrEmpty(activity.Text))
+            {
+                return Task.CompletedTask;
+            }
+
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 

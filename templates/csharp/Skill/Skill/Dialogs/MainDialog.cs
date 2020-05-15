@@ -215,12 +215,12 @@ namespace $safeprojectname$.Dialogs
 
                     switch (intent)
                     {
-                    case $safeprojectname$Luis.Intent.Sample:
+                        case $safeprojectname$Luis.Intent.Sample:
                             {
-                            return await stepContext.BeginDialogAsync(_sampleDialog.Id, cancellationToken: cancellationToken);
+                                return await stepContext.BeginDialogAsync(_sampleDialog.Id, cancellationToken: cancellationToken);
                             }
 
-                    case $safeprojectname$Luis.Intent.None:
+                        case $safeprojectname$Luis.Intent.None:
                         default:
                             {
                                 // intent was identified but not yet implemented

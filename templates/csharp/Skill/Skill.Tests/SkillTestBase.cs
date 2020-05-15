@@ -129,7 +129,7 @@ namespace $safeprojectname$
                        Path.Combine(".", "Responses", $"AllResponses.lg") :
                        Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
 
-            return Templates.ParseFile(path).ExpandTemplate(name, data).ToArray();
+            return Templates.ParseFile(path).ExpandTemplate(name, data).Cast<string>().ToArray();
         }
     }
 }
