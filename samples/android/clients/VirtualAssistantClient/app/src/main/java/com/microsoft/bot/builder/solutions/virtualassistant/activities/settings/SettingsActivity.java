@@ -57,6 +57,7 @@ public class SettingsActivity extends BaseActivity {
     @BindView(R.id.user_id) TextInputEditText userId;
     @BindView(R.id.locale) TextInputEditText locale;
     @BindView(R.id.history_linecount) TextInputEditText historyLinecount;
+    @BindView(R.id.switch_enable_sdk_logging) SwitchCompat switchEnableSdkLogging;
     @BindView(R.id.spinner_timezone) Spinner spinnerTimezone;
     @BindView(R.id.color_picker_bot) View colorPickedBot;
     @BindView(R.id.color_picker_user) View colorPickedUser;
@@ -327,6 +328,7 @@ public class SettingsActivity extends BaseActivity {
         customSpeechRecognitionEndpointId.setText(configuration.customSpeechRecognitionEndpointId);
         userId.setText(configuration.userId);
         locale.setText(configuration.locale);
+        switchEnableSdkLogging.setChecked(configuration.speechSdkLogEnabled);
 
         // timezone
         selectTimezone(configuration.currentTimezone);
@@ -406,6 +408,7 @@ public class SettingsActivity extends BaseActivity {
         configuration.customSpeechRecognitionEndpointId = customSpeechRecognitionEndpointId.getText().toString();
         configuration.userId = userId.getText().toString();
         configuration.locale = locale.getText().toString();
+        configuration.speechSdkLogEnabled = switchEnableSdkLogging.isChecked();
 
         // timezone
         configuration.currentTimezone = (String)tzAdapter.getItem(spinnerTimezone.getSelectedItemPosition());

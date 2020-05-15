@@ -65,8 +65,11 @@ public class ConfigurationManager {
         if (configuration.customSpeechRecognitionEndpointId == null) {
             configuration.customSpeechRecognitionEndpointId = defaultConfiguration.customSpeechRecognitionEndpointId;
         }
+        if (configuration.speechSdkLogEnabled == null) {
+            configuration.speechSdkLogEnabled = defaultConfiguration.speechSdkLogEnabled;
+        }
         if (configuration.bargeInSupported == null) {
-            configuration.bargeInSupported = defaultConfiguration.bargeInSupported;
+            configuration.bargeInSupported = false;
         }
         if (configuration.userId == null) {
             configuration.userId = defaultConfiguration.userId;
@@ -81,7 +84,7 @@ public class ConfigurationManager {
             configuration.keyword = defaultConfiguration.keyword;
         }
         if (configuration.enableKWS == null) {
-            configuration.enableKWS = defaultConfiguration.enableKWS;
+            configuration.enableKWS = false;
         }
         if (configuration.linkedAccountEndpoint == null) {
             configuration.linkedAccountEndpoint = defaultConfiguration.linkedAccountEndpoint;

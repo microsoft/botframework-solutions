@@ -4,6 +4,7 @@
   "custom_commands_app_id": "",
   "custom_voice_deployment_ids": "",
   "custom_speech_recognition_endpoint_id": "",
+  "SpeechSDKLogEnabled": false,
   "user_id": "android",
   "user_name": "Android",
   "locale": "en-us",

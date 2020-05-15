@@ -219,7 +219,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void initializeAndConnect(){
         if (speechServiceBinder != null) {
             try {
-                //speechServiceBinder.initializeSpeechSdk(true);
+                boolean havePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+                speechServiceBinder.initializeSpeechSdk(havePermission);
                 speechServiceBinder.connectAsync();
             } catch (RemoteException exception){
                 Log.e(LOGTAG, exception.getMessage());

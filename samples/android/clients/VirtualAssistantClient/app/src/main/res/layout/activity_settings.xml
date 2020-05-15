@@ -154,6 +154,25 @@
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
+            <!-- SPEECH SDK LOGGING SWITCH -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <TextView
+                    style="@style/TextView.InputLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/configuration_enable_sdk_logging" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switch_enable_sdk_logging"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
             <!-- TIMEZONE & LOCATION -->
             <LinearLayout
                 android:layout_width="match_parent"

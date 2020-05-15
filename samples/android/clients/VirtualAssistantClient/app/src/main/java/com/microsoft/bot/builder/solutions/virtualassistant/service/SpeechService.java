@@ -379,7 +379,7 @@ public class SpeechService extends Service {
             speechSdk.reset();
         }
         speechSdk = new SpeechSdk();
-        File directory = getFilesDir();
+        File directory = getExternalFilesDir(null);
         Configuration configuration = configurationManager.getConfiguration();
         speechSdk.initialize(configuration, haveRecordAudioPermission, directory.getPath());
         if (configuration.enableKWS) {
