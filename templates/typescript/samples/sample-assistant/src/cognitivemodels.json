@@ -2,33 +2,34 @@
   "cognitiveModels": {
     "en-us": {
       "dispatchModel": {
-        "authoringKey": "",
         "appId": "",
+        "authoringKey": "",
+        "authoringRegion": "",
         "name": "",
-        "subscriptionKey": "",
         "region": "",
-        "authoringRegion": ""
+        "subscriptionKey": "",
+        "type": "dispatch"
       },
       "languageModels": [
         {
-          "subscriptionKey": "",
           "appId": "",
-          "id": "",
-          "version": "",
-          "region": "",
-          "name": "",
           "authoringKey": "",
-          "authoringRegion": ""
+          "authoringRegion": "",
+          "id": "",
+          "name": "",
+          "region": "",
+          "subscriptionKey": "",
+          "version": ""
         }
       ],
       "knowledgeBases": [
         {
           "endpointKey": "",
-          "kbId": "",
           "hostname": "",
-          "subscriptionKey": "",
+          "id": "",
+          "kbId": "",
           "name": "",
-          "id": ""
+          "subscriptionKey": ""
         }
       ]
     }

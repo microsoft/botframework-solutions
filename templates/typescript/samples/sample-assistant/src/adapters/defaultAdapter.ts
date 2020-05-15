@@ -17,7 +17,6 @@ import { AzureBlobTranscriptStore } from 'botbuilder-azure';
 import {
     EventDebuggerMiddleware,
     FeedbackMiddleware,
-    ISkillManifest,
     LocaleTemplateManager,
     SetLocaleMiddleware, 
     SetSpeakMiddleware,
@@ -26,7 +25,6 @@ import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IBotSettings } from '../services/botSettings.js';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
-    public readonly skills: ISkillManifest[] = [];
 
     public constructor(
         settings: Partial<IBotSettings>,

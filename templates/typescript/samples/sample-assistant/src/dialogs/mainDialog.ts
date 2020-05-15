@@ -36,7 +36,8 @@ import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'bot
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
-import { OnboardingDialog, StateProperties } from './onboardingDialog';
+import { StateProperties } from '../models/stateProperties';
+import { OnboardingDialog } from './onboardingDialog';
 
 /**
  * Dialog providing activity routing and message/event processing.
