@@ -235,21 +235,21 @@ public class SpeechSdk {
 
         if (configuration.customCommandsAppId == null || configuration.customCommandsAppId.isEmpty()) {
             dialogServiceConfig = BotFrameworkConfig.fromSubscription(
-                    configuration.serviceKey,
-                    configuration.serviceRegion);
+                    configuration.speechSubscriptionKey,
+                    configuration.speechRegion);
         } else {
             dialogServiceConfig = CustomCommandsConfig.fromSubscription(
                     configuration.customCommandsAppId,
-                    configuration.serviceKey,
-                    configuration.serviceRegion);
+                    configuration.speechSubscriptionKey,
+                    configuration.speechRegion);
         }
 
-        dialogServiceConfig.setProperty("SPEECH-RecoLanguage", configuration.locale);
+        dialogServiceConfig.setProperty("SPEECH-RecoLanguage", configuration.srLanguage);
         if (!(configuration.customVoiceDeploymentIds == null || configuration.customVoiceDeploymentIds.isEmpty())) {
             dialogServiceConfig.setProperty(PropertyId.Conversation_Custom_Voice_Deployment_Ids, configuration.customVoiceDeploymentIds);
         }
-        if (!(configuration.customSpeechRecognitionEndpointId == null || configuration.customSpeechRecognitionEndpointId.isEmpty())) {
-            dialogServiceConfig.setServiceProperty("cid", configuration.customSpeechRecognitionEndpointId, ServicePropertyChannel.UriQueryParameter);
+        if (!(configuration.customSREndpointId == null || configuration.customSREndpointId.isEmpty())) {
+            dialogServiceConfig.setServiceProperty("cid", configuration.customSREndpointId, ServicePropertyChannel.UriQueryParameter);
         }
         if (configuration.speechSdkLogEnabled) dialogServiceConfig.setProperty(PropertyId.Speech_LogFilename, localSpeechSdkLogFile.getAbsolutePath());;
 
@@ -459,7 +459,7 @@ public class SpeechSdk {
     private client.model.Activity createEventActivity(String eventname, Object channelData, Object value) {
         client.model.Activity activity = new client.model.Activity();
         activity.setType(ActivityTypes.EVENT);
-        activity.setLocale(configuration.locale);
+        activity.setLocale(configuration.srLanguage);
         if (from_user != null) activity.setFrom(from_user);
         activity.setChannelData(channelData);
         activity.setName(eventname);
