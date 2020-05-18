@@ -11,6 +11,7 @@ Param(
     [string] $luisAuthoringKey,
     [string] $luisAuthoringRegion,
     [string] $armLuisAuthoringRegion,
+    [string] $luisEndpoint,
     [switch] $useGov,
 	[string] $languages = "en-us",
     [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
@@ -83,6 +84,7 @@ if (-not $luisAuthoringKey) {
 
         if ($confirmCreateKey -ne 'y') {
             $luisAuthoringKey = Read-Host "? LUIS Authoring Key"
+            $luisEndpoint = Read-Host "? LUIS Endpoint"
             $createLuisAuthoring = $false
         }
         else {
@@ -92,6 +94,9 @@ if (-not $luisAuthoringKey) {
 }
 else {
     $createLuisAuthoring = $false
+    if (-not $luisEndpoint) {
+        $luisEndpoint = Read-Host "? LUIS Endpoint"
+    }
 }
 
 if (-not $luisAuthoringRegion) {
@@ -218,8 +223,9 @@ if ($outputs)
 	$outputMap = @{}
 	$outputs.PSObject.Properties | Foreach-Object { $outputMap[$_.Name] = $_.Value }
 
-    # Update AD app with homepage
-    az ad app update --id $appId --homepage "https://$($outputs.botWebAppName.value).azurewebsites.net"
+	# Update AD app with homepage
+	$botWebAppUrl = "https://$($outputs.botWebAppName.value).azurewebsites.net"
+	az ad app update --id $appId --homepage $botWebAppUrl
 
 	# Update appsettings.json
 	Write-Host "> Updating appsettings.json ..." -NoNewline
@@ -245,6 +251,7 @@ if ($outputs)
 	
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
     if (-not $luisAuthoringKey) { $luisAuthoringKey = $outputs.luis.value.authoringKey }
+    if (-not $luisEndpoint) { $luisEndpoint = $outputs.luis.value.endpoint }
     
     Write-Host "Done." -ForegroundColor Green
 
@@ -253,10 +260,10 @@ if ($outputs)
 
 	# Deploy cognitive models
     if ($useGov) {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)' -useGov"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($outputs.luis.value.endpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)' -useGov"
     }
     else {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)'"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($projDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($outputs.luis.value.endpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)'"
     }
 	
     # Publish bot
@@ -270,6 +277,9 @@ if ($outputs)
 	Write-Host "    - Microsoft App Password: $($appPassword)" -ForegroundColor Magenta
 
 	Write-Host "> Deployment complete." -ForegroundColor Green
+
+	Write-Host "Test your deployed bot on the bot framework emulator with the following link (copy and paste link into windows -> run to open the emulator with your deployed bot configured)" -ForegroundColor Green
+	Write-Host "bfemulator://livechat.open?botUrl=$($botWebAppUrl)/api/messages&msaAppId=$($appId)&msaAppPassword=$($appPassword)" -ForegroundColor Green
 }
 else
 {

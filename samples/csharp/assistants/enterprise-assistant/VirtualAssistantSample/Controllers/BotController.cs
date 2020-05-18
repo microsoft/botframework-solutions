@@ -12,10 +12,10 @@ namespace VirtualAssistantSample.Controllers
     [ApiController]
     public class BotController : ControllerBase
     {
-        private readonly IBotFrameworkHttpAdapter _adapter;
+        private readonly BotFrameworkHttpAdapter _adapter;
         private readonly IBot _bot;
 
-        public BotController(IBotFrameworkHttpAdapter httpAdapter, IBot bot)
+        public BotController(BotFrameworkHttpAdapter httpAdapter, IBot bot)
         {
             _adapter = httpAdapter;
             _bot = bot;

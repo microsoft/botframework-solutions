@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
@@ -14,19 +15,19 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
     [TestCategory("UnitTests")]
     public class LanguageGenerationTests
     {
-        private Dictionary<string, List<string>> localeLgFiles;
-        private LocaleTemplateEngineManager localeTemplateEngineManager;
+        private Dictionary<string, string> localeLgFiles;
+        private LocaleTemplateManager localeTemplateEngineManager;
 
         [TestInitialize]
         public void Setup()
         {
-            localeLgFiles = new Dictionary<string, List<string>>
+            localeLgFiles = new Dictionary<string, string>
             {
-                { "en-us", new List<string>() { Path.Combine(".", "Responses", "TestResponses.lg") } },
-                { "es-es", new List<string>() { Path.Combine(".", "Responses", "TestResponses.es.lg") } },
+                { "en", Path.Combine(".", "Responses", "TestResponses.lg") },
+                { "es", Path.Combine(".", "Responses", "TestResponses.es.lg") },
             };
 
-            localeTemplateEngineManager = new LocaleTemplateEngineManager(localeLgFiles, "en-us");
+            localeTemplateEngineManager = new LocaleTemplateManager(localeLgFiles, "en");
         }
 
         [TestMethod]
@@ -41,7 +42,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
             var response = localeTemplateEngineManager.GenerateActivityForLocale("HaveNameMessage", data);
 
             // Retrieve possible responses directly from the correct template to validate logic
-            var possibleResponses = localeTemplateEngineManager.TemplateEnginesPerLocale["en-us"].ExpandTemplate("HaveNameMessage", data);
+            var possibleResponses = Templates.ParseFile(localeLgFiles["en"]).ExpandTemplate("HaveNameMessage", data);
 
             Assert.IsTrue(possibleResponses.Contains(response.Text));
 
@@ -60,7 +61,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
             var response = localeTemplateEngineManager.GenerateActivityForLocale("HaveNameMessage", data);
 
             // Retrieve possible responses directly from the correct template to validate logic
-            var possibleResponses = localeTemplateEngineManager.TemplateEnginesPerLocale["es-es"].ExpandTemplate("HaveNameMessage", data);
+            var possibleResponses = Templates.ParseFile(localeLgFiles["es"]).ExpandTemplate("HaveNameMessage", data);
 
             Assert.IsTrue(possibleResponses.Contains(response.Text));
 
@@ -82,7 +83,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
 
             // Retrieve possible responses directly from the correct template to validate logic
             // Logic should fallback to english due to unsupported locale
-            var possibleResponses = localeTemplateEngineManager.TemplateEnginesPerLocale["en-us"].ExpandTemplate("HaveNameMessage", data);
+            var possibleResponses = Templates.ParseFile(localeLgFiles["en"]).ExpandTemplate("HaveNameMessage", data);
 
             Assert.IsTrue(possibleResponses.Contains(response.Text));
 

@@ -1,0 +1,58 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - master
+    - feature/*
+
+  paths:
+    include:
+    - 'sdk/typescript/libraries/bot-solutions/*'
+
+# By default will disable PR builds
+pr: none
+
+pool:
+  vmImage: 'vs2017-win2016'
+steps:
+- task: NodeTool@0
+  displayName: 'Use Node 10.'
+  inputs:
+    versionSpec: 10.x
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    workingDir: 'sdk/typescript/libraries/bot-solutions'
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm run build'
+  inputs:
+    command: custom
+    workingDir: 'sdk/typescript/libraries/bot-solutions'
+    verbose: false
+    customCommand: 'run build'
+
+- task: Npm@1
+  displayName: 'npm test - coverage'
+  inputs:
+    command: custom
+    workingDir: 'sdk/typescript/libraries/bot-solutions'
+    verbose: false
+    customCommand: 'run test-coverage-ci'
+
+- task: PublishTestResults@2
+  displayName: 'Publish Test Results '
+  inputs:
+    testResultsFiles: 'test-results.xml'
+    searchFolder: 'sdk/typescript/libraries/bot-solutions'
+    failTaskOnFailedTests: true
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage '
+  condition: succeededOrFailed()
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: 'sdk/typescript/libraries/bot-solutions/coverage/cobertura-coverage.xml'
+    reportDirectory: 'sdk/typescript/libraries/bot-solutions/coverage/'

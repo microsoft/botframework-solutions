@@ -93,7 +93,9 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
         "botframework-connector": "^4.8.0"
     ```
 
-1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `botbuilder-solutions`.
+1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `bot-solutions`.
+
+**Note:** Take into account that `botbuilder-solutions` will be deprecated and it should be `bot-solutions@1.0.0` instead following the C# pattern.
 
 1. Within `adapters/defaultAdapter.ts`, add SetSpeakMiddleware into the middleware list of the adapter ensuring Speech scenarios work as expected out of the box.
 
@@ -245,7 +247,7 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
     ActivityTypes,
     BotState } from 'botbuilder';
     import { Dialog, DialogContext, DialogSet, DialogState } from 'botbuilder-dialogs';
-    import { DialogEx, LocaleTemplateEngineManager, TokenEvents } from 'botbuilder-solutions';
+    import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
 
     export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
         private readonly conversationState: BotState;
@@ -255,12 +257,12 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
         private readonly dialog: Dialog;
         private dialogStateAccessor: StatePropertyAccessor;
         private userProfileState: StatePropertyAccessor;
-        private templateEngine: LocaleTemplateEngineManager;
+        private templateEngine: LocaleTemplateManager;
 
         public constructor(
             conversationState: ConversationState,
             userState: UserState,
-            templateEngine: LocaleTemplateEngineManager,
+            templateEngine: LocaleTemplateManager,
             dialog: T) {
             super();
             this.dialog = dialog;
@@ -391,7 +393,7 @@ The Virtual Assistant you are migrating from has to be created with the Virtual 
 1. Within the `index.ts` file, you have to import the following classes/interfaces:
  - `SimpleCredentialProvider` and `AuthenticationConfiguration` classes from `botframework-connector`
  - `ChannelServiceRoutes`, `SkillHandler` classes from `botbuilder`
- - `SkillConversationIdFactory` from `botbuilder-solutions`
+ - `SkillConversationIdFactory` from `bot-solutions`
 
 
 Besides, add the following lines into the plugins list in the `index` file.
@@ -468,7 +470,7 @@ Finally, add the endpoints to handle the response messages from a Skill.
 
     ```typescript
     import { Claim, JwtTokenValidation, SkillValidation } from 'botframework-connector';
-    import { SkillsConfiguration } from 'botbuilder-solutions';
+    import { SkillsConfiguration } from 'bot-solutions';
 
     /**
     * Sample claims validator that loads an allowed list from configuration if present and checks that responses are coming from configured skills.
@@ -667,6 +669,26 @@ Please also refer to the documentation to [Migrate existing skills to the new Sk
         }
     }
     ```
+1. The class `LocaleTemplateEngineManager` has been remamed to `LocaleTemplateManager` and its constructor has been slightly modified. Make sure to rename the instances of `localeTemplateEngineManager` to `localeTemplateManager`.
+
+   In `index.ts`, update the incialization of `LocaleTemplateManager` with the localized responses to this:
+
+	```typescript
+	// Configure localized responses
+	const localizedTemplates: Map<string, string> = new Map<string, string>();
+	const templateFile = 'AllResponses';
+	const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
+
+        supportedLocales.forEach((locale: string) => {
+            // LG template for en-us does not include locale in file extension.
+            const localTemplateFile = locale === 'en-us'
+                ? join(__dirname, 'responses', `${ templateFile }.lg`)
+                : join(__dirname, 'responses', `${ templateFile }.${ locale }.lg`);
+            localizedTemplates.set(locale, localTemplateFile);
+        });
+
+        const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+	```
 
 1. If you have already added skills to your assistant these are stored in `skills.json`. The new Skills configuration section has been simplified and is stored as part of `appSettings.json`. Create a new section as shown below in appSettings.json and update with the configured skills.
 

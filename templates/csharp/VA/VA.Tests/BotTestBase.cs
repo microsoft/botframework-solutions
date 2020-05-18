@@ -8,11 +8,13 @@ using System.Threading;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
-using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,17 +23,33 @@ using $ext_safeprojectname$.Bots;
 using $ext_safeprojectname$.Dialogs;
 using $ext_safeprojectname$.Models;
 using $ext_safeprojectname$.Services;
+using $safeprojectname$.Mocks;
 using $safeprojectname$.Utilities;
 
 namespace $safeprojectname$
 {
     public class BotTestBase
     {
+        private const string _knowledgeBaseId = "Chitchat";
+        private const string _endpointKey = "dummy-key";
+        private const string _hostname = "https://dummy-hostname.azurewebsites.net/qnamaker";
+
         public IServiceCollection Services { get; set; }
 
-        public LocaleTemplateEngineManager LocaleTemplateEngine { get; set; }
+        public LocaleTemplateManager TestLocaleTemplateManager { get; set; }
 
         public UserProfileState TestUserProfileState { get; set; }
+
+        protected Templates AllResponsesTemplates
+        {
+            get
+            {
+                var path = CultureInfo.CurrentUICulture.Name.ToLower() == "en-us" ?
+                    Path.Combine(".", "Responses", $"AllResponses.lg") :
+                    Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
+                return Templates.ParseFile(path);
+            }
+        }
 
         [TestInitialize]
         public virtual void Initialize()
@@ -51,6 +69,17 @@ namespace $safeprojectname$
                             {
                                 { "General", GeneralTestUtil.CreateRecognizer() }
                             },
+                            QnAConfiguration = new Dictionary<string, Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint>
+                            {
+                                {
+                                    "Chitchat", new QnAMakerEndpoint
+                                    {
+                                        KnowledgeBaseId = _knowledgeBaseId,
+                                        EndpointKey = _endpointKey,
+                                        Host = _hostname
+                                    }
+                                }
+                            }
                         }
                     },
                     {
@@ -75,48 +104,33 @@ namespace $safeprojectname$
             Services.AddSingleton(new MicrosoftAppCredentials("appId", "password"));
             Services.AddSingleton(new UserState(new MemoryStorage()));
             Services.AddSingleton(new ConversationState(new MemoryStorage()));
-            Services.AddSingleton(sp =>
-            {
-                var userState = sp.GetService<UserState>();
-                var conversationState = sp.GetService<ConversationState>();
-                return new BotStateSet(userState, conversationState);
-            });
 
             // For localization testing
             CultureInfo.CurrentUICulture = new CultureInfo("en-us");
 
-            var localizedTemplates = new Dictionary<string, List<string>>();
-            var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
+            var localizedTemplates = new Dictionary<string, string>();
+            var templateFile = "AllResponses";
             var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 
             foreach (var locale in supportedLocales)
             {
-                var localeTemplateFiles = new List<string>();
-                foreach (var template in templateFiles)
-                {
-                    // LG template for en-us does not include locale in file extension.
-                    if (locale.Equals("en-us"))
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.lg"));
-                    }
-                    else
-                    {
-                        localeTemplateFiles.Add(Path.Combine(".", "Responses", $"{template}.{locale}.lg"));
-                    }
-                }
+                // LG template for en-us does not include locale in file extension.
+                var localeTemplateFile = locale.Equals("en-us")
+                    ? Path.Combine(".", "Responses", $"{templateFile}.lg")
+                    : Path.Combine(".", "Responses", $"{templateFile}.{locale}.lg");
 
-                localizedTemplates.Add(locale, localeTemplateFiles);
+                localizedTemplates.Add(locale, localeTemplateFile);
             }
 
-            LocaleTemplateEngine = new LocaleTemplateEngineManager(localizedTemplates, "en-us");
-            Services.AddSingleton(LocaleTemplateEngine);
+            TestLocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, "en-us");
+            Services.AddSingleton(TestLocaleTemplateManager);
 
-            Services.AddTransient<MainDialog>();
+            Services.AddTransient<MockMainDialog>();
             Services.AddTransient<OnboardingDialog>();
             Services.AddTransient<SwitchSkillDialog>();
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
-            Services.AddTransient<IBot, DefaultActivityHandler<MainDialog>>();
+            Services.AddTransient<IBot, DefaultActivityHandler<MockMainDialog>>();
 
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
@@ -127,6 +141,7 @@ namespace $safeprojectname$
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>()
                 .Use(new FeedbackMiddleware(sp.GetService<ConversationState>(), sp.GetService<IBotTelemetryClient>()));
+
             var userState = sp.GetService<UserState>();
             var userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
 

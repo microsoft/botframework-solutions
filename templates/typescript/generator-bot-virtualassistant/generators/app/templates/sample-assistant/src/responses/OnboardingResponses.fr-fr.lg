@@ -1,0 +1,8 @@
+# NamePrompt
+- Comment vous appelez-vous?
+- Comment t'appelles-tu?
+
+# HaveNameMessage
+- Salut ${Name}!
+- Salut ${Name}!
+- Ravi ${Name}

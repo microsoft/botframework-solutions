@@ -1,0 +1,38 @@
+{
+  "CommentPrompt": {
+    "replies": [
+      {
+        "text": "请在聊天中添加任何其他注释。",
+        "speak": "请在聊天中添加任何其他注释。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "CommentReceivedMessage": {
+    "replies": [
+      {
+        "text": "已收到您的评论。",
+        "speak": "已收到您的评论。"
+      }
+    ],
+    "inputHint": "expectingInput"
+  },
+  "DismissTitle": {
+    "replies": [
+      {
+        "text": "忽略",
+        "speak": "忽略"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "FeedbackReceivedMessage": {
+    "replies": [
+      {
+        "text": "感谢您的反馈！",
+        "speak": "感谢您的反馈！"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  }
+}

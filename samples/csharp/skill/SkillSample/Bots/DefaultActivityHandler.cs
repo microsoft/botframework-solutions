@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,16 +20,17 @@ namespace SkillSample.Bots
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private LocaleTemplateEngineManager _templateEngine;
+        private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private readonly LocaleTemplateManager _templateEngine;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
             _dialog = dialog;
+            _dialog.TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateEngine = serviceProvider.GetService<LocaleTemplateManager>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -42,16 +44,28 @@ namespace SkillSample.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("IntroMessage"));
+            await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("IntroMessage"), cancellationToken);
             await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
         protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            // directline speech occasionally sends empty message activities that should be ignored
+            var activity = turnContext.Activity;
+            if (activity.ChannelId == Channels.DirectlineSpeech && activity.Type == ActivityTypes.Message && string.IsNullOrEmpty(activity.Text))
+            {
+                return Task.CompletedTask;
+            }
+
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
         protected override Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+        }
+
+        protected override Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
         {
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }

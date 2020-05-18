@@ -4,7 +4,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" PrivateAssets="all" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -12,6 +12,7 @@
       https://botbuilder.myget.org/F/aitemplates/api/v3/index.json;
       https://botbuilder.myget.org/F/botbuilder-declarative/api/v3/index.json;
       https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json;
+      https://www.myget.org/F/botbuilder-community-dotnet/api/v3/index.json;
     </RestoreAdditionalProjectSources>
   </PropertyGroup>
 
@@ -23,8 +24,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <RepositoryUrl>https://github.com/Microsoft/AI</RepositoryUrl>
-    <LicenseUrl>https://github.com/Microsoft/AI/blob/master/LICENSE</LicenseUrl>
+    <RepositoryUrl>https://github.com/microsoft/botframework-solutions</RepositoryUrl>
+    <LicenseUrl>https://github.com/microsoft/botframework-solutions/blob/master/LICENSE</LicenseUrl>
     <RepositoryType />
     <NeutralLanguage>en-US</NeutralLanguage>
     <NoWarn>$(NoWarn);NU5125;NU1701;8002</NoWarn>

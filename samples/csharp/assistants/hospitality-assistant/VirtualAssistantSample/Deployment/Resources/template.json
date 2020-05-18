@@ -26,7 +26,7 @@
     },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[if(equals(indexof(parameters('name'), '-'), 30), take(parameters('name'), 30), concat(parameters('name'), '-', parameters('suffix')))]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
     },
     "useStorage": {
       "type": "bool",
@@ -155,7 +155,7 @@
     "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
     "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
-    "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
+    "cosmosDbAccountName": "[toLower(take(replace(replace(parameters('cosmosDbName'), '-', ''), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
     "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]"
   },
@@ -457,7 +457,7 @@
         "cosmosDBEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
         "authKey": "[if(parameters('useCosmosDb'), listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName')), '2015-04-08').primaryMasterKey, '')]",
         "databaseId": "botstate-db",
-        "collectionId": "botstate-collection"
+        "containerId ": "[concat(parameters('name'), '-state')]"
       }
     },
     "luis": {
@@ -467,7 +467,8 @@
         "region": "[parameters('luisRuntimeLocation')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
         "authoringRegion": "[parameters('luisAuthoringLocation')]",
-        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]"
+        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]",
+        "endpoint": "[if(parameters('useLuisAuthoring'), reference(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').endpoint, '')]"
       }
     },
     "qnaMaker": {

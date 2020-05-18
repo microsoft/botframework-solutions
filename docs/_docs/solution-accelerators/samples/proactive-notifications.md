@@ -29,12 +29,5 @@ An automated deployment will be available in the [Enterprise Assistant sample]({
 ## Next Steps
 
 <div class="card-deck">
-     <a href="{{site.baseurl}}/solution-accelerators/tutorials/enable-proactive-notifications/1-intro/"  class="card">
-        <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/notification.png" alt="Notifications icon" width="48px">             
-            <h4 class="no_toc card-title">Send a notification to your assistant</h4>
-            <p class="card-text">Enable the proactive notifications solution on your Virtual Assistant.</p>
-            <div class="btn btn-primary">Get started</div>
-        </div>
-    </a>
+    {% include button.html params=site.data.button.proactive %}
 </div>

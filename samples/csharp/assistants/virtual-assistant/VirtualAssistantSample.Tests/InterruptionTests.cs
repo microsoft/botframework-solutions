@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantSample.Tests.Utterances;
@@ -15,11 +15,11 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption()
         {
-            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
+            var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Help)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
                 .StartTestAsync();
@@ -28,41 +28,42 @@ namespace VirtualAssistantSample.Tests
         [TestMethod]
         public async Task Test_Help_Interruption_In_Dialog()
         {
-            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Help)
                 .AssertReply(activity => Assert.AreEqual(1, activity.AsMessageActivity().Attachments.Count))
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
 
         [TestMethod]
+        [Ignore("the LG template 'UnsupportedMessage' has randomly generated response which makes this test unreliable")]
         public async Task Test_Cancel_Interruption()
         {
-            var allFirstPromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("FirstPromptMessage");
-            var allResponseVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("CancelledMessage", TestUserProfileState);
+            var allFirstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
+            var allResponseVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage", TestUserProfileState);
 
             await GetTestFlow()
                 .Send(string.Empty)
-                .AssertReplyOneOf(allFirstPromptVariations.ToArray())
+                .AssertReplyOneOf(allFirstPromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Cancel)
-                .AssertReplyOneOf(allResponseVariations.ToArray())
+                .AssertReplyOneOf(allResponseVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
 
         [TestMethod]
         public async Task Test_Repeat_Interruption()
         {
-            var allNamePromptVariations = LocaleTemplateEngine.TemplateEnginesPerLocale[CultureInfo.CurrentUICulture.Name].ExpandTemplate("NamePrompt");
+            var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
 
             await GetTestFlow(includeUserProfile: false)
                 .Send(string.Empty)
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .Send(GeneralUtterances.Repeat)
-                .AssertReplyOneOf(allNamePromptVariations.ToArray())
+                .AssertReplyOneOf(allNamePromptVariations.Cast<string>().ToArray())
                 .StartTestAsync();
         }
     }

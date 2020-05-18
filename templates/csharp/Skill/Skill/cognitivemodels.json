@@ -13,7 +13,7 @@
           "subscriptionKey": ""
         },
         {
-          "id": "Skill",
+          "id": "$safeprojectname$",
           "name": "",
           "appId": "",
           "version": "0.1",

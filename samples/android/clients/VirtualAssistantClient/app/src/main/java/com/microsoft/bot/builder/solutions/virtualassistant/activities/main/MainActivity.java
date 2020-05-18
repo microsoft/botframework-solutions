@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity
         // Options hidden in the nav-drawer
         Configuration speechConfig = configurationManager.getConfiguration();
         enableKws = speechConfig.enableKWS;
-        bargeInSupported = speechConfig.bargeInSupported;
+        bargeInSupported = speechConfig.ttsBargeInSupported;
         switchEnableKws.setChecked(enableKws);
         switchEnableBargeIn.setChecked(bargeInSupported);
 
@@ -443,7 +443,7 @@ public class MainActivity extends BaseActivity
             bargeInSupported = checked;
 
             Configuration speechConfig = configurationManager.getConfiguration();
-            speechConfig.bargeInSupported = bargeInSupported;
+            speechConfig.ttsBargeInSupported = bargeInSupported;
             configurationManager.setConfiguration(speechConfig);
         }
     }

@@ -5,22 +5,6 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Virtual Assistant", "Virtual Assistant", "{2499BB55-6DD4-423D-8194-41987F6F3C11}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills", "Skills", "{9FAADED7-875E-45DA-B550-264E34D85135}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PointOfInterestSkill", "..\..\..\..\skills\csharp\pointofinterestskill\PointOfInterestSkill.csproj", "{E90C5D14-277D-4046-B446-EF33F6FEFC51}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BingSearchSkill", "..\..\..\..\skills\csharp\experimental\bingsearchskill\BingSearchSkill.csproj", "{45F9EBEB-5C39-4EC3-800C-D792D4C7F4FB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherSkill", "..\..\..\..\skills\csharp\experimental\weatherskill\WeatherSkill.csproj", "{4C299C54-4820-4F5F-A9EA-5313AFCD6B57}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RestaurantBookingSkill", "..\..\..\..\skills\csharp\experimental\restaurantbookingskill\RestaurantBookingSkill.csproj", "{425A1101-0EE7-44DA-900B-67D51BDD7B1D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsSkill", "..\..\..\..\skills\csharp\experimental\newsskill\NewsSkill.csproj", "{B73B891E-8B76-4278-9F50-88AFE02F07F3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalitySkill", "..\..\..\..\skills\csharp\experimental\hospitalityskill\HospitalitySkill.csproj", "{1427F2B8-12E0-48CF-B44D-9099E44147AA}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSkill", "..\..\..\..\skills\csharp\experimental\eventskill\EventSkill.csproj", "{02EAAA1E-0268-4E3C-8B0B-4F8EC6D9875A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}"
 EndProject
 Global
@@ -29,34 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E90C5D14-277D-4046-B446-EF33F6FEFC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E90C5D14-277D-4046-B446-EF33F6FEFC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E90C5D14-277D-4046-B446-EF33F6FEFC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E90C5D14-277D-4046-B446-EF33F6FEFC51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45F9EBEB-5C39-4EC3-800C-D792D4C7F4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45F9EBEB-5C39-4EC3-800C-D792D4C7F4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45F9EBEB-5C39-4EC3-800C-D792D4C7F4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45F9EBEB-5C39-4EC3-800C-D792D4C7F4FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C299C54-4820-4F5F-A9EA-5313AFCD6B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C299C54-4820-4F5F-A9EA-5313AFCD6B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C299C54-4820-4F5F-A9EA-5313AFCD6B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C299C54-4820-4F5F-A9EA-5313AFCD6B57}.Release|Any CPU.Build.0 = Release|Any CPU
-		{425A1101-0EE7-44DA-900B-67D51BDD7B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{425A1101-0EE7-44DA-900B-67D51BDD7B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{425A1101-0EE7-44DA-900B-67D51BDD7B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{425A1101-0EE7-44DA-900B-67D51BDD7B1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B73B891E-8B76-4278-9F50-88AFE02F07F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B73B891E-8B76-4278-9F50-88AFE02F07F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B73B891E-8B76-4278-9F50-88AFE02F07F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B73B891E-8B76-4278-9F50-88AFE02F07F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1427F2B8-12E0-48CF-B44D-9099E44147AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1427F2B8-12E0-48CF-B44D-9099E44147AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1427F2B8-12E0-48CF-B44D-9099E44147AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1427F2B8-12E0-48CF-B44D-9099E44147AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02EAAA1E-0268-4E3C-8B0B-4F8EC6D9875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02EAAA1E-0268-4E3C-8B0B-4F8EC6D9875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02EAAA1E-0268-4E3C-8B0B-4F8EC6D9875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02EAAA1E-0268-4E3C-8B0B-4F8EC6D9875A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -66,13 +22,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E90C5D14-277D-4046-B446-EF33F6FEFC51} = {9FAADED7-875E-45DA-B550-264E34D85135}
-		{45F9EBEB-5C39-4EC3-800C-D792D4C7F4FB} = {9FAADED7-875E-45DA-B550-264E34D85135}
-		{4C299C54-4820-4F5F-A9EA-5313AFCD6B57} = {9FAADED7-875E-45DA-B550-264E34D85135}
-		{425A1101-0EE7-44DA-900B-67D51BDD7B1D} = {9FAADED7-875E-45DA-B550-264E34D85135}
-		{B73B891E-8B76-4278-9F50-88AFE02F07F3} = {9FAADED7-875E-45DA-B550-264E34D85135}
-		{1427F2B8-12E0-48CF-B44D-9099E44147AA} = {9FAADED7-875E-45DA-B550-264E34D85135}
-		{02EAAA1E-0268-4E3C-8B0B-4F8EC6D9875A} = {9FAADED7-875E-45DA-B550-264E34D85135}
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76} = {2499BB55-6DD4-423D-8194-41987F6F3C11}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

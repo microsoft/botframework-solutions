@@ -1,0 +1,6 @@
+{
+    "id": "test",
+    "msaAppId": "00000000-0000-0000-0000-000000000000",
+    "endpoint": "",
+    "description": "This is a test skill to use for testing purpose."
+}

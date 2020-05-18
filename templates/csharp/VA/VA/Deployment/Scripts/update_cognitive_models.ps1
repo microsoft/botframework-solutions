@@ -10,7 +10,8 @@ Param(
 	[string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
     [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA'),
     [string] $lgOutFolder = $(Join-Path (Get-Location) 'Services'),
-    [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt")
+    [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt"),
+    [string[]] $excludedKbFromDispatch = @("Chitchat")
 )
 
 . $PSScriptRoot\luis_functions.ps1
@@ -29,7 +30,7 @@ if (Get-Command az -ErrorAction SilentlyContinue) {
     $azcliversionoutput = az -v
     [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
     [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
+    [version]$minversion = '2.2.0'
 
     if ($azcliversion -ge $minversion) {
         $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
@@ -109,7 +110,7 @@ foreach ($langCode in $languageMap.Keys) {
         {    
             # Add the knowledge base to the dispatch model. 
             # If the knowledge base id already exists within the model no action will be taken
-            if ($dispatch) {
+            if ($dispatch -and -not $excludedKbFromDispatch.Contains($kb.id)) {
                 Write-Host "> Adding $($langCode) $($kb.id) kb to dispatch file ..." -NoNewline
                 dispatch add `
                     --type "qna" `
@@ -127,24 +128,26 @@ foreach ($langCode in $languageMap.Keys) {
     if ($RemoteToLocal) {
         # Update local LU files based on hosted models
         foreach ($luisApp in $models.languageModels) {
-            $culture = (luis get application `
-                    --appId $luisApp.appId `
-                    --authoringKey $luisApp.authoringKey `
-                    --subscriptionKey $luisApp.subscriptionKey `
-                    --cloud $cloud `
-                    --region $luisApp.authoringRegion | ConvertFrom-Json).culture
+             $culture = (bf luis:application:show `
+                --appId $luisApp.appId `
+                --endpoint $luisApp.endpoint `
+                --subscriptionKey $luisApp.authoringkey | ConvertFrom-Json).culture
+
+            $outJson = $(Join-Path $luisFolder $langCode "$($luisApp.id).json")
+            $outLU = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
 
             Write-Host "> Updating local $($langCode) $($luisApp.id).lu file ..." -NoNewline
-            luis export version `
+            bf luis:version:export `
                 --appId $luisApp.appId `
+                --endpoint $luisApp.endpoint `
+                --subscriptionKey $luisApp.authoringKey `
                 --versionId $luisApp.version `
-                --region $luisApp.authoringRegion `
-                --cloud $cloud `
-                --authoringKey $luisApp.authoringKey > $(Join-Path $luisFolder $langCode "$($luisApp.id).json")
+                --out $outJson `
+                --force 2>> $log | Out-Null
 
             bf luis:convert `
-                --in $(Join-Path $luisFolder $langCode "$($luisApp.id).json") `
-                --out $(Join-Path $luisFolder $langCode "$($luisApp.id).lu") `
+                --in $outJson `
+                --out $outLU `
                 --force 2>> $logFile | Out-Null
             Write-Host "Done." -ForegroundColor Green
 
@@ -156,9 +159,9 @@ foreach ($langCode in $languageMap.Keys) {
 
             Write-Host "> Parsing $($langCode) $($luisApp.id) LU file ..." -NoNewline
             bf luis:convert `
-                --in $(Join-Path $outFolder "$($luisApp.id).lu")`
+                --in $outLU `
+                --out $outJson `
                 --culture $culture `
-                --out $(Join-Path $luisFolder $langCode "$($luisApp.id).json") `
                 --force 2>> $logFile | Out-Null
             Write-Host "Done." -ForegroundColor Green
 
@@ -166,7 +169,7 @@ foreach ($langCode in $languageMap.Keys) {
                 Write-Host "> Running LuisGen for $($luisApp.id) app ..." -NoNewline
                 $luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
                 RunLuisGen `
-                    -lu_file $(Get-Item $luPath) `
+                    -luFile $(Get-Item $luPath) `
                     -outName "$($luisApp.id)" `
                     -outFolder $lgOutFolder `
                     -log $logFile
@@ -206,7 +209,7 @@ foreach ($langCode in $languageMap.Keys) {
 		
             # Add the knowledge base to the dispatch model. 
             # If the knowledge base id already exists within the model no action will be taken
-            if ($dispatch) {
+            if ($dispatch -and -not $excludedKbFromDispatch.Contains($kb.id)) {
                 Write-Host "> Adding $($langCode) $($kb.id) kb to dispatch model ..." -NoNewline
                 (dispatch add `
                     --type "qna" `
@@ -225,21 +228,19 @@ foreach ($langCode in $languageMap.Keys) {
         foreach ($luisApp in $models.languageModels) {
             $lu = Get-Item -Path $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
             UpdateLUIS `
-                -lu_file $lu `
+                -luFile $lu `
                 -appId $luisApp.appid `
+                -endpoint $luisApp.endpoint `
+                -subscriptionKey $luisApp.authoringKey `
+                -culture $langCode `
                 -version $luisApp.version `
-                -language $langCode `
-                -region $luisApp.authoringRegion `
-                -authoringKey $luisApp.authoringKey `
-                -subscriptionKey $luisApp.subscriptionKey `
-                -gov $useGov `
                 -log $logFile
 
              if ($useLuisGen) {
                 Write-Host "> Running LuisGen for $($luisApp.id) app ..." -NoNewline
                 $luPath = $(Join-Path $luisFolder $langCode "$($luisApp.id).lu")
                 RunLuisGen `
-                    -lu_file $(Get-Item $luPath) `
+                    -luFile $(Get-Item $luPath) `
                     -outName "$($luisApp.id)" `
                     -outFolder $lgOutFolder `
                     -log $logFile
@@ -251,7 +252,7 @@ foreach ($langCode in $languageMap.Keys) {
         foreach ($kb in $models.knowledgebases) {
             $lu = Get-Item -Path $(Join-Path $qnaFolder $langCode "$($kb.id).qna")
             UpdateKB `
-                -lu_file $lu `
+                -luFile $lu `
                 -kbId $kb.kbId `
                 -qnaSubscriptionKey $kb.subscriptionKey `
                 -qnaEndpoint $qnaEndpoint `

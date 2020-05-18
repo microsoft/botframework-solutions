@@ -1,13 +1,13 @@
-function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
+function DeployKB ($name, $luFile, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
 {
-    $id = $lu_file.BaseName
+    $id = $luFile.BaseName
     $outFile = "$($id).json"
-    $outFolder = $lu_file.DirectoryName
+    $outFolder = $luFile.DirectoryName
 
     # Parse LU file
-    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
+    Write-Host "> Converting $($language) $($id) QnA file ..." -NoNewline
 	bf qnamaker:convert `
-        --in $lu_file `
+        --in $luFile `
         --out $(Join-Path $outFolder $outFile) `
         --force 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green
@@ -64,16 +64,16 @@ function DeployKB ($name, $lu_file, $qnaSubscriptionKey, $qnaEndpoint, $language
 	}
 }
 
-function UpdateKB ($lu_file, $kbId, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
+function UpdateKB ($luFile, $kbId, $qnaSubscriptionKey, $qnaEndpoint, $language, $log)
 {
-    $id = $lu_file.BaseName
+    $id = $luFile.BaseName
     $outFile = "$($id).json"
-    $outFolder = $lu_file.DirectoryName
+    $outFolder = $luFile.DirectoryName
 
     # Parse LU file
-    Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
+    Write-Host "> Converting $($language) $($id) QnA file ..." -NoNewline
 	bf qnamaker:convert `
-        --in $lu_file `
+        --in $luFile `
         --out $(Join-Path $outFolder $outFile) `
         --force 2>> $log | Out-Null
     Write-Host "Done." -ForegroundColor Green

@@ -160,4 +160,4 @@ Copy any LuisGen-generated classes into the Services directory.
 
 ## Extend your assistant with Skills
 
-If your assistant was based on the [Virtual Assistant (Beta Release 0.3) solution](https://github.com/microsoft/AI/releases/tag/0.3), continue with [adding back the Skills]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) 
+If your assistant was based on the [Virtual Assistant (Beta Release 0.3) solution](https://github.com/microsoft/botframework-solutions/releases/tag/0.3), continue with [adding back the Skills]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) 

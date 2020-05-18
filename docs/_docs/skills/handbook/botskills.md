@@ -21,10 +21,10 @@ The CLI performs the following operations on your behalf:
 
 ## Prerequisites
 - [Node.js](https://nodejs.org/) version 10.8 or higher
-- Install the Dispatch, LUDown and LUISGen CLI tools
+- Install the Dispatch and botframework-cli
 
     ```shell
-    npm install -g botdispatch ludown luisgen
+    npm install -g botdispatch @microsoft/botframework-cli
     ```
 - Install the `botskills` CLI
     ```shell
@@ -32,7 +32,7 @@ The CLI performs the following operations on your behalf:
     ```
 
 ## Commands
-For all of this commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template, and therefore have a `appsettings.json` file present in the working folder which contains the connected skills.
+For all of this commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template, and therefore have a `skills.json` file present in the working folder which contains the connected skills.
 
 ### Connect Skills
 {:.no_toc}
@@ -41,23 +41,10 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
+botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
-
-Once the connect command finish successfully, you can see under the `botFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
-
-```json
-    "botFrameworkSkills": {
-        "id": "<SKILL_ID>",
-        "appId": "<SKILL_APPID>",
-        "skillEndpoint": "<SKILL_ENDPOINT>",
-        "name": "<SKILL_NAME>",
-        "description": "<SKILL_DESCRIPTION>"
-    },
-    "skillHostEndpoint": "<VA-SKILL_ENDPOINT>"
-```
 
 For further information, see the [Connect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/connect.md).
 
@@ -73,7 +60,7 @@ botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 
 For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/disconnect.md).
 
-> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/list.md).
+> Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
 
 ### Update a connected Skill
 {:.no_toc}
@@ -82,7 +69,7 @@ The `update` command allows you to update a Skill, be it local or remote, to you
 
 Here is an example:
 ```bash
-botskills update --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
+botskills update --botName <YOUR_BOT_NAME> --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
 ```
 
 For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/update.md).
@@ -110,3 +97,14 @@ botskills list
 ```
 
 For further information, see the [List command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/list.md).
+
+### Migrate Skills
+
+The `migrate` command allows you to transfer all the skills currently connected to your assistant to the new schema configuration settings.
+
+Here is an example:
+```bash
+botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/appsettings.json"
+```
+
+For further information, see the [Migrate command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/migrate.md).

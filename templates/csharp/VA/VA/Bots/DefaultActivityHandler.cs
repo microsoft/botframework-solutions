@@ -7,7 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Teams;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Responses;
@@ -22,18 +24,19 @@ namespace $safeprojectname$.Bots
         private readonly Dialog _dialog;
         private readonly BotState _conversationState;
         private readonly BotState _userState;
-        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
-        private IStatePropertyAccessor<UserProfileState> _userProfileState;
-        private LocaleTemplateEngineManager _templateEngine;
+        private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
+        private readonly LocaleTemplateManager _templateManager;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
             _dialog = dialog;
+            _dialog.TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
             _conversationState = serviceProvider.GetService<ConversationState>();
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
-            _templateEngine = serviceProvider.GetService<LocaleTemplateEngineManager>();
+            _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -47,17 +50,17 @@ namespace $safeprojectname$.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var userProfile = await _userProfileState.GetAsync(turnContext, () => new UserProfileState());
+            var userProfile = await _userProfileState.GetAsync(turnContext, () => new UserProfileState(), cancellationToken);
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
                 // Send new user intro card.
-                await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("NewUserIntroCard", userProfile));
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("NewUserIntroCard", userProfile), cancellationToken);
             }
             else
             {
                 // Send returning user intro card.
-                await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ReturningUserIntroCard", userProfile));
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ReturningUserIntroCard", userProfile), cancellationToken);
             }
 
             await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
@@ -65,6 +68,13 @@ namespace $safeprojectname$.Bots
 
         protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            // directline speech occasionally sends empty message activities that should be ignored
+            var activity = turnContext.Activity;
+            if (activity.ChannelId == Channels.DirectlineSpeech && activity.Type == ActivityTypes.Message && string.IsNullOrEmpty(activity.Text))
+            {
+                return Task.CompletedTask;
+            }
+
             return _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
         }
 
@@ -76,7 +86,6 @@ namespace $safeprojectname$.Bots
         protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
             var ev = turnContext.Activity.AsEventActivity();
-            var value = ev.Value?.ToString();
 
             switch (ev.Name)
             {
@@ -89,7 +98,7 @@ namespace $safeprojectname$.Bots
 
                 default:
                     {
-                        await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."));
+                        await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Unknown Event '{ev.Name ?? "undefined"}' was received but not processed."), cancellationToken);
                         break;
                     }
             }

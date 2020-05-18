@@ -8,7 +8,7 @@ using System.Linq;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
-using Microsoft.Bot.Builder.Solutions;
+using Microsoft.Bot.Solutions;
 
 namespace VirtualAssistantSample.Services
 {
@@ -27,22 +27,31 @@ namespace VirtualAssistantSample.Services
                 var config = pair.Value;
 
                 var telemetryClient = client;
-                var luisOptions = new LuisPredictionOptions()
+
+                LuisRecognizerOptionsV3 luisOptions;
+
+                if (config.DispatchModel != null)
                 {
-                    TelemetryClient = telemetryClient,
-                    LogPersonalInformation = true,
-                };
-
-                var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-
-                set.DispatchService = new LuisRecognizer(dispatchApp, luisOptions);
+                    var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
+                    luisOptions = new LuisRecognizerOptionsV3(dispatchApp)
+                    {
+                        TelemetryClient = telemetryClient,
+                        LogPersonalInformation = true,
+                    };
+                    set.DispatchService = new LuisRecognizer(luisOptions);
+                }
 
                 if (config.LanguageModels != null)
                 {
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
+                        luisOptions = new LuisRecognizerOptionsV3(luisApp)
+                        {
+                            TelemetryClient = telemetryClient,
+                            LogPersonalInformation = true,
+                        };
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisOptions));
                     }
                 }
 

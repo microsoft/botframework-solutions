@@ -21,8 +21,8 @@ namespace Luis
         public enum Intent {
             Cancel,
             Confirm,
-            ExtractName,
             Escalate,
+            ExtractName,
             FinishTask,
             GoBack,
             Help,

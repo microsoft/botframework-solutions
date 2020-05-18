@@ -114,14 +114,15 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
             this.refresher.configuration = configuration;
             await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
+            const localePlaceholder = errorList[errorList.length - 1].includes('en-us') ? 'en-us' : 'es-es';
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
 Error: There was an error in the dispatch refresh command:
-Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\en-us
+Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\${ localePlaceholder }\\filled${ localePlaceholder }Dispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\${ localePlaceholder }
 Error: Mocked function throws an Error`);
         });
 
-        it("when the luisgen external calls fails", async function () {
+        it("when the luis generate external calls fails", async function () {
             sandbox.replace(this.refresher, "executeDispatchRefresh", (dispatchName, executionModelByCulture) => {
                 return Promise.resolve("Mocked function successfully");
             });
@@ -142,8 +143,8 @@ Error: Mocked function throws an Error`);
             const errorList = this.logger.getError();
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: There was an error in the luisgen command:
-Command: luisgen "${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.json"  -cs "DispatchLuis" -o "${configuration.lgOutFolder}"
+Error: There was an error in the bf luis:generate:${configuration.lgLanguage} command:
+Command: bf luis:generate:${configuration.lgLanguage} --in "${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.json" --out "${configuration.lgOutFolder}" --force
 Error: Mocked function throws an Error`);
         });
     });

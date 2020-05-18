@@ -76,7 +76,9 @@ One migration step will be to create a new Skill project and migrate your custom
         "botframework-connector": "^4.8.0",
     ```
 
-1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `botbuilder-solutions`.
+1. Remove `botbuilder-skills` library from the package.json, which will require to change all the references to `bot-solutions`.
+
+**Note:** Take into account that `botbuilder-solutions` will be deprecated and it should be `bot-solutions@1.0.0` instead following the C# pattern.
 
 ## BotController changes
 
@@ -275,6 +277,32 @@ One migration step will be to create a new Skill project and migrate your custom
     In the previous model the parent bot (VA) is the responsible for performing OAuth tasks by acting on behalf of a skill thus ensuring a common, shared authentication experience across an assistant. With this new release, Skills can now perform their own authentication requests and still benefit from a shared trust boundary.
 
     The existing `MultiProviderAuthDialog` if used will automatically adapt to this change and no changes are required. As required you can switch to using the `OAuthPrompt` directly.
+
+
+## LocaleTemplateManager
+
+The class `LocaleTemplateEngineManager` has been remamed to `LocaleTemplateManager` and its constructor has been slightly modified.
+
+1. Make sure rename the instances of `localeTemplateEngineManager` to `localeTemplateManager`.
+
+1. In `index.ts`, update the incialization of `LocaleTemplateManager` with the localized responses to this:
+
+	```typescript
+	// Configure localized responses
+	const localizedTemplates: Map<string, string> = new Map<string, string>();
+	const templateFile = 'AllResponses';
+	const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
+
+        supportedLocales.forEach((locale: string) => {
+            // LG template for en-us does not include locale in file extension.
+            const localTemplateFile = locale === 'en-us'
+                ? join(__dirname, 'responses', `${ templateFile }.lg`)
+                : join(__dirname, 'responses', `${ templateFile }.${ locale }.lg`);
+            localizedTemplates.set(locale, localTemplateFile);
+        });
+
+        const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+	```
 
 ## Manifest Changes
 

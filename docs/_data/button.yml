@@ -1,0 +1,261 @@
+# Programming Languages
+cs_img: &cs_img 'assets/images/icons/csharp.png'
+cs_alt: &cs_alt C# icon
+ts_img: &ts_img 'assets/images/icons/typescript.png'
+ts_alt: &ts_alt TypeScript icon
+java_img: &java_img 'assets/images/icons/java.png'
+java_alt: &java_alt Java icon
+# Channels
+android_img: &android_img 'assets/images/icons/android.png'
+android_alt: &android_alt Android icon
+msteams_img: &msteams_img 'assets/images/icons/teams.png'
+msteams_alt: &msteams_alt Microsoft Teams icon
+speech_img: &speech_img 'assets/images/icons/speech.png'
+speech_alt: &speech_alt Speech icon
+# Skills
+skill_img: &skill_img 'assets/images/icons/skill.png'
+skill_alt: &skill_alt Skill icon
+calendar_img: &calendar_img 'assets/images/icons/calendar-skill.png'
+calendar_alt: &calendar_alt Calendar icon
+email_img: &email_img 'assets/images/icons/email-skill.png'
+email_alt: &email_alt Email icon
+todo_img: &todo_img 'assets/images/icons/todo-skill.png'
+todo_alt: &todo_alt To Do icon
+poi_img: &poi_img 'assets/images/icons/point-of-interest-skill.png'
+poi_alt: &poi_alt Point of Interest icon
+# Others
+notification_img: &notification_img 'assets/images/icons/notification.png'
+notification_alt: &notification_alt 'Notifications icon'
+
+# Create VA
+create_va:
+  title: &create_va_title Create a Virtual Assistant
+  text: &create_va_text Get up and running with the solution accelerator.
+  button: &create_va_button Get started
+create_va_cs:
+  title: *create_va_title
+  text: *create_va_text
+  button: *create_va_button
+  ref: 'virtual-assistant/tutorials/create-assistant/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+create_va_ts:
+  title: *create_va_title
+  text: *create_va_text
+  button: *create_va_button
+  ref: 'virtual-assistant/tutorials/create-assistant/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+# Create skill
+create_skill:
+  title: &create_skill_title Create a Skill
+  text: &create_skill_text Build a custom skill to extend to your Virtual Assistant.
+  button: &create_skill_button Get started
+create_skill_cs:
+  title: *create_skill_title
+  text: *create_skill_text
+  button: *create_skill_button
+  ref: 'skills/tutorials/create-skill/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+create_skill_ts:
+  title: *create_skill_title
+  text: *create_skill_text
+  button: *create_skill_button
+  ref: 'skills/tutorials/create-skill/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+# Customize VA
+customize_va:
+  title: &customize_va_title Customize a Virtual Assistant
+  text: &customize_va_text Personalize the experience for your brand and users.
+  button: &customize_va_button Get started
+customize_va_cs:
+  title: *customize_va_title
+  text: *customize_va_text
+  button: *customize_va_button
+  ref: 'virtual-assistant/tutorials/customize-assistant/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+customize_va_ts:
+  title: *customize_va_title
+  text: *customize_va_text
+  button: *customize_va_button
+  ref: 'virtual-assistant/tutorials/customize-assistant/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+# Customize skill
+customize_skill:
+  title:  &customize_skill_title Customize a Skill
+  text: &customize_skill_text Customize your skill for your brand and users.
+  button: &customize_skill_button Get started
+customize_skill_cs:
+  title: *customize_skill_title
+  text: *customize_skill_text
+  button: *customize_skill_button
+  ref: 'skills/tutorials/customize-skill/csharp/1-intro/'
+  img: *cs_img
+  alt: *cs_alt
+customize_skill_ts:
+  title: *customize_skill_title
+  text: *customize_skill_text
+  button: *customize_skill_button
+  ref: 'skills/tutorials/customize-skill/typescript/1-intro/'
+  img: *ts_img
+  alt: *ts_alt
+
+# Skills
+calendar_skill:
+  title: Calendar Skill
+  text: Get up and running with the Calendar Skill sample.
+  button: Learn more
+  ref: 'skills/samples/calendar/'
+  img: *calendar_img
+  alt: *calendar_alt
+email_skill:
+  title: Email Skill
+  text: Get up and running with the Email Skill sample.
+  button: Learn more
+  ref: 'skills/samples/email/'
+  img: *email_img
+  alt: *email_alt
+todo_skill:
+  title: To Do Skill
+  text: Get up and running with the To Do Skill sample.
+  button: Learn more
+  ref: 'skills/samples/to-do/'
+  img: *todo_img
+  alt: *todo_alt
+poi_skill:
+  title: Point of Interest Skill
+  text: Get up and running with the Point of Interest Skill sample.
+  button: Learn more
+  ref: 'skills/samples/point-of-interest/'
+  img: *poi_img
+  alt: *poi_alt
+
+# Add action
+add_action:
+  title: &add_action_title Add action support
+  text: &add_action_text Add action support to your Skill.
+  button: &add_action_button Get started
+add_action_cs:
+  title: *add_action_title
+  text: *add_action_text
+  button: *add_action_button
+  ref: 'skills/tutorials/add-action-support/csharp/1-intro/'
+  img: *skill_img
+  alt: *skill_alt
+
+# Proactive
+proactive:
+  title: Send a notification to your assistant
+  text: Enable the proactive notifications solution on your Virtual Assistant.
+  button: Get started
+  ref: 'solution-accelerators/tutorials/enable-proactive-notifications/1-intro/'
+  img: *notification_img
+  alt: *notification_alt
+
+# Enable channels
+enable_speech:
+  title: Enable Speech
+  text: Enable the Microsoft Speech Channel for your assistant.
+  button: Get started
+  ref: 'clients-and-channels/tutorials/enable-speech/1-intro/'
+  img: *speech_img
+  alt: *speech_alt
+enable_msteams:
+  title: Extend to Microsoft Teams
+  text: Enable the Microsoft Teams Channel for your assistant.
+  button: Get started
+  ref: 'clients-and-channels/tutorials/enable-teams/1-intro/'
+  img: *msteams_img
+  alt: *msteams_alt
+
+# Enable speech
+enable_speech_uwp:
+  title: Create a voice-first virtual assistant with the Speech SDK, UWP
+  text: Develop a C# Universal Windows Platform (UWP) application by using the Speech SDK.
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-csharp-uwp'
+  ext_ref: true
+  img: *cs_img
+  alt: *cs_alt
+enable_speech_java:
+  title: Create a voice-first virtual assistant with the Speech SDK, Java
+  text: Develop a Java console application by using the Cognitive Services Speech SDK.
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-java-jre'
+  ext_ref: true
+  img: *java_img
+  alt: *java_alt
+enable_speech_android_java:
+  title: Create a voice-first virtual assistant in Java on Android by using the Speech SDK
+  text: Build a voice-first virtual assistant with Java for Android using the Speech SDK.
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-java-android'
+  ext_ref: true
+  img: *android_img
+  alt: *android_alt
+enable_speech_android:
+  title: Virtual Assistant Client on Android
+  text: Connect your Direct Line Speech-enabled bot to a sample Android application.
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio'
+  ext_ref: true
+  img: *android_img
+  alt: *android_alt
+
+# Enable msteams
+enable_msteams_bot:
+  title: Test and debug your Microsoft Teams bot
+  text: When testing your bot you need to take into consideration both the context(s) you want your bot to run in, as well as any functionality you may have added to your bot that requires data specific to Microsoft Teams
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-test'
+  ext_ref: true
+  img: *msteams_img
+  alt: *msteams_alt
+enable_msteams_app_studio:
+  title: Quickly develop apps with App Studio for Microsoft Teams
+  text: App Studio makes it easy to start creating or integrating your own Microsoft Teams apps
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio'
+  ext_ref: true
+  img: *msteams_img
+  alt: *msteams_alt
+
+# CICD
+azure_pipelines:
+  title: What is Azure Pipelines?
+  text: Azure Pipelines is a cloud service that you can use to automatically build and test your code project and make it available to other users
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops'
+  ext_ref: true
+enable_cd:
+  title: Enable continuous deployment
+  text: Use release pipelines in Azure DevOps to continuously deliver your bot solution
+  button: Learn more
+  ref: 'solution-accelerators/tutorials/enable-continuous-deployment/1-intro/'
+release_pipelines:
+  title: What are release pipelines?
+  text: Release pipelines in Azure Pipelines help your team continuously deliver software to your customers at a faster pace and with lower risk
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/azure/devops/pipelines/release/?view=azure-devops'
+  ext_ref: true
+
+# Telemetry
+telemetry_add:
+  title: Add telemetry to your bot
+  text: Learn what specific code components are required that enable the out-of-the-box telemetry
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-telemetry?view=azure-bot-service-4.0'
+  ext_ref: true
+telemetry_event:
+  title: Events generated by the Bot Framework Service telemetry
+  text: Learn about events generated by the Bot Framwork Service telemetry
+  button: Learn more
+  ref: 'https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-telemetry-reference?view=azure-bot-service-4.0'
+  ext_ref: true

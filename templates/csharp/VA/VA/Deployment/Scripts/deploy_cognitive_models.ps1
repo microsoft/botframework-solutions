@@ -7,6 +7,7 @@ Param(
 	[string] $luisAccountName,
     [string] $luisAccountRegion,
 	[string] $luisSubscriptionKey,
+    [string] $luisEndpoint,
 	[string] $resourceGroup,
     [string] $qnaSubscriptionKey,
     [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
@@ -14,7 +15,8 @@ Param(
 	[switch] $useDispatch = $true,
     [string] $languages = "en-us",
     [string] $outFolder = $(Get-Location),
-	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt")
+	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_cognitive_models_log.txt"),
+	[string[]] $excludedKbFromDispatch = @("Chitchat")
 )
 
 . $PSScriptRoot\luis_functions.ps1
@@ -33,7 +35,7 @@ if (Get-Command az -ErrorAction SilentlyContinue) {
     $azcliversionoutput = az -v
     [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
     [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
+    [version]$minversion = '2.2.0'
 
     if ($azcliversion -ge $minversion) {
         $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
@@ -190,28 +192,27 @@ foreach ($language in $languageArr)
 			# Deploy LUIS model
 			$luisApp = DeployLUIS `
 				-name $name `
-				-lu_file $lu `
-				-region $luisAuthoringRegion `
-				-authoringKey $luisAuthoringKey `
-				-language $language `
-                -gov $gov `
+				-luFile $lu `
+				-endpoint $luisEndpoint `
+				-subscriptionKey $luisAuthoringKey `
+				-culture $language `
 				-log $logFile
 
 			Write-Host "> Setting LUIS subscription key ..." -NoNewline
 			if ($luisApp) {
 				# Setting subscription key
-				$addKeyResult = luis add appazureaccount `
-					--appId $luisApp.id `
-					--authoringKey $luisAuthoringKey `
-					--region $luisAuthoringRegion `
-					--accountName $luisAccountName `
-					--azureSubscriptionId $azAccount.id `
-					--resourceGroup $resourceGroup `
-                    --cloud $cloud `
-					--armToken "$($azAccessToken.accessToken)" 2>> $logFile
+				$addKeyResult = bf luis:application:assignazureaccount `
+						--accountName $luisAccountName `
+						--resourceGroup $resourceGroup `
+						--armToken $azAccessToken.accessToken `
+						--azureSubscriptionId $azAccount.id `
+						--appId $luisApp.id `
+						--endpoint $luisEndpoint `
+						--subscriptionKey $luisAuthoringKey 2>> $logFile
 
-				if (-not $addKeyResult) {
+				if ($addKeyResult -ne "Account successfully assigned.") {
 					$luisKeySet = $false
+					$addKeyResult >> $logFile
 					Write-Host "! Could not assign subscription key automatically. Review the log for more information. " -ForegroundColor DarkRed
 					Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 					Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta
@@ -239,8 +240,8 @@ foreach ($language in $languageArr)
 					id = $lu.BaseName
 					name = $luisApp.name
 					appid = $luisApp.id
+                    endpoint = $luisEndpoint
 					authoringkey = $luisAuthoringKey
-                    authoringRegion = $luisAuthoringRegion
 					subscriptionkey = $luisSubscriptionKey
 					version = $luisApp.activeVersion
 					region = $luisAccountRegion
@@ -265,14 +266,14 @@ foreach ($language in $languageArr)
                 # Deploy QnA Knowledgebase
 				$qnaKb = DeployKB `
                     -name $name `
-                    -lu_file $lu `
+                    -luFile $lu `
                     -qnaSubscriptionKey $qnaSubscriptionKey `
                     -qnaEndpoint $qnaEndpoint `
                     -language $langCode `
                     -log $logFile
        
 				if ($qnaKb) {
-					if ($useDispatch) {
+					if ($useDispatch -and -not $excludedKbFromDispatch.Contains($lu.BaseName)) {
 						Write-Host "> Adding $($langCode) $($lu.BaseName) kb to dispatch model ..." -NoNewline    
 						(dispatch add `
 							--type "qna" `
@@ -338,18 +339,18 @@ foreach ($language in $languageArr)
 
 			# Setting subscription key
 			Write-Host "> Setting LUIS subscription key ..." -NoNewline
-			$addKeyResult = luis add appazureaccount `
-				--appId $dispatchApp.appId `
-				--accountName $luisAccountName `
-				--authoringKey $luisAuthoringKey `
-				--region $luisAuthoringRegion `
-				--azureSubscriptionId $azAccount.id `
-				--resourceGroup $resourceGroup `
-                --cloud $cloud `
-				--armToken $azAccessToken.accessToken 2>> $logFile
+			$addKeyResult = bf luis:application:assignazureaccount `
+					--accountName $luisAccountName `
+					--resourceGroup $resourceGroup `
+					--armToken $azAccessToken.accessToken `
+					--azureSubscriptionId $azAccount.id `
+					--appId $dispatchApp.appId `
+					--endpoint $luisEndpoint `
+					--subscriptionKey $luisAuthoringKey 2>> $logFile
 
-			if (-not $addKeyResult) {
+			if ($addKeyResult -ne "Account successfully assigned.") {
 				$luisKeySet = $false
+				$addKeyResult >> $logFile
 				Write-Host "! Could not assign subscription key automatically. Review the log for more information. " -ForegroundColor DarkRed
 				Write-Host "! Log: $($logFile)" -ForegroundColor DarkRed
 				Write-Host "+ Please assign your subscription key manually in the LUIS portal." -ForegroundColor Magenta

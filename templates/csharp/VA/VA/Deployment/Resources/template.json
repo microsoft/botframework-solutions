@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "name": {
@@ -26,7 +26,15 @@
     },
     "cosmosDbName": {
       "type": "string",
-      "defaultValue": "[if(equals(indexof(parameters('name'), '-'), 30), take(parameters('name'), 30), concat(parameters('name'), '-', parameters('suffix')))]"
+      "defaultValue": "[concat(parameters('name'), '-', parameters('suffix'))]"
+    },
+    "cosmosDbDatabaseName": {
+      "type": "string",
+      "defaultValue": "botstate-db"
+    },
+    "cosmosDbDatabaseThroughput": {
+      "type": "int",
+      "defaultValue": 400
     },
     "useStorage": {
       "type": "bool",
@@ -155,7 +163,7 @@
     "botWebAppName": "[replace(parameters('botWebAppName'), '_', '')]",
     "botServiceName": "[take(parameters('botServiceName'), 42)]",
     "storageAccountName": "[toLower(take(replace(replace(parameters('storageAccountName'), '-', ''), '_', ''), 24))]",
-    "cosmosDbAccountName": "[toLower(take(replace(parameters('cosmosDbName'), '_', ''), 31))]",
+    "cosmosDbAccountName": "[toLower(take(replace(replace(parameters('cosmosDbName'), '-', ''), '_', ''), 31))]",
     "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
     "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]"
   },
@@ -193,6 +201,22 @@
         "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "condition": "[parameters('useCosmosDb')]"
+    },
+    {
+      "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
+      "name": "[concat(variables('cosmosDbAccountName'), '/', parameters('cosmosDbDatabaseName'))]",
+      "apiVersion": "2019-12-12",
+      "dependsOn": [
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))]"
+      ],
+      "properties": {
+        "resource": {
+          "id": "[parameters('cosmosDbDatabaseName')]"
+        },
+        "options": {
+          "throughput": "[parameters('cosmosDbDatabaseThroughput')]"
+        }
+      }
     },
     {
       "comments": "storage account",
@@ -456,8 +480,8 @@
       "value": {
         "cosmosDBEndpoint": "[if(parameters('useCosmosDb'), reference(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName'))).documentEndpoint, '')]",
         "authKey": "[if(parameters('useCosmosDb'), listKeys(resourceId('Microsoft.DocumentDB/databaseAccounts', variables('cosmosDbAccountName')), '2015-04-08').primaryMasterKey, '')]",
-        "databaseId": "botstate-db",
-        "collectionId": "botstate-collection"
+        "databaseId": "[parameters('cosmosDbDatabaseName')]",
+        "containerId": "[concat(parameters('name'), '-state')]"
       }
     },
     "luis": {
@@ -467,7 +491,8 @@
         "region": "[parameters('luisRuntimeLocation')]",
         "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
         "authoringRegion": "[parameters('luisAuthoringLocation')]",
-        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]"
+        "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]",
+        "endpoint": "[if(parameters('useLuisAuthoring'), reference(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').endpoint, '')]"
       }
     },
     "qnaMaker": {

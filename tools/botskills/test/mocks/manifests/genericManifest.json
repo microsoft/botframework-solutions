@@ -1,0 +1,45 @@
+{
+   "id": "testSkill",
+   "name": "Test Skill",
+   "description": "The Calendar skill provides calendaring related capabilities and supports Office and Google calendars.",
+   "msaAppId": "11111111-0000-0000-0000-000000000000",
+   "endpoint": "http://localhost:3980/api/skill/Americas",
+   "luisDictionary": "[[\"en-us\",[\"kobukModel-en\"]],[\"es-es\",[\"generalModel-es\"]]]",
+   "version": "1.0",
+   "schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
+   "entries": [
+      [
+         "en-us",
+         [
+            {
+               "id": "kobukModel-en",
+               "name": "SkillBot LU (English)",
+               "contentType": "application/lu",
+               "url": "file://testSkill.lu",
+               "description": "English language model for the skill"
+            }
+         ]
+      ],
+      [
+         "es-es",
+         [
+            {
+               "id": "generalModel-es",
+               "name": "SkillBot LU (Spanish)",
+               "contentType": "application/lu",
+               "url": "file://testSkill.lu",
+               "description": "Spanish language model for the skill"
+            }
+         ]
+      ]
+   ],
+   "allowedIntents": [
+      "createEvent",
+      "updateEvent",
+      "changeEventStatus",
+      "summary",
+      "timeRemaining",
+      "joinEvent",
+      "*"
+   ]
+}

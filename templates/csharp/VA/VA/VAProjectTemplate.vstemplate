@@ -1,5 +1,5 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
-    <TemplateData>
+  <TemplateData>
     <Name>Virtual Assistant Template</Name>
     <Description>Project template for assistant scenarios using the Bot Builder SDK V4 (including Unit Test project).</Description>
     <SortOrder>1000</SortOrder>
@@ -109,6 +109,12 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">VirtualAssistantSample.yml</ProjectItem>
       </Folder>
       <Folder Name="Responses" TargetFolderName="Responses">
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.lg">AllResponses.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.de-de.lg">AllResponses.de-de.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.es-es.lg">AllResponses.es-es.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.fr-fr.lg">AllResponses.fr-fr.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.it-it.lg">AllResponses.it-it.lg</ProjectItem>
+        <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.zh-cn.lg">AllResponses.zh-cn.lg</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.lg">MainResponses.lg</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.de-de.lg">MainResponses.de-de.lg</ProjectItem>
         <ProjectItem ReplaceParameters="false" TargetFileName="MainResponses.es-es.lg">MainResponses.es-es.lg</ProjectItem>
@@ -127,6 +133,11 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="BotSettings.cs">BotSettings.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchLuis.cs">DispatchLuis.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="GeneralLuis.cs">GeneralLuis.cs</ProjectItem>
+      </Folder>
+      <Folder Name="TokenExchange" TargetFolderName="TokenExchange">
+        <ProjectItem ReplaceParameters="true" TargetFileName="ITokenExchangeConfig.cs">ITokenExchangeConfig.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="TokenExchangeConfig.cs">TokenExchangeConfig.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="TokenExchangeSkillHandler.cs">TokenExchangeSkillHandler.cs</ProjectItem>
       </Folder>
       <ProjectItem ReplaceParameters="true" TargetFileName=".filenesting.json">.filenesting.json</ProjectItem>
       <ProjectItem ReplaceParameters="true" TargetFileName="appsettings.json">appsettings.json</ProjectItem>

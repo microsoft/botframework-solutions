@@ -1,8 +1,0 @@
-{
-  "name": "root",
-  "private": true,
-  "scripts": {
-    "build": "rush update && rush build",
-    "pack-local": "rush publish --pack --include-all --release-folder ./outputpackages --apply --publish"
-  }
-}

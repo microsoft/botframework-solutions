@@ -27,16 +27,18 @@ namespace SkillSample.Services
                 var config = pair.Value;
 
                 var telemetryClient = client;
-                var luisOptions = new LuisPredictionOptions()
-                {
-                    TelemetryClient = telemetryClient,
-                    LogPersonalInformation = true,
-                };
+
+                LuisRecognizerOptionsV3 luisOptions;
 
                 if (config.DispatchModel != null)
                 {
                     var dispatchApp = new LuisApplication(config.DispatchModel.AppId, config.DispatchModel.SubscriptionKey, config.DispatchModel.GetEndpoint());
-                    set.DispatchService = new LuisRecognizer(dispatchApp, luisOptions);
+                    luisOptions = new LuisRecognizerOptionsV3(dispatchApp)
+                    {
+                        TelemetryClient = telemetryClient,
+                        LogPersonalInformation = true,
+                    };
+                    set.DispatchService = new LuisRecognizer(luisOptions);
                 }
 
                 if (config.LanguageModels != null)
@@ -44,7 +46,12 @@ namespace SkillSample.Services
                     foreach (var model in config.LanguageModels)
                     {
                         var luisApp = new LuisApplication(model.AppId, model.SubscriptionKey, model.GetEndpoint());
-                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisApp, luisOptions));
+                        luisOptions = new LuisRecognizerOptionsV3(luisApp)
+                        {
+                            TelemetryClient = telemetryClient,
+                            LogPersonalInformation = true,
+                        };
+                        set.LuisServices.Add(model.Id, new LuisRecognizer(luisOptions));
                     }
                 }
 
@@ -58,8 +65,7 @@ namespace SkillSample.Services
                             EndpointKey = kb.EndpointKey,
                             Host = kb.Hostname,
                         };
-                        var qnaMaker = new QnAMaker(qnaEndpoint);
-                        set.QnAServices.Add(kb.Id, qnaMaker);
+                        set.QnAConfiguration.Add(kb.Id, qnaEndpoint);
                     }
                 }
 

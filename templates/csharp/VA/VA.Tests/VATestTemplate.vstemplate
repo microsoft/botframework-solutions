@@ -15,12 +15,16 @@
     <Project TargetFileName="VA.Tests.csproj" File="VA.Tests.csproj" ReplaceParameters="true">
       <Folder Name="Mocks" TargetFolderName="Mocks">
         <ProjectItem ReplaceParameters="true" TargetFileName="MockLuisRecognizer.cs">MockLuisRecognizer.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="MockMainDialog.cs">MockMainDialog.cs</ProjectItem>
       </Folder>
       <Folder Name="Resources" TargetFolderName="Resources">
         <ProjectItem ReplaceParameters="true" TargetFileName="chitchat_default.json">chitchat_default.json</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="chitchat_greeting.json">chitchat_greeting.json</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="faq_default.json">faq_default.json</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="faq_overview.json">faq_overview.json</ProjectItem>
+      </Folder>
+      <Folder Name="TestData" TargetFolderName="TestData">
+        <ProjectItem ReplaceParameters="true" TargetFileName="QnAMaker_NoAnswer.json">QnAMaker_NoAnswer.json</ProjectItem>
       </Folder>
       <Folder Name="Utilities" TargetFolderName="Utilities">
         <ProjectItem ReplaceParameters="true" TargetFileName="DispatchTestUtil.cs">DispatchTestUtil.cs</ProjectItem>

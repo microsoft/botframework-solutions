@@ -21,49 +21,13 @@ Apart from some minor differences that enable this special invocation pattern, a
 The following Skill samples are available out of the box, each with deployment steps required to deploy and configure Skills for your use.
 
 <div class="card-deck">
-    <a href="{{site.baseurl}}/skills/samples/calendar/" class="card">
-        <div class="card-body">
-        <img src="{{site.baseurl}}/assets/images/icons/calendar-skill.png" alt="Calendar icon" width="48px">
-            <h4 class="card-title no_toc">Calendar Skill</h4>
-            <p class="card-text">Get up and running with the Calendar Skill sample.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Learn more</div>
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/skills/samples/email/"  class="card">
-        <div class="card-body">
-        <img src="{{site.baseurl}}/assets/images/icons/email-skill.png" alt="Email icon" width="48px">
-            <h4 class="card-title no_toc">Email Skill</h4>
-            <p class="card-text">Get up and running with the Email Skill sample.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Learn more</div>
-        </div>
-    </a>
+    {% include button.html params=site.data.button.calendar_skill %}
+    {% include button.html params=site.data.button.email_skill %}
 </div>
 <br/>
 <div class="card-deck">
-    <a href="{{site.baseurl}}/skills/samples/to-do/" class="card">
-        <div class="card-body">
-        <img src="{{site.baseurl}}/assets/images/icons/todo-skill.png" alt="To Do icon" width="48px">
-            <h4 class="card-title no_toc">To Do Skill</h4>
-            <p class="card-text">Get up and running with the To Do Skill sample.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Learn more</div>
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/skills/samples/point-of-interest/" class="card">
-        <div class="card-body">
-        <img src="{{site.baseurl}}/assets/images/icons/point-of-interest-skill.png" alt="Point of Interest icon" width="48px">
-            <h4 class="card-title no_toc">Point of Interest Skill</h4>
-            <p class="card-text">Get up and running with the Point of Interest Skill sample.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Learn more</div>
-        </div>
-    </a>
+    {% include button.html params=site.data.button.todo_skill %}
+    {% include button.html params=site.data.button.poi_skill %}
 </div>
 
 ### Experimental Skills
@@ -84,24 +48,6 @@ By their very nature these Skill are not complete, with only English support. If
 ## Next steps
 
 <div class="card-deck">
-    <a href="{{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro/"  class="card">
-        <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/csharp.png" alt="C# icon" width="48px">
-            <h4 class="card-title no_toc">Create a Skill</h4>
-            <p class="card-text">Get up and running with the solution accelerator.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Get started</div>
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/skills/tutorials/create-skill/typescript/1-intro/" class="card">
-        <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/typescript.png" alt="Typescript icon" width="48px">
-            <h4 class="card-title no_toc">Create a Skill</h4>
-            <p class="card-text">Personalize your experience for your brand and customers.</p>
-        </div>
-        <div class="card-footer">
-            <div class="btn btn-primary">Get started</div>
-        </div>
-    </a>
+    {% include button.html params=site.data.button.create_skill_cs %}
+    {% include button.html params=site.data.button.create_skill_ts %}
 </div>

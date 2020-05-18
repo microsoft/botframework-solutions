@@ -6,7 +6,7 @@ import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
 import { ICognitiveModel, IRefreshConfiguration } from '../models';
-import { ChildProcessUtils, getDispatchNames, isCloudGovernment, wrapPathWithQuotes } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isCloudGovernment, libraries, validateLibrary, wrapPathWithQuotes } from '../utils';
 
 export class RefreshSkill {
     public logger: ILogger;
@@ -58,23 +58,25 @@ export class RefreshSkill {
         }
     }
 
-    private async executeLuisGen(dispatchName: string, executionModelByCulture: Map<string, string>): Promise<void> {
-        const luisgenCommand: string[] = ['luisgen'];
+    private async executeLuisGenerate(dispatchName: string, executionModelByCulture: Map<string, string>): Promise<void> {
+        const luisGenerateCommand: string[] = ['bf', `luis:generate:${ this.configuration.lgLanguage }`];
         try {
-            this.logger.message(`Running LuisGen for ${ dispatchName }...`);
-            const dispatchJsonFilePath: string = executionModelByCulture.get('dispatchJsonFilePath') as string;
-            const luisgenCommandArguments: string [] = [
-                wrapPathWithQuotes(dispatchJsonFilePath),
-                `-${ this.configuration.lgLanguage }`,
-                '-o'
+            this.logger.message(`Running Luis Generate for ${ dispatchName }...`);
+            const luisGenerateCommandArguments: string [] = [
+                '--in',
+                '--out',
+                '--className'
             ];
-            luisgenCommandArguments.forEach((argument: string): void => {
+            luisGenerateCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
-                luisgenCommand.push(...[argument, argumentValue]);
+                luisGenerateCommand.push(...[argument, argumentValue]);
             });
-            await this.runCommand(luisgenCommand, `Executing luisgen for the ${ dispatchName } file`);
+
+            // Force the bf luis:generate to overwrite the output file if it already exists
+            luisGenerateCommand.push('--force');
+            await this.runCommand(luisGenerateCommand, `Executing luisgen for the ${ dispatchName } file`);
         } catch (err) {
-            throw new Error(`There was an error in the luisgen command:\nCommand: ${ luisgenCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the bf luis:generate:${ this.configuration.lgLanguage } command:\nCommand: ${ luisGenerateCommand.join(' ') }\n${ err }`);
         }
     }
     
@@ -96,10 +98,10 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('dispatchJsonFilePath', dispatchJsonFilePath);
         executionModelMap.set('--dispatch', dispatchFilePath);
         executionModelMap.set('--dataFolder', dataFolder);
-        executionModelMap.set(wrapPathWithQuotes(dispatchJsonFilePath), '');
-        executionModelMap.set(`-${ this.configuration.lgLanguage }`, wrapPathWithQuotes('DispatchLuis'));
-        executionModelMap.set('-o', wrapPathWithQuotes(this.configuration.lgOutFolder));
-
+        executionModelMap.set('--in', wrapPathWithQuotes(dispatchJsonFilePath));
+        executionModelMap.set('--out', wrapPathWithQuotes(this.configuration.lgOutFolder));
+        executionModelMap.set('--className', 'DispatchLuis');
+        
         return executionModelMap;
     }
 
@@ -122,12 +124,18 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 const executionModelByCulture: Map<string, string> = item[1];
                 const dispatchName: string = dispatchNames.get(culture) as string;
                 await this.executeDispatchRefresh(dispatchName, executionModelByCulture);
-                await this.executeLuisGen(dispatchName, executionModelByCulture);
+                await this.executeLuisGenerate(dispatchName, executionModelByCulture);
             }));
     }
 
     public async refreshSkill(): Promise<boolean> {
         try {
+            // Validate if the user has the necessary tools to run the command
+            await validateLibrary([libraries.BotFrameworkCLI], this.logger);
+            if (this.logger.isError) {
+                throw new Error('You have not installed the required tools to run this command');
+            }
+            
             await this.updateModel();
                 
             this.logger.success('Successfully refreshed Dispatch model');

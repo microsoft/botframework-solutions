@@ -49,13 +49,13 @@ import events.GpsLocationSent;
 public class SettingsActivity extends BaseActivity {
 
     // VIEWS
-    @BindView(R.id.service_key) TextInputEditText serviceKey;
-    @BindView(R.id.service_region) TextInputEditText serviceRegion;
+    @BindView(R.id.speech_subscription_key) TextInputEditText serviceKey;
+    @BindView(R.id.speech_region) TextInputEditText serviceRegion;
     @BindView(R.id.custom_commands_app_id) TextInputEditText customCommandsAppId;
     @BindView(R.id.custom_voice_deployment_ids) TextInputEditText customVoiceDeploymentIds;
     @BindView(R.id.custom_sr_endpoint_id) TextInputEditText customSpeechRecognitionEndpointId;
     @BindView(R.id.user_id) TextInputEditText userId;
-    @BindView(R.id.locale) TextInputEditText locale;
+    @BindView(R.id.sr_language) TextInputEditText srLanguage;
     @BindView(R.id.history_linecount) TextInputEditText historyLinecount;
     @BindView(R.id.switch_enable_sdk_logging) SwitchCompat switchEnableSdkLogging;
     @BindView(R.id.spinner_timezone) Spinner spinnerTimezone;
@@ -134,7 +134,7 @@ public class SettingsActivity extends BaseActivity {
         showAppConfiguration();
     }
 
-    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.user_id, R.id.locale, R.id.custom_commands_app_id, R.id.custom_voice_deployment_ids, R.id.custom_sr_endpoint_id})
+    @OnEditorAction({R.id.history_linecount, R.id.speech_subscription_key, R.id.speech_region, R.id.user_id, R.id.sr_language, R.id.custom_commands_app_id, R.id.custom_voice_deployment_ids, R.id.custom_sr_endpoint_id})
     boolean onEditorAction(int actionId, KeyEvent key){
         boolean handled = false;
         if (actionId == EditorInfo.IME_ACTION_SEND || (key != null && key.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
@@ -321,13 +321,13 @@ public class SettingsActivity extends BaseActivity {
     private void showConfiguration(){
         configuration = configurationManager.getConfiguration();
 
-        serviceKey.setText(configuration.serviceKey);
-        serviceRegion.setText(configuration.serviceRegion);
+        serviceKey.setText(configuration.speechSubscriptionKey);
+        serviceRegion.setText(configuration.speechRegion);
         customCommandsAppId.setText(configuration.customCommandsAppId);
         customVoiceDeploymentIds.setText(configuration.customVoiceDeploymentIds);
-        customSpeechRecognitionEndpointId.setText(configuration.customSpeechRecognitionEndpointId);
+        customSpeechRecognitionEndpointId.setText(configuration.customSREndpointId);
         userId.setText(configuration.userId);
-        locale.setText(configuration.locale);
+        srLanguage.setText(configuration.srLanguage);
         switchEnableSdkLogging.setChecked(configuration.speechSdkLogEnabled);
 
         // timezone
@@ -401,13 +401,13 @@ public class SettingsActivity extends BaseActivity {
     }
 
     private void saveConfiguration() {
-        configuration.serviceKey = serviceKey.getText().toString();
-        configuration.serviceRegion = serviceRegion.getText().toString();
+        configuration.speechSubscriptionKey = serviceKey.getText().toString();
+        configuration.speechRegion = serviceRegion.getText().toString();
         configuration.customCommandsAppId = customCommandsAppId.getText().toString();
         configuration.customVoiceDeploymentIds = customVoiceDeploymentIds.getText().toString();
-        configuration.customSpeechRecognitionEndpointId = customSpeechRecognitionEndpointId.getText().toString();
+        configuration.customSREndpointId = customSpeechRecognitionEndpointId.getText().toString();
         configuration.userId = userId.getText().toString();
-        configuration.locale = locale.getText().toString();
+        configuration.srLanguage = srLanguage.getText().toString();
         configuration.speechSdkLogEnabled = switchEnableSdkLogging.isChecked();
 
         // timezone

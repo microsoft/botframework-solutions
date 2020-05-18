@@ -78,7 +78,8 @@ Learn more in the [what's new]({{site.baseurl}}/overview/whats-new/0.8-beta/Summ
 <div class="card-deck">
      <a href="{{site.baseurl}}/skills/tutorials/add-prebuilt-skill/1-intro/"  class="card">
         <div class="card-body">
-            <img src="{{site.baseurl}}/assets/images/icons/skill.png" alt="Skills icon" width="48px">             <h4 class="card-title">Connect to a sample skill</h4>
+            <img src="{{site.baseurl}}/assets/images/icons/skill.png" alt="Skills icon" width="48px">
+            <h4 class="card-title">Connect to a sample skill</h4>
             <p class="card-text">Deploy and connect to a selection of provided skill projects.</p>
             <div class="btn btn-primary">Get started</div>
         </div>

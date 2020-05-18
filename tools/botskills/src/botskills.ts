@@ -39,7 +39,8 @@ program
     .command('disconnect', 'disconnect a specific skill from your assitant bot')
     .command('update', 'update a specific skill from your assistant bot')
     .command('refresh', 'refresh the connected skills')
-    .command('list', 'list the connected skills in the assistant');
+    .command('list', 'list the connected skills in the assistant')
+    .command('migrate', 'migrate the Skills connected in your assistant to the new schema');
 
 const args: program.Command = program.parse(process.argv);
 // args should be undefined is subcommand is executed
