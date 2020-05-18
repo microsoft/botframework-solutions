@@ -64,7 +64,8 @@ export class RefreshSkill {
             this.logger.message(`Running Luis Generate for ${ dispatchName }...`);
             const luisGenerateCommandArguments: string [] = [
                 '--in',
-                '--out'
+                '--out',
+                '--className'
             ];
             luisGenerateCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
@@ -99,7 +100,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('--dataFolder', dataFolder);
         executionModelMap.set('--in', wrapPathWithQuotes(dispatchJsonFilePath));
         executionModelMap.set('--out', wrapPathWithQuotes(this.configuration.lgOutFolder));
-
+        executionModelMap.set('--className', 'DispatchLuis');
+        
         return executionModelMap;
     }
 
