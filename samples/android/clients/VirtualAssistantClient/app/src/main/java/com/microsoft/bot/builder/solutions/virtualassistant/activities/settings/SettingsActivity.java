@@ -51,9 +51,13 @@ public class SettingsActivity extends BaseActivity {
     // VIEWS
     @BindView(R.id.service_key) TextInputEditText serviceKey;
     @BindView(R.id.service_region) TextInputEditText serviceRegion;
+    @BindView(R.id.custom_commands_app_id) TextInputEditText customCommandsAppId;
+    @BindView(R.id.custom_voice_deployment_ids) TextInputEditText customVoiceDeploymentIds;
+    @BindView(R.id.custom_sr_endpoint_id) TextInputEditText customSpeechRecognitionEndpointId;
     @BindView(R.id.user_id) TextInputEditText userId;
     @BindView(R.id.locale) TextInputEditText locale;
     @BindView(R.id.history_linecount) TextInputEditText historyLinecount;
+    @BindView(R.id.switch_enable_sdk_logging) SwitchCompat switchEnableSdkLogging;
     @BindView(R.id.spinner_timezone) Spinner spinnerTimezone;
     @BindView(R.id.color_picker_bot) View colorPickedBot;
     @BindView(R.id.color_picker_user) View colorPickedUser;
@@ -130,7 +134,7 @@ public class SettingsActivity extends BaseActivity {
         showAppConfiguration();
     }
 
-    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.user_id, R.id.locale})
+    @OnEditorAction({R.id.history_linecount, R.id.service_key, R.id.service_region, R.id.user_id, R.id.locale, R.id.custom_commands_app_id, R.id.custom_voice_deployment_ids, R.id.custom_sr_endpoint_id})
     boolean onEditorAction(int actionId, KeyEvent key){
         boolean handled = false;
         if (actionId == EditorInfo.IME_ACTION_SEND || (key != null && key.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
@@ -319,8 +323,12 @@ public class SettingsActivity extends BaseActivity {
 
         serviceKey.setText(configuration.serviceKey);
         serviceRegion.setText(configuration.serviceRegion);
+        customCommandsAppId.setText(configuration.customCommandsAppId);
+        customVoiceDeploymentIds.setText(configuration.customVoiceDeploymentIds);
+        customSpeechRecognitionEndpointId.setText(configuration.customSpeechRecognitionEndpointId);
         userId.setText(configuration.userId);
         locale.setText(configuration.locale);
+        switchEnableSdkLogging.setChecked(configuration.speechSdkLogEnabled);
 
         // timezone
         selectTimezone(configuration.currentTimezone);
@@ -395,8 +403,12 @@ public class SettingsActivity extends BaseActivity {
     private void saveConfiguration() {
         configuration.serviceKey = serviceKey.getText().toString();
         configuration.serviceRegion = serviceRegion.getText().toString();
+        configuration.customCommandsAppId = customCommandsAppId.getText().toString();
+        configuration.customVoiceDeploymentIds = customVoiceDeploymentIds.getText().toString();
+        configuration.customSpeechRecognitionEndpointId = customSpeechRecognitionEndpointId.getText().toString();
         configuration.userId = userId.getText().toString();
         configuration.locale = locale.getText().toString();
+        configuration.speechSdkLogEnabled = switchEnableSdkLogging.isChecked();
 
         // timezone
         configuration.currentTimezone = (String)tzAdapter.getItem(spinnerTimezone.getSelectedItemPosition());

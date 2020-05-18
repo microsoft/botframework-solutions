@@ -65,7 +65,6 @@ The core folder structure is shown below and key concepts such as Dialogs, Model
     - Services
     - appSettings.json
     - cognitiveModels.json
-    - skills.json
     - startup.cs
 ```
 

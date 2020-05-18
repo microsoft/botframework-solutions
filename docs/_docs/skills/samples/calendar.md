@@ -196,23 +196,25 @@ The Calendar skill provides additional support to search and book meeting rooms.
 }
 ```
 
-2. Configure the settings of your registered app in the Azure App Registration portal
+1. In the **Azure Portal**, Configure the settings of your registered Calendar Skill app at **Azure Active Directory** > **App registrations**
     - This app will request the permission for **Place.Read.All** scope. There are two ways to grant the consent:
-      1. In API permissions, add a permission for **Place.Read.All** scope, and grant admin consent for your organization.
+      1. In the **API permissions** tab, add a permission for **Place.Read.All** scope, and grant admin consent for your organization.
       2. Make sure your account has permission to access your tenant's meeting room data so that you can consent on behalf of your organization in the login step, testing the previous query will validate this.
-    - In Authentication
-      - Set "Treat application as a public client" as "Yes"
-      - Set "Supported account types" according to your requirements
+    - In the **Authentication** tab
+      - Toggle **Default client type** > **Treat application as a public client** to "Yes"
+      - Set **Supported account types** according to your own requirements
 
-3. Run the following command to install the module:
+1. Run the following command to install the module:
 ```powershell
   Install-Module -Name CosmosDB
 ```
     
-4. Run the following command:
+1. Run the following command:
 ```powershell
  ./Deployment/Scripts/enable_findmeetingroom.ps1
 ```
+
+![A successful run of the Meeting Room script]({{site.baseurl}}/assets/images/calendar-meeting-room-script.png)
 
 ### What do these parameters mean? 
 
@@ -223,6 +225,7 @@ The Calendar skill provides additional support to search and book meeting rooms.
 |primaryKey  | The primary key of the CosmosDB deployment  | Yes |
 |appId  | AppId of an authorised Azure AD application which can access Meeting room data  | Yes |
 |tenantId  | The tenantId corresponding to the application. If you have set "Supported account types" as "Multitenant" and your account has a differet tenant, please use "common"| Yes|
+|migrationToolPath | The local path to your data migration tool "dt.exe", e.g., "C:\Users\tools\dt1.8.3\drop". The data migration tool is a tool which can migrate your data to Azure Cosmos DB with parallel requests. This is recommended if you have a large amount of meeting room data. You can download the tool here: https://docs.microsoft.com/en-us/azure/cosmos-db/import-data | No |
 
 You can access all the required parameters from the [Deployment](#deployment) step. <br>
 **Note:** When running the script, you will be asked to sign in with your account which can access the meeting room data in the MSGraph.

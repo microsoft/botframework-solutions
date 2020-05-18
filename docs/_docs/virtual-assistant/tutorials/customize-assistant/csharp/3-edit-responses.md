@@ -25,6 +25,7 @@ Within `Startup.cs` in your project root directory add the newly created LG file
 var localizedTemplates = new Dictionary<string, List<string>>();
 var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
 var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
+```
 
 ## Multiple Responses
 
@@ -38,12 +39,12 @@ Within MainResponses we provide an example of occasionally using the Users name 
 # ConfusedMessage
 - I'm sorry, I didn’t understand that. Can you give me some more information?
 - Sorry, I didn't get that. Can you tell me more?
-- Sorry@{RandomName()}, I didn't get that. Can you tell me more?
+- Sorry ${RandomName()}, I didn't get that. Can you tell me more?
 - Apologies, I didn't quite understand. Can you give me more information?
 
 # RandomName 
-- IF: @{Name && rand(0, 1000) > 500}
-    - @{concat(' ', Name)}
+- IF: ${Name && rand(0, 1000) > 500}
+    - ${concat(' ', Name)}
 - ELSE:
     - 
 ```

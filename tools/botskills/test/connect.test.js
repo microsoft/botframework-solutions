@@ -416,6 +416,130 @@ Error: Mocked function throws an Error`);
 Error: An error ocurred while updating the Dispatch model:
 Error: Mocked function throws an Error`);
         });
+
+        it("The localManifest V1 points to a nonexisting Endpoint URL", async function() {
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpoint.json")),
+                remoteManifest: "",
+                languages: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+        
+            const errorMessages = [
+                `Missing property 'endpoint' of the manifest`,
+                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
+            ]
+        
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+        
+            errorList.forEach((errorMessage, index) => {
+                strictEqual(errorMessage, errorMessages[index]);
+            });
+        });
+    
+        it("The localManifest V1 points to a Endpoint URL with uppercase scenario", async function() {
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpointManifest.json")),
+                remoteManifest: "",
+                languages: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+        
+            const errorMessages = [
+                `The 'endpoint' property contains some characters not allowed.`,
+                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
+            ]
+        
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+        
+            errorList.forEach((errorMessage, index) => {
+                strictEqual(errorMessage, errorMessages[index]);
+            });
+        });
+    
+        it("The localManifest V2 points to a nonexisting Endpoint URL", async function() {
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpointV2.json")),
+                remoteManifest: "",
+                languages: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+        
+            const errorMessages = [
+                `Missing property 'endpointUrl' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`,
+                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
+            ]
+        
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+        
+            errorList.forEach((errorMessage, index) => {
+                strictEqual(errorMessage, errorMessages[index]);
+            });
+        });
+    
+        it("The localManifest V2 points to a Endpoint URL with uppercase scenario", async function() {
+            const configuration = {
+                botName: "",
+                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpointManifestV2.json")),
+                remoteManifest: "",
+                languages: "",
+                luisFolder: "",
+                dispatchFolder: "",
+                outFolder: "",
+                lgOutFolder: "",
+                resourceGroup: "",
+                appSettingsFile: "",
+                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
+                lgLanguage: "",
+                logger: this.logger
+            };
+        
+            const errorMessages = [
+                `The 'endpointUrl' property contains some characters not allowed at the selected endpoint. If you didn't select any endpoint, the first one is taken by default.`,
+                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
+            ]
+        
+            this.connector.configuration = configuration;
+            await this.connector.connectSkill();
+            const errorList = this.logger.getError();
+        
+            errorList.forEach((errorMessage, index) => {
+                strictEqual(errorMessage, errorMessages[index]);
+            });
+        });
     });
 
     describe("should show a warning", function () {
@@ -533,5 +657,5 @@ Error: Mocked function throws an Error`);
 
 			strictEqual(messageList[messageList.length - 1], `Appending 'Test Skill' manifest to your assistant's skills configuration file.`);
 		});
-	});
+    });
 });

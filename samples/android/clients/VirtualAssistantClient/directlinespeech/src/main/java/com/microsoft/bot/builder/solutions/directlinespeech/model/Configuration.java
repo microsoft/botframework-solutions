@@ -13,9 +13,29 @@ public class Configuration {
     @Expose
     public String serviceRegion;
 
+    @SerializedName("custom_commands_app_id")
+    @Expose
+    public String customCommandsAppId;
+
     @SerializedName("user_id")
     @Expose
     public String userId;
+
+    @SerializedName("custom_voice_deployment_ids")
+    @Expose
+    public String customVoiceDeploymentIds;
+
+    @SerializedName("custom_speech_recognition_endpoint_id")
+    @Expose
+    public String customSpeechRecognitionEndpointId;
+
+    @SerializedName("SpeechSDKLogEnabled")
+    @Expose
+    public Boolean speechSdkLogEnabled;
+
+    @SerializedName("barge_in_supported")
+    @Expose
+    public Boolean bargeInSupported;
 
     @SerializedName("locale")
     @Expose

@@ -79,38 +79,35 @@ The **_proactiveStateAccessor** contains the mapping between a user id and a pre
 
 Update the **MainDialog** class with the below changes to the constructor and **OnEventActivityAsync** method.
 
-#### MainDialog.cs
+#### DefaultActivityHandler.cs
 {:.no_toc}
 
 ```diff
-public class MainDialog : RouterDialog
+public class DefaultActivityHandler<T> : TeamsActivityHandler
+    where T : Dialog
 {
-    private BotServices _services;
-    private BotSettings _settings;
-    private TemplateEngine _templateEngine;
-    private ILanguageGenerator _langGenerator;
-    private TextActivityGenerator _activityGenerator;
-    private OnboardingDialog _onboardingDialog;
-    private IStatePropertyAccessor<SkillContext> _skillContext;
-    private IStatePropertyAccessor<OnboardingState> _onboardingState;
-    private IStatePropertyAccessor<List<Activity>> _previousResponseAccessor;
+    private readonly Dialog _dialog;
+    private readonly BotState _conversationState;
+    private readonly BotState _userState;
+    private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+    private IStatePropertyAccessor<UserProfileState> _userProfileState;
+    private LocaleTemplateManager _templateManager;
 +   private MicrosoftAppCredentials _appCredentials;
 +   private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
 
-    public MainDialog(
+    public DefaultActivityHandler(
         IServiceProvider serviceProvider,
         IBotTelemetryClient telemetryClient,
 +       MicrosoftAppCredentials appCredentials,
-+       ProactiveState proactiveState)
-        : base(nameof(MainDialog), telemetryClient)
++       ProactiveState proactiveState,
+        T dialog)
     {
-        _services = serviceProvider.GetService<BotServices>();
-        _settings = serviceProvider.GetService<BotSettings>();
-        _templateEngine = serviceProvider.GetService<TemplateEngine>();
-        _langGenerator = serviceProvider.GetService<ILanguageGenerator>();
-        _activityGenerator = serviceProvider.GetService<TextActivityGenerator>();
-        _previousResponseAccessor = serviceProvider.GetService<IStatePropertyAccessor<List<Activity>>>();
-        TelemetryClient = telemetryClient;
+        _dialog = dialog;
+        _conversationState = serviceProvider.GetService<ConversationState>();
+        _userState = serviceProvider.GetService<UserState>();
+        _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
+        _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
+        _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
 +       _appCredentials = appCredentials;
 +       _proactiveStateAccessor = proactiveState.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
     ...

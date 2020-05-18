@@ -98,6 +98,7 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.kbd_image) ImageView kbdImage;
     @BindView(R.id.animated_assistant) AppCompatImageView animatedAssistant;
     @BindView(R.id.switch_enable_kws) SwitchCompat switchEnableKws;
+    @BindView(R.id.switch_enable_barge_in) SwitchCompat switchEnableBargeIn;
     @BindView(R.id.nav_menu_set_as_default_assistant) TextView setDefaultAssistant;
 
     // CONSTANTS
@@ -117,6 +118,7 @@ public class MainActivity extends BaseActivity
     private boolean enableDarkMode;
     private boolean keepScreenOn;
     private boolean enableKws;
+    private boolean bargeInSupported;
     private boolean isExpandedTextInput;
     private boolean isCreated;// used to identify when onCreate() is complete, used with SwitchCompat
 
@@ -135,7 +137,9 @@ public class MainActivity extends BaseActivity
         // Options hidden in the nav-drawer
         Configuration speechConfig = configurationManager.getConfiguration();
         enableKws = speechConfig.enableKWS;
+        bargeInSupported = speechConfig.bargeInSupported;
         switchEnableKws.setChecked(enableKws);
+        switchEnableBargeIn.setChecked(bargeInSupported);
 
         // NAV DRAWER
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle( this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -433,6 +437,17 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @OnCheckedChanged(R.id.switch_enable_barge_in)
+    public void onCheckedChangedEnableBargeIn(CompoundButton button, boolean checked) {
+        if (isCreated) {
+            bargeInSupported = checked;
+
+            Configuration speechConfig = configurationManager.getConfiguration();
+            speechConfig.bargeInSupported = bargeInSupported;
+            configurationManager.setConfiguration(speechConfig);
+        }
+    }
+
     public void setDarkMode(boolean enabled){
         if (enableDarkMode != enabled) {
             enableDarkMode = enabled;
@@ -514,6 +529,14 @@ public class MainActivity extends BaseActivity
         // Note: the SpeechService will trigger the actual listening. Since the app needs to show a
         // visual, the app needs to subscribe to this event and act on it.
         showListeningAnimation();
+
+        if ((bargeInSupported)) {
+            try {
+                speechServiceBinder.stopAnyTTS();
+            } catch (RemoteException exception) {
+                Log.e(LOGTAG, exception.getMessage());
+            }
+        }
     }
 
     // EventBus: the user spoke and the app recognized intermediate speech

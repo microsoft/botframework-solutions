@@ -32,10 +32,14 @@
     <string name="nav_menu_enable_dark_mode" translatable="false">Enable dark mode</string>
     -->
     <string name="nav_menu_enable_kws" translatable="false">Enable KWS</string>
+    <string name="nav_menu_enable_barge_in" translatable="false">Enable Barge-In</string>
 
     <!-- CONFIGURATION -->
     <string name="configuration_service_key_hint">Speech Service Subscription Key</string>
     <string name="configuration_service_region_hint">Speech Service Subscription Key Region</string>
+    <string name="configuration_custom_commands_hint">Custom Commands App ID</string>
+    <string name="configuration_voice_deployment_hint">Custom Voice Deployment IDs</string>
+    <string name="configuration_custom_sr_endpoint_hint">Custom Speech Recognition Endpoint ID</string>
     <string name="configuration_bot_id_hint">Direct Line Speech Secret Key</string>
     <string name="configuration_voice_name_hint">Voice Name</string>
     <string name="configuration_user_id_hint">User From Id</string>
@@ -43,6 +47,7 @@
     <string name="configuration_geolocation_lat_hint">Lat</string>
     <string name="configuration_geolocation_lon_hint">Lon</string>
     <string name="configuration_chat_history_line_count">Chat history line-count</string>
+    <string name="configuration_enable_sdk_logging" translatable="false">Enable Speech SDK Logging</string>
     <string name="configuration_timezone">Timezone</string>
     <string name="configuration_bot_color">Bot bubble background</string>
     <string name="configuration_user_color">User bubble background</string>
