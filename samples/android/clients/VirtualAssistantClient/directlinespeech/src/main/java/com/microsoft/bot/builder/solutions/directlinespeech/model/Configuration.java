@@ -5,63 +5,63 @@ import com.google.gson.annotations.SerializedName;
 
 public class Configuration {
 
-    @SerializedName("service_key")
+    @SerializedName("SpeechSubscriptionKey")
     @Expose
-    public String serviceKey;
+    public String speechSubscriptionKey;
 
-    @SerializedName("service_region")
+    @SerializedName("SpeechRegion")
     @Expose
-    public String serviceRegion;
+    public String speechRegion;
 
-    @SerializedName("custom_commands_app_id")
+    @SerializedName("CustomCommandsAppId")
     @Expose
     public String customCommandsAppId;
 
-    @SerializedName("user_id")
+    @SerializedName("UserId")
     @Expose
     public String userId;
 
-    @SerializedName("custom_voice_deployment_ids")
+    @SerializedName("CustomVoiceDeploymentIds")
     @Expose
     public String customVoiceDeploymentIds;
 
-    @SerializedName("custom_speech_recognition_endpoint_id")
+    @SerializedName("CustomSREndpointId")
     @Expose
-    public String customSpeechRecognitionEndpointId;
+    public String customSREndpointId;
 
     @SerializedName("SpeechSDKLogEnabled")
     @Expose
     public Boolean speechSdkLogEnabled;
 
-    @SerializedName("barge_in_supported")
+    @SerializedName("TTSBargeInSupported")
     @Expose
-    public Boolean bargeInSupported;
+    public Boolean ttsBargeInSupported;
 
-    @SerializedName("locale")
+    @SerializedName("SRLanguage")
     @Expose
-    public String locale;
+    public String srLanguage;
 
-    @SerializedName("user_name")
+    @SerializedName("UserName")
     @Expose
     public String userName;
 
-    @SerializedName("current_timezone")
+    @SerializedName("CurrentTimezone")
     @Expose
     public String currentTimezone;//stores the TZ ID
 
-    @SerializedName("keyword")
+    @SerializedName("Keyword")
     @Expose
     public String keyword;
 
-    @SerializedName("enableKWS")
+    @SerializedName("EnableKWS")
     @Expose
     public Boolean enableKWS;
 
-    @SerializedName("signedIn")
+    @SerializedName("SignedIn")
     @Expose
     public Boolean signedIn;
 
-    @SerializedName("linkedAccountEndpoint")
+    @SerializedName("LinkedAccountEndpoint")
     @Expose
     public String linkedAccountEndpoint;
 }

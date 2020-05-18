@@ -50,11 +50,11 @@ public class ConfigurationManager {
         String json = sharedPreferences.getString(SHARED_PREFS_CONFIGURATION, "{}");
         Configuration configuration = gson.fromJson(json, new TypeToken<Configuration>(){}.getType());
 
-        if (configuration.serviceKey == null) {
-            configuration.serviceKey = defaultConfiguration.serviceKey;
+        if (configuration.speechSubscriptionKey == null) {
+            configuration.speechSubscriptionKey = defaultConfiguration.speechSubscriptionKey;
         }
-        if (configuration.serviceRegion == null) {
-            configuration.serviceRegion = defaultConfiguration.serviceRegion;
+        if (configuration.speechRegion == null) {
+            configuration.speechRegion = defaultConfiguration.speechRegion;
         }
         if (configuration.customCommandsAppId == null) {
             configuration.customCommandsAppId = defaultConfiguration.customCommandsAppId;
@@ -62,14 +62,14 @@ public class ConfigurationManager {
         if (configuration.customVoiceDeploymentIds == null) {
             configuration.customVoiceDeploymentIds = defaultConfiguration.customVoiceDeploymentIds;
         }
-        if (configuration.customSpeechRecognitionEndpointId == null) {
-            configuration.customSpeechRecognitionEndpointId = defaultConfiguration.customSpeechRecognitionEndpointId;
+        if (configuration.customSREndpointId == null) {
+            configuration.customSREndpointId = defaultConfiguration.customSREndpointId;
         }
         if (configuration.speechSdkLogEnabled == null) {
             configuration.speechSdkLogEnabled = defaultConfiguration.speechSdkLogEnabled;
         }
-        if (configuration.bargeInSupported == null) {
-            configuration.bargeInSupported = false;
+        if (configuration.ttsBargeInSupported == null) {
+            configuration.ttsBargeInSupported = false;
         }
         if (configuration.userId == null) {
             configuration.userId = defaultConfiguration.userId;
@@ -77,8 +77,8 @@ public class ConfigurationManager {
         if (configuration.userName == null) {
             configuration.userName = defaultConfiguration.userName;
         }
-        if (configuration.locale == null) {
-            configuration.locale = defaultConfiguration.locale;
+        if (configuration.srLanguage == null) {
+            configuration.srLanguage = defaultConfiguration.srLanguage;
         }
         if (configuration.keyword == null) {
             configuration.keyword = defaultConfiguration.keyword;

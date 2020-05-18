@@ -28,14 +28,14 @@
 
             <!-- SPEECH SERVICE SUBSCRIPTION KEY -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/service_key_layout"
+                android:id="@+id/speech_subscription_key_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/configuration_service_key_hint">
+                android:hint="@string/configuration_speech_subscription_key_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/service_key"
+                    android:id="@+id/speech_subscription_key"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -44,14 +44,14 @@
 
             <!-- SPEECH SERVICE SUBSCRIPTION KEY REGION -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/service_region_layout"
+                android:id="@+id/speech_region_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/configuration_service_region_hint">
+                android:hint="@string/configuration_speech_region_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/service_region"
+                    android:id="@+id/speech_region"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -122,16 +122,16 @@
                     android:imeOptions="actionDone"/>
             </android.support.design.widget.TextInputLayout>
 
-            <!-- LOCALE -->
+            <!-- SR LANGUAGE -->
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/locale_layout"
+                android:id="@+id/sr_language_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="@string/configuration_locale_hint">
+                android:hint="@string/configuration_sr_language_hint">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/locale"
+                    android:id="@+id/sr_language"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
