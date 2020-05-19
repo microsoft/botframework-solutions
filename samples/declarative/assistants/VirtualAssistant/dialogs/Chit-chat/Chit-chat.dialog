@@ -1,7 +1,7 @@
 {
   "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "id": "lnDNvd",
+    "id": "pTP753",
     "name": "Chit-chat"
   },
   "autoEndDialog": true,
@@ -11,13 +11,13 @@
       "$kind": "Microsoft.OnBeginDialog",
       "$designer": {
         "name": "BeginDialog",
-        "id": "5kmfJX"
+        "id": "f0kmgx"
       },
       "actions": [
         {
           "$kind": "Microsoft.QnAMakerDialog",
           "$designer": {
-            "id": "pWiyMf"
+            "id": "8blaBe"
           },
           "knowledgeBaseId": "=settings.qna.chitchat.knowledgebaseid",
           "endpointKey": "=settings.qna.chitchat.endpointkey",

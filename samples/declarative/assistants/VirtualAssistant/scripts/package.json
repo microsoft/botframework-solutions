@@ -15,6 +15,7 @@
         "chalk": "^4.0.0",
         "fs-extra": "^8.1.0",
         "minimist": "^1.2.5",
-        "ora": "^4.0.4"
+        "ora": "^4.0.4",
+        "request-promise": "^4.2.5"
     }
 }

@@ -19,13 +19,6 @@
 - never mind
 - never mind cancel
 - never mind cancel that
-- no cancel
-- no cancel cancel
-- no cancel it
-- no cancel that
-- no never mind
-- no no cancel
-- no no cancel it
 - nothing never mind
 - nothing please
 - oh cancel
@@ -33,6 +26,7 @@
 - please do nothing
 - quit
 - sorry, don't do it
+
 
 
 # Escalate
@@ -50,6 +44,7 @@
 - is there any real human
 - is there any real person
 - talk to a human
+
 
 
 # Help
@@ -70,12 +65,14 @@
 - who can help me
 
 
+
 # Logout
 - forget me
 - log out
 - logout
 - sign out
 - signout
+
 
 
 # Repeat
@@ -94,6 +91,8 @@
 - what
 - what did you say
 - what was that again
+
+
 
 
 # StartOver

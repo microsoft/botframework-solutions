@@ -1,7 +1,7 @@
 {
   "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "id": "nWBaTs",
+    "id": "VB8fyF",
     "name": "FAQ"
   },
   "autoEndDialog": true,
@@ -11,24 +11,24 @@
       "$kind": "Microsoft.OnBeginDialog",
       "$designer": {
         "name": "BeginDialog",
-        "id": "o3nOH6"
+        "id": "dV0xqb"
       },
       "actions": [
         {
           "$kind": "Microsoft.QnAMakerDialog",
           "$designer": {
-            "id": "xbaS6F"
+            "id": "ZajvJ6"
           },
           "knowledgeBaseId": "=settings.qna.faq.knowledgebaseid",
           "endpointKey": "=settings.qna.faq.endpointkey",
           "hostname": "=settings.qna.faq.hostname",
           "noAnswer": "Sorry, I did not find an answer.",
           "threshold": 0.3,
+          "activeLearningCardTitle": "Did you mean:",
           "cardNoMatchText": "None of the above.",
           "cardNoMatchResponse": "Thanks for the feedback.",
           "top": 3,
-          "isTest": false,
-          "activeLearningCardTitle": "Did you mean:"
+          "isTest": false
         }
       ]
     }

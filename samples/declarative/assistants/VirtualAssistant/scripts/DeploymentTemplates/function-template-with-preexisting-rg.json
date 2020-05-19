@@ -146,66 +146,34 @@
   },
   "resources": [
     {
-      "apiVersion": "2018-02-01",
-      "name": "1d41002f-62a1-49f3-bd43-2f3f32a19cbb",
-      "type": "Microsoft.Resources/deployments",
-      "properties": {
-        "mode": "Incremental",
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "resources": []
-        }
-      }
-    },
-    {
-      "comments": "Create a new App Service Plan if no existing App Service Plan name was passed in.",
-      "type": "Microsoft.Web/serverfarms",
-      "condition": "[not(variables('useExistingAppServicePlan'))]",
-      "name": "[variables('servicePlanName')]",
-      "apiVersion": "2018-02-01",
-      "location": "[variables('resourcesLocation')]",
-      "sku": "[parameters('newAppServicePlanSku')]",
-      "properties": {
-        "name": "[variables('servicePlanName')]"
-      }
-    },
-    {
       "comments": "Create a Web App using an App Service Plan",
       "type": "Microsoft.Web/sites",
       "apiVersion": "2015-08-01",
       "location": "[variables('resourcesLocation')]",
-      "kind": "app",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
-      ],
+      "kind": "functionapp",
       "name": "[variables('webAppName')]",
       "properties": {
         "name": "[variables('webAppName')]",
-        "serverFarmId": "[variables('servicePlanName')]",
-        "siteConfig": {
-          "appSettings": [
-            {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "10.14.1"
-            },
-            {
-              "name": "MicrosoftAppId",
-              "value": "[parameters('appId')]"
-            },
-            {
-              "name": "MicrosoftAppPassword",
-              "value": "[parameters('appSecret')]"
-            }
+        "kind": "functionapp",
+        "httpsOnly": true
+      },
+      "resources": [
+        {
+          "name": "appsettings",
+          "type": "config",
+          "apiVersion": "2015-08-01",
+          "dependsOn": [
+            "[concat('Microsoft.Web/Sites/', variables('webAppName'))]"
           ],
-          "cors": {
-            "allowedOrigins": [
-              "https://botservice.hosting.portal.azure.net",
-              "https://hosting.onecloud.azure-test.net/"
-            ]
+          "properties": {
+            "FUNCTIONS_EXTENSION_VERSION": "~3",
+            "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+            "APPINSIGHTS_INSTRUMENTATIONKEY": "[reference(resourceId('microsoft.insights/components/', parameters('appInsightsName')), '2015-05-01').InstrumentationKey]",
+            "MicrosoftAppId": "[parameters('appId')]",
+            "MicrosoftAppPassword": "[parameters('appSecret')]"
           }
         }
-      }
+      ]
     },
     {
       "comments": "CosmosDB for bot state.",

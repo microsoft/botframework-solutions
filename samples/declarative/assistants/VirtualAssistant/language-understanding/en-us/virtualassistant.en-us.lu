@@ -1,457 +1,101 @@
-@ ml PersonName
 
 # Onboarding
 - onboarding
 - get started
+
+
+
 # General
-- i need real human help
-- is there any help
-- please read it
-- i need support
-- choose the fourth one
-- read what is currently on the screen to me
-- human service
-- baby just be quiet
-- select the right one
-- opt for the second
-- they look bad, can you give me other choices
-- yeah go ahead
-- would you read that to me please
-- i like the top right one
-- read to me
-- read the page to me
-- read this page aloud
-- none none
-- no not that one
-- none none of them
-- cancel app
-- it's alice anderson!
-- what
-- no cancel cancel
-- cancelled
-- opt for the left one
-- i want to choose the left one
-- show more
-- go to the previous
-- choose the upper left choice
-- don't do that
-- sign out
-- go away
-- forget me
-- end it
-- select third
-- neither one of them
-- back please
-- i like the bottom one
-- no leave it
-- opt for left
-- sure does
-- choose no.2
-- i want to choose the first one
-- read page outloud
-- right yes
-- i want to choose bottom one
-- logout
-- i have not heard
-- please read this
-- read my to list
-- thank you very much
-- start again
-- yeah
-- anyone is fine
-- move to the next one
-- read it to me
-- go for it
-- no go back to
-- read it outloud
-- go back to last one
-- previous one
-- i want to choose second one
-- i like second one
-- not right now
-- no doubt
-- read that out loud
-- choose the upper right one
-- i am finished
-- neither one
-- read text aloud
-- i am done
-- i reject
-- nothing much
-- back
-- is there any person i can talk to
-- no no cancel
-- tell me about the information on the screen
-- neither of those
-- would you please read that for me
-- start over it
-- go back to the last one
-- i like the upper right
-- cancel never mind
-- no no no
-- right
-- how to do it
-- no cancel that
-- any one is ok
-- get back
-- what is the previous
-- i need some help
-- read this page to me
-- i want to talk to a real human
-- show the next one
-- be quiet now
-- all finished
-- oh my god shut up
-- canceled
-- show me the previous one
-- nowhere just be quiet
-- tell me the current text on screen
-- read aloud the current text onscreen
-- please read me the page
-- read it
-- return
-- it's done
-- sure yes
-- dismiss
-- i want the fourth choice
-- i want to choose lower right
-- make a reading of this page
-- i want more
-- i want the left
-- speak of what is on this page
-- sorry
-- last step
-- choose last one
-- is there any real human
-- this is john w.smith .
-- shut up quiet
-- give me some help
-- read this page
-- give me more
-- can i talk to a person
-- done
-- pardon
-- bring the previous one
-- quiet
-- opt for any of it
-- ok
-- ya
-- read the words on this page
-- submit
-- select a random one
-- i don't want to select any one
-- turn off
-- never mind stop
-- restart
-- say again please
-- i want bottom
-- read outloud
-- all set
-- i like the third
-- just be quiet
-- submit it
-- opt for last
-- not
-- i want to choose the lower choice
-- sure is
-- finish
-- get back please
-- ok stop stop
-- i like the third choice
-- go back
-- please begin again
-- read the page out loud
-- nothing please
-- i want right one
-- confirm
-- none of those
-- please return
-- opt for first one
-- yeah good
-- no later
-- i like second
-- choose the first choice
-- start reading this
-- not exactly
-- i don't want to choose any one
-- go back please
-- show the next two options
-- reveal previous
-- read text
-- shut your mouth
-- who can help me
-- neither thank you
-- go to the next three items
-- no never mind
-- select fourth one
-- shut up be quiet
-- repeat please
-- select lower one
-- get back to the last one
-- please help
-- read this page out loud
-- choose the bottom left
-- can you read it
-- cancel it
 - again
-- forget about it
-- i would like you to read that for me
-- i need to hear this page
-- i want the right one
-- choose top right
-- i didn't hear repeat again
-- cancel cancel
-- log out
-- no stop
-- come on stop
-- i want to choose the right
-- can you read that
-- no no no no stop talking
-- read me this page
-- ok for now
-- what's up next
-- just cancel
-- i'm john jackson.
-- back to last step
-- it's finished
-- nothing never mind
-- cancel that
-- read aloud
-- opt for the lower choice
-- reject it
-- back to
-- please read this page out loud
-- i said stop
-- select the lower one
-- read it aloud
-- can you help me
-- clear and start again
-- get back to last
-- what's more
-- what before that
-- opt for a random one
-- perfect thank you
-- i need some assist
-- select the last choice
-- do it
-- i want none of them
-- contact support
-- previous one please
-- go to the next one
-- read that
-- sounds great
-- none of them thank you
-- of course
-- quit
-- open help
-- back to the last one
-- anything
-- customer service
-- no more no
-- turn off stop
-- just be
-- return to the previous one
-- please read my latest email
-- start it over
-- hey stop
-- sounds perfect
-- shut up
-- go back to previous
-- not quite
-- show the next 4 items
-- go forward
-- read this for me please
-- it is jackson .
-- read it please
-- go previously
-- i want the lower choice
-- i need manual customer service
-- no no go back to
-- reject
-- please read this to me
-- vocalize what s on the page
-- i love you to stop talking
-- oh cancel
-- restart it
-- go to the previous one
-- please do nothing
-- select no.5
-- i like upper right
-- i need to go to the next one
-- select upper
-- please read this out loud
-- can you read that for me
-- choose anyone
-- i want neither of them
-- what's next
-- my god shut up
-- never mind cancel
-- read file aloud
-- show previous
-- very good
-- it finished
-- i want the first
-- read sentence out loud
-- fine
-- what does the page say
-- say again
-- please read this page aloud
-- that is correct
-- choose one of it randomly
-- select a random choice
-- i want to choose right
-- sounds good thank you
-- i want the second one
-- never mind cancel that
-- any of it
-- read the page
-- back to last
-- sorry, don't do it
-- finished
-- can you help
-- exit stop
-- god shut up
-- that sounds good
-- that's fine
-- turn over a new leaf
-- no no thank you
-- oh yes
-- detail aloud what that says
-- is there any real person
-- it's fine
-- tell more
-- no cancel
-- go back to
-- please read
-- that right
-- i mean stop listening
-- sure
-- please read this page
-- say that again
-- select any
-- help
-- show earlier
-- more
-- no no cancel it
-- okay
-- what about next one
-- opt for the second choice
-- what did you say
-- tell me more
-- opt for the last one
-- start over
-- go back on
-- opt for right one
-- i'm lily
-- oh yeah
-- i want to choose the fourth
-- sounds good
-- read it out loud
-- nobody cares stop talking
-- never
-- i don't like it
-- thank you yes
-- show the next 3
-- displays more
-- oh no
-- perfect
-- choose last
-- contact the customer service
-- none of these
-- no i don't want that
-- i want to talk to a human
-- read page aloud
-- sounds good thanks
-- how can i get it
-- hey read that for me
-- would you read that out loud please
-- what about the third one
-- what about the last
-- that is right
-- never mind
-- i like the first one
-- sounds good to me
-- yeah bro
-- i want fourth
-- no reject it
-- reveal more
-- could you start it over
-- next
-- could you tell me what that says
-- don't do that anymore
-- i am anna
-- show the previous one
-- repeat
-- repeat that
-- not that
-- signout
-- yeah cool
-- read page
-- no be quiet now
-- can you you read page aloud
-- no shut up
-- select any choice
-- opt for the right
-- no wrong
-- display more
-- i'm sure
-- yeah go for it
-- oh don't do that
-- select any of it
-- what's before that
-- great
-- i need help
-- what's after that
-- i want left
-- yeah buddy
-- i want third one
-- sure thing
-- yeah baby
-- yes
-- what was that again
-- no cancel it
-- not even close
-- just cancel it
-- select the bottom choice
 - could you say it again
-- what's the next 2
-- my name is bill jones
-- read the text to me
-- stop talking
-- quiet now
-- read all on the screen to me
-- reveal previously
-- stop please
-- i want to choose the last choice
-- i like left one
-- do nothing
-- be quiet
-- select the first
-- call me steve !
-- select the third one
-- select the upper right
-- i want to choose third
-- none of them
-- cancel
-- nerver mind
-- talk to a human
+- i didn't hear repeat again
+- i have not heard
+- pardon
+- repeat
+- repeat please
+- repeat that
+- say again
+- say again please
+- say that again
+- sorry
+- what
+- what did you say
+- what was that again
+- clear and start again
+- could you start it over
+- please begin again
+- restart
+- restart it
+- start again
+- start it over
+- start over
+- start over it
+- turn over a new leaf
+- forget me
+- log out
+- logout
+- sign out
+- signout
 - any help
-- end
+- can you help
+- can you help me
+- give me some help
+- help
+- how can i get it
+- how to do it
+- i need help
+- i need some assist
+- i need some help
+- is there any help
+- open help
+- please help
 - some help
-- what after that
-- display previously
-- not at all
-- this is good
-- no be quiet
-- exit exit
-- choose top right one
-- finished with
-- and after that
-- read the page onscreen to me
-- show me the next
+- who can help me
+- can i talk to a person
+- contact support
+- contact the customer service
+- customer service
+- human service
+- i need manual customer service
+- i need real human help
+- i need support
+- i want to talk to a human
+- i want to talk to a real human
+- is there any person i can talk to
+- is there any real human
+- is there any real person
+- talk to a human
+- cancel
+- cancel app
+- cancel cancel
+- cancel it
+- cancel never mind
+- cancel that
+- canceled
+- cancelled
+- do nothing
+- don't do that
+- don't do that anymore
+- forget about it
+- go away
+- just cancel
+- just cancel it
+- nerver mind
+- never mind
+- never mind cancel
+- never mind cancel that
+- nothing never mind
+- nothing please
+- oh cancel
+- oh don't do that
+- please do nothing
+- quit
+- sorry, don't do it
 
 # FAQ
 - what can the point of interest skill do
+- what skills do you have
+- what can you do
 - what is a skill
 - what can the email skill do
 - what is a virtual assistant
@@ -461,24 +105,16 @@
 - whats new
 - what's new
 
-# ExtractName
-- call me steve !
-- i am anna
-- it is jackson .
-- it's alice anderson!
-- my name is bill jones
-- this is  {PersonName=darren} .
-- ([you can]|[please]) call me {PersonName=lisa}[.]
-- (i'm|i am){PersonName=filip} [.]
-- (it's|it is|this is) {PersonName=maggie}[.]
-- my name is {PersonName=ryan}[.]
+
 
 # CalendarSkill
-- do i have any meetings today
-- book a meeting
-- create a meeting with lauren
-- what meetings do i have
-
+- new meeting with alex
+- what meetings do i have today
+- show my next meeting
+- add allan
+- move this tomorrow at 3pm
+- change the title
+- whats on my schedule today
 
 # WhoSkill
 - what is the phone number for patti
@@ -487,3 +123,18 @@
 - who reports into patti
 - what office does alex work in
 - who emailed me about bot framework
+
+#ExtractName
+- call me steve !
+- i am anna
+- it is jackson .
+- it's alice anderson!
+- my name is bill jones
+- {PersonName=Darren}
+- this is  {PersonName=darren} .
+- ([you can]|[please]) call me {PersonName=lisa}[.]
+- (i'm|i am){PersonName=filip} [.]
+- (it's|it is|this is) {PersonName=maggie}[.]
+- my name is {PersonName=ryan}[.]
+
+@ ml PersonName

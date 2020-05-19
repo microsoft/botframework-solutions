@@ -1,7 +1,7 @@
 {
   "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "id": "eseo1U",
+    "id": "cqaf0w",
     "name": "General"
   },
   "autoEndDialog": true,
@@ -10,135 +10,122 @@
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "ajD9VH"
+        "id": "CLIJp8"
       },
       "intent": "Cancel",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "iyPcql"
+            "id": "7OfACu"
           },
-          "activity": "${SendActivity_iyPcql()}"
+          "activity": "${SendActivity_7OfACu()}"
         },
         {
           "$kind": "Microsoft.CancelAllDialogs",
           "$designer": {
-            "id": "3OKUej"
+            "id": "wASjzB"
           },
           "activityProcessed": true
         }
-      ],
-      "condition": "turn.recognized.score > 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "bXL2pl"
+        "id": "jdTr3f"
       },
       "intent": "Escalate",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "VjqZNv"
+            "id": "zjCN9U"
           },
-          "activity": "${SendActivity_VjqZNv()}"
+          "activity": "${SendActivity_zjCN9U()}"
         }
-      ],
-      "condition": "turn.recognized.score > 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "r6lk69"
+        "id": "oVvFnM"
       },
       "intent": "Help",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "r5U1pB"
+            "id": "MFFeyH"
           },
-          "activity": "${SendActivity_r5U1pB()}"
+          "activity": "${SendActivity_MFFeyH()}"
         }
-      ],
-      "condition": "turn.recognized.score > 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "RdfyJQ"
+        "id": "guHez1"
       },
       "intent": "Logout",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "jclMpJ"
+            "id": "iMj4p3"
           },
-          "activity": "${SendActivity_jclMpJ()}"
-        },
-        {
-          "$kind": "Microsoft.CancelAllDialogs",
-          "$designer": {
-            "id": "q4MstU"
-          },
-          "activityProcessed": true
+          "activity": "${SendActivity_iMj4p3()}"
         }
-      ],
-      "condition": "turn.recognized.score > 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "qVWHGk"
+        "id": "4IMorr"
       },
       "intent": "Repeat",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "bPI4B1"
+            "id": "2hlx4B"
           },
-          "activity": "${SendActivity_bPI4B1()}"
+          "activity": "${SendActivity_2hlx4B()}"
         }
-      ],
-      "condition": "turn.recognized.score > 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "DI4g9v"
+        "id": "ex8hXD"
       },
       "intent": "StartOver",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "iHk4km"
+            "id": "OQWkiT"
           },
-          "activity": "${SendActivity_iHk4km()}"
+          "activity": "${SendActivity_OQWkiT()}"
         }
-      ],
-      "condition": "turn.recognized.score > 0.5"
+      ]
     },
     {
       "$kind": "Microsoft.OnUnknownIntent",
       "$designer": {
-        "id": "nSQRFj"
+        "id": "iysmWP"
       },
+      "condition": "turn.recognized.score < 0.5",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "0D34gL"
+            "id": "BWyI5K"
           },
           "activityProcessed": false,
           "dialog": "Chit-chat"
         }
-      ],
-      "condition": "turn.recognized.score < 0.5"
+      ]
     }
   ],
   "generator": "General.lg",

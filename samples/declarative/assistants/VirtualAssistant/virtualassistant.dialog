@@ -3,7 +3,7 @@
   "$designer": {
     "$designer": {
       "name": "VirtualAssistant",
-      "id": "Jjp8a8"
+      "id": "ZyjX9C"
     }
   },
   "autoEndDialog": true,
@@ -34,25 +34,25 @@
                 {
                   "$kind": "Microsoft.IfCondition",
                   "$designer": {
-                    "id": "6h7vWN"
+                    "id": "77K1Dw"
                   },
                   "condition": "exists(user.name)",
                   "actions": [
                     {
                       "$kind": "Microsoft.SendActivity",
                       "$designer": {
-                        "id": "TdzIdS"
+                        "id": "Z4wIqv"
                       },
-                      "activity": "${SendActivity_TdzIdS()}"
+                      "activity": "${SendActivity_Z4wIqv()}"
                     }
                   ],
                   "elseActions": [
                     {
                       "$kind": "Microsoft.SendActivity",
                       "$designer": {
-                        "id": "56MJVo"
+                        "id": "GGzXMm"
                       },
-                      "activity": "${SendActivity_56MJVo()}"
+                      "activity": "${SendActivity_GGzXMm()}"
                     }
                   ]
                 }
@@ -65,14 +65,14 @@
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "N0IS9t"
+        "id": "58jcVt"
       },
       "intent": "Onboarding",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "L8msws"
+            "id": "kgncrN"
           },
           "activityProcessed": true,
           "dialog": "Onboarding"
@@ -82,83 +82,96 @@
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "vmsFH1"
+        "id": "kThuma"
       },
       "intent": "General",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "f5QUwy"
+            "id": "wcGafP"
           },
           "activityProcessed": false,
           "dialog": "General"
         }
       ],
-      "condition": "turn.recognized.score > 0.7"
+      "condition": "turn.recognized.score > 0.75"
     },
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "8TM8SY"
+        "id": "dOGVPT"
       },
       "intent": "FAQ",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "iPGZzp"
+            "id": "4fUxUI"
           },
           "activityProcessed": false,
           "dialog": "FAQ"
+        }
+      ],
+      "condition": "turn.recognized.score > 0.5"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "O50vuf"
+      },
+      "intent": "CalendarSkill",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginSkill",
+          "$designer": {
+            "id": "EZk6WJ"
+          },
+          "activityProcessed": false,
+          "botId": "=settings.MicrosoftAppId",
+          "skillHostEndpoint": "=settings.skillHostEndpoint",
+          "connectionName": "=settings.connectionName",
+          "id": "https://calendarskillbuild2020-production.azurewebsites.net/manifest/manifest-1.0.json",
+          "skillEndpoint": "https://calendarskillbuild2020-production.azurewebsites.net/api/messages",
+          "skillAppId": "3963602b-37a6-468b-b079-6f97ddf8fad7"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "IGObJi"
+      },
+      "intent": "WhoSkill",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginSkill",
+          "$designer": {
+            "id": "z1zWUs"
+          },
+          "activityProcessed": false,
+          "botId": "=settings.MicrosoftAppId",
+          "skillHostEndpoint": "=settings.skillHostEndpoint",
+          "connectionName": "=settings.connectionName",
+          "id": "http://whoskillbuild-dev.azurewebsites.net/manifest/manifest-1.0.json",
+          "skillEndpoint": "https://whoskillbuild-dev.azurewebsites.net/api/messages",
+          "skillAppId": "97edb87d-880d-4773-9409-33190f46ca43"
         }
       ]
     },
     {
       "$kind": "Microsoft.OnUnknownIntent",
       "$designer": {
-        "id": "F9I0Ro"
+        "id": "SMaVqW"
       },
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "k38vIC"
+            "id": "8gE4p4"
           },
           "activityProcessed": false,
           "dialog": "Chit-chat"
-        }
-      ]
-    },
-    {
-      "$kind": "Microsoft.OnIntent",
-      "$designer": {
-        "id": "eLmJ5q"
-      },
-      "intent": "CalendarSkill",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "$designer": {
-            "id": "k3oH9x"
-          },
-          "activity": "${SendActivity_k3oH9x()}"
-        }
-      ]
-    },
-    {
-      "$kind": "Microsoft.OnIntent",
-      "$designer": {
-        "id": "Tul34k"
-      },
-      "intent": "WhoSkill",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "$designer": {
-            "id": "D6ahL5"
-          },
-          "activity": "${SendActivity_D6ahL5()}"
         }
       ]
     }
