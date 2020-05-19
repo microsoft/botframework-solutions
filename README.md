@@ -19,9 +19,8 @@ This repository is the home for a set of templates and solutions to help build c
 
 | Name | Released Package |Daily Build |
 |---|---|---|
-| botbuilder-solutions (Preview) | [![npm version](https://badge.fury.io/js/botbuilder-solutions.svg)](https://badge.fury.io/js/botbuilder-solutions) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/botbuilder-solutions)
-| botbuilder-skills (Preview) | [![npm version](https://badge.fury.io/js/botbuilder-skills.svg)](https://badge.fury.io/js/botbuilder-skills) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/botbuilder-skills)
-| generator-botbuilder-assistant (Preview) | [![npm version](https://badge.fury.io/js/generator-botbuilder-assistant.svg)](https://badge.fury.io/js/generator-botbuilder-assistant) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/generator-botbuilder-assistant)
+| bot-solutions (Preview) | [![npm version](https://badge.fury.io/js/bot-solutions.svg)](https://badge.fury.io/js/bot-solutions) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/bot-solutions)
+| generator-bot-virtualassistant (Preview) | [![npm version](https://badge.fury.io/js/generator-bot-virtualassistant.svg)](https://badge.fury.io/js/generator-bot-virtualassistant) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/generator-bot-virtualassistant)
 | botskills (Preview) | [![npm version](https://badge.fury.io/js/botskills.svg)](https://badge.fury.io/js/botskills) | [Link](https://botbuilder.myget.org/feed/aitemplates/package/npm/botskills)
 
 ## Need Help?
