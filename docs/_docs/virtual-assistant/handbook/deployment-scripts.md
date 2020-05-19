@@ -15,7 +15,7 @@ A number of PowerShell scripts are provided in the Virtual Assistant Template to
 ## Resources
 **LU** - this folder contains localized .lu files representing the basic LUIS models provided in the project.
 
-**QnA** - this folder contains localized .lu files representing the basic knowledge models provided in the project. 
+**QnA** - this folder contains localized .qna files representing the basic knowledge bases provided in the project. 
 
 **template.json** - this file is the ARM template used to deploy the Azure Resources required by the project.
 
@@ -31,35 +31,46 @@ This script orchestrates the deployment of all Azure Resources and Cognitive Mod
 | Parameter | Description | Required? |
 | --------- | ----------- | --------- |
 | name | The name for your Azure resources. | Yes |
-| location | The region for your Azure resource group and resources. | Yes |
-| appPassword | The password for your Microsoft App Registration. If `-appId` is provided this should be the password for your existing Microsoft App Registration. Otherwise, a new registration will be created using this password. | Yes |
-| luisAuthoringRegion | The region to deploy LUIS apps | Yes |
-| luisAuthoringKey | The authoring key for the LUIS portal. Must be valid key for `-luisAuthoringRegion`. | Yes |
 | resourceGroup | The name for your Azure resource group. Default value is the name parameter. | No
+| location | The region for your Azure resource group and resources. | Yes |
 | appId | The application Id for your Microsoft App Registration. | No |
- parametersFile | Optional configuration file for ARM Template deployment. | No |
+| appPassword | The password for your Microsoft App Registration. If **appId** is provided this should be the password for your existing Microsoft App Registration. Otherwise, a new registration will be created using this password. | Yes |
+| parametersFile | Optional configuration file for ARM Template deployment. | No |
+| createLuisAuthoring | Indicates whether a new LUIS authoring resource should be created. If **false**, luisAuthoringKey and luisEndpoint parameters must be provided. | Yes |
+| luisAuthoringKey | The authoring key for the LUIS portal. Must be valid key for **luisAuthoringRegion**| No |
+| luisAuthoringRegion | The region to deploy LUIS apps. | Yes |
+| armLuisAuthoringRegion | The region to deploy LUIS authoring resource in Azure (**only required for Azure Gov deployments**) | No |
+| luisEndpoint | The LUIS endpoint for deploying and managing LUIS applications. Required if **createLuisAuthoring** is set to false. | No |
+| useGov | Flag indicating if the deployment is targeting the Azure Government Cloud. Defaults to **false**.| No |
+| qnaEndpoint | Endpoint for deploying QnA Maker knowledge bases (**only required for Azure Gov deployments**). | No |
 | languages | Specifies which languages to deploy cognitive models in a comma separated string (e.g. "en-us,de-de,es-es"). Defaults to "en-us". | No |
-| projDir | Location to save `appsettings.json` and `cognitivemodels.json` configuration files. Defaults to current directory. | No |
-| logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
+| projDir | Location to save **appsettings.json** and **cognitivemodels.json** configuration files. Defaults to current directory. | No |
+| logFile | Log file for any errors that occur during script execution. Defaults to **Deployment** folder | No |
 
 ### deploy_cognitive_models.ps1
 {:.no_toc}
 
-This script deploys all the language models found in `Deployment/Resources/LU` and the knowledgebases found in `Deployment/Resources/QnA`. Finally it creates a Dispatch model to dispatch between all cognitive models.
+This script deploys all the language models found in **Deployment/Resources/LU** and the knowledgebases found in **Deployment/Resources/QnA**. Finally it creates a Dispatch model to dispatch between all cognitive models.
 
 | Parameter | Description | Required? |
 | --------- | ----------- | --------- |
 | name | The base name for all Cognitive Models. Model language and name will be appended. (e.g MyAssistanten_General )| Yes |
 | luisAuthoringRegion | The region to deploy LUIS apps | Yes |
-| luisAuthoringKey | The authoring key for the LUIS portal. Must be valid key for `-luisAuthoringRegion`. | Yes |
+| luisAuthoringKey | The authoring key for the LUIS portal. Must be valid key for **luisAuthoringRegion**. | Yes |
 | luisAccountName | The LUIS service name from the Azure Portal. | Yes |
-| resourceGroup | The resource group where the LUIS service is deployed  | Yes |
-| luisSubscriptionKey | The LUIS service subscription key from the Azure Portal. | Yes |
 | luisAccountRegion | The LUIS service region from the Azure Portal. | Yes |
+| luisSubscriptionKey | The LUIS service subscription key from the Azure Portal. | Yes |
+| luisEndpoint | The LUIS endpoint for deploying and managing LUIS apps. | Yes |
+| resourceGroup | The resource group where the LUIS service is deployed  | Yes |
 | qnaSubscriptionKey | The subscription key for the QnA Maker service. Can be found in the Azure Portal. | Yes |
+| qnaEndpoint | The QnA Maker endpoint for deploying and managing QnA Maker knowledge bases. | No |
+| useGov | Flag indicating whether the deployment is targeting the Azure Government Cloud. | No |
+| useDispatch | Flag indicating whether a Dispatch model should be created based on the deployed LUIS apps and QnA Maker knowledge bases. | No |
 | languages | Specifies which languages to deploy cognitive models in a comma separated string (e.g. "en-us,de-de,es-es"). Defaults to "en-us". | No |
-| outFolder | Location to save `cognitivemodels.json` configuration file. Defaults to current directory. | No |
-| logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
+| outFolder | Location to save **cognitivemodels.json** configuration file. Defaults to current directory. | No |
+| logFile | Log file for any errors that occur during script execution. Defaults to **Deployment** folder | No |
+| excludedKbFromDispatch | QnA Maker knowledge bases included in this list will be deployed but not added to the Dispatch model. | No |
+
 
 ### update_cognitive_models.ps1
 {:.no_toc}
@@ -69,12 +80,15 @@ This script updates your hosted language models and knowledgebases based on loca
 | Parameter | Description | Required? |
 | --------- | ----------- | --------- |
 | RemoteToLocal | Flag indicating that local files should be updated based on hosted models. Defaults to false. | No |
+| useGov | Flag indicating that cognitive models are deployed in Azure Government Cloud. | No |
+| useLuisGen | Flag indicating that LUIS Generation files should be updated for the LUIS and Dispatch models. | No |
 | configFile | The folder path to the cognitivemodels.json file. Defaults to current directory. | No |
-| dispatchFolder | The folder path to the .dispatch file. Defaults to `Deployment/Resources/Dispatch` | No |
-| luisFolder | The folder path to the .lu files for your LUIS models. Defaults to `Deployment/Resources/LU` | No |
-| qnaFolder | The folder path to the .lu files for your QnA Maker knowledgebases. Defaults to `Deployment/Resources/QnA` | No |
-| lgOutFolder | The folder path output LuisGen file for your Dispatch model. Defaults `./Services` | No |
-| logFile | Log file for any errors that occur during script execution. Defaults to `Deployment` folder | No |
+| dispatchFolder | The folder path to the .dispatch file. Defaults to **Deployment/Resources/Dispatch** | No |
+| luisFolder | The folder path to the .lu files for your LUIS models. Defaults to **Deployment/Resources/LU** | No |
+| qnaFolder | The folder path to the .lu files for your QnA Maker knowledgebases. Defaults to **Deployment/Resources/QnA** | No |
+| qnaEndpoint | The QnA Maker endpoint for deploying and managing QnA Maker knowledge bases. | No |
+| lgOutFolder | The folder path output LuisGen file for your Dispatch model. Defaults **./Services** | No |
+| logFile | Log file for any errors that occur during script execution. Defaults to **Deployment** folder | No |
 
 ### publish.ps1
 {:.no_toc}
@@ -116,7 +130,7 @@ The default `parameters.template.json` file is configured to use all free servic
 ## How do I customize my Azure resource deployment?
 {:.no_toc}
 
-Any of the following parameters in the ARM template can be overridden with your preferred values using the `parameters.template.json` file provided in the `Deployment/Resources` folder:
+Any of the following parameters in the ARM template can be overridden with your preferred values using the **parameters.template.json** file provided in the **Deployment/Resources** folder:
 
 | Parameters | Default Value |
 | ---------- | ------------- |
@@ -175,7 +189,7 @@ Simply update the parameters.template.json file with your preferred values, like
 }
 ```
 
-Then provide the path to the file as an argument on the `deploy.ps1` script:
+Then provide the path to the file as an argument on the **deploy.ps1** script:
 
 ```
 ./Deployment/Scripts/deploy.ps1 -parametersFile ./Deployment/Resources/parameters.template.json
@@ -184,7 +198,7 @@ Then provide the path to the file as an argument on the `deploy.ps1` script:
 ## How do I use my existing Azure resources from the same resource group?
 {:.no_toc}
 
-If you want to use existing resources from the same resource group, override the parameters for the services you want in the `parameters.template.json`. Provide this file in the `-parametersFile` parameter on the `deploy.ps1` script. 
+If you want to use existing resources from the same resource group, override the parameters for the services you want in the **parameters.template.json**. Provide this file in the **parametersFile** parameter on the **deploy.ps1** script. 
 
 ### parameters.template.json
 {:.no_toc}
@@ -203,13 +217,13 @@ If you want to use an existing resource from a different resource group, follow 
 
 ### Cosmos DB
 {:.no_toc}
-1. Provide the following parameter in the `parameters.template.json` file:
+1. Provide the following parameter in the **parameters.template.json** file:
     ```json
     "useCosmosDb": {
         "value": false
     }
     ```
-1. Update the following properties in `appsettings.json` with your service configuration from the [Azure Portal](https://portal.azure.com):
+1. Update the following properties in **appsettings.json** with your service configuration from the [Azure Portal](https://portal.azure.com):
     ```json
     "cosmosDb": {
         "authkey": "",
@@ -221,13 +235,13 @@ If you want to use an existing resource from a different resource group, follow 
 
 ### Storage Account
 {:.no_toc}
-1. Provide the following parameter in the `parameters.template.json` file:
+1. Provide the following parameter in the **parameters.template.json** file:
     ```json
     "useStorage": {
         "value": false
     }
     ```
-1. Update the following properties in `appsettings.json` with your service configuration from the [Azure Portal](https://portal.azure.com):
+1. Update the following properties in **appsettings.json** with your service configuration from the [Azure Portal](https://portal.azure.com):
     ```json
     "blobStorage": {
         "connectionString": "",
@@ -237,8 +251,8 @@ If you want to use an existing resource from a different resource group, follow 
 
 ### Other services
 {:.no_toc}
-1. Remove the resource from the `resources` array in `template.json`.
-1. Provide the appropriate configuration in `appsettings.json` from the [Azure Portal](https://portal.azure.com).
+1. Remove the resource from the **resources** array in **template.json**.
+1. Provide the appropriate configuration in **appsettings.json** from the [Azure Portal](https://portal.azure.com).
 
 ## How do I update my local deployment scripts with the latest?
 {:.no_toc}
@@ -265,7 +279,7 @@ GitHub doesn't provide the ability to download folders or files interactively in
 
 1. Clone the repo locally onto your machine 
 1. Browse to the appropriate deployment scripts folder using the table above as a reference to the location
-1. Copy the entire contents of the `Deployment` folder (resources and script subdirectories) over the files in the `Deployment` folder of your Assistant or Skill project.
+1. Copy the entire contents of the **Deployment** folder (resources and script subdirectories) over the files in the **Deployment** folder of your Assistant or Skill project.
 
 You now have the latest scripts for Assistant/Skill deployment and updating of cognitive models.
 
@@ -273,3 +287,4 @@ You now have the latest scripts for Assistant/Skill deployment and updating of c
 {:.no_toc}
 
 Skills are part of the above GitHub repo so any changes to the deployment scripts will be reflected automatically when you pull the latest changes.
+

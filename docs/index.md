@@ -8,14 +8,14 @@ title: Bot Framework Solutions Documentation
     <a href="{{site.baseurl}}/overview/virtual-assistant-solution/" class="card">
         <div class="card-body">
           <img src="{{site.baseurl}}/assets/images/icons/virtual-assistant.png" alt="Virtual Assistant icon" width="48px">
-            <h4 class="card-title">Virtual Assistant (preview)</h4>
+            <h4 class="card-title">Virtual Assistant</h4>
             <p class="card-text"> Build your own branded assistant tailored to your brand, personalized to your users, made available across a broad range of canvases and devices, and in full ownership of your own data.</p>
         </div>
     </a>
     <a href="{{site.baseurl}}/overview/skills/" class="card">
         <div class="card-body">        
           <img src="{{site.baseurl}}/assets/images/icons/skill.png" alt="Skills icon" width="48px">
-            <h4 class="card-title">Bot Framework Skills (preview)</h4>
+            <h4 class="card-title">Bot Framework Skills</h4>
             <p class="card-text">Extend your assistant with reusable conversational Skills to add common functionality such as collection of re-usable conversational skills enabling you to add functionality to a Virtual Assistant. Try the sample Skills available like Calendar, Email, To Do, Point of Interest, and more.</p>
         </div>
     </a>
@@ -30,9 +30,9 @@ title: Bot Framework Solutions Documentation
 
 ## What's new
 {:.no_toc}
-We recently released the **Virtual Assistant** v0.8-preview. The primary updates include support for Bot Framework SDK v4.7 and migration to GA Bot Framework Skills enabling Power Virtual Agentsupport.
+We recently released the **Virtual Assistant** v1.0. The primary updates include support for Bot Framework SDK v4.9 and general availability support.
 
-Learn more in the [what's new]({{site.baseurl}}/overview/whats-new/0.8-beta/Summary) overview.
+Learn more in the [what's new]({{site.baseurl}}/overview/whats-new/1.0/Summary) overview.
 
 ## Step-by-Step Tutorials
 {:.no_toc}
