@@ -24,7 +24,7 @@ The Skill Template requires the following dependencies for end to end operation 
 To deploy your Skill using the Azure Resource Manager (ARM) template provided in the project template, follow these steps:
 
 1. Open **PowerShell Core** (pwsh.exe)
-1. Change to the **project directory** of your assistant.
+1. Change to the **project directory** of your skill.
 1. Run the following command to login to Azure:
     ```shell
     az login
