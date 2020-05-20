@@ -228,7 +228,7 @@ If you want to use an existing resource from a different resource group, follow 
     "cosmosDb": {
         "authkey": "",
         "cosmosDBEndpoint": "",
-        "collectionId": "skillstate-collection",
+        "containerId": "skillstate-collection",
         "databaseId": "botstate-db"
     }
     ```
