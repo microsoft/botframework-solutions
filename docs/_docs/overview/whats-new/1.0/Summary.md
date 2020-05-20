@@ -25,7 +25,7 @@ desired due to the waterfall flow of the VA since the 0.8 release.
 
 ### Language Generation
 {:.no_toc}
-With the **1.0 GA release**, we are now utilizing Language Generation 4.8 Preview. As part of this, there are some breaking changes which may require you to update your .lg files to adhere to new syntax.
+With the **1.0 GA release**, we are now utilizing Language Generation 4.9.1 GA. As part of this, there are some breaking changes to LG syntax which may require you to update your .lg files to adhere to new syntax.
 
 For full details regarding these breaking changes, please refer to the [Language Generation 4.8 Preview breaking changes](https://github.com/microsoft/BotBuilder-Samples/tree/master/experimental/language-generation#48-preview).
 
