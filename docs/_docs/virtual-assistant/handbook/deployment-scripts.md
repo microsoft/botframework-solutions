@@ -288,3 +288,108 @@ You now have the latest scripts for Assistant/Skill deployment and updating of c
 
 Skills are part of the above GitHub repo so any changes to the deployment scripts will be reflected automatically when you pull the latest changes.
 
+
+## How do I use my existing cognitive models (LUIS and/or QnA Maker) with a Virtual Assistant project?
+
+If you would like to use an existing LUIS app or QnA Maker knowlege base with a Virtual Assistant project, please refer to the following steps.
+
+### Use an existing QnA Maker knowledge base
+
+If you have an existing QnA Maker knowledge base that you want to use in your Virtual Assistant project, follow these steps:
+
+1. Add your knowledge base configuration in cognitivemodels.json
+    ```
+    "knowledgebases": [
+      {
+        "id": "mykb",
+        "name": "<your-knowledge-base-name>",
+        "kbId": "<your-knowledge-base-id>",
+        "endpointKey": "<your-endpoint-key>",
+        "hostname": "https://<your-qna-host>.azurewebsites.net/qnamaker",
+        "subscriptionKey": ""
+      }
+    ]
+    ```
+
+    **KbId**, **endpointKey**, and **hostname** can be found in the Publish tab of the QnA Maker portal:
+
+        POST /knowledgebases/<kbId>/generateAnswer
+        Host: <hostname>
+        Authorization: EndpointKey <endpointKey>
+        Content-Type: application/json
+        {"question":"<Your question>"}
+
+1. Run the following command from your project directory to export the .qna schema of your knowledge base and update your Dispatch model and DispatchLuis.cs file:
+    ```
+    .\Deployment\Scripts\update_cognitive_model.ps1 -RemoteToLocal
+    ```
+
+1. Access your knowledge base in a Dialog using the following code (where "knowledgebase-id" is the id property from your cognitivemodels.json file):
+    ```csharp
+      var qnaDialog = TryCreateQnADialog("knowledgebase-id", localizedServices);
+      if (qnaDialog != null)
+      {
+          Dialogs.Add(qnaDialog);
+      }
+
+      return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
+    ```
+
+### Use an existing LUIS model
+If you have an existing LUIS application that you want to use in your Virtual Assistant project, follow these steps:
+
+1. Add your LUIS app configuration in cognitivemodels.json:
+    ```
+    "languageModels": [
+        {
+          "id": "MyLuisApp",
+          "name": "<your-luis-app-name>",
+          "appid": "<your-luis-app-id>",
+          "endpoint": "<your-luis-endpoint>",
+          "authoringkey": "<your-luis-authoring-key>"
+          "subscriptionkey": "<your-luis-subscription-key>",
+          "region": "<your-luis-region>",
+          "version": "0.1"
+        }
+      ],
+    ```
+
+    Each of the above properties can be found in the following locations:
+     - Luis application name 
+        - Navigate to the LUIS portal for your region (e.g. www.luis.ai for West US region)
+        - Open the **Manage > Settings** tab
+        - Copy the **App name** property
+     - Luis application ID
+        - Navigate to the LUIS portal for your region (e.g. www.luis.ai for West US region)
+        - Open the **Manage > Settings** tab
+        - Copy the **App ID** property
+     - Luis endpoint
+        - Navigate to the LUIS portal for your region (e.g. www.luis.ai for West US region)
+        - Open the **Manage > Azure Resources > Authoring Resource** tab
+        - For the assigned prediction resource, copy the **Endpoint URL** property
+     - Luis authoring key
+        - Navigate to the LUIS portal for your region (e.g. www.luis.ai for West US region)
+        - Open the **Manage > Azure Resources > Authoring Resource** tab
+        - For the assigned authoring resource, copy the **Primary Key** property
+     - Luis subscription key
+        - Navigate to the LUIS portal for your region (e.g. www.luis.ai for West US region)
+        - Open the **Manage > Azure Resources > Authoring Resource** tab
+        - For the assigned prediction resource, copy the **Primary Key** property
+     - Luis region
+        - Navigate to the LUIS portal for your region (e.g. www.luis.ai for West US region)
+        - Open the **Manage > Azure Resources > Authoring Resource** tab
+        - For the assigned authoring resource, copy the **Location** property
+
+  1. Run the following command from your project directory to export the .lu schema of your LUIS model and update your Dispatch model and DispatchLuis.cs file:
+      ```
+      .\Deployment\Scripts\update_cognitive_model.ps1 -RemoteToLocal
+      ```
+
+  1. Access your LUIS model in a Dialog using the following code (where "luis-app-id" is the id property from your cognitivemodels.json file and YourLUIS.cs is the LUIS generation class created for your application):
+      ```csharp
+        // Get cognitive models for the current locale.
+        var localizedServices = _services.GetCognitiveModels();
+
+        // Run LUIS recognition on General model and store result in turn state.
+        var luisResult = await localizedServices.LuisServices["luis-app-id"].RecognizeAsync<YourLUIS.cs>(innerDc.Context, cancellationToken);
+      ```
