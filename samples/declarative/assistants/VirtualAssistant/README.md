@@ -53,29 +53,6 @@ It will look like this:
 
 When completed, you will see a message with a JSON "publishing profile" and instructions for using it in Composer.
 
-## Publish bot to Azure
-
-To publish your bot to a Azure resources provisioned using the process above:
-
-* Open your bot in Composer
-* Navigate to the "Publish" tab
-* Select "Add new profile" from the toolbar
-* In the resulting dialog box, choose "azurePublish" from the "Publish Destination Type" dropdown
-* Paste in the profile you received from the provisioning script
-
-When you are ready to publish your bot to Azure, select the newly created profile from the sidebar and click "Publish to selected profile" in the toolbar.
-
-## Refresh your Azure Token
-
-When publishing, you may encounter an error about your access token being expired. This happens when the access token used to provision your bot expires.
-
-To get a new token:
-
-* Open a terminal window
-* Run `az account get-access-token`
-* This will result in a JSON object printed to the console, containing a new `accessToken` field.
-* Copy the value of the accessToken from the terminal and into the publish `accessToken` field in the profile in Composer.
-
 ## Enabling QnA Maker services
 ### Provision additional Azure resources to Virtual Assistant Bot
 
@@ -101,3 +78,26 @@ Adding chit-chat to your bot makes it more conversational and engaging. The Virt
 ### Updating the knowledge bases
 * You can update existing knowledge bases with content from local LU files by running `.\Deployment\Scripts\update_cognitive_models.ps1`
 * You can pull down remote changes made in the QnA Maker Portal by running `.\Deployment\Scripts\update_cognitive_models.ps1 -RemoteToLocal`
+
+## Publish bot to Azure
+
+To publish your bot to a Azure resources provisioned using the process above:
+
+* Open your bot in Composer
+* Navigate to the "Publish" tab
+* Select "Add new profile" from the toolbar
+* In the resulting dialog box, choose "azurePublish" from the "Publish Destination Type" dropdown
+* Paste in the profile you received from the provisioning script
+
+When you are ready to publish your bot to Azure, select the newly created profile from the sidebar and click "Publish to selected profile" in the toolbar.
+
+## Refresh your Azure Token
+
+When publishing, you may encounter an error about your access token being expired. This happens when the access token used to provision your bot expires.
+
+To get a new token:
+
+* Open a terminal window
+* Run `az account get-access-token`
+* This will result in a JSON object printed to the console, containing a new `accessToken` field.
+* Copy the value of the accessToken from the terminal and into the publish `accessToken` field in the profile in Composer.
