@@ -81,22 +81,6 @@
     {
       "$kind": "Microsoft.OnIntent",
       "$designer": {
-        "id": "4IMorr"
-      },
-      "intent": "Repeat",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "$designer": {
-            "id": "2hlx4B"
-          },
-          "activity": "${SendActivity_2hlx4B()}"
-        }
-      ]
-    },
-    {
-      "$kind": "Microsoft.OnIntent",
-      "$designer": {
         "id": "ex8hXD"
       },
       "intent": "StartOver",

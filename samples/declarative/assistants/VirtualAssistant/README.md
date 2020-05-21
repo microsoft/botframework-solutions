@@ -52,7 +52,6 @@ It will look like this:
 
 When completed, you will see a message with a JSON "publishing profile" and instructions for using it in Composer.
 
-
 ## Publish bot to Azure
 
 To publish your bot to a Azure resources provisioned using the process above:
@@ -75,3 +74,29 @@ To get a new token:
 * Run `az account get-access-token`
 * This will result in a JSON object printed to the console, containing a new `accessToken` field.
 * Copy the value of the accessToken from the terminal and into the publish `accessToken` field in the profile in Composer.
+
+## Enabling QnA Maker services
+### Provision additional Azure resources to Virtual Assistant Bot
+
+The Virtual Assistant includes samples for an FAQ and a Professional Chit-chat QnA Maker knowledge bases. After the Host Bot resources have been provisioned, running this script will create the additional resources required for to host a QnA Maker instance.
+
+* From the root project folder, navigate to the qnamaker/ folder
+* Download and install [PowerShell Core](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-7)
+* Run `\Deployment\Scripts\deploy.ps1 -name "<NAME OF YOUR RESOURCE GROUP>" -location "westus"`
+* You will see status updates as it provisions the Azure resources and publishes knowledge base content. Note that it will take roughly additional 5 minutes to fully provision these resources.
+
+When completed, you will see a message with the knowledge base settings. You may copy these into the Composer Bot Settings.
+
+### Change the personality dataset
+
+Adding chit-chat to your bot makes it more conversational and engaging. The Virtual Assistant includes the Professional Chit-chat data set, but you can switch to others like Friendly, Witty, Caring, or Enthusiastic.
+
+* From the root project folder, navigate to the qnamaker/ folder
+* Download and install [Python](https://www.python.org/downloads/) v3 or higher
+* You can pull latest chit-chat .tsv files from the [BotBuilder-PersonalityChat repository](https://github.com/Microsoft/BotBuilder-PersonalityChat/tree/master/CSharp/Datasets).
+* Run `python3 .\Deployment\Scripts\ChitChatUpdate.py <NAME OF YOUR DOWNLOADED .TSV FILE> --out <NAME OF THE OUTPUT CHIT-CHAT .QNA FILE>`
+    * For example, downloading a .tsv file to the qnamaker/ folder:  `python3 .\Deployment\Scripts\ChitChatUpdate.py .\qna_chitchat_witty.tsv --out .\Deployment\Resources\QnA\en-us\ChitChat.qna`
+
+### Updating the knowledge bases
+* You can update existing knowledge bases with content from local LU files by running `.\Deployment\Scripts\update_cognitive_models.ps1`
+* You can pull down remote changes made in the QnA Maker Portal by running `.\Deployment\Scripts\update_cognitive_models.ps1 -RemoteToLocal`
