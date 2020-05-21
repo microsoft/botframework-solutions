@@ -63,7 +63,7 @@ The Virtual Assistant includes samples for an FAQ and a Professional Chit-chat Q
 * Run `\Deployment\Scripts\deploy.ps1 -name "<NAME OF YOUR RESOURCE GROUP>" -location "westus"`
 * You will see status updates as it provisions the Azure resources and publishes knowledge base content. Note that it will take roughly additional 5 minutes to fully provision these resources.
 
-When completed, you will see a message with the knowledge base settings. You may copy these into the Composer Bot Settings.
+When completed, you will see a message with the knowledge base settings. You may copy these into the matching Composer Bot Settings.
 
 ### Change the personality dataset
 
