@@ -79,7 +79,7 @@ export class MainDialog extends ComponentDialog {
         if (innerDc.context.activity.type == ActivityTypes.Message) {
         
             // Get cognitive models for the current locale.
-            const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
+            const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels(innerDc.context.activity.locale as string);
 
             // Run LUIS recognition on Skill model and store result in turn state.
             const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('sampleSkill') : undefined;
@@ -112,7 +112,7 @@ export class MainDialog extends ComponentDialog {
         if (innerDc.context.activity.type === ActivityTypes.Message) {
         
             // Get cognitive models for the current locale.
-            const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
+            const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels(innerDc.context.activity.locale as string);
             // Run LUIS recognition on Skill model and store result in turn state.
             const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('sampleSkill') : undefined;
             if (skillLuis !== undefined) {
@@ -153,7 +153,7 @@ export class MainDialog extends ComponentDialog {
                 switch(intent) {
                     case 'Cancel': { 
 
-                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('CancelledMessage'));
+                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('CancelledMessage', innerDc.context.activity.locale));
                         await innerDc.cancelAllDialogs();
                         await innerDc.beginDialog(this.initialDialogId);
                         interrupted = true;
@@ -161,7 +161,7 @@ export class MainDialog extends ComponentDialog {
                     } 
                     case 'Help': {
 
-                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('HelpCard'));
+                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('HelpCard', innerDc.context.activity.locale));
                         await innerDc.repromptDialog();
                         interrupted = true;
                         break;
@@ -171,7 +171,7 @@ export class MainDialog extends ComponentDialog {
                         // Log user out of all accounts.
                         await this.logUserOut(innerDc);
 
-                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('LogoutMessage'));
+                        await innerDc.context.sendActivity(this.templateManager.generateActivityForLocale('LogoutMessage', innerDc.context.activity.locale));
                         await innerDc.cancelAllDialogs();
                         await innerDc.beginDialog(this.initialDialogId);
                         interrupted = true;
@@ -192,7 +192,7 @@ export class MainDialog extends ComponentDialog {
         } else {
             // If bot is in local mode, prompt with intro or continuation message
             const promptOptions: PromptOptions = {
-                prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateManager.generateActivityForLocale('FirstPromptMessage')
+                prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateManager.generateActivityForLocale('FirstPromptMessage', stepContext.context.activity.locale)
             };
             return await stepContext.prompt(TextPrompt.name, promptOptions);
         }
@@ -207,7 +207,7 @@ export class MainDialog extends ComponentDialog {
 
         if (activity.type === ActivityTypes.Message && activity.text !== undefined && activity.text.trim().length > 0) {
             // Get current cognitive models for the current locale.
-            const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels();
+            const localizedServices: Partial<ICognitiveModelSet> = this.services.getCognitiveModels(stepContext.context.activity.locale as string);
 
             // Get skill LUIS model from configuration.
             const luisService: LuisRecognizer | undefined = localizedServices.luisServices? localizedServices.luisServices.get('sampleSkill') : undefined;
@@ -223,7 +223,7 @@ export class MainDialog extends ComponentDialog {
                     case 'None': 
                     default: {
                         // intent was identified but not yet implemented
-                        await stepContext.context.sendActivity(this.templateManager.generateActivityForLocale('UnsupportedMessage'));
+                        await stepContext.context.sendActivity(this.templateManager.generateActivityForLocale('UnsupportedMessage', stepContext.context.activity.locale));
                         return await stepContext.next();
                     }
                 }  
@@ -274,7 +274,7 @@ export class MainDialog extends ComponentDialog {
             return await stepContext.endDialog(result);
         } else {
             
-            return await stepContext.replaceDialog(this.id, this.templateManager.generateActivityForLocale('CompletedMessage'));
+            return await stepContext.replaceDialog(this.id, this.templateManager.generateActivityForLocale('CompletedMessage', stepContext.context.activity.locale));
         }
     }
 

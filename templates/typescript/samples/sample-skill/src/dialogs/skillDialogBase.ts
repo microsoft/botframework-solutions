@@ -124,7 +124,7 @@ export class SkillDialogBase extends ComponentDialog {
         });
 
         // send error message to bot user
-        await sc.context.sendActivity(this.templateManager.generateActivityForLocale('ErrorMessage'));
+        await sc.context.sendActivity(this.templateManager.generateActivityForLocale('ErrorMessage', sc.context.activity.locale));
 
         // clear state
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

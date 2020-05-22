@@ -42,7 +42,7 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     }
 
     protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        await turnContext.sendActivity(this.templateManager.generateActivityForLocale('IntroMessage'));
+        await turnContext.sendActivity(this.templateManager.generateActivityForLocale('IntroMessage', turnContext.activity.locale));
         await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 

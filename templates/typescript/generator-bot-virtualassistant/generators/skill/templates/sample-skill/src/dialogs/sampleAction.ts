@@ -59,13 +59,13 @@ export class SampleAction extends SkillDialogBase {
             return await stepContext.next(actionInput.name);
         }
 
-        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('NamePrompt');
+        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('NamePrompt', stepContext.context.activity.locale);
         return await stepContext.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
     private async greetUser(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const data: Object = { name: stepContext.result as string };
-        const response: Partial<Activity> = this.templateManager.generateActivityForLocale('HaveNameMessage', data);
+        const response: Partial<Activity> = this.templateManager.generateActivityForLocale('HaveNameMessage', stepContext.context.activity.locale, data);
         await stepContext.context.sendActivity(response);
 
         // Pass the response which we'll return to the user onto the next step
