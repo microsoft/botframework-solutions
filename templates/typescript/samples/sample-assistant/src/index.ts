@@ -44,6 +44,7 @@ import { Activity } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState';
 import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
+import { TestSkillHandler } from './testSkillHandler';
 
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
@@ -236,6 +237,6 @@ server.post('/api/messages', async (req: restify.Request, res: restify.Response)
 });
 
 // Register the request handler.
-const handler: SkillHandler = new SkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authenticationConfiguration);
+const handler: TestSkillHandler = new TestSkillHandler(adapter, bot, skillConversationIdFactory, credentialProvider, authenticationConfiguration);
 const skillEndpoint = new ChannelServiceRoutes(handler);
 skillEndpoint.register(server, '/api/skills');
