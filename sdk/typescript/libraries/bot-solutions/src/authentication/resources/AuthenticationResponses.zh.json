@@ -43,5 +43,32 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "无法为 {authType} 检索令牌, 请将您的帐户链接到您的助手, 然后重试",
+        "speak": "无法为 {authType} 检索令牌, 请将您的帐户链接到您的助手, 然后重试"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "登錄",
+        "speak": "登錄"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "登錄到您的{authType}帳戶",
+        "speak": "登錄到您的{authType}帳戶"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

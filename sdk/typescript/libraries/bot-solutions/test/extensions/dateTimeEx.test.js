@@ -11,33 +11,13 @@ require("../../lib/resources/customizeLocale/zh");
 const { strictEqual } = require("assert");
 const dayjs = require("dayjs");
 const { join } = require("path");
-const i18next = require("i18next").default;
-const i18nextNodeFsBackend = require("i18next-node-fs-backend");
 const { DateTimeTestData } = require(join("..", "helpers", "dateTimeTestData"));
-const { Locales } = require(join("..", "..", "lib", "localesUtils"));
+const { readFileSync } = require("fs");
 const { DateTimeEx } = require(join("..", "..", "lib", "extensions", "dateTimeEx"));
+const { CommonResponses } = require(join("..", "lib", "resources"));
+const { ResponsesUtil } = require(join("..", "lib", "util"));
 
 describe("date time extensions", function() {
-
-    before(async function() {
-        // Configure internationalization and default locale
-        i18next.use(i18nextNodeFsBackend)
-        .init({
-            fallbackLng: "en",
-            preload: [ "de", "en", "es", "fr", "it", "zh" ],
-            backend: {
-                loadPath: join(__dirname, "locales", "{{lng}}.json")
-            }
-        })
-        .then(async () => {
-            await Locales.addResourcesFromPath(i18next, "common");
-        });
-    });
-
-    after(async function() {
-        i18next.changeLanguage("en");
-    });
-
     describe("using explicit value", function() {
         describe("validate date time extension outputs from random dates", function(){
             // Setup test data
@@ -146,15 +126,15 @@ describe("date time extensions", function() {
             
             testData.forEach(data => {
                 it(`should resolve ${data.expectedDateSpeech} ${data.expectedTimeSpeech} in ${data.culture}`, async function() {
-                    await i18next.changeLanguage(data.culture.substring(0, 2));
-                    strictEqual(data.expectedDateSpeech, await DateTimeEx.toSpeechDateString(data.inputDateTime));
-                    strictEqual(data.expectedDateSpeechWithSuffix, await DateTimeEx.toSpeechDateString(data.inputDateTime, true));
-                    strictEqual(data.expectedTimeSpeech , DateTimeEx.toSpeechTimeString(data.inputDateTime));
-                    strictEqual(data.expectedTimeSpeechWithSuffix, DateTimeEx.toSpeechTimeString(data.inputDateTime, true));
+                    const locale = data.culture.substring(0, 2);
+                    strictEqual(data.expectedDateSpeech, await DateTimeEx.toSpeechDateString(data.inputDateTime, locale));
+                    strictEqual(data.expectedDateSpeechWithSuffix, await DateTimeEx.toSpeechDateString(data.inputDateTime, locale, true));
+                    strictEqual(data.expectedTimeSpeech , DateTimeEx.toSpeechTimeString(data.inputDateTime, locale));
+                    strictEqual(data.expectedTimeSpeechWithSuffix, DateTimeEx.toSpeechTimeString(data.inputDateTime, locale, true));
                 });
             });
         });
-    });    
+    });
 
     describe("using resource values", function() {
         describe("validate the outputs for each culture", function(){
@@ -169,21 +149,22 @@ describe("date time extensions", function() {
             ];
             cultures.forEach(culture => {
                 it(`should resolve today and tomorrow in ${culture}`, async function() {
-                    await i18next.changeLanguage(culture.substring(0, 2));
-                    const locale = i18next.language;
+                    const locale = culture.substring(0, 2);
                     const today = new Date();
                     const tomorrow = new Date();
                     tomorrow.setDate(today.getDate() + 1);
                     const otherDate = new Date();
                     otherDate.setDate(today.getDate() + 3);
-                    
-                    strictEqual(i18next.t("common:today"), await DateTimeEx.toSpeechDateString(today));
-                    strictEqual(i18next.t("common:tomorrow"), await DateTimeEx.toSpeechDateString(tomorrow));
-                    strictEqual(dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat")), await DateTimeEx.toSpeechDateString(otherDate));
-                    if(i18next.t("common:spokenDatePrefix") === ""){
-                        strictEqual(`${dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat"))}`, await DateTimeEx.toSpeechDateString(otherDate, true));
+                    const jsonPath = ResponsesUtil.getResourcePath(CommonResponses.name, CommonResponses.pathToResource, locale);
+                    const commonFile = readFileSync(jsonPath, 'utf8');
+
+                    strictEqual(JSON.parse(commonFile)["today"], await DateTimeEx.toSpeechDateString(today, locale));
+                    strictEqual(JSON.parse(commonFile)["tomorrow"], await DateTimeEx.toSpeechDateString(tomorrow, locale));
+                    strictEqual(dayjs(otherDate).locale(locale).format(JSON.parse(commonFile)["spokenDateFormat"]), await DateTimeEx.toSpeechDateString(otherDate, locale));
+                    if(JSON.parse(commonFile)["spokenDatePrefix"] === ""){
+                        strictEqual(`${dayjs(otherDate).locale(locale).format(JSON.parse(commonFile)["spokenDateFormat"])}`, await DateTimeEx.toSpeechDateString(otherDate, locale, true));
                     } else {
-                        strictEqual(`${i18next.t("common:spokenDatePrefix")} ${dayjs(otherDate).locale(locale).format(i18next.t("common:spokenDateFormat"))}`, await DateTimeEx.toSpeechDateString(otherDate, true));
+                        strictEqual(`${JSON.parse(commonFile)["spokenDatePrefix"]} ${dayjs(otherDate).locale(locale).format(JSON.parse(commonFile)["spokenDateFormat"])}`, await DateTimeEx.toSpeechDateString(otherDate, locale, true));
                     }
                 });
             });

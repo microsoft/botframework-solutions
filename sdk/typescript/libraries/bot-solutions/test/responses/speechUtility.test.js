@@ -5,8 +5,10 @@
 
 const { strictEqual } = require("assert");
 const { join } = require("path");
-const i18next = require("i18next").default;
+const { readFileSync } = require("fs");
 const { ReadPreference, SpeechUtility } = require(join("..", "..", "lib", "responses", "speechUtility"));
+const { CommonResponses } = require(join("..", "lib", "resources"));
+const { ResponsesUtil } = require(join("..", "lib", "util"));
 const parentSpeakProperty = "Parent speak property";
 const listItemSpeakProperty = "List item speak property";
 const version = {
@@ -21,10 +23,13 @@ const attachment = {
         type: "AdaptiveCard"
     }
 }
+const locale = 'en-us';
 
 describe("speech utility", function() {
     
     before(async function() {
+        const jsonPath = ResponsesUtil.getResourcePath(CommonResponses.name, CommonResponses.pathToResource, locale);
+        this.commonFile = readFileSync(jsonPath, 'utf8');
         this.activity = {
             speak: parentSpeakProperty
         };
@@ -34,7 +39,7 @@ describe("speech utility", function() {
                 speak: parentSpeakProperty
             }
         }
-        this.andOperator = i18next.t("common:and"); 
+        this.andOperator = JSON.parse(this.commonFile)["and"]; 
     });
 
     describe("get speech ready string from one prompt option", function() {
@@ -45,7 +50,7 @@ describe("speech utility", function() {
                 }
             ];
 
-            const response = SpeechUtility.listToSpeechReadyString(this.promptOptions);
+            const response = SpeechUtility.listToSpeechReadyString(this.promptOptions, locale);
 
             strictEqual(response, `${parentSpeakProperty} ${listItemSpeakProperty}`);
         });
@@ -62,10 +67,10 @@ describe("speech utility", function() {
                 }
             ];
 
-            const response = SpeechUtility.listToSpeechReadyString(this.promptOptions, ReadPreference.Chronological)
+            const response = SpeechUtility.listToSpeechReadyString(this.promptOptions, locale, ReadPreference.Chronological);
             
-            const item1 = i18next.t("common:latestItem").replace("{0}", listItemSpeakProperty);
-            const item2 = i18next.t("common:lastItem").replace("{0}", listItemSpeakProperty);
+            const item1 = JSON.parse(this.commonFile)["latestItem"].replace("{0}", listItemSpeakProperty);
+            const item2 = JSON.parse(this.commonFile)["lastItem"].replace("{0}", listItemSpeakProperty);
 
             strictEqual(response, `${parentSpeakProperty} ${item1} ${this.andOperator} ${item2}`);
         });
@@ -77,7 +82,7 @@ describe("speech utility", function() {
                 attachment
             ];
 
-            const response = SpeechUtility.listToSpeechReadyString(this.activity);
+            const response = SpeechUtility.listToSpeechReadyString(this.activity, locale);
 
             strictEqual(response, `${parentSpeakProperty} ${listItemSpeakProperty}`);
         });
@@ -90,11 +95,11 @@ describe("speech utility", function() {
                 attachment
             ];
 
-            const response = SpeechUtility.listToSpeechReadyString(this.activity);
+            const response = SpeechUtility.listToSpeechReadyString(this.activity, locale);
 
-            const item1 = i18next.t("common:firstItem")
+            const item1 = JSON.parse(this.commonFile)["firstItem"]
                 .replace("{0}", listItemSpeakProperty);
-            const item2 = i18next.t("common:lastItem")
+            const item2 = JSON.parse(this.commonFile)["lastItem"]
                 .replace("{0}", listItemSpeakProperty);
 
             strictEqual(response, `${parentSpeakProperty} ${item1} ${this.andOperator} ${item2}`);
@@ -109,13 +114,13 @@ describe("speech utility", function() {
                 attachment
             ];
 
-            const response = SpeechUtility.listToSpeechReadyString(this.activity);
+            const response = SpeechUtility.listToSpeechReadyString(this.activity, locale);
 
-            const item1 = i18next.t("common:firstItem")
+            const item1 = JSON.parse(this.commonFile)["firstItem"]
                 .replace("{0}", listItemSpeakProperty);
-            const item2 = i18next.t("common:secondItem")
+            const item2 = JSON.parse(this.commonFile)["secondItem"]
                 .replace("{0}", listItemSpeakProperty);
-            const item3 = i18next.t("common:lastItem")
+            const item3 = JSON.parse(this.commonFile)["lastItem"]
                 .replace("{0}", listItemSpeakProperty);
 
             strictEqual(response, `${parentSpeakProperty} ${item1}, ${item2} ${this.andOperator} ${item3}`);
@@ -131,15 +136,15 @@ describe("speech utility", function() {
                 attachment
             ];
 
-            const response = SpeechUtility.listToSpeechReadyString(this.activity);
+            const response = SpeechUtility.listToSpeechReadyString(this.activity, locale);
             
-            const item1 = i18next.t("common:firstItem")
+            const item1 = JSON.parse(this.commonFile)["firstItem"]
                 .replace("{0}", listItemSpeakProperty);
-            const item2 = i18next.t("common:secondItem")
+            const item2 = JSON.parse(this.commonFile)["secondItem"]
                 .replace("{0}", listItemSpeakProperty);
-            const item3 = i18next.t("common:thirdItem")
+            const item3 = JSON.parse(this.commonFile)["thirdItem"]
                 .replace("{0}", listItemSpeakProperty);
-            const item4 = i18next.t("common:lastItem")
+            const item4 = JSON.parse(this.commonFile)["lastItem"]
                 .replace("{0}", listItemSpeakProperty);
 
             strictEqual(response, `${parentSpeakProperty} ${item1}, ${item2}, ${item3} ${this.andOperator} ${item4}`);

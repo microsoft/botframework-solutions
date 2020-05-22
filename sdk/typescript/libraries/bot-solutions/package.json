@@ -36,8 +36,6 @@
         "dayjs": "1.8.17",
         "jwks-rsa": "1.5.0",
         "ms-rest-azure": "^2.5.0",
-        "i18next": "^15.0.6",
-        "i18next-node-fs-backend": "^2.1.1",
         "request-promise-native": "^1.0.7",
         "p-queue": "^4.0.0",
         "xml-js": "^1.6.11",

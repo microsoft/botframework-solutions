@@ -43,5 +43,32 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Un jeton n’a pas pu être récupéré pour {authType}, veuillez lier votre compte à votre Assistant et réessayer",
+        "speak": "Un jeton n’a pas pu être récupéré pour {authType}, veuillez lier votre compte à votre Assistant et réessayer"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "s'identifier",
+        "speak": "s'identifier"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "connectez-vous à votre compte {authType}",
+        "speak": "connectez-vous à votre compte {authType}"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }
