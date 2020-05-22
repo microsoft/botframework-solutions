@@ -166,7 +166,7 @@ export class MainDialog extends ComponentDialog {
         innerDc.context.onSendActivities(this.storeOutgoingActivities.bind(this));
         if (innerDc.activeDialog?.id === this.faqDialogId) {
             // user is in a mult turn FAQ dialog
-            const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(this.faqDialogId, localizedServices);
+            const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(this.faqDialogId, localizedServices, innerDc.context.activity.locale);
             if (qnaDialog !== undefined) {
                 this.dialogs.add(qnaDialog);
             }
@@ -175,7 +175,7 @@ export class MainDialog extends ComponentDialog {
         return await super.onContinueDialog(innerDc);
     }
 
-    protected tryCreateQnADialog(knowledgebaseId: string, cognitiveModels: ICognitiveModelSet): QnAMakerDialog | undefined {
+    protected tryCreateQnADialog(knowledgebaseId: string, cognitiveModels: ICognitiveModelSet, locale: string | undefined): QnAMakerDialog | undefined {
         const qnaEndpoint: QnAMakerEndpoint | undefined = cognitiveModels.qnaConfiguration.get(knowledgebaseId);
         if (qnaEndpoint === undefined) {
             throw new Error(`Could not find QnA Maker knowledge base configuration with id: ${ knowledgebaseId }.`);
@@ -187,10 +187,10 @@ export class MainDialog extends ComponentDialog {
                 qnaEndpoint.knowledgeBaseId,
                 qnaEndpoint.endpointKey,
                 qnaEndpoint.host,
-                this.templateManager.generateActivityForLocale('UnsupportedMessage') as Activity,
+                this.templateManager.generateActivityForLocale('UnsupportedMessage', locale) as Activity,
                 undefined,
-                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle').text,
-                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText').text,
+                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle', locale).text,
+                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText', locale).text,
                 undefined,
                 undefined,
                 undefined,
@@ -368,7 +368,7 @@ export class MainDialog extends ComponentDialog {
             } else if (this.shouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchResult.intents[dispatchIntent].score)) {
 
                 const knowledgebaseId: string = this.faqDialogId;
-                const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(knowledgebaseId, localizedServices);
+                const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(knowledgebaseId, localizedServices, activity.locale);
                 if (qnaDialog !== undefined) {
                     this.dialogs.add(qnaDialog);
                 }
@@ -411,11 +411,11 @@ export class MainDialog extends ComponentDialog {
                 // The following line is a workaround until the method getQnAClient of QnAMakerDialog is fixed
                 // as per issue https://github.com/microsoft/botbuilder-js/issues/1885
                 new URL(qnaEndpoint.host).hostname.split('.')[0],
-                this.templateManager.generateActivityForLocale('UnsupportedMessage') as Activity,
+                this.templateManager.generateActivityForLocale('UnsupportedMessage', locale) as Activity,
                 // Before, instead of 'undefined' a '0.3' value was used in the following line
                 undefined,
-                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle').text,
-                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText').text
+                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle', locale).text,
+                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText', locale).text
             );
 
             qnaDialog.id = knowledgebaseId;
@@ -458,33 +458,6 @@ export class MainDialog extends ComponentDialog {
 
         return await next();
     }
-
-    private registerQnADialog(knowledgebaseId: string, cognitiveModels: ICognitiveModelSet, locale: string): void {
-        const qnaEndpoint: QnAMakerEndpoint | undefined = cognitiveModels.qnaConfiguration.get(knowledgebaseId);
-        if (qnaEndpoint == undefined){
-            throw new Error(`Could not find QnA Maker knowledge base configuration with id: ${ knowledgebaseId }.`);
-        }
-
-        if (this.dialogs.find(knowledgebaseId) == undefined) {
-            const qnaDialog: QnAMakerDialog = new QnAMakerDialog(
-                qnaEndpoint.knowledgeBaseId,
-                qnaEndpoint.endpointKey,
-                // The following line is a workaround until the method getQnAClient of QnAMakerDialog is fixed
-                // as per issue https://github.com/microsoft/botbuilder-js/issues/1885
-                new URL(qnaEndpoint.host).hostname.split('.')[0],
-                this.templateManager.generateActivityForLocale('UnsupportedMessage', locale, {}) as Activity,
-                // Before, instead of 'undefined' a '0.3' value was used in the following line
-                undefined,
-                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle', locale, {}).text,
-                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText', locale, {}).text
-            );
-
-            qnaDialog.id = knowledgebaseId;
-
-            this.addDialog(qnaDialog);
-        }
-    }
-    
 
     private isSkillIntent(dispatchIntent: string): boolean {
         if (dispatchIntent.toLowerCase() === 'l_general' || 

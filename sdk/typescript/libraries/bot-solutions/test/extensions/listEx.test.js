@@ -8,8 +8,8 @@ const { join } = require("path");
 const { readFileSync } = require("fs");
 const { SomeComplexType } = require(join(__dirname, "..", "helpers", "someComplexType"));
 const { ListEx } = require(join("..", "..", "lib", "extensions", "listEx"));
-const { CommonResponses } = require(join("..", "lib", "resources"));
-const { ResponsesUtil } = require(join("..", "lib", "util"));
+const { CommonResponses } = require(join("..", "..", "lib", "resources"));
+const { ResponsesUtil } = require(join("..", "..", "lib", "util"));
 
 const locale = 'en-us';
 

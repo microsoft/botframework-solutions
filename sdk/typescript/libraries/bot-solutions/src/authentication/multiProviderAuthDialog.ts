@@ -15,7 +15,7 @@ import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
 import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
-import { OAuthProvider } from './oAuthProvider';
+import { MicrosoftAppCredentials } from 'botframework-connector';
 
 enum DialogIds {
     providerPrompt = 'ProviderPrompt',
@@ -30,19 +30,19 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     private selectedAuthType: string = '';
     private authenticationConnections: IOAuthConnection[];
     private responseManager: ResponseManager;
-    private readonly appCredentials: MicrosoftAppCredentials;
+    private readonly oauthCredentials: MicrosoftAppCredentials;
 
     public constructor(
         authenticationConnections: IOAuthConnection[],
-        appCredentials: MicrosoftAppCredentials,
         promptSettings: OAuthPromptSettings[],
+        oauthCredentials: MicrosoftAppCredentials,
         locale: string
     ) {
         super(MultiProviderAuthDialog.name);
 
         if (authenticationConnections === undefined) { throw new Error('The value of authenticationConnections cannot be undefined'); }
         this.authenticationConnections = authenticationConnections;
-        this.appCredentials = appCredentials;
+        this.oauthCredentials  = oauthCredentials;
 
         this.responseManager = new ResponseManager(
             ['en', 'de', 'es', 'fr', 'it', 'zh'],
@@ -107,9 +107,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     }
 
     private async firstStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-
-            if (this.appCredentials === undefined) {
-                stepContext.context.activity.locale as string,
+        return await stepContext.beginDialog(DialogIds.authPrompt);
     }
 
     private async promptForProvider(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
@@ -231,7 +229,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             throw new Error('"userId" undefined');
         }
 
-            if (this.appCredentials === undefined) {
         const tokenProvider: BotFrameworkAdapter = context.adapter as BotFrameworkAdapter;
         if (tokenProvider !== undefined) {
             return await tokenProvider.getTokenStatus(context, userId, includeFilter);

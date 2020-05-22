@@ -14,8 +14,8 @@ const { join } = require("path");
 const { DateTimeTestData } = require(join("..", "helpers", "dateTimeTestData"));
 const { readFileSync } = require("fs");
 const { DateTimeEx } = require(join("..", "..", "lib", "extensions", "dateTimeEx"));
-const { CommonResponses } = require(join("..", "lib", "resources"));
-const { ResponsesUtil } = require(join("..", "lib", "util"));
+const { CommonResponses } = require(join("..", "..", "lib", "resources"));
+const { ResponsesUtil } = require(join("..", "..", "lib", "util"));
 
 describe("date time extensions", function() {
     describe("using explicit value", function() {
