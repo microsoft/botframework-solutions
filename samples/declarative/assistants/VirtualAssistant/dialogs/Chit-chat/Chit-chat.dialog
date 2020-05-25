@@ -1,0 +1,37 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "pTP753",
+    "name": "Chit-chat"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "f0kmgx"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.QnAMakerDialog",
+          "$designer": {
+            "id": "8blaBe"
+          },
+          "knowledgeBaseId": "=settings.qna.chitchat.knowledgebaseid",
+          "endpointKey": "=settings.qna.chitchat.endpointkey",
+          "hostname": "=settings.qna.chitchat.hostname",
+          "noAnswer": "Sorry, I did not find an answer.",
+          "threshold": 0.3,
+          "activeLearningCardTitle": "Did you mean:",
+          "cardNoMatchText": "None of the above.",
+          "cardNoMatchResponse": "Thanks for the feedback.",
+          "top": 3,
+          "isTest": false
+        }
+      ]
+    }
+  ],
+  "generator": "Chit-chat.lg"
+}

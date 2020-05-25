@@ -1,0 +1,88 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "yNll8R",
+    "name": "Onboarding"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "GeSpdJ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "iW2zlV"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_iW2zlV()}",
+          "property": "user.name"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "h3EezZ"
+          },
+          "condition": "exists(turn.recognized.entities.PersonName[0])",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "8fU7LA"
+              },
+              "value": "${turn.recognized.entities.PersonName[0]}",
+              "property": "user.name"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "5eOsgQ"
+          },
+          "activity": "${SendActivity_5eOsgQ()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "agc7MH"
+          },
+          "activity": "${SendActivity_agc7MH()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "RMag6B"
+          },
+          "activity": "${SendActivity_RMag6B()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "gkwclz"
+      },
+      "intent": "Why",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "oSGbxz"
+          },
+          "activity": "${SendActivity_oSGbxz()}"
+        }
+      ]
+    }
+  ],
+  "generator": "Onboarding.lg",
+  "recognizer": "Onboarding.lu"
+}

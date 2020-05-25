@@ -1,0 +1,117 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "cqaf0w",
+    "name": "General"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "CLIJp8"
+      },
+      "intent": "Cancel",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "7OfACu"
+          },
+          "activity": "${SendActivity_7OfACu()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "wASjzB"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "jdTr3f"
+      },
+      "intent": "Escalate",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "zjCN9U"
+          },
+          "activity": "${SendActivity_zjCN9U()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "oVvFnM"
+      },
+      "intent": "Help",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "MFFeyH"
+          },
+          "activity": "${SendActivity_MFFeyH()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "guHez1"
+      },
+      "intent": "Logout",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "iMj4p3"
+          },
+          "activity": "${SendActivity_iMj4p3()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ex8hXD"
+      },
+      "intent": "StartOver",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "OQWkiT"
+          },
+          "activity": "${SendActivity_OQWkiT()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "iysmWP"
+      },
+      "condition": "turn.recognized.score < 0.5",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "BWyI5K"
+          },
+          "activityProcessed": false,
+          "dialog": "Chit-chat"
+        }
+      ]
+    }
+  ],
+  "generator": "General.lg",
+  "recognizer": "General.lu"
+}

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]"
+    },
+    "suffix": {
+      "type": "string",
+      "defaultValue": "[take(uniqueString(resourceGroup().id), 7)]"
+    },
+    "qnaMakerWebAppName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-qnahost-', parameters('suffix'))]"
+    },
+    "qnaMakerWebAppLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "qnaMakerServiceName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-qna-', parameters('suffix'))]"
+    },
+    "qnaMakerServiceSku": {
+      "type": "string",
+      "defaultValue": "S0"
+    },
+    "qnaMakerServiceLocation": {
+      "type": "string",
+      "defaultValue": "westus"
+    },
+    "qnaMakerSearchName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('name'), '-search-', parameters('suffix'))]"
+    },
+    "qnaMakerSearchSku": {
+      "type": "string",
+      "defaultValue": "standard"
+    },
+    "qnaMakerSearchLocation": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "searchHostingMode": {
+      "type": "string",
+      "defaultValue": "default"
+    }
+  },
+  "variables": {
+    "qnaMakerSearchName": "[toLower(replace(parameters('qnaMakerSearchName'), '_', ''))]",
+    "qnaMakerWebAppName": "[replace(parameters('qnaMakerWebAppName'), '_', '')]"
+  },
+  "resources": [
+    {
+      "comments": "Cognitive service key for all QnA Maker knowledgebases.",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "kind": "QnAMaker",
+      "apiVersion": "2017-04-18",
+      "name": "[parameters('qnaMakerServiceName')]",
+      "location": "[parameters('qnaMakerServiceLocation')]",
+      "sku": {
+        "name": "[parameters('qnaMakerServiceSku')]"
+      },
+      "properties": {
+        "apiProperties": {
+          "qnaRuntimeEndpoint": "[concat('https://',reference(resourceId('Microsoft.Web/sites', variables('qnaMakerWebAppName'))).hostNames[0])]"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/Sites', variables('qnaMakerWebAppName'))]",
+        "[resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName'))]"
+      ]
+    },
+    {
+      "comments": "Search service for QnA Maker service.",
+      "type": "Microsoft.Search/searchServices",
+      "apiVersion": "2015-08-19",
+      "name": "[variables('qnaMakerSearchName')]",
+      "location": "[parameters('qnaMakerSearchLocation')]",
+      "sku": {
+        "name": "[parameters('qnaMakerSearchSku')]"
+      },
+      "properties": {
+        "replicaCount": 1,
+        "partitionCount": 1,
+        "hostingMode": "default"
+      }
+    },
+    {
+      "comments": "Web app for QnA Maker service.",
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2016-08-01",
+      "name": "[variables('qnaMakerWebAppName')]",
+      "location": "[parameters('qnaMakerWebAppLocation')]",
+      "properties": {
+        "enabled": true,
+        "name": "[variables('qnaMakerWebAppName')]",
+        "hostingEnvironment": "",
+        "serverFarmId": "[concat('/subscriptions/', Subscription().SubscriptionId,'/resourcegroups/', resourceGroup().name, '/providers/Microsoft.Web/serverfarms/', parameters('name'))]",
+        "siteConfig": {
+          "cors": {
+            "allowedOrigins": [
+              "*"
+            ]
+          }
+        }
+      },
+      "resources": [
+        {
+          "apiVersion": "2016-08-01",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', variables('qnaMakerWebAppName'))]",
+            "[resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName'))]"
+          ],
+          "properties": {
+            "AzureSearchName": "[variables('qnaMakerSearchName')]",
+            "AzureSearchAdminKey": "[listAdminKeys(resourceId('Microsoft.Search/searchServices/', variables('qnaMakerSearchName')), '2015-08-19').primaryKey]",
+            "PrimaryEndpointKey": "[concat(variables('qnaMakerWebAppName'), '-PrimaryEndpointKey')]",
+            "SecondaryEndpointKey": "[concat(variables('qnaMakerWebAppName'), '-SecondaryEndpointKey')]",
+            "DefaultAnswer": "No good match found in KB.",
+            "QNAMAKER_EXTENSION_VERSION": "latest"
+          }
+        }
+      ]
+    },
+    {
+      "apiVersion": "2016-09-01",
+      "name": "[parameters('name')]",
+      "type": "Microsoft.Web/serverfarms",
+      "location": "[parameters('qnaMakerWebAppLocation')]",
+      "properties": {
+        "name": "[parameters('name')]",
+        "workerSizeId": "0",
+        "reserved": false,
+        "numberOfWorkers": "1",
+        "hostingEnvironment": ""
+      },
+      "sku": {
+        "Tier": "Standard",
+        "Name": "S1"
+      }
+    }
+  ],
+  "outputs": {
+    "qnaMaker": {
+      "type": "object",
+      "value": {
+        "endpoint": "[concat('https://', reference(resourceId('Microsoft.Web/sites', variables('qnaMakerWebAppName'))).hostNames[0])]",
+        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('qnaMakerServiceName')),'2017-04-18').key1]"
+      }
+    }
+  }
+}

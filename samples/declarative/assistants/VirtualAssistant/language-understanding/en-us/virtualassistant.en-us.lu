@@ -1,0 +1,123 @@
+
+# Onboarding
+- onboarding
+- get started
+
+
+
+# General
+- again
+- could you say it again
+- i didn't hear repeat again
+- i have not heard
+- pardon
+- repeat
+- repeat please
+- repeat that
+- say again
+- say again please
+- say that again
+- sorry
+- what
+- what did you say
+- what was that again
+- clear and start again
+- could you start it over
+- please begin again
+- restart
+- restart it
+- start again
+- start it over
+- start over
+- start over it
+- turn over a new leaf
+- forget me
+- log out
+- logout
+- sign out
+- signout
+- any help
+- can you help
+- can you help me
+- give me some help
+- help
+- how can i get it
+- how to do it
+- i need help
+- i need some assist
+- i need some help
+- is there any help
+- open help
+- please help
+- some help
+- who can help me
+- can i talk to a person
+- contact support
+- contact the customer service
+- customer service
+- human service
+- i need manual customer service
+- i need real human help
+- i need support
+- i want to talk to a human
+- i want to talk to a real human
+- is there any person i can talk to
+- is there any real human
+- is there any real person
+- talk to a human
+- cancel
+- cancel app
+- cancel cancel
+- cancel it
+- cancel never mind
+- cancel that
+- canceled
+- cancelled
+- do nothing
+- don't do that
+- don't do that anymore
+- forget about it
+- go away
+- just cancel
+- just cancel it
+- nerver mind
+- never mind
+- never mind cancel
+- never mind cancel that
+- nothing never mind
+- nothing please
+- oh cancel
+- oh don't do that
+- please do nothing
+- quit
+- sorry, don't do it
+
+# FAQ
+- what can the point of interest skill do
+- what skills do you have
+- what can you do
+- what is a skill
+- what can the email skill do
+- what is a virtual assistant
+- what can the todo skill do
+- how do i raise a bug
+- what can the calendar skill do
+- whats new
+- what's new
+
+
+
+#ExtractName
+- call me steve !
+- i am anna
+- it is jackson .
+- it's alice anderson!
+- my name is bill jones
+- {PersonName=Darren}
+- this is  {PersonName=darren} .
+- ([you can]|[please]) call me {PersonName=lisa}[.]
+- (i'm|i am){PersonName=filip} [.]
+- (it's|it is|this is) {PersonName=maggie}[.]
+- my name is {PersonName=ryan}[.]
+
+@ ml PersonName

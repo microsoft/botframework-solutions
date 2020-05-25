@@ -1,0 +1,17 @@
+{
+  "cognitiveModels": {
+    "en-us": {
+      "knowledgebases": [
+        {
+          "endpointKey": "",
+          "id": "",
+          "kbId": "",
+          "subscriptionKey": "",
+          "hostname": "",
+          "name": ""
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}
