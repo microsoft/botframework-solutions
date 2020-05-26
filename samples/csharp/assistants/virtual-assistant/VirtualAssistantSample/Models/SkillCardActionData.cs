@@ -13,7 +13,7 @@ namespace VirtualAssistantSample.Models
         /// <summary>
         /// Gets skillName
         /// </summary>  
-        [JsonProperty("AppName")]
-        public string SkillName { get; set; }
+        [JsonProperty("AppId")]
+        public string SkillId { get; set; }
     }
 }

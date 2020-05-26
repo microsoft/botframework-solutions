@@ -124,8 +124,8 @@ namespace VirtualAssistantSample.Bots
         {
             try
             {
-                string skillName = (turnContext.Activity as Activity).GetSkillName();
-                var skill = _skillsConfig.Skills.Where(s => s.Key == skillName).FirstOrDefault().Value;
+                string skillId = (turnContext.Activity as Activity).GetSkillId();
+                var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
 
                 // Forward request to correct skill 
                 var invokeResponse = await _skillHttpClient.PostActivityAsync(_vaBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken);
@@ -143,7 +143,7 @@ namespace VirtualAssistantSample.Bots
         {
             try
             {
-                string skillName = (turnContext.Activity as Activity).GetSkillName();
+                string skillName = (turnContext.Activity as Activity).GetSkillId();
                 var skill = _skillsConfig.Skills.Where(s => s.Key == skillName).FirstOrDefault().Value;
 
                 // Forward request to correct skill 
