@@ -33,4 +33,4 @@ For full details regarding these breaking changes, please refer to the [Language
 {:.no_toc}
 In the previous **0.8-beta release**, we added documentation covering how to enable single sign-on for Skills. In the **1.0 GA release**, these changes are officially included.
 
-For instructions on enabling single sign-on for Skills, refer to the instructions located here: [Enable SSO with Skils using OAuthCredentials setting]({{site.baseurl}}//overview/whats-new/1.0/enable-sso-with-skills-using-oauthcredentials-setting).
+For instructions on enabling single sign-on for Skills, refer to the instructions located here: [Enable SSO with Skills using OAuthCredentials setting]({{site.baseurl}}//overview/whats-new/1.0/enable-sso-with-skills-using-oauthcredentials-setting).
