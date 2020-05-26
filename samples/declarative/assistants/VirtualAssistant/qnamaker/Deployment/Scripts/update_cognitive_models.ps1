@@ -69,7 +69,7 @@ foreach ($langCode in $languageMap.Keys) {
             bf qnamaker:kb:export `
                 --endpoint $qnaEndpoint `
                 --environment Prod `
-                --kbId $kb.kbId `
+                --kbId $kb.knowledgebaseid `
                 --subscriptionKey $kb.subscriptionKey > $(Join-Path $qnaFolder $langCode "$($kb.id).json")
                 
             bf qnamaker:convert `
@@ -86,7 +86,7 @@ foreach ($langCode in $languageMap.Keys) {
             $lu = Get-Item -Path $(Join-Path $qnaFolder $langCode "$($kb.id).qna")
             UpdateKB `
                 -luFile $lu `
-                -kbId $kb.kbId `
+                -kbId $kb.knowledgebaseid `
                 -qnaSubscriptionKey $kb.subscriptionKey `
                 -qnaEndpoint $qnaEndpoint `
                 -language $langCode `
