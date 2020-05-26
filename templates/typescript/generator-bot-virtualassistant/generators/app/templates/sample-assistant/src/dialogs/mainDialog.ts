@@ -22,7 +22,9 @@ import {
     SkillDialog,
     PromptOptions, 
     WaterfallDialog, 
-    BeginSkillDialogOptions} from 'botbuilder-dialogs';
+    BeginSkillDialogOptions,
+    DialogEvent,
+    DialogEvents } from 'botbuilder-dialogs';
 import {
     DialogContextEx,
     ICognitiveModelSet,
@@ -98,6 +100,14 @@ export class MainDialog extends ComponentDialog {
         skillDialogs.forEach((skillDialog: SkillDialog): void => {
             this.addDialog(skillDialog);
         });
+    }
+
+    public async onDialogEvent(dialogContext: DialogContext, event: DialogEvent): Promise<boolean> {
+        if(event.name === DialogEvents.versionChanged) {
+            return true;
+        }
+
+        return await super.onDialogEvent(dialogContext, event);
     }
 
     protected async onBeginDialog(innerDc: DialogContext, options: Object): Promise<DialogTurnResult> {
