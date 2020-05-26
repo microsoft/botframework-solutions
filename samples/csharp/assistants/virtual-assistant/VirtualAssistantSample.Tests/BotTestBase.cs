@@ -17,8 +17,10 @@ using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Solutions.Testing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Models;
@@ -131,6 +133,15 @@ namespace VirtualAssistantSample.Tests
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MockMainDialog>>();
+
+            // Add MicrosoftAPPId to configuration
+            var configuration = new Mock<IConfiguration>();
+            var configurationSection = new Mock<IConfigurationSection>();
+            configurationSection.Setup(a => a.Value).Returns("testvalue");
+            configuration.Setup(a => a.GetSection("MicrosoftAppId")).Returns(configurationSection.Object);
+
+            // Register configuration
+            Services.AddSingleton(configuration.Object);
 
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
