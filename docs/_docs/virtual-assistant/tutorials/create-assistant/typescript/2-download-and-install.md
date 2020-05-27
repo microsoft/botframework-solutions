@@ -31,5 +31,5 @@ order: 2
    npm install -g yo
    ```
 
-1. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest).
+1. Download and install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest) (Minimum version 2.2.0 required).
 1. Download and install the [Bot Framework Emulator](https://aka.ms/botframework-emulator).

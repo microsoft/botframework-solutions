@@ -19,7 +19,7 @@ Install Bot Framework development prerequisites and create your first Virtual As
     
 ### Time to Complete
 
-10 minutes
+20 minutes
 
 ### Scenario
 

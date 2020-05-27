@@ -19,6 +19,8 @@ order: 3
 ## What files were created?
     | - Adapters                            // BotAdapter implementations for configuring Middleware
         | - DefaultAdapter.cs               // Configures basic middleware
+    | - Authentication                      // Classes for configuring skill authentication
+        | - AllowedCallersClaimsValidator   // Class for managing allowed skill authentication claims
     | - Bots                                // IBot implementations for initializing dialog stack
         | - DefaultActivityHandler.cs       // Initializes the dialog stack with a primary dialog (e.g. MainDialog)
     | - Controllers                         // API Controllers
@@ -44,17 +46,23 @@ order: 3
         | - MainDialog.cs                   // Dialog for routing incoming messages
         | - OnboardingDialog.cs             // Dialog for collecting basic profile information from user
     | - Models                              // Data models
+        | - StateProperties.cs              // Constants for state property keys
         | - UserProfileState.cs             // Model for basic profile information
     | - Pipeline                            // Files for setting up an deployment pipeline in Azure DevOps
-        | - Assistant.yml                   // Build pipeline template for Azure DevOps
+        | - Assistant.yml                   // Sample build pipeline template for Azure DevOps
     | - Responses                           // Classes and files for representing bot responses
-        | - MainResponses.lg                // Language generation templates for Main Dialog repsonses
-        | - OnboardingResponses.lg          // Language generation templates for Onboarding Dialog repsonses 
+        | - AllResponses.lg                 // Combined language generation templates
+        | - MainResponses.lg                // Language generation templates for Main Dialog responses
+        | - OnboardingResponses.lg          // Language generation templates for Onboarding Dialog responses 
     | - Services                            // Configuration for connected services and service clients
         | - BotServices.cs                  // Class representation of service clients and recognizers
         | - BotSettings.cs                  // Class representation of configuration files
         | - DispatchLuis.cs                 // Class representation of LUIS result from Dispatch language model
         | - GeneralLuis.cs                  // Class representation of LUIS result from General language model
+    | - TokenExchange                       // Classes for 
+        | - ITokenExchangeConfig.cs         // Interface representing an authentication configuration
+        | - TokenExchangeConfig.cs          // Implementation representing an authentication configuration
+        | - TokenExchangeSkillHandler.cs    // Handler for managing single sign-on between assistant bot and configured skills
     | - appsettings.json                    // Configuration for application and Azure services
     | - cognitivemodels.json                // Configuration for language models, knowledgebases, and dispatch model
     | - Program.cs                          // Default Program.cs file
