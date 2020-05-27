@@ -43,7 +43,7 @@ To deploy your Skill using the Azure Resource Manager (ARM) template provided in
     resourceGroup | The name for your Azure resource group. Default value is the name parameter. | **No**
     location | The region for your Azure resource group and default location for all Azure services unless otherwise specified in ARM template parameters. | **Yes**
     appId | The application ID for the Azure Active Directory App required by your bot registration. If not provided, a new app registration will be created. | **No**
-    appPassword | The password for the Azure Active Directory App required by your bot registration. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
+    appPassword | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot for authentication purposes. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
     createLuisAuthoring | Indicates whether a new LUIS authoring resource should be created. If **false**, luisAuthoringKey parameter must be provided. | **Yes**
     luisAuthoringKey | Key for existing LUIS Authoring Key resource. No required if **createAuthoringResource** set to true. | **No**
     luisAuthoringRegion | The authoring region for your LUIS account. Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation for more information. | **Yes**
