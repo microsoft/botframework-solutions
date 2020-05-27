@@ -25,3 +25,19 @@ order: 3
 6. Paste your Application Insights AppId
 7. Click Load
 8. *Important*: Select Organizational Account > Sign In > Connect
+
+## Additional Telemetry
+
+By default, a Virtual Assistant or Skill template based project doesn't collect personally identifiable information (e.g. Conversation drill-down and transcripts) which will lead to the respective sections in the PowerBI dashboard to not show information. If you wish to collect this information make the following change to `Startup.cs`
+
+Change this entry:
+
+```csharp
+    services.AddSingleton<TelemetryLoggerMiddleware>();
+```
+
+To the following:
+
+```csharp
+    services.AddSingleton<TelemetryLoggerMiddleware>(s=>new TelemetryLoggerMiddleware(s.GetService<IBotTelemetryClient>(), true));
+```
