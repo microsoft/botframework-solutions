@@ -2,7 +2,7 @@
 category: Skills
 subcategory: Handbook
 title: Experimental - Adding Bot Framework Composer dialogs to a Skill
-description: Add dialogs built using Bot Framework Composer to a Skill
+description: Add dialogs built using Bot Framework Composer to a Skill enabling side by side composition of Waterfall Dialogs and Composer built Adaptive Dialogs.
 order: 1
 toc: true
 ---
@@ -36,8 +36,8 @@ The first step is to create a Composer project and create the appropriate LU, Di
 
 ![Export Assets to ZIP File]({{site.baseurl}}/assets/images/composer-export-assets-to-zip.png)
 
-1. Unpack this ZIP file into a new sub-folder of your Skill project called `ComposerDialogs`
-1. Copy the `Generated Folder` from your Composer Project into the same `ComposerDialogs` folder. (Temporary)
+2. Unpack this ZIP file into a new sub-folder of your Skill project called `ComposerDialogs`
+3. Copy the `Generated Folder` from your Composer Project into the same `ComposerDialogs` folder. (Temporary)
 
 ## Add additional Nuget package references
 
@@ -72,13 +72,13 @@ Add the following additional Nuget packages to your project file
     private IWebHostEnvironment HostingEnvironment { get; set; }
 ```
 
-1. Add the following to your constructor
+2. Add the following to your constructor
 
 ```csharp
      this.HostingEnvironment = env;
 ```
 
-1. In the main `ConfigureServices` handler add the following lines to initialise Declarative dialog support and enumerate the Composer built resources.
+3. In the main `ConfigureServices` handler add the following lines to initialise Declarative dialog support and enumerate the Composer built resources.
 
 ```csharp
     // Configure Adaptive           
@@ -93,7 +93,7 @@ Add the following additional Nuget packages to your project file
     services.AddSingleton(resourceExplorer);
 ```
 
-1. Ensure any configuration used by the Composer based dialogs is avialable to use through adding this line to the `builder` section of the constructor
+4. Ensure any configuration used by the Composer based dialogs is avialable to use through adding this line to the `builder` section of the constructor
 
 ```csharp
     .AddJsonFile($"ComposerDialogs\\settings\\appsettings.json", optional:true)
@@ -111,7 +111,7 @@ Update the `DefaultAdapter.cs` file under the `Adapters` folder as follows:
   IConfiguration configuration
 ```
 
-1. Then add the following lines to the constructor
+2. Then add the following lines to the constructor
   ```csharp
     this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
     this.UseStorage(storage);
@@ -130,7 +130,7 @@ We need to make use of DialogManager to ensure that the Composer based dialogs e
     protected readonly ResourceExplorer _resourceExplorer;
 ```
 
-1. Update the constructor to includes the following lines
+2. Update the constructor to includes the following lines
 
 ```csharp
     _resourceExplorer = serviceProvider.GetService<ResourceExplorer>();
@@ -139,7 +139,7 @@ We need to make use of DialogManager to ensure that the Composer based dialogs e
     _dialogManager.UseLanguageGeneration();
 ```
 
-1. Update the OnTurnAsync handler to use `_dialogManager` in place of `_dialog`
+3. Update the OnTurnAsync handler to use `_dialogManager` in place of `_dialog`
 
 ```csharp
     await _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
@@ -153,7 +153,7 @@ We need to make use of DialogManager to ensure that the Composer based dialogs e
     ResourceExplorer resourceExplorer
 ```
 
-1. Then register **each** top-level Composer Dialog you wish to make available
+2. Then register **each** top-level Composer Dialog you wish to make available
 
 ```csharp
     var dialogResource = resourceExplorer.GetResource("todobotwithluissample-0.dialog");
@@ -163,7 +163,7 @@ We need to make use of DialogManager to ensure that the Composer based dialogs e
     AddDialog(composerDialog);
 ```
 
-1. Within the appropriate Intent handler within Main Dialog you can now `begin` the Composer based dialog of your choice by adding the following code:
+3. Within the appropriate Intent handler within Main Dialog you can now `begin` the Composer based dialog of your choice by adding the following code:
 
 ```csharp
     object adaptiveOptions = null;
