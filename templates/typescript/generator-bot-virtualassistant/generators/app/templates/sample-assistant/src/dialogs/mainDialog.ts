@@ -182,7 +182,7 @@ export class MainDialog extends ComponentDialog {
         }
 
         // QnAMaker dialog already present on the stack?
-        if (this.dialogs.find(knowledgebaseId) !== undefined) {
+        if (this.dialogs.find(knowledgebaseId) === undefined) {
             return new QnAMakerDialog(
                 qnaEndpoint.knowledgeBaseId,
                 qnaEndpoint.endpointKey,
