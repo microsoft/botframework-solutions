@@ -1,8 +1,8 @@
 ---
 category: Skills
 subcategory: Handbook
-title: Experimental - Adding Bot Framework Composer to a Skill
-description: Add Bot Framework Composer to a Skill
+title: Experimental - Adding Bot Framework Composer dialogs to a Skill
+description: Add dialogs built using Bot Framework Composer to a Skill
 order: 1
 toc: true
 ---
@@ -15,151 +15,170 @@ toc: true
 
 The [Bot Framework Composer](https://aka.ms/bfcomposer) is a visual designer that lets you quickly and easily build sophisticated conversational bots without writing code. Composer is currently in Public Preview and the documentation below covers manual steps to move Dialog management for an existing Skill created using the [Skill Template](https://microsoft.github.io/botframework-solutions/skills/tutorials/create-skill/csharp/1-intro/) to Composer.
 
-An approach for hybrid composition of Waterfall and Adaptive/Composer dialogs within the same Assistant or Skill is being tested, in the meantime these steps will move all dialog management to Composer based dialogs.
+For customers that already have existing Bot Framework Virtual Assistant or Custom Skill projects it's important to ensure that Waterfall dialogs and co-exist with Adaptive Dialogs built using Bot Framework Compopser. This documentation covers initial experimental tests to enable you to test hybrid dialog scenarios.
 
-Moving forward there will be an updated Skill Template that will support Bot Framework Composer out of the box without these changes.
+Moving forward there will be an updated Skill Template that will support Bot Framework Composer out of the box without these changes and you can of course use any Composer built dialog as a Skill without using the Skill Template.
 
 > Note that this guidance is experimental and for testing purposes only.
 
 ## Pre-Requisites
 
 - An existing Skill created using the Skill Template, follow [this tutorial](https://microsoft.github.io/botframework-solutions/skills/tutorials/create-skill/csharp/1-intro/) if needed.
+- If you have a Skill created using an older version of the Skill Template, ensure it's updated to the 4.9 Bot Framework SDK as per documentation.
 
-## Design your Dialogs
+## Build your Composer dialogs
 
 The first step is to create a Composer project and create the appropriate LU, Dialog and LG assets for your scenario. Ensure these work as expected using the `Start Bot` and `Test in Emulator` feature of the Bot Framework Emulator, this will also ensure LUIS resources are published.
 
 ## Retrieve the Generated Files
 
-Navigate to the folder where you have cloned the Bot Framework Composer and open the `SampleBots` folder. You should find a sub-folder matching the name of your previously created Composer project. Copy the `ComposerDialogs` folder into the root of your Skill project.
+1. Within Composer, and your active project. Click the `Export assets to .zip` option under the Export Menu. This self-contained ZIP file contains all of your declarative assets making up your Composer project. 
 
-## Add ComposerBot
+![Export Assets to ZIP File]({{site.baseurl}}/assets/images/composer-export-assets-to-zip.png)
 
-The `ComposerBot` implementation bootstraps supporting infrastructure for the Composer including state and resource files and is provided as part of Composer.
+1. Unpack this ZIP file into a new sub-folder of your Skill project called `ComposerDialogs`
+1. Copy the `Generated Folder` from your Composer Project into the same `ComposerDialogs` folder. (Temporary)
 
-1. Retrieve the latest source code for `ComposerBot` from [here](https://github.com/microsoft/BotFramework-Composer/blob/stable/BotProject/CSharp/ComposerBot.cs) and add to the `Bots` folder of your Skill project.
-2. Add the following additional lines to the constructor:
+## Add additional Nuget package references
 
-```csharp
-    DeclarativeTypeLoader.AddComponent(new AdaptiveComponentRegistration());
-    DeclarativeTypeLoader.AddComponent(new LanguageGenerationComponentRegistration());
-    DeclarativeTypeLoader.AddComponent(new DialogComponentRegistration());
+Add the following additional Nuget packages to your project file
+
+```xml
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.9.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.9.1" />
+```    
+
+## Ensure Composer Dialog resources are configured as project content files
+
+1. Edit your `.csproj` file to add the following lines under an `ItemGroup` section
+
+```xml
+    <Content Include="**/*.dialog" Exclude="bin/**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="**/*.lg" Exclude="bin/**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="**/*.lu" Exclude="bin/**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>    
 ```
 
-## Initialise ComposerBot
+## Update Startup.cs
 
-The next step is to initialise `ComposerBot` making it available to use. Within `Startup.cs` of your Skill add the following lines of code. This will override any other Bots registered, these can be removed from Startup if desired.
+1. Add the following class variable
 
 ```csharp
-    TypeFactory.Configuration = this.Configuration;
-    var resourceExplorer = new ResourceExplorer().AddFolder("ComposerDialogs");
-    services.AddSingleton<ResourceExplorer>(resourceExplorer);
-
-    services.AddSingleton<IBot, ComposerBot>((sp) => new ComposerBot(
-        "Main.dialog",
-        sp.GetService<ConversationState>(),
-        sp.GetService<UserState>(),
-        resourceExplorer,
-        DebugSupport.SourceMap));
+    private IWebHostEnvironment HostingEnvironment { get; set; }
 ```
 
-## Adapter Changes
-
-The next stage is to provide Adapter configuration for supporting Adaptive Dialogs infrastructure.
-
-1. Within the `Adapters\DefaultAdapter.cs` file of your Skill project file add the following lines to the constructor 
+1. Add the following to your constructor
 
 ```csharp
-    ResourceExplorer resourceExplorer,
-    IConfiguration configuration,
+     this.HostingEnvironment = env;
 ```
 
-2. Then add these lines to the constructor implementation
+1. In the main `ConfigureServices` handler add the following lines to initialise Declarative dialog support and enumerate the Composer built resources.
 
 ```csharp
-    // Register UserState and ConversationState within TurnContext
-    this.UseState(userState, conversationState);
+    // Configure Adaptive           
+    ComponentRegistration.Add(new DialogsComponentRegistration());
+    ComponentRegistration.Add(new AdaptiveComponentRegistration());
+    ComponentRegistration.Add(new DeclarativeComponentRegistration());
+    ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
+    ComponentRegistration.Add(new LuisComponentRegistration());
 
+    // Resource explorer to manage declarative resources for adaptive dialog
+    var resourceExplorer = new ResourceExplorer().LoadProject(this.HostingEnvironment.ContentRootPath);
+    services.AddSingleton(resourceExplorer);
+```
+
+1. Ensure any configuration used by the Composer based dialogs is avialable to use through adding this line to the `builder` section of the constructor
+
+```csharp
+    .AddJsonFile($"ComposerDialogs\\settings\\appsettings.json", optional:true)
+```
+
+## Update Adapter
+
+Update the `DefaultAdapter.cs` file under the `Adapters` folder as follows:
+
+1. Add the following additional parameters to the constructor
+
+```csharp
+  IStorage storage,
+  UserState userState,
+  IConfiguration configuration
+```
+
+1. Then add the following lines to the constructor
+  ```csharp
     this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
-    this.UseAdaptiveDialogs();
-    this.UseResourceExplorer(resourceExplorer);
-    this.UseLanguageGeneration(resourceExplorer, "common.lg");
-```
+    this.UseStorage(storage);
+    this.UseBotState(userState);
+    this.UseBotState(conversationState);
+  ```
 
-## Sending EndOfConversation
+## Update DefaultActivityHandler
 
-The EndOfConversation activity is used to indicate when a Skill has finished execution, handing back control to the caller. Moving forward, this will be automatically handled by the `DialogManager`. At this time the following modifications are required to support this scenario.
+We need to make use of DialogManager to ensure that the Composer based dialogs execute correctly and also send the appropriate EndOfConversation event once dialogs are complete within the Skill.
 
-1. Add the class to your project.
+1. Declare two new local variables
 
 ```csharp
-public class AdaptiveDialogEx : AdaptiveDialog
-{
-    public AdaptiveDialogEx(string dialogId = null, string callerPath = null, int callerLine = 0) : base(dialogId, callerPath, callerLine)
-    {
-        
-    }
-
-    public async override Task EndDialogAsync(ITurnContext turnContext, DialogInstance instance, DialogReason reason, CancellationToken cancellationToken = default)
-    {
-        var endOfConversation = new Activity(ActivityTypes.EndOfConversation)
-        {
-            Code = EndOfConversationCodes.CompletedSuccessfully,               
-        };
-
-        await turnContext.SendActivityAsync(endOfConversation, cancellationToken);
-
-        await base.EndDialogAsync(turnContext, instance, reason, cancellationToken);
-    }
-}
+    protected readonly DialogManager _dialogManager;
+    protected readonly ResourceExplorer _resourceExplorer;
 ```
 
-2. For each Composer Dialog (.dialog file) within your ComposerDialogs folder update the `Microsoft.AdaptiveDialog` reference at the top to `{YourNamespace}.AdaptiveDialogEx`.
+1. Update the constructor to includes the following lines
+
+```csharp
+    _resourceExplorer = serviceProvider.GetService<ResourceExplorer>();
+    _dialogManager = new DialogManager(dialog);
+    _dialogManager.UseResourceExplorer(_resourceExplorer);
+    _dialogManager.UseLanguageGeneration();
+```
+
+1. Update the OnTurnAsync handler to use `_dialogManager` in place of `_dialog`
+
+```csharp
+    await _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
+```
+
+## MainDialog
+
+1. Update the constructor to include the following line
+
+```csharp
+    ResourceExplorer resourceExplorer
+```
+
+1. Then register **each** top-level Composer Dialog you wish to make available
+
+```csharp
+    var dialogResource = resourceExplorer.GetResource("todobotwithluissample-0.dialog");
+    var composerDialog = resourceExplorer.LoadType<AdaptiveDialog>(dialogResource);
+
+    // Add the dialog
+    AddDialog(composerDialog);
+```
+
+1. Within the appropriate Intent handler within Main Dialog you can now `begin` the Composer based dialog of your choice by adding the following code:
+
+```csharp
+    object adaptiveOptions = null;
+    return await stepContext.BeginDialogAsync("todobotwithluissample-0.dialog", adaptiveOptions, cancellationToken);
+```
+
+## LUIS Key
+
+A different LUIS endpoint key is used for your Composer built dialogs but this must be present within the `ComposerDialogs\settings\appSettings.json` file. Add an `endpointKey` entry to the `luis` section of this configuration file, you can find the right key within Composer - Bot Settings.
 
 ```json
-{
-  "$type": "Microsoft.AdaptiveDialogEx"
-}
+"luis": {
+     "endpointKey": "YOUR KEY"
+  },
 ```
-
-3. Add this extended Component Registration entry
-
-```csharp
-public class AdaptiveComponentRegistrationEx : ComponentRegistration
-{
-    public override IEnumerable<TypeRegistration> GetTypes()
-    {
-        // Conditionals
-        yield return new TypeRegistration<AdaptiveDialogEx>("{YourNamespace}.AdaptiveDialogEx");
-    }
-}
-```
-
-4. Invoke the extended component registration within the constructor of your ComposerBot.cs class
-
-```csharp
-    DeclarativeTypeLoader.AddComponent(new AdaptiveComponentRegistrationEx());
-```
-
-5. Update `AdaptiveDialog` references to `AdaptiveDialogEx` within ComposerBot.cs
-
-## Configuration
-
-The final step is to ensure configuration settings required by Composer are available in the Skill `appSettings.json` file, otherwise they won't be available at runtime along with addressing slight differences between configuration items currently present.
-
-1. Rename the existing `key` element underneath `luis` to `endpointKey`. Given these steps replace any existing dialogs there is no need to maintain this element for other dialogs.
-2. Add an `endpoint` element and set this to the endpoint of the published LUIS resource that Composer has created for you. You can find this through the LUIS portal, e.g. `https://myluisresource.cognitiveservices.azure.com`
-
-3. Add the generated LUIS configuration file to your `Startup.cs` class constructor
-
-```csharp
-    var luisAuthoringRegion = Environment.GetEnvironmentVariable("LUIS_AUTHORING_REGION") ?? "westus";
-   .AddJsonFile($"ComposerDialogs/Generated/luis.settings.composer.{luisAuthoringRegion}.json", optional: true, reloadOnChange: true)
-```
-
-## Testing
-
-Your Skill should now pass all incoming utterances through to Composer. Any interruption or MainDialog logic previously executed by the Skill will now no longer be invoked as Composer is used for all dialog processing.
 
 ## Updating Composer artifacts
 
