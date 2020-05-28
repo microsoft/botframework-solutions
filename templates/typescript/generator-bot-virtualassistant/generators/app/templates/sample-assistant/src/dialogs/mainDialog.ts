@@ -22,7 +22,9 @@ import {
     SkillDialog,
     PromptOptions, 
     WaterfallDialog, 
-    BeginSkillDialogOptions} from 'botbuilder-dialogs';
+    BeginSkillDialogOptions,
+    DialogEvent,
+    DialogEvents } from 'botbuilder-dialogs';
 import {
     DialogContextEx,
     ICognitiveModelSet,
@@ -98,6 +100,16 @@ export class MainDialog extends ComponentDialog {
         skillDialogs.forEach((skillDialog: SkillDialog): void => {
             this.addDialog(skillDialog);
         });
+    }
+
+    public async onDialogEvent(dialogContext: DialogContext, event: DialogEvent): Promise<boolean> {
+        // BF SDK now detects state changes in dialogs and surfaces them for confirmation.
+        // Returning true as this is an expected situation due to dynamic dialog construction for QnA multi-locale scenarios.
+        if(event.name === DialogEvents.versionChanged) {
+            return true;
+        }
+
+        return await super.onDialogEvent(dialogContext, event);
     }
 
     protected async onBeginDialog(innerDc: DialogContext, options: Object): Promise<DialogTurnResult> {
@@ -182,7 +194,7 @@ export class MainDialog extends ComponentDialog {
         }
 
         // QnAMaker dialog already present on the stack?
-        if (this.dialogs.find(knowledgebaseId) !== undefined) {
+        if (this.dialogs.find(knowledgebaseId) === undefined) {
             return new QnAMakerDialog(
                 qnaEndpoint.knowledgeBaseId,
                 qnaEndpoint.endpointKey,
@@ -324,7 +336,7 @@ export class MainDialog extends ComponentDialog {
         
         // Use the text provided in FinalStepAsync or the default if it is the first time.
         const promptOptions: PromptOptions = {
-            prompt: stepContext.options as Activity || this.templateManager.generateActivityForLocale('FirstPromptMessage', stepContext.context.activity.locale, {})
+            prompt: Object.keys(stepContext.options as Activity).length > 0 ? stepContext.options as Activity : this.templateManager.generateActivityForLocale('FirstPromptMessage', stepContext.context.activity.locale, {})
         };
 
         return await stepContext.prompt(TextPrompt.name, promptOptions);
