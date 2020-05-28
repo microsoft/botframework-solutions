@@ -248,6 +248,11 @@ public class SettingsActivity extends BaseActivity {
         builder.show();
     }
 
+    @OnCheckedChanged(R.id.switch_enable_sdk_logging)
+    public void onChangeEnableSDKLogging(boolean checked) {
+        configuration.speechSdkLogEnabled = checked;
+    }
+
     @OnCheckedChanged(R.id.switch_show_full_conversation)
     public void onChangeShowFullConversation(boolean checked) {
         appConfiguration.showFullConversation = checked;
@@ -408,7 +413,6 @@ public class SettingsActivity extends BaseActivity {
         configuration.customSREndpointId = customSpeechRecognitionEndpointId.getText().toString();
         configuration.userId = userId.getText().toString();
         configuration.srLanguage = srLanguage.getText().toString();
-        configuration.speechSdkLogEnabled = switchEnableSdkLogging.isChecked();
 
         // timezone
         configuration.currentTimezone = (String)tzAdapter.getItem(spinnerTimezone.getSelectedItemPosition());
