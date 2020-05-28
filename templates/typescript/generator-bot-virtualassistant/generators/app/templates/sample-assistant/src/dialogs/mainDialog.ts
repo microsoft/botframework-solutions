@@ -22,7 +22,9 @@ import {
     SkillDialog,
     PromptOptions, 
     WaterfallDialog, 
-    BeginSkillDialogOptions} from 'botbuilder-dialogs';
+    BeginSkillDialogOptions,
+    DialogEvent,
+    DialogEvents } from 'botbuilder-dialogs';
 import {
     DialogContextEx,
     ICognitiveModelSet,
@@ -98,6 +100,16 @@ export class MainDialog extends ComponentDialog {
         skillDialogs.forEach((skillDialog: SkillDialog): void => {
             this.addDialog(skillDialog);
         });
+    }
+
+    public async onDialogEvent(dialogContext: DialogContext, event: DialogEvent): Promise<boolean> {
+        // BF SDK now detects state changes in dialogs and surfaces them for confirmation.
+        // Returning true as this is an expected situation due to dynamic dialog construction for QnA multi-locale scenarios.
+        if(event.name === DialogEvents.versionChanged) {
+            return true;
+        }
+
+        return await super.onDialogEvent(dialogContext, event);
     }
 
     protected async onBeginDialog(innerDc: DialogContext, options: Object): Promise<DialogTurnResult> {
