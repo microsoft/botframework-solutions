@@ -103,6 +103,8 @@ export class MainDialog extends ComponentDialog {
     }
 
     public async onDialogEvent(dialogContext: DialogContext, event: DialogEvent): Promise<boolean> {
+        // BF SDK now detects state changes in dialogs and surfaces them for confirmation.
+        // Returning true as this is an expected situation due to dynamic dialog construction for QnA multi-locale scenarios.
         if(event.name === DialogEvents.versionChanged) {
             return true;
         }
