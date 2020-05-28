@@ -62,7 +62,8 @@
         <activity
             android:name=".activities.settings.SettingsActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
+            android:configChanges="orientation|screenSize" />
 
         <activity
             android:name=".activities.linked_account.LinkedAccountActivity"
