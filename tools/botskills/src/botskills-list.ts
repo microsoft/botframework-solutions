@@ -39,7 +39,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 program
     .name('botskills list')
     .description('List all the Skills connected to your assistant')
-    .option('--appSettingsFile [path]', '[OPTIONAL] Path to your app settings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
+    .option('--appSettingsFile [path]', '[OPTIONAL] Path to your appsettings file (defaults to \'appsettings.json\' inside your assistant\'s folder)')
     .option('--verbose', '[OPTIONAL] Output detailed information about the processing of the tool')
     .action((cmd: program.Command, actions: program.Command): undefined => undefined);
 
