@@ -19,10 +19,10 @@ botskills disconnect [options]
 | --ts                          | Determine your Virtual Assistant project structure to be a TypeScript-like structure                                                                                        |
 | --noRefresh                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)                                               |
 | --languages [languages]       | (OPTIONAL) Comma separated list of locales used for LUIS culture (defaults to `en-us`)                                                                                      |
-| --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)  |
+| --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)     |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your Virtual Assistant's root folder)                                                                |
-| --lgOutFolder [path]          | (OPTIONAL) Path for the Luis Generate output (defaults to a `service` folder inside your Virtual Assistant's folder)                                                              |
-| --skillsFile [path]           | (OPTIONAL) Path to your Virtual Assistant Skills configuration file (defaults to the `skills.json` inside your Virtual Assistant's folder)                                  |
+| --lgOutFolder [path]          | (OPTIONAL) Path for the Luis Generate output (defaults to a `service` folder inside your Virtual Assistant's folder)                                                        |
+| --appSettingsFile [path]      | (OPTIONAL) Path to your app settings file (defaults to `appsettings.json` inside your assistant's folder)                                                                   |
 | --cognitiveModelsFile [path]  | (OPTIONAL) Path to your Cognitive Models file (defaults to `cognitivemodels.json` inside your Virtual Assistant's folder)                                                   |
 | --verbose                     | (OPTIONAL) Output detailed information about the processing of the tool                                                                                                     |
 | -h, --help                    | Output usage information                                                                                                                                                    |
