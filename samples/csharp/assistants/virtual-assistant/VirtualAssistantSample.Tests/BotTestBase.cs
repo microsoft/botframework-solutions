@@ -58,7 +58,6 @@ namespace VirtualAssistantSample.Tests
         [TestInitialize]
         public virtual void Initialize()
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettingsTest.json").Build();
             Services = new ServiceCollection().AddLogging(config => config.AddConsole());
             Services.AddSingleton(new BotSettings());
             Services.AddSingleton(new BotServices()
