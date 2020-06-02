@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using AdaptiveExpressions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -27,7 +28,7 @@ namespace VirtualAssistantSample.Extensions
             {
                 logger.LogError(ex, $"Exception caught on attempting to Get SkillId : {ex}");
 
-                throw new NullReferenceException("Null TaskModule Activity Value");
+                throw ex;
             }
         }
     }
