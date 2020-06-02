@@ -21,6 +21,7 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using VirtualAssistantSample.Extensions;
 using VirtualAssistantSample.Models;
 
@@ -39,8 +40,9 @@ namespace VirtualAssistantSample.Bots
         private readonly SkillsConfiguration _skillsConfig;
         private readonly IConfiguration _configuration;
         private readonly string _vaBotId;
+        private readonly ILogger _logger;
 
-        public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
+        public DefaultActivityHandler(IServiceProvider serviceProvider, ILogger<DefaultActivityHandler<T>> logger, T dialog)
         {
             _dialog = dialog;
             _dialog.TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
@@ -53,6 +55,7 @@ namespace VirtualAssistantSample.Bots
             _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
             _configuration = serviceProvider.GetService<IConfiguration>();
             _vaBotId = _configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
+            _logger = logger;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -123,47 +126,13 @@ namespace VirtualAssistantSample.Bots
         // Invoked when a "task/fetch" event is received to invoke task module.
         protected override async Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            try
-            {
-                // Get Skill From TaskInvoke
-                var skill = GetSkillFromInvoke(turnContext);
-                if (skill != null)
-                {
-                    // Forward request to correct skill
-                    var invokeResponse = await _skillHttpClient.PostActivityAsync(_vaBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
-                    return invokeResponse.GetTaskModuleRespose();
-                }
-
-                return null;
-            }
-            catch (Exception)
-            {
-                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
-                return null;
-            }
+            return await this.ProcessTaskModuleInvoke(turnContext, cancellationToken);
         }
 
         // Invoked when a 'task/submit' invoke activity is received for task module submit actions.
         protected override async Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            try
-            {
-                // Get Skill From TaskInvoke
-                var skill = GetSkillFromInvoke(turnContext);
-                if (skill != null)
-                {
-                    // Forward request to correct skill
-                    var invokeResponse = await _skillHttpClient.PostActivityAsync(_vaBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
-                    return invokeResponse.GetTaskModuleRespose();
-                }
-
-                return null;
-            }
-            catch (Exception)
-            {
-                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
-                return null;
-            }
+            return await this.ProcessTaskModuleInvoke(turnContext, cancellationToken);
         }
 
         protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
@@ -173,18 +142,28 @@ namespace VirtualAssistantSample.Bots
 
         private EnhancedBotFrameworkSkill GetSkillFromInvoke(ITurnContext<IInvokeActivity> turnContext)
         {
-            if (turnContext != null)
+            var skillId = (turnContext.Activity as Activity).AsInvokeActivity().GetSkillId(_logger);
+            var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
+
+            return skill;
+        }
+
+        private async Task<TaskModuleResponse> ProcessTaskModuleInvoke(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            try
             {
-                var skillId = (turnContext.Activity as Activity).GetSkillId();
-                if (skillId != null)
-                {
-                    var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
+                // Get Skill From TaskInvoke
+                var skill = GetSkillFromInvoke(turnContext);
 
-                    return skill;
-                }
+                // Forward request to correct skill
+                var invokeResponse = await _skillHttpClient.PostActivityAsync(_vaBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
+                return invokeResponse.GetTaskModuleRespose();
             }
-
-            return null;
+            catch (Exception ex)
+            {
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
+                throw ex;
+            }
         }
     }
 }
