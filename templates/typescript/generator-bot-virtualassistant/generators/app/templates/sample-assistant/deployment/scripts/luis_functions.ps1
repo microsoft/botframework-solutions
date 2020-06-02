@@ -66,6 +66,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
 {
     $id = $lu_file.BaseName
     $outFile = Join-Path $lu_file.DirectoryName "$($id).json"
+    $appName = "$($name)$($culture)_$($id)"
     
     if ($gov)
     {

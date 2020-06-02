@@ -165,7 +165,8 @@
         },
         "options": {
           "throughput": "[parameters('cosmosDbDatabaseThroughput')]"
-        }
+        },
+        "condition": "[parameters('useCosmosDb')]"
       }
     },
     {
