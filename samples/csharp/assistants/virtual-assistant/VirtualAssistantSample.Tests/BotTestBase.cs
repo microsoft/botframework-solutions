@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -19,6 +20,7 @@ using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using VirtualAssistantSample.Bots;
@@ -56,7 +58,8 @@ namespace VirtualAssistantSample.Tests
         [TestInitialize]
         public virtual void Initialize()
         {
-            Services = new ServiceCollection();
+            var config = new ConfigurationBuilder().AddJsonFile("appsettingsTest.json").Build();
+            Services = new ServiceCollection().AddLogging(config => config.AddConsole());
             Services.AddSingleton(new BotSettings());
             Services.AddSingleton(new BotServices()
             {
@@ -139,7 +142,6 @@ namespace VirtualAssistantSample.Tests
             var configurationSection = new Mock<IConfigurationSection>();
             configurationSection.Setup(a => a.Value).Returns("testvalue");
             configuration.Setup(a => a.GetSection("MicrosoftAppId")).Returns(configurationSection.Object);
-
             // Register configuration
             Services.AddSingleton(configuration.Object);
 
