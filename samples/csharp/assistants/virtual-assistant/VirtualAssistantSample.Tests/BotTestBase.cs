@@ -6,17 +6,22 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
+using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Bot.Solutions.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -142,8 +147,30 @@ namespace VirtualAssistantSample.Tests
             var configurationSection = new Mock<IConfigurationSection>();
             configurationSection.Setup(a => a.Value).Returns("testvalue");
             configuration.Setup(a => a.GetSection("MicrosoftAppId")).Returns(configurationSection.Object);
+
             // Register configuration
             Services.AddSingleton(configuration.Object);
+
+            // Register SkillConfiguration
+            var skillConfiguration = new SkillsConfiguration(config);
+            Services.AddSingleton(skillConfiguration);
+
+            // Mock HttpClient
+            var skillHttpClient = new Mock<SkillHttpClient>();
+            skillHttpClient.Setup(
+                a => a.PostActivityAsync(
+                It.IsAny<string>(),
+                It.IsAny<EnhancedBotFrameworkSkill>(),
+                It.IsAny<Uri>(),
+                It.IsAny<Activity>(),
+                It.IsAny<CancellationToken>()))
+                .Returns(
+                Task.FromResult(
+                new InvokeResponse
+                {
+                }));
+
+            Services.AddSingleton(skillHttpClient.Object);
 
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
