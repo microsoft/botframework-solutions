@@ -165,9 +165,9 @@
         },
         "options": {
           "throughput": "[parameters('cosmosDbDatabaseThroughput')]"
-        },
-        "condition": "[parameters('useCosmosDb')]"
-      }
+        }
+      },
+      "condition": "[parameters('useCosmosDb')]"
     },
     {
       "comments": "storage account",
