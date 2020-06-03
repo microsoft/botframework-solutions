@@ -212,7 +212,7 @@ try {
 }
 
 // Create server
-const server: restify.Server = restify.createServer({ maxParamLength: 1000 });
+const server: restify.Server = restify.createServer({ maxParamLength: 1000000 });
 
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.

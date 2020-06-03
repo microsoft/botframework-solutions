@@ -323,7 +323,7 @@ export class MainDialog extends ComponentDialog {
 
         // Use the text provided in FinalStepAsync or the default if it is the first time.
         const promptOptions: PromptOptions = {
-            prompt: stepContext.options as Activity || this.templateManager.generateActivityForLocale('FirstPromptMessage')
+            prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateManager.generateActivityForLocale('FirstPromptMessage')
         };
 
         return await stepContext.prompt(TextPrompt.name, promptOptions);

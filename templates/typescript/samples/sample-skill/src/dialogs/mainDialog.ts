@@ -26,6 +26,7 @@ import { SampleDialog } from './sampleDialog';
 import { StateProperties } from '../models';
 import { SampleActionInput, SampleAction } from './sampleAction';
 import { TurnContextEx } from '../extensions/turnContextEx';
+import { TestUpdateActivityDialog } from './testUpdateActivityDialog';
 
 /**
  * Dialog providing activity routing and message/event processing.
@@ -36,6 +37,7 @@ export class MainDialog extends ComponentDialog {
     // Fields
     private readonly services: BotServices;
     private readonly sampleDialog: SampleDialog;
+    private readonly updateDialog: TestUpdateActivityDialog;
     private readonly sampleAction: SampleAction;
     private readonly templateManager: LocaleTemplateManager;
     private readonly stateAccessor: StatePropertyAccessor<SkillState>;
@@ -47,6 +49,7 @@ export class MainDialog extends ComponentDialog {
         stateAccessor: StatePropertyAccessor<SkillState>,
         sampleDialog: SampleDialog,
         sampleAction: SampleAction,
+        updateDialog: TestUpdateActivityDialog,
         templateManager: LocaleTemplateManager
     ) {
         super(MainDialog.name);
@@ -72,6 +75,9 @@ export class MainDialog extends ComponentDialog {
         this.sampleAction = sampleAction;
         this.addDialog(sampleDialog);
         this.addDialog(sampleAction);
+
+        this.updateDialog = updateDialog;
+        this.addDialog(updateDialog);
     }
 
     // Runs when the dialog is started.
@@ -217,8 +223,7 @@ export class MainDialog extends ComponentDialog {
                 const intent: string = LuisRecognizer.topIntent(result);
                 switch(intent) {
                     case 'Sample': { 
-
-                        return await stepContext.beginDialog(this.sampleDialog.id);
+                        return await stepContext.beginDialog(this.updateDialog.id);
                     } 
                     case 'None': 
                     default: {

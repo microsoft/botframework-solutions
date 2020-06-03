@@ -254,9 +254,12 @@ export class TestSkillHandler extends ChannelServiceHandler {
             activity = TurnContext.applyConversationReference(activity, skillConversationReference.conversationReference) as Activity;
             const client = adapter.createConnectorClient(activity.serviceUrl);
             context.turnState.set(adapter.ConnectorClientKey, client);
-
-            context.activity.id = replyToActivityId;
-            await context.updateActivity(context.activity);
+            activity.replyToId = replyToActivityId;
+            try{
+                await context.updateActivity(activity);
+            }catch(e){
+                console.log(e);
+            }
             return;
         };
 

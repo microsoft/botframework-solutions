@@ -35,6 +35,7 @@ import { SampleAction } from './dialogs/sampleAction';
 import { SkillState } from './models/skillState';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
+import { TestUpdateActivityDialog } from './dialogs/testUpdateActivityDialog';
 
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
@@ -148,12 +149,21 @@ try {
         telemetryClient,
         localeTemplateManager
     );
+    // Register dialogs
+    const updateDialog: TestUpdateActivityDialog = new TestUpdateActivityDialog(
+        botSettings,
+        botServices,
+        localeTemplateManager,
+        stateAccessor,
+        telemetryClient
+    );
     const mainDialog: MainDialog = new MainDialog(
         botServices,
         telemetryClient,
         stateAccessor,
         sampleDialog,
         sampleAction,
+        updateDialog,
         localeTemplateManager
     );
 
@@ -163,7 +173,7 @@ try {
 }
 
 // Create server
-const server: restify.Server = restify.createServer({ maxParamLength: 1000 });
+const server: restify.Server = restify.createServer({ maxParamLength: 1000000 });
 
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.

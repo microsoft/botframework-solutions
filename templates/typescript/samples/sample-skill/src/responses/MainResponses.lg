@@ -116,3 +116,27 @@
 - Alright, signed out.
 - Sure, you've been signed out.
 - No problem, I've signed you out.
+
+
+
+# TestCard
+[Activity
+    Attachments = ${json(TestCardJson())}
+]
+
+# TestCardJson
+- ```
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "TextBlock",
+            "size": "Medium",
+            "weight": "Bolder",
+            "text": "${name}"
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.2"
+}
+```
