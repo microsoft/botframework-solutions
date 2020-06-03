@@ -87,7 +87,7 @@ function UpdateLUIS ($lu_file, $appId, $version, $language, $region, $authoringK
 
     Write-Host "> Parsing $($language) $($id) LU file ..." -NoNewline
 	($output = bf luis:convert `
-        --name $luisApp.name `
+        --name $appName `
         --in $lu_file `
         --culture $luisApp.culture `
         --out $outFile `
