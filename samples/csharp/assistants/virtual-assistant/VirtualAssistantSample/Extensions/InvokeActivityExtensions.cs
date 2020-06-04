@@ -19,17 +19,13 @@ namespace VirtualAssistantSample.Extensions
         // Fetches skillId from CardAction data if present
         public static string GetSkillId(this IInvokeActivity activity, ILogger logger)
         {
-            try
+            if (activity.Value == null)
             {
-                var data = JsonConvert.DeserializeObject<SkillCardActionData>(JObject.Parse(activity.Value.ToString()).SelectToken("data").SelectToken("data").ToString());
-                return data.SkillId ?? throw new NullReferenceException("SkillId cannot be null");
+                throw new ArgumentNullException("Activity Value was null");
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, $"Exception caught on attempting to Get SkillId : {ex}");
 
-                throw ex;
-            }
+            var data = JsonConvert.DeserializeObject<SkillCardActionData>(JObject.Parse(activity.Value.ToString()).SelectToken("data").SelectToken("data").ToString());
+            return data.SkillId ?? throw new ArgumentNullException("SkillId was null");
         }
     }
 }
