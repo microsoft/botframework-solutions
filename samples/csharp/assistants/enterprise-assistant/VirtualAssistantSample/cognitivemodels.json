@@ -2,34 +2,43 @@
   "cognitiveModels": {
     "en-us": {
       "dispatchModel": {
-        "appid": "",
-        "authoringkey": "",
-        "authoringRegion": "",
-        "name": "",
-        "region": "",
-        "subscriptionkey": "",
+        "name": "EnterpriseVAen-us_Dispatch",
+        "version": "Dispatch",
+        "authoringRegion": "westus",
+        "appid": "b88ec9d7-eeff-493c-9321-26586aeff95d",
+        "region": "westus",
+        "subscriptionkey": "0b8f7f5a7bb443eeb4fbeecd2a2db61b",
+        "authoringkey": "9515b3dbaccd4b29b998678283150a74",
         "type": "dispatch"
       },
       "languageModels": [
         {
-          "appid": "",
-          "authoringkey": "",
-          "authoringRegion": "",
-          "id": "",
-          "name": "",
-          "region": "",
-          "subscriptionkey": "",
-          "version": ""
+          "name": "EnterpriseVAen-us_General",
+          "id": "General",
+          "version": "0.1",
+          "appid": "fdf6f78a-5652-4739-9af1-4f2abea238c1",
+          "endpoint": "https://enterpriseva-luisauthoring-lyhr3lx.cognitiveservices.azure.com/",
+          "region": "westus",
+          "subscriptionkey": "0b8f7f5a7bb443eeb4fbeecd2a2db61b",
+          "authoringkey": "9515b3dbaccd4b29b998678283150a74"
         }
       ],
       "knowledgebases": [
         {
-          "endpointKey": "",
-          "hostname": "",
-          "id": "",
-          "kbId": "",
-          "name": "",
-          "subscriptionKey": ""
+          "name": "Chitchat",
+          "hostname": "https://enterpriseva-qnahost-lyhr3lx.azurewebsites.net",
+          "id": "Chitchat",
+          "endpointKey": "68d531bf-cf3f-40ad-ab8f-2611da94d256",
+          "kbId": "a173e105-ccf9-422c-ae76-c755708632c6",
+          "subscriptionKey": "ee29c46a7a024cbaa33b3ae73ecb17d6"
+        },
+        {
+          "name": "Faq",
+          "hostname": "https://enterpriseva-qnahost-lyhr3lx.azurewebsites.net",
+          "id": "Faq",
+          "endpointKey": "68d531bf-cf3f-40ad-ab8f-2611da94d256",
+          "kbId": "1e6859ef-e6ee-4b50-9291-cc5ea305acba",
+          "subscriptionKey": "ee29c46a7a024cbaa33b3ae73ecb17d6"
         }
       ]
     }

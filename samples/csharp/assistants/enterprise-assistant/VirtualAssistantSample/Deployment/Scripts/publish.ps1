@@ -20,7 +20,7 @@ if (Get-Command az -ErrorAction SilentlyContinue) {
     $azcliversionoutput = az -v
     [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
     [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
+    [version]$minversion = '2.2.0'
 
     if ($azcliversion -ge $minversion) {
         $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
@@ -68,7 +68,7 @@ if (Test-Path $zipPath) {
 }
 
 # Perform dotnet publish step ahead of zipping up
-$publishFolder = $(Join-Path $projFolder 'bin\Release\netcoreapp3.0')
+$publishFolder = $(Join-Path $projFolder 'bin\release\netcoreapp3.0')
 dotnet publish $projFile -c release -o $publishFolder -v q > $logFile
 
 if($?) {

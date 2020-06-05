@@ -18,9 +18,9 @@ namespace Luis
         [JsonProperty("alteredText")]
         public string AlteredText;
 
-        public enum Intent {
-            l_General, 
-            q_Chitchat, 
+        public enum Intent
+        {
+            l_General,
             q_Faq,
             None
         };
