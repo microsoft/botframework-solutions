@@ -1,60 +1,49 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29102.190
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{78A5B179-A95B-4A91-BE8D-55035E787EEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{5AE819AA-067A-4575-9E25-5FC07F3178ED}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Virtual Assistant", "Virtual Assistant", "{5E36FFFD-2C9D-48E5-AAFA-460023F19764}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.Tests", "VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj", "{3B10BA45-F33B-43ED-BD6A-4D94B785EFFD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{BF9FBA28-C28B-4B15-81B1-C3E23D915551}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.FunctionalTests", "VirtualAssistantSample.FunctionalTests\VirtualAssistantSample.FunctionalTests.csproj", "{42AF446F-CD63-4FBD-9546-C116F60D4C3F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHandler", "..\..\clients\event-handler.function-app\EventHandler.csproj", "{8258DB79-6B35-4F2D-8450-B3139B9B64FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHandler", "..\..\clients\event-handler.function-app\EventHandler.csproj", "{78EAE025-DDD1-4D37-B861-A74356CA73EB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventProducer", "..\..\clients\event-producer.event-hub\EventProducer.csproj", "{F83F9D1F-8689-410F-9C84-4953E733EF16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventProducer", "..\..\clients\event-producer.event-hub\EventProducer.csproj", "{84644F54-64D3-48F4-AF9F-AEAF12CCFF91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
 		Debug|Any CPU = Debug|Any CPU
-		Documentation|Any CPU = Documentation|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AE819AA-067A-4575-9E25-5FC07F3178ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AE819AA-067A-4575-9E25-5FC07F3178ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AE819AA-067A-4575-9E25-5FC07F3178ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AE819AA-067A-4575-9E25-5FC07F3178ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B10BA45-F33B-43ED-BD6A-4D94B785EFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B10BA45-F33B-43ED-BD6A-4D94B785EFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B10BA45-F33B-43ED-BD6A-4D94B785EFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B10BA45-F33B-43ED-BD6A-4D94B785EFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42AF446F-CD63-4FBD-9546-C116F60D4C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42AF446F-CD63-4FBD-9546-C116F60D4C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42AF446F-CD63-4FBD-9546-C116F60D4C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42AF446F-CD63-4FBD-9546-C116F60D4C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78EAE025-DDD1-4D37-B861-A74356CA73EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78EAE025-DDD1-4D37-B861-A74356CA73EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78EAE025-DDD1-4D37-B861-A74356CA73EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78EAE025-DDD1-4D37-B861-A74356CA73EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84644F54-64D3-48F4-AF9F-AEAF12CCFF91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84644F54-64D3-48F4-AF9F-AEAF12CCFF91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84644F54-64D3-48F4-AF9F-AEAF12CCFF91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84644F54-64D3-48F4-AF9F-AEAF12CCFF91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{BF9FBA28-C28B-4B15-81B1-C3E23D915551} = {5E36FFFD-2C9D-48E5-AAFA-460023F19764}
-		{8258DB79-6B35-4F2D-8450-B3139B9B64FA} = {78A5B179-A95B-4A91-BE8D-55035E787EEB}
-		{F83F9D1F-8689-410F-9C84-4953E733EF16} = {78A5B179-A95B-4A91-BE8D-55035E787EEB}
-	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0CBBA70E-7242-4EC3-A76B-FF444246A980}
+		SolutionGuid = {ED2D4423-1773-4B72-B65C-DAFF3F984949}
 	EndGlobalSection
 EndGlobal
