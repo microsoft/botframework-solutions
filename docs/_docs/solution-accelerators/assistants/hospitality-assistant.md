@@ -11,9 +11,9 @@ toc: true
 
 The [Hospitality Assistant sample]({{site.repo}}/tree/master/samples/csharp/assistants/hospitality-assistant) is a prototype of an assistant that helps to conceptualize and demonstrate how a virtual assistant could be used in a hospitality specific scenario. It also provides a starting point for those interested in creating an assistant customized for this scenario.
 
-This sample works off the basis that the assistant would be integrated into a hotel room device and would help a hotel guest with anything they might usually go to the hotel concierge about. It also provides additional capabilites that might be useful for guests, such as getting the weather forecast or showing current news articles. 
+This sample works off the basis that the assistant would be integrated into a hotel room device and would help a hotel guest with anything they might usually go to the hotel concierge about. It also provides additional capabilites that might be useful for guests, such as getting the weather forecast or showing current news articles.
 
-The Hospitality Sample builds off of the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template) with the addition of a [QnA Maker](https://www.qnamaker.ai/) knowledge base for answering common hotel FAQs and customized [Adaptive Cards](https://adaptivecards.io/). 
+The Hospitality Sample builds off of the [Virtual Assistant Template]({{site.baseurl}}/overview/virtual-assistant-template) with the addition of a [QnA Maker](https://www.qnamaker.ai/) knowledge base for answering common hotel FAQs and customized [Adaptive Cards](https://adaptivecards.io/).
 
 ![Hospitality Sample Diagram]({{site.baseurl}}/assets/images/hospitalitysample-diagram.png)
 
@@ -56,7 +56,7 @@ The majority of the skills connected to this sample are [experimental skills]({{
 
 #### [News Skill]({{site.baseurl}}/skills/samples/news)
 {:.no_toc}
-##### Find news articles 
+##### Find news articles
 {:.no_toc}
 - *What's the latest news on surfing?*
 - *What news is currently trending?*
@@ -77,21 +77,21 @@ The majority of the skills connected to this sample are [experimental skills]({{
 {:.no_toc}
 ##### Get the forecast
 {:.no_toc}
-- *What’s the weather today?* 
+- *What’s the weather today?*
 
 ## Deploy
 To configure this sample follow the steps below:
 1. Clone the [Hospitality Assistant sample]({{site.repo}}/tree/master/samples/csharp/assistants/hospitality-assistant).
 1. Follow the [Create your Virtual Assistant tutorial]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/) to deploy your assistant. Use the sample project you cloned instead of the Virtual Assistant template to include the hospitality customizations in this project.
 1. Clone the following skills from our repository:
-    - [Hospitality Skill]({{site.repo}}/tree/master/skills/csharp/experimental/hospitalityskill)
-    - [Point of Interest Skill]({{site.repo}}/tree/master/skills/csharp/pointofinterestskill)
-    - [Weather Skill]({{site.repo}}/tree/master/skills/csharp/experimental/weatherskill)
-    - [Bing Search Skill]({{site.repo}}/tree/master/skills/csharp/experimental/bingsearchskill)
-    - [News Skill]({{site.repo}}/tree/master/skills/csharp/experimental/newsskill)
-    - [Restaurant Booking Skill]({{site.repo}}/tree/master/skills/csharp/experimental/restaurantbookingskill)
-1. [Deploy each one of these skills]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) separately, using the deployment script included in the skill directory. 
-1. [Add each skill]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) using the botskills connect CLI tool. 
+    - [Hospitality Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/hospitalityskill)
+    - [Point of Interest Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/pointofinterestskill)
+    - [Weather Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/weatherskill)
+    - [Bing Search Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/bing-search)
+    - [News Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/newsskill)
+    - [Restaurant Booking Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/restaurantbookingskill)
+1. [Deploy each one of these skills]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) separately, using the deployment script included in the skill directory.
+1. [Add each skill]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) using the botskills connect CLI tool.
 
 ## Download transcripts
 

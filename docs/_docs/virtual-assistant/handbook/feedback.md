@@ -38,17 +38,38 @@ This implementation allows for feedback to be collected when a child dialog of m
 | CommentReceivedMessage | Message to show after user provides a free-form comment. | **string** | *Your comment has been received.* |
 | FeedbackPromptMessage | Message to show after user when prompting for feedback | **string** | *Was that helpful?* |
 
+Example of altering any of the identified properties in startup.cs
+    ```csharp
+            services.AddSingleton(new FeedbackOptions
+            {
+                CommentsEnabled = false,
+                FeedbackActions =
+                {
+                    new Choice()
+                    {
+                        Action = new CardAction(ActionTypes.MessageBack, title: "👆", text: "positive", displayText: "👆"),
+                        Value = "positive",
+                    },
+                    new Choice()
+                    {
+                        Action = new CardAction(ActionTypes.MessageBack, title: "👇", text: "negative", displayText: "👇"),
+                        Value = "negative",
+                    },
+                }
+            });
+  ```
+
 3. Copy the feedback waterfall steps from Maindialog.cs in the Enterprise Assistant solution (RequestFeedback, RequestFeedbackComment, ProcessFeedback) and add them to your VAs mainDialog.cs waterfall flow.
     - Add corresponding steps and prompts to the Maindialog constructor (use enterprise assistant for reference)
-1. When you copy the waterfall steps over ensure you resolve any unknown object/function references with the implementations added in step 1. 
+1. When you copy the waterfall steps over ensure you resolve any unknown object/function references with the implementations added in step 1.
     - There are separate implementations in the lib, **do not use those for this feedback solution, use the implementations you manually added in step 1**.
 1. If you have followed these steps and used the Enterprise Assistant as a reference then you should now have all you need.
-1. Run through any dialog in your VA, when the dialog ends and returns to MainDialog.cs then the feedback flow should be triggered. 
-    - If the user ignores the feedback prompt and sends an unrelated query to the bot then they're query will skip feedback and be routed accordingly. 
+1. Run through any dialog in your VA, when the dialog ends and returns to MainDialog.cs then the feedback flow should be triggered.
+    - If the user ignores the feedback prompt and sends an unrelated query to the bot then they're query will skip feedback and be routed accordingly.
     - If the user provides any feedback at all then it will be logged with app insights and that telemetry will be part of your PowerBI dashboard
 
 ## View your feedback in Power BI
-You can view your **Feedback** in the Feedback tab of the Conversational AI Dashboard. 
+You can view your **Feedback** in the Feedback tab of the Conversational AI Dashboard.
 
 ![]({{site.baseurl}}/assets/images/analytics/virtual-assistant-analytics-powerbi-13.png)
 
