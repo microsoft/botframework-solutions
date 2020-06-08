@@ -50,14 +50,13 @@ if (-not $resourceGroup) {
     $resourceGroup = Read-Host "? Bot Resource Group"
 }
 
+# Get path to csproj file
+$projFile = Get-ChildItem $projFolder `
+    | Where-Object {$_.extension -eq ".csproj" } `
+    | Select-Object -First 1
+
 # Check for existing deployment files
 if (-not (Test-Path (Join-Path $projFolder '.deployment'))) {
-
-	# Get path to csproj file
-	$projFile = Get-ChildItem $projFolder `
-		| Where-Object {$_.extension -eq ".csproj" } `
-		| Select-Object -First 1
-
 	# Add needed deployment files for az
 	az bot prepare-deploy --lang Csharp --code-dir $projFolder --proj-file-path $projFile.name --output json | Out-Null
 }
@@ -70,7 +69,7 @@ if (Test-Path $zipPath) {
 
 # Perform dotnet publish step ahead of zipping up
 $publishFolder = $(Join-Path $projFolder 'bin\release\netcoreapp3.0')
-dotnet publish -c release -o $publishFolder -v q > $logFile
+dotnet publish $projFile -c release -o $publishFolder -v q > $logFile
 
 if($?) {
     # Compress source code
