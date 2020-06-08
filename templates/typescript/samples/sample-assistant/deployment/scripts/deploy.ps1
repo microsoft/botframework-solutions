@@ -133,7 +133,7 @@ if (-not $armLuisAuthoringRegion) {
 }
 
 # Get timestamp
-$timestamp = Get-Date -f MMddyyyyHHmmss
+$timestamp = Get-Date -Format MMddyyyyHHmmss
 
 # Create resource group
 Write-Host "> Creating resource group ..." -NoNewline
