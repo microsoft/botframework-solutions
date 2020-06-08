@@ -10,12 +10,12 @@ order: 5
 # {{ page.title }}
 {:.no_toc}
 
-The [Hospitality Skill]({{site.repo}}/tree/master/skills/csharp/experimental/hospitalityskill) demonstrates experiences that would be useful in a hospitality specific scenario, such as being able to check out of a hotel, ordering room service, and requesting hotel amenities. This skill does not integrate a hotel service at this time, and is instead simulated with static data for testing purposes.
+The [Hospitality Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/hospitalityskill) demonstrates experiences that would be useful in a hospitality specific scenario, such as being able to check out of a hotel, ordering room service, and requesting hotel amenities. This skill does not integrate a hotel service at this time, and is instead simulated with static data for testing purposes.
 
 This skill demonstrates the following scenarios:
 - Show reservation: *What is my current check out date?*
 - Extend reservation: *Can I extend my stay?*
-- Request late check-out: *I want a late check out time* 
+- Request late check-out: *I want a late check out time*
 - Request amenities: *Can you bring me a toothbrush and toothpaste?*
 - Room service: *I want to see a room service menu*
 - Check out: *Can I check out now?*
