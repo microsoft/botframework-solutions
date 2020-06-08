@@ -4,7 +4,10 @@
 namespace LinkedAccounts.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using System.Threading.Tasks;
     using System.Web;
     using Microsoft.Bot.Builder;
@@ -37,6 +40,11 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+                context.TurnState.Add<IIdentity>("BotIdentity", new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                    new Claim(AuthenticationConstants.AppIdClaim, botAppId),
+                }));
 
                 // Retrieve the Token Status
                 tokenStatuses = await adapter.GetTokenStatusAsync(context, userId);
