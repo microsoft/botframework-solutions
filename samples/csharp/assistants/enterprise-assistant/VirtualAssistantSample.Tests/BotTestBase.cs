@@ -13,7 +13,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Feedback;
+using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Solutions.Testing;
@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
+using VirtualAssistantSample.Feedback;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 using VirtualAssistantSample.Tests.Mocks;
@@ -131,6 +132,8 @@ namespace VirtualAssistantSample.Tests
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MockMainDialog>>();
+            Services.AddSingleton(new FeedbackOptions { FeedbackEnabled = false });
+            Services.AddSingleton(new ProactiveState(new MemoryStorage()));
 
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
@@ -139,9 +142,7 @@ namespace VirtualAssistantSample.Tests
         public TestFlow GetTestFlow(bool includeUserProfile = true)
         {
             var sp = Services.BuildServiceProvider();
-            var adapter = sp.GetService<TestAdapter>()
-                .Use(new FeedbackMiddleware(sp.GetService<ConversationState>(), sp.GetService<IBotTelemetryClient>()));
-
+            var adapter = sp.GetService<TestAdapter>();
             var userState = sp.GetService<UserState>();
             var userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
 

@@ -31,8 +31,8 @@ namespace VirtualAssistantSample.Bots
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
         private readonly LocaleTemplateManager _templateManager;
-        private MicrosoftAppCredentials _appCredentials;
-        private IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
+        private readonly MicrosoftAppCredentials _appCredentials;
+        private readonly IStatePropertyAccessor<ProactiveModel> _proactiveStateAccessor;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -52,6 +52,9 @@ namespace VirtualAssistantSample.Bots
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
+            // Remove at mention
+            turnContext.Activity.RemoveRecipientMention();
+
             await base.OnTurnAsync(turnContext, cancellationToken);
 
             // Save any state changes that might have occured during the turn.

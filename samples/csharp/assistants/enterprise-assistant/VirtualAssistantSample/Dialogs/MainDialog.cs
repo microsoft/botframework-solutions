@@ -73,6 +73,7 @@ namespace VirtualAssistantSample.Dialogs
                 FinalStepAsync,
             };
 
+            // Add FeedbackSteps
             if (_feedbackOptions.FeedbackEnabled)
             {
                 steps.Add(RequestFeedback);
@@ -81,6 +82,7 @@ namespace VirtualAssistantSample.Dialogs
                 AddDialog(new TextPrompt(DialogIds.FeedbackPrompt));
                 AddDialog(new TextPrompt(DialogIds.FeedbackCommentPrompt));
             }
+
             steps.Add(FinalStepAsync);
 
             AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
@@ -625,6 +627,7 @@ namespace VirtualAssistantSample.Dialogs
             FeedbackUtil.LogFeedback(record, TelemetryClient);
             return await stepContext.NextAsync();
         }
+
         private static class DialogIds
         {
             public const string FeedbackPrompt = "feedbackPrompt";
