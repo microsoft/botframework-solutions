@@ -192,7 +192,7 @@ export class MainDialog extends ComponentDialog {
         } else {
             // If bot is in local mode, prompt with intro or continuation message
             const promptOptions: PromptOptions = {
-                prompt: (stepContext.options as Activity).type !== undefined ? stepContext.options : this.templateManager.generateActivityForLocale('FirstPromptMessage')
+                prompt: Object.keys(stepContext.options as Activity).length > 0 ? stepContext.options as Activity : this.templateManager.generateActivityForLocale('FirstPromptMessage')
             };
             return await stepContext.prompt(TextPrompt.name, promptOptions);
         }
