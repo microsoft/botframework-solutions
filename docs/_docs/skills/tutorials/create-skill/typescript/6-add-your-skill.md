@@ -13,7 +13,7 @@ order: 6
 
 ## Validate the Skill manifest endpoint
 
-To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest (`/api/skill/manifest endpoint`). e.g.  `http://localhost:3978/api/skill/manifest`
+To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest. e.g.  `http://localhost:3978/src/manifest/manifest-1.1.json`
 
 ## Adding your skill to an assistant
 
@@ -37,7 +37,7 @@ Once the connect command finish successfully, you can see under the `botFramewor
         "name": "<SKILL_NAME>",
         "description": "<SKILL_DESCRIPTION>"
     },
-    "skillHostEndpoint": "<VA-SKILL_ENDPOINT>"
+    "skillHostEndpoint": "<VA_SKILL_ENDPOINT>"
 ```
 
 For further documentation, please check the following links:

@@ -41,7 +41,7 @@ The `connect` command allows you to connect a Skill, be it local or remote, to y
 
 Here is an example:
 ```bash
-botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFolder "<YOUR-SKILL_PATH>\Deployment\Resources\LU" --languages "en-us" --cs
+botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 ```
 
 *Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only*
@@ -69,7 +69,7 @@ The `update` command allows you to update a Skill, be it local or remote, to you
 
 Here is an example:
 ```bash
-botskills update --botName <YOUR_BOT_NAME> --remoteManifest "{{site.data.urls.SkillManifest}}" --luisFolder <YOUR_LUIS_FOLDER_PATH> --cs
+botskills update --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 ```
 
 For further information, see the [Update command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/update.md).
