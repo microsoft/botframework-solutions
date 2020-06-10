@@ -18,13 +18,12 @@ namespace VirtualAssistantSample.Dialogs
     // Example onboarding dialog to initial user profile information.
     public class OnboardingDialog : ComponentDialog
     {
-        private BotServices _services;
-        private LocaleTemplateManager _templateManager;
-        private IStatePropertyAccessor<UserProfileState> _accessor;
+        private readonly BotServices _services;
+        private readonly LocaleTemplateManager _templateManager;
+        private readonly IStatePropertyAccessor<UserProfileState> _accessor;
 
         public OnboardingDialog(
-            IServiceProvider serviceProvider,
-            IBotTelemetryClient telemetryClient)
+            IServiceProvider serviceProvider)
             : base(nameof(OnboardingDialog))
         {
             _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
@@ -33,39 +32,36 @@ namespace VirtualAssistantSample.Dialogs
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
             _services = serviceProvider.GetService<BotServices>();
 
+            TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
+
             var onboarding = new WaterfallStep[]
             {
-                AskForName,
-                FinishOnboardingDialog,
+                AskForNameAsync,
+                FinishOnboardingDialogAsync,
             };
 
-            // To capture built-in waterfall dialog telemetry, set the telemetry client
-            // to the new waterfall dialog and add it to the component dialog
-            TelemetryClient = telemetryClient;
-            AddDialog(new WaterfallDialog(nameof(onboarding), onboarding) { TelemetryClient = telemetryClient });
+            AddDialog(new WaterfallDialog(nameof(onboarding), onboarding));
             AddDialog(new TextPrompt(DialogIds.NamePrompt));
         }
 
-        public async Task<DialogTurnResult> AskForName(WaterfallStepContext sc, CancellationToken cancellationToken)
+        public async Task<DialogTurnResult> AskForNameAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var state = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
+            var state = await _accessor.GetAsync(sc.Context, () => new UserProfileState(), cancellationToken);
 
             if (!string.IsNullOrEmpty(state.Name))
             {
-                return await sc.NextAsync(state.Name);
+                return await sc.NextAsync(state.Name, cancellationToken);
             }
-            else
+
+            return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
             {
-                return await sc.PromptAsync(DialogIds.NamePrompt, new PromptOptions()
-                {
-                    Prompt = _templateManager.GenerateActivityForLocale("NamePrompt"),
-                });
-            }
+                Prompt = _templateManager.GenerateActivityForLocale("NamePrompt"),
+            }, cancellationToken);
         }
 
-        public async Task<DialogTurnResult> FinishOnboardingDialog(WaterfallStepContext sc, CancellationToken cancellationToken)
+        public async Task<DialogTurnResult> FinishOnboardingDialogAsync(WaterfallStepContext sc, CancellationToken cancellationToken)
         {
-            var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState());
+            var userProfile = await _accessor.GetAsync(sc.Context, () => new UserProfileState(), cancellationToken);
             var name = (string)sc.Result;
 
             var generalResult = sc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
@@ -89,17 +85,17 @@ namespace VirtualAssistantSample.Dialogs
                 }
             }
 
-            // Captialize name
+            // Capitalize name
             userProfile.Name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name.ToLower());
 
             await _accessor.SetAsync(sc.Context, userProfile, cancellationToken);
 
-            await sc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HaveNameMessage", userProfile));
+            await sc.Context.SendActivityAsync(_templateManager.GenerateActivityForLocale("HaveNameMessage", userProfile), cancellationToken);
 
-            return await sc.EndDialogAsync();
+            return await sc.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
-        private class DialogIds
+        private static class DialogIds
         {
             public const string NamePrompt = "namePrompt";
         }

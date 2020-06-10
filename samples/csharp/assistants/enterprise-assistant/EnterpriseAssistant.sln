@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHandler", "..\..\clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventProducer", "..\..\clients\event-producer.event-hub\EventProducer.csproj", "{F83F9D1F-8689-410F-9C84-4953E733EF16}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.Tests", "VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj", "{7AA60F64-33E0-428E-8ACB-0B3929A80667}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.FunctionalTests", "VirtualAssistantSample.FunctionalTests\VirtualAssistantSample.FunctionalTests.csproj", "{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -45,6 +49,22 @@ Global
 		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F83F9D1F-8689-410F-9C84-4953E733EF16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AA60F64-33E0-428E-8ACB-0B3929A80667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8F3EEE6-AA01-4CEB-A07A-9E96681D1235}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
