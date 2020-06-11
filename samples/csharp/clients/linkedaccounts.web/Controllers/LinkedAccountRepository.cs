@@ -40,9 +40,10 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+
+                // Add BotIdentity
                 context.TurnState.Add<IIdentity>("BotIdentity", new ClaimsIdentity(new List<Claim>
                 {
-                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
                     new Claim(AuthenticationConstants.AppIdClaim, botAppId),
                 }));
 
