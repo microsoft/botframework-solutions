@@ -119,6 +119,7 @@ namespace VirtualAssistantSample
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
             services.AddSingleton<ChannelServiceHandler, TokenExchangeSkillHandler>();
+            services.AddSingleton<ChannelServiceHandler, TestSkillHandler>();
 
             // Register dialogs
             services.AddTransient<MainDialog>();
