@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema.Teams;
 using Newtonsoft.Json.Linq;
@@ -13,8 +14,13 @@ namespace VirtualAssistantSample.Extensions
     public static class InvokeResponseHandler
     {
         // Converts "InvokeResponse" sent by SkillHttpClient to "TaskModuleResponse"
-        public static TaskModuleResponse GetTaskModuleRespose(this InvokeResponse invokeResponse)
+        public static TaskModuleResponse GetTaskModuleResponse(this InvokeResponse invokeResponse)
         {
+            if (invokeResponse == null)
+            {
+                throw new ArgumentNullException(nameof(invokeResponse));
+            }
+
             if (invokeResponse.Body != null)
             {
                 return new TaskModuleResponse()
@@ -28,9 +34,9 @@ namespace VirtualAssistantSample.Extensions
 
         private static TaskModuleResponseBase GetTask(object invokeResponseBody)
         {
-            var resposeBody = (JObject)JToken.FromObject(invokeResponseBody);
+            var resposeBody = JObject.FromObject(invokeResponseBody);
             var task = resposeBody.GetValue("task");
-            string taskType = task.SelectToken("type").ToString();
+            string taskType = task.SelectToken("type")?.Value<string>();
 
             return taskType switch
             {
