@@ -36,7 +36,7 @@ namespace VirtualAssistantSample.Extensions
         {
             var resposeBody = JObject.FromObject(invokeResponseBody);
             var task = resposeBody.GetValue("task");
-            string taskType = task.SelectToken("type").ToString();
+            string taskType = task.SelectToken("type")?.Value<string>();
 
             return taskType switch
             {
