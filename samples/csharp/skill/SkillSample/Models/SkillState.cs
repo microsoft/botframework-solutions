@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Microsoft.Bot.Schema;
 using System;
 
 namespace SkillSample.Models
@@ -14,5 +15,9 @@ namespace SkillSample.Models
         public void Clear()
         {
         }
+
+        // reference to previously stored activities that were sent that we may want to update
+        // instead of sending a new activity
+        public Activity CardsToUpdate = new Activity();
     }
 }
