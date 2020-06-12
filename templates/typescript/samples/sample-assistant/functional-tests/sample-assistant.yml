@@ -1,0 +1,343 @@
+pool:
+  vmImage: 'windows-2019'
+  name: Azure Pipelines
+  demands:
+  - msbuild
+  - visualstudio
+
+variables:
+  system.debug: false
+  # system.debug: System variable that can be set by the users. Set this to true to run the release in debug mode to assist in fault-finding.
+  # BuildConfiguration: Build configuration such as Debug or Release.
+  # BuildPlatform: Build platform such as Win32, x86, x64 or any cpu.
+  # AppId: Microsoft App Id of the bot
+  # AppPassword: Microsoft App Password of the bot
+  # BotName: Name of the bot
+  # Location: Location of the bot
+  # LuisAuthoringRegion: Location of the LUIS apps
+  # PreviewVersion: Version of the SDK's packages that the bot will use
+  # ServicePrincipal: App Id of the Service Principal
+  # Azure_Tenant: Tenant's value of your Azure directory
+  # AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
+
+jobs:
+- job: Main
+  timeoutInMinutes: 0
+  steps:
+  - task: NodeTool@0
+    displayName: 'Use Node 10.16.3'
+    inputs:
+      versionSpec: 10.16.3
+
+  - pwsh: |
+     # Install botbuilder tools off MyGet
+     npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+    
+     npm i -g botdispatch luis-apis botskills
+    displayName: 'Install preview dispatch, luis-apis, botskills'
+
+  - pwsh: |
+     # Create config file
+     $path = Join-Path $env:LOCALAPPDATA "@microsoft" "botframework-cli"
+    
+     New-Item -Path $path -ItemType Directory
+    
+     $config = @{
+         telemetry = $true
+     }
+    
+     $config | ConvertTo-Json -depth 100 | Out-File $(Join-Path $path "config.json")
+    
+     # Install botframework-cli off MyGet
+     npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/
+    
+     npm i -g @microsoft/botframework-cli
+    displayName: 'Install preview botframework-cli'
+
+  - pwsh: |
+     # Install generator-bot-virtualassistant from MyGet
+     npm config set registry https://botbuilder.myget.org/F/aitemplates/npm/
+    
+     npm install -g yo generator-bot-virtualassistant
+    
+    displayName: 'Install yeoman, generator-bot-virtualassistant'
+
+  - powershell: 'yo bot-virtualassistant -n $(BotName) -d "" -l "en-us,es-es,it-it,fr-fr,de-de,zh-cn" -p "$(System.DefaultWorkingDirectory)/templates/typescript/samples" --noPrompt'
+    displayName: 'Create a Virtual Assistant using the generator'
+
+  - task: knom.regexreplace-task.regex-replace.RegexReplace@3
+    displayName: 'Update SDK to latest preview version'
+    inputs:
+      InputSearchPattern: 'templates/typescript/samples/$(BotName)/package.json'
+      FindRegex: '("(\bbotbuilder[^:]*(?:-[^:]*)?)|"(\bbotframework(?:-[^:]*))):\s(".*")'
+      ReplaceRegex: '$1:$(PreviewVersion)'
+
+  - pwsh: |
+     Write-Host "CLI versions in use for this Nightly Build"
+    
+     Write-Host "BF CLI"
+     Write-Host "===="
+     bf -v
+    
+     Write-Host "LUIS CLI"
+     Write-Host "===="
+     luis -v
+    
+     Write-Host "Dispatch CLI"
+     Write-Host "===="
+     dispatch -v
+    
+     Write-Host "BotSkills CLI"
+     Write-Host "===="
+     botskills -v
+    
+     Write-Host "BF SDK and Solutions package versions being used by the VA Sample for this nightly build"
+     Write-Host "===="
+    
+     $path = '$(System.DefaultWorkingDirectory)\templates\typescript\samples\$(BotName)\package-lock.json'
+    
+     $json = Get-Content $path | Out-String | ConvertFrom-Json
+    
+     Write-Host "bot-solutions Version"
+     Write-Host "===="
+     $botsolutionsVersion = $json.dependencies.'bot-solutions'.version
+    
+     Write-Host $botsolutionsVersion
+    
+    
+     Write-Host "botbuilder Version"
+     Write-Host "===="
+     $botbuilderVersion = $json.dependencies.botbuilder.version
+    
+     Write-Host $botbuilderVersion
+    
+    
+     Write-Host "botbuilder-ai Version"
+     Write-Host "===="
+     $botbuilderaiVersion = $json.dependencies.'botbuilder-ai'.version
+    
+     Write-Host $botbuilderaiVersion
+    
+    
+     Write-Host "botbuilder-applicationinsights Version"
+     Write-Host "===="
+     $botbuilderapplicationinsights = $json.dependencies.'botbuilder-applicationinsights'.version
+    
+     Write-Host $botbuilderapplicationinsights
+    
+    
+     Write-Host "botbuilder-azure Version"
+     Write-Host "===="
+     $botbuilderazure = $json.dependencies.'botbuilder-azure'.version
+    
+     Write-Host $botbuilderazure
+    
+    
+     Write-Host "botbuilder-dialogs Version"
+     Write-Host "===="
+     $botbuilderdialogs = $json.dependencies.'botbuilder-dialogs'.version
+    
+     Write-Host $botbuilderdialogs
+    
+    
+     Write-Host "botbuilder-lg Version"
+     Write-Host "===="
+     $botbuilderlg = $json.dependencies.'botbuilder-lg'.version
+    
+     Write-Host $botbuilderlg
+    
+    
+     Write-Host "botframework-config Version"
+     Write-Host "===="
+     $botframeworkconfig = $json.dependencies.'botframework-config'.version
+    
+     Write-Host $botframeworkconfig
+    
+    
+    
+     Write-Host "botframework-connector Version"
+     Write-Host "===="
+     $botframeworkconnector = $json.dependencies.'botframework-connector'.version
+    
+     Write-Host $botframeworkconnector
+    
+    
+    
+     Write-Host "botframework-schema Version"
+     Write-Host "===="
+     $botframeworkschema = $json.dependencies.'botframework-schema'.version
+    
+     Write-Host $botframeworkschema
+    
+    
+    
+     Write-Host "botframework-streaming Version"
+     Write-Host "===="
+     $botframeworkstreaming = $json.dependencies.'botframework-streaming'.version
+    
+     Write-Host $botframeworkstreaming
+    
+    
+    
+     Write-Host "generator-bot-virtualassistant Version"
+     Write-Host "===="
+     npm view generator-bot-virtualassistant version --silent
+    displayName: 'Log CLI and BF SDK Versions to highlight what is being used'
+
+  - task: Npm@1
+    displayName: 'Run npm install'
+    inputs:
+      workingDir: 'templates/typescript/samples/$(BotName)'
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Run npm build'
+    inputs:
+      command: custom
+      workingDir: 'templates/typescript/samples/$(BotName)'
+      verbose: false
+      customCommand: 'run build'
+
+  - task: Npm@1
+    displayName: 'Run npm test'
+    inputs:
+      command: custom
+      workingDir: 'templates/typescript/samples/$(BotName)'
+      verbose: false
+      customCommand: 'run test'
+
+  - task: Npm@1
+    displayName: 'Run npm test on unit tests with code coverage'
+    inputs:
+      command: custom
+      workingDir: 'templates/typescript/samples/$(BotName)'
+      verbose: false
+      customCommand: 'run test-coverage-ci'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results'
+    inputs:
+      testResultsFiles: 'test-results.xml'
+      searchFolder: 'templates/typescript/samples/$(BotName)'
+      failTaskOnFailedTests: true
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish Code Coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: 'templates/typescript/samples/$(BotName)/coverage/cobertura-coverage.xml'
+      reportDirectory: 'templates/typescript/samples/$(BotName)/coverage/'
+
+  - task: AzureCLI@2
+    displayName: 'Delete test resource group if it exists'
+    inputs:
+      azureSubscription: ''
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+       # If RG exists, delete it to avoid possible App ID registration conflict.
+       $exists = az group exists --name $(BotName)
+      
+       if ($exists -eq 'true')
+       {
+           Write-Host "Resource group $(BotName) exists, there is likely an error on the previous build. Deleting."
+            az group delete --name $(BotName) --yes
+       }
+       else
+       {
+           Write-Host "Resource group $(BotName) does not exist."
+       }
+      workingDirectory: 'templates/typescript/samples/$(BotName)'
+
+  - pwsh: |
+     Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'
+    
+     az login --service-principal --username "$(ServicePrincipal)" --password "$(AzureDevOps-ServicePrincipal-Secret)" --tenant "$(Azure_Tenant)"
+    
+     ./deployment/scripts/deploy.ps1 -name $(BotName)  -location $(Location) -languages "en-us,es-es,it-it,fr-fr,de-de,zh-cn" -appId $(AppId) -appPassword $(AppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "deployment"
+    errorActionPreference: continue
+    workingDirectory: 'templates/typescript/samples/$(BotName)'
+    displayName: 'Run deploy script'
+    continueOnError: true
+
+  - pwsh: |
+     $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
+    
+     Write-Host $appSettings
+    
+     $botWebAppName = $appsettings.botWebAppName 
+     $resourceGroupName= $appsettings.resourceGroupName
+    
+     Write-Host $botWebAppName
+     echo "##vso[task.setvariable variable=BOTWEBAPPNAME;]$botWebAppName"
+    
+     Write-Host $resourceGroupName
+     echo "##vso[task.setvariable variable=BOTRESOURCEGROUP;]$resourceGroupName"
+    workingDirectory: 'templates/typescript/samples/$(BotName)/src'
+    displayName: 'Get bot variables from appsettings'
+
+  - task: AzureCLI@1
+    displayName: 'Create Direct Line channel registration'
+    inputs:
+      azureSubscription: ''
+      scriptLocation: inlineScript
+      inlineScript: 'az bot directline create -n "$(BOTWEBAPPNAME)" -g "$(BOTRESOURCEGROUP)" --verbose --debug --output json > "DirectLineCreate.json"'
+      workingDirectory: 'templates/typescript/samples/$(BotName)'
+
+  - powershell: |
+     $botName = "$(BOTWEBAPPNAME)"
+     Write-Host "DirectLine Bot Name: $botName"
+    
+     $json = Get-Content "DirectLineCreate.json" | Out-String | ConvertFrom-Json
+     $key = $json.properties.properties.sites.key
+    
+     echo "##vso[task.setvariable variable=DIRECTLINEKEY;]$key"
+     echo "##vso[task.setvariable variable=BOTID;]$botName"
+    
+     Write-Host "DirectLine Key: $key"
+    workingDirectory: 'templates/typescript/samples/$(BotName)'
+    displayName: 'Get channel secrets'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet restore'
+    inputs:
+      command: restore
+      projects: templates/typescript/samples/sample-assistant/functional-tests/VirtualAssistantSample.FunctionalTests/VirtualAssistantSample.FunctionalTests.csproj
+      
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet build'
+    inputs:
+      projects: 'templates/typescript/samples/sample-assistant/functional-tests/VirtualAssistantSample.FunctionalTests/VirtualAssistantSample.FunctionalTests.csproj'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet test on functional tests'
+    inputs:
+      command: test
+      projects: 'templates/typescript/samples/sample-assistant/functional-tests/VirtualAssistantSample.FunctionalTests/VirtualAssistantSample.FunctionalTests.csproj'
+      arguments: '--configuration $(BuildConfiguration) --filter TestCategory=FunctionalTests'
+      publishTestResults: false
+
+  - task: AzureCLI@1
+    displayName: 'Delete bot resources'
+    inputs:
+      azureSubscription: ''
+      scriptLocation: inlineScript
+      inlineScript: 'az group delete -g $(BotName) --no-wait --yes'
+
+  - pwsh: |
+     Write-Host "Deploy log"
+     Get-Content -Path $(Join-Path "deployment" "deploy_log.txt")
+     Write-Host "Deploy cognitive models log"
+     Get-Content -Path $(Join-Path "deployment" "deploy_cognitive_models_log.txt")
+     Write-Host "Deploy cognitive models log"
+     Get-Content -Path $(Join-Path "deployment" "publish_log.txt")
+    errorActionPreference: continue
+    workingDirectory: 'templates/typescript/samples/$(BotName)'
+    displayName: 'Show log contents'
+    condition: always()
+
+  - script: 'dir ..\*.* /s'
+    displayName: 'dir workspace'
+    continueOnError: true
+    condition: always()
