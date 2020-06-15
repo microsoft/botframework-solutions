@@ -3,9 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -22,6 +25,8 @@ using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.Extensions;
 using VirtualAssistantSample.Models;
 
@@ -70,6 +75,7 @@ namespace VirtualAssistantSample.Bots
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileState.GetAsync(turnContext, () => new UserProfileState(), cancellationToken);
+            var reply = MessageFactory.Attachment(this.GetTaskModuleHeroCard());
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
@@ -123,16 +129,48 @@ namespace VirtualAssistantSample.Bots
             }
         }
 
-        // Invoked when a "task/fetch" event is received to invoke task module.
-        protected override async Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+            public Task<TaskModuleResponse> OnTeamsTaskModuleFetch(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            return await this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
+            return this.OnTeamsTaskModuleFetchAsync(turnContext, taskModuleRequest, cancellationToken);
+        }
+
+        protected override async Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Get Skill From TaskInvoke
+                var skillId = (turnContext.Activity as Activity).AsInvokeActivity().GetSkillId(_logger);
+                var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
+
+                // Forward request to correct skill
+                //var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
+                var invokeResponse = new InvokeResponse
+                {
+                    Body = JsonConvert.DeserializeObject<JObject>("{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n   \"AppId\": \"TestSkill\",\r\n    \"Submit\": true\r\n    },\r\n    \"task\": \"continue\",\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}"),
+                    Status = 200
+                };
+
+                var test = invokeResponse.GetTaskModuleResponse();
+                return invokeResponse;
+            }
+            catch
+            {
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
+                throw;
+            }
+        }
+
+
+        // Invoked when a "task/fetch" event is received to invoke task module.
+        protected override Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+        {
+            return this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
         }
 
         // Invoked when a 'task/submit' invoke activity is received for task module submit actions.
-        protected override async Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+        protected override Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            return await this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
+            return this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
         }
 
         protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
@@ -149,7 +187,12 @@ namespace VirtualAssistantSample.Bots
                 var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
 
                 // Forward request to correct skill
-                var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
+                //var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
+                var invokeResponse = new InvokeResponse
+                {
+                    Body = JsonConvert.DeserializeObject<JObject>("{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n   \"AppId\": \"TestSkill\",\r\n    \"Submit\": true\r\n    },\r\n    \"task\": \"continue\",\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}"),
+                    Status = 200
+                };
                 return invokeResponse.GetTaskModuleResponse();
             }
             catch
@@ -157,6 +200,48 @@ namespace VirtualAssistantSample.Bots
                 await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
                 throw;
             }
+        }
+
+        private Attachment GetTaskModuleHeroCard()
+        {
+            return new HeroCard()
+            {
+                Title = "Task Module Invocation from Hero Card",
+                Subtitle = "This is a hero card with a Task Module Action button.  Click the button to show an Adaptive Card within a Task Module.",
+                Buttons = new List<CardAction>()
+                    {
+                        new TaskModuleAction("Adaptive Card", new { data = "adaptivecard" }),
+                    },
+            }.ToAttachment();
+        }
+
+        private static AdaptiveCard CreateAdapiveCardAttachment()
+        {
+            // combine path for cross platform support
+            string[] paths = { ".", "Deployment\\Resources", "adaptiveCard.json" };
+            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
+
+            var adaptiveCard = JsonConvert.DeserializeObject<AdaptiveCard>(adaptiveCardJson);
+
+            //var adaptiveCardAttachment = new Attachment()
+            //{
+            //    ContentType = "application/vnd.microsoft.card.adaptive",
+            //    Content = JsonConvert.DeserializeObject(adaptiveCardJson),
+            //};
+
+            adaptiveCard.Actions.Add(new AdaptiveSubmitAction()
+            {
+                Title = "SubmitCard",
+                Data = new AdaptiveCardValue<TaskModuleMetadata>()
+                {
+                    Data = new TaskModuleMetadata()
+                    {
+                        SkillId = "Test",
+                        TaskModuleFlowType = "Test",
+                    }
+                }
+            });
+            return adaptiveCard;
         }
     }
 }

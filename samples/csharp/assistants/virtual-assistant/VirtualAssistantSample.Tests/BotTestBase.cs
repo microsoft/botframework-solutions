@@ -63,6 +63,10 @@ namespace VirtualAssistantSample.Tests
         [TestInitialize]
         public virtual void Initialize()
         {
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettingsTest.json", optional: true, reloadOnChange: true);
+
+            var appsettingsConfiguration = builder.Build();
             Services = new ServiceCollection().AddLogging(config => config.AddConsole());
             Services.AddSingleton(new BotSettings());
             Services.AddSingleton(new BotServices()
@@ -151,25 +155,27 @@ namespace VirtualAssistantSample.Tests
             Services.AddSingleton(configuration.Object);
 
             // Register SkillConfiguration
-            var skillConfiguration = new SkillsConfiguration(config);
+            var skillConfiguration = new SkillsConfiguration(appsettingsConfiguration);
             Services.AddSingleton(skillConfiguration);
 
+            var mockLogger = new Mock<ILogger<DefaultActivityHandler<MockMainDialog>>>();
+            Services.AddSingleton(mockLogger.Object);
             // Mock HttpClient
-            var skillHttpClient = new Mock<SkillHttpClient>();
-            skillHttpClient.Setup(
-                a => a.PostActivityAsync(
-                It.IsAny<string>(),
-                It.IsAny<EnhancedBotFrameworkSkill>(),
-                It.IsAny<Uri>(),
-                It.IsAny<Activity>(),
-                It.IsAny<CancellationToken>()))
-                .Returns(
-                Task.FromResult(
-                new InvokeResponse
-                {
-                }));
+            //var skillHttpClient = new Mock<SkillHttpClient>();
+            //skillHttpClient.Setup(
+            //    a => a.PostActivityAsync(
+            //    It.IsAny<string>(),
+            //    It.IsAny<EnhancedBotFrameworkSkill>(),
+            //    It.IsAny<Uri>(),
+            //    It.IsAny<Activity>(),
+            //    It.IsAny<CancellationToken>()))
+            //    .Returns(
+            //    Task.FromResult(
+            //    new InvokeResponse
+            //    {
+            //    }));
 
-            Services.AddSingleton(skillHttpClient.Object);
+            //Services.AddSingleton(skillHttpClient.Object);
 
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
