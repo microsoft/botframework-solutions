@@ -45,6 +45,7 @@ namespace LinkedAccounts.Web.Controllers
                 context.TurnState.Add<IIdentity>("BotIdentity", new ClaimsIdentity(new List<Claim>
                 {
                     new Claim(AuthenticationConstants.AppIdClaim, botAppId),
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
                 }));
 
                 // Retrieve the Token Status
