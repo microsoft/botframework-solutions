@@ -1,0 +1,130 @@
+[
+    {
+        "text": "help",
+        "intent": "l_General"
+    },
+    {
+        "text": "assistance",
+        "intent": "l_General"
+    },
+    {
+        "text": "escalate",
+        "intent": "l_General"
+    },
+    {
+        "text": "superviser",
+        "intent": "l_General"
+    },
+    {
+        "text": "operator or human",
+        "intent": "l_General"
+    },
+    {
+        "text": "can you please transfer me to someone who can help with booking appointment with dr who",
+        "intent": "l_General"
+    },
+    {
+        "text": "You're not helping",
+        "intent": "l_General"
+    },
+    {
+        "text": "Perfect that's exactly what I want",
+        "intent": "l_General"
+    },
+    {
+        "text": "Can't you understand?",
+        "intent": "l_General"
+    },
+    {
+        "text": "How many times do I need to repeat?",
+        "intent": "l_General"
+    },
+    {
+        "text": "Thanks",
+        "intent": "l_General"
+    },
+    {
+        "text": "Please",
+        "intent": "l_General"
+    },
+    {
+        "text": "Shoosh",
+        "intent": "l_General"
+    },
+    {
+        "text": "shut up",
+        "intent": "l_General"
+    },
+    {
+        "text": "please stop listening",
+        "intent": "l_General"
+    },
+    {
+        "text": "forget about it",
+        "intent": "l_General"
+    },
+    {
+        "text": "ignore me",
+        "intent": "l_General"
+    },
+    {
+        "text": "what is wrong with you",
+        "intent": "l_General"
+    },
+    {
+        "text": "help me help you!",
+        "intent": "l_General"
+    },
+    {
+        "text": "stop it",
+        "intent": "l_General"
+    },
+    {
+        "text": "too far",
+        "intent": "l_General"
+    },
+    {
+        "text": "quit it",
+        "intent": "l_General"
+    },
+    {
+        "text": "what is going on",
+        "intent": "l_General"
+    },
+    {
+        "text": "why are not responding",
+        "intent": "l_General"
+    },
+    {
+        "text": "will you reply",
+        "intent": "l_General"
+    },
+    {
+        "text": "hello where are you",
+        "intent": "l_General"
+    },
+    {
+        "text": "can you just stop",
+        "intent": "l_General"
+    },
+    {
+        "text": "stop right now",
+        "intent": "l_General"
+    },
+    {
+        "text": "I really want you to stop",
+        "intent": "l_General"
+    },
+    {
+        "text": "Shut it",
+        "intent": "l_General"
+    },
+    {
+        "text": "quit already",
+        "intent": "l_General"
+    },
+    {
+        "text": "why are you still talking",
+        "intent": "l_General"
+    }
+]
