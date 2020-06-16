@@ -36,7 +36,7 @@ namespace VirtualAssistantSample.Services
                     luisOptions = new LuisRecognizerOptionsV3(dispatchApp)
                     {
                         TelemetryClient = telemetryClient,
-                        LogPersonalInformation = true,
+                        LogPersonalInformation = settings.LogPersonalData,
                     };
                     set.DispatchService = new LuisRecognizer(luisOptions);
                 }
