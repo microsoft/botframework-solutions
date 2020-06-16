@@ -11,7 +11,7 @@ order: 5
 
 ## {{ page.title }}
 
-A default manifest describing your Skill is provided as part of the project, you can find this within the `wwwroot\manifest` folder. Following deployment this requires updating with the deployment URL and Azure AD Application ID. `manifest-1.0` is provided for Power Virtual Agent support only, you should use `manifest-1.1` for Virtual Assistant scenarios.
+A default manifest describing your Skill is provided as part of the project, you can find this within the `wwwroot\src\manifest` folder. Following deployment this requires updating with the deployment URL and Azure AD Application ID. `manifest-1.0` is provided for Power Virtual Agent support only, you should use `manifest-1.1` for Virtual Assistant scenarios.
 
 1. Update `{YOUR_SKILL_URL}` with the URL of your deployed Skill endpoint, this must be prefixed with https.
 

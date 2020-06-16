@@ -13,9 +13,9 @@ order: 2
 
 1. Install the bot-virtualassistant generator
 
-```bash
-    npm install -g generator-bot-virtualassistant
-```
+   ```bash
+      npm install -g generator-bot-virtualassistant
+   ```
 1. Download and install the [Node Package Manager (NPM)](https://nodejs.org/en/).
 1. Download and install [PowerShell Core](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6).
 1. Download and install the Bot Framework CLI tools:

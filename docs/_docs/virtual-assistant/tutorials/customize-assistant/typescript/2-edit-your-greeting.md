@@ -84,9 +84,9 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
 }
 ```
 
-2. In your assistant's project, navigate to **responses** > **MainResponses.lg** and find the `# NewUserIntroCardJson` section. Paste the above JSON inbetween the ``` separators.
+3. In your assistant's project, navigate to **responses** > **MainResponses.lg** and find the `# NewUserIntroCardJson` section. Paste the above JSON inbetween the ``` separators.
 
-3. Run `npm start` to start your assistant and start a new conversation in the **Bot Framework Emulator** to see the change:
+4. Run `npm start` to start your assistant and start a new conversation in the **Bot Framework Emulator** to see the change:
 
 <p align="center">
 <img src="{{site.baseurl}}/assets/images/quickstart-virtualassistant-customizedgreeting.png" width="600">

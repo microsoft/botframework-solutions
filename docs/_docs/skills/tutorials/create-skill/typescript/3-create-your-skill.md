@@ -72,6 +72,7 @@ After this, you can check the summary in your screen:
 >**NOTE:** Remind to have an **unique** skill's name for deployment steps. 
 
 ## What files were created?
+```
 | - deployment                              // Files for deployment and provisioning
     | - resources                           // Resources for deployment and provisioning.
         | - LU                              // Files for deploying LUIS language models
@@ -113,5 +114,6 @@ After this, you can check the summary in your screen:
     | - appsettings.json                    // Configuration for application and Azure services
     | - cognitivemodels.json                // Configuration for language models, knowledgebases, and dispatch model
     | - index.ts                            // Initializes dependencies
+```
 
 You now have your own Skill! Follow the Deployment steps below before you try and run the project as deployment creates key dependencies required for operation.
