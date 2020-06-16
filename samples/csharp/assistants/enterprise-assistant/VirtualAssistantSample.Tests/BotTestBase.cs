@@ -134,14 +134,13 @@ namespace VirtualAssistantSample.Tests
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MockMainDialog>>();
             Services.AddSingleton(new ProactiveState(new MemoryStorage()));
-
+            Services.AddSingleton(new FeedbackOptions { FeedbackEnabled = true });
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
         }
 
-        public TestFlow GetTestFlow(bool includeUserProfile = true, bool feedbackEnabled = false)
+        public TestFlow GetTestFlow(bool includeUserProfile = true)
         {
-            Services.AddSingleton(new FeedbackOptions { FeedbackEnabled = feedbackEnabled });
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
             var userState = sp.GetService<UserState>();

@@ -18,27 +18,24 @@ namespace VirtualAssistantSample.Tests
 {
     [TestClass]
     [TestCategory("UnitTests")]
-    public class FeedbackMiddlewareTests : BotTestBase
+    public class FeedbackTests : BotTestBase
     {
         [TestMethod]
-        public async Task Test_FeedbackActivity()
+        public void Test_FeedbackActivity()
         {
-            // Create EventData
-            var data = new EventData { Message = "Test", UserId = "Test" };
+            // Get TestAdapter
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
             // Create EventActivity
             var eventActivity = new Activity()
             {
-                ChannelId = "TestProactive",
-                Type = ActivityTypes.Event,
+                ChannelId = "Test",
+                Type = ActivityTypes.Message,
                 Conversation = new ConversationAccount(id: $"{Guid.NewGuid()}"),
-                From = new ChannelAccount(id: $"Notification.TestProactive", name: $"Notification.Proactive"),
-                Recipient = new ChannelAccount(id: $"Notification.TestProactive", name: $"Notification.Proactive"),
-                Name = "BroadcastEvent",
-                Value = JsonConvert.SerializeObject(data)
-
+                From = new ChannelAccount(id: "Test", name: "Test"),
+                Recipient = new ChannelAccount(id: "Test", name: "Test"),
+                Value = "Test"
             };
 
             // Create turnContext with EventActivity
@@ -49,24 +46,21 @@ namespace VirtualAssistantSample.Tests
         }
 
         [TestMethod]
-        public async Task Test_FeedbackCommentPrompt()
+        public void Test_FeedbackCommentPrompt()
         {
-            // Create EventData
-            var data = new EventData { Message = "Test", UserId = "Test" };
+            // Get TestAdapter
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>();
 
             // Create EventActivity
             var eventActivity = new Activity()
             {
-                ChannelId = "TestProactive",
-                Type = ActivityTypes.Event,
+                ChannelId = "Test",
+                Type = ActivityTypes.Message,
                 Conversation = new ConversationAccount(id: $"{Guid.NewGuid()}"),
-                From = new ChannelAccount(id: $"Notification.TestProactive", name: $"Notification.Proactive"),
-                Recipient = new ChannelAccount(id: $"Notification.TestProactive", name: $"Notification.Proactive"),
-                Name = "BroadcastEvent",
-                Value = JsonConvert.SerializeObject(data)
-
+                From = new ChannelAccount(id: "Test", name: "Test"),
+                Recipient = new ChannelAccount(id: "Test", name: "Test"),
+                Value = "Test"
             };
 
             // Create turnContext with EventActivity
