@@ -21,9 +21,9 @@ This implementation allows for feedback to be collected when a child dialog of m
 1) If you are using an older VA template it may contain references to `FeedbackMiddleware`. Check your bot adapter class (default adapter being `defaultadapter.cs`) and remove any reference to FeedbackMiddleware in your bot adapter.
 1) To start collecting user feedback, add the feedback directory found in the **VirtualAssistantSample** project within the Enterprise Assistant sample to your VA. This will have all the utility and helper functions you will need.
 1) Add feedback options to startup.cs
-    ```csharp
-            services.AddSingleton(new FeedbackOptions());
-   ```
+```csharp
+    services.AddSingleton(new FeedbackOptions());
+```
 
    FeedbackOptions consists of the following. You can alter any of the properties when you declare your options in startup.cs
 
