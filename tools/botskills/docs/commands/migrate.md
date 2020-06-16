@@ -11,17 +11,15 @@ botskills migrate [options]
 
 ## Options
 
-| Option                   | Description                                                             |
-|--------------------------|-------------------------------------------------------------------------|
-| --sourceFile             | (OPTIONAL) Path to your skills.json file, which contains the skills that will be migrated (defaults to `\skills.json\` inside your Virtual Assistant's folder)  |
-| --destFile               | (OPTIONAL) (OPTIONAL) Path to your appsettings file. The skills information will be migrated to this file (defaults to `\appsettings.json\` inside your Virtual Assistant's folder)  |
-| --verbose                | (OPTIONAL) Output detailed information about the processing of the tool  |
-| -h, --help               | Output usage information  |                           
+| Option                   | Description                                                                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --sourceFile             | (OPTIONAL) Path to your skills.json file, which contains the skills that will be migrated (defaults to `\skills.json\` inside your Virtual Assistant's folder)                       |
+| --destFile               | (OPTIONAL) Path to your appsettings file. The skills information will be migrated to this file (defaults to `\appsettings.json\` inside your Virtual Assistant's folder)             |
+| --verbose                | (OPTIONAL) Output detailed information about the processing of the tool                                                                                                              |
+| -h, --help               | Output usage information                                                                                                                                                             |                           
 
 Here is an example of how to use the `Migrate` command:
 
-> **Note:** The paths to both the Skill Manifest and the Virtual Assistant Skills configuration file can be relative or absolute paths equally, and should be explicitly a `.json` file.
-
 ```bash
-botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/appsettings.json" --verbose
+botskills migrate --sourceFile "<YOUR-ASSISTANT_PATH>/skills.json" --destFile "<YOUR-ASSISTANT_PATH>/appsettings.json"
 ```

@@ -27,4 +27,4 @@ Once deployment is complete, you can start debugging through the following steps
 
 1. Congratulations, you've built and run your first skill!
 
-    ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-greetingemulator.png)
+    ![]({{site.baseurl}}/assets/images/quickstart-skill-greetingemulator.png)

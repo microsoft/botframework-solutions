@@ -39,9 +39,14 @@ To deploy your Assistant using the Azure Resource Manager (ARM) template provide
     Parameter | Description | Required
     --------- | ----------- | --------
     name | **Unique** name for your bot. By default this name will be used as the base name for all your Azure Resources. | **Yes**
-    location | The region for your Azure resource group. By default, this will be the location for all your Azure Resources. | **Yes**
-    appPassword | The password for the [Azure Active Directory App](https://ms.portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/Overview) that will be used by your bot. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
-    `luisAuthoringRegion` | The authoring region for your LUIS account. Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation for more information. | **Yes**
+    resourceGroup | The name for your Azure resource group. Default value is the name parameter. | **No**
+    location | The region for your Azure resource group and default location for all Azure services unless otherwise specified in ARM template parameters. | **Yes**
+    appId | The application ID for the Azure Active Directory App required by your bot registration. If not provided, a new app registration will be created. | **No**
+    appPassword | The password for the Azure Active Directory App required by your bot registration. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
+    createLuisAuthoring | Indicates whether a new LUIS authoring resource should be created. If **false**, luisAuthoringKey parameter must be provided. | **Yes**
+    luisAuthoringKey | Key for existing LUIS Authoring Key resource. No required if **createAuthoringResource** set to true. | **No**
+    luisAuthoringRegion | The authoring region for your LUIS account. Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation for more information. | **Yes**
+    parametersFile | Path to [ARM parameters file](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/parameter-files) for overriding default deployment template values. | **No**
 
 You can find more detailed deployment steps including customization instructions in the [Deployment Scripts reference]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/). 
 

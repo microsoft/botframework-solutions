@@ -198,7 +198,7 @@ public class SpeechSdk {
             // cancel reponse timeout timer ASAP
             cancelResponseTimeoutTimer();
 
-            final int errCode = canceledEventArgs.getErrorCode().getValue().swigValue();
+            final int errCode = canceledEventArgs.getErrorCode().getValue();
             LogInfo("canceled with error code: "+ errCode +" ,also: "+ canceledEventArgs.getErrorDetails());
 
             switch (errCode) {

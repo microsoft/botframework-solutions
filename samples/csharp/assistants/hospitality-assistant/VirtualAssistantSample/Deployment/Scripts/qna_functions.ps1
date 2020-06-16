@@ -23,7 +23,7 @@ function DeployKB ($name, $luFile, $qnaSubscriptionKey, $qnaEndpoint, $language,
 
     while ($retryAttemptsRemaining -ge 0) {
 		$bfconfig = (bf qnamaker:kb:create `
-			--name $name `
+			--name "$($name)_$($id)" `
 			--subscriptionKey $qnaSubscriptionKey `
             --endpoint $qnaEndpoint `
 			--in $(Join-Path $outFolder $outFile) | ConvertFrom-Json) 2>> $log

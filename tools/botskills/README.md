@@ -27,6 +27,7 @@ npm uninstall -g botskills
 - [Update](./docs/commands/update.md) a Skill from your assistant 
 - [Refresh](./docs/commands/refresh.md) connected skills
 - [List](./docs/commands/list.md) all Skills connected to your assistant
+- [Migrate](./docs/commands/migrate.md) all the skills to the new schema configuration settings.
 
 ## Daily builds
 Daily builds are based on the latest development code which means they may or may not be stable and probably won't be documented. These builds are better suited for more experienced users and developers although everyone is welcome to give them a shot and provide feedback.

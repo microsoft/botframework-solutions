@@ -15,6 +15,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
@@ -31,6 +32,7 @@ namespace VirtualAssistantSample.TokenExchange
         private readonly SkillConversationIdFactoryBase _conversationIdFactory;
 
         public TokenExchangeSkillHandler(
+            IServiceProvider serviceProvider,
             BotAdapter adapter,
             IBot bot,
             IConfiguration configuration,
@@ -39,14 +41,13 @@ namespace VirtualAssistantSample.TokenExchange
             SkillHttpClient skillClient,
             ICredentialProvider credentialProvider,
             AuthenticationConfiguration authConfig,
-            ITokenExchangeConfig tokenExchangeConfig,
             IChannelProvider channelProvider = null,
             ILogger logger = null)
             : base(adapter, bot, conversationIdFactory, credentialProvider, authConfig, channelProvider, logger)
         {
             _adapter = adapter;
             _tokenExchangeProvider = adapter as IExtendedUserTokenProvider;
-            _tokenExchangeConfig = tokenExchangeConfig;
+            _tokenExchangeConfig = serviceProvider.GetService<ITokenExchangeConfig>();
             _skillsConfig = skillsConfig;
             _skillClient = skillClient;
             _conversationIdFactory = conversationIdFactory;
