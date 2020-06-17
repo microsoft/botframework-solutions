@@ -11,7 +11,7 @@ order: 6
 
 ## {{ page.title }}
 
-After deployment, you and run and test your Skill project using these steps:
+After deployment, you can run and test your Skill project using these steps:
 
 1. Open the generated skill in your desired IDE (e.g Visual Studio Code)
 1. Run `npm run start` 

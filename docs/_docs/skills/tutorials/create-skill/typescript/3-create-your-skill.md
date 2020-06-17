@@ -45,7 +45,7 @@ yo bot-virtualassistant:skill
 | Option                            | Description                                                                                                  |
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
 | -n, --skillName <name>              | The name you want to give to your skill (by default takes `sample-skill`)                                                          |
-| -d, --skillDesc <description>       | A brief bif of text used to describe what your skill does (by default is empty) |
+| -d, --skillDesc <description>       | A brief bit of text used to describe what your skill does (by default is empty) |
 | -l, --skillLang <array of languages>| The languages you want to use with your skill. Possible values are `de`, `en`, `es`, `fr`, `it`, `zh` (by default takes all the languages)|
 | -p, --skillGenerationPath <path>    | The path where the skill will be generated (by default takes the path where you are running the generator)            |
 | --noPrompt                        | Do not prompt for any information or confirmation                                                                               |
