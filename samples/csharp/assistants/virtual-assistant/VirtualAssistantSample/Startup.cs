@@ -27,8 +27,6 @@ using VirtualAssistantSample.Adapters;
 using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
-using VirtualAssistantSample.Feedback;
-using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
 using VirtualAssistantSample.TokenExchange;
 
