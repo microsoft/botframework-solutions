@@ -53,7 +53,7 @@ export class OnboardingDialog extends ComponentDialog {
         }
         
         return await sc.prompt(DialogIds.NamePrompt, {
-                prompt: this.templateManager.generateActivityForLocale('NamePrompt', sc.context.activity.locale, {}),
+                prompt: this.templateManager.generateActivityForLocale('NamePrompt', sc.context.activity.locale),
         });
     }
 

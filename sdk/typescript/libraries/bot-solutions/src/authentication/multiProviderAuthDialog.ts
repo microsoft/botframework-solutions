@@ -15,7 +15,6 @@ import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
 import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
-import { MicrosoftAppCredentials } from 'botframework-connector';
 
 enum DialogIds {
     providerPrompt = 'ProviderPrompt',
@@ -30,19 +29,16 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     private selectedAuthType: string = '';
     private authenticationConnections: IOAuthConnection[];
     private responseManager: ResponseManager;
-    private readonly oauthCredentials: MicrosoftAppCredentials;
 
     public constructor(
         authenticationConnections: IOAuthConnection[],
         promptSettings: OAuthPromptSettings[],
-        oauthCredentials: MicrosoftAppCredentials,
         locale: string
     ) {
         super(MultiProviderAuthDialog.name);
 
         if (authenticationConnections === undefined) { throw new Error('The value of authenticationConnections cannot be undefined'); }
         this.authenticationConnections = authenticationConnections;
-        this.oauthCredentials  = oauthCredentials;
 
         this.responseManager = new ResponseManager(
             ['en', 'de', 'es', 'fr', 'it', 'zh'],
@@ -77,7 +73,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                         title: loginButtonActivity,
                         text: loginPromptActivity
                     };
-                    settings.oAuthAppCredentials = this.oauthCredentials;
 
                     this.addDialog(new OAuthPrompt(
                         connection.name,
