@@ -110,7 +110,7 @@ supportedLocales.forEach((locale: string) => {
     localizedTemplates.set(locale, localTemplateFile);
 });
 
-const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, undefined);
+const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
 // Register the Bot Framework Adapter with error handling enabled.
 // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.

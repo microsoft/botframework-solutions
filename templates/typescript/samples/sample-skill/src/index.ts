@@ -98,7 +98,7 @@ supportedLocales.forEach((locale: string) => {
     localizedTemplates.set(locale, localTemplateFile);
 });
 
-const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, undefined);
+const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
