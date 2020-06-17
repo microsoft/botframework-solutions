@@ -23,6 +23,7 @@ namespace SkillSample.Dialogs
         private readonly BotServices _services;
         private readonly SampleDialog _sampleDialog;
         private readonly SampleAction _sampleAction;
+        private readonly TestUpdateActivityDialog _updateDialog;
         private readonly LocaleTemplateManager _templateEngine;
 
         public MainDialog(
@@ -44,8 +45,10 @@ namespace SkillSample.Dialogs
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
+            _updateDialog = serviceProvider.GetService<TestUpdateActivityDialog>();
             _sampleDialog = serviceProvider.GetService<SampleDialog>();
             _sampleAction = serviceProvider.GetService<SampleAction>();
+            AddDialog(_updateDialog);
             AddDialog(_sampleDialog);
             AddDialog(_sampleAction);
         }
@@ -217,7 +220,7 @@ namespace SkillSample.Dialogs
                     {
                         case SkillSampleLuis.Intent.Sample:
                             {
-                                return await stepContext.BeginDialogAsync(_sampleDialog.Id, cancellationToken: cancellationToken);
+                                return await stepContext.BeginDialogAsync(_updateDialog.Id, cancellationToken: cancellationToken);
                             }
 
                         case SkillSampleLuis.Intent.None:

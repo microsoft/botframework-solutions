@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
+using Newtonsoft.Json.Linq;
 using SkillSample.Models;
 using SkillSample.Services;
 
@@ -25,17 +26,18 @@ namespace SkillSample.Dialogs
         private static readonly string CARD_ACTIVITY_IDENTIFIER = "testUpdateCard";
 
         public TestUpdateActivityDialog(
-            string dialogId,
-            IServiceProvider serviceProvider,
-            SkillState stateAccesor,
-            BotSettings settings,
-            BotServices services,
-            LocaleTemplateManager templateEngine,
-            IBotTelemetryClient telemetryClient)
-            : base(dialogId, serviceProvider)
+            IServiceProvider serviceProvider
+            //SkillState stateAccesor,
+            //BotSettings settings,
+            //BotServices services,
+            //LocaleTemplateManager templateEngine,
+            //IBotTelemetryClient telemetryClient)
+            )
+            : base(nameof(TestUpdateActivityDialog), serviceProvider)
         {
-            _stateAccesor = stateAccesor;
-            _templateEngine = templateEngine;
+            this._dialogId = nameof(TestUpdateActivityDialog);
+            _stateAccesor = (SkillState)serviceProvider.GetService(typeof(SkillState));
+            _templateEngine = (LocaleTemplateManager)serviceProvider.GetService(typeof(LocaleTemplateManager));
         }
 
         // Begin Dialog method
@@ -43,9 +45,10 @@ namespace SkillSample.Dialogs
         {
             var skillState = await this.StateAccessor.GetAsync(innerDc.Context, () => new SkillState());
             skillState.CardsToUpdate = new Activity();
-            var act = this.TemplateEngine.GenerateActivityForLocale("TestCard", { Name: "Send Activity"});
+            var act = this.TemplateEngine.GenerateActivityForLocale("TestCard", new { Name = "Send Activity" });
+
             this.RegisterActivityListener(innerDc);
-            if (act.Attachments)
+            if (act.Attachments != null && act.Attachments.Count > 0)
             {
                 await this.SendOrUpdateCardAsync(innerDc, act.Attachments[0], TestUpdateActivityDialog.CARD_ACTIVITY_IDENTIFIER);
             }
@@ -60,8 +63,8 @@ namespace SkillSample.Dialogs
         // Performing some action
         public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            var act = this.TemplateEngine.GenerateActivityForLocale(("TestCard", { Name: "Update Activity"});
-            if (act.Attachments)
+            var act = this.TemplateEngine.GenerateActivityForLocale("TestCard", new { Name = "Update Activity" });
+            if (act.Attachments != null && act.Attachments.Count > 0)
             {
                 await this.SendOrUpdateCardAsync(innerDc, act.Attachments[0], TestUpdateActivityDialog.CARD_ACTIVITY_IDENTIFIER);
             }
@@ -81,34 +84,42 @@ namespace SkillSample.Dialogs
         */
         private async Task SendOrUpdateCardAsync(DialogContext innerDc, Attachment card, string activityIdentifier)
         {
-            var skillState = await this.StateAccessor.GetAsync(innerDc, () => new SkillState());
-            var previouslySentActivity = skillState.CardsToUpdate[activityIdentifier];
-
-            if (previouslySentActivity == null || innerDc.Context.Activity.ChannelId != "msteams")
+            try
             {
-                // send a new card and set the activityName so that our listener knows that this is an activity we want to keep
-                var responseToUser = MessageFactory.Attachment(card);
-                responseToUser.ChannelData.ActivityName = activityIdentifier;
+                var skillState = await this.StateAccessor.GetAsync(innerDc.Context, () => new SkillState());
+                var previouslySentActivity = skillState.CardsToUpdate;
 
-                var cardResponse = await innerDc.Context.SendActivityAsync(responseToUser);
-
-                // the previouslySentActivity should now have been filled by the onSendActivities listener
-                previouslySentActivity = skillState.CardsToUpdate[activityIdentifier];
-
-                // store the activity id, which we cannot get in the listener which we register in beginDialog
-                if (cardResponse && previouslySentActivity)
+                if (previouslySentActivity == null || innerDc.Context.Activity.ChannelId != "msteams")
                 {
-                    previouslySentActivity.Id = cardResponse.Id;
+                    // send a new card and set the activityName so that our listener knows that this is an activity we want to keep
+                    var responseToUser = MessageFactory.Attachment(card);
+                    responseToUser.ChannelData = new { ActivityName = activityIdentifier };
+
+                    var cardResponse = await innerDc.Context.SendActivityAsync(responseToUser);
+
+                    // the previouslySentActivity should now have been filled by the onSendActivities listener
+                    previouslySentActivity = skillState.CardsToUpdate;
+
+                    // store the activity id, which we cannot get in the listener which we register in beginDialog
+                    if (cardResponse != null && previouslySentActivity != null)
+                    {
+                        previouslySentActivity.Id = cardResponse.Id;
+                    }
+                }
+                else
+                {
+                    previouslySentActivity.Attachments.Add(card);
+                    await innerDc.Context.UpdateActivityAsync(previouslySentActivity);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                previouslySentActivity.attachments = [card];
-                await innerDc.Context.UpdateActivityAsync(previouslySentActivity);
+
+                throw ex;
             }
         }
 
-        private Task RegisterActivityListener(DialogContext innerDc)
+        private void RegisterActivityListener(DialogContext innerDc)
         {
             // listen to the activities being sent and save them so we can update them later
             // for updating an activity, we need:
@@ -118,19 +129,21 @@ namespace SkillSample.Dialogs
             // which we unfortunately cannot get all just from the response to the sendActivity, so we must use a listener here
             // we cannot get the activity id from this listener however, so we have to get it from the response
 
-            /**
-            innerDc.Context.OnSendActivities(async(TurnContext context, Activity activities, nextSend: () => Promise<ResourceResponse[]>) => {
-                activities.forEach(async(activity: Partial<Activity>) => {
-                    var state = await this.StateAccessor.GetAsync(innerDc.Context);
-                    if (activity.channelData && activity.channelData.activityName)
-                    {
-                        state.cardsToUpdate[activity.channelData.activityName] = activity;
-                    }
-                });
+            innerDc.Context.OnSendActivities(StoreOutgoingActivitiesAsync);
+        }
 
-                return nextSend();
-            });
-            */
+        private async Task<ResourceResponse[]> StoreOutgoingActivitiesAsync(ITurnContext turnContext, List<Activity> activities, Func<Task<ResourceResponse[]>> next)
+        {
+            foreach (Activity activity in activities)
+            {
+                var state = await this.StateAccessor.GetAsync(turnContext);
+                if (activity.ChannelData != null)
+                {
+                    state.CardsToUpdate = activity;
+                }
+            }
+
+            return await next();
         }
     }
 }

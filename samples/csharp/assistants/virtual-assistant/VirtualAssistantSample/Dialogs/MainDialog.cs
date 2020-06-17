@@ -96,7 +96,7 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.DispatchResult, dispatchResult);
 
-                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
+                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_general)
                 {
                     // Run LUIS recognition on General model and store result in turn state.
                     var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
@@ -131,7 +131,7 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.DispatchResult, dispatchResult);
 
-                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
+                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_general)
                 {
                     // Run LUIS recognition on General model and store result in turn state.
                     var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
@@ -229,7 +229,7 @@ namespace VirtualAssistantSample.Dialogs
                     }
                 }
 
-                if (dispatchIntent == DispatchLuis.Intent.l_General)
+                if (dispatchIntent == DispatchLuis.Intent.l_general)
                 {
                     // Get connected LUIS result from turn state.
                     var generalResult = innerDc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
@@ -342,7 +342,8 @@ namespace VirtualAssistantSample.Dialogs
             // Use the text provided in FinalStepAsync or the default if it is the first time.
             var promptOptions = new PromptOptions
             {
-                Prompt = stepContext.Options as Activity ?? _templateManager.GenerateActivityForLocale("FirstPromptMessage")
+                //Prompt = stepContext.Options as Activity ?? _templateManager.GenerateActivityForLocale("FirstPromptMessage")
+                Prompt = ((Activity)stepContext.Options).Type != null ? (Activity)stepContext.Options : _templateManager.GenerateActivityForLocale("FirstPromptMessage")
             };
 
             return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
@@ -375,7 +376,7 @@ namespace VirtualAssistantSample.Dialogs
                     return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs, cancellationToken);
                 }
 
-                if (dispatchIntent == DispatchLuis.Intent.q_Faq)
+                if (dispatchIntent == DispatchLuis.Intent.q_faq)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
@@ -469,8 +470,8 @@ namespace VirtualAssistantSample.Dialogs
 
         private bool IsSkillIntent(DispatchLuis.Intent dispatchIntent)
         {
-            if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_General.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
-                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+            if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_general.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
@@ -499,7 +500,7 @@ namespace VirtualAssistantSample.Dialogs
                 return true;
             }
 
-            if (dispatchIntent == DispatchLuis.Intent.l_General)
+            if (dispatchIntent == DispatchLuis.Intent.l_general)
             {
                 // If dispatch classifies user query as general, we should check against the cached general Luis score instead.
                 var generalResult = stepContext.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
