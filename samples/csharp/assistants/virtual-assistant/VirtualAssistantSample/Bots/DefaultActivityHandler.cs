@@ -146,7 +146,7 @@ namespace VirtualAssistantSample.Bots
             {
                 // Get Skill From TaskInvoke
                 var skillId = (turnContext.Activity as Activity).AsInvokeActivity().GetSkillId(_logger);
-                var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
+                var skill = _skillsConfig.Skills.Where(s => s.Value.AppId == skillId).FirstOrDefault().Value;
 
                 // Forward request to correct skill
                 var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
