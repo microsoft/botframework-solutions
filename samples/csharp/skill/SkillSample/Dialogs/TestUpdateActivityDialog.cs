@@ -25,14 +25,7 @@ namespace SkillSample.Dialogs
         private static readonly IServiceProvider _serviceProvider;
         private static readonly string CARD_ACTIVITY_IDENTIFIER = "testUpdateCard";
 
-        public TestUpdateActivityDialog(
-            IServiceProvider serviceProvider
-            //SkillState stateAccesor,
-            //BotSettings settings,
-            //BotServices services,
-            //LocaleTemplateManager templateEngine,
-            //IBotTelemetryClient telemetryClient)
-            )
+        public TestUpdateActivityDialog(IServiceProvider serviceProvider)
             : base(nameof(TestUpdateActivityDialog), serviceProvider)
         {
             this._dialogId = nameof(TestUpdateActivityDialog);
