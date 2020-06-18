@@ -343,7 +343,7 @@ namespace VirtualAssistantSample.Dialogs
             var promptOptions = new PromptOptions
             {
                 //Prompt = stepContext.Options as Activity ?? _templateManager.GenerateActivityForLocale("FirstPromptMessage")
-                Prompt = ((Activity)stepContext.Options).Type != null ? (Activity)stepContext.Options : _templateManager.GenerateActivityForLocale("FirstPromptMessage")
+                Prompt = stepContext.Options != null ? (Activity)stepContext.Options : _templateManager.GenerateActivityForLocale("FirstPromptMessage")
             };
 
             return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);

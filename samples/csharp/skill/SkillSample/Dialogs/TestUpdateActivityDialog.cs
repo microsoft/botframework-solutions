@@ -89,7 +89,7 @@ namespace SkillSample.Dialogs
                 var skillState = await this.StateAccessor.GetAsync(innerDc.Context, () => new SkillState());
                 var previouslySentActivity = skillState.CardsToUpdate;
 
-                if (previouslySentActivity == null || innerDc.Context.Activity.ChannelId != "msteams")
+                if (previouslySentActivity.Id == null || innerDc.Context.Activity.ChannelId != "msteams")
                 {
                     // send a new card and set the activityName so that our listener knows that this is an activity we want to keep
                     var responseToUser = MessageFactory.Attachment(card);
@@ -108,6 +108,7 @@ namespace SkillSample.Dialogs
                 }
                 else
                 {
+                    previouslySentActivity.Attachments.RemoveAt(0);
                     previouslySentActivity.Attachments.Add(card);
                     await innerDc.Context.UpdateActivityAsync(previouslySentActivity);
                 }

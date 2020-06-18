@@ -182,23 +182,6 @@ namespace Microsoft.Bot.Builder.Skills
                 }
 
                 return;
-                /**
-                switch (activity.Type)
-                {
-                    case ActivityTypes.EndOfConversation:
-                        await _conversationIdFactory.DeleteConversationReferenceAsync(conversationId, cancellationToken).ConfigureAwait(false);
-                        ApplyEoCToTurnContextActivity(turnContext, activity);
-                        await _bot.OnTurnAsync(turnContext, ct).ConfigureAwait(false);
-                        break;
-                    case ActivityTypes.Event:
-                        ApplyEventToTurnContextActivity(turnContext, activity);
-                        await _bot.OnTurnAsync(turnContext, ct).ConfigureAwait(false);
-                        break;
-                    default:
-                        await turnContext.SendActivityAsync(activity, cancellationToken).ConfigureAwait(false);
-                        break;
-                }
-               */
             });
 
             await _adapter.ContinueConversationAsync(claimsIdentity, skillConversationReference.ConversationReference, skillConversationReference.OAuthScope, callback, cancellationToken).ConfigureAwait(false);
