@@ -208,6 +208,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
                 luisConvertCommand.push(...[argument, argumentValue]);
             });
+            luisConvertCommand.push('--force');
             await this.runCommand(luisConvertCommand, `Parsing ${ culture } ${ luisApp } LU file`);
             if (!existsSync(luisFilePath)) {
                 throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
