@@ -11,7 +11,7 @@ namespace VirtualAssistantSample.Extensions
     /// <summary>
     /// InvokeResposneHandler class for returning TaskModuleResponse from InvokeResponse
     /// </summary>
-    public static class InvokeResponseHandler
+    public static class InvokeResponseExtensions
     {
         // Converts "InvokeResponse" sent by SkillHttpClient to "TaskModuleResponse"
         public static TaskModuleResponse GetTaskModuleResponse(this InvokeResponse invokeResponse)
