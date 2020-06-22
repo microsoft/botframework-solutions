@@ -12,7 +12,7 @@ using VirtualAssistantSample.Models;
 namespace VirtualAssistantSample.Extensions
 {
     /// <summary>
-    /// Extension class for getting SkillId from Activity
+    /// Extension class for getting SkillId from Activity.
     /// </summary>
     public static class InvokeActivityExtensions
     {
@@ -21,12 +21,14 @@ namespace VirtualAssistantSample.Extensions
         {
             if (activity == null)
             {
+                logger.Log(LogLevel.Error, "activity is null from TaskModule");
                 throw new ArgumentNullException(nameof(activity));
             }
 
             if (activity.Value == null)
             {
-                throw new ArgumentException("Value is null.", nameof(activity));
+                logger.Log(LogLevel.Error, "activity.Value is null from TaskModule");
+                throw new ArgumentException("activity.Value is null.", nameof(activity));
             }
 
             // GetSkillId from Activity Value
