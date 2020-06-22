@@ -34,8 +34,8 @@ namespace VirtualAssistantSample.Extensions
 
         private static TaskModuleResponseBase GetTask(object invokeResponseBody)
         {
-            var resposeBody = JObject.FromObject(invokeResponseBody);
-            var task = resposeBody.GetValue("task");
+            var responseBody = JObject.FromObject(invokeResponseBody);
+            var task = responseBody.GetValue("task");
             string taskType = task.SelectToken("type")?.Value<string>();
 
             return taskType switch
