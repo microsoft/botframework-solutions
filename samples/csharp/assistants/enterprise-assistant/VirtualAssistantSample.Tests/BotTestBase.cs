@@ -105,6 +105,7 @@ namespace VirtualAssistantSample.Tests
             Services.AddSingleton(new MicrosoftAppCredentials("appId", "password"));
             Services.AddSingleton(new UserState(new MemoryStorage()));
             Services.AddSingleton(new ConversationState(new MemoryStorage()));
+            Services.AddSingleton(new ProactiveState(new MemoryStorage()));
 
             // For localization testing
             CultureInfo.CurrentUICulture = new CultureInfo("en-us");
@@ -132,9 +133,8 @@ namespace VirtualAssistantSample.Tests
             Services.AddTransient<List<SkillDialog>>();
             Services.AddSingleton<TestAdapter, DefaultTestAdapter>();
             Services.AddTransient<IBot, DefaultActivityHandler<MockMainDialog>>();
-            Services.AddSingleton(new FeedbackOptions { FeedbackEnabled = false });
             Services.AddSingleton(new ProactiveState(new MemoryStorage()));
-
+            Services.AddSingleton(new FeedbackOptions { FeedbackEnabled = true });
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
         }
