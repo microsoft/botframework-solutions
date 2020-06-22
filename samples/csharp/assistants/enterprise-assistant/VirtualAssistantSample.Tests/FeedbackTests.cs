@@ -42,7 +42,7 @@ namespace VirtualAssistantSample.Tests
             var turnContext = new TurnContext(adapter, eventActivity);
 
             var testFeedback = FeedbackUtil.CreateFeedbackActivity(turnContext);
-            Assert.AreEqual("Was this helpful ? (1) 👍, (2) 👎, or(3) Dismiss", testFeedback.Text);
+            Assert.IsTrue(testFeedback.Text != null && testFeedback.Text.Contains(FeedbackResponses.FeedbackPromptMessage));
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@ namespace VirtualAssistantSample.Tests
             var turnContext = new TurnContext(adapter, eventActivity);
 
             var testFeedback = FeedbackUtil.GetFeedbackCommentPrompt(turnContext);
-            Assert.AreEqual("Thanks, I appreciate your feedback. Please add any additional comments in the chat. (1) Dismiss", testFeedback.Text);
+            Assert.IsTrue(testFeedback.Text != null && testFeedback.Text.Contains(FeedbackResponses.FeedbackReceivedMessage));
         }
     }
 }
