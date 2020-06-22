@@ -40,6 +40,11 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+                // Add BotIdentity
+                context.TurnState.Add<IIdentity>(BotAdapter.BotIdentityKey, new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                }));
 
                 // Add BotIdentity
                 context.TurnState.Add<IIdentity>("BotIdentity", new ClaimsIdentity(new List<Claim>
@@ -76,6 +81,11 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+                // Add BotIdentity
+                context.TurnState.Add<IIdentity>(BotAdapter.BotIdentityKey, new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                }));
 
                 // Retrieve a signin link for a given Connection Name and UserId
                 link = await adapter.GetOauthSignInLinkAsync(context, connectionName, userId, finalRedirect);
@@ -111,6 +121,11 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+                // Add BotIdentity
+                context.TurnState.Add<IIdentity>(BotAdapter.BotIdentityKey, new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                }));
 
                 // Sign the specified user out of a particular connection
                 await adapter.SignOutUserAsync(context, connectionName, userId);
