@@ -11,7 +11,7 @@ order: 5
 
 ## Run your assistant
 
-After deployment, you and run and test your Virtual Assistant project using these steps:
+After deployment, you can run and test your Virtual Assistant project using these steps:
 
 1. Press **F5** within Visual Studio to run your assistant.
 1. Open the **Bot Framework Emulator**.

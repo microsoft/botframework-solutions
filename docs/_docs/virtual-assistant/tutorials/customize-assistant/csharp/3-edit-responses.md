@@ -49,4 +49,4 @@ Within MainResponses we provide an example of occasionally using the Users name 
     - 
 ```
 
-Learn more about the Language Generation template syntax [here](https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/lg-file-format.md).
+Learn more about the Language Generation template syntax [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-language-generation?view=azure-bot-service-4.0&tabs=csharp).

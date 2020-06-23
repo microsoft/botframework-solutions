@@ -10,7 +10,8 @@ order: 5
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
 ## Run your assistant
-When deployment is complete, you can run your Virtual Assistant through the following steps:
+
+After deployment, you can run and test your Virtual Assistant project using these steps:
 
 1. Open the generated assistant in your desired IDE (e.g Visual Studio Code).
 1. Run `npm run start`.
