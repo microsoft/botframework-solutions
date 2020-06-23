@@ -7,3 +7,4 @@ export * from './commonUtil';
 export * from './configData';
 export * from './confirmRecognizerHelper';
 export * from './md5Util';
+export * from './responsesUtil';

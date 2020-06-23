@@ -17,6 +17,7 @@ export class FeedbackOptions {
     private _commentPrompt: string = '';
     private _commentReceivedMessage: string = '';
     private readonly responseManager: ResponseManager;
+    private _locale: string = 'en-us';
 
     /**
      * Gets or sets a value indicating whether gets or sets flag to prompt for free-form
@@ -31,6 +32,14 @@ export class FeedbackOptions {
             ['en', 'de', 'es', 'fr', 'it', 'zh'],
             [FeedbackResponses]
         );
+    }
+
+    public get locale(): string {
+        return this._locale;
+    }
+
+    public set locale(locale: string){
+        this._locale = locale;
     }
 
     /**
@@ -68,7 +77,7 @@ export class FeedbackOptions {
     public get dismissAction(): CardAction {
         if (this._dismissAction === undefined) {
             return { type: ActionTypes.PostBack,
-                title: this.responseManager.getResponseText(FeedbackResponses.dismissTitle),
+                title: this.responseManager.getResponseText(FeedbackResponses.dismissTitle, this._locale),
                 value: 'dismiss'
             };
         }
@@ -91,7 +100,7 @@ export class FeedbackOptions {
      */
     public get feedbackReceivedMessage(): string {
         if (this._feedbackReceivedMessage === undefined || this._feedbackReceivedMessage.trim().length === 0) {
-            return this.responseManager.getResponseText(FeedbackResponses.feedbackReceivedMessage);
+            return this.responseManager.getResponseText(FeedbackResponses.feedbackReceivedMessage, this._locale);
         }
 
         return this._feedbackReceivedMessage;
@@ -112,7 +121,7 @@ export class FeedbackOptions {
      */
     public get commentPrompt(): string {
         if (this._commentPrompt === undefined || this._commentPrompt.trim().length === 0) {
-            return this.responseManager.getResponseText(FeedbackResponses.commentPrompt);
+            return this.responseManager.getResponseText(FeedbackResponses.commentPrompt, this._locale);
         }
 
         return this._commentPrompt;
@@ -133,7 +142,7 @@ export class FeedbackOptions {
      */
     public get commentReceivedMessage(): string {
         if (this._commentReceivedMessage === undefined || this._commentReceivedMessage.trim().length === 0) {
-            return this.responseManager.getResponseText(FeedbackResponses.commentReceivedMessage);
+            return this.responseManager.getResponseText(FeedbackResponses.commentReceivedMessage, this._locale);
         }
 
         return this._commentReceivedMessage;

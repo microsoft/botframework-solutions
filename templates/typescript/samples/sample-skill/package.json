@@ -28,12 +28,9 @@
         "botframework-config": "^4.9.2",
         "botframework-connector": "^4.9.2",
         "dotenv": "^6.0.0",
-        "i18next": "^15.0.6",
-        "i18next-node-fs-backend": "^2.1.1",
         "restify": "^8.5.1"
     },
     "devDependencies": {
-        "@types/i18next-node-fs-backend": "^0.0.30",
         "@types/node": "^10.10.1",
         "@types/restify": "^8.4.2",
         "@typescript-eslint/eslint-plugin": "^2.0.0",

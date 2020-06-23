@@ -54,6 +54,9 @@ export class FeedbackMiddleware implements Middleware {
         // clear state
         await FeedbackMiddleware.feedbackAccessor.delete(context);
 
+        // set locale to use FeedbackMiddleware.options
+        FeedbackMiddleware.options.locale = context.activity.locale as string;
+
         // create feedbackRecord with original activity and tag
         const record: FeedbackRecord = {
             request: context.activity,
@@ -86,6 +89,9 @@ export class FeedbackMiddleware implements Middleware {
     }
 
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
+        // set locale to use FeedbackMiddleware.options
+        FeedbackMiddleware.options.locale = context.activity.locale as string;
+
         // get feedback record from state. If we don't find anything, set to null.
         const record: FeedbackRecord = await FeedbackMiddleware.feedbackAccessor.get(context, new FeedbackRecord());
 
@@ -105,7 +111,7 @@ export class FeedbackMiddleware implements Middleware {
                 if (FeedbackMiddleware.options.commentsEnabled) {
                     // if comments are enabled
                     // create comment prompt with dismiss action
-                    if (supportsSuggestedActions(context.activity.channelId)) {
+                    if (supportsSuggestedActions(context.activity.channelId)) {   
                         const commentPrompt: Partial<Activity> = MessageFactory.suggestedActions(
                             [FeedbackMiddleware.options.dismissAction],
                             `${ FeedbackMiddleware.options.feedbackReceivedMessage } ${ FeedbackMiddleware.options.commentPrompt }`

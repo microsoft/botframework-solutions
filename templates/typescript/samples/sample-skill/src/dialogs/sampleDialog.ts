@@ -54,7 +54,7 @@ export class SampleDialog extends SkillDialogBase {
     private async promptForName(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // NOTE: Uncomment the following lines to access LUIS result for this turn.
         //const luisResult = sc.context.turnState.get(StateProperties.skillLuisResult);
-        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('NamePrompt');
+        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('NamePrompt', stepContext.context.activity.locale);
         return await stepContext.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
@@ -63,7 +63,7 @@ export class SampleDialog extends SkillDialogBase {
         tokens.set(this.nameKey, stepContext.result as string);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response: any = this.templateManager.generateActivityForLocale('HaveNameMessage', tokens);
+        const response: any = this.templateManager.generateActivityForLocale('HaveNameMessage', stepContext.context.activity.locale, tokens);
         await stepContext.context.sendActivity(response);
 
         return await stepContext.next();
