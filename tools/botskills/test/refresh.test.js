@@ -144,7 +144,7 @@ Error: Mocked function throws an Error`);
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
 Error: There was an error in the bf luis:generate:${configuration.lgLanguage} command:
-Command: bf luis:generate:${configuration.lgLanguage} --in "${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.json" --out "${configuration.lgOutFolder}" --force
+Command: bf luis:generate:${configuration.lgLanguage} --in "${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.json" --out "${configuration.lgOutFolder}" --className DispatchLuis --force
 Error: Mocked function throws an Error`);
         });
     });
