@@ -46,19 +46,19 @@ export function isValidCultures(availableCultures: string[], targetedCultures: s
 }
 
 export function manifestV1Validation(skillManifest: ISkillManifestV1, logger: ILogger): void {
-    if (skillManifest.name === undefined || skillManifest.name === "") {
+    if (skillManifest.name === undefined || skillManifest.name === '') {
         logger.error(`Missing property 'name' of the manifest`);
     }
 
-    if (skillManifest.id === undefined || skillManifest.id === "") {
+    if (skillManifest.id === undefined || skillManifest.id === '') {
         logger.error(`Missing property 'id' of the manifest`);
     } else if (skillManifest.id.match(/^\d|[^\w]/g) !== null) {
         logger.error(`The 'id' of the manifest contains some characters not allowed. Make sure the 'id' contains only letters, numbers and underscores, but doesn't start with number.`);
     }
 
-    if (skillManifest.endpoint === undefined || skillManifest.endpoint === "") {
+    if (skillManifest.endpoint === undefined || skillManifest.endpoint === '') {
         logger.error(`Missing property 'endpoint' of the manifest`);
-    } else if (skillManifest.endpoint.match(/^(https?:\/\/)?((([a-zA-Z\d]([a-zA-Z\d-]*[a-zA-Z\d])*)\.)+[a-zA-Z]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-zA-Z\d%_.~+]*)*(\?[;&a-zA-Z\d%_.~+=-]*)?(\#[-a-zA-Z\d_]*)?$/g) === null) {
+    } else if (skillManifest.endpoint.match(/^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$/g) === null) {
         logger.error(`The 'endpoint' property contains some characters not allowed.`);
     }
 
@@ -73,11 +73,11 @@ export function manifestV1Validation(skillManifest: ISkillManifestV1, logger: IL
 }
 
 export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: ILogger, endpointName?: string): void {
-    if (skillManifest.$schema === undefined || skillManifest.$schema === "") {
+    if (skillManifest.$schema === undefined || skillManifest.$schema === '') {
         logger.error(`Missing property '$schema' of the manifest`);
     }
 
-    if (skillManifest.$id === undefined || skillManifest.$id === "") {
+    if (skillManifest.$id === undefined || skillManifest.$id === '') {
         logger.error(`Missing property '$id' of the manifest`);
     } else if (skillManifest.$id.match(/^\d|[^\w]/g) !== null) {
         logger.error(`The '$id' of the manifest contains some characters not allowed. Make sure the '$id' contains only letters, numbers and underscores, but doesn't start with number.`);
@@ -87,19 +87,19 @@ export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: IL
         logger.error(`Missing property 'endpoints' of the manifest`);
     } else {
         let currentEndpoint = skillManifest.endpoints.find((endpoint): boolean =>  endpoint.name == endpointName) || skillManifest.endpoints[0];
-        if (currentEndpoint.name === undefined || currentEndpoint.name === ""){
+        if (currentEndpoint.name === undefined || currentEndpoint.name === ''){
             logger.error(`Missing property 'name' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
         }
 
-        if (currentEndpoint.msAppId === undefined || currentEndpoint.msAppId === ""){
+        if (currentEndpoint.msAppId === undefined || currentEndpoint.msAppId === ''){
             logger.error(`Missing property 'msAppId' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
-        } else if (currentEndpoint.msAppId.match(/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/g) === null) {
+        } else if (currentEndpoint.msAppId.match(/^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$/g) === null) {
             logger.error(`The 'msAppId' property of the selected endpoint contains invalid characters or does not comply with the GUID format. If you didn't select any endpoint, the first one is taken by default.`);
         }
 
-        if (currentEndpoint.endpointUrl === undefined || currentEndpoint.endpointUrl === ""){
+        if (currentEndpoint.endpointUrl === undefined || currentEndpoint.endpointUrl === ''){
             logger.error(`Missing property 'endpointUrl' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
-        } else if (currentEndpoint.endpointUrl.match(/^(https?:\/\/)?((([a-zA-Z\d]([a-zA-Z\d-]*[a-zA-Z\d])*)\.)+[a-zA-Z]{2,}|(((\d{1,3}\.){3}\d{1,3})|(localhost))(\:\d+)?)(\/[-a-zA-Z\d%_.~+]*)*(\?[;&a-zA-Z\d%_.~+=-]*)?(\#[-a-zA-Z\d_]*)?$/g) === null) {
+        } else if (currentEndpoint.endpointUrl.match(/^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&amp;%\$#_]*)?$/g) === null) {
             logger.error(`The 'endpointUrl' property of the selected endpoint contains invalid characters or does not comply with the URL format. If you didn't select any endpoint, the first one is taken by default.`);
         }
     }
@@ -132,6 +132,6 @@ interface libraryCommand {
     package: string;
 }
 
-const commands: { [key: number]: libraryCommand; } = {
+const commands: { [key: number]: libraryCommand } = {
     0: { cmd: 'bf', args: ['-v'], package: 'https://www.npmjs.com/package/@microsoft/botframework-cli' }
 };
