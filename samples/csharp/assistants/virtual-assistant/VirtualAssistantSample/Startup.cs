@@ -123,7 +123,8 @@ namespace VirtualAssistantSample
             // Register dialogs
             services.AddTransient<MainDialog>();
             services.AddTransient<SwitchSkillDialog>();
-            services.AddTransient<OnboardingDialog>();
+            //services.AddTransient<OnboardingDialog>();
+            services.AddTransient<CustomDialog>();
 
             // Register the SkillDialogs (remote skills).
             var botId = Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;

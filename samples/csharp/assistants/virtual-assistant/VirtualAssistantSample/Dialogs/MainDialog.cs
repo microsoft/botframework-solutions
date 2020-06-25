@@ -34,6 +34,7 @@ namespace VirtualAssistantSample.Dialogs
         private readonly LocaleTemplateManager _templateManager;
         private readonly BotServices _services;
         private readonly OnboardingDialog _onboardingDialog;
+        private readonly CustomDialog _customDialog;
         private readonly SwitchSkillDialog _switchSkillDialog;
         private readonly SkillsConfiguration _skillsConfig;
         private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
@@ -70,9 +71,10 @@ namespace VirtualAssistantSample.Dialogs
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
-            _onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
+            //_onboardingDialog = serviceProvider.GetService<OnboardingDialog>();
+            _customDialog = serviceProvider.GetService<CustomDialog>();
             _switchSkillDialog = serviceProvider.GetService<SwitchSkillDialog>();
-            AddDialog(_onboardingDialog);
+            AddDialog(_customDialog);
             AddDialog(_switchSkillDialog);
 
             // Register skill dialogs
@@ -96,7 +98,7 @@ namespace VirtualAssistantSample.Dialogs
                 var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.DispatchResult, dispatchResult);
 
-                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
+                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_general)
                 {
                     // Run LUIS recognition on General model and store result in turn state.
                     var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
@@ -127,11 +129,21 @@ namespace VirtualAssistantSample.Dialogs
 
             if (activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))
             {
-                // Run LUIS recognition and store result in turn state.
-                var dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
+                DispatchLuis dispatchResult;
+                try
+                {
+                    // Run LUIS recognition and store result in turn state.
+                    dispatchResult = await localizedServices.DispatchService.RecognizeAsync<DispatchLuis>(innerDc.Context, cancellationToken);
+
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
                 innerDc.Context.TurnState.Add(StateProperties.DispatchResult, dispatchResult);
 
-                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_General)
+                if (dispatchResult.TopIntent().intent == DispatchLuis.Intent.l_general)
                 {
                     // Run LUIS recognition on General model and store result in turn state.
                     var generalResult = await localizedServices.LuisServices["General"].RecognizeAsync<GeneralLuis>(innerDc.Context, cancellationToken);
@@ -229,7 +241,7 @@ namespace VirtualAssistantSample.Dialogs
                     }
                 }
 
-                if (dispatchIntent == DispatchLuis.Intent.l_General)
+                if (dispatchIntent == DispatchLuis.Intent.l_general)
                 {
                     // Get connected LUIS result from turn state.
                     var generalResult = innerDc.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
@@ -326,7 +338,8 @@ namespace VirtualAssistantSample.Dialogs
             var userProfile = await _userProfileState.GetAsync(stepContext.Context, () => new UserProfileState(), cancellationToken);
             if (string.IsNullOrEmpty(userProfile.Name))
             {
-                return await stepContext.BeginDialogAsync(_onboardingDialog.Id, cancellationToken: cancellationToken);
+                //return await stepContext.BeginDialogAsync(_onboardingDialog.Id, cancellationToken: cancellationToken);
+                return await stepContext.BeginDialogAsync(_customDialog.Id, cancellationToken: cancellationToken);
             }
 
             return await stepContext.NextAsync(cancellationToken: cancellationToken);
@@ -375,7 +388,7 @@ namespace VirtualAssistantSample.Dialogs
                     return await stepContext.BeginDialogAsync(dispatchIntentSkill, skillDialogArgs, cancellationToken);
                 }
 
-                if (dispatchIntent == DispatchLuis.Intent.q_Faq)
+                if (dispatchIntent == DispatchLuis.Intent.q_faq)
                 {
                     stepContext.SuppressCompletionMessage(true);
 
@@ -469,8 +482,8 @@ namespace VirtualAssistantSample.Dialogs
 
         private bool IsSkillIntent(DispatchLuis.Intent dispatchIntent)
         {
-            if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_General.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
-                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_Faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+            if (dispatchIntent.ToString().Equals(DispatchLuis.Intent.l_general.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
+                dispatchIntent.ToString().Equals(DispatchLuis.Intent.q_faq.ToString(), StringComparison.InvariantCultureIgnoreCase) ||
                 dispatchIntent.ToString().Equals(DispatchLuis.Intent.None.ToString(), StringComparison.InvariantCultureIgnoreCase))
             {
                 return false;
@@ -499,7 +512,7 @@ namespace VirtualAssistantSample.Dialogs
                 return true;
             }
 
-            if (dispatchIntent == DispatchLuis.Intent.l_General)
+            if (dispatchIntent == DispatchLuis.Intent.l_general)
             {
                 // If dispatch classifies user query as general, we should check against the cached general Luis score instead.
                 var generalResult = stepContext.Context.TurnState.Get<GeneralLuis>(StateProperties.GeneralResult);
