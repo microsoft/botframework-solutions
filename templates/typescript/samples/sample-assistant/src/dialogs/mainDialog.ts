@@ -37,6 +37,7 @@ import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { StateProperties } from '../models/stateProperties';
+import { CustomDialog } from './customDialog';
 import { OnboardingDialog } from './onboardingDialog';
 
 /**
@@ -47,7 +48,7 @@ export class MainDialog extends ComponentDialog {
     public static readonly activeSkillPropertyName: string = `${ typeof(MainDialog).name }.ActiveSkillProperty`;
     private readonly faqDialogId: string = 'faq';
     private readonly services: BotServices;
-    private onBoardingDialog: OnboardingDialog;
+    private customDialog: CustomDialog | OnboardingDialog;
     private switchSkillDialog: SwitchSkillDialog;
     private skillsConfig: SkillsConfiguration;
     private templateManager: LocaleTemplateManager;
@@ -60,7 +61,7 @@ export class MainDialog extends ComponentDialog {
         templateManager: LocaleTemplateManager,
         userProfileState: StatePropertyAccessor<IUserProfileState>,
         previousResponseAccessor: StatePropertyAccessor<Partial<Activity>[]>,
-        onBoardingDialog: OnboardingDialog,
+        customDialog: CustomDialog | OnboardingDialog,
         switchSkillDialog: SwitchSkillDialog,
         skillDialogs: SkillDialog[],
         skillsConfig: SkillsConfiguration,
@@ -89,9 +90,9 @@ export class MainDialog extends ComponentDialog {
         this.initialDialogId = MainDialog.name;
 
         // Register dialogs
-        this.onBoardingDialog = onBoardingDialog;
+        this.customDialog = customDialog;
         this.switchSkillDialog = switchSkillDialog;
-        this.addDialog(this.onBoardingDialog);
+        this.addDialog(this.customDialog);
         this.addDialog(this.switchSkillDialog);
 
         // Register skill dialogs
@@ -310,7 +311,7 @@ export class MainDialog extends ComponentDialog {
     private async onBoardingStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const userProfile: IUserProfileState = await this.userProfileState.get(stepContext.context, { name: '' });
         if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
-            return await stepContext.beginDialog(this.onBoardingDialog.id);
+            return await stepContext.beginDialog(this.customDialog.id);
         } 
 
         return await stepContext.next();

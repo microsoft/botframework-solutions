@@ -2,59 +2,80 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-import { StatePropertyAccessor, RecognizerResult } from 'botbuilder';
+import { StatePropertyAccessor, RecognizerResult, BotFrameworkSkill } from 'botbuilder';
 import {
     ComponentDialog,
     DialogTurnResult,
     TextPrompt,
     WaterfallDialog,
     WaterfallStepContext, 
-    WaterfallStep } from 'botbuilder-dialogs';
+    WaterfallStep,
+    BeginSkillDialogOptions, 
+    SkillDialog,
+    PromptOptions} from 'botbuilder-dialogs';
 import { IUserProfileState } from '../models/userProfileState';
 import { StateProperties } from '../models/stateProperties';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateManager } from 'bot-solutions';
+import { LocaleTemplateManager, DialogContextEx, IEnhancedBotFrameworkSkill, SkillsConfiguration } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
+import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'botframework-schema';
 
 enum DialogIds {
     NamePrompt = 'namePrompt',
 }
 
 // Example onboarding dialog to initial user profile information.
-export class OnboardingDialog extends ComponentDialog {
+export class CustomDialog extends ComponentDialog {
     private readonly services: BotServices;
     private readonly templateManager: LocaleTemplateManager;
     private readonly accessor: StatePropertyAccessor<IUserProfileState>;
+    private activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>;
+    private skillsConfig: SkillsConfiguration;
 
     public constructor(
         accessor: StatePropertyAccessor<IUserProfileState>,
         services: BotServices,
-        templateManager: LocaleTemplateManager) {
-        super(OnboardingDialog.name);
+        templateManager: LocaleTemplateManager,
+        skillsConfig: SkillsConfiguration,
+        activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>) {
+        super(CustomDialog.name);
         this.templateManager = templateManager;
 
         this.accessor = accessor;
         this.services = services;
 
         const onboarding: WaterfallStep[] = [
-            this.askForName.bind(this),
-            this.finishOnboardingDialog.bind(this)
+            //this.notice.bind(this),
+            this.askForName.bind(this)
         ];
+        
+        this.skillsConfig = skillsConfig;
+        // Create state property to track the active skillCreate state property to track the active skill
+        this.activeSkillProperty = activeSkillProperty;
 
-        this.addDialog(new WaterfallDialog(OnboardingDialog.name, onboarding));
+        this.addDialog(new WaterfallDialog(CustomDialog.name, onboarding));
         this.addDialog(new TextPrompt(DialogIds.NamePrompt));
     }
 
-    public async askForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
-        const state: IUserProfileState = await this.accessor.get(sc.context, { name: ''});
+    // public async notice(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+    //     await sc.context.sendActivity(this.templateManager.generateActivityForLocale('CustomNotice'));
+    //     sc.context.
+    // }
 
-        if (state.name !== undefined && state.name.trim().length > 0) {
-            return await sc.next(state.name);
+    public async askForName(sc: WaterfallStepContext): Promise<DialogTurnResult> {
+        const activity: IMessageActivity = sc.context.activity;
+        activity.text = "run sample dialog";
+        activity.type = ActivityTypes.Message;
+        const skillDialogArgs: BeginSkillDialogOptions = {
+            activity: activity as Activity
+        };
+
+        const selectedSkill: IEnhancedBotFrameworkSkill | undefined = this.skillsConfig.skills.get('sampleSkill');
+        if (selectedSkill) {
+            await this.activeSkillProperty.set(sc.context, selectedSkill);
         }
-        
-        return await sc.prompt(DialogIds.NamePrompt, {
-            prompt: this.templateManager.generateActivityForLocale('NamePrompt'),
-        });
+
+        return await sc.beginDialog('sampleSkill', skillDialogArgs);
     }
 
     public async finishOnboardingDialog(sc: WaterfallStepContext): Promise<DialogTurnResult> {
@@ -81,7 +102,7 @@ export class OnboardingDialog extends ComponentDialog {
             }
         }
 
-        // Capitalize name
+        // Captialize name
         userProfile.name = name.toLowerCase()
             .split(' ')
             .map((word: string): string => word.charAt(0)
