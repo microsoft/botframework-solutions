@@ -37,13 +37,14 @@ import * as appsettings from './appsettings.json';
 import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
-import { OnboardingDialog } from './dialogs/onboardingDialog';
+import { CustomDialog } from './dialogs/customDialog';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 import { Activity } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState';
 import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
+import { OnboardingDialog } from './dialogs/onboardingDialog';
 
 // Configure internationalization and default locale
 i18next.use(i18nextNodeFsBackend)
@@ -192,13 +193,14 @@ try {
         }
     }
 
-    const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateManager, skillsConfiguration, activeSkillProperty);
+    const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateManager);
+    const customDialog: CustomDialog = new CustomDialog(userProfileStateAccesor, botServices, localeTemplateManager, skillsConfiguration, activeSkillProperty);
     const mainDialog: MainDialog = new MainDialog(
         botServices,
         localeTemplateManager,
         userProfileStateAccesor,
         previousResponseAccesor,
-        onboardingDialog,
+        customDialog,
         switchSkillDialog,
         skillDialogs,
         skillsConfiguration,

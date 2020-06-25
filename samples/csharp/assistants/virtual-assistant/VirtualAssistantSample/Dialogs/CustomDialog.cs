@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using Luis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.DependencyInjection;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Services;
@@ -19,9 +21,12 @@ namespace VirtualAssistantSample.Dialogs
     // Example onboarding dialog to initial user profile information.
     public class CustomDialog : ComponentDialog
     {
+        public static readonly string ActiveSkillPropertyName = $"{typeof(CustomDialog).FullName}.ActiveSkillProperty";
         private readonly BotServices _services;
         private readonly LocaleTemplateManager _templateManager;
         private readonly IStatePropertyAccessor<UserProfileState> _accessor;
+        private readonly SkillsConfiguration _skillsConfig;
+        private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
 
         public CustomDialog(
             IServiceProvider serviceProvider)
@@ -32,6 +37,11 @@ namespace VirtualAssistantSample.Dialogs
             var userState = serviceProvider.GetService<UserState>();
             _accessor = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
             _services = serviceProvider.GetService<BotServices>();
+            _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
+
+            // Create state property to track the active skill.
+            var conversationState = serviceProvider.GetService<ConversationState>();
+            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
 
             var onboarding = new WaterfallStep[]
             {
@@ -48,6 +58,10 @@ namespace VirtualAssistantSample.Dialogs
             activity.Text = "run sample dialog";
             activity.Type = "message";
             var skillDialogArgs = new BeginSkillDialogOptions { Activity = (Activity)activity };
+
+            // Save active skill in state.
+            var selectedSkill = _skillsConfig.Skills["SampleSkill"];
+            await _activeSkillProperty.SetAsync(sc.Context, selectedSkill, cancellationToken);
 
             return await sc.BeginDialogAsync("SampleSkill", skillDialogArgs);
         }
