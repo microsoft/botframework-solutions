@@ -16,10 +16,11 @@ To use the YAML file which contains the pipeline's information, select **Pipelin
 Select the **New Pipeline** option to create a new pipeline.
 
 The creation's process consists of 4 steps:
-    1. **Connect**: select YAML as host of the Pipeline's code
-    1. **Select**: select a repository
-    1. **Configure**: configure the pipeline consuming an Azure Pipeline YAML file
-    1. **Review**: review the pipeline YAML
+
+* **Connect**: select YAML as host of the Pipeline's code
+* **Select**: select a repository
+* **Configure**: configure the pipeline consuming an Azure Pipeline YAML file
+* **Review**: review the pipeline YAML
 
 1. **Connect**: select YAML as host of the pipeline's code
 We will choose where our Pipeline’s code is. In this case, we will use GitHub YAML as we have the structure in that file.
