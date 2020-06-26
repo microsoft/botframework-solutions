@@ -57,7 +57,7 @@ Last but not least, as the `Azure Subscription` is related to the container wher
 1. Run dotnet test on functional tests
 1. Delete bot resources
 1. Show log contents
-1. dir workspace
+1. Dir workspace
 
 ## Further Reading
 - [What is Azure Pipelines](https://docs.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops)
