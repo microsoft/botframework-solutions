@@ -120,11 +120,17 @@
   <data name="Cancel" xml:space="preserve">
     <value>cancel it</value>
   </data>
+  <data name="ChitChat" xml:space="preserve">
+    <value>what is your name</value>
+  </data>
   <data name="Confirm" xml:space="preserve">
     <value>yes</value>
   </data>
   <data name="Escalate" xml:space="preserve">
     <value>can i talk to a person</value>
+  </data>
+  <data name="FAQ" xml:space="preserve">
+    <value>how do I raise a bug?</value>
   </data>
   <data name="FinishTask" xml:space="preserve">
     <value>all finished</value>
@@ -134,6 +140,9 @@
   </data>
   <data name="Help" xml:space="preserve">
     <value>help</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>logout</value>
   </data>
   <data name="Reject" xml:space="preserve">
     <value>no</value>
@@ -155,6 +164,9 @@
   </data>
   <data name="ShowPrevious" xml:space="preserve">
     <value>previous</value>
+  </data>
+  <data name="SkillSample" xml:space="preserve">
+    <value>sample dialog</value>
   </data>
   <data name="StartOver" xml:space="preserve">
     <value>restart</value>
