@@ -15,10 +15,10 @@ namespace VirtualAssistantSample.FunctionalTests
     {
         protected static readonly string TestName = "Jane Doe";
 
-        protected static string _directLineSecret = "NsPRKP682z4.seb0uyvgj0c0FTSzvKiDEOWFG-0Ikg435MTkgHcM8_A";
-        protected static string _botId = "VAFuncTesting-fcrfd7b";
-        protected static DirectLineClient _client;
-        protected static string _userID;
+        private static string _directLineSecret = string.Empty;
+        private static string _botId = string.Empty;
+        private static DirectLineClient _client;
+        private static string _userID;
 
         [TestInitialize]
         public void Test_Initialize()
