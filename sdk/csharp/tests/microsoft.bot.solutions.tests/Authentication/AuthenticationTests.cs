@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.Bot.Solutions.Extensions;
@@ -13,8 +15,9 @@ using Microsoft.Bot.Solutions.Skills;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using static Microsoft.Bot.Builder.Dialogs.Choices.Channel;
 
 namespace Microsoft.Bot.Solutions.Tests.Authentication
 {
@@ -23,7 +26,7 @@ namespace Microsoft.Bot.Solutions.Tests.Authentication
     public class AuthenticationTests
     {
         [TestMethod]
-        public void MultiProviderAuthDialog_NullOauthConnection_Test()
+        public void MultiProviderAuthDialog_OAuthPrompt_Test()
         {
             var testFlow = CreateMultiAuthDialogTestFlow();
             testFlow.Send("Hello")
@@ -38,6 +41,75 @@ namespace Microsoft.Bot.Solutions.Tests.Authentication
                     Assert.AreEqual(InputHints.AcceptingInput, messageActivity.InputHint);
                 })
                 .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task MultiProviderAuthDialog_OAuthTokenResponse_Test()
+        {
+            Activity testActivity = null;
+
+            // Create mock Activity for testing.
+            var tokenResponseActivity = new Activity { Type = ActivityTypes.Message, Value = new TokenResponse { Token = "test", ChannelId = Connector.Channels.Test, ConnectionName = "testevent" }, Name = "testevent", ChannelId = Connector.Channels.Test };
+
+            var convoState = new ConversationState(new MemoryStorage());
+            var dialogState = convoState.CreateProperty<DialogState>("dialogState");
+            var adapter = new TestAdapter()
+            .Use(new AutoSaveStateMiddleware(convoState));
+
+            var dialogs = new DialogSet(dialogState);
+
+            // Add MicrosoftAPPId to configuration
+            var listOfOauthConnections = new List<OAuthConnection> { new OAuthConnection { Name = "Test", Provider = "Test" } };
+            var steps = new WaterfallStep[]
+            {
+                    GetAuthTokenAsync,
+                    AfterGetAuthTokenAsync,
+            };
+
+            dialogs.Add(new MultiProviderAuthDialog(listOfOauthConnections, oauthCredentials: new MicrosoftAppCredentials("test", "test")));
+            dialogs.Add(new WaterfallDialog("Auth", steps));
+            BotCallbackHandler botCallbackHandler = async (turnContext, cancellationToken) =>
+            {
+                var dc = await dialogs.CreateContextAsync(turnContext, cancellationToken);
+
+                var results = await dc.ContinueDialogAsync(cancellationToken);
+                if (results.Status == DialogTurnStatus.Empty)
+                {
+                    await dc.PromptAsync("Auth", new PromptOptions(), cancellationToken: cancellationToken);
+                }
+                else if (results.Status == DialogTurnStatus.Complete)
+                {
+                    if (results.Result is TokenResponse)
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text("Logged in."), cancellationToken);
+                    }
+                    else
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text("Failed."), cancellationToken);
+                    }
+                }
+            };
+
+            await new TestFlow(adapter, botCallbackHandler)
+        .Send("hello")
+        .AssertReply(activity =>
+        {
+            Assert.AreEqual(1, ((Activity)activity).Attachments.Count);
+            Assert.AreEqual(OAuthCard.ContentType, ((Activity)activity).Attachments[0].ContentType);
+
+            Assert.AreEqual(InputHints.AcceptingInput, ((Activity)activity).InputHint);
+            testActivity = (Activity)activity;
+            var eventActivity = CreateEventResponse(adapter, activity, "Test", "test");
+            var ctx = new TurnContext(adapter, (Activity)eventActivity);
+            botCallbackHandler(ctx, CancellationToken.None);
+        })
+        .AssertReply(activity =>
+        {
+            var messageActivity = activity.AsMessageActivity();
+            Assert.IsNotNull(messageActivity);
+            Assert.AreEqual("Logged in.", messageActivity.Text);
+        })
+        .StartTestAsync();
         }
 
         [TestMethod]
@@ -63,7 +135,7 @@ namespace Microsoft.Bot.Solutions.Tests.Authentication
             dialogs.Add(eventPrompt);
 
             // Create mock Activity for testing.
-            var eventActivity = new Activity { Type = ActivityTypes.Event, Value = 2, Name = "testevent" };
+            var eventActivity = new Activity { Type = ActivityTypes.Event, Value = 2, Name = "testevent", ChannelId = Channels.Test };
 
             await new TestFlow(adapter, async (turnContext, cancellationToken) =>
             {
@@ -117,11 +189,15 @@ namespace Microsoft.Bot.Solutions.Tests.Authentication
                 var state = await dialogState.GetAsync(turnContext, () => new DialogState(), cancellationToken);
                 var dialogs = new DialogSet(dialogState);
 
+                // Adapter add token
+                adapter.AddUserToken("Test", "test", "test", "test");
+
                 // Add MicrosoftAPPId to configuration
                 var listOfOauthConnections = new List<OAuthConnection> { new OAuthConnection { Name = "Test", Provider = "Test" } };
                 var steps = new WaterfallStep[]
                 {
                     GetAuthTokenAsync,
+                    AfterGetAuthTokenAsync,
                 };
                 dialogs.Add(new MultiProviderAuthDialog(listOfOauthConnections));
                 dialogs.Add(new WaterfallDialog("Auth", steps));
@@ -161,6 +237,49 @@ namespace Microsoft.Bot.Solutions.Tests.Authentication
             {
                 return new DialogTurnResult(DialogTurnStatus.Cancelled, ex.Message);
             }
+        }
+
+        private static async Task<DialogTurnResult> AfterGetAuthTokenAsync(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            try
+            {
+                // When the user authenticates interactively we pass on the tokens/Response event which surfaces as a JObject
+                // When the token is cached we get a TokenResponse object.
+                if (sc.Result is ProviderTokenResponse providerTokenResponse)
+                {
+                    return await sc.NextAsync(providerTokenResponse.TokenResponse, cancellationToken);
+                }
+                else
+                {
+                    await sc.Context.SendActivityAsync("Auth Failed");
+                    return await sc.CancelAllDialogsAsync(cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new DialogTurnResult(DialogTurnStatus.Cancelled, ex.Message);
+            }
+        }
+
+        private Activity CreateEventResponse(TestAdapter adapter, IActivity activity, string connectionName, string token)
+        {
+            // add the token to the TestAdapter
+            adapter.AddUserToken("Azure Active Directory", activity.ChannelId, activity.Recipient.Id, token);
+
+            // send an event TokenResponse activity to the botCallback handler
+            var eventActivity = ((Activity)activity).CreateReply();
+            eventActivity.Type = ActivityTypes.Event;
+            var from = eventActivity.From;
+            eventActivity.From = from;
+            eventActivity.Recipient = eventActivity.Recipient;
+            eventActivity.Name = SignInConstants.TokenResponseEventName;
+            eventActivity.Value = JObject.FromObject(new TokenResponse()
+            {
+                ConnectionName = "Azure Active Directory",
+                Token = token,
+            });
+
+            return eventActivity;
         }
     }
 }

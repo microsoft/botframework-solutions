@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -12,6 +13,7 @@ using Microsoft.Bot.Solutions.Extensions;
 namespace Microsoft.Bot.Solutions.Dialogs
 {
     [Obsolete("Please use ActivityHandlerDialog instead. For more information, refer to https://aka.ms/bfvarouting.", false)]
+    [ExcludeFromCodeCoverageAttribute]
     public abstract class RouterDialog : InterruptableDialog
     {
         public RouterDialog(string dialogId, IBotTelemetryClient telemetryClient)

@@ -37,15 +37,19 @@ namespace Microsoft.Bot.Solutions.Middleware
         /// </summary>
         private readonly string region;
 
+        private readonly ContentModeratorClient client;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContentModeratorMiddleware"/> class.
         /// </summary>
         /// <param name="subscriptionKey">Azure Service Key.</param>
         /// <param name="region">Azure Service Region.</param>
-        public ContentModeratorMiddleware(string subscriptionKey, string region)
+        /// <param name="client">Content Middleware Client.</param>
+        public ContentModeratorMiddleware(string subscriptionKey, string region, IContentModeratorClient client)
         {
             this.subscriptionKey = subscriptionKey ?? throw new ArgumentNullException(nameof(subscriptionKey));
             this.region = region ?? throw new ArgumentNullException(nameof(region));
+            this.client = (ContentModeratorClient)(client ?? new ContentModeratorClient(new ApiKeyServiceClientCredentials(this.subscriptionKey)));
         }
 
         /// <summary>
@@ -64,7 +68,6 @@ namespace Microsoft.Bot.Solutions.Middleware
                 var byteArray = Encoding.UTF8.GetBytes(context.Activity.Text);
                 var textStream = new MemoryStream(byteArray);
 
-                var client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(this.subscriptionKey));
                 var region = this.region.StartsWith("https://") ? this.region : $"https://{this.region}";
                 client.Endpoint = $"{region}.api.cognitive.microsoft.com";
 

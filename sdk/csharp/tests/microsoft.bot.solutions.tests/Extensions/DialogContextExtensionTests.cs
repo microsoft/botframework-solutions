@@ -1,6 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Adapters;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,40 +16,27 @@ namespace Microsoft.Bot.Solutions.Tests.Extensions
     public class DialogContextExtensionTests
     {
         [TestMethod]
-        public void Test_ActivityExIsStartActivityTrue()
+        public async Task Test_DialogContextSuppressCompletionMessage()
         {
             // Create MessageActivity
-            var messageActivity = new Activity()
+            // Create mock Activity for testing.
+            var tokenResponseActivity = new Activity { Type = ActivityTypes.Message, Value = new TokenResponse { Token = "test", ChannelId = Connector.Channels.Test, ConnectionName = "testevent" }, Name = "testevent", ChannelId = Connector.Channels.Test };
+
+            var convoState = new ConversationState(new MemoryStorage());
+            var dialogState = convoState.CreateProperty<DialogState>("dialogState");
+            var adapter = new TestAdapter()
+            .Use(new AutoSaveStateMiddleware(convoState));
+
+            var dialogs = new DialogSet(dialogState);
+            BotCallbackHandler botCallbackHandler = async (turnContext, cancellationToken) =>
             {
-                ChannelId = Connector.Channels.Test,
-                Type = ActivityTypes.ConversationUpdate,
-                MembersAdded = new List<ChannelAccount> { new ChannelAccount { Id = "Test" } },
-                Conversation = new ConversationAccount(id: $"{Guid.NewGuid()}"),
-                From = new ChannelAccount(id: $"Notification.TestProactive", name: $"Notification.Proactive"),
-                Recipient = new ChannelAccount { Id = "Test" },
+                var dc = await dialogs.CreateContextAsync(turnContext, cancellationToken);
+                var suppress = dc.SuppressCompletionMessage();
+                Assert.IsFalse(suppress);
             };
 
-            // Validate it is a StartActivity
-            bool isStartActivity = messageActivity.IsStartActivity();
-            Assert.IsTrue(isStartActivity);
-        }
-
-        [TestMethod]
-        public void Test_ActivityExIsStartActivityFalse()
-        {
-            // Create MessageActivity
-            var messageActivity = new Activity()
-            {
-                ChannelId = Connector.Channels.Test,
-                Type = ActivityTypes.ConversationUpdate,
-                Conversation = new ConversationAccount(id: $"{Guid.NewGuid()}"),
-                From = new ChannelAccount(id: $"Notification.TestProactive", name: $"Notification.Proactive"),
-                Recipient = new ChannelAccount { Id = "Test" },
-            };
-
-            // Validate it is not a StartActivity
-            bool isStartActivity = messageActivity.IsStartActivity();
-            Assert.IsFalse(isStartActivity);
+            await new TestFlow(adapter, botCallbackHandler)
+            .Send("hello").StartTestAsync();
         }
     }
 }
