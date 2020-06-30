@@ -50,29 +50,6 @@ namespace Microsoft.Bot.Solutions.Tests.TaskExtensionTests
         }
 
         [TestMethod]
-        public async Task Verify_Hosted_ScheduledProcessor_Test()
-        {
-            IServiceCollection services = new ServiceCollection();
-
-            services.AddHostedService<ScheduledProcessor>();
-            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
-            var serviceProvider = services.BuildServiceProvider();
-
-            var service = serviceProvider.GetService<IHostedService>() as ScheduledProcessor;
-
-            var scheduledProcessor = serviceProvider.GetService<ScheduledProcessor>();
-
-            await service.StartAsync(CancellationToken.None);
-
-            var isExecuted = false;
-
-            await Task.Delay(10000);
-            Assert.IsTrue(isExecuted);
-
-            await service.StopAsync(CancellationToken.None);
-        }
-
-        [TestMethod]
         public void Scheduled_Task_Null_Test()
         {
             IServiceCollection services = new ServiceCollection();
