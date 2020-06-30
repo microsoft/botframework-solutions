@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using Microsoft.Bot.Builder.LanguageGeneration;
@@ -13,6 +14,7 @@ namespace Microsoft.Bot.Builder.Solutions.Tests.Responses
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class LanguageGenerationTests
     {
         private Dictionary<string, string> localeLgFiles;

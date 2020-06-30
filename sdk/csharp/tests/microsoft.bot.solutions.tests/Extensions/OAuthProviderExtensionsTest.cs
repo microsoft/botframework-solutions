@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Microsoft.Bot.Solutions.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +9,7 @@ namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class OAuthProviderExtensionsTest
     {
         [TestMethod]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -14,6 +15,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class SkillConversationIdFactoryTests
     {
         [TestMethod]

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Bot.Builder;
@@ -16,6 +17,7 @@ namespace Microsoft.Bot.Solutions.Tests.Proactive
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class ProactiveTests
     {
         [TestMethod]

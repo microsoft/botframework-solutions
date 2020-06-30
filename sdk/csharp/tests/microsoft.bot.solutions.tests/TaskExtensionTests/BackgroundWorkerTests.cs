@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -18,6 +19,7 @@ namespace Microsoft.Bot.Solutions.Tests.TaskExtensionTests
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class BackgroundWorkerTests
     {
         [TestMethod]
@@ -40,6 +42,29 @@ namespace Microsoft.Bot.Solutions.Tests.TaskExtensionTests
             {
                 await Task.FromResult<bool>(isExecuted = true);
             });
+
+            await Task.Delay(10000);
+            Assert.IsTrue(isExecuted);
+
+            await service.StopAsync(CancellationToken.None);
+        }
+
+        [TestMethod]
+        public async Task Verify_Hosted_ScheduledProcessor_Test()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddHostedService<ScheduledProcessor>();
+            services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
+            var serviceProvider = services.BuildServiceProvider();
+
+            var service = serviceProvider.GetService<IHostedService>() as ScheduledProcessor;
+
+            var scheduledProcessor = serviceProvider.GetService<ScheduledProcessor>();
+
+            await service.StartAsync(CancellationToken.None);
+
+            var isExecuted = false;
 
             await Task.Delay(10000);
             Assert.IsTrue(isExecuted);

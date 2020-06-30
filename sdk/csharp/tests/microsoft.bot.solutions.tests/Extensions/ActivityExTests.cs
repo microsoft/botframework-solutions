@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Extensions;
@@ -9,6 +10,7 @@ namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class ActivityExTests
     {
         [TestMethod]

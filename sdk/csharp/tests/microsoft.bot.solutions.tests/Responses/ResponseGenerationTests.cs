@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Tests.Responses;
@@ -10,6 +11,7 @@ namespace Microsoft.Bot.Solutions.Tests
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class ResponseGenerationTests
     {
         [TestMethod]

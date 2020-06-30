@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using AdaptiveCards;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
@@ -14,6 +15,7 @@ namespace Microsoft.Bot.Solutions.Tests
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class SpeechUtilityTests
     {
         private Activity _activity;

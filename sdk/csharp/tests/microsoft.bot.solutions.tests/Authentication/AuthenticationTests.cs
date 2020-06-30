@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -23,6 +24,7 @@ namespace Microsoft.Bot.Solutions.Tests.Authentication
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class AuthenticationTests
     {
         [TestMethod]
@@ -45,6 +47,75 @@ namespace Microsoft.Bot.Solutions.Tests.Authentication
 
         [TestMethod]
         public async Task MultiProviderAuthDialog_OAuthTokenResponse_Test()
+        {
+            Activity testActivity = null;
+
+            // Create mock Activity for testing.
+            var tokenResponseActivity = new Activity { Type = ActivityTypes.Message, Value = new TokenResponse { Token = "test", ChannelId = Connector.Channels.Test, ConnectionName = "testevent" }, Name = "testevent", ChannelId = Connector.Channels.Test };
+
+            var convoState = new ConversationState(new MemoryStorage());
+            var dialogState = convoState.CreateProperty<DialogState>("dialogState");
+            var adapter = new TestAdapter()
+            .Use(new AutoSaveStateMiddleware(convoState));
+
+            var dialogs = new DialogSet(dialogState);
+
+            // Add MicrosoftAPPId to configuration
+            var listOfOauthConnections = new List<OAuthConnection> { new OAuthConnection { Name = "Test", Provider = "Test" } };
+            var steps = new WaterfallStep[]
+            {
+                    GetAuthTokenAsync,
+                    AfterGetAuthTokenAsync,
+            };
+
+            dialogs.Add(new MultiProviderAuthDialog(listOfOauthConnections, oauthCredentials: new MicrosoftAppCredentials("test", "test")));
+            dialogs.Add(new WaterfallDialog("Auth", steps));
+            BotCallbackHandler botCallbackHandler = async (turnContext, cancellationToken) =>
+            {
+                var dc = await dialogs.CreateContextAsync(turnContext, cancellationToken);
+
+                var results = await dc.ContinueDialogAsync(cancellationToken);
+                if (results.Status == DialogTurnStatus.Empty)
+                {
+                    await dc.PromptAsync("Auth", new PromptOptions(), cancellationToken: cancellationToken);
+                }
+                else if (results.Status == DialogTurnStatus.Complete)
+                {
+                    if (results.Result is TokenResponse)
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text("Logged in."), cancellationToken);
+                    }
+                    else
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text("Failed."), cancellationToken);
+                    }
+                }
+            };
+
+            await new TestFlow(adapter, botCallbackHandler)
+        .Send("hello")
+        .AssertReply(activity =>
+        {
+            Assert.AreEqual(1, ((Activity)activity).Attachments.Count);
+            Assert.AreEqual(OAuthCard.ContentType, ((Activity)activity).Attachments[0].ContentType);
+
+            Assert.AreEqual(InputHints.AcceptingInput, ((Activity)activity).InputHint);
+            testActivity = (Activity)activity;
+            var eventActivity = CreateEventResponse(adapter, activity, "Test", "test");
+            var ctx = new TurnContext(adapter, (Activity)eventActivity);
+            botCallbackHandler(ctx, CancellationToken.None);
+        })
+        .AssertReply(activity =>
+        {
+            var messageActivity = activity.AsMessageActivity();
+            Assert.IsNotNull(messageActivity);
+            Assert.AreEqual("Logged in.", messageActivity.Text);
+        })
+        .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task MultiProviderAuthDialog_OAuthTokenResponseNullUserId_Test()
         {
             Activity testActivity = null;
 

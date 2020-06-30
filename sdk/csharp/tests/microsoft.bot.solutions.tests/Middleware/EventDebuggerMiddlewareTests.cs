@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
@@ -11,6 +12,7 @@ namespace Microsoft.Bot.Solutions.Tests.Middleware
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class EventDebuggerMiddlewareTests
     {
         [TestMethod]

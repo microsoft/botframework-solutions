@@ -1,4 +1,5 @@
-﻿using System.Security.Policy;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Bot.Builder;
@@ -14,6 +15,7 @@ namespace Microsoft.Bot.Solutions.Tests.Util
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class UtilTests
     {
         [TestMethod]
