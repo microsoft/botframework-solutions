@@ -38,5 +38,13 @@ namespace Microsoft.Bot.Solutions.Feedback
         /// Tag for categorizing feedback.
         /// </value>
         public string Tag { get; set; }
+
+        /// <summary>
+        /// Gets or sets tag for categorizing feedback.
+        /// </summary>
+        /// <value>
+        /// Tag for categorizing feedback.
+        /// </value>
+        public string TeamsReaction { get; set; }
     }
 }

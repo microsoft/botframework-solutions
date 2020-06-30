@@ -19,7 +19,6 @@ namespace Microsoft.Bot.Solutions.Feedback
         private static IStatePropertyAccessor<FeedbackRecord> _feedbackAccessor;
         private static ConversationState _conversationState;
         private IBotTelemetryClient _telemetryClient;
-        private string _traceName = "Feedback";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeedbackMiddleware"/> class.
@@ -140,7 +139,7 @@ namespace Microsoft.Bot.Solutions.Feedback
                         await context.SendActivityAsync(_options.FeedbackReceivedMessage).ConfigureAwait(false);
 
                         // log feedback in appInsights
-                        LogFeedback(record);
+                        FeedbackHelper.LogFeedback(record, _telemetryClient);
 
                         // clear state
                         await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
@@ -153,7 +152,7 @@ namespace Microsoft.Bot.Solutions.Feedback
                     if (!string.IsNullOrEmpty(record.Feedback))
                     {
                         // log feedback in appInsights
-                        LogFeedback(record);
+                        FeedbackHelper.LogFeedback(record, _telemetryClient);
                     }
 
                     // clear state
@@ -170,7 +169,7 @@ namespace Microsoft.Bot.Solutions.Feedback
                     await context.SendActivityAsync(_options.CommentReceivedMessage).ConfigureAwait(false);
 
                     // log feedback in appInsights
-                    LogFeedback(record);
+                    FeedbackHelper.LogFeedback(record, _telemetryClient);
 
                     // clear state
                     await _feedbackAccessor.DeleteAsync(context).ConfigureAwait(false);
@@ -199,21 +198,6 @@ namespace Microsoft.Bot.Solutions.Feedback
                 _options.DismissAction,
             };
             return actions;
-        }
-
-        private void LogFeedback(FeedbackRecord record)
-        {
-            var properties = new Dictionary<string, string>()
-            {
-                { nameof(FeedbackRecord.Tag), record.Tag },
-                { nameof(FeedbackRecord.Feedback), record.Feedback },
-                { nameof(FeedbackRecord.Comment), record.Comment },
-                { nameof(FeedbackRecord.Request.Text), record.Request?.Text },
-                { nameof(FeedbackRecord.Request.Id), record.Request?.Conversation.Id },
-                { nameof(FeedbackRecord.Request.ChannelId), record.Request?.ChannelId },
-            };
-
-            _telemetryClient.TrackEvent(_traceName, properties);
         }
     }
 }
