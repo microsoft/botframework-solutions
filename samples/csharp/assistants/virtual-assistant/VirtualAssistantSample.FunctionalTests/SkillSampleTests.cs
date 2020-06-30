@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,40 +23,9 @@ namespace VirtualAssistantSample.FunctionalTests
         [TestMethod]
         public async Task Test_Sample_Utterance()
         {
-            await Assert_New_User_Greeting();
+            await new CoreTests().Assert_New_User_Greeting();
+
             await Assert_Utterance_Triggers_SkillSample();
-        }
-
-        /// <summary>
-        /// Assert that a new user is greeted with the onboarding prompt. 
-        /// </summary>
-        /// <param name="useComplexResponseWithName">Send user name only or included in "My name is X" message.</param>
-        /// <returns>Task.</returns>
-        public async Task Assert_New_User_Greeting(bool useComplexResponseWithName = true)
-        {
-            var profileState = new UserProfileState { Name = TestName };
-            var namePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
-            var haveNameMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
-
-            var conversation = await StartBotConversationAsync();
-
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
-            CollectionAssert.Contains(namePromptVariations as ICollection, responses[1].Text);
-
-            if (useComplexResponseWithName)
-            {
-                var myNameIsMessage = $"My name is {TestName}";
-                responses = await SendActivityAsync(conversation, CreateMessageActivity(myNameIsMessage));
-
-                CollectionAssert.Contains(haveNameMessageVariations as ICollection, responses[2].Text);
-            }
-            else
-            {
-                responses = await SendActivityAsync(conversation, CreateMessageActivity(TestName));
-
-                CollectionAssert.Contains(haveNameMessageVariations as ICollection, responses[2].Text);
-            }
         }
 
         /// <summary>

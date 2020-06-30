@@ -94,7 +94,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// </summary>
         /// <param name="useComplexInputWithName">Send user name only or included in "My name is X" message.</param>
         /// <returns>Task.</returns>
-        public async Task Assert_New_User_Greeting(bool useComplexInputWithName = true)
+        public async Task Assert_New_User_Greeting(bool useComplexInputWithName = false)
         {
             var profileState = new UserProfileState { Name = TestName };
             var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
