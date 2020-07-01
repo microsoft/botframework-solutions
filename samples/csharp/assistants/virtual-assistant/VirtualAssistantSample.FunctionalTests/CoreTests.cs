@@ -103,10 +103,14 @@ namespace VirtualAssistantSample.FunctionalTests
             var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
             var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
 
+            var newUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
+
             var conversation = await StartBotConversationAsync();
 
             var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0]?.Attachments?.Count);
+            Assert.AreEqual("application/vnd.microsoft.card.adaptive", responses[0]?.Attachments[0]?.ContentType);
+            var cardContent = JsonConvert.DeserializeObject<AdaptiveCard>(responses[0].Attachments[0].Content.ToString());
+            CollectionAssert.Contains(newUserIntroCardTitleVariations as ICollection, cardContent.Speak);
             CollectionAssert.Contains(allNamePromptVariations as ICollection, responses[1].Text);
 
             // Send user input of either name or "My name is X"
@@ -133,8 +137,7 @@ namespace VirtualAssistantSample.FunctionalTests
         public async Task Assert_Returning_User_Greeting()
         {
             var profileState = new UserProfileState { Name = TestName };
-            var returningUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("ReturningUserIntroCardTitle");
-
+            var returningUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("ReturningUserIntroCardTitle", profileState);
 
             var conversation = await StartBotConversationAsync();
 
