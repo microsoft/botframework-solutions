@@ -4,10 +4,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Tests;
 using VirtualAssistantSample.Tests.Utterances;
@@ -103,7 +106,7 @@ namespace VirtualAssistantSample.FunctionalTests
             var conversation = await StartBotConversationAsync();
 
             var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            Assert.AreEqual(1, responses[0]?.Attachments?.Count);
             CollectionAssert.Contains(allNamePromptVariations as ICollection, responses[1].Text);
 
             // Send user input of either name or "My name is X"
@@ -129,6 +132,10 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <returns>Task.</returns>
         public async Task Assert_Returning_User_Greeting()
         {
+            var profileState = new UserProfileState { Name = TestName };
+            var returningUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("ReturningUserIntroCardTitle");
+
+
             var conversation = await StartBotConversationAsync();
 
             // Returning user card and welcome message represent the first two messages
@@ -140,8 +147,9 @@ namespace VirtualAssistantSample.FunctionalTests
             Assert.AreEqual(ActivityTypes.Message, responses[1].GetActivityType());
 
             // First Activity should have an adaptive card response.
-            Assert.AreEqual(1, responses[0].Attachments.Count);
-            Assert.AreEqual("application/vnd.microsoft.card.adaptive", responses[0].Attachments[0].ContentType);
+            Assert.AreEqual("application/vnd.microsoft.card.adaptive", responses[0]?.Attachments[0]?.ContentType);
+            var cardContent = JsonConvert.DeserializeObject<AdaptiveCard>(responses[0].Attachments[0].Content.ToString());
+            CollectionAssert.Contains(returningUserIntroCardTitleVariations as ICollection, cardContent.Speak);
         }
 
         /// <summary>
@@ -206,7 +214,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <returns>Task.</returns>
         public async Task Assert_General_Escalate()
         {
-            var escalateMessageVariations = AllResponsesTemplates.ExpandTemplate("EscalateMessage");
+            var escalateMessageVariations = AllResponsesTemplates.ExpandTemplate("EscalatedText");
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
             var conversation = await StartBotConversationAsync();
@@ -219,6 +227,10 @@ namespace VirtualAssistantSample.FunctionalTests
             responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Escalate));
             Assert.AreEqual(1, responses[2].Attachments.Count);
             Assert.AreEqual("application/vnd.microsoft.card.hero", responses[2].Attachments[0].ContentType);
+
+            var cardContent = JsonConvert.DeserializeObject<HeroCard>(responses[2].Attachments[0].Content.ToString());
+            CollectionAssert.Contains(escalateMessageVariations as ICollection, cardContent.Subtitle);
+
             CollectionAssert.Contains(firstPromptVariations as ICollection, responses[3].Text);
         }
 
@@ -228,7 +240,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <returns>Task.</returns>
         public async Task Assert_General_Help()
         {
-            var helpMessageVariations = AllResponsesTemplates.ExpandTemplate("HelpCard");
+            var helpMessageVariations = AllResponsesTemplates.ExpandTemplate("HelpText");
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
             var conversation = await StartBotConversationAsync();
@@ -241,6 +253,8 @@ namespace VirtualAssistantSample.FunctionalTests
             responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Help));
             Assert.AreEqual(1, responses[2].Attachments.Count);
             Assert.AreEqual("application/vnd.microsoft.card.hero", responses[2].Attachments[0].ContentType);
+            var cardContent = JsonConvert.DeserializeObject<HeroCard>(responses[2].Attachments[0].Content.ToString());
+            CollectionAssert.Contains(helpMessageVariations as ICollection, cardContent.Subtitle);
             CollectionAssert.Contains(firstPromptVariations as ICollection, responses[3].Text);
         }
 
