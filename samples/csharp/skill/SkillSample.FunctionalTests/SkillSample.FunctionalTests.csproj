@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkillSample.Tests\SkillSample.Tests.csproj" />
+    <ProjectReference Include="..\SkillSample\SkillSample.csproj" />
   </ItemGroup>
 
 </Project>

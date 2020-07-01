@@ -61,6 +61,15 @@ namespace SkillSample.Tests.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SampleAction.
+        /// </summary>
+        public static string EventName {
+            get {
+                return ResourceManager.GetString("EventName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Test name.
         /// </summary>
         public static string NamePromptResponse {
@@ -70,7 +79,7 @@ namespace SkillSample.Tests.Utterances {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to test.
+        ///   Looks up a localized string similar to sample dialog.
         /// </summary>
         public static string Trigger {
             get {

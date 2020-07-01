@@ -38,35 +38,30 @@ namespace VirtualAssistantSample.FunctionalTests
         [TestMethod]
         public async Task Test_QnAMaker_ChitChat()
         {
-            await Assert_New_User_Greeting();
             await Assert_QnA_ChitChat_Responses();
         }
 
         [TestMethod]
         public async Task Test_QnAMaker_FAQ()
         {
-            await Assert_New_User_Greeting();
             await Assert_QnA_FAQ_Responses();
         }
 
         [TestMethod]
         public async Task Test_General_Cancel()
         {
-            await Assert_New_User_Greeting();
             await Assert_General_Cancel();
         }
 
         [TestMethod]
         public async Task Test_General_Escalate()
         {
-            await Assert_New_User_Greeting();
             await Assert_General_Escalate();
         }
 
         [TestMethod]
         public async Task Test_General_Help()
         {
-            await Assert_New_User_Greeting();
             await Assert_General_Help();
 
         }
@@ -74,21 +69,18 @@ namespace VirtualAssistantSample.FunctionalTests
         [TestMethod]
         public async Task Test_General_Logout()
         {
-            await Assert_New_User_Greeting();
             await Assert_General_Logout();
         }
 
         [TestMethod]
         public async Task Test_General_Repeat()
         {
-            await Assert_New_User_Greeting();
             await Assert_General_Repeat();
         }
 
         [TestMethod]
         public async Task Test_General_StartOver()
         {
-            await Assert_New_User_Greeting();
             await Assert_General_StartOver();
         }
 
@@ -97,12 +89,11 @@ namespace VirtualAssistantSample.FunctionalTests
         /// </summary>
         /// <param name="useComplexInputWithName">Send user name only or included in "My name is X" message.</param>
         /// <returns>Task.</returns>
-        public async Task Assert_New_User_Greeting(bool useComplexInputWithName = false)
+        public async Task<Conversation> Assert_New_User_Greeting(bool useComplexInputWithName = false)
         {
             var profileState = new UserProfileState { Name = TestName };
             var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
             var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
-
             var newUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle");
 
             var conversation = await StartBotConversationAsync();
@@ -127,6 +118,8 @@ namespace VirtualAssistantSample.FunctionalTests
 
                 CollectionAssert.Contains(allHaveMessageVariations as ICollection, responses[2].Text);
             }
+
+            return conversation;
         }
 
         /// <summary>
@@ -143,11 +136,6 @@ namespace VirtualAssistantSample.FunctionalTests
 
             // Returning user card and welcome message represent the first two messages
             var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(2, responses.Count);
-
-            // Both should be message Activities.
-            Assert.AreEqual(ActivityTypes.Message, responses[0].GetActivityType());
-            Assert.AreEqual(ActivityTypes.Message, responses[1].GetActivityType());
 
             // First Activity should have an adaptive card response.
             Assert.AreEqual("application/vnd.microsoft.card.adaptive", responses[0]?.Attachments[0]?.ContentType);
@@ -162,15 +150,11 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <returns>Task.</returns>
         public async Task Assert_QnA_ChitChat_Responses()
         {
-            var conversation = await StartBotConversationAsync();
-
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            var conversation = await Assert_New_User_Greeting();
 
             // Chit-chat response
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.ChitChat));
-            Assert.AreEqual(responses[2].Text, "I don't have a name.");
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.ChitChat));
+            Assert.AreEqual("I don't have a name.", responses[4].Text);
         }
 
         /// <summary>
@@ -180,15 +164,11 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <returns>Task.</returns>
         public async Task Assert_QnA_FAQ_Responses()
         {
-            var conversation = await StartBotConversationAsync();
-
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            var conversation = await Assert_New_User_Greeting();
 
             // FAQ response
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.FAQ));
-            Assert.AreEqual(responses[2].Text, "Raise an issue on the [GitHub repo](https://aka.ms/virtualassistant)");
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.FAQ));
+            Assert.AreEqual("Raise an issue on the [GitHub repo](https://aka.ms/virtualassistant)", responses[4].Text);
         }
 
         /// <summary>
@@ -200,15 +180,11 @@ namespace VirtualAssistantSample.FunctionalTests
             var cancelledMessageVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage");
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
-            var conversation = await StartBotConversationAsync();
+            var conversation = await Assert_New_User_Greeting();
 
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
-
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Cancel));
-            CollectionAssert.Contains(cancelledMessageVariations as ICollection, responses[2].Text);
-            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[3].Text);
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Cancel));
+            CollectionAssert.Contains(cancelledMessageVariations as ICollection, responses[4].Text);
+            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[5].Text);
         }
 
         /// <summary>
@@ -220,21 +196,16 @@ namespace VirtualAssistantSample.FunctionalTests
             var escalateMessageVariations = AllResponsesTemplates.ExpandTemplate("EscalatedText");
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
-            var conversation = await StartBotConversationAsync();
-
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            var conversation = await Assert_New_User_Greeting();
 
             // Assert that escalate hero card is returned
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Escalate));
-            Assert.AreEqual(1, responses[2].Attachments.Count);
-            Assert.AreEqual("application/vnd.microsoft.card.hero", responses[2].Attachments[0].ContentType);
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Escalate));
+            Assert.AreEqual(1, responses[4].Attachments.Count);
+            Assert.AreEqual("application/vnd.microsoft.card.hero", responses[4].Attachments[0].ContentType);
 
-            var cardContent = JsonConvert.DeserializeObject<HeroCard>(responses[2].Attachments[0].Content.ToString());
+            var cardContent = JsonConvert.DeserializeObject<HeroCard>(responses[4].Attachments[0].Content.ToString());
             CollectionAssert.Contains(escalateMessageVariations as ICollection, cardContent.Subtitle);
-
-            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[3].Text);
+            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[5].Text);
         }
 
         /// <summary>
@@ -246,19 +217,15 @@ namespace VirtualAssistantSample.FunctionalTests
             var helpMessageVariations = AllResponsesTemplates.ExpandTemplate("HelpText");
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
-            var conversation = await StartBotConversationAsync();
-
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            var conversation = await Assert_New_User_Greeting();
 
             // Assert that help hero card is returned
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Help));
-            Assert.AreEqual(1, responses[2].Attachments.Count);
-            Assert.AreEqual("application/vnd.microsoft.card.hero", responses[2].Attachments[0].ContentType);
-            var cardContent = JsonConvert.DeserializeObject<HeroCard>(responses[2].Attachments[0].Content.ToString());
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Help));
+            Assert.AreEqual(1, responses[4].Attachments.Count);
+            Assert.AreEqual("application/vnd.microsoft.card.hero", responses[4].Attachments[0].ContentType);
+            var cardContent = JsonConvert.DeserializeObject<HeroCard>(responses[4].Attachments[0].Content.ToString());
             CollectionAssert.Contains(helpMessageVariations as ICollection, cardContent.Subtitle);
-            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[3].Text);
+            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[5].Text);
         }
 
         /// <summary>
@@ -271,16 +238,12 @@ namespace VirtualAssistantSample.FunctionalTests
             var logoutMessageVariations = AllResponsesTemplates.ExpandTemplate("LogoutMessage", profileState);
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
-            var conversation = await StartBotConversationAsync();
-
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            var conversation = await Assert_New_User_Greeting();
 
             // Assert that logout response is returned
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Logout));
-            CollectionAssert.Contains(logoutMessageVariations as ICollection, responses[2].Text);
-            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[3].Text);
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Logout));
+            CollectionAssert.Contains(logoutMessageVariations as ICollection, responses[4].Text);
+            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[5].Text);
         }
 
         /// <summary>
@@ -291,15 +254,11 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
-            var conversation = await StartBotConversationAsync();
-
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            var conversation = await Assert_New_User_Greeting();
 
             // Assert that repeat response is returned
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Repeat));
-            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[2].Text);
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.Repeat));
+            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[5].Text);
         }
 
         /// <summary>
@@ -311,16 +270,12 @@ namespace VirtualAssistantSample.FunctionalTests
             var startOverMessageVariations = AllResponsesTemplates.ExpandTemplate("StartOverMessage");
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
-            var conversation = await StartBotConversationAsync();
-
-            // Returning user card and welcome message represent the first two messages
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
+            var conversation = await Assert_New_User_Greeting();
 
             // Assert that start over response is returned
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.StartOver));
-            CollectionAssert.Contains(startOverMessageVariations as ICollection, responses[2].Text);
-            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[3].Text);
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.StartOver));
+            CollectionAssert.Contains(startOverMessageVariations as ICollection, responses[4].Text);
+            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[5].Text);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace SkillSample.FunctionalTests
     {
         protected static readonly string TestName = "Jane Doe";
 
-        private static string _directLineSecret = string.Empty;
-        private static string _botId = string.Empty;
+        private static string _directLineSecret = "2tV9Y_8IYKI.ZRBhqyqJSFd1IQH4fJrHmA2OydbeHY7AboQ9NkKFoeg";
+        private static string _botId = "SkillFunctionalTest-sg3wqo2";
         private static DirectLineClient _client;
         private static string _userID;
 
@@ -34,6 +34,7 @@ namespace SkillSample.FunctionalTests
         /// Return a Start Conversation event with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
         /// </summary>
         /// <param name="fromUser">User identifier used for the conversation and activities.</param>
+        /// <returns>Event Activity with name startConversation.</returns>
         protected static Activity CreateStartConversationEvent()
         {
             // An event activity to trigger the welcome message (method for using custom Web Chat).
@@ -44,12 +45,15 @@ namespace SkillSample.FunctionalTests
         /// Return a Message Activity with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
         /// </summary>
         /// <param name="name">Name for Event Activity.</param>
-        protected static Activity CreateEventActivity(string name)
+        /// <param name="value">Value for Event Activity.</param>
+        /// <returns>Event Activity with specified name.</returns>
+        protected static Activity CreateEventActivity(string name, object value = null)
         {
             return new Activity
             {
                 From = new ChannelAccount(_userID, TestName),
                 Name = name,
+                Value = value,
                 Type = ActivityTypes.Event
             };
         }
@@ -58,6 +62,7 @@ namespace SkillSample.FunctionalTests
         /// Return a Message Activity with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
         /// </summary>
         /// <param name="text">Text for Message Activity.</param>
+        /// <returns>Message Activity with specified text.</returns>
         protected static Activity CreateMessageActivity(string text)
         {
             return new Activity
@@ -71,7 +76,7 @@ namespace SkillSample.FunctionalTests
         /// <summary>
         /// Starts a conversation with a bot.
         /// </summary>
-        /// <returns>Returns the new conversation.</returns>
+        /// <returns>Direct Line Conversation object.</returns>
         protected static async Task<Conversation> StartBotConversationAsync()
         {
             // Start the conversation.
@@ -99,7 +104,7 @@ namespace SkillSample.FunctionalTests
         /// <param name="client">The Direct Line client.</param>
         /// <param name="conversationId">The conversation ID.</param>
         /// <returns>Returns the bot's answer.</returns>
-        private static async Task<List<Activity>> ReadBotMessagesAsync(DirectLineClient client, string conversationId)
+        protected static async Task<List<Activity>> ReadBotMessagesAsync(DirectLineClient client, string conversationId)
         {
             string watermark = null;
             List<Activity> botResponses = null;

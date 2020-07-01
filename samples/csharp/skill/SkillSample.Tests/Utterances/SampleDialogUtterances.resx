@@ -117,10 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EventName" xml:space="preserve">
+    <value>SampleAction</value>
+  </data>
   <data name="NamePromptResponse" xml:space="preserve">
     <value>Test name</value>
   </data>
   <data name="Trigger" xml:space="preserve">
-    <value>test</value>
+    <value>sample dialog</value>
   </data>
 </root>

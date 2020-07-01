@@ -31,6 +31,17 @@ namespace SkillSample.Tests
 
         public LocaleTemplateManager TemplateEngine { get; set; }
 
+        protected Templates AllResponsesTemplates
+        {
+            get
+            {
+                var path = CultureInfo.CurrentUICulture.Name.ToLower() == "en-us" ?
+                    Path.Combine(".", "Responses", $"AllResponses.lg") :
+                    Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
+                return Templates.ParseFile(path);
+            }
+        }
+
         [TestInitialize]
         public virtual void InitializeSkill()
         {

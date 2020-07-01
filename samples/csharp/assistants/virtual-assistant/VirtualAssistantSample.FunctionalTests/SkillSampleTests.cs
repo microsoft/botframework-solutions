@@ -23,13 +23,11 @@ namespace VirtualAssistantSample.FunctionalTests
         [TestMethod]
         public async Task Test_Sample_Utterance()
         {
-            await new CoreTests().Assert_New_User_Greeting();
-
             await Assert_Utterance_Triggers_SkillSample();
         }
 
         /// <summary>
-        /// Assert that a connected SKillSample is triggered by a sample utterance and completes the VA dialog.
+        /// Assert that a connected SkillSample is triggered by a sample utterance and completes the VA dialog.
         /// </summary>
         /// <returns>Task.</returns>
         public async Task Assert_Utterance_Triggers_SkillSample()
@@ -37,17 +35,12 @@ namespace VirtualAssistantSample.FunctionalTests
             var profileState = new UserProfileState { Name = TestName };
             var namePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
             var haveNameMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
-            var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
             var completedMessageVariations = AllResponsesTemplates.ExpandTemplate("CompletedMessage");
 
-            var conversation = await StartBotConversationAsync();
-
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            Assert.AreEqual(1, responses[0].Attachments.Count);
-            CollectionAssert.Contains(firstPromptVariations as ICollection, responses[1].Text);
+            var conversation = await new CoreTests().Assert_New_User_Greeting();
 
             // Assert Skill is triggered by sample utterance
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.SkillSample));
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.SkillSample));
             CollectionAssert.Contains(namePromptVariations as ICollection, responses[2].Text);
 
             responses = await SendActivityAsync(conversation, CreateMessageActivity(TestName));

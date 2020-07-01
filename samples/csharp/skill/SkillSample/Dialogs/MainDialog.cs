@@ -24,6 +24,7 @@ namespace SkillSample.Dialogs
         private readonly SampleDialog _sampleDialog;
         private readonly SampleAction _sampleAction;
         private readonly LocaleTemplateManager _templateEngine;
+        private object validator;
 
         public MainDialog(
             IServiceProvider serviceProvider)
@@ -40,7 +41,7 @@ namespace SkillSample.Dialogs
             };
 
             AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
-            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new EventActivityPrompt(nameof(EventActivityPrompt), Validator));
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
@@ -48,6 +49,17 @@ namespace SkillSample.Dialogs
             _sampleAction = serviceProvider.GetService<SampleAction>();
             AddDialog(_sampleDialog);
             AddDialog(_sampleAction);
+        }
+
+        private async Task<bool> Validator(PromptValidatorContext<Activity> promptContext, CancellationToken cancellationToken)
+        {
+            var activity = promptContext.Context.Activity;
+            if ((activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))|| activity.Type == ActivityTypes.Event)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         // Runs when the dialog is started.
@@ -192,7 +204,7 @@ namespace SkillSample.Dialogs
                 Prompt = stepContext.Options as Activity ?? _templateEngine.GenerateActivityForLocale("FirstPromptMessage")
             };
 
-            return await stepContext.PromptAsync(nameof(TextPrompt), promptOptions, cancellationToken);
+            return await stepContext.PromptAsync(nameof(EventActivityPrompt), promptOptions, cancellationToken);
         }
 
         // Handles routing to additional dialogs logic.
