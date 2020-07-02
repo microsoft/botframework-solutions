@@ -194,7 +194,7 @@ try {
     }
 
     const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateManager);
-    const customDialog: CustomDialog = new CustomDialog(userProfileStateAccesor, botServices, localeTemplateManager, skillsConfiguration, activeSkillProperty);
+    const customDialog: CustomDialog = new CustomDialog(userProfileStateAccesor, botServices, localeTemplateManager, skillDialogs, skillsConfiguration, activeSkillProperty);
     const mainDialog: MainDialog = new MainDialog(
         botServices,
         localeTemplateManager,

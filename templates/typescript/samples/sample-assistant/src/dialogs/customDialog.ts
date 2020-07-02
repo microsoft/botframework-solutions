@@ -21,7 +21,7 @@ import { LuisRecognizer } from 'botbuilder-ai';
 import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'botframework-schema';
 
 enum DialogIds {
-    NamePrompt = 'namePrompt',
+    customNamePrompt = 'customNamePrompt',
 }
 
 // Example onboarding dialog to initial user profile information.
@@ -36,6 +36,7 @@ export class CustomDialog extends ComponentDialog {
         accessor: StatePropertyAccessor<IUserProfileState>,
         services: BotServices,
         templateManager: LocaleTemplateManager,
+        skillDialogs: SkillDialog[],
         skillsConfig: SkillsConfiguration,
         activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>) {
         super(CustomDialog.name);
@@ -54,7 +55,12 @@ export class CustomDialog extends ComponentDialog {
         this.activeSkillProperty = activeSkillProperty;
 
         this.addDialog(new WaterfallDialog(CustomDialog.name, onboarding));
-        this.addDialog(new TextPrompt(DialogIds.NamePrompt));
+        this.addDialog(new TextPrompt(DialogIds.customNamePrompt));
+
+        // Register skill dialogs
+        skillDialogs.forEach((skillDialog: SkillDialog): void => {
+            this.addDialog(skillDialog);
+        });
     }
 
     // public async notice(sc: WaterfallStepContext): Promise<DialogTurnResult> {
