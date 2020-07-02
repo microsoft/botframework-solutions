@@ -4,7 +4,7 @@ Follow these [steps](https://microsoft.github.io/botframework-solutions/solution
 Currently, adding this YAML in your Azure DevOps organization enables you to **validate** the following scenarios using the last preview version of the packages from the daily builds:
 - Use of [dispatch](https://botbuilder.myget.org/feed/botbuilder-tools-daily/package/npm/botdispatch), [luis-apis](https://botbuilder.myget.org/feed/botbuilder-tools-daily/package/npm/luis-apis) and [botskills](https://botbuilder.myget.org/feed/aitemplates/package/npm/botskills)
 - Use of [@microsoft/botframework-cli](https://botbuilder.myget.org/feed/botframework-cli/package/npm/@microsoft/botframework-cli)
-- Use of [SDK](https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily) incoporated in the TypeScript Virtual Assistant
+- Use of [SDK](https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily) incorporated in the TypeScript Virtual Assistant
 - Use of [generator-bot-virtualassistant](https://botbuilder.myget.org/feed/aitemplates/package/npm/generator-bot-virtualassistant)
 - Deployment of the TypeScript Virtual Assistant
 - Communication with the TypeScript Virtual Assistant
