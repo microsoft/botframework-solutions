@@ -125,7 +125,7 @@ namespace VirtualAssistantSample.FunctionalTests
                 }
 
                 // Wait for one second before polling the bot again.
-                await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+                await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
 
                 return botResponses;
             }
