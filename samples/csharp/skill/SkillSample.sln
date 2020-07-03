@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillSample", "SkillSample\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillSample.Tests", "SkillSample.Tests\SkillSample.Tests.csproj", "{83C5C21E-1F3A-483E-8C4C-1FC61F1AB4E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillSample.FunctionalTests", "SkillSample.FunctionalTests\SkillSample.FunctionalTests.csproj", "{A3C44791-A622-4943-8F73-26D71E54A747}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{83C5C21E-1F3A-483E-8C4C-1FC61F1AB4E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83C5C21E-1F3A-483E-8C4C-1FC61F1AB4E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83C5C21E-1F3A-483E-8C4C-1FC61F1AB4E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3C44791-A622-4943-8F73-26D71E54A747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3C44791-A622-4943-8F73-26D71E54A747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3C44791-A622-4943-8F73-26D71E54A747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3C44791-A622-4943-8F73-26D71E54A747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
