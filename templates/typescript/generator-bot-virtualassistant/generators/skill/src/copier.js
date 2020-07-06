@@ -88,10 +88,6 @@ class Copier {
       join(`src`, `manifest`, `_manifest-1.1.json`),
       join(`src`, `manifest`, `manifest-1.1.json`)
     );
-    templateFiles.set(
-      join(`test`, `mocks`, `resources`, `_cognitiveModels.json`),
-      join(`test`, `mocks`, `resources`, `cognitiveModels.json`)
-    );
     selectedLanguages.forEach(language => {
       templateFiles.set(
         join(`deployment`, `resources`, `LU`, language, `_skill.lu`),
