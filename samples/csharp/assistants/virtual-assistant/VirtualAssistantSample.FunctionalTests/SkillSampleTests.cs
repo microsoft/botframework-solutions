@@ -31,6 +31,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that a connected SkillSample is triggered by a sample utterance and completes the VA dialog.
         /// </summary>
+        /// <returns>Task.</returns>
         public async Task Assert_Utterance_Triggers_SkillSample()
         {
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };

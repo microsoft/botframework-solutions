@@ -54,7 +54,7 @@ namespace VirtualAssistantSample.FunctionalTests
             // that token to create the directline client.
             // What this gives us is the ability to pass TrustedOrigins when obtaining the token,
             // which tests the enhanced authentication.
-            // This endpoint is unfortunately not supported by the directline client which is 
+            // This endpoint is unfortunately not supported by the directline client which is
             // why we add this custom code.
             using (HttpClient client = new HttpClient())
             {
@@ -216,7 +216,7 @@ namespace VirtualAssistantSample.FunctionalTests
             return activitySet == null ? null : activitySet?.Activities?.Where(activity => activity.From.Id == this.config.BotId && activity.Type == ActivityTypes.Message);
         }
 
-        public async Task VerifyAdaptiveCard(IEnumerable<object> expected, Activity adaptiveCard, CancellationToken cancellationToken = default(CancellationToken))
+        public void VerifyAdaptiveCard(IEnumerable<object> expected, Activity adaptiveCard, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (adaptiveCard == null)
             {
@@ -243,7 +243,7 @@ namespace VirtualAssistantSample.FunctionalTests
             Assert.IsTrue(expected.Any(e => card.Speak.Contains(e.ToString(), StringComparison.OrdinalIgnoreCase)));
         }
 
-        public async Task VerifyHeroCard(IEnumerable<object> expected, Activity heroCard, CancellationToken cancellationToken = default(CancellationToken))
+        public void VerifyHeroCard(IEnumerable<object> expected, Activity heroCard, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (heroCard == null)
             {
@@ -270,7 +270,7 @@ namespace VirtualAssistantSample.FunctionalTests
             Assert.IsTrue(expected.Any(e => card.Subtitle.Contains(e.ToString(), StringComparison.OrdinalIgnoreCase)));
         }
 
-        public async Task SignInAndVerifyOAuthAsync(Activity oAuthCard, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task SignInAndVerifyOAuthAsync(Activity oauthCard, CancellationToken cancellationToken = default(CancellationToken))
         {
             // We obtained what we think is an OAuthCard. Steps to follow:
             // 1- Verify we have a sign in link
@@ -281,16 +281,16 @@ namespace VirtualAssistantSample.FunctionalTests
             // 4- Verify final redirect to token service ends up in success
 
             // 1- Verify we have a sign in link in the activity
-            if (oAuthCard == null)
+            if (oauthCard == null)
             {
                 throw new Exception("OAuthCard is null");
             }
-            else if (oAuthCard.Attachments == null)
+            else if (oauthCard.Attachments == null)
             {
                 throw new Exception("OAuthCard.Attachments = null");
             }
 
-            var card = JsonConvert.DeserializeObject<SigninCard>(JsonConvert.SerializeObject(oAuthCard.Attachments.FirstOrDefault().Content));
+            var card = JsonConvert.DeserializeObject<SigninCard>(JsonConvert.SerializeObject(oauthCard.Attachments.FirstOrDefault().Content));
 
             if (card == null)
             {
@@ -385,7 +385,6 @@ namespace VirtualAssistantSample.FunctionalTests
 
                 // We want to add the Origins header to this client as well
                 client.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);
-
 
                 using (var response = await client.SendAsync(request))
                 {

@@ -104,8 +104,11 @@ namespace VirtualAssistantSample.FunctionalTests
         }
 
         /// <summary>
-        /// Assert that a new user is greeted with the onboarding prompt.
+        /// Assert that a new user is greeted and begins onboarding prompt.
         /// </summary>
+        /// <param name="cancellationTokenSource">CancellationTokenSource.</param>
+        /// <param name="testBot">TestBotClient.</param>
+        /// <param name="useComplexInputWithName">Boolean flag to determine user response to onboarding prompt.</param>
         /// <returns>Task.</returns>
         public async Task Assert_New_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot, bool useComplexInputWithName = false)
         {
@@ -124,7 +127,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            await testBot.VerifyAdaptiveCard(newUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.VerifyAdaptiveCard(newUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
 
             // Send user input of either name or "My name is X"
             if (useComplexInputWithName)
@@ -139,6 +142,12 @@ namespace VirtualAssistantSample.FunctionalTests
             }
         }
 
+        /// <summary>
+        /// Assert that a returning user is greeted.
+        /// </summary>
+        /// <param name="cancellationTokenSource">CancellationTokenSource.</param>
+        /// <param name="testBot">TestBotClient.</param>
+        /// <returns>Task.</returns>
         private async Task Assert_Returning_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot)
         {
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
@@ -153,7 +162,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            await testBot.VerifyAdaptiveCard(returningUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.VerifyAdaptiveCard(returningUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
         }
 
         /// <summary>
@@ -222,7 +231,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            await testBot.VerifyHeroCard(escalateMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.VerifyHeroCard(escalateMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
         }
 
         /// <summary>
@@ -243,7 +252,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            await testBot.VerifyHeroCard(helpMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.VerifyHeroCard(helpMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
         }
 
         /// <summary>
