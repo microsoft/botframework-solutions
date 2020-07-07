@@ -57,7 +57,7 @@ function UpdateLUIS ($luFile, $appId, $endpoint, $subscriptionKey, $culture, $ve
 {
    $id = $luFile.BaseName
     $outFile = Join-Path $luFile.DirectoryName "$($id).json"
-
+    $appName = "$($name)$($culture)_$($id)"
 
     Write-Host "> Getting hosted $($culture) $($id) LUIS model settings..." -NoNewline
     $luisApp = bf luis:application:show `

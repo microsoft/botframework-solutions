@@ -32,7 +32,7 @@ export class ChildProcessUtils {
             childProcess.exec(
                 `${ command } ${ args.join(' ') }`,
                 (err: childProcess.ExecException | null, stdout: string, stderr: string): void => {
-                    if (stderr && !stderr.includes('Update available')) {
+                    if (stderr && !stderr.includes('Update available') && !stderr.toLowerCase().includes('warning')) {
                         pReject(stderr);
                     }
                     pResolve(stdout);

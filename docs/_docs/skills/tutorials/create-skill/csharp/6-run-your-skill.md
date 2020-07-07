@@ -26,4 +26,4 @@ After deployment, you and run and test your Skill project using these steps:
 
 1. Congratulations, you've built and run your first skill!
 
-    ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-greetingemulator.png)
+    ![]({{site.baseurl}}/assets/images/quickstart-skill-greetingemulator.png)

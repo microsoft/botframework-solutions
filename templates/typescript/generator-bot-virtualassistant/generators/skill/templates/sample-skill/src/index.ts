@@ -19,10 +19,7 @@ import {
     Dialog } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
-    Locales,
     LocaleTemplateManager } from 'bot-solutions';
-import i18next from 'i18next';
-import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
 import { DefaultAdapter } from './adapters';
@@ -35,17 +32,6 @@ import { SampleAction } from './dialogs/sampleAction';
 import { SkillState } from './models/skillState';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
-
-// Configure internationalization and default locale
-i18next.use(i18nextNodeFsBackend)
-    .init({
-        lowerCaseLng: true,
-        fallbackLng: 'en-us',
-        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn']
-    })
-    .then(async (): Promise<void> => {
-        await Locales.addResourcesFromPath(i18next, 'common');
-    });
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;

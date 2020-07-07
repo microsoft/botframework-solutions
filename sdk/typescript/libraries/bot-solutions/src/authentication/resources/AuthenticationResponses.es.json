@@ -43,5 +43,32 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Un token no se pudo recuperar para {authType}, por favor vincule su cuenta a su asistente y vuelva a intentarlo",
+        "speak": "Un token no se pudo recuperar para {authType}, por favor vincule su cuenta a su asistente y vuelva a intentarlo"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "Iniciar sesión",
+        "speak": "Iniciar sesión"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "Inicia sesión en tu cuenta de {authType}",
+        "speak": "Inicia sesión en tu cuenta de {authType}"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

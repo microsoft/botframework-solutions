@@ -129,48 +129,16 @@ namespace VirtualAssistantSample.Bots
             }
         }
 
-            public Task<TaskModuleResponse> OnTeamsTaskModuleFetch(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
-        {
-            return this.OnTeamsTaskModuleFetchAsync(turnContext, taskModuleRequest, cancellationToken);
-        }
-
-        protected override async Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
-        {
-            try
-            {
-                // Get Skill From TaskInvoke
-                var skillId = (turnContext.Activity as Activity).AsInvokeActivity().GetSkillId(_logger);
-                var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
-
-                // Forward request to correct skill
-                //var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
-                var invokeResponse = new InvokeResponse
-                {
-                    Body = JsonConvert.DeserializeObject<JObject>("{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n   \"AppId\": \"TestSkill\",\r\n    \"Submit\": true\r\n    },\r\n    \"task\": \"continue\",\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}"),
-                    Status = 200
-                };
-
-                var test = invokeResponse.GetTaskModuleResponse();
-                return invokeResponse;
-            }
-            catch
-            {
-                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
-                throw;
-            }
-        }
-
-
         // Invoked when a "task/fetch" event is received to invoke task module.
-        protected override Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+        protected override async Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            return this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
+            return await this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
         }
 
         // Invoked when a 'task/submit' invoke activity is received for task module submit actions.
-        protected override Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+        protected override async Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            return this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
+            return await this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
         }
 
         protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
@@ -184,64 +152,26 @@ namespace VirtualAssistantSample.Bots
             {
                 // Get Skill From TaskInvoke
                 var skillId = (turnContext.Activity as Activity).AsInvokeActivity().GetSkillId(_logger);
-                var skill = _skillsConfig.Skills.Where(s => s.Key == skillId).FirstOrDefault().Value;
+                var skill = _skillsConfig.Skills.Where(s => s.Value.AppId == skillId).FirstOrDefault().Value;
 
                 // Forward request to correct skill
-                //var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
-                var invokeResponse = new InvokeResponse
+                var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
+
+                // Temporary workaround to get correct invokeresponse
+                // issue: https://github.com/microsoft/botframework-sdk/issues/5929
+                var response = new InvokeResponse()
                 {
-                    Body = JsonConvert.DeserializeObject<JObject>("{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n   \"AppId\": \"TestSkill\",\r\n    \"Submit\": true\r\n    },\r\n    \"task\": \"continue\",\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}"),
-                    Status = 200
+                    Status = invokeResponse.Status,
+                    Body = ((Microsoft.Bot.Builder.InvokeResponse<object>)invokeResponse).Body
                 };
-                return invokeResponse.GetTaskModuleResponse();
+
+                return response.GetTaskModuleResponse();
             }
             catch
             {
                 await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
                 throw;
             }
-        }
-
-        private Attachment GetTaskModuleHeroCard()
-        {
-            return new HeroCard()
-            {
-                Title = "Task Module Invocation from Hero Card",
-                Subtitle = "This is a hero card with a Task Module Action button.  Click the button to show an Adaptive Card within a Task Module.",
-                Buttons = new List<CardAction>()
-                    {
-                        new TaskModuleAction("Adaptive Card", new { data = "adaptivecard" }),
-                    },
-            }.ToAttachment();
-        }
-
-        private static AdaptiveCard CreateAdapiveCardAttachment()
-        {
-            // combine path for cross platform support
-            string[] paths = { ".", "Deployment\\Resources", "adaptiveCard.json" };
-            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
-
-            var adaptiveCard = JsonConvert.DeserializeObject<AdaptiveCard>(adaptiveCardJson);
-
-            //var adaptiveCardAttachment = new Attachment()
-            //{
-            //    ContentType = "application/vnd.microsoft.card.adaptive",
-            //    Content = JsonConvert.DeserializeObject(adaptiveCardJson),
-            //};
-
-            adaptiveCard.Actions.Add(new AdaptiveSubmitAction()
-            {
-                Title = "SubmitCard",
-                Data = new AdaptiveCardValue<TaskModuleMetadata>()
-                {
-                    Data = new TaskModuleMetadata()
-                    {
-                        SkillId = "Test",
-                        TaskModuleFlowType = "Test",
-                    }
-                }
-            });
-            return adaptiveCard;
         }
     }
 }

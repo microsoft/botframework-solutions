@@ -21,15 +21,12 @@ import { CosmosDbPartitionedStorage, CosmosDbPartitionedStorageOptions } from 'b
 import { Dialog, SkillDialog, SkillDialogOptions } from 'botbuilder-dialogs';
 import {
     ICognitiveModelConfiguration,
-    Locales,
     LocaleTemplateManager,
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
     SkillsConfiguration, 
     SkillConversationIdFactory } from 'bot-solutions';
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
-import i18next from 'i18next';
-import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
 import { DefaultAdapter } from './adapters/defaultAdapter';
@@ -44,20 +41,6 @@ import { Activity } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState';
 import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
-
-// Configure internationalization and default locale
-i18next.use(i18nextNodeFsBackend)
-    .init({
-        lowerCaseLng: true,
-        fallbackLng: 'en-us',
-        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
-        backend: {
-            loadPath: join(__dirname, 'locales', '{{lng}}.json')
-        }
-    })
-    .then(async (): Promise<void> => {
-        await Locales.addResourcesFromPath(i18next, 'common');
-    });
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
@@ -76,7 +59,6 @@ const botSettings: Partial<IBotSettings> = {
     microsoftAppId: appsettings.microsoftAppId,
     microsoftAppPassword: appsettings.microsoftAppPassword
 };
-
 function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
     if (settings !== undefined && settings.appInsights !== undefined && settings.appInsights.instrumentationKey !== undefined) {
         const instrumentationKey: string = settings.appInsights.instrumentationKey;
@@ -160,7 +142,6 @@ try {
     const onboardingDialog: OnboardingDialog = new OnboardingDialog(userProfileStateAccesor, botServices, localeTemplateManager);
     const switchSkillDialog: SwitchSkillDialog = new SwitchSkillDialog(conversationState);
     const previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]> = userState.createProperty<Partial<Activity>[]>('Activity');
-
     const activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill> = conversationState.createProperty<BotFrameworkSkill>(MainDialog.activeSkillPropertyName);
     let skillDialogs: SkillDialog[] = [];
     // Register the SkillDialogs (remote skills).

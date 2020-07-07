@@ -22,7 +22,7 @@ To add your new Skill to your assistant we provide the [botskills](https://www.n
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --cs
+botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --cs --luisFolder "path-to-lu-folder"
 ```
 Remember to re-publish your assistant to Azure after you’ve added a Skill unless you plan on testing locally only.
 
@@ -36,7 +36,7 @@ Once the connect command finish successfully, you can see under the `botFramewor
         "name": "<SKILL_NAME>",
         "description": "<SKILL_DESCRIPTION>"
     },
-    "skillHostEndpoint": "<VA-SKILL_ENDPOINT>"
+    "skillHostEndpoint": "<VA_SKILL_ENDPOINT>"
 ```
 
 For further documentation, please check the following links:

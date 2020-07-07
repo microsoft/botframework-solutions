@@ -14,7 +14,7 @@ namespace VirtualAssistantSample.Models
     /// </value>
     public class SkillCardActionData
     {
-        [JsonProperty("AppId")]
+        [JsonProperty("SkillId")]
         public string SkillId { get; set; }
     }
 }

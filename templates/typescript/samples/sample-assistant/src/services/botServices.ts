@@ -7,7 +7,6 @@ import { BotTelemetryClient } from 'botbuilder';
 import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMakerEndpoint } from 'botbuilder-ai';
 import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'bot-solutions';
 import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
-import i18next from 'i18next';
 import { IBotSettings } from '../services/botSettings';
 
 export class BotServices {
@@ -66,9 +65,8 @@ export class BotServices {
         }
     }
 
-    public getCognitiveModels(): ICognitiveModelSet {
+    public getCognitiveModels(locale: string): ICognitiveModelSet {
         // Get cognitive models for locale
-        const locale: string = i18next.language;
         let cognitiveModels: ICognitiveModelSet | undefined = this.cognitiveModelSets.get(locale);
 
         if (cognitiveModels === undefined) {

@@ -9,14 +9,12 @@ import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStat
     OAuthPromptSettings } from 'botbuilder-dialogs';
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
-import i18next from 'i18next';
 import { IOAuthConnection } from '../authentication';
 import { ResponseManager } from '../responses';
 import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
 import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
-import { OAuthProvider } from './oAuthProvider';
 
 enum DialogIds {
     providerPrompt = 'ProviderPrompt',
@@ -34,7 +32,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     public constructor(
         authenticationConnections: IOAuthConnection[],
-        promptSettings: OAuthPromptSettings[]
+        promptSettings: OAuthPromptSettings[],
+        locale: string
     ) {
         super(MultiProviderAuthDialog.name);
 
@@ -67,10 +66,12 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
                 // We ignore placeholder connections in config that don't have a Name
                 if (connection.name !== undefined && connection.name.trim().length > 0) {
+                    const loginButtonActivity: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.loginButton, locale);
+                    const loginPromptActivity: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.loginPrompt, locale);
                     const settings: OAuthPromptSettings = promptSettings[i] || {
                         connectionName: connection.name,
-                        title: i18next.t('common:login'),
-                        text: i18next.t('common:loginDescription', connection.name)
+                        title: loginButtonActivity,
+                        text: loginPromptActivity
                     };
 
                     this.addDialog(new OAuthPrompt(
@@ -101,7 +102,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     }
 
     private async firstStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
-
         return await stepContext.beginDialog(DialogIds.authPrompt);
     }
 
@@ -145,7 +145,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 });
 
                 return stepContext.prompt(DialogIds.providerPrompt, {
-                    prompt: this.responseManager.getResponse(AuthenticationResponses.configuredAuthProvidersPrompt),
+                    prompt: this.responseManager.getResponse(AuthenticationResponses.configuredAuthProvidersPrompt, stepContext.context.activity.locale as string),
                     choices: choices
                 });
             } else {
@@ -161,7 +161,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 });
 
                 return stepContext.prompt(DialogIds.providerPrompt, {
-                    prompt: this.responseManager.getResponse(AuthenticationResponses.authProvidersPrompt),
+                    prompt: this.responseManager.getResponse(AuthenticationResponses.authProvidersPrompt, stepContext.context.activity.locale as string),
                     choices: choices
                 });
             }

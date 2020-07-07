@@ -9,7 +9,7 @@ const { FeedbackMiddleware, FeedbackOptions } = require("../lib/feedback");
 const positiveFeedback = "positive";
 const negativeFeedback = "negative";
 
-describe("feedback middleware", function() {
+xdescribe("feedback middleware", function() {
     it("should default options to positive", async function() {
         const storage = new MemoryStorage();
         const convState = new ConversationState(storage);

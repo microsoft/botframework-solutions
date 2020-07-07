@@ -3,7 +3,10 @@
  * Licensed under the MIT License.
  */
 
-import i18next from 'i18next';
+import { CommonResponses } from '../resources';
+import { join } from 'path';
+import { readFileSync } from 'fs';
+import { ResponsesUtil } from '../util/responsesUtil';
 
 export namespace ListEx {
     /**
@@ -13,12 +16,15 @@ export namespace ListEx {
      * @param stringAccessor A method that can be used to extract the elements from the list if it is a complex type.
      * @returns A comma separated string with the elements in the list.
      */
-    export function toSpeechString<T>(list: T[], finalSeparator: string, stringAccessor?: (value: T) => string): string {
+    export function toSpeechString<T>(list: T[], finalSeparator: string, locale: string, stringAccessor?: (value: T) => string): string {
         // If stringAccessor is undefined, use JSON.stringify to convert the T value
         const itemAccessor: (value: T) => string = stringAccessor || JSON.stringify;
 
         let speech = '';
         let separator = '';
+
+        const jsonPath: string = ResponsesUtil.getResourcePath(CommonResponses.name, CommonResponses.pathToResource, locale);
+        const commonFile: string = readFileSync(jsonPath, 'utf8');
 
         const listCount: number = list.length;
         list.forEach((listItem: T, index: number): void => {
@@ -29,7 +35,7 @@ export namespace ListEx {
             }
             if (listCount > 1) {
                 if (index === listCount - 2) {
-                    separator = i18next.t('common:separatorFormat')
+                    separator = JSON.parse(commonFile)['separatorFormat']
                         .replace('{0}', finalSeparator);
                 } else {
                     separator = index !== listCount - 1 ? ', ' : '';

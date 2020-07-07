@@ -43,5 +43,32 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Impossibile recuperare un token per {authType}, collegare l'account all'assistente e riprovare",
+        "speak": "Impossibile recuperare un token per {authType}, collegare l'account all'assistente e riprovare"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "Accesso",
+        "speak": "Accesso"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "Accedi al tuo account {authType}",
+        "speak": "Accedi al tuo account {authType}"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

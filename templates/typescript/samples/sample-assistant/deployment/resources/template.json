@@ -216,7 +216,8 @@
         "options": {
           "throughput": "[parameters('cosmosDbDatabaseThroughput')]"
         }
-      }
+      },
+      "condition": "[parameters('useCosmosDb')]"
     },
     {
       "comments": "storage account",
@@ -277,6 +278,18 @@
             {
               "name": "MicrosoftAppPassword",
               "value": "[parameters('microsoftAppPassword')]"
+            },
+            {
+              "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+              "value": true
+            },
+            {
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "12.15.0"
+            },
+            {
+              "name": "NODE_PATH",
+              "value": "D:/home/site/wwwroot/node_modules"
             }
           ]
         }

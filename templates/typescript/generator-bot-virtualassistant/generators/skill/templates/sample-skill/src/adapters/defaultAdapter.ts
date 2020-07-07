@@ -43,7 +43,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
                 text: error.stack
             });
             
-            await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage'));
+            await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage', context.activity.locale));
             telemetryClient.trackException({ exception: error });
 
             if (TurnContextEx.isSkill(context)){
@@ -67,7 +67,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
                 type: ActivityTypes.Trace,
                 text: error.stack
             });
-            await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage'));
+            await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage', context.activity.locale));
             telemetryClient.trackException({ exception: error });
         };
         

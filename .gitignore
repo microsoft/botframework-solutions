@@ -361,6 +361,7 @@ ASALocalRun/
 **/.deployment
 **/ComposerDialogs/generated
 **/ComposerDialogs/settings
+**/VirtualAssistant/generated
 
 # Zip files
 *.7z
