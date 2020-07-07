@@ -288,9 +288,7 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the bf luis:convert command:
-Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force
-Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")}) leads to a nonexistent file.`);
+Error: There were issues while converting the LU files.`);
         });
 
         it("when the dispatch add command fails", async function () {
@@ -322,9 +320,7 @@ Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.la
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the dispatch add command:
-Command: dispatch add --type file --name testSkill --filePath ${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")} --intentName testSkill --dataFolder ${join(configuration.dispatchFolder, configuration.languages[0])} --dispatch ${join(configuration.dispatchFolder, configuration.languages[0], "filleden-usDispatch.dispatch")}
-Error: Mocked function throws an Error`);
+Error: There were issues while converting the LU files.`);
         });
 
         it("when languages argument contains non-supported cultures for the VA", async function () {
@@ -379,10 +375,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the bf luis:convert command:
-Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force
-Error: The execution of the bf command failed with the following error:
-Error: Mocked function throws an Error`);
+Error: There were issues while converting the LU files.`);
 		});
 
         it("when the refresh execution fails", async function () {
