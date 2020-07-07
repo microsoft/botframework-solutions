@@ -85,14 +85,7 @@ namespace VirtualAssistantSample
             services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
             services.AddSingleton<TelemetryInitializerMiddleware>();
 
-            if (settings.LogPersonalData)
-            {
-                services.AddSingleton<TelemetryLoggerMiddleware>(s => new TelemetryLoggerMiddleware(s.GetService<IBotTelemetryClient>(), true));
-            }
-            else
-            {
-                services.AddSingleton<TelemetryLoggerMiddleware>();
-            }
+            services.AddSingleton<TelemetryLoggerMiddleware>(s => new TelemetryLoggerMiddleware(s.GetService<IBotTelemetryClient>(), settings.LogPersonalData));
 
             // Configure bot services
             services.AddSingleton<BotServices>();
