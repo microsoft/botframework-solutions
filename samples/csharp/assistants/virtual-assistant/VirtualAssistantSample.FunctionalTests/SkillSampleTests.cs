@@ -6,9 +6,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VirtualAssistantSample.FunctionalTests.Configuration;
 using VirtualAssistantSample.Models;
 using VirtualAssistantSample.Tests;
 using VirtualAssistantSample.Tests.Utterances;
@@ -18,7 +20,7 @@ namespace VirtualAssistantSample.FunctionalTests
     [TestClass]
     [TestCategory("FunctionalTests")]
     [TestCategory("SkillSample")]
-    public class SkillSampleTests : DirectLineClientTestBase
+    public class SkillSampleTests : BotTestBase
     {
         [TestMethod]
         public async Task Test_Sample_Utterance()
@@ -32,22 +34,43 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <returns>Task.</returns>
         public async Task Assert_Utterance_Triggers_SkillSample()
         {
-            var profileState = new UserProfileState { Name = TestName };
+            var profileState = new UserProfileState { Name = GeneralUtterances.Name };
             var namePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
             var haveNameMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
             var completedMessageVariations = AllResponsesTemplates.ExpandTemplate("CompletedMessage");
 
-            var conversation = await new CoreTests().Assert_New_User_Greeting();
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
-            // Assert Skill is triggered by sample utterance
-            var responses = await SendActivityAsync(conversation, CreateMessageActivity(GeneralUtterances.SkillSample));
-            CollectionAssert.Contains(namePromptVariations as ICollection, responses[2].Text);
+            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
 
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(TestName));
-            CollectionAssert.Contains(haveNameMessageVariations as ICollection, responses[3].Text);
+            await testBot.StartConversation(cancellationTokenSource.Token);
+            await Assert_New_User_Greeting(cancellationTokenSource, testBot);
+            await testBot.SendMessageAsync(GeneralUtterances.SkillSample, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOf(namePromptVariations, cancellationTokenSource.Token);
+            await testBot.SendMessageAsync(GeneralUtterances.Name, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOf(haveNameMessageVariations, cancellationTokenSource.Token);
+        }
 
-            // Assert dialog has completed
-            CollectionAssert.Contains(completedMessageVariations as ICollection, responses[4].Text);
+        private async Task Assert_New_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot, bool useComplexInputWithName = false)
+        {
+            var profileState = new UserProfileState { Name = GeneralUtterances.Name };
+            var namePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
+            var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
+
+            await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOf(namePromptVariations, cancellationTokenSource.Token);
+
+            // Send user input of either name or "My name is X"
+            if (useComplexInputWithName)
+            {
+                await testBot.SendMessageAsync($"My name is {GeneralUtterances.Name}", cancellationTokenSource.Token);
+                await testBot.AssertReplyOneOf(allHaveMessageVariations, cancellationTokenSource.Token);
+            }
+            else
+            {
+                await testBot.SendMessageAsync(GeneralUtterances.Name, cancellationTokenSource.Token);
+                await testBot.AssertReplyOneOf(allHaveMessageVariations, cancellationTokenSource.Token);
+            }
         }
     }
 }

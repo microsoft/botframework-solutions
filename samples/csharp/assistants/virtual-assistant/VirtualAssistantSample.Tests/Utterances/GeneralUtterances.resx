@@ -144,6 +144,9 @@
   <data name="Logout" xml:space="preserve">
     <value>logout</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>user_name</value>
+  </data>
   <data name="Reject" xml:space="preserve">
     <value>no</value>
   </data>

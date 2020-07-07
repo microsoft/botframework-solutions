@@ -142,6 +142,15 @@ namespace VirtualAssistantSample.Tests.Utterances {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to user_name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to no.
         /// </summary>
         public static string Reject {
