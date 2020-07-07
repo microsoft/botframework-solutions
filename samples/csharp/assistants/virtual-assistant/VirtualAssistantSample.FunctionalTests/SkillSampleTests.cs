@@ -31,7 +31,6 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that a connected SkillSample is triggered by a sample utterance and completes the VA dialog.
         /// </summary>
-        /// <returns>Task.</returns>
         public async Task Assert_Utterance_Triggers_SkillSample()
         {
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
@@ -43,33 +42,11 @@ namespace VirtualAssistantSample.FunctionalTests
             var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
 
             await testBot.StartConversation(cancellationTokenSource.Token);
-            await Assert_New_User_Greeting(cancellationTokenSource, testBot);
+            await new CoreTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.SkillSample, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(namePromptVariations, cancellationTokenSource.Token);
             await testBot.SendMessageAsync(GeneralUtterances.Name, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(haveNameMessageVariations, cancellationTokenSource.Token);
-        }
-
-        private async Task Assert_New_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot, bool useComplexInputWithName = false)
-        {
-            var profileState = new UserProfileState { Name = GeneralUtterances.Name };
-            var namePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
-            var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
-
-            await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
-            await testBot.AssertReplyOneOf(namePromptVariations, cancellationTokenSource.Token);
-
-            // Send user input of either name or "My name is X"
-            if (useComplexInputWithName)
-            {
-                await testBot.SendMessageAsync($"My name is {GeneralUtterances.Name}", cancellationTokenSource.Token);
-                await testBot.AssertReplyOneOf(allHaveMessageVariations, cancellationTokenSource.Token);
-            }
-            else
-            {
-                await testBot.SendMessageAsync(GeneralUtterances.Name, cancellationTokenSource.Token);
-                await testBot.AssertReplyOneOf(allHaveMessageVariations, cancellationTokenSource.Token);
-            }
         }
     }
 }

@@ -141,6 +141,7 @@ namespace VirtualAssistantSample.Tests
             var configurationSection = new Mock<IConfigurationSection>();
             configurationSection.Setup(a => a.Value).Returns("testvalue");
             configuration.Setup(a => a.GetSection("MicrosoftAppId")).Returns(configurationSection.Object);
+
             // Register configuration
             Services.AddSingleton(configuration.Object);
 

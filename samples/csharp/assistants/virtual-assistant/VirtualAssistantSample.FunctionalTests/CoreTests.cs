@@ -106,9 +106,8 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that a new user is greeted with the onboarding prompt.
         /// </summary>
-        /// <param name="useComplexInputWithName">Send user name only or included in "My name is X" message.</param>
         /// <returns>Task.</returns>
-        private async Task Assert_New_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot, bool useComplexInputWithName = false)
+        public async Task Assert_New_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot, bool useComplexInputWithName = false)
         {
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
             var newUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("NewUserIntroCardTitle", profileState);
@@ -140,12 +139,13 @@ namespace VirtualAssistantSample.FunctionalTests
             }
         }
 
-        public async Task Assert_Returning_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot)
+        private async Task Assert_Returning_User_Greeting(CancellationTokenSource cancellationTokenSource, TestBotClient testBot)
         {
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
             var returningUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("ReturningUserIntroCardTitle", profileState);
 
             await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
+
             // Wait 3000 milliseconds before checking for response on a new conversation
             await Task.Delay(3000);
 
@@ -159,7 +159,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that a Qna Maker (ChitChat) is working.
         /// </summary>
-        public async Task Assert_QnA_ChitChat_Responses()
+        private async Task Assert_QnA_ChitChat_Responses()
         {
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
@@ -174,7 +174,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that a Qna Maker (FAQ) is working.
         /// </summary>
-        public async Task Assert_QnA_FAQ_Responses()
+        private async Task Assert_QnA_FAQ_Responses()
         {
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
@@ -189,7 +189,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that Cancel intent is working.
         /// </summary>
-        public async Task Assert_General_Cancel()
+        private async Task Assert_General_Cancel()
         {
             var cancelledMessageVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage");
 
@@ -206,8 +206,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that Escalate intent is working.
         /// </summary>
-        /// <returns>Task.</returns>
-        public async Task Assert_General_Escalate()
+        private async Task Assert_General_Escalate()
         {
             var escalateMessageVariations = AllResponsesTemplates.ExpandTemplate("EscalatedText");
 
@@ -229,8 +228,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that Help intent is working.
         /// </summary>
-        /// <returns>Task.</returns>
-        public async Task Assert_General_Help()
+        private async Task Assert_General_Help()
         {
             var helpMessageVariations = AllResponsesTemplates.ExpandTemplate("HelpText");
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
@@ -251,8 +249,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that Logout intent is working with an unauthenticated user.
         /// </summary>
-        /// <returns>Task.</returns>
-        public async Task Assert_General_Logout()
+        private async Task Assert_General_Logout()
         {
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
             var logoutMessageVariations = AllResponsesTemplates.ExpandTemplate("LogoutMessage", profileState);
@@ -270,8 +267,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that Repeat intent is working.
         /// </summary>
-        /// <returns>Task.</returns>
-        public async Task Assert_General_Repeat()
+        private async Task Assert_General_Repeat()
         {
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
@@ -288,8 +284,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <summary>
         /// Assert that StartOver intent is working.
         /// </summary>
-        /// <returns>Task.</returns>
-        public async Task Assert_General_StartOver()
+        private async Task Assert_General_StartOver()
         {
             var startOverMessageVariations = AllResponsesTemplates.ExpandTemplate("StartOverMessage");
 

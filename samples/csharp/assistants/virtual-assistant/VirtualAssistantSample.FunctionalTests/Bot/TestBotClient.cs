@@ -1,9 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-using Microsoft.Bot.Connector.DirectLine;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using VirtualAssistantSample.FunctionalTests.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +9,22 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections;
 using AdaptiveCards;
+using Microsoft.Bot.Connector.DirectLine;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using VirtualAssistantSample.FunctionalTests.Configuration;
 
 namespace VirtualAssistantSample.FunctionalTests
 {
     public class TestBotClient
     {
-        private const string originHeaderKey = "Origin";
-        private const string originHeaderValue = "https://bfsolutions.test.com";
+        private const string OriginHeaderKey = "Origin";
+        private const string OriginHeaderValue = "https://bfsolutions.test.com";
 
         private readonly DirectLineClient directLineClient;
         private readonly IBotTestConfiguration config;
-        private readonly string user = $"dl_SkillTestUser-{ Guid.NewGuid() }";
+        private readonly string user = $"dl_SkillTestUser-{Guid.NewGuid()}";
 
         private string conversationId;
         private string token;
@@ -45,12 +44,12 @@ namespace VirtualAssistantSample.FunctionalTests
                 throw new ArgumentNullException(nameof(config.BotId));
             }
 
-            if (!string.IsNullOrEmpty(userId)) 
+            if (!string.IsNullOrEmpty(userId))
             {
                 user = userId;
             }
 
-            // Instead of generating a vanilla DirectLineClient with secret, 
+            // Instead of generating a vanilla DirectLineClient with secret,
             // we obtain a directline token with the secrets and then we use
             // that token to create the directline client.
             // What this gives us is the ability to pass TrustedOrigins when obtaining the token,
@@ -67,7 +66,7 @@ namespace VirtualAssistantSample.FunctionalTests
                     User = new { Id = this.user },
                     TrustedOrigins = new string[]
                         {
-                            originHeaderValue
+                            OriginHeaderValue
                         }
                 }), Encoding.UTF8, "application/json");
 
@@ -83,9 +82,9 @@ namespace VirtualAssistantSample.FunctionalTests
                         // Create directline client from token
                         this.directLineClient = new DirectLineClient(token);
 
-                        // From now on, we'll add an Origin header in directline calls, with 
+                        // From now on, we'll add an Origin header in directline calls, with
                         // the trusted origin we sent when acquiring the token as value.
-                        directLineClient.HttpClient.DefaultRequestHeaders.Add(originHeaderKey, originHeaderValue);
+                        directLineClient.HttpClient.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);
                     }
                     else
                     {
@@ -277,12 +276,11 @@ namespace VirtualAssistantSample.FunctionalTests
             // 1- Verify we have a sign in link
             // 2- Get directline session id and cookie
             // 3- Follow sign in link but manually do each redirect
-            //      3.a- Detect the PostSignIn url in the redirect chain 
+            //      3.a- Detect the PostSignIn url in the redirect chain
             //      3.b- Add cookie and challenge session id to post sign in link
             // 4- Verify final redirect to token service ends up in success
 
             // 1- Verify we have a sign in link in the activity
-
             if (oAuthCard == null)
             {
                 throw new Exception("OAuthCard is null");
@@ -329,13 +327,13 @@ namespace VirtualAssistantSample.FunctionalTests
             };
 
             // We have a sign in url, which will produce multiple HTTP 302 for redirects
-            // This will path 
+            // This will path
             //      token service -> other services -> auth provider -> token service (post sign in)-> response with token
             // When we receive the post sign in redirect, we add the cookie passed in the directline session info
             // to test enhanced authentication. This in ther scenarios happens by itself since browsers do this for us.
             using (var client = new HttpClient(handler))
             {
-                client.DefaultRequestHeaders.Add(originHeaderKey, originHeaderValue);
+                client.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);
 
                 while (!string.IsNullOrEmpty(url))
                 {
@@ -347,7 +345,7 @@ namespace VirtualAssistantSample.FunctionalTests
                             ? response.Headers.Location.OriginalString
                             : null;
 
-                        // Once the redirects are done, there is no more url. This means we 
+                        // Once the redirects are done, there is no more url. This means we
                         // did the entire loop
                         if (url == null)
                         {
@@ -361,7 +359,7 @@ namespace VirtualAssistantSample.FunctionalTests
                         // Here we are simulating what Webchat does along with the browser cookies.
                         if (url.StartsWith("https://token.botframework.com/api/oauth/PostSignInCallback"))
                         {
-                            url += $"&code_challenge={ directLineSession.SessionId }";
+                            url += $"&code_challenge={directLineSession.SessionId}";
                             cookieContainer.Add(directLineSession.Cookie);
                         }
                     }
@@ -386,7 +384,7 @@ namespace VirtualAssistantSample.FunctionalTests
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
 
                 // We want to add the Origins header to this client as well
-                client.DefaultRequestHeaders.Add(originHeaderKey, originHeaderValue);
+                client.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);
 
 
                 using (var response = await client.SendAsync(request))
@@ -435,6 +433,7 @@ namespace VirtualAssistantSample.FunctionalTests
     public class DirectLineSessionInfo
     {
         public string SessionId { get; set; }
+
         public Cookie Cookie { get; set; }
     }
 }
