@@ -91,7 +91,7 @@ jobs:
      Write-Host "===="
      botskills -v
     
-     Write-Host "BF SDK and Solutions package versions being used by the VA Sample for this nightly build"
+     Write-Host "BF SDK and Solutions package versions being used by the Skill Sample for this nightly build"
      Write-Host "===="
     
      $path = '$(System.DefaultWorkingDirectory)\templates\typescript\samples\functionalTests\$(BotName)\package-lock.json'
@@ -291,7 +291,7 @@ jobs:
      $json = Get-Content "DirectLineCreate.json" | Out-String | ConvertFrom-Json
      $key = $json.properties.properties.sites.key
     
-     echo "##vso[task.setvariable variable=DIRECTLINEKEY;]$key"
+     echo "##vso[task.setvariable variable=DIRECTLINE;]$key"
      echo "##vso[task.setvariable variable=BOTID;]$botName"
     
      Write-Host "DirectLine Key: $key"

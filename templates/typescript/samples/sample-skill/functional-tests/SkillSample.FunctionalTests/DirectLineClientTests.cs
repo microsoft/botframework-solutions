@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SkillSample.FunctionalTests.Dialogs;
 
 namespace SkillSample.FunctionalTests
 {
@@ -25,6 +24,7 @@ namespace SkillSample.FunctionalTests
         private static string _directLineSecret = string.Empty;
         private static string _botId = string.Empty;
         private static DirectLineClient _client;
+        private static string _userID;
 
         protected static Templates AllResponsesTemplates
         {
@@ -52,7 +52,6 @@ namespace SkillSample.FunctionalTests
             string fromUser = Guid.NewGuid().ToString();
 
             await Assert_New_User_Greeting(fromUser);
-            await Assert_Sample_Skill_Utterances(fromUser);
         }
 
         /// <summary>
@@ -82,37 +81,10 @@ namespace SkillSample.FunctionalTests
         }
 
         /// <summary>
-        /// Assert that sample skill utterance works with the user interactions.
-        /// </summary>
-        /// <param name="fromUser">User identifier used for the conversation and activities.</param>
-        /// <returns>Task.</returns>
-        public async Task Assert_Sample_Skill_Utterances(string fromUser)
-        {
-            var actionInput = new SampleActionInput() { Name = TestName };
-
-            var namePromptText = AllResponsesTemplates.ExpandTemplate("NamePromptText");
-            var haveNameMessageText = AllResponsesTemplates.ExpandTemplate("HaveNameMessageText", actionInput);
-            var completedTextVaritations = AllResponsesTemplates.ExpandTemplate("CompletedText");
-
-            var conversation = await StartBotConversationAsync();
-
-            await SendActivityAsync(conversation, CreateStartConversationEvent(fromUser));
-
-            var responses = await SendActivityAsync(conversation, CreateMessageActivity(fromUser, TriggerSkill));
-
-            Assert.AreEqual(namePromptText[0], responses.LastOrDefault().Text);
-
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(fromUser, TestName));
-
-            CollectionAssert.Contains(haveNameMessageText as ICollection, responses[responses.Count - 2].Text);
-
-            CollectionAssert.Contains(completedTextVaritations as ICollection, responses.LastOrDefault().Text);
-        }
-
-        /// <summary>
         /// Return a Start Conversation event with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
         /// </summary>
         /// <param name="fromUser">User identifier used for the conversation and activities.</param>
+        /// <returns>Event Activity with name startConversation.</returns>
         private static Activity CreateStartConversationEvent(string fromUser)
         {
             // An event activity to trigger the welcome message (method for using custom Web Chat).
@@ -120,6 +92,23 @@ namespace SkillSample.FunctionalTests
             {
                 From = new ChannelAccount(fromUser, TestName),
                 Name = "startConversation",
+                Type = ActivityTypes.Event
+            };
+        }
+
+        /// <summary>
+        /// Return a Message Activity with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
+        /// </summary>
+        /// <param name="name">Name for Event Activity.</param>
+        /// <param name="value">Value for Event Activity.</param>
+        /// <returns>Event Activity with specified name.</returns>
+        protected static Activity CreateEventActivity(string name, object value = null)
+        {
+            return new Activity
+            {
+                From = new ChannelAccount(_userID, TestName),
+                Name = name,
+                Value = value,
                 Type = ActivityTypes.Event
             };
         }
@@ -225,10 +214,10 @@ namespace SkillSample.FunctionalTests
         {
             if (string.IsNullOrWhiteSpace(_directLineSecret) || string.IsNullOrWhiteSpace(_botId))
             {
-                _directLineSecret = Environment.GetEnvironmentVariable("DIRECTLINEKEY");
+                _directLineSecret = Environment.GetEnvironmentVariable("DIRECTLINE");
                 if (string.IsNullOrWhiteSpace(_directLineSecret))
                 {
-                    Assert.Inconclusive("Environment variable 'DIRECTLINEKEY' not found.");
+                    Assert.Inconclusive("Environment variable 'DIRECTLINE' not found.");
                 }
 
                 _botId = Environment.GetEnvironmentVariable("BOTID");
