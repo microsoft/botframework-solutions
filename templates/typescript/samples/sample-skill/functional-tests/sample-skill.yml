@@ -231,7 +231,7 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Deploy: Delete test resource group if it exists'
     inputs:
-      azureSubscription: 'Kobuk Funtional Test Auth '
+      azureSubscription: ''
       scriptType: pscore
       scriptLocation: inlineScript
       inlineScript: |
@@ -279,7 +279,7 @@ jobs:
   - task: AzureCLI@1
     displayName: 'Deploy: Create Direct Line channel registration'
     inputs:
-      azureSubscription: 'Kobuk Funtional Test Auth '
+      azureSubscription: ''
       scriptLocation: inlineScript
       inlineScript: 'call az bot directline create -n "$(BOTWEBAPPNAME)" -g "$(BOTRESOURCEGROUP)" --verbose --debug --output json > "DirectLineCreate.json"'
       workingDirectory: 'templates/typescript/samples/functionalTests/$(BotName)'
@@ -321,7 +321,7 @@ jobs:
   - task: AzureCLI@1
     displayName: 'Cleanup: Delete bot resources'
     inputs:
-      azureSubscription: 'Kobuk Funtional Test Auth '
+      azureSubscription: ''
       scriptLocation: inlineScript
       inlineScript: 'az group delete -g $(BotName) --no-wait --yes'
 
