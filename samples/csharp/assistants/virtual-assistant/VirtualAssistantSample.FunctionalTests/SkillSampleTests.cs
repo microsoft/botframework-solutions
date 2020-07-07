@@ -37,7 +37,6 @@ namespace VirtualAssistantSample.FunctionalTests
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
             var namePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
             var haveNameMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
-            var completedMessageVariations = AllResponsesTemplates.ExpandTemplate("CompletedMessage");
 
             var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 

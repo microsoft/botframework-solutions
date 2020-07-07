@@ -117,6 +117,10 @@ namespace VirtualAssistantSample.FunctionalTests
             var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
 
             await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
+
+            // Wait 3000 milliseconds before checking for response on a new conversation
+            await Task.Delay(3000);
+
             var messages = await testBot.ReadBotMessagesAsync(cancellationTokenSource.Token);
 
             var activities = messages.ToList();
@@ -142,6 +146,8 @@ namespace VirtualAssistantSample.FunctionalTests
             var returningUserIntroCardTitleVariations = AllResponsesTemplates.ExpandTemplate("ReturningUserIntroCardTitle", profileState);
 
             await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
+            // Wait 3000 milliseconds before checking for response on a new conversation
+            await Task.Delay(3000);
 
             var messages = await testBot.ReadBotMessagesAsync(cancellationTokenSource.Token);
 
