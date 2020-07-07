@@ -24,7 +24,6 @@ Run the following command from a command prompt **within the directory of your a
 ```bash
 botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --ts
 ```
-
 Remember to re-publish your assistant to Azure after you’ve added a Skill unless you plan on testing locally only.
 
 Once the connect command finish successfully, you can see under the `botFrameworkSkills` property of your assistant’s appsettings.json file that the following structure was added with the information provided in the Skill manifest.
