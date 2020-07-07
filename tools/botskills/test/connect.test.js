@@ -379,10 +379,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the bf luis:convert command:
-Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill
-Error: The execution of the bf command failed with the following error:
-Error: Mocked function throws an Error`);
+Error: There were issues while converting the LU files.`);
 		});
 
         it("when the refresh execution fails", async function () {
