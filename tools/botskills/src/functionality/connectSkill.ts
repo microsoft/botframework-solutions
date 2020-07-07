@@ -214,7 +214,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the bf luis:convert command:\nCommand: ${ luisConvertCommand.join(' ') }\n${ err }`);
+            this.logger.error(`There was an error in the bf luis:convert command:\nCommand: ${ luisConvertCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -236,7 +236,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             });
             await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${ culture } ${ luisApp } LU file`);
         } catch (err) {
-            throw new Error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
+            this.logger.error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -272,8 +272,14 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                     const culture: string = item[0];
                     const executionModelByCulture: Map<string, string> = item[1];
                     await this.executeLuisConvert(culture, executionModelByCulture);
-                    await this.executeDispatchAdd(culture, executionModelByCulture);
+                    if (!this.logger.isError) {
+                        await this.executeDispatchAdd(culture, executionModelByCulture);
+                    }
                 }));
+
+            if (this.logger.isError) {
+                throw new Error(`There were issues while converting the LU files.`);
+            }
 
             // Check if it is necessary to refresh the skill
             if (!this.configuration.noRefresh) {
