@@ -4,6 +4,7 @@
 namespace Microsoft.Bot.Solutions
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.ApplicationInsights.Extensibility;
     using Microsoft.Bot.Builder.AI.QnA;
     using Microsoft.Bot.Builder.Azure;
@@ -13,6 +14,7 @@ namespace Microsoft.Bot.Solutions
     /// <summary>
     /// Base class representing the configuration for a bot.
     /// </summary>
+    [ExcludeFromCodeCoverageAttribute]
     public class BotSettingsBase
     {
         /// <summary>
