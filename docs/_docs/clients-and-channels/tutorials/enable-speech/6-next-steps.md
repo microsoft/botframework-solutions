@@ -15,9 +15,5 @@ This tutorial is based on sample applications provided by the Cognitive Services
 <div class="card-deck">
     {% include button.html params=site.data.button.enable_speech_uwp %}
     {% include button.html params=site.data.button.enable_speech_java %}
-</div>
-
-<div class="card-deck py-4">
-    {% include button.html params=site.data.button.enable_speech_android_java %}
     {% include button.html params=site.data.button.enable_speech_android %}
 </div>
