@@ -46,13 +46,6 @@ namespace LinkedAccounts.Web.Controllers
                     new Claim(AuthenticationConstants.AudienceClaim, botAppId),
                 }));
 
-                // Add BotIdentity
-                context.TurnState.Add<IIdentity>("BotIdentity", new ClaimsIdentity(new List<Claim>
-                {
-                    new Claim(AuthenticationConstants.AppIdClaim, botAppId),
-                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
-                }));
-
                 // Retrieve the Token Status
                 tokenStatuses = await adapter.GetTokenStatusAsync(context, userId);
             }
@@ -77,7 +70,13 @@ namespace LinkedAccounts.Web.Controllers
             var botAppPassword = ((ConfigurationCredentialProvider)credentialProvider).Password;
 
             string link = null;
-            using (var context = new TurnContext(adapter, new Microsoft.Bot.Schema.Activity { }))
+            using (var context = new TurnContext(adapter, new Microsoft.Bot.Schema.Activity 
+            {
+                From = new ChannelAccount()
+                {
+                    Id = userId
+                }
+            }))
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
