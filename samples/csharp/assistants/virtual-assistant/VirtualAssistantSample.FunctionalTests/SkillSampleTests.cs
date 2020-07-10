@@ -2,13 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VirtualAssistantSample.FunctionalTests.Configuration;
 using VirtualAssistantSample.Models;
@@ -17,6 +12,9 @@ using VirtualAssistantSample.Tests.Utterances;
 
 namespace VirtualAssistantSample.FunctionalTests
 {
+    /// <summary>
+    /// These tests validate scenarios when the SkillSample bot is connected to the VirtualAssistantSample.
+    /// </summary>
     [TestClass]
     [TestCategory("FunctionalTests")]
     [TestCategory("SkillSample")]
@@ -43,7 +41,7 @@ namespace VirtualAssistantSample.FunctionalTests
             var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
 
             await testBot.StartConversation(cancellationTokenSource.Token);
-            await new CoreTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
+            await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.SkillSample, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(namePromptVariations, cancellationTokenSource.Token);
             await testBot.SendMessageAsync(GeneralUtterances.Name, cancellationTokenSource.Token);

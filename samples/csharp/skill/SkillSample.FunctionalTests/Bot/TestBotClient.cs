@@ -14,14 +14,14 @@ using AdaptiveCards;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using VirtualAssistantSample.FunctionalTests.Configuration;
+using SkillSample.FunctionalTests.Configuration;
 
-namespace VirtualAssistantSample.FunctionalTests
+namespace SkillSample.FunctionalTests.Bot
 {
     public class TestBotClient
     {
         private const string OriginHeaderKey = "Origin";
-        private const string OriginHeaderValue = "https://virtualassistantsample.test.com";
+        private const string OriginHeaderValue = "https://skillsample.test.com";
 
         private readonly DirectLineClient directLineClient;
         private readonly IBotTestConfiguration config;
@@ -63,13 +63,13 @@ namespace VirtualAssistantSample.FunctionalTests
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", config.DirectLineSecret);
                 request.Content = new StringContent(
                     JsonConvert.SerializeObject(new
-                {
-                    User = new { Id = this.user },
-                    TrustedOrigins = new string[]
+                    {
+                        User = new { Id = this.user },
+                        TrustedOrigins = new string[]
                         {
                             OriginHeaderValue
                         }
-                }), Encoding.UTF8, "application/json");
+                    }), Encoding.UTF8, "application/json");
 
                 using (var response = client.SendAsync(request).GetAwaiter().GetResult())
                 {
@@ -119,7 +119,7 @@ namespace VirtualAssistantSample.FunctionalTests
             return SendActivityAsync(messageActivity, cancellationToken);
         }
 
-        public Task<ResourceResponse> SendEventAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<ResourceResponse> SendEventAsync(string name, object value = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (string.IsNullOrEmpty(nameof(name)))
             {
@@ -131,6 +131,7 @@ namespace VirtualAssistantSample.FunctionalTests
             {
                 From = new ChannelAccount(this.user),
                 Name = name,
+                Value = value,
                 Type = ActivityTypes.Event,
             };
 
@@ -215,203 +216,6 @@ namespace VirtualAssistantSample.FunctionalTests
 
             // Extract and return the activities sent from the bot.
             return activitySet == null ? null : activitySet?.Activities?.Where(activity => activity.From.Id == this.config.BotId && activity.Type == ActivityTypes.Message);
-        }
-
-        public void VerifyAdaptiveCard(IEnumerable<object> expected, Activity adaptiveCard, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (adaptiveCard == null)
-            {
-                throw new Exception("AdaptiveCard is null");
-            }
-            else if (adaptiveCard.Attachments == null)
-            {
-                throw new Exception("AdaptiveCard.Attachments = null");
-            }
-
-            var card = JsonConvert.DeserializeObject<AdaptiveCard>(JsonConvert.SerializeObject(adaptiveCard.Attachments.FirstOrDefault().Content));
-
-            if (card == null)
-            {
-                throw new Exception("No Adaptive Card received in activity");
-            }
-
-            if (card.Speak == null)
-            {
-                throw new Exception("No speak received in Adaptive Card");
-            }
-
-            // Verify that the speak property matches one of expected replies
-            Assert.IsTrue(expected.Any(e => card.Speak.Contains(e.ToString(), StringComparison.OrdinalIgnoreCase)));
-        }
-
-        public void VerifyHeroCard(IEnumerable<object> expected, Activity heroCard, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (heroCard == null)
-            {
-                throw new Exception("HeroCard is null");
-            }
-            else if (heroCard.Attachments == null)
-            {
-                throw new Exception("HeroCard.Attachments = null");
-            }
-
-            var card = JsonConvert.DeserializeObject<HeroCard>(JsonConvert.SerializeObject(heroCard.Attachments.FirstOrDefault().Content));
-
-            if (card == null)
-            {
-                throw new Exception("No Hero Card received in activity");
-            }
-
-            if (card.Subtitle == null)
-            {
-                throw new Exception("No subtitle received in hero Card");
-            }
-
-            // Verify that the subtitle property matches one of expected replies
-            Assert.IsTrue(expected.Any(e => card.Subtitle.Contains(e.ToString(), StringComparison.OrdinalIgnoreCase)));
-        }
-
-        public async Task SignInAndVerifyOAuthAsync(Activity oauthCard, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            // We obtained what we think is an OAuthCard. Steps to follow:
-            // 1- Verify we have a sign in link
-            // 2- Get directline session id and cookie
-            // 3- Follow sign in link but manually do each redirect
-            //      3.a- Detect the PostSignIn url in the redirect chain
-            //      3.b- Add cookie and challenge session id to post sign in link
-            // 4- Verify final redirect to token service ends up in success
-
-            // 1- Verify we have a sign in link in the activity
-            if (oauthCard == null)
-            {
-                throw new Exception("OAuthCard is null");
-            }
-            else if (oauthCard.Attachments == null)
-            {
-                throw new Exception("OAuthCard.Attachments = null");
-            }
-
-            var card = JsonConvert.DeserializeObject<SigninCard>(JsonConvert.SerializeObject(oauthCard.Attachments.FirstOrDefault().Content));
-
-            if (card == null)
-            {
-                throw new Exception("No SignIn Card received in activity");
-            }
-
-            if (card.Buttons == null || !card.Buttons.Any())
-            {
-                throw new Exception("No buttons received in sign in card");
-            }
-
-            string signInUrl = card.Buttons[0].Value?.ToString();
-
-            if (string.IsNullOrEmpty(signInUrl) || !signInUrl.StartsWith("https://"))
-            {
-                throw new Exception($"Sign in url is empty or badly formatted. Url received: {signInUrl}");
-            }
-
-            // 2- Get directline session id and cookie
-            var sessionInfo = await GetSessionInfoAsync();
-
-            // 3- Follow sign in link but manually do each redirect
-            // 4- Verify final redirect to token service ends up in success
-            await SignInAsync(sessionInfo, signInUrl);
-        }
-
-        private async Task SignInAsync(DirectLineSessionInfo directLineSession, string url)
-        {
-            var cookieContainer = new CookieContainer();
-            var handler = new HttpClientHandler()
-            {
-                AllowAutoRedirect = false,
-                CookieContainer = cookieContainer
-            };
-
-            // We have a sign in url, which will produce multiple HTTP 302 for redirects
-            // This will path
-            //      token service -> other services -> auth provider -> token service (post sign in)-> response with token
-            // When we receive the post sign in redirect, we add the cookie passed in the directline session info
-            // to test enhanced authentication. This in ther scenarios happens by itself since browsers do this for us.
-            using (var client = new HttpClient(handler))
-            {
-                client.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);
-
-                while (!string.IsNullOrEmpty(url))
-                {
-                    using (var response = await client.GetAsync(url))
-                    {
-                        var text = await response.Content.ReadAsStringAsync();
-
-                        url = response.StatusCode == HttpStatusCode.Redirect
-                            ? response.Headers.Location.OriginalString
-                            : null;
-
-                        // Once the redirects are done, there is no more url. This means we
-                        // did the entire loop
-                        if (url == null)
-                        {
-                            Assert.IsTrue(response.IsSuccessStatusCode);
-                            Assert.IsTrue(text.Contains("You are now signed in and can close this window."));
-                            return;
-                        }
-
-                        // If this is the post sign in callback, add the cookie and code challenge
-                        // so that the token service gets the verification.
-                        // Here we are simulating what Webchat does along with the browser cookies.
-                        if (url.StartsWith("https://token.botframework.com/api/oauth/PostSignInCallback"))
-                        {
-                            url += $"&code_challenge={directLineSession.SessionId}";
-                            cookieContainer.Add(directLineSession.Cookie);
-                        }
-                    }
-                }
-
-                throw new Exception("Sign in did not succeed. Set a breakpoint in TestBotClient.SignInAsync() to debug the redirect sequence.");
-            }
-        }
-
-        private async Task<DirectLineSessionInfo> GetSessionInfoAsync()
-        {
-            // Set up cookie container to obtain response cookie
-            CookieContainer cookies = new CookieContainer();
-            HttpClientHandler handler = new HttpClientHandler();
-            handler.CookieContainer = cookies;
-
-            using (var client = new HttpClient(handler))
-            {
-                // Call the directline session api, not supported by DirectLine client
-                const string getSessionUrl = "https://directline.botframework.com/v3/directline/session/getsessionid";
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, getSessionUrl);
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", this.token);
-
-                // We want to add the Origins header to this client as well
-                client.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);
-
-                using (var response = await client.SendAsync(request))
-                {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // The directline response that is relevant to us is the cookie and the session info.
-
-                        // Extract cookie from cookies
-                        var cookie = cookies.GetCookies(new Uri(getSessionUrl)).Cast<Cookie>().FirstOrDefault(c => c.Name == "webchat_session_v2");
-
-                        // Extract session info from body
-                        var body = await response.Content.ReadAsStringAsync();
-                        var session = JsonConvert.DeserializeObject<DirectLineSession>(body);
-
-                        return new DirectLineSessionInfo()
-                        {
-                            SessionId = session.SessionId,
-                            Cookie = cookie
-                        };
-                    }
-                    else
-                    {
-                        throw new Exception("Failed to obtain session id");
-                    }
-                }
-            }
         }
     }
 

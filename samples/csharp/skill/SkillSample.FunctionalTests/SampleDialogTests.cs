@@ -1,6 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SkillSample.FunctionalTests.Bot;
+using SkillSample.FunctionalTests.Configuration;
+using SkillSample.Tests;
 using SkillSample.Tests.Utterances;
 
 namespace SkillSample.FunctionalTests
@@ -8,7 +13,7 @@ namespace SkillSample.FunctionalTests
     [TestClass]
     [TestCategory("FunctionalTests")]
     [TestCategory("SampleDialog")]
-    public class SampleDialogTests : DirectLineClientTestBase
+    public class SampleDialogTests : SkillTestBase
     {
         [TestMethod]
         public async Task Test_Utterance_SampleDialog()
@@ -18,27 +23,22 @@ namespace SkillSample.FunctionalTests
 
         public async Task Assert_Utterance_Triggers_SkillDialog()
         {
-            var profileState = new { Name = TestName };
-
+            var profileState = new { Name = SampleDialogUtterances.NamePromptResponse };
             var introTextVariations = AllResponsesTemplates.ExpandTemplate("IntroText");
-            var firstPromptTextVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptText");
             var namePromptTextVariations = AllResponsesTemplates.ExpandTemplate("NamePromptText");
             var haveNameMessageTextVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessageText", profileState);
-            var completedTextVariations = AllResponsesTemplates.ExpandTemplate("CompletedText");
 
-            var conversation = await StartBotConversationAsync();
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
-            var responses = await SendActivityAsync(conversation, CreateStartConversationEvent());
-            CollectionAssert.Contains(introTextVariations as ICollection, responses[0].Text);
-            CollectionAssert.Contains(firstPromptTextVariations as ICollection, responses[1].Text);
+            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
 
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(SampleDialogUtterances.Trigger));
-            CollectionAssert.Contains(namePromptTextVariations as ICollection, responses[3].Text);
-
-            responses = await SendActivityAsync(conversation, CreateMessageActivity(TestName));
-            CollectionAssert.Contains(haveNameMessageTextVariations as ICollection, responses[4].Text);
-
-            CollectionAssert.Contains(completedTextVariations as ICollection, responses[5].Text);
+            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOf(introTextVariations, cancellationTokenSource.Token);
+            await testBot.SendMessageAsync(SampleDialogUtterances.Trigger);
+            await testBot.AssertReplyOneOf(namePromptTextVariations, cancellationTokenSource.Token);
+            await testBot.SendMessageAsync(SampleDialogUtterances.NamePromptResponse);
+            await testBot.AssertReplyOneOf(haveNameMessageTextVariations, cancellationTokenSource.Token);
         }
     }
 }
