@@ -10,7 +10,6 @@ namespace SkillSample.Models
     /// </summary>
     public class EventActivityPrompt : ActivityPrompt
     {
-
         public EventActivityPrompt(string dialogId, PromptValidator<Activity> validator)
         : base(dialogId, validator)
         {

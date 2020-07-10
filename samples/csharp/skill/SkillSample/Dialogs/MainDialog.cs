@@ -24,7 +24,6 @@ namespace SkillSample.Dialogs
         private readonly SampleDialog _sampleDialog;
         private readonly SampleAction _sampleAction;
         private readonly LocaleTemplateManager _templateEngine;
-        private object validator;
 
         public MainDialog(
             IServiceProvider serviceProvider)
@@ -51,10 +50,11 @@ namespace SkillSample.Dialogs
             AddDialog(_sampleAction);
         }
 
-        private async Task<bool> Validator(PromptValidatorContext<Activity> promptContext, CancellationToken cancellationToken)
+        // Validate that activity is either a message with text or an event
+        protected async Task<bool> Validator(PromptValidatorContext<Activity> promptContext, CancellationToken cancellationToken)
         {
             var activity = promptContext.Context.Activity;
-            if ((activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text))|| activity.Type == ActivityTypes.Event)
+            if ((activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text)) || activity.Type == ActivityTypes.Event)
             {
                 return true;
             }
