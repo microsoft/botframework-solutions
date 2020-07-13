@@ -194,7 +194,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             while (!cancellationToken.IsCancellationRequested && !maxCancellation.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromSeconds(3));
+                await Task.Delay(TimeSpan.FromSeconds(4));
 
                 var activities = await ReadBotMessagesAsync(cancellationToken);
 
