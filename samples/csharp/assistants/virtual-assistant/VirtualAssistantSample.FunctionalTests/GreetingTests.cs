@@ -66,8 +66,8 @@ namespace VirtualAssistantSample.FunctionalTests
 
             await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
 
-            // Wait 4 seconds before checking for response on a new conversation
-            await Task.Delay(TimeSpan.FromSeconds(4));
+            // Wait 5 seconds before checking for response on a new conversation
+            await Task.Delay(TimeSpan.FromSeconds(5));
 
             var messages = await testBot.ReadBotMessagesAsync(cancellationTokenSource.Token);
 
