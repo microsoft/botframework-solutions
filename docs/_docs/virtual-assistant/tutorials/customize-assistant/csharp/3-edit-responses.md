@@ -22,7 +22,7 @@ Within `Startup.cs` in your project root directory add the newly created LG file
 
 ```csharp
 // Configure localized responses
-var localizedTemplates = new Dictionary<string, List<string>>();
+var localizedTemplates = new Dictionary<string, string>();
 var templateFiles = new List<string>() { "MainResponses", "OnboardingResponses" };
 var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", "it-it", "zh-cn" };
 ```

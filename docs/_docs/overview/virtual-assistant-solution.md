@@ -12,7 +12,7 @@ toc: true
 
 Customers and partners have increasing need to deliver advanced conversational assistant experiences tailored to their brand, personalized to their users, and made available across a broad range of canvases and devices. Continuing Microsoft's open-sourced approach towards the Bot Framework SDK, the open-source Virtual Assistant solution provides you with a set of core foundational capabilities and full control over the end user experience and data.
 
-At it's core the [Virtual Assistant]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices for developing a bot on the Microsoft Azure platform.
+At its core the [Virtual Assistant]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices for developing a bot on the Microsoft Azure platform.
 
 Common assistant scenarios are provided as reusable conversational skills, increasing developer productivity and enabling a vibrant ecosystem of reusable components. Individual skills can be added to an assistant to enable new scenarios, for example: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models and responses for multiple languages, dialogs, and code.
 
@@ -54,7 +54,7 @@ The Virtual Assistant Solution Accelerator architecture is flexible and can be i
 ### Extend with Bot Framework Skills
 {:.no_toc}
 
-A Virtual Assistant often needs to extend it's capabilities with specialized Skills. Typically, an organization needs to manage their own language models, dialogs, API integration, and generated responses.
+A Virtual Assistant often needs to extend its capabilities with specialized Skills. Typically, an organization needs to manage their own language models, dialogs, API integration, and generated responses.
 This is further complicated should you require your Virtual Assistant to support multiple languages. The Solution Accelerator includes a Skill capability that enables external bots to be plugged into an existing Virtual Assistant.
 
 
