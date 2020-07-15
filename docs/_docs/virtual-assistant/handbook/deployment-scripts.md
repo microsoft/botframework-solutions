@@ -42,10 +42,12 @@ This script orchestrates the deployment of all Azure Resources and Cognitive Mod
 | armLuisAuthoringRegion | The region to deploy LUIS authoring resource in Azure (**only required for Azure Gov deployments**) | No |
 | luisEndpoint | The LUIS endpoint for deploying and managing LUIS applications. Required if **createLuisAuthoring** is set to false. | No |
 | useGov | Flag indicating if the deployment is targeting the Azure Government Cloud. Defaults to **false**.| No |
-| qnaEndpoint | Endpoint for deploying QnA Maker knowledge bases (**only required for Azure Gov deployments**). | No |
+| qnaEndpoint | Endpoint for deploying QnA Maker knowledge bases (**only required for Azure Gov deployments. See note below for more information.**). | No |
 | languages | Specifies which languages to deploy cognitive models in a comma separated string (e.g. "en-us,de-de,es-es"). Defaults to "en-us". | No |
 | projDir | Location to save **appsettings.json** and **cognitivemodels.json** configuration files. Defaults to current directory. | No |
 | logFile | Log file for any errors that occur during script execution. Defaults to **Deployment** folder | No |
+
+> Note: QnA Maker requires three Azure resources, a QnA Maker Cognitive Service subscription, an Azure Search resource, and an Azure web app. The Cognitive Service subscription can only be deployed in West US for Azure Commercial deployments, therefore the QnA Maker endpoint will be the same for all regions unless the service is being deployed for Azure Government.
 
 ### deploy_cognitive_models.ps1
 {:.no_toc}
