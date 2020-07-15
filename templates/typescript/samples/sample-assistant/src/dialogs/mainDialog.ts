@@ -7,7 +7,7 @@ import {
     RecognizerResult,
     StatePropertyAccessor, 
     TurnContext, 
-    BotFrameworkSkill} from 'botbuilder';
+    BotFrameworkSkill } from 'botbuilder';
 import {
     LuisRecognizer,
     QnAMakerDialog, 
@@ -37,6 +37,8 @@ import { TokenStatus } from 'botframework-connector';
 import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'botframework-schema';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
+import { inject, optional } from 'inversify';
+import { TYPES } from '../types/constants';
 import { StateProperties } from '../models/stateProperties';
 import { OnboardingDialog } from './onboardingDialog';
 
@@ -57,15 +59,15 @@ export class MainDialog extends ComponentDialog {
     private activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>;
     
     public constructor(
-        services: BotServices,
-        templateManager: LocaleTemplateManager,
-        userProfileState: StatePropertyAccessor<IUserProfileState>,
-        previousResponseAccessor: StatePropertyAccessor<Partial<Activity>[]>,
-        onBoardingDialog: OnboardingDialog,
-        switchSkillDialog: SwitchSkillDialog,
-        skillDialogs: SkillDialog[],
-        skillsConfig: SkillsConfiguration,
-        activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>
+    @inject(TYPES.BotServices) services: BotServices,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
+        @inject(TYPES.IUserProfileState) userProfileState: StatePropertyAccessor<IUserProfileState>,
+        @inject(TYPES.Activity) previousResponseAccessor: StatePropertyAccessor<Partial<Activity>[]>,
+        @inject(TYPES.OnboardingDialog) onBoardingDialog: OnboardingDialog,
+        @inject(TYPES.SwitchSkillDialog) switchSkillDialog: SwitchSkillDialog,
+        @inject(TYPES.SkillDialogs) @optional() skillDialogs: SkillDialog[],
+        @inject(TYPES.SkillsConfiguration) @optional() skillsConfig: SkillsConfiguration,
+        @inject(TYPES.BotFrameworkSkill) activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>
     ) {
         super(MainDialog.name);
 
@@ -95,9 +97,11 @@ export class MainDialog extends ComponentDialog {
         this.addDialog(this.onBoardingDialog);
         this.addDialog(this.switchSkillDialog);
         // Register skill dialogs
-        skillDialogs.forEach((skillDialog: SkillDialog): void => {
-            this.addDialog(skillDialog);
-        });
+        if (skillDialogs) {
+            skillDialogs.forEach((skillDialog: SkillDialog): void => {
+                this.addDialog(skillDialog);
+            });
+        }
     }
 
     public async onDialogEvent(dialogContext: DialogContext, event: DialogEvent): Promise<boolean> {

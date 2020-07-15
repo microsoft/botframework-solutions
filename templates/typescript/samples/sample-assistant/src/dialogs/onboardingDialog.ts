@@ -13,8 +13,10 @@ import {
 import { IUserProfileState } from '../models/userProfileState';
 import { StateProperties } from '../models/stateProperties';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateManager, DialogContextEx } from 'bot-solutions';
+import { LocaleTemplateManager } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
+import { inject } from 'inversify';
+import { TYPES } from '../types/constants';
 
 enum DialogIds {
     NamePrompt = 'namePrompt',
@@ -27,9 +29,9 @@ export class OnboardingDialog extends ComponentDialog {
     private readonly accessor: StatePropertyAccessor<IUserProfileState>;
 
     public constructor(
-        accessor: StatePropertyAccessor<IUserProfileState>,
-        services: BotServices,
-        templateManager: LocaleTemplateManager) {
+    @inject(TYPES.IUserProfileState) accessor: StatePropertyAccessor<IUserProfileState>,
+        @inject(TYPES.BotServices) services: BotServices,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager) {
         super(OnboardingDialog.name);
         this.templateManager = templateManager;
 
@@ -53,7 +55,7 @@ export class OnboardingDialog extends ComponentDialog {
         }
         
         return await sc.prompt(DialogIds.NamePrompt, {
-                prompt: this.templateManager.generateActivityForLocale('NamePrompt', sc.context.activity.locale),
+            prompt: this.templateManager.generateActivityForLocale('NamePrompt', sc.context.activity.locale),
         });
     }
 

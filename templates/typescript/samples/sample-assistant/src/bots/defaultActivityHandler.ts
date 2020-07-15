@@ -18,6 +18,8 @@ import {
     DialogSet,
     DialogState } from 'botbuilder-dialogs';
 import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
+import { inject } from 'inversify';
+import { TYPES } from '../types/constants';
 import { IUserProfileState } from '../models/userProfileState';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
@@ -32,10 +34,10 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     private templateManager: LocaleTemplateManager;
 
     public constructor(
-        conversationState: ConversationState,
-        userState: UserState,
-        templateManager: LocaleTemplateManager,
-        dialog: T
+    @inject(TYPES.ConversationState) conversationState: ConversationState,
+        @inject(TYPES.UserState) userState: UserState,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
+        @inject(TYPES.MainDialog) dialog: T
     ) {
         super();
         this.dialog = dialog;

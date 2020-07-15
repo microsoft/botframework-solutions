@@ -22,17 +22,19 @@ import {
     SetSpeakMiddleware,
     FeedbackOptions} from 'bot-solutions';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import { IBotSettings } from '../services/botSettings.js';
+import { IBotSettings } from '../services/botSettings';
+import { inject } from 'inversify';
+import { TYPES } from '../types/constants';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
 
     public constructor(
-        settings: Partial<IBotSettings>,
-        templateManager: LocaleTemplateManager,
-        conversationState: ConversationState,
-        adapterSettings: Partial<BotFrameworkAdapterSettings>,
-        telemetryMiddleware: TelemetryInitializerMiddleware,
-        telemetryClient: BotTelemetryClient
+    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
+        @inject(TYPES.ConversationState) conversationState: ConversationState,
+        @inject(TYPES.BotFrameworkAdapterSettings) adapterSettings: Partial<BotFrameworkAdapterSettings>,
+        @inject(TYPES.TelemetryInitializerMiddleware) telemetryMiddleware: TelemetryInitializerMiddleware,
+        @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient
     ) {
         super(adapterSettings);
 
