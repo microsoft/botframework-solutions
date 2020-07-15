@@ -393,3 +393,22 @@ If you have an existing LUIS application that you want to use in your Virtual As
         // Run LUIS recognition on General model and store result in turn state.
         var luisResult = await localizedServices.LuisServices["luis-app-id"].RecognizeAsync<YourLUIS.cs>(innerDc.Context, cancellationToken);
       ```
+
+## How do I add support for additional languages to my existing Virtual Assistant?
+If you would like to add support for additional languages to your existing Virtual Assistant, please refer to the following steps.
+
+1. Run the following command from your project directory. Replace "locale" with one or more of the supported language codes (en-us, it-it, de-de, es-es, fr-fr, or zh-cn). The values for the remaining parameters can be found in appsettings.json after Virtual Assistant deployment.
+
+    ```
+      .\Deployment\Scripts\deploy_cognitive_models.ps1 `
+        -languages "locale" `
+        -name 'base-name-of-luis-model' `
+        -resourceGroup 'resouce-group-for-luis-resource' `
+        -luisAuthoringRegion 'luis-authoring-region' `
+        -luisAuthoringKey 'luis-authoring-key' `
+        -luisAccountName 'luis-account-name' `
+        -luisAccountRegion 'luis-account-region' `
+        -luisSubscriptionKey 'luis-subscription-key' `
+        -luisEndpoint 'luis-endpoint' `
+        -qnaSubscriptionKey 'qna-subscription-key'
+    ```
