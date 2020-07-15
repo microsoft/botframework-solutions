@@ -2,7 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
-
+import 'reflect-metadata';
 import {
     Activity,
     ActivityHandler,
@@ -15,6 +15,8 @@ import {
     Dialog,
     DialogState } from 'botbuilder-dialogs';
 import { LocaleTemplateManager, DialogEx } from 'bot-solutions';
+import { inject } from 'inversify';
+import { TYPES } from '../types/constants';
 
 export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly dialog: Dialog;
@@ -23,7 +25,12 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private dialogStateAccessor: StatePropertyAccessor<DialogState>;
     private templateManager: LocaleTemplateManager;
 
-    public constructor(conversationState: BotState, userState: BotState, templateManager: LocaleTemplateManager, dialog: T) {
+    public constructor(
+    @inject(TYPES.ConversationState) conversationState: BotState,
+        @inject(TYPES.ConversationState) userState: BotState,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
+        @inject(TYPES.MainDialog) dialog: T
+    ) {
         super();
         this.dialog = dialog;
         this.conversationState = conversationState;
