@@ -28,7 +28,9 @@
         "botframework-config": "^4.9.2",
         "botframework-connector": "^4.9.2",
         "dotenv": "^6.0.0",
-        "restify": "^8.5.1"
+        "restify": "^8.5.1",
+        "inversify": "^5.0.1",
+        "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
         "@types/node": "^10.10.1",

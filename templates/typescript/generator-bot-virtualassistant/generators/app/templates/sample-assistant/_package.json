@@ -30,7 +30,9 @@
         "bot-solutions": "^1.0.0",
         "botframework-config": "^4.9.2",
         "botframework-connector": "^4.9.2",
-        "restify": "^8.5.1"
+        "restify": "^8.5.1",
+        "inversify": "^5.0.1",
+        "reflect-metadata": "^0.1.13"
     },
     "devDependencies": {
         "@types/restify": "^8.4.2",

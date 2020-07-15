@@ -11,8 +11,10 @@ import { SkillDialogBase } from './skillDialogBase';
 import { BotTelemetryClient, StatePropertyAccessor, Activity } from 'botbuilder';
 import { BotServices } from '../services/botServices';
 import { LocaleTemplateManager } from 'bot-solutions';
-import { SkillState } from '../models/skillState';
 import { IBotSettings } from '../services/botSettings';
+import { inject } from 'inversify';
+import { TYPES } from '../types/constants';
+import { SkillState } from '../models/skillState';
 
 export class SampleActionInput {
     public name = '';
@@ -30,11 +32,11 @@ export class SampleAction extends SkillDialogBase {
     private readonly nameKey: string = 'name';
 
     public constructor(
-        settings: Partial<IBotSettings>,
-        services: BotServices,
-        stateAccessor: StatePropertyAccessor<SkillState>,
-        telemetryClient: BotTelemetryClient,
-        templateManager: LocaleTemplateManager
+    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+        @inject(TYPES.BotServices) services: BotServices,
+        @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
+        @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager
     ) {
         super(SampleAction.name, settings, services, stateAccessor, telemetryClient, templateManager);
         

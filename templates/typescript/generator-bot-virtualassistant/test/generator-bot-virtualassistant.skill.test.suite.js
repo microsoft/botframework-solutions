@@ -27,7 +27,6 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
     var manifest1_1;
     const manifestPath1_0 = join(`src`, `manifest`, `manifest-1.0.json`);
     const manifestPath1_1 = join(`src`, `manifest`, `manifest-1.1.json`);
-    const testCognitiveModelsPath = join(`test`, `mocks`, `resources`, `cognitiveModels.json`);
 
     const templatesFiles = [
         `package.json`,
@@ -35,8 +34,7 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
         `.gitignore`,
         `.nycrc`,
         manifestPath1_0,
-        manifestPath1_1,
-        testCognitiveModelsPath
+        manifestPath1_1
     ];
 
     const commonDirectories = [
@@ -52,8 +50,7 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
         join(`src`, `services`),
         `test`,
         join(`test`, `helpers`),
-        join(`test`, `mocks`),
-        join(`test`, `mocks`, `resources`),
+        join(`test`, `mocks`)
     ];
 
     describe(`should create`, function() {
@@ -200,23 +197,6 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
             });
         });
         
-        describe(`and have in the cognitiveModels file`, function() {
-            it(`an id property with the given name`, function(done) {
-                assert.fileContent(
-                  join(skillGenerationPath, skillName, testCognitiveModelsPath),
-                  `"id": "${skillNameCamelCase}",`
-                );
-                done();
-            });
-
-            it(`a name property with the given name`, function(done) {
-                assert.fileContent(
-                  join(skillGenerationPath, skillName, testCognitiveModelsPath),
-                  `"name": "${skillNameCamelCase}",`
-                );
-                done();
-            });
-        });
     })
 
     describe(`should not create`, function() {

@@ -22,15 +22,17 @@ import { TurnContextEx } from '../extensions/turnContextEx';
 import { AzureBlobTranscriptStore, BlobStorageSettings } from 'botbuilder-azure';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { Activity } from 'botframework-schema';
+import { inject } from 'inversify';
+import { TYPES } from '../types/constants';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
 
     public constructor(
-        settings: Partial<IBotSettings>,
-        adapterSettings: Partial<BotFrameworkAdapterSettings>,
-        templateManager: LocaleTemplateManager,
-        telemetryMiddleware: TelemetryInitializerMiddleware,
-        telemetryClient: BotTelemetryClient,
+    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+        @inject(TYPES.BotFrameworkAdapterSettings) adapterSettings: Partial<BotFrameworkAdapterSettings>,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
+        @inject(TYPES.TelemetryInitializerMiddleware) telemetryMiddleware: TelemetryInitializerMiddleware,
+        @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
     ) {
         super(adapterSettings);
         this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {

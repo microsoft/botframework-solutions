@@ -23,6 +23,8 @@ import { TokenResponse } from 'botframework-schema';
 import { SkillState } from '../models/skillState';
 import { BotServices} from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
+import { inject, unmanaged } from 'inversify';
+import { TYPES } from '../types/constants';
 
 export class SkillDialogBase extends ComponentDialog {
     protected settings: Partial<IBotSettings>;
@@ -31,12 +33,12 @@ export class SkillDialogBase extends ComponentDialog {
     protected templateManager: LocaleTemplateManager;
 
     public constructor(
-        dialogId: string,
-        settings: Partial<IBotSettings>,
-        services: BotServices,
-        stateAccessor: StatePropertyAccessor<SkillState>,
-        telemetryClient: BotTelemetryClient,
-        templateManager: LocaleTemplateManager
+    @unmanaged() dialogId: string,
+        @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+        @inject(TYPES.BotServices) services: BotServices,
+        @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
+        @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager
     ) {
         super(dialogId);
         this.services = services;
