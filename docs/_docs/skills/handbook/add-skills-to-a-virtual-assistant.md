@@ -19,6 +19,7 @@ toc: true
     ```shell
     npm install -g botdispatch @microsoft/botframework-cli
     ```
+- [.NET Core runtime](https://dotnet.microsoft.com/download/dotnet-core/2.1#runtime-2.1.0) 2.1.0 or higher but lower than 3.0.0
 
 ## Adding Skills
 
@@ -77,8 +78,9 @@ If a Skill requires Authentication connections to Office/Office 365 this is comp
 To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). You can use the `botskills list` to view the registered skills.
 
 ```bash
-botskills disconnect --skillId SKILL_ID
+botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
+*Bear in mind that the skillId parameter is case sensitive*
 
 > Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation]({{site.baseurl}}/skills/handbook/botskills) on this command.
 

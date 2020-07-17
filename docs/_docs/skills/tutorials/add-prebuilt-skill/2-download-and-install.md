@@ -28,5 +28,5 @@ order: 2
    ```
    npm install -g botskills@latest
    ```
-
+1. [.NET Core runtime](https://dotnet.microsoft.com/download/dotnet-core/2.1#runtime-2.1.0) 2.1.0 or higher but lower than 3.0.0
 1. Install the [Azure Command Line Tools (CLI)](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest)

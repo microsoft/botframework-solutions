@@ -14,7 +14,7 @@ The [Skill manifest](https://schemas.botframework.com/schemas/skills/skill-manif
 
 This manifest provides all of the metadata required for a calling Bot to know when to trigger invoking a skill and what actions it provides. The manifest is used by the Skill command-line tool to configure a Bot to make use of a Skill.
 
-Each skill exposes a manifest endpoint enabling easy retrieval of a manifest, this is typically found at the `/manifest/manifest.json` of your Skill URI.
+Each skill exposes a manifest endpoint enabling easy retrieval of a manifest, this is typically found at the `/manifest/manifest-1.1.json` of your Skill URI.
 
 ## Manifest structure
 
