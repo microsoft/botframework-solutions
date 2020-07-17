@@ -27,6 +27,10 @@ The Linked Accounts feature of the Virtual Assistant provides a reference sample
 
 ![Linked Accounts UX]({{site.baseurl}}/assets/images/virtualassistant-linkedaccountsux.png)
 
+## Add Authentication to a Virtual Assistant
+
+The Virtual Assistant template does not have authentication enabled out-of-the-box, learn how to [add configuration for a configured Skill]({{site.baseurl}}/skills/handbook/authentication) on your bot before configuring a Linked Accounts web app.
+
 ## Authentication Configuration
 
 In order to perform Account Linking, the Linked Accounts web app will need the end user to login using the same account as they'll use to authenticate as a user of your Virtual Assistant, for example **darren@contosoassistant.com**. This is required to retrieve the unique identifier of the user which is used as the **key** to retrieving any linked token in the future.
