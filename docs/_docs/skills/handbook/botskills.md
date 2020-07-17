@@ -33,7 +33,7 @@ The CLI performs the following operations on your behalf:
     ```
 
 ## Commands
-For all of this commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template.
+For all of these commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template.
 
 ### Connect Skills
 {:.no_toc}

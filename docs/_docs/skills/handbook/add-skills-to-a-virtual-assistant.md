@@ -75,7 +75,7 @@ If a Skill requires Authentication connections to Office/Office 365 this is comp
 
 ## Remove a Skill from your Virtual Assistant
 
-To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). You can use the `botskills list` to view the registered skills. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
+To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. You can use the `botskills list` to view the registered skills.
 
 ```bash
 botskills disconnect --skillId <YOUR_SKILL_ID> --cs
