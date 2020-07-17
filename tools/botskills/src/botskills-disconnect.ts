@@ -28,7 +28,7 @@ program.Command.prototype.unknownOption = (flag: string): void => {
 
 program
     .name('botskills disconnect')
-    .description('Disconnect a specific skill from your assitant bot. The id of the Skill is needed.')
+    .description('Disconnect a specific skill from your assistant bot. The id of the Skill is needed.')
     .option('-i, --skillId <id>', 'Id of the skill to remove from your assistant (case sensitive)')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
