@@ -63,7 +63,10 @@ namespace SkillSample
             });
 
             // Load settings
-            var settings = new BotSettings();
+            var settings = new BotSettings()
+            {
+                LogPersonalData = Configuration.GetSection("logPersonalInfo")?.Value.ToLower() == "true"
+            };
             Configuration.Bind(settings);
             services.AddSingleton(settings);
             services.AddSingleton<BotSettingsBase>(settings);
@@ -83,8 +86,14 @@ namespace SkillSample
             services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
             services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
             services.AddSingleton<TelemetryInitializerMiddleware>();
-            services.AddSingleton<TelemetryLoggerMiddleware>();
-
+            if (settings.LogPersonalData)
+            {
+                services.AddSingleton<TelemetryLoggerMiddleware>(s => new TelemetryLoggerMiddleware(s.GetService<IBotTelemetryClient>(), true));
+            }
+            else
+            {
+                services.AddSingleton<TelemetryLoggerMiddleware>();
+            }
             // Configure bot services
             services.AddSingleton<BotServices>();
 

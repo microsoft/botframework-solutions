@@ -28,16 +28,16 @@ order: 3
 
 ## Additional Telemetry
 
-By default, a Virtual Assistant or Skill template based project doesn't collect personally identifiable information (e.g. Conversation drill-down and transcripts) which will lead to the respective sections in the PowerBI dashboard to not show information. If you wish to collect this information make the following change to `Startup.cs`
+By default, a Virtual Assistant or Skill template based project collects personally identifiable information (e.g. Conversation drill-down and transcripts) which will lead to the respective sections in the PowerBI dashboard to function as expected. If you wish to not collect this information make the following change to `appsettings.json`
 
 Change this entry:
 
 ```csharp
-    services.AddSingleton<TelemetryLoggerMiddleware>();
+    "logPersonalInfo": true
 ```
 
 To the following:
 
 ```csharp
-    services.AddSingleton<TelemetryLoggerMiddleware>(s=>new TelemetryLoggerMiddleware(s.GetService<IBotTelemetryClient>(), true));
+    "logPersonalInfo": false
 ```
