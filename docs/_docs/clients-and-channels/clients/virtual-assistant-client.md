@@ -37,7 +37,6 @@ There are two configuration files used to provide your environment settings.
 {
   "SpeechSubscriptionKey": "SPEECH_SERVICE_SUBSCRIPTION_KEY", // Replace with your Speech Service subscription key
   "SpeechRegion": "westus2",
-  "BotId": "DIRECT_LINE_SPEECH_SECRET_KEY", // Replace with your Direct Line Speech secret
   "CustomCommandsAppId": "", // Optional, if you are connecting to a Custom Commands application
   "CustomVoiceDeploymentIds": "", // Optional, to point to custom voices
   "CustomSREndpointId": "", // Optional, to point to a customized speech recognition endpoint
