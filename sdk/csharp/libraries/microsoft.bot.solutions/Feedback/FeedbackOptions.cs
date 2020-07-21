@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Feedback
@@ -9,6 +10,7 @@ namespace Microsoft.Bot.Solutions.Feedback
     /// <summary>
     /// Configures the FeedbackMiddleware object.
     /// </summary>
+    [ExcludeFromCodeCoverageAttribute]
     public class FeedbackOptions
     {
         private List<CardAction> feedbackActions;

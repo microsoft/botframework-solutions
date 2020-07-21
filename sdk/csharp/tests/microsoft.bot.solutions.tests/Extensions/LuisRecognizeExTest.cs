@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +9,7 @@ namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class LuisRecognizeExTest
     {
         private const string _sentiment = "sentiment";

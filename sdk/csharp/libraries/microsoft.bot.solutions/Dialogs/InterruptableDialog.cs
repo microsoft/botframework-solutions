@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Bot.Builder.Dialogs;
 namespace Microsoft.Bot.Solutions.Dialogs
 {
     [Obsolete("InterruptableDialog is being deprecated. For more information, refer to https://aka.ms/bfvarouting.", false)]
+    [ExcludeFromCodeCoverageAttribute]
     public abstract class InterruptableDialog : ComponentDialog
     {
         public InterruptableDialog(string dialogId, IBotTelemetryClient telemetryClient)

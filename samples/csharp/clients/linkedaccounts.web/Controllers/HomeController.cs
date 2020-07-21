@@ -60,7 +60,7 @@ namespace LinkedAccounts.Web.Controllers
             // as coming from this web-site and protecting against scenarios where a URL is shared with someone else
             string trustedOrigin = $"{this.HttpContext.Request.Scheme}://{this.HttpContext.Request.Host}";
 
-            var userId = "dl_" + Guid.NewGuid().ToString();
+            var userId = UserId.GetUserId(this.HttpContext, this.User);
             request.Content = new StringContent(
                 JsonConvert.SerializeObject(new
                 {

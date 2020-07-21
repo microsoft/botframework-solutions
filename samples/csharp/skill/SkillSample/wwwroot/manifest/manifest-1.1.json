@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
+  "$schema": "https://schemas.botframework.com/schemas/skills/v2.1/skill-manifest.json",
   "$id": "SampleSkill",
   "name": "SampleSkill",
   "description": "SampleSkill description",
