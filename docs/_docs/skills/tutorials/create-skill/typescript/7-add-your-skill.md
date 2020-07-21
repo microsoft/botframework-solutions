@@ -4,7 +4,7 @@ category: Skills
 subcategory: Create
 language: typescript
 title: Add your skill to a Virtual Assistant
-order: 6
+order: 7
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
@@ -22,9 +22,8 @@ To add your new Skill to your assistant we provide the [botskills](https://www.n
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --ts --luisFolder "path-to-lu-folder"
+botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --ts
 ```
-
 Remember to re-publish your assistant to Azure after you’ve added a Skill unless you plan on testing locally only.
 
 Once the connect command finish successfully, you can see under the `botFrameworkSkills` property of your assistant’s appsettings.json file that the following structure was added with the information provided in the Skill manifest.

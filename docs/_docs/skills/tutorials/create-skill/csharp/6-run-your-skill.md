@@ -11,7 +11,7 @@ order: 6
 
 ## {{ page.title }}
 
-After deployment, you and run and test your Skill project using these steps:
+After deployment, you can run and test your Skill project using these steps:
 
 1. Press **F5** within Visual Studio to run your skill.
 1. Open the **Bot Framework Emulator**.
