@@ -1,18 +1,12 @@
-﻿using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Adapters;
+﻿using System.Net;
+using System.Threading.Tasks;
+using AdaptiveCards;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using VirtualAssistantSample.Bots;
-using VirtualAssistantSample.Tests.Mocks;
 
 namespace VirtualAssistantSample.Tests
 {
@@ -31,16 +25,51 @@ namespace VirtualAssistantSample.Tests
                 Name = "task/fetch",
                 Value = JObject.Parse(taskFetch)
             };
-            var sp = Services.BuildServiceProvider();
-            //var iLogger = sp.GetService<ILogger<DefaultActivityHandler<MockMainDialog>>>();
-            //var mockMainDialog = sp.GetService<MockMainDialog>();
-            //var defaultActivityHandler = new DefaultActivityHandler<MockMainDialog>(sp, iLogger, mockMainDialog);
-            var adapter = sp.GetService<TestAdapter>();
-            var turnContext = new TurnContext(adapter, activity);
-            var taskModuleRequest = new TaskModuleRequest { Context = new TaskModuleRequestContext(), Data = taskFetch };
-            //var handler = defaultActivityHandler.OnTeamsTaskModuleFetch(turnContext as ITurnContext<IInvokeActivity>, taskModuleRequest, CancellationToken.None);
             await GetTestFlow()
-                .Send(activity )
+                .Send(activity)
+                .AssertReply(activity =>
+                {
+                    var result = activity as IInvokeActivity;
+
+                    // Assert there is a card in the message
+                    Assert.AreEqual("invokeResponse", activity.Type);
+                    var val = (InvokeResponse)result.Value;
+                    Assert.AreEqual((int)HttpStatusCode.OK, val.Status);
+                    Assert.IsNotNull(val.Body);
+                    var body = (TaskModuleResponse)val.Body;
+                    var contiueResponse = (TaskModuleContinueResponse)body.Task;
+                    Assert.AreEqual("FetchTaskModule", contiueResponse.Value.Title);
+                })
+                .StartTestAsync();
+        }
+
+        [TestMethod]
+        public async Task TestTaskModuleSubmit()
+        {
+            // TaskModule Activity For Fetch
+            var taskSubmit = "{\r\n  \"data\": {\r\n    \"msteams\": {\r\n      \"type\": \"task/fetch\"\r\n    },\r\n    \"data\": {\r\n      \"TaskModuleFlowType\": \"CreateTicket_Form\",\r\n   \"SkillId\": \"TestSkill\",\r\n    \"Submit\": true\r\n    },\r\n    \"IncidentTitle\": \"Test15\",\r\n    \"IncidentDescription\": \"Test15\",\r\n    \"IncidentUrgency\": \"Medium\"\r\n  },\r\n  \"context\": {\r\n    \"theme\": \"dark\"\r\n  }\r\n}";
+
+            var activity = new Activity
+            {
+                Type = ActivityTypes.Invoke,
+                Name = "task/fetch",
+                Value = JObject.Parse(taskSubmit)
+            };
+            await GetTestFlow(isTaskSubmit: true)
+                .Send(activity)
+                .AssertReply(activity =>
+                {
+                    var result = activity as IInvokeActivity;
+
+                    // Assert there is a card in the message
+                    Assert.AreEqual("invokeResponse", activity.Type);
+                    var val = (InvokeResponse)result.Value;
+                    Assert.AreEqual((int)HttpStatusCode.OK, val.Status);
+                    Assert.IsNotNull(val.Body);
+                    var body = (TaskModuleResponse)val.Body;
+                    var contiueResponse = (TaskModuleContinueResponse)body.Task;
+                    Assert.AreEqual("SubmitTaskModule", contiueResponse.Value.Title);
+                })
                 .StartTestAsync();
         }
     }

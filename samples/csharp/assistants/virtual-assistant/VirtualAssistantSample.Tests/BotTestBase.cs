@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Builder.AI.Luis;
@@ -19,6 +20,7 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Schema.Teams;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
@@ -45,6 +47,8 @@ namespace VirtualAssistantSample.Tests
         private const string _knowledgeBaseId = "Chitchat";
         private const string _endpointKey = "dummy-key";
         private const string _hostname = "https://dummy-hostname.azurewebsites.net/qnamaker";
+        private Mock<ILogger<DefaultActivityHandler<MockMainDialog>>> _logger;
+        private Mock<HttpClient> _mockHttpClient;
 
         public IServiceCollection Services { get; set; }
 
@@ -161,42 +165,82 @@ namespace VirtualAssistantSample.Tests
             var skillConfiguration = new SkillsConfiguration(appsettingsConfiguration);
             Services.AddSingleton(skillConfiguration);
 
-            var mockLogger = new Mock<ILogger<DefaultActivityHandler<MockMainDialog>>>();
-            Services.AddSingleton(mockLogger.Object);
+            _logger = new Mock<ILogger<DefaultActivityHandler<MockMainDialog>>>();
+            Services.AddSingleton(_logger.Object);
 
-            var mockHttpClient = new Mock<HttpClient>();
-
-            // Mock HttpClient
-            var skillHttpClient = new Mock<SkillHttpClient>(
-                mockHttpClient.Object,
-                new Mock<ICredentialProvider>().Object,
-                new Mock<SkillConversationIdFactory>(new MemoryStorage()).Object,
-                new Mock<IChannelProvider>().Object,
-                mockLogger.Object);
-
-            skillHttpClient.Setup(
-                a => a.PostActivityAsync(
-                It.IsAny<string>(),
-                It.IsAny<EnhancedBotFrameworkSkill>(),
-                It.IsAny<Uri>(),
-                It.IsAny<Activity>(),
-                It.IsAny<CancellationToken>()))
-                .Returns(
-                Task.FromResult(
-                new InvokeResponse
-                {
-                    Status = (int)HttpStatusCode.OK,
-                    Body = null, 
-                }));
-
-            Services.AddSingleton(skillHttpClient.Object);
+            _mockHttpClient = new Mock<HttpClient>();
 
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
         }
 
-        public TestFlow GetTestFlow(bool includeUserProfile = true)
+        public TestFlow GetTestFlow(bool includeUserProfile = true, bool isTaskSubmit = false)
         {
+            // Mock HttpClient
+            var skillHttpClient = new Mock<SkillHttpClient>(
+                _mockHttpClient.Object,
+                new Mock<ICredentialProvider>().Object,
+                new Mock<SkillConversationIdFactory>(new MemoryStorage()).Object,
+                new Mock<IChannelProvider>().Object,
+                _logger.Object);
+
+            if (isTaskSubmit)
+            {
+                skillHttpClient.Setup(
+                    a => a.PostActivityAsync(
+                    It.IsAny<string>(),
+                    It.IsAny<EnhancedBotFrameworkSkill>(),
+                    It.IsAny<Uri>(),
+                    It.IsAny<Activity>(),
+                    It.IsAny<CancellationToken>()))
+                    .Returns(
+                    Task.FromResult(
+                    new InvokeResponse
+                    {
+                        Status = (int)HttpStatusCode.OK,
+                        Body = new TaskModuleResponse
+                        {
+                            Task = new TaskModuleContinueResponse
+                            {
+                                Type = "continue",
+                                Value = new TaskModuleTaskInfo
+                                {
+                                    Title = "SubmitTaskModule",
+                                }
+                            }
+                        },
+                    }));
+            }
+            else
+            {
+                skillHttpClient.Setup(
+                    a => a.PostActivityAsync(
+                    It.IsAny<string>(),
+                    It.IsAny<EnhancedBotFrameworkSkill>(),
+                    It.IsAny<Uri>(),
+                    It.IsAny<Activity>(),
+                    It.IsAny<CancellationToken>()))
+                    .Returns(
+                    Task.FromResult(
+                    new InvokeResponse
+                    {
+                        Status = (int)HttpStatusCode.OK,
+                        Body = new TaskModuleResponse
+                        {
+                            Task = new TaskModuleContinueResponse
+                            {
+                                Type = "continue",
+                                Value = new TaskModuleTaskInfo
+                                {
+                                    Title = "FetchTaskModule",
+                                }
+                            }
+                        },
+                    }));
+            }
+
+            Services.AddSingleton(skillHttpClient.Object);
+
             var sp = Services.BuildServiceProvider();
             var adapter = sp.GetService<TestAdapter>()
                 .Use(new FeedbackMiddleware(sp.GetService<ConversationState>(), sp.GetService<IBotTelemetryClient>()));
