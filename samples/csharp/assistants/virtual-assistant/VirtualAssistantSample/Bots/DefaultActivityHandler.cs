@@ -151,15 +151,7 @@ namespace VirtualAssistantSample.Bots
                 // Forward request to correct skill
                 var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
 
-                // Temporary workaround to get correct invokeresponse
-                // issue: https://github.com/microsoft/botframework-sdk/issues/5929
-                var response = new InvokeResponse()
-                {
-                    Status = invokeResponse.Status,
-                    Body = ((Microsoft.Bot.Builder.InvokeResponse<object>)invokeResponse).Body
-                };
-
-                return response.GetTaskModuleResponse();
+                return InvokeResponseHandler.GetTaskModuleResponse(invokeResponse);
             }
             catch
             {

@@ -55,6 +55,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettingsTest.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\faq_overview.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
