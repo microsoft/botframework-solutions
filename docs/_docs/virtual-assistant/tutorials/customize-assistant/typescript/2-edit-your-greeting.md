@@ -9,11 +9,7 @@ order: 2
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
 
-## Edit your greeting
-
 The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an open framework that lets you describe your content as you see fit and deliver it beautifully wherever your customers are.
-
-1. Copy and paste the following JSON payload to demonstrate how you can start customizing the look and feel of your Assistant. Note the inline references (`${NewUserIntroCardTitle()}`) to other LG elements to further adapt the contents at runtime.
 
 1. Copy the following JSON payload:
 
@@ -45,7 +41,7 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
                     "size": "Large",
                     "weight": "Bolder",
                     "color": "Light",
-                    "text": "${NewUserIntroCardTitle()}",
+                    "text": "Hi, I'm **your** Virtual Assistant",
                     "wrap": true
                 },
                 {
@@ -70,26 +66,23 @@ The assistant's greeting uses an [Adaptive Card](https://adaptivecards.io/), an 
         {
             "type": "Action.OpenUrl",
             "title": "Documentation",
-            "url": "https://aka.ms/virtualassistantdocs"
+            "url": "https://aka.ms/bfvadocs"
         },
         {
             "type": "Action.OpenUrl",
             "title": "Skills",
-            "url": "https://aka.ms/botframeworkskills"
+            "url": "https://aka.ms/bfskills"
         }
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
     "version": "1.0",
-    "speak": "${NewUserIntroCardTitle()}"
+    "speak": "Hi, I'm **your** Virtual Assistant. Now that I'm up and running, explore the links here to learn what I can do."
 }
 ```
 
-3. In your assistant's project, navigate to **responses** > **MainResponses.lg** and find the `# NewUserIntroCardJson` section. Paste the above JSON inbetween the ``` separators.
+2. In your assistant's project, navigate to `./src/content/NewUserGreeting.json` and paste the new payload.
+3. Run `npm start` to start your assistant and start a new conversation in the **Bot Framework Emulator** to see the change:
 
-4. Run `npm start` to start your assistant and start a new conversation in the **Bot Framework Emulator** to see the change:
-
-<p align="center">
-<img src="{{site.baseurl}}/assets/images/quickstart-virtualassistant-customizedgreeting.png" width="600">
-</p>
+![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-customizedgreeting.png)
 
 To further customize the card, paste the card into the [Adaptive Cards Designer](https://adaptivecards.io/designer/) to better match your content.

@@ -4,7 +4,7 @@ category: Skills
 subcategory: Create
 language: typescript
 title: Invoke your skill
-order: 8
+order: 7
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})

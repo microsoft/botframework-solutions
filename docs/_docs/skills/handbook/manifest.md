@@ -10,7 +10,7 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [Skill manifest](https://schemas.botframework.com/schemas/skills/v2.0/skill-manifest.json) enables Skills to be self-describing in that they communicate the name and description of a Skill, it's authentication requirements if appropriate along with the discrete actions that it exposes. Each action provides utterances that the caller can use to identify when an utterance should be passed across to a skill along with slots (parameters) that it can accept for slot-filling if required.
+The [Skill manifest](https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json) enables Skills to be self-describing in that they communicate the name and description of a Skill, it's authentication requirements if appropriate along with the discrete actions that it exposes. Each action provides utterances that the caller can use to identify when an utterance should be passed across to a skill along with slots (parameters) that it can accept for slot-filling if required.
 
 This manifest provides all of the metadata required for a calling Bot to know when to trigger invoking a skill and what actions it provides. The manifest is used by the Skill command-line tool to configure a Bot to make use of a Skill.
 
@@ -47,7 +47,7 @@ The top level section of your Manifest provides high level information relating 
 
 ```json
 {
-  "$schema": "https://schemas.botframework.com/schemas/skills/v2.0/skill-manifest.json",
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
   "$id": "SampleSkill",
   "name": "SampleSkill",
   "description": "SampleSkill description",
@@ -174,7 +174,7 @@ The `definitions` section provides the definitions for any types referenced in t
 
 ```json
 {
-  "$schema": "https://schemas.botframework.com/schemas/skills/v2.0/skill-manifest.json",
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
   "$id": "SampleSkill",
   "name": "SampleSkill",
   "description": "Sample Skill description",

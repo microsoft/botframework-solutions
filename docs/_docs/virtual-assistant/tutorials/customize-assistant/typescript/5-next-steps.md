@@ -11,7 +11,7 @@ order: 5
 
 ## Next steps
 
-Now that you've learned how to personalize a Virtual Assistant, try one of these tutorials:
+Now that you've learned learned how to personalize a Virtual Assistant, try one of these tutorials:
 
 <div class="card-deck">
     {% include button.html params=site.data.button.create_skill_ts %}

@@ -4,7 +4,7 @@ category: Skills
 subcategory: Create
 language: typescript
 title: Next steps
-order: 9
+order: 8
 ---
 
 # Tutorial: {{page.subcategory}} ({{page.language}})
