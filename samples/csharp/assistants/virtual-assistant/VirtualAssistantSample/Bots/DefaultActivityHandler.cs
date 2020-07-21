@@ -75,7 +75,6 @@ namespace VirtualAssistantSample.Bots
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             var userProfile = await _userProfileState.GetAsync(turnContext, () => new UserProfileState(), cancellationToken);
-            var reply = MessageFactory.Attachment(this.GetTaskModuleHeroCard());
 
             if (string.IsNullOrEmpty(userProfile.Name))
             {
@@ -159,13 +158,8 @@ namespace VirtualAssistantSample.Bots
 
                 // Temporary workaround to get correct invokeresponse
                 // issue: https://github.com/microsoft/botframework-sdk/issues/5929
-                var response = new InvokeResponse()
-                {
-                    Status = invokeResponse.Status,
-                    Body = ((Microsoft.Bot.Builder.InvokeResponse<object>)invokeResponse).Body
-                };
 
-                return response.GetTaskModuleResponse();
+                return InvokeResponseHandler.GetTaskModuleResponse(invokeResponse);
             }
             catch
             {

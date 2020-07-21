@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -14,6 +16,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions;
@@ -160,22 +163,33 @@ namespace VirtualAssistantSample.Tests
 
             var mockLogger = new Mock<ILogger<DefaultActivityHandler<MockMainDialog>>>();
             Services.AddSingleton(mockLogger.Object);
-            // Mock HttpClient
-            //var skillHttpClient = new Mock<SkillHttpClient>();
-            //skillHttpClient.Setup(
-            //    a => a.PostActivityAsync(
-            //    It.IsAny<string>(),
-            //    It.IsAny<EnhancedBotFrameworkSkill>(),
-            //    It.IsAny<Uri>(),
-            //    It.IsAny<Activity>(),
-            //    It.IsAny<CancellationToken>()))
-            //    .Returns(
-            //    Task.FromResult(
-            //    new InvokeResponse
-            //    {
-            //    }));
 
-            //Services.AddSingleton(skillHttpClient.Object);
+            var mockHttpClient = new Mock<HttpClient>();
+
+            // Mock HttpClient
+            var skillHttpClient = new Mock<SkillHttpClient>(
+                mockHttpClient.Object,
+                new Mock<ICredentialProvider>().Object,
+                new Mock<SkillConversationIdFactory>(new MemoryStorage()).Object,
+                new Mock<IChannelProvider>().Object,
+                mockLogger.Object);
+
+            skillHttpClient.Setup(
+                a => a.PostActivityAsync(
+                It.IsAny<string>(),
+                It.IsAny<EnhancedBotFrameworkSkill>(),
+                It.IsAny<Uri>(),
+                It.IsAny<Activity>(),
+                It.IsAny<CancellationToken>()))
+                .Returns(
+                Task.FromResult(
+                new InvokeResponse
+                {
+                    Status = (int)HttpStatusCode.OK,
+                    Body = null, 
+                }));
+
+            Services.AddSingleton(skillHttpClient.Object);
 
             TestUserProfileState = new UserProfileState();
             TestUserProfileState.Name = "Bot";
