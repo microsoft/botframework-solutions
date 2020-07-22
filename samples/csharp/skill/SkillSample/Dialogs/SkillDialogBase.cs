@@ -76,7 +76,7 @@ namespace SkillSample.Dialogs
                 // When the token is cached we get a TokenResponse object.
                 if (sc.Result is ProviderTokenResponse providerTokenResponse)
                 {
-                    var state = await StateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+                    var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState(), cancellationToken: cancellationToken);
                     state.Token = providerTokenResponse.TokenResponse.Token;
                 }
 
@@ -135,7 +135,7 @@ namespace SkillSample.Dialogs
             await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("ErrorMessage"), cancellationToken);
 
             // clear state
-            var state = await StateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+            var state = await StateAccessor.GetAsync(sc.Context, () => new SkillState(), cancellationToken: cancellationToken);
             state.Clear();
         }
     }
