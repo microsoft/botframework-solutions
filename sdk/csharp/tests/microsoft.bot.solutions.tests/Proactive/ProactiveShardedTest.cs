@@ -1,15 +1,9 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Feedback;
-using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Proactive;
+using Microsoft.Bot.Solutions.Proactive.Sharded;
 using Microsoft.Bot.Solutions.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,8 +11,7 @@ namespace Microsoft.Bot.Solutions.Tests.Proactive
 {
     [TestClass]
     [TestCategory("UnitTests")]
-    [ExcludeFromCodeCoverageAttribute]
-    public class ProactiveTests
+    public class ProactiveShardedTest
     {
         [TestMethod]
         public async Task DefaultOptions()
@@ -26,14 +19,15 @@ namespace Microsoft.Bot.Solutions.Tests.Proactive
             var microsoftAppId = string.Empty;
 
             var storage = new MemoryStorage();
-            var state = new ProactiveState(storage);
+
+            var state = new ProactiveStateSharded(storage);
             var proactiveStateAccessor = state.CreateProperty<ProactiveModel>(nameof(ProactiveModel));
 
             var conversation = TestAdapter.CreateConversation(ProactiveTestConstants.Name);
             conversation.User.Role = ProactiveTestConstants.User;
 
             var adapter = new TestAdapter(conversation)
-                .Use(new ProactiveStateMiddleware(state));
+                .Use(new ProactiveStateMiddlewareSharded(state));
 
             var response = ProactiveTestConstants.Response;
             var proactiveResponse = ProactiveTestConstants.ProactiveResponse;
