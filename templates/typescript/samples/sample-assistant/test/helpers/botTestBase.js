@@ -105,9 +105,7 @@ async function getTestAdapterDefault(settings) {
             text: error.stack
         });
         
-        const jsonpath = join(__dirname, '..', '..', 'src', 'locales', `${ context.activity.locale }.json`);
-        const jsonFile = readFileSync(jsonpath, 'UTF8');
-        await context.sendActivity(JSON.parse(jsonFile)['main']['error']);
+        await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage', context.activity.locale));
         telemetryClient.trackException({ exception: error });
     };
     
