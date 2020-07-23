@@ -6,6 +6,7 @@
 /**
  * Indicates the current status of a dialog interruption.
  */
+//OBSOLETE: This class is being deprecated. For more information, refer to https://aka.ms/bfvarouting.
 export enum InterruptionAction {
     /**
      * Indicates that the active dialog was interrupted and should end.

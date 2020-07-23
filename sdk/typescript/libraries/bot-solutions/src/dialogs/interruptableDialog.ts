@@ -7,6 +7,7 @@ import { BotTelemetryClient } from 'botbuilder-core';
 import { ComponentDialog, Dialog, DialogContext, DialogTurnResult } from 'botbuilder-dialogs';
 import { InterruptionAction } from './interruptionAction';
 
+//OBSOLETE: InterruptableDialog is being deprecated. For more information, refer to https://aka.ms/bfvarouting.
 export abstract class InterruptableDialog extends ComponentDialog {
     public primaryDialogName: string;
 
