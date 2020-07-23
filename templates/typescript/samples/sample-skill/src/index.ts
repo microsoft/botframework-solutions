@@ -4,7 +4,6 @@
  */
 
 import {
-    BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
     ConversationState,
@@ -18,7 +17,7 @@ import { CosmosDbPartitionedStorageOptions, CosmosDbPartitionedStorage } from 'b
 import {
     Dialog } from 'botbuilder-dialogs';
 import {
-    ICognitiveModelConfiguration,
+    CognitiveModelConfiguration,
     LocaleTemplateManager } from 'bot-solutions';
 import { join } from 'path';
 import * as restify from 'restify';
@@ -29,19 +28,19 @@ import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
 import { SampleDialog } from './dialogs/sampleDialog';
 import { SampleAction } from './dialogs/sampleAction';
-import { SkillState } from './models/skillState';
+import { SkillState } from './models';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 
-const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
+const cognitiveModels: Map<string, CognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap: Map<string, Object> = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value: Object, key: string): void => {
-    cognitiveModels.set(key, value as ICognitiveModelConfiguration);
+    cognitiveModels.set(key, value as CognitiveModelConfiguration);
 });
 
 // Load settings
-const botSettings: Partial<IBotSettings> = {
+const settings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
     cognitiveModels: cognitiveModels,
@@ -50,7 +49,7 @@ const botSettings: Partial<IBotSettings> = {
     microsoftAppId: appsettings.microsoftAppId,
     microsoftAppPassword: appsettings.microsoftAppPassword
 };
-if (botSettings.appInsights === undefined) {
+if (settings.appInsights === undefined) {
     throw new Error('There is no appInsights value in appsettings file');
 }
 
@@ -65,20 +64,20 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
 }
 
 // Configure telemetry
-const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
+const telemetryClient: BotTelemetryClient = getTelemetryClient(settings);
 const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
 const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 
-if (botSettings.cosmosDb === undefined) {
+if (settings.cosmosDb === undefined) {
     throw new Error();
 }
 
 // Configure storage
 const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
-    authKey: botSettings.cosmosDb.authKey,
-    containerId: botSettings.cosmosDb.containerId,
-    databaseId: botSettings.cosmosDb.databaseId,
-    cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint
+    authKey: settings.cosmosDb.authKey,
+    containerId: settings.cosmosDb.containerId,
+    databaseId: settings.cosmosDb.databaseId,
+    cosmosDbEndpoint: settings.cosmosDb.cosmosDbEndpoint
 };
 const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
 const userState: UserState = new UserState(storage);
@@ -98,52 +97,47 @@ supportedLocales.forEach((locale: string) => {
     localizedTemplates.set(locale, localTemplateFile);
 });
 
-const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, settings.defaultLocale || 'en-us');
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
-    appId: botSettings.microsoftAppId,
-    appPassword: botSettings.microsoftAppPassword
+    appId: settings.microsoftAppId,
+    appPassword: settings.microsoftAppPassword
 };
 
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
-    botSettings,
-    adapterSettings,
+    settings,
     localeTemplateManager,
+    conversationState,
     telemetryInitializerMiddleware,
-    telemetryClient);
-
-const adapter: BotFrameworkAdapter = defaultAdapter;
+    telemetryClient,
+    adapterSettings);
 
 let bot: DefaultActivityHandler<Dialog>;
 try {
     // Configure bot services
-    const botServices: BotServices = new BotServices(botSettings, telemetryClient);
+    const botServices: BotServices = new BotServices(settings as IBotSettings, telemetryClient);
 
     // Register dialogs
     const sampleDialog: SampleDialog = new SampleDialog(
-        botSettings,
+        settings,
         botServices,
         stateAccessor,
-        telemetryClient,
         localeTemplateManager
     );
     const sampleAction: SampleAction = new SampleAction(
-        botSettings,
+        settings,
         botServices,
         stateAccessor,
-        telemetryClient,
         localeTemplateManager
     );
     const mainDialog: MainDialog = new MainDialog(
         botServices,
-        telemetryClient,
-        stateAccessor,
         sampleDialog,
         sampleAction,
         localeTemplateManager
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
 }
