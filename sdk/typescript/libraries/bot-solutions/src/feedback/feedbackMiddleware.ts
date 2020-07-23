@@ -17,6 +17,7 @@ import { Attachment, CardAction } from 'botframework-schema';
 import { FeedbackOptions } from './feedbackOptions';
 import { FeedbackRecord } from './feedbackRecord';
 
+//OBSOLETE: FeedbackMiddleware will no longer work with any VA built with the 0.8 release or newer. For more information, refer to https://aka.ms/bfFeedbackDoc.
 export class FeedbackMiddleware implements Middleware {
     private static options: FeedbackOptions;
     private static feedbackAccessor: StatePropertyAccessor<FeedbackRecord>;
