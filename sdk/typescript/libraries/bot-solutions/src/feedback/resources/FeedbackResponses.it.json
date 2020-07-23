@@ -29,8 +29,8 @@
   "FeedbackReceivedMessage": {
     "replies": [
       {
-        "text": "Grazie per il tuo feedback!",
-        "speak": "Grazie per il tuo feedback!"
+        "text": "Grazie, apprezzo il tuo feedback.",
+        "speak": "Grazie, apprezzo il tuo feedback."
       }
     ],
     "inputHint": "acceptingInput"
