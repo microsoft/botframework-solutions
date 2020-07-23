@@ -21,15 +21,14 @@ import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
 import { IUserProfileState } from '../models/userProfileState';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
+
+    private readonly dialog: Dialog;
+    private readonly dialogs: DialogSet;
     private readonly conversationState: BotState;
     private readonly userState: BotState;
-    private readonly solutionName: string = '<%=assistantNameCamelCase%>';
-    private readonly rootDialogId: string;
-    private readonly dialogs: DialogSet;
-    private readonly dialog: Dialog;
-    private dialogStateAccessor: StatePropertyAccessor;
-    private userProfileState: StatePropertyAccessor;
-    private templateManager: LocaleTemplateManager;
+    private readonly dialogStateAccessor: StatePropertyAccessor<DialogState>;
+    private readonly userProfileState: StatePropertyAccessor<IUserProfileState>;
+    private readonly templateManager: LocaleTemplateManager;
 
     public constructor(
         conversationState: ConversationState,
@@ -39,15 +38,14 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     ) {
         super();
         this.dialog = dialog;
-        this.rootDialogId = this.dialog.id;
+        this.dialog.telemetryClient = dialog.telemetryClient;
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
+        this.userProfileState = userState.createProperty<IUserProfileState>('UserProfileState');
         this.templateManager = templateManager;
         this.dialogs = new DialogSet(this.dialogStateAccessor);
         this.dialogs.add(this.dialog);
-        this.userProfileState = userState.createProperty<DialogState>('UserProfileState');
-
         super.onMembersAdded(this.membersAdded.bind(this));
     }
 

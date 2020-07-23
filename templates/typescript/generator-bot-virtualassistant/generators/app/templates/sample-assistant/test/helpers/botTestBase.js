@@ -7,7 +7,7 @@ const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, BotFrameworkSkill } = require('botbuilder');
-const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
+const { EventDebuggerMiddleware, FeedbackMiddleware, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
 const { BotServices } = require('../../lib/services/botServices');
 const { DefaultActivityHandler } = require('../../lib/bots/defaultActivityHandler');
 const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog');
@@ -105,9 +105,7 @@ async function getTestAdapterDefault(settings) {
             text: error.stack
         });
         
-        const jsonpath = join(__dirname, '..', '..', 'src', 'locales', `${ context.activity.locale }.json`);
-        const jsonFile = readFileSync(jsonpath, 'UTF8');
-        await context.sendActivity(JSON.parse(jsonFile)['main']['error']);
+        await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage', context.activity.locale));
         telemetryClient.trackException({ exception: error });
     };
     
