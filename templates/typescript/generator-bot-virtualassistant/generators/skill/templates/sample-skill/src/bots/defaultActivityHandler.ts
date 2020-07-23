@@ -8,6 +8,7 @@ import {
     ActivityHandler,
     ActivityTypes,
     BotState,
+    BotTelemetryClient,
     Channels,
     StatePropertyAccessor, 
     TurnContext } from 'botbuilder';
@@ -20,16 +21,17 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly dialog: Dialog;
     private readonly conversationState: BotState;
     private readonly userState: BotState;
-    private dialogStateAccessor: StatePropertyAccessor<DialogState>;
-    private templateManager: LocaleTemplateManager;
+    private readonly dialogStateAccessor: StatePropertyAccessor<DialogState>;
+    private readonly templateEngine: LocaleTemplateManager;
 
-    public constructor(conversationState: BotState, userState: BotState, templateManager: LocaleTemplateManager, dialog: T) {
+    public constructor(conversationState: BotState, userState: BotState, templateManager: LocaleTemplateManager, telemetryClient: BotTelemetryClient, dialog: T) {
         super();
         this.dialog = dialog;
+        this.dialog.telemetryClient = telemetryClient;
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
-        this.templateManager = templateManager;
+        this.templateEngine = templateManager;
         super.onMembersAdded(this.membersAdded.bind(this));
     }
 
@@ -42,7 +44,7 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     }
 
     protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        await turnContext.sendActivity(this.templateManager.generateActivityForLocale('IntroMessage', turnContext.activity.locale));
+        await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('IntroMessage', turnContext.activity.locale));
         await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 

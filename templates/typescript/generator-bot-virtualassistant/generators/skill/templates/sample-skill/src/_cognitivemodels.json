@@ -13,7 +13,7 @@
           "subscriptionKey": ""
         },
         {
-          "id": "skill",
+          "id": "<%=skillNameCamelCase%>",
           "name": "",
           "appId": "",
           "version": "0.1",
