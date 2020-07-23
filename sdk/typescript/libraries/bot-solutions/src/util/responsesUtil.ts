@@ -5,6 +5,7 @@
 
 import { join } from 'path';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ResponsesUtil {
     export function getResourcePath(resourceName: string, resourcePath: string, locale: string): string {
         let jsonPath: string = join(resourcePath, `${ resourceName }.${ locale }.json`);
