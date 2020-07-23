@@ -4,9 +4,10 @@
  * Licensed under the MIT License.
  */
 import { Dialog, DialogState, DialogSet, DialogContext, DialogTurnResult, DialogTurnStatus, DialogEvents } from 'botbuilder-dialogs';
-import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity, SkillHandler, SkillConversationReferenceKey, SkillConversationReference } from 'botbuilder';
+import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity, SkillConversationReferenceKey, SkillConversationReference } from 'botbuilder';
 import { ClaimsIdentity, SkillValidation, AuthenticationConstants, GovernmentConstants } from 'botframework-connector';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DialogEx {
     /**
      * Creates a dialog stack and starts a dialog, pushing it onto the stack.
