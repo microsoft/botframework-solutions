@@ -25,8 +25,7 @@ export class ProactiveStateMiddleware implements Middleware {
     public async onTurn(context: TurnContext, next: () => Promise<void>): Promise<void> {
         const activity: Activity = context.activity;
 
-        const fromRole: string = activity.from.role ? activity.from.role.toLowerCase() : '';
-        if (fromRole === 'user') {
+        if (activity.from.role !== undefined && activity.from.role.toLowerCase() === 'user') {
             const proactiveState: ProactiveModel = await this.proactiveStateAccessor.get(context, new ProactiveModel());
             let data: ProactiveData;
 
