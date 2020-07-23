@@ -10,7 +10,8 @@ Param(
 	[string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
     [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA'),
     [string] $lgOutFolder = $(Join-Path (Get-Location) 'Services'),
-    [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt")
+    [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt"),
+    [string[]] $excludedKbFromDispatch = @("Chitchat")
 )
 
 . $PSScriptRoot\luis_functions.ps1
@@ -29,7 +30,7 @@ if (Get-Command az -ErrorAction SilentlyContinue) {
     $azcliversionoutput = az -v
     [regex]$regex = '(\d{1,3}.\d{1,3}.\d{1,3})'
     [version]$azcliversion = $regex.Match($azcliversionoutput[0]).value
-    [version]$minversion = '2.0.72'
+    [version]$minversion = '2.2.0'
 
     if ($azcliversion -ge $minversion) {
         $azclipassmessage = "AZ CLI passes minimum version. Current version is $azcliversion"
@@ -109,7 +110,7 @@ foreach ($langCode in $languageMap.Keys) {
         {    
             # Add the knowledge base to the dispatch model. 
             # If the knowledge base id already exists within the model no action will be taken
-            if ($dispatch) {
+            if ($dispatch -and -not $excludedKbFromDispatch.Contains($kb.id)) {
                 Write-Host "> Adding $($langCode) $($kb.id) kb to dispatch file ..." -NoNewline
                 dispatch add `
                     --type "qna" `
@@ -208,7 +209,7 @@ foreach ($langCode in $languageMap.Keys) {
 		
             # Add the knowledge base to the dispatch model. 
             # If the knowledge base id already exists within the model no action will be taken
-            if ($dispatch) {
+            if ($dispatch -and -not $excludedKbFromDispatch.Contains($kb.id)) {
                 Write-Host "> Adding $($langCode) $($kb.id) kb to dispatch model ..." -NoNewline
                 (dispatch add `
                     --type "qna" `
