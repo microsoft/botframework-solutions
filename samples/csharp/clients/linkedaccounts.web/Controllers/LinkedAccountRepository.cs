@@ -4,7 +4,10 @@
 namespace LinkedAccounts.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Principal;
     using System.Threading.Tasks;
     using System.Web;
     using Microsoft.Bot.Builder;
@@ -37,6 +40,18 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+                // Add BotIdentity
+                context.TurnState.Add<IIdentity>(BotAdapter.BotIdentityKey, new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                }));
+
+                // Add BotIdentity
+                context.TurnState.Add<IIdentity>("BotIdentity", new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AppIdClaim, botAppId),
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                }));
 
                 // Retrieve the Token Status
                 tokenStatuses = await adapter.GetTokenStatusAsync(context, userId);
@@ -66,6 +81,11 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+                // Add BotIdentity
+                context.TurnState.Add<IIdentity>(BotAdapter.BotIdentityKey, new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                }));
 
                 // Retrieve a signin link for a given Connection Name and UserId
                 link = await adapter.GetOauthSignInLinkAsync(context, connectionName, userId, finalRedirect);
@@ -101,6 +121,11 @@ namespace LinkedAccounts.Web.Controllers
             {
                 var connectorClient = new ConnectorClient(new Uri(TokenServiceUrl), botAppId, botAppPassword);
                 context.TurnState.Add<IConnectorClient>(connectorClient);
+                // Add BotIdentity
+                context.TurnState.Add<IIdentity>(BotAdapter.BotIdentityKey, new ClaimsIdentity(new List<Claim>
+                {
+                    new Claim(AuthenticationConstants.AudienceClaim, botAppId),
+                }));
 
                 // Sign the specified user out of a particular connection
                 await adapter.SignOutUserAsync(context, connectionName, userId);

@@ -3,17 +3,26 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Schema.Teams;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Bot.Solutions.Skills.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using VirtualAssistantSample.Extensions;
 using VirtualAssistantSample.Models;
 
 namespace VirtualAssistantSample.Bots
@@ -27,8 +36,13 @@ namespace VirtualAssistantSample.Bots
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private readonly IStatePropertyAccessor<UserProfileState> _userProfileState;
         private readonly LocaleTemplateManager _templateManager;
+        private readonly SkillHttpClient _skillHttpClient;
+        private readonly SkillsConfiguration _skillsConfig;
+        private readonly IConfiguration _configuration;
+        private readonly string _virtualAssistantBotId;
+        private readonly ILogger _logger;
 
-        public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
+        public DefaultActivityHandler(IServiceProvider serviceProvider, ILogger<DefaultActivityHandler<T>> logger, T dialog)
         {
             _dialog = dialog;
             _dialog.TelemetryClient = serviceProvider.GetService<IBotTelemetryClient>();
@@ -37,6 +51,11 @@ namespace VirtualAssistantSample.Bots
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _userProfileState = _userState.CreateProperty<UserProfileState>(nameof(UserProfileState));
             _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
+            _skillHttpClient = serviceProvider.GetService<SkillHttpClient>();
+            _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
+            _configuration = serviceProvider.GetService<IConfiguration>();
+            _virtualAssistantBotId = _configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
+            _logger = logger;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -104,9 +123,49 @@ namespace VirtualAssistantSample.Bots
             }
         }
 
+        // Invoked when a "task/fetch" event is received to invoke task module.
+        protected override async Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+        {
+            return await this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
+        }
+
+        // Invoked when a 'task/submit' invoke activity is received for task module submit actions.
+        protected override async Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+        {
+            return await this.ProcessTaskModuleInvokeAsync(turnContext, cancellationToken);
+        }
+
         protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
         {
             await _dialog.RunAsync(turnContext, _dialogStateAccessor, cancellationToken);
+        }
+
+        private async Task<TaskModuleResponse> ProcessTaskModuleInvokeAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Get Skill From TaskInvoke
+                var skillId = (turnContext.Activity as Activity).AsInvokeActivity().GetSkillId(_logger);
+                var skill = _skillsConfig.Skills.Where(s => s.Value.AppId == skillId).FirstOrDefault().Value;
+
+                // Forward request to correct skill
+                var invokeResponse = await _skillHttpClient.PostActivityAsync(_virtualAssistantBotId, skill, _skillsConfig.SkillHostEndpoint, turnContext.Activity as Activity, cancellationToken).ConfigureAwait(false);
+
+                // Temporary workaround to get correct invokeresponse
+                // issue: https://github.com/microsoft/botframework-sdk/issues/5929
+                var response = new InvokeResponse()
+                {
+                    Status = invokeResponse.Status,
+                    Body = ((Microsoft.Bot.Builder.InvokeResponse<object>)invokeResponse).Body
+                };
+
+                return response.GetTaskModuleResponse();
+            }
+            catch
+            {
+                await turnContext.SendActivityAsync(_templateManager.GenerateActivityForLocale("ErrorMessage"));
+                throw;
+            }
         }
     }
 }
