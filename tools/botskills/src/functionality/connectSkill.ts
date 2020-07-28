@@ -205,8 +205,8 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             // Parse LU file
             const luisConvertCommandArguments: string[] = ['--in', '--culture', '--out', '--name'];
             luisConvertCommandArguments.forEach((argument: string): void => {
-                const argumentValue: string = wrapPathWithQuotes(executionModelByCulture.get(argument) as string);
-                luisConvertCommand.push(...[argument, argumentValue]);
+                const argumentValue: string = executionModelByCulture.get(argument) as string;
+                luisConvertCommand.push(...[argument, wrapPathWithQuotes(argumentValue)]);
             });
             await this.runCommand(luisConvertCommand, `Parsing ${ culture } ${ luisApp } LU file`);
             if (!existsSync(luisFilePath)) {
