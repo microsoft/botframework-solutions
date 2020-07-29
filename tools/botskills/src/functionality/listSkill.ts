@@ -22,7 +22,9 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             }
             // Take VA Skills configurations
-            const assistantAppSettingsFile: IAppSetting = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
+            const text = readFileSync(configuration.appSettingsFile, 'UTF8').replace('BotFrameworkSkills', 'botFrameworkSkills').replace('Id', 'id');
+            const assistantAppSettingsFile: IAppSetting = JSON.parse(text);
+
             if (assistantAppSettingsFile.botFrameworkSkills === undefined) {
                 this.logger.message('There are no Skills connected to the assistant.');
 
