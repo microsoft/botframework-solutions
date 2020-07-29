@@ -25,13 +25,13 @@ export function sanitizePath(path: string): string {
  */
 export function sanitizeAppSettingsProperties(appsettings: string): string {
     return readFileSync(appsettings, 'UTF8')
-        .replace(new RegExp("\\bBotFrameworkSkills\\b", "gi"), 'botFrameworkSkills')
-        .replace(new RegExp("\\bAppId\\b", "gi"), 'appId')
-        .replace(new RegExp("\\bId\\b", "gi"), 'id')
-        .replace(new RegExp("\\bSkillEndpoint\\b", "gi"), 'skillEndpoint')
-        .replace(new RegExp("\\bName\\b", "gi"), 'name')
-        .replace(new RegExp("\\bDescription\\b", "gi"), 'description')
-        .replace(new RegExp("\\bSkillHostEndpoint\\b", "gi"), 'skillHostEndpoint');    
+        .replace(new RegExp('\\bBotFrameworkSkills\\b', 'gi'), 'botFrameworkSkills')
+        .replace(new RegExp('\\bAppId\\b', 'gi'), 'appId')
+        .replace(new RegExp('\\bId\\b', 'gi'), 'id')
+        .replace(new RegExp('\\bSkillEndpoint\\b', 'gi'), 'skillEndpoint')
+        .replace(new RegExp('\\bName\\b', 'gi'), 'name')
+        .replace(new RegExp('\\bDescription\\b', 'gi'), 'description')
+        .replace(new RegExp('\\bSkillHostEndpoint\\b', 'gi'), 'skillHostEndpoint');    
 }
 
 /**
