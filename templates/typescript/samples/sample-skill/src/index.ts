@@ -32,6 +32,7 @@ import { SampleAction } from './dialogs/sampleAction';
 import { SkillState } from './models/skillState';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
+import { readFileSync, existsSync } from 'fs';
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
@@ -178,4 +179,18 @@ server.get('/api/messages', async (req: restify.Request, res: restify.Response):
         // route to bot activity handler.
         await bot.run(turnContext);
     });
+});
+
+server.get('/manifest/:file', async (req: restify.Request, res: restify.Response): Promise<void> => {
+
+    const file: string = req.params.file;
+    
+    if (!existsSync(join(__dirname, 'manifest', file)))
+    {
+        res.send(404);
+    }
+
+    const manifest = JSON.parse(readFileSync(join(__dirname, 'manifest', file), 'UTF8'));
+    
+    res.send(200, manifest);
 });
