@@ -181,16 +181,15 @@ server.get('/api/messages', async (req: restify.Request, res: restify.Response):
     });
 });
 
-server.get('/manifest/:file', async (req: restify.Request, res: restify.Response): Promise<void> => {
-
-    const file: string = req.params.file;
-    
-    if (!existsSync(join(__dirname, 'manifest', file)))
-    {
+// Enable endpoint to reach any file inside the bot manifest's folder
+server.get('/manifest/:file', (req: restify.Request, res: restify.Response): void => {
+    const manifestFilename: string = req.params.file;
+    const manifestFilePath: string = join(__dirname, 'manifest', manifestFilename);
+    if (!existsSync(manifestFilePath)) {
         res.send(404);
+        return;
     }
 
-    const manifest = JSON.parse(readFileSync(join(__dirname, 'manifest', file), 'UTF8'));
-    
+    const manifest: Object = JSON.parse(readFileSync(manifestFilePath, 'UTF8'));
     res.send(200, manifest);
 });
