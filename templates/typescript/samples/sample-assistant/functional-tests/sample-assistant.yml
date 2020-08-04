@@ -342,7 +342,7 @@ jobs:
   - pwsh: |
      az login --service-principal --username "$(ServicePrincipal)" --password "$(AzureDevOps-ServicePrincipal-Secret)" --tenant "$(Azure_Tenant)"
     
-     ./deployment/scripts/deploy.ps1 -name $(VirtualAssistantBotName)  -location $(Location) -languages "en-us" -appId $(VirtualAssistantBotAppId) -appPassword $(VirtualAssistantBotAppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "deployment" -luisEndpoint "https://westus.api.cognitive.microsoft.com/"
+     ./deployment/scripts/deploy.ps1 -name $(VirtualAssistantBotName) -location $(Location) -languages "en-us" -appId $(VirtualAssistantBotAppId) -appPassword $(VirtualAssistantBotAppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "deployment" -luisEndpoint "https://westus.api.cognitive.microsoft.com/"
     errorActionPreference: continue
     workingDirectory: 'templates/typescript/samples/functionalTests/$(VirtualAssistantBotName)'
     displayName: 'Deploy: VA'
@@ -435,7 +435,7 @@ jobs:
     displayName: 'Test: Skill - Get channel secrets'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Test: Skill -  Execute functional tests'
+    displayName: 'Test: Skill - Execute functional tests'
     inputs:
       command: test
       projects: 'templates/typescript/samples/sample-skill/functional-tests/SkillSample.FunctionalTests/SkillSample.FunctionalTests.csproj'
@@ -467,7 +467,7 @@ jobs:
   - pwsh: '.\Deployment\Scripts\publish.ps1 -name "$(VirtualAssistantBotWebAppName)" -resourceGroup "$(VirtualAssistantBotResourceGroup)"'
     errorActionPreference: continue
     workingDirectory: 'templates/typescript/samples/functionalTests/$(VirtualAssistantBotName)'
-    displayName: 'Test: VA - Publish with connected Skill'  
+    displayName: 'Test: VA - Publish with connected Skill'
 
   - task: AzureCLI@1
     displayName: 'Test: VA - Create Direct Line registration'
@@ -500,11 +500,11 @@ jobs:
     displayName: 'Test: VA - Get channel secrets'
 
   - task: DotNetCoreCLI@2
-    displayName: 'Test: VA -  Execute functional tests'
+    displayName: 'Test: VA - Execute functional tests'
     inputs:
       command: test
       projects: 'templates/typescript/samples/sample-assistant/functional-tests/VirtualAssistantSample.FunctionalTests/VirtualAssistantSample.FunctionalTests.csproj'
-      arguments: '-v n  --configuration $(BuildConfiguration) --filter TestCategory=FunctionalTests'
+      arguments: '-v n --configuration $(BuildConfiguration) --filter TestCategory=FunctionalTests'
 
   - pwsh: |
      Write-Host "Deploy log"
@@ -545,7 +545,7 @@ jobs:
 
     errorActionPreference: continue
     workingDirectory: 'templates/typescript/samples/functionalTests/$(SkillBotName)'
-    displayName: 'Debug: Skill - Show log contents copy'
+    displayName: 'Debug: Skill - Show log contents'
     condition: always()
 
   - script: 'dir ..\*.* /s'
