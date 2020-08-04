@@ -371,7 +371,7 @@ jobs:
   - pwsh: |
      az login --service-principal --username "$(ServicePrincipal)" --password "$(AzureDevOps-ServicePrincipal-Secret)" --tenant "$(Azure_Tenant)"
     
-     ./Deployment/Scripts/deploy.ps1 -name $(SkillBotName) -location $(Location) -languages "en-us" -appId $(SkillBotAppId) -appPassword $(SkillBotAppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "Deployment"  -luisEndpoint "https://westus.api.cognitive.microsoft.com/"
+     ./Deployment/Scripts/deploy.ps1 -name $(SkillBotName) -location $(Location) -languages "en-us" -appId $(SkillBotAppId) -appPassword $(SkillBotAppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "Deployment" -luisEndpoint "https://westus.api.cognitive.microsoft.com/"
     errorActionPreference: continue
     workingDirectory: 'templates/typescript/samples/functionalTests/$(SkillBotName)'
     displayName: 'Deploy: Skill'
