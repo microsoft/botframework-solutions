@@ -15,7 +15,7 @@ import {
     ISkill,
     IModel
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils, libraries, validateLibrary } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils, libraries, validateLibrary, sanitizeAppSettingsProperties  } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 import { IManifest } from '../models/manifest';
 
@@ -340,7 +340,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
     private async connectSkillManifest(cognitiveModelsFile: ICognitiveModel, skillManifest: IManifest): Promise<void> {
         try {
             // Take VA Skills configurations
-            const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+            const assistantSkillsFile: IAppSetting = JSON.parse(sanitizeAppSettingsProperties(this.configuration.appSettingsFile));
             const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant
