@@ -43,12 +43,12 @@ export class SkillDialogBase extends ComponentDialog {
         this.templateEngine = templateEngine;
 
         // NOTE: Uncomment the following if your skill requires authentication
-        // if (!settings.oauthConnections || settings.oauthConnections.length < 0)
+        // if (!settings.oauthConnections || settings.oauthConnections.length === 0)
         // {
         //    throw new Error('You must configure an authentication connection in your bot file before using this component.');
         // }
         //
-        // this.addDialog(new MultiProviderAuthDialog(settings.oauthConnections,'en'));
+        // this.addDialog(new MultiProviderAuthDialog(settings.oauthConnections, this.settings.defaultLocale as string));
     }
 
     protected async getAuthToken(sc: WaterfallStepContext): Promise<DialogTurnResult> {

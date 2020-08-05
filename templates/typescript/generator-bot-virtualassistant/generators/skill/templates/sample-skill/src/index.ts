@@ -47,7 +47,8 @@ const settings: Partial<IBotSettings> = {
     cosmosDb: appsettings.cosmosDb,
     defaultLocale: cognitiveModelsRaw.defaultLocale,
     microsoftAppId: appsettings.microsoftAppId,
-    microsoftAppPassword: appsettings.microsoftAppPassword
+    microsoftAppPassword: appsettings.microsoftAppPassword,
+    oauthConnections: appsettings.oauthConnections
 };
 if (settings.appInsights === undefined) {
     throw new Error('There is no appInsights value in appsettings file');
