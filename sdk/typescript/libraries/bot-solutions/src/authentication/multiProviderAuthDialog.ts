@@ -70,7 +70,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 // We ignore placeholder connections in config that don't have a Name
                 if (connection.name !== undefined && connection.name.trim().length > 0) {
                     const loginButtonActivity: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.loginButton, locale);
-                    const loginPromptActivity: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.loginPrompt, locale);
+                    const loginPromptActivity: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.loginPrompt, locale, new Map<string, string>([['authType', connection.name]]));
                     const settings: OAuthPromptSettings = promptSettings !== undefined ? promptSettings[i] : {
                         connectionName: connection.name,
                         title: loginButtonActivity.text || '',
@@ -86,7 +86,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 }
             };
 
-            this.addDialog(new WaterfallDialog(DialogIds.firstStepPrompt, authSteps));
+            this.addDialog(new WaterfallDialog(DialogIds.authPrompt, authSteps));
             this.addDialog(new ChoicePrompt(DialogIds.providerPrompt));
         } else {
             throw new Error('There is no authenticationConnections value');
