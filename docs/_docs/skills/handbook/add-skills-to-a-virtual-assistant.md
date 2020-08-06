@@ -53,6 +53,7 @@ botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances (defaults to `deployment/resources/skills/` inside your assistant folder). The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
+> Note: The Bot Framework Team added the Skill's LU inside the Skill folder of the Virtual Assistant just to simplify the botskills execution as by default the tool search in the Skills folder. The Skills can be found in the [botframework-skills](https://github.com/microsoft/botframework-skills) repository.
 
 Once the connect command finish successfully, you can see under the `botFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
 
@@ -95,6 +96,8 @@ botskills update --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
 ```
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
+
+> Note: The Bot Framework Team added the Skill's LU inside the Skill folder of the Virtual Assistant just to simplify the botskills execution as by default the tool search in the Skills folder. The Skills can be found in the [botframework-skills](https://github.com/microsoft/botframework-skills) repository.
 
 ## Refresh Connected Skills
 
