@@ -35,7 +35,7 @@ program
     .option('-r, --remoteManifest <url>', 'URL to remote Skill Manifest')
     .option('--cs', 'Determine your assistant project structure to be a CSharp-like structure')
     .option('--ts', 'Determine your assistant project structure to be a TypeScript-like structure')
-    .option('--noRefresh [true|FALSE]', '[OPTIONAL] Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)')
+    .option('--noRefresh [true|FALSE]', '[OPTIONAL] Determine whether the skills models connected to the Virtual Assistant are not going to be trained and published in an existing dispatch model (by default they are trained)')
     .option('-e, --endpointName <name>', '[OPTIONAL] Name of the endpoint to connect to your assistant (case sensitive)(defaults to using the first endpoint)')
     .option('--languages [languages]', '[OPTIONAL] Comma separated list of locales used for LUIS culture (defaults to \'en-us\')')
     .option('--luisFolder [path]', '[OPTIONAL] Path to the folder containing your Skills\' .lu files (defaults to \'./deployment/resources/skills\' inside your assistant folder)')
