@@ -17,7 +17,7 @@ botskills disconnect [options]
 | -i, --skillId \<id>           | Id of the skill to remove from your Virtual Assistant (case sensitive)                                                                                                      |
 | --cs                          | Determine your Virtual Assistant project structure to be a csharp-like structure                                                                                            |
 | --ts                          | Determine your Virtual Assistant project structure to be a TypeScript-like structure                                                                                        |
-| --noRefresh                   | (OPTIONAL) Determine whether the model of your skills connected are not going to be refreshed (by default they are refreshed)                                               |
+| --noRefresh [true\|FALSE]     | (OPTIONAL) Determine whether the skills models connected to the Virtual Assistant are not going to be trained and published in an existing dispatch model (by default they are trained)                                               |
 | --languages [languages]       | (OPTIONAL) Comma separated list of locales used for LUIS culture (defaults to `en-us`)                                                                                      |
 | --dispatchFolder [path]       | (OPTIONAL) Path to the folder containing your Virtual Assistant's `.dispatch` file (defaults to `./deployment/resources/dispatch` inside your Virtual Assistant folder)     |
 | --outFolder [path]            | (OPTIONAL) Path for any output file that may be generated (defaults to your Virtual Assistant's root folder)                                                                |
