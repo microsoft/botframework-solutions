@@ -3,6 +3,7 @@
  * Licensed under the MIT License.
  */
 
+require('reflect-metadata');
 const {
     ConversationState,
     MemoryStorage,

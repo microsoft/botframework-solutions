@@ -3,6 +3,7 @@
  * Licensed under the MIT License
  */
 
+require('reflect-metadata');
 const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
