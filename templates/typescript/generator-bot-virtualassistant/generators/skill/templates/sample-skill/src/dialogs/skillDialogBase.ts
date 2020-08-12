@@ -72,7 +72,7 @@ export class SkillDialogBase extends ComponentDialog {
 
             if (providerTokenResponse !== undefined) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const state: any = await this.stateAccessor.get(sc.context);
+                const state: SkillState = await this.stateAccessor.get(sc.context, new SkillState());
                 state.token = providerTokenResponse.tokenResponse.token;
             }
 
@@ -125,7 +125,7 @@ export class SkillDialogBase extends ComponentDialog {
 
         // clear state
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const state: any = await this.stateAccessor.get(sc.context);
+        const state: SkillState = await this.stateAccessor.get(sc.context, new SkillState());
         state.clear();
     }
 }

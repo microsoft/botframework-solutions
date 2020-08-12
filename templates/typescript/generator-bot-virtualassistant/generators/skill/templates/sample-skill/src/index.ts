@@ -83,7 +83,7 @@ const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
 const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
-const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
+const stateAccessor: StatePropertyAccessor<SkillState> = conversationState.createProperty(SkillState.name);
 
 // Configure localized responses
 const localizedTemplates: Map<string, string> = new Map<string, string>();
