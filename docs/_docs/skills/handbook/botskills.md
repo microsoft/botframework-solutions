@@ -26,7 +26,7 @@ The CLI performs the following operations on your behalf:
     ```shell
     npm install -g botdispatch @microsoft/botframework-cli
     ```
-- [.NET Core runtime](https://dotnet.microsoft.com/download/dotnet-core/2.1#runtime-2.1.0) 2.1.0 or higher but lower than 3.0.0
+- [.NET Core runtime](https://dotnet.microsoft.com/download/dotnet-core/2.1#runtime-2.1.0): ^2.1.0
 - Install the `botskills` CLI
     ```shell
     npm install -g botskills
