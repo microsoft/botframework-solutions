@@ -160,6 +160,7 @@ namespace Microsoft.Bot.Solutions
             /// <value>
             /// The Dispatch service for the set of cognitive models.
             /// </value>
+            [System.Obsolete]
             public LuisService DispatchModel { get; set; }
 
             /// <summary>
@@ -168,6 +169,7 @@ namespace Microsoft.Bot.Solutions
             /// <value>
             /// The collection of LUIS models.
             /// </value>
+            [System.Obsolete]
             public List<LuisService> LanguageModels { get; set; }
 
             /// <summary>
