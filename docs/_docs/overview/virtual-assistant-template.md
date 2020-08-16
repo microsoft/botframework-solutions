@@ -12,7 +12,7 @@ toc: true
 
 ## Your Assistant project
 
-Using the template you'll end up with your Assistant project that is organized in-line with the recommended thinking on how a Bot project should be structured. You are free to restructure this as necessary but bear in mind that the provided deployment scripts expect some files to be in a consistent location so bear this in mind.
+Using the template you'll end up with your Assistant project that is organized in-line with the recommended thinking on how a Bot project should be structured. You are free to restructure this as necessary but bear in mind that the provided deployment scripts expect some files to be in a consistent location.
 
 To learn more about project structure, see the [Create Project]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/3-create-project/) documentation.
 
