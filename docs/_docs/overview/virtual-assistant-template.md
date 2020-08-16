@@ -20,14 +20,17 @@ To learn more about project structure, see the [Create Project]({{site.baseurl}}
 
 The comprehensive experience requires the following Azure resources to function properly, detailed [here]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/).
 
-Resource | Description |
--------- | ----- |
-Azure Bot Service | Azure Blob Storage |
-Azure Cosmos DB | Azure App Service Plan |
-Azure Application Insights | Bot Web App | 
-Language Understanding (LUIS) | QnA Maker | 
-QnA Maker Web App | QnA Maker Azure Search Service |
-Content Moderator |
+- Azure Bot Service
+- Azure Blob Storage
+- Azure Cosmos DB
+- Azure App Service Plan
+- Azure Application Insights
+- Bot Web App
+- Language Understanding (LUIS)
+- QnA Maker
+- QnA Maker Web App
+- QnA Maker Azure Search Service
+- Content Moderator
 
 To enable you to get started quickly, we have provided an ARM template and set of PowerShell scripts (supported cross-platform) to provide these resources along with the required LUIS models, QnAMaker knowledgebases, Dispatcher and publishing into Azure. In addition the ability to refresh the LUIS and QNA resources with any changes from your LU files.
 
