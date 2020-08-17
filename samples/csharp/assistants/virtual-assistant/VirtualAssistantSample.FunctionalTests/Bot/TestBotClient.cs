@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using VirtualAssistantSample.FunctionalTests.Configuration;
 
 namespace VirtualAssistantSample.FunctionalTests
@@ -224,7 +225,8 @@ namespace VirtualAssistantSample.FunctionalTests
                 throw new Exception("AdaptiveCard is null");
             }
 
-            var card = JsonConvert.DeserializeObject<AdaptiveCard>(JsonConvert.SerializeObject(adaptiveCard.Attachments.FirstOrDefault().Content));
+            var contentJToken = adaptiveCard.Attachments.FirstOrDefault().Content as JToken;
+            var card = contentJToken.ToObject<AdaptiveCard>();
 
             if (card == null)
             {
@@ -247,7 +249,8 @@ namespace VirtualAssistantSample.FunctionalTests
                 throw new Exception("HeroCard is null");
             }
 
-            var card = JsonConvert.DeserializeObject<HeroCard>(JsonConvert.SerializeObject(heroCard.Attachments.FirstOrDefault().Content));
+            var contentJToken = heroCard.Attachments.FirstOrDefault().Content as JToken;
+            var card = contentJToken.ToObject<HeroCard>();
 
             if (card == null)
             {
