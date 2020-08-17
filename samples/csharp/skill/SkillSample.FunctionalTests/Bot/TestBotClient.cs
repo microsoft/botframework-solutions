@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector.DirectLine;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using SkillSample.FunctionalTests.Configuration;
@@ -24,6 +26,7 @@ namespace SkillSample.FunctionalTests.Bot
 
         private readonly DirectLineClient directLineClient;
         private readonly IBotTestConfiguration config;
+        private readonly ILogger logger;
         private readonly string user = $"dl_FunctionalTestUser-{Guid.NewGuid()}";
 
         private string conversationId;
@@ -49,6 +52,19 @@ namespace SkillSample.FunctionalTests.Bot
                 user = userId;
             }
 
+            // Configure debug and console logging
+            var serviceProvider = new ServiceCollection()
+            .AddLogging(builder =>
+            {
+                builder.AddDebug();
+                builder.AddConsole();
+            })
+            .BuildServiceProvider();
+
+            var factory = serviceProvider.GetService<ILoggerFactory>();
+
+            logger = factory.CreateLogger<TestBotClient>();
+
             // Instead of generating a vanilla DirectLineClient with secret,
             // we obtain a directline token with the secrets and then we use
             // that token to create the directline client.
@@ -70,33 +86,24 @@ namespace SkillSample.FunctionalTests.Bot
                         }
                     }), Encoding.UTF8, "application/json");
 
-                using (var response = client.SendAsync(request).GetAwaiter().GetResult())
+                var response = client.SendAsync(request).GetAwaiter().GetResult();
+                if (!response.IsSuccessStatusCode)
                 {
-                    if (response.IsSuccessStatusCode)
-                    {
-                        // Extract token from response
-                        var body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-                        this.token = JsonConvert.DeserializeObject<DirectLineToken>(body).Token;
-                        this.conversationId = JsonConvert.DeserializeObject<DirectLineToken>(body).ConversationId;
-
-                        // Create directline client from token
-                        this.directLineClient = new DirectLineClient(token);
-
-                        // From now on, we'll add an Origin header in directline calls, with
-                        // the trusted origin we sent when acquiring the token as value.
-                        directLineClient.HttpClient.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);
-                    }
-                    else
-                    {
-                        throw new Exception("Failed to acquire directline token");
-                    }
+                    throw new Exception(response.ReasonPhrase);
                 }
-            }
-        }
 
-        public string GetUser()
-        {
-            return user;
+                // Extract token from response
+                var body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                this.token = JsonConvert.DeserializeObject<DirectLineToken>(body).Token;
+                this.conversationId = JsonConvert.DeserializeObject<DirectLineToken>(body).ConversationId;
+
+                // Create directline client from token
+                this.directLineClient = new DirectLineClient(token);
+
+                // From now on, we'll add an Origin header in directline calls, with
+                // the trusted origin we sent when acquiring the token as value.
+                directLineClient.HttpClient.DefaultRequestHeaders.Add(OriginHeaderKey, OriginHeaderValue);                
+            }
         }
 
         public Task<ResourceResponse> SendMessageAsync(string message, CancellationToken cancellationToken = default(CancellationToken))
@@ -114,7 +121,7 @@ namespace SkillSample.FunctionalTests.Bot
                 Type = ActivityTypes.Message,
             };
 
-            Console.WriteLine($"Sent to bot: {message}");
+            logger.LogInformation($"Sent to bot: {message}");
             return SendActivityAsync(messageActivity, cancellationToken);
         }
 
@@ -134,28 +141,11 @@ namespace SkillSample.FunctionalTests.Bot
                 Type = ActivityTypes.Event,
             };
 
-            Console.WriteLine($"Sent event to bot: {name}");
+            logger.LogInformation($"Sent event to bot: {name}");
             return SendActivityAsync(eventActivity, cancellationToken);
         }
 
-        public async Task<ResourceResponse[]> SendMessagesAsync(IEnumerable<string> messages, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (messages == null)
-            {
-                throw new ArgumentNullException(nameof(messages));
-            }
-
-            var resourceResponses = new List<ResourceResponse>();
-
-            foreach (var message in messages)
-            {
-                resourceResponses.Add(await SendMessageAsync(message, cancellationToken));
-            }
-
-            return resourceResponses.ToArray();
-        }
-
-        public async Task StartConversation(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task StartConversationAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             var conversation = await directLineClient.Conversations.StartConversationAsync(cancellationToken);
             this.conversationId = conversation?.ConversationId ?? throw new InvalidOperationException("Conversation cannot be null");
@@ -170,17 +160,17 @@ namespace SkillSample.FunctionalTests.Bot
         public async Task AssertReplyAsync(string expected, CancellationToken cancellationToken = default(CancellationToken))
         {
             var messages = await PollBotMessagesAsync(cancellationToken);
-            Console.WriteLine("Messages sent from bot:");
+            logger.LogInformation("Messages sent from bot:");
             var messagesList = messages.ToList();
             foreach (var m in messagesList.ToList())
             {
-                Console.WriteLine($"Type:{m.Type}; Text:{m.Text}");
+                logger.LogInformation($"Type:{m.Type}; Text:{m.Text}");
             }
 
             Assert.IsTrue(messagesList.Any(m => m.Type == ActivityTypes.Message && m.Text.Contains(expected, StringComparison.OrdinalIgnoreCase)), $"Expected: {expected}");
         }
 
-        public async Task AssertReplyOneOf(IEnumerable<object> expected, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task AssertReplyOneOfAsync(IEnumerable<object> expected, CancellationToken cancellationToken = default(CancellationToken))
         {
             var messages = await PollBotMessagesAsync(cancellationToken);
             Assert.IsTrue(messages.Any(m => m.Type == ActivityTypes.Message && expected.Any(e => m.Text.Contains(e.ToString(), StringComparison.OrdinalIgnoreCase))));

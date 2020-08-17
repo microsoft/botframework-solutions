@@ -41,13 +41,13 @@ namespace SkillSample.FunctionalTests
 
             var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
 
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
-            await testBot.AssertReplyOneOf(introTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(introTextVariations, cancellationTokenSource.Token);
             await testBot.SendEventAsync(SampleDialogUtterances.EventName);
-            await testBot.AssertReplyOneOf(namePromptTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(namePromptTextVariations, cancellationTokenSource.Token);
             await testBot.SendMessageAsync(SampleDialogUtterances.NamePromptResponse);
-            await testBot.AssertReplyOneOf(haveNameMessageTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(haveNameMessageTextVariations, cancellationTokenSource.Token);
         }
 
         public async Task Assert_ActionWithInput_Triggers_SkillAction()
@@ -60,11 +60,11 @@ namespace SkillSample.FunctionalTests
 
             var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
 
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
-            await testBot.AssertReplyOneOf(introTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(introTextVariations, cancellationTokenSource.Token);
             await testBot.SendEventAsync(SampleDialogUtterances.EventName, JObject.FromObject(profileState));
-            await testBot.AssertReplyOneOf(haveNameMessageTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(haveNameMessageTextVariations, cancellationTokenSource.Token);
         }
     }
 }

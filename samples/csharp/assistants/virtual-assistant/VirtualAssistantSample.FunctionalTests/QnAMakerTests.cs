@@ -16,6 +16,16 @@ namespace VirtualAssistantSample.FunctionalTests
     [TestCategory("QnAMaker")]
     public class QnAMakerTests : BotTestBase
     {
+        private CancellationTokenSource cancellationTokenSource;
+        private TestBotClient testBot;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+            testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
+        }
+
         [TestMethod]
         public async Task Test_QnAMaker_ChitChat()
         {
@@ -33,11 +43,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// </summary>
         private async Task Assert_QnA_ChitChat_Responses()
         {
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.ChitChat, cancellationTokenSource.Token);
             await testBot.AssertReplyAsync("I don't have a name.", cancellationTokenSource.Token);
@@ -48,11 +54,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// </summary>
         private async Task Assert_QnA_FAQ_Responses()
         {
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.FAQ, cancellationTokenSource.Token);
             await testBot.AssertReplyAsync("Raise an issue on the [GitHub repo](https://aka.ms/virtualassistant)", cancellationTokenSource.Token);

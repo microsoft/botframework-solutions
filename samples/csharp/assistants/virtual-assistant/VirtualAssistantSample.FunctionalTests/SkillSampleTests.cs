@@ -20,27 +20,28 @@ namespace VirtualAssistantSample.FunctionalTests
     [TestCategory("SkillSample")]
     public class SkillSampleTests : BotTestBase
     {
-        [TestMethod]
-        public async Task Test_Sample_Utterance()
+        private CancellationTokenSource cancellationTokenSource;
+        private TestBotClient testBot;
+
+        [TestInitialize]
+        public void Setup()
         {
-            await Assert_Utterance_Triggers_SkillSample();
+            cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+            testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
         }
 
         /// <summary>
         /// Assert that a connected SkillSample is triggered by a sample utterance and completes the VA dialog.
         /// </summary>
         /// <returns>Task.</returns>
-        public async Task Assert_Utterance_Triggers_SkillSample()
+        [TestMethod]
+        public async Task Test_Sample_Utterance()
         {
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
             var namePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
             var haveNameMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
 
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.SkillSample, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(namePromptVariations, cancellationTokenSource.Token);

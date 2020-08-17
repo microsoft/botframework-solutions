@@ -15,9 +15,19 @@ namespace VirtualAssistantSample.FunctionalTests
 {
     [TestClass]
     [TestCategory("FunctionalTests")]
-    [TestCategory("General")]
-    public class GeneralTests : BotTestBase
+    [TestCategory("GeneralIntent")]
+    public class GeneralIntentTests : BotTestBase
     {
+        private CancellationTokenSource cancellationTokenSource;
+        private TestBotClient testBot;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+            testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
+        }
+
         [TestMethod]
         public async Task Test_General_Cancel()
         {
@@ -61,11 +71,7 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             var cancelledMessageVariations = AllResponsesTemplates.ExpandTemplate("CancelledMessage");
 
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.Cancel, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(cancelledMessageVariations, cancellationTokenSource.Token);
@@ -78,11 +84,7 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             var escalateMessageVariations = AllResponsesTemplates.ExpandTemplate("EscalatedText");
 
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.Escalate, cancellationTokenSource.Token);
 
@@ -90,7 +92,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            testBot.VerifyHeroCard(escalateMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.AssertHeroCard(escalateMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
         }
 
         /// <summary>
@@ -99,11 +101,8 @@ namespace VirtualAssistantSample.FunctionalTests
         private async Task Assert_General_Help()
         {
             var helpMessageVariations = AllResponsesTemplates.ExpandTemplate("HelpText");
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.Help, cancellationTokenSource.Token);
 
@@ -111,7 +110,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            testBot.VerifyHeroCard(helpMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.AssertHeroCard(helpMessageVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
         }
 
         /// <summary>
@@ -122,11 +121,7 @@ namespace VirtualAssistantSample.FunctionalTests
             var profileState = new UserProfileState { Name = GeneralUtterances.Name };
             var logoutMessageVariations = AllResponsesTemplates.ExpandTemplate("LogoutMessage", profileState);
 
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.Logout, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(logoutMessageVariations, cancellationTokenSource.Token);
@@ -139,11 +134,7 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             var firstPromptVariations = AllResponsesTemplates.ExpandTemplate("FirstPromptMessage");
 
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.Repeat, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(firstPromptVariations, cancellationTokenSource.Token);
@@ -156,11 +147,7 @@ namespace VirtualAssistantSample.FunctionalTests
         {
             var startOverMessageVariations = AllResponsesTemplates.ExpandTemplate("StartOverMessage");
 
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await new GreetingTests().Assert_New_User_Greeting(cancellationTokenSource, testBot);
             await testBot.SendMessageAsync(GeneralUtterances.StartOver, cancellationTokenSource.Token);
             await testBot.AssertReplyOneOf(startOverMessageVariations, cancellationTokenSource.Token);

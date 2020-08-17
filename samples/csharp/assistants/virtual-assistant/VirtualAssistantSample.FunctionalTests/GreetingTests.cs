@@ -18,13 +18,20 @@ namespace VirtualAssistantSample.FunctionalTests
     [TestCategory("Greeting")]
     public class GreetingTests : BotTestBase
     {
+        private CancellationTokenSource cancellationTokenSource;
+        private TestBotClient testBot;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+            testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
+        }
+
         [TestMethod]
         public async Task Test_Greeting_NewAndReturningUser()
         {
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
 
             await Assert_New_User_Greeting(cancellationTokenSource, testBot);
 
@@ -32,7 +39,7 @@ namespace VirtualAssistantSample.FunctionalTests
             var user = testBot.GetUser();
             testBot = new TestBotClient(new EnvironmentBotTestConfiguration(), user);
 
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
 
             await Assert_Returning_User_Greeting(cancellationTokenSource, testBot);
         }
@@ -40,11 +47,7 @@ namespace VirtualAssistantSample.FunctionalTests
         [TestMethod]
         public async Task Test_Onboarding_ExtractPersonName()
         {
-            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-            var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
-
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
 
             await Assert_New_User_Greeting(cancellationTokenSource, testBot, useComplexInputWithName: true);
         }
@@ -73,7 +76,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            testBot.VerifyAdaptiveCard(newUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.AssertAdaptiveCard(newUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
 
             // Send user input of either name or "My name is X"
             if (useComplexInputWithName)
@@ -108,7 +111,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var activities = messages.ToList();
 
-            testBot.VerifyAdaptiveCard(returningUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
+            testBot.AssertAdaptiveCard(returningUserIntroCardTitleVariations, activities.FirstOrDefault(m => m.Attachments != null && m.Attachments.Any()));
         }
     }
 }

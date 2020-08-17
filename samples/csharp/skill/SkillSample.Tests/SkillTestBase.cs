@@ -35,7 +35,7 @@ namespace SkillSample.Tests
         {
             get
             {
-                var path = CultureInfo.CurrentUICulture.Name.ToLower() == "en-us" ?
+                var path = string.Equals(CultureInfo.CurrentUICulture.Name.ToLower(), "en-us", StringComparison.OrdinalIgnoreCase) ?
                     Path.Combine(".", "Responses", $"AllResponses.lg") :
                     Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
                 return Templates.ParseFile(path);

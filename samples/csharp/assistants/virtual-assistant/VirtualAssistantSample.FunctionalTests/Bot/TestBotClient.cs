@@ -12,6 +12,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Microsoft.Bot.Connector.DirectLine;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using VirtualAssistantSample.FunctionalTests.Configuration;
@@ -25,6 +28,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
         private readonly DirectLineClient directLineClient;
         private readonly IBotTestConfiguration config;
+        private readonly ILogger logger;
         private readonly string user = $"dl_FunctionalTestUser-{Guid.NewGuid()}";
 
         private string conversationId;
@@ -49,6 +53,19 @@ namespace VirtualAssistantSample.FunctionalTests
             {
                 user = userId;
             }
+
+            // Configure debug and console logging
+            var serviceProvider = new ServiceCollection()
+                .AddLogging(builder =>
+                {
+                    builder.AddDebug();
+                    builder.AddConsole();
+                })
+                .BuildServiceProvider();
+
+            var factory = serviceProvider.GetService<ILoggerFactory>();
+
+            logger = factory.CreateLogger<TestBotClient>();
 
             // Instead of generating a vanilla DirectLineClient with secret,
             // we obtain a directline token with the secrets and then we use
@@ -115,7 +132,7 @@ namespace VirtualAssistantSample.FunctionalTests
                 Type = ActivityTypes.Message,
             };
 
-            Console.WriteLine($"Sent to bot: {message}");
+            logger.LogInformation($"Sent to bot: {message}");
             return SendActivityAsync(messageActivity, cancellationToken);
         }
 
@@ -134,28 +151,11 @@ namespace VirtualAssistantSample.FunctionalTests
                 Type = ActivityTypes.Event,
             };
 
-            Console.WriteLine($"Sent event to bot: {name}");
+            logger.LogInformation($"Sent event to bot: {name}");
             return SendActivityAsync(eventActivity, cancellationToken);
         }
 
-        public async Task<ResourceResponse[]> SendMessagesAsync(IEnumerable<string> messages, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (messages == null)
-            {
-                throw new ArgumentNullException(nameof(messages));
-            }
-
-            var resourceResponses = new List<ResourceResponse>();
-
-            foreach (var message in messages)
-            {
-                resourceResponses.Add(await SendMessageAsync(message, cancellationToken));
-            }
-
-            return resourceResponses.ToArray();
-        }
-
-        public async Task StartConversation(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task StartConversationAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             var conversation = await directLineClient.Conversations.StartConversationAsync(cancellationToken);
             this.conversationId = conversation?.ConversationId ?? throw new InvalidOperationException("Conversation cannot be null");
@@ -170,11 +170,11 @@ namespace VirtualAssistantSample.FunctionalTests
         public async Task AssertReplyAsync(string expected, CancellationToken cancellationToken = default(CancellationToken))
         {
             var messages = await PollBotMessagesAsync(cancellationToken);
-            Console.WriteLine("Messages sent from bot:");
+            logger.LogInformation("Messages sent from bot:");
             var messagesList = messages.ToList();
             foreach (var m in messagesList.ToList())
             {
-                Console.WriteLine($"Type:{m.Type}; Text:{m.Text}");
+                logger.LogInformation($"Type:{m.Type}; Text:{m.Text}");
             }
 
             Assert.IsTrue(messagesList.Any(m => m.Type == ActivityTypes.Message && m.Text.Contains(expected, StringComparison.OrdinalIgnoreCase)), $"Expected: {expected}");
@@ -217,15 +217,11 @@ namespace VirtualAssistantSample.FunctionalTests
             return activitySet == null ? null : activitySet?.Activities?.Where(activity => activity.From.Id == this.config.BotId && activity.Type == ActivityTypes.Message);
         }
 
-        public void VerifyAdaptiveCard(IEnumerable<object> expected, Activity adaptiveCard, CancellationToken cancellationToken = default(CancellationToken))
+        public void AssertAdaptiveCard(IEnumerable<object> expected, Activity adaptiveCard, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (adaptiveCard == null)
             {
                 throw new Exception("AdaptiveCard is null");
-            }
-            else if (adaptiveCard.Attachments == null)
-            {
-                throw new Exception("AdaptiveCard.Attachments = null");
             }
 
             var card = JsonConvert.DeserializeObject<AdaptiveCard>(JsonConvert.SerializeObject(adaptiveCard.Attachments.FirstOrDefault().Content));
@@ -244,15 +240,11 @@ namespace VirtualAssistantSample.FunctionalTests
             Assert.IsTrue(expected.Any(e => card.Speak.Contains(e.ToString(), StringComparison.OrdinalIgnoreCase)));
         }
 
-        public void VerifyHeroCard(IEnumerable<object> expected, Activity heroCard, CancellationToken cancellationToken = default(CancellationToken))
+        public void AssertHeroCard(IEnumerable<object> expected, Activity heroCard, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (heroCard == null)
             {
                 throw new Exception("HeroCard is null");
-            }
-            else if (heroCard.Attachments == null)
-            {
-                throw new Exception("HeroCard.Attachments = null");
             }
 
             var card = JsonConvert.DeserializeObject<HeroCard>(JsonConvert.SerializeObject(heroCard.Attachments.FirstOrDefault().Content));

@@ -1,7 +1,7 @@
-﻿using System;
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -20,11 +20,6 @@ namespace SkillSample.FunctionalTests
         [TestMethod]
         public async Task Test_Utterance_SampleDialog()
         {
-            await Assert_Utterance_Triggers_SkillDialog();
-        }
-
-        public async Task Assert_Utterance_Triggers_SkillDialog()
-        {
             var profileState = new { Name = SampleDialogUtterances.NamePromptResponse };
             var introTextVariations = AllResponsesTemplates.ExpandTemplate("IntroText");
             var namePromptTextVariations = AllResponsesTemplates.ExpandTemplate("NamePromptText");
@@ -34,13 +29,13 @@ namespace SkillSample.FunctionalTests
 
             var testBot = new TestBotClient(new EnvironmentBotTestConfiguration());
 
-            await testBot.StartConversation(cancellationTokenSource.Token);
+            await testBot.StartConversationAsync(cancellationTokenSource.Token);
             await testBot.SendEventAsync("startConversation", cancellationTokenSource.Token);
-            await testBot.AssertReplyOneOf(introTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(introTextVariations, cancellationTokenSource.Token);
             await testBot.SendMessageAsync(SampleDialogUtterances.Trigger);
-            await testBot.AssertReplyOneOf(namePromptTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(namePromptTextVariations, cancellationTokenSource.Token);
             await testBot.SendMessageAsync(SampleDialogUtterances.NamePromptResponse);
-            await testBot.AssertReplyOneOf(haveNameMessageTextVariations, cancellationTokenSource.Token);
+            await testBot.AssertReplyOneOfAsync(haveNameMessageTextVariations, cancellationTokenSource.Token);
         }
     }
 }
