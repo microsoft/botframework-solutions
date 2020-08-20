@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Solutions.Proactive
         {
             var activity = turnContext.Activity;
 
-            if (!string.IsNullOrEmpty(activity.From.Role) && activity.From.Role.Equals("user", StringComparison.InvariantCultureIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(activity.From?.Id))
             {
                 var proactiveState = await _proactiveStateAccessor.GetAsync(turnContext, () => new ProactiveModel()).ConfigureAwait(false);
                 ProactiveModel.ProactiveData data;
