@@ -12,7 +12,8 @@ import {
     StatePropertyAccessor,
     TeamsActivityHandler,
     TurnContext, 
-    UserState } from 'botbuilder';
+    UserState, 
+    BotTelemetryClient } from 'botbuilder';
 import {
     Dialog,
     DialogSet,
@@ -34,11 +35,12 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         conversationState: ConversationState,
         userState: UserState,
         templateManager: LocaleTemplateManager,
-        dialog: T
+        dialog: T,
+        telemetryClient: BotTelemetryClient
     ) {
         super();
         this.dialog = dialog;
-        this.dialog.telemetryClient = dialog.telemetryClient;
+        this.dialog.telemetryClient = telemetryClient;
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');

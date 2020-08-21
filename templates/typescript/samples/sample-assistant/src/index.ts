@@ -184,7 +184,7 @@ try {
         activeSkillProperty
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, mainDialog, telemetryClient);
 } catch (err) {
     throw err;
 }
