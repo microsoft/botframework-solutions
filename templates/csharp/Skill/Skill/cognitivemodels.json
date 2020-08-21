@@ -3,24 +3,14 @@
     "en-us": {
       "languageModels": [
         {
-          "id": "General",
+          "id": "",
+          "appid": "",
           "name": "",
-          "appId": "",
-          "version": "0.1",
+          "endpoint": "",
+          "version": "",
           "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
-        },
-        {
-          "id": "$safeprojectname$",
-          "name": "",
-          "appId": "",
-          "version": "0.1",
-          "region": "",
-          "authoringKey": "",
-          "authoringRegion": "",
-          "subscriptionKey": ""
+          "authoringkey": "",
+          "subscriptionkey": ""
         }
       ]
     }

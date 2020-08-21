@@ -1,10 +1,7 @@
-﻿using Microsoft.Bot.Builder;
+﻿using System.Collections.Generic;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace VirtualAssistantSample.Feedback
 {

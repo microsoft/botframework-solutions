@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.Bot.Solutions.Extensions;
 using Microsoft.Bot.Solutions.Resources;
@@ -12,6 +13,7 @@ namespace Microsoft.Bot.Solutions.Tests.Extensions
 {
     [TestClass]
     [TestCategory("UnitTests")]
+    [ExcludeFromCodeCoverageAttribute]
     public class DateTimeExTests
     {
         private CultureInfo _currentUICulture = CultureInfo.CurrentUICulture;

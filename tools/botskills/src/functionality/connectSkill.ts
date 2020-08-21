@@ -4,7 +4,7 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import { join, basename } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
@@ -107,8 +107,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                     throw new Error(`Path to the LU file (${ luFilePath }) leads to a nonexistent file.`);
                 }
 
-                if (luFile.trim.length === 0) {
-                    luFile = luFilePath.split('\\').reverse()[0];
+                if (luFile.trim().length === 0) {
+                    luFile = basename(luFilePath);
                     luisFile = `${ luFile.toLowerCase() }is`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);

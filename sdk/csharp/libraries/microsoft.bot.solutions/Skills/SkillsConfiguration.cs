@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Solutions.Skills.Models;
 using Microsoft.Extensions.Configuration;
 
@@ -11,6 +12,7 @@ namespace Microsoft.Bot.Solutions.Skills
     /// <summary>
     /// A helper class that loads Skills information from configuration.
     /// </summary>
+    [ExcludeFromCodeCoverageAttribute]
     public class SkillsConfiguration
     {
         public SkillsConfiguration(IConfiguration configuration)

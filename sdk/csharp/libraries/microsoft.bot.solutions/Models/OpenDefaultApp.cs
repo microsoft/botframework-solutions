@@ -1,8 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Microsoft.Bot.Solutions.Models
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class OpenDefaultApp
     {
         public string MeetingUri { get; set; }

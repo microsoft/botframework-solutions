@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.Bot.Solutions.Feedback
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class FeedbackRecord
     {
         /// <summary>

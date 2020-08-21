@@ -42,10 +42,12 @@ This script orchestrates the deployment of all Azure Resources and Cognitive Mod
 | armLuisAuthoringRegion | The region to deploy LUIS authoring resource in Azure (**only required for Azure Gov deployments**) | No |
 | luisEndpoint | The LUIS endpoint for deploying and managing LUIS applications. Required if **createLuisAuthoring** is set to false. | No |
 | useGov | Flag indicating if the deployment is targeting the Azure Government Cloud. Defaults to **false**.| No |
-| qnaEndpoint | Endpoint for deploying QnA Maker knowledge bases (**only required for Azure Gov deployments**). | No |
+| qnaEndpoint | Endpoint for deploying QnA Maker knowledge bases (**only required for Azure Gov deployments. See note below for more information.**). | No |
 | languages | Specifies which languages to deploy cognitive models in a comma separated string (e.g. "en-us,de-de,es-es"). Defaults to "en-us". | No |
 | projDir | Location to save **appsettings.json** and **cognitivemodels.json** configuration files. Defaults to current directory. | No |
 | logFile | Log file for any errors that occur during script execution. Defaults to **Deployment** folder | No |
+
+> Note: QnA Maker requires three Azure resources, a QnA Maker Cognitive Service subscription, an Azure Search resource, and an Azure web app. The Cognitive Service subscription can only be deployed in West US for Azure Commercial deployments, therefore the QnA Maker endpoint will be the same for all regions unless the service is being deployed for Azure Government.
 
 ### deploy_cognitive_models.ps1
 {:.no_toc}
@@ -393,3 +395,22 @@ If you have an existing LUIS application that you want to use in your Virtual As
         // Run LUIS recognition on General model and store result in turn state.
         var luisResult = await localizedServices.LuisServices["luis-app-id"].RecognizeAsync<YourLUIS.cs>(innerDc.Context, cancellationToken);
       ```
+
+## How do I add support for additional languages to my existing Virtual Assistant?
+If you would like to add support for additional languages to your existing Virtual Assistant, please refer to the following steps.
+
+1. Run the following command from your project directory. Replace "locale" with one or more of the supported language codes (en-us, it-it, de-de, es-es, fr-fr, or zh-cn). The values for the remaining parameters can be found in appsettings.json after Virtual Assistant deployment.
+
+    ```
+      .\Deployment\Scripts\deploy_cognitive_models.ps1 `
+        -languages "locale" `
+        -name 'base-name-of-luis-model' `
+        -resourceGroup 'resouce-group-for-luis-resource' `
+        -luisAuthoringRegion 'luis-authoring-region' `
+        -luisAuthoringKey 'luis-authoring-key' `
+        -luisAccountName 'luis-account-name' `
+        -luisAccountRegion 'luis-account-region' `
+        -luisSubscriptionKey 'luis-subscription-key' `
+        -luisEndpoint 'luis-endpoint' `
+        -qnaSubscriptionKey 'qna-subscription-key'
+    ```

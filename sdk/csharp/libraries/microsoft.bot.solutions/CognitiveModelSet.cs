@@ -3,12 +3,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.QnA;
 
 namespace Microsoft.Bot.Solutions
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class CognitiveModelSet
     {
         public IRecognizer DispatchService { get; set; }
