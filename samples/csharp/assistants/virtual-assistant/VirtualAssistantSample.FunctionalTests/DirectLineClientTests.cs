@@ -50,6 +50,14 @@ namespace VirtualAssistantSample.FunctionalTests
             await Assert_QnA_ChitChat_Responses(fromUser);
         }
 
+        [TestMethod]
+        public async Task Test_Unhandled_Message()
+        {
+            string fromUser = Guid.NewGuid().ToString();
+
+            await Assert_Unsupported_Message(fromUser);
+        }
+
         /// <summary>
         /// Assert that a new user is greeted with the onboarding prompt.
         /// </summary>
@@ -119,6 +127,27 @@ namespace VirtualAssistantSample.FunctionalTests
 
             responses = await SendActivityAsync(conversation, CreateMessageActivity(fromUser, testFaqMessage));
             Assert.AreEqual(responses[3].Text, "Raise an issue on the [GitHub repo](https://aka.ms/virtualassistant)");
+        }
+
+        /// <summary>
+        /// Assert that a message was not understood.
+        /// </summary>
+        /// <param name="fromUser">User identifier used for the conversation and activities.</param>
+        /// <returns>Task.</returns>
+        private async Task Assert_Unsupported_Message(string fromUser)
+        {
+            var conversation = await StartBotConversationAsync();
+
+            await SendActivityAsync(conversation, CreateStartConversationEvent(fromUser));
+            await SendActivityAsync(conversation, CreateMessageActivity(fromUser, TestName));
+
+            var allUnsupportedPromptVariations = AllResponsesTemplates.ExpandTemplate("UnsupportedMessage");
+            var responses = await SendActivityAsync(conversation, CreateMessageActivity(fromUser, "foo"));
+
+            Assert.AreEqual(5, responses.Count);
+            Assert.AreEqual(ActivityTypes.Message, responses[0].GetActivityType());
+            Assert.AreEqual(1, responses[0].Attachments.Count);
+            CollectionAssert.Contains(allUnsupportedPromptVariations as ICollection, responses[4].Text);
         }
 
         /// <summary>
