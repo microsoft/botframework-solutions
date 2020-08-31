@@ -17,4 +17,9 @@ A default manifest describing your Skill is provided as part of the project, you
 
 1. Update `{YOUR_SKILL_APPID}` with the Active Directory AppID of your deployed Skill, you can find this within your `appSettings.json` file.
 
-1. Publish the changes to your Skill endpoint and validate that you can retrieve the manifest using the browser (`/manifest/manifest-1.1.json`)
+1. Publish the changes to your Skill endpoint and validate that you can retrieve the manifest using the browser (`/manifest/manifest-1.1.json`). Check the [deployment scripts](https://microsoft.github.io/botframework-solutions/virtual-assistant/handbook/deployment-scripts/) document.
+```powershell 
+.\Deployment\Scripts\publish.ps1 -botWebAppName {YOUR_SKILL_BOTWEBAPP_NAME} -resourceGroup {YOUR_RESOURCEGROUP_NAME}
+```
+
+> **Note**: `{YOUR_SKILL_URL}` is the endpoint URL where the Skill will receive the messages (e.g. `http://localhost:3979/api/messages`). Also, `{YOUR_SKILL_APPID}` is the `microsoftAppIp` value, the `{YOUR_SKILL_BOTWEBAPP_NAME}` is the `botWebAppName` and the `{YOUR_RESOURCEGROUP_NAME}` is the `resourceGroupName` that you can find in the `appsettings.json` file populated after the deployment of the Skill.
