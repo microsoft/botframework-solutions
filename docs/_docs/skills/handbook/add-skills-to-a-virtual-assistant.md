@@ -48,7 +48,7 @@ See the [Skills Overview]({{site.baseurl}}/overview/skills) section for details 
 Run the following command to add each Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `appsettings.json` file present in the working folder.
 
 ```bash
-botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
+botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances (defaults to `deployment/resources/skills/` inside your assistant folder). The CLI will automatically traverse locale folder hierarchies. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
@@ -92,7 +92,7 @@ To update a Skill to your assistant/Bot we provide a `botskills` command line to
 Run the following command to update a Skill to your Virtual Assistant. This assumes you are running the CLI within the project directory and have created your Bot through the template and therefore have a `appsettings.json` file present in the working folder.
 
 ```bash
-botskills update --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
+botskills update --remoteManifest "{{site.data.urls.SkillManifest}}" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.

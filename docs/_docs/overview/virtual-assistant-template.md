@@ -12,7 +12,7 @@ toc: true
 
 ## Your Assistant project
 
-Using the template you'll end up with your Assistant project that is organized in-line with the recommended thinking on how a Bot project should be structured. You are free to restructure this as necessary but bear in mind that the provided deployment scripts expect some files to be in a consistent location so bear this in mind.
+Using the template you'll end up with your Assistant project that is organized in-line with the recommended thinking on how a Bot project should be structured. You are free to restructure this as necessary but bear in mind that the provided deployment scripts expect some files to be in a consistent location.
 
 To learn more about project structure, see the [Create Project]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/3-create-project/) documentation.
 
@@ -20,14 +20,17 @@ To learn more about project structure, see the [Create Project]({{site.baseurl}}
 
 The comprehensive experience requires the following Azure resources to function properly, detailed [here]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/).
 
-Resource | Description |
--------- | ----- |
-Azure Bot Service | Azure Blob Storage |
-Azure Cosmos DB | Azure App Service Plan |
-Azure Application Insights | Bot Web App | 
-Language Understanding (LUIS) | QnA Maker | 
-QnA Maker Web App | QnA Maker Azure Search Service |
-Content Moderator |
+- Azure Bot Service
+- Azure Blob Storage
+- Azure Cosmos DB
+- Azure App Service Plan
+- Azure Application Insights
+- Bot Web App
+- Language Understanding (LUIS)
+- QnA Maker
+- QnA Maker Web App
+- QnA Maker Azure Search Service
+- Content Moderator
 
 To enable you to get started quickly, we have provided an ARM template and set of PowerShell scripts (supported cross-platform) to provide these resources along with the required LUIS models, QnAMaker knowledgebases, Dispatcher and publishing into Azure. In addition the ability to refresh the LUIS and QNA resources with any changes from your LU files.
 
