@@ -49,37 +49,5 @@ namespace Microsoft.Bot.Solutions.Services
         /// <value>The endpoint.</value>
         [JsonProperty("endpointKey")]
         public string EndpointKey { get; set; }
-
-        /// <inheritdoc/>
-        public override void Encrypt(string secret)
-        {
-            base.Encrypt(secret);
-
-            if (!string.IsNullOrEmpty(this.EndpointKey))
-            {
-                this.EndpointKey = this.EndpointKey.Encrypt(secret);
-            }
-
-            if (!string.IsNullOrEmpty(this.SubscriptionKey))
-            {
-                this.SubscriptionKey = this.SubscriptionKey.Encrypt(secret);
-            }
-        }
-
-        /// <inheritdoc/>
-        public override void Decrypt(string secret)
-        {
-            base.Decrypt(secret);
-
-            if (!string.IsNullOrEmpty(this.EndpointKey))
-            {
-                this.EndpointKey = this.EndpointKey.Decrypt(secret);
-            }
-
-            if (!string.IsNullOrEmpty(this.SubscriptionKey))
-            {
-                this.SubscriptionKey = this.SubscriptionKey.Decrypt(secret);
-            }
-        }
     }
 }

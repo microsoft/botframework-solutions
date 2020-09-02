@@ -52,21 +52,5 @@ namespace Microsoft.Bot.Solutions.Services
 #pragma warning disable CA2227 // Collection properties should be read only (this class is obsolete, we won't fix it)
         public JObject Properties { get; set; } = new JObject();
 #pragma warning restore CA2227 // Collection properties should be read only
-
-        /// <summary>
-        /// Decrypt properties on this service.
-        /// </summary>
-        /// <param name="secret"> secret to use to decrypt the keys in this service.</param>
-        public virtual void Decrypt(string secret)
-        {
-        }
-
-        /// <summary>
-        /// Encrypt properties on this service.
-        /// </summary>
-        /// <param name="secret">secret to use to encrypt the keys in this service.</param>
-        public virtual void Encrypt(string secret)
-        {
-        }
     }
 }

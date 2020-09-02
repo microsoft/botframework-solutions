@@ -101,37 +101,5 @@ namespace Microsoft.Bot.Solutions.Services
 
             return $"https://{this.Region}.api.cognitive.microsoft.com";
         }
-
-        /// <inheritdoc/>
-        public override void Encrypt(string secret)
-        {
-            base.Encrypt(secret);
-
-            if (!string.IsNullOrEmpty(this.AuthoringKey))
-            {
-                this.AuthoringKey = this.AuthoringKey.Encrypt(secret);
-            }
-
-            if (!string.IsNullOrEmpty(this.SubscriptionKey))
-            {
-                this.SubscriptionKey = this.SubscriptionKey.Encrypt(secret);
-            }
-        }
-
-        /// <inheritdoc/>
-        public override void Decrypt(string secret)
-        {
-            base.Decrypt(secret);
-
-            if (!string.IsNullOrEmpty(this.AuthoringKey))
-            {
-                this.AuthoringKey = this.AuthoringKey.Decrypt(secret);
-            }
-
-            if (!string.IsNullOrEmpty(this.SubscriptionKey))
-            {
-                this.SubscriptionKey = this.SubscriptionKey.Decrypt(secret);
-            }
-        }
     }
 }
