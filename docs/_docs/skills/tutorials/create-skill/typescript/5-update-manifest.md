@@ -22,4 +22,4 @@ A default manifest describing your Skill is provided as part of the project, you
 .\Deployment\Scripts\publish.ps1 -botWebAppName {YOUR_SKILL_BOTWEBAPP_NAME} -resourceGroup {YOUR_RESOURCEGROUP_NAME}
 ```
 
-> **Note**: `{YOUR_SKILL_URL}` is the endpoint URL where the Skill will receive the messages (e.g. `http://localhost:3979/api/messages`). Also, `{YOUR_SKILL_APPID}` is the `microsoftAppIp` value, the `{YOUR_SKILL_BOTWEBAPP_NAME}` is the `botWebAppName` and the `{YOUR_RESOURCEGROUP_NAME}` is the `resourceGroupName` that you can find in the `appsettings.json` file populated after the deployment of the Skill.
+> **Note**: `{YOUR_SKILL_URL}` is the endpoint URL where the Skill will receive the messages (e.g. `http://localhost:3979/api/messages`). Also, `{YOUR_SKILL_APPID}` is the `microsoftAppId` value, the `{YOUR_SKILL_BOTWEBAPP_NAME}` is the `botWebAppName` and the `{YOUR_RESOURCEGROUP_NAME}` is the `resourceGroupName` that you can find in the `appsettings.json` file populated after the deployment of the Skill.
