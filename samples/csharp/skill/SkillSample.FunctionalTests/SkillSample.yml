@@ -1,0 +1,225 @@
+﻿pool:
+  vmImage: 'windows-2019'
+  name: Azure Pipelines
+  demands:
+  - msbuild
+  - visualstudio
+
+variables:
+  system.debug: false
+  # system.debug: System variable that can be set by the users. Set this to true to run the release in debug mode to assist in fault-finding.
+  # BuildConfiguration: Build configuration such as Debug or Release.
+  # BuildPlatform: Build platform such as Win32, x86, x64 or any cpu.
+  # AppId: Microsoft App Id of the bot
+  # AppPassword: Microsoft App Password of the bot
+  # BotName: Name of the bot
+  # Location: Location of the bot
+  # LuisAuthoringRegion: Location of the LUIS apps
+  # PreviewVersion: Version of the SDK's packages that the bot will use
+  # ServicePrincipal: App Id of the Service Principal
+  # Azure_Tenant: Tenant's value of your Azure directory
+  # AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
+
+jobs:
+- job: Main
+  timeoutInMinutes: 0
+  steps:
+  - task: NodeTool@0
+    displayName: 'Prepare: Use Node 10.16.3'
+    inputs:
+      versionSpec: 10.16.3
+
+  - task: NuGetToolInstaller@1
+    displayName: 'Prepare: Use NuGet 4.9.1'
+
+  - task: AzureCLI@2
+    displayName: 'Prepare: Delete test resource group if it exists'
+    inputs:
+      azureSubscription: ''
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+       # If RG exists, delete it to avoid possible App ID registration conflict.
+       $exists = az group exists --name $(BotName)
+       
+       if ($exists -eq 'true')
+       {
+          Write-Host "Resource group $(BotName) exists, there is likely an error on the previous build. Deleting."
+           az group delete --name $(BotName) --yes
+       }
+       else
+       {
+          Write-Host "Resource group $(BotName) does not exist."
+       }
+      workingDirectory: samples/csharp/skill
+
+  - pwsh: |
+     # Install botbuilder tools off MyGet
+     npm config set registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+    
+     npm i -g botdispatch luis-apis botskills
+    displayName: 'Prepare: Install preview dispatch, luis-apis, botskills'
+
+  - pwsh: |
+     # Create config file
+     $path = Join-Path $env:LOCALAPPDATA "@microsoft" "botframework-cli"
+    
+     New-Item -Path $path -ItemType Directory
+    
+     $config = @{
+         telemetry = $true
+     }
+    
+     $config | ConvertTo-Json -depth 100 | Out-File $(Join-Path $path "config.json")
+    
+     # Install botframework-cli off MyGet
+     npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/
+    
+     npm i -g @microsoft/botframework-cli
+    displayName: 'Prepare: Install preview botframework-cli'
+
+  - pwsh: |
+     Write-Host "CLI versions in use for this Nightly Build"
+     Write-Host "`r`n"
+    
+     Write-Host "BF CLI"
+     Write-Host "===="
+     bf -v
+     Write-Host "`r`n"
+    
+     Write-Host "LUIS CLI"
+     Write-Host "===="
+     luis -v
+     Write-Host "`r`n"
+    
+     Write-Host "Dispatch CLI"
+     Write-Host "===="
+     dispatch -v
+     Write-Host "`r`n"
+    
+     Write-Host "BotSkills CLI"
+     Write-Host "===="
+     botskills -v
+     Write-Host "`r`n"
+    
+     Write-Host "BotBuilder SDK"
+     Write-Host "===="
+    
+     $PackageVersion = "$(BotBuilderPackageVersion)"
+     if ($PackageVersion -eq "preview")
+     {
+         $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -PreRelease
+         $PackageVersion = $PackageList.Split(" ")[-1]
+     } 
+    
+     $version = "Version=""$PackageVersion"""
+     echo "##vso[task.setvariable variable=BotBuilderPackageVersion]$version"
+     Write-Host "$PackageVersion"
+    displayName: 'Prepare: Get CLI and SDK versions'
+
+  - task: knom.regexreplace-task.regex-replace.RegexReplace@3
+    displayName: 'Prepare: Replace BotBuilder version in .csproj file'
+    inputs:
+      InputSearchPattern: 'samples/csharp/skill/**/*.csproj'
+      FindRegex: '("Microsoft\.Bot\.(?!Solutions|Connector.DirectLine)\S+"\s)(Version="\S*")'
+      ReplaceRegex: '$1$(BotBuilderPackageVersion)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build: Restore dependencies'
+    inputs:
+      command: restore
+      projects: '$(System.DefaultWorkingDirectory)\samples\csharp\skill\SkillSample.sln'
+      restoreDirectory: samples/csharp/skill/
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build: Build project'
+    inputs:
+      projects: samples/csharp/skill/SkillSample.sln
+      arguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site" /property:langversion=latest'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build: Execute unit tests'
+    inputs:
+      command: test
+      projects: samples/csharp/skill/SkillSample.sln
+      arguments: '/p:CollectCoverage=true --filter TestCategory=UnitTests'
+
+  - pwsh: |
+     Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'
+    
+     az login --service-principal --username "$(ServicePrincipal)" --password "$(AzureDevOps-ServicePrincipal-Secret)" --tenant "$(Azure_Tenant)"
+    
+     ./Deployment/Scripts/deploy.ps1 -name $(BotName) -location $(Location) -languages "en-us,de-de,fr-fr,it-it,es-es,zh-cn" -appId $(AppId) -appPassword $(AppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "Deployment"
+    errorActionPreference: continue
+    workingDirectory: samples/csharp/skill/SkillSample
+    displayName: 'Deploy: Skill'
+
+  - pwsh: |
+     $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
+    
+     Write-Host $appSettings
+    
+     $botWebAppName = $appsettings.botWebAppName 
+     $resourceGroupName= $appsettings.resourceGroupName
+    
+     Write-Host $botWebAppName
+     echo "##vso[task.setvariable variable=BOTWEBAPPNAME;]$botWebAppName"
+    
+     Write-Host $resourceGroupName
+     echo "##vso[task.setvariable variable=BOTRESOURCEGROUP;]$resourceGroupName"
+    
+    workingDirectory: samples/csharp/skill/SkillSample
+    displayName: 'Deploy: Get bot variables from appsettings'
+
+  - task: AzureCLI@1
+    displayName: 'Deploy: Create Direct Line channel registration'
+    inputs:
+      azureSubscription: ''
+      scriptLocation: inlineScript
+      inlineScript: 'call az bot directline create -n "$(BOTWEBAPPNAME)" -g "$(BOTRESOURCEGROUP)" --verbose --debug --output json > "DirectLineCreate.json"'
+      workingDirectory: samples/csharp/skill/SkillSample/
+
+  - powershell: |
+     $botName = "$(BOTWEBAPPNAME)"
+     Write-Host "DirectLine Bot Name: $botName"
+    
+     $json = Get-Content "DirectLineCreate.json" | Out-String | ConvertFrom-Json
+     $key = $json.properties.properties.sites.key
+    
+     echo "##vso[task.setvariable variable=DIRECTLINEKEY;]$key"
+     echo "##vso[task.setvariable variable=BOTID;]$botName"
+    
+     Write-Host "DirectLine Key: $key"
+    workingDirectory: samples/csharp/skill/SkillSample/
+    displayName: 'Deploy: Get channel secrets'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Test: Run dotnet test on functional tests'
+    inputs:
+      command: test
+      projects: samples/csharp/skill/SkillSample.sln
+      arguments: '--configuration $(BuildConfiguration) --filter TestCategory=FunctionalTests'
+
+  - task: AzureCLI@1
+    displayName: 'Cleanup: Delete bot resources'
+    inputs:
+      azureSubscription: ''
+      scriptLocation: inlineScript
+      inlineScript: 'az group delete -g $(BotName) --no-wait --yes'
+
+  - pwsh: |
+     Write-Host "Deploy log"
+     Get-Content -Path $(Join-Path "deployment" "deploy_log.txt")
+     Write-Host "Deploy cognitive models log"
+     Get-Content -Path $(Join-Path "deployment" "deploy_cognitive_models_log.txt")
+     Write-Host "Deploy cognitive models log"
+     Get-Content -Path $(Join-Path "deployment" "publish_log.txt")
+    errorActionPreference: continue
+    workingDirectory: samples/csharp/skill/SkillSample/
+    displayName: 'Debug: Show log contents'
+    condition: always()
+
+  - script: 'dir ..\*.* /s'
+    displayName: 'Debug: dir workspace'
+    continueOnError: true
+    condition: always()
