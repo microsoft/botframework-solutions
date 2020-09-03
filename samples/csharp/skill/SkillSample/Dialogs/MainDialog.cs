@@ -40,7 +40,7 @@ namespace SkillSample.Dialogs
             };
 
             AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
-            AddDialog(new EventActivityPrompt(nameof(EventActivityPrompt), Validator));
+            AddDialog(new EventActivityPrompt(nameof(EventActivityPrompt), ValidateActivityAsync));
             InitialDialogId = nameof(MainDialog);
 
             // Register dialogs
@@ -51,7 +51,7 @@ namespace SkillSample.Dialogs
         }
 
         // Validate that activity is either a message with text or an event
-        protected async Task<bool> Validator(PromptValidatorContext<Activity> promptContext, CancellationToken cancellationToken)
+        protected async Task<bool> ValidateActivityAsync(PromptValidatorContext<Activity> promptContext, CancellationToken cancellationToken)
         {
             var activity = promptContext.Context.Activity;
             if ((activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(activity.Text)) || activity.Type == ActivityTypes.Event)

@@ -63,7 +63,7 @@ namespace SkillSample.FunctionalTests.Bot
 
             var factory = serviceProvider.GetService<ILoggerFactory>();
 
-            logger = factory.CreateLogger<TestBotClient>();
+            this.logger = factory.CreateLogger<TestBotClient>();
 
             // Instead of generating a vanilla DirectLineClient with secret,
             // we obtain a directline token with the secrets and then we use
@@ -72,9 +72,9 @@ namespace SkillSample.FunctionalTests.Bot
             // which tests the enhanced authentication.
             // This endpoint is unfortunately not supported by the directline client which is
             // why we add this custom code.
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"https://directline.botframework.com/v3/directline/tokens/generate");
+                var request = new HttpRequestMessage(HttpMethod.Post, $"https://directline.botframework.com/v3/directline/tokens/generate");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", config.DirectLineSecret);
                 request.Content = new StringContent(
                     JsonConvert.SerializeObject(new

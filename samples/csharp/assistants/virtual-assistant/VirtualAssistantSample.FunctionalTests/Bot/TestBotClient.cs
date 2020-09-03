@@ -66,7 +66,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             var factory = serviceProvider.GetService<ILoggerFactory>();
 
-            logger = factory.CreateLogger<TestBotClient>();
+            this.logger = factory.CreateLogger<TestBotClient>();
 
             // Instead of generating a vanilla DirectLineClient with secret,
             // we obtain a directline token with the secrets and then we use
@@ -75,19 +75,19 @@ namespace VirtualAssistantSample.FunctionalTests
             // which tests the enhanced authentication.
             // This endpoint is unfortunately not supported by the directline client which is
             // why we add this custom code.
-            using (HttpClient client = new HttpClient())
+            using (var client = new HttpClient())
             {
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, $"https://directline.botframework.com/v3/directline/tokens/generate");
+                var request = new HttpRequestMessage(HttpMethod.Post, $"https://directline.botframework.com/v3/directline/tokens/generate");
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", config.DirectLineSecret);
                 request.Content = new StringContent(
                     JsonConvert.SerializeObject(new
-                {
-                    User = new { Id = this.user },
-                    TrustedOrigins = new string[]
+                    {
+                        User = new { Id = this.user },
+                        TrustedOrigins = new string[]
                         {
                             OriginHeaderValue
                         }
-                }), Encoding.UTF8, "application/json");
+                    }), Encoding.UTF8, "application/json");
 
                 using (var response = client.SendAsync(request).GetAwaiter().GetResult())
                 {
@@ -300,7 +300,7 @@ namespace VirtualAssistantSample.FunctionalTests
 
             string signInUrl = card.Buttons[0].Value?.ToString();
 
-            if (string.IsNullOrEmpty(signInUrl) || !signInUrl.StartsWith("https://"))
+            if (string.IsNullOrEmpty(signInUrl) || !signInUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
             {
                 throw new Exception($"Sign in url is empty or badly formatted. Url received: {signInUrl}");
             }
