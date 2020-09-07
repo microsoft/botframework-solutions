@@ -30,9 +30,26 @@ Follow along with the Flow tests to see a basic usage of how to mock activities 
 ### Bot Framework Emulator
 {:.no_toc}
 
-The Bot Framework Emulator can be used by opening the .bot file provided within the Project directory. You must have completed the [deployment steps]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources) first and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
+Before testing the bot using Bot Framework Emulator, you must have completed the `Deployment Steps` and should ensure you have the [latest emulator](https://aka.ms/botframework-emulator) installed.
+
+| Language | Bot | Deployment Steps |
+|----------|-----|------------------|
+|C#|Virtual Assistant|[Deploy your Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/4-provision-your-azure-resources/)
+|C#|Skill|[Deploy your Skill]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/)|
+|TypeScript|Virtual Assistant|[Deploy your Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/typescript/4-provision-you-azure-resources/)|
+|TypeScript|Skill|[Deploy your Skill]({{site.baseurl}}/skills/tutorials/create-skill/typescript/4-provision-your-azure-resources/)|
+
+As soon as you have the `appsettings.json` file populated with the deployed resources, you should enter the following parameters in the Bot Framework Emulator:
+- Bot name: name of the bot that you are creating
+- Endpoint URL: endpoint where your bot will receive the messages that matches with the "Messaging endpoint" of the Web App Bot resoruce after deployment (e.g. `https://bf-skill.azurewebsites.net/api/messages`)
+- Microsoft App ID: microsoftAppId's value of the `appsettings.json` file, that represents the identity of the Bot Service.
+- Microsoft App password: microsoftAppPassword's value of the appsettings.json file, that represents the password of the identity of the Bot Service.
+
+Execute `Save and connect` and test your bot!
 
 > Authentication scenarios cannot be fully tested within the Emulator at this time. The Web Test Harness provides a workaround for this.
+
+For further documentation, see [Debug with the emulator](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-debug-emulator?view=azure-bot-service-4.0&tabs=csharp).
 
 ### Direct Line Configuration
 {:.no_toc}
