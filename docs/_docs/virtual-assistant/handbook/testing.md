@@ -14,9 +14,16 @@ toc: true
 
 ## Unit Testing
 
-Take advantage of the Test project that is available when you [Create a New Skill]({{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro).
+Take advantage of the Test projects that are availables in the samples present in the repository:
+
+| Language | Bot | Create your bot |Test folder |
+|----------|-----|-----------------|------------|
+|C#|Virtual Assistant|[Create a New Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro)|[Link](https://github.com/microsoft/botframework-solutions/tree/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample.Tests)|
+|C#|Skill|[Create a New Skill]({{site.baseurl}}/skills/tutorials/create-skill/csharp/1-intro)|[Link](https://github.com/microsoft/botframework-solutions/tree/master/samples/csharp/skill/SkillSample.Tests)|
+|TypeScript|Virtual Assistant|[Create a New Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/typescript/1-intro)|[Link](https://github.com/microsoft/botframework-solutions/tree/master/templates/typescript/samples/sample-assistant/test)|
+|TypeScript|Skill|[Create a New Skill]({{site.baseurl}}/skills/tutorials/create-skill/typescript/1-intro)|[Link](https://github.com/microsoft/botframework-solutions/tree/master/templates/typescript/samples/sample-skill/test)|
+
 Follow along with the Flow tests to see a basic usage of how to mock activities from a user and validate the bot responses.
-If you'd like to take this further, you can explore the tests of a published skill for a deep dive on APIs, mocking LUIS, and more.
 
 ## Client Testing
 
