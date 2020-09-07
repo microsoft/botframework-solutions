@@ -3,7 +3,7 @@ layout: tutorial
 category: Skills
 subcategory: Connect to a sample
 title: Next steps
-order: 6
+order: 7
 ---
 
 # Tutorial: {{page.subcategory}} 
