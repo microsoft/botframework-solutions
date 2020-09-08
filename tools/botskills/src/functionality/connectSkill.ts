@@ -278,7 +278,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 }));
 
             if (this.logger.isError) {
-                throw new Error(`There were issues while converting the LU files.`);
+                throw new Error('There were one or more issues converting the LU files. Aborting the process.');
             }
 
             // Check if it is necessary to refresh the skill

@@ -288,7 +288,7 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There were issues while converting the LU files.`);
+Error: There were one or more issues converting the LU files. Aborting the process.`);
         });
 
         it("when the dispatch add command fails", async function () {
@@ -320,7 +320,7 @@ Error: There were issues while converting the LU files.`);
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There were issues while converting the LU files.`);
+Error: There were one or more issues converting the LU files. Aborting the process.`);
         });
 
         it("when languages argument contains non-supported cultures for the VA", async function () {
@@ -375,7 +375,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There were issues while converting the LU files.`);
+Error: There were one or more issues converting the LU files. Aborting the process.`);
 		});
 
         it("when the refresh execution fails", async function () {
