@@ -174,6 +174,8 @@ decorate(injectable(), OnboardingDialog);
 container.bind<OnboardingDialog>(TYPES.OnboardingDialog).to(OnboardingDialog).inTransientScope();
 
 decorate(injectable(), AuthenticationConfiguration);
+decorate(injectable(), SkillsConfiguration);
+decorate(injectable(), SkillDialog);
 
 // Register the SkillDialogs (remote skills).
 const skills: IEnhancedBotFrameworkSkill[] = appsettings.botFrameworkSkills;
@@ -182,7 +184,6 @@ if (skills !== undefined && skills.length > 0) {
     if (hostEndpoint === undefined || hostEndpoint.trim().length === 0) {
         throw new Error('\'skillHostEndpoint\' is not in the configuration');
     }
-    decorate(injectable(), SkillsConfiguration);
     container.bind<SkillsConfiguration>(TYPES.SkillsConfiguration).toConstantValue(
         new SkillsConfiguration(skills, hostEndpoint)
     );
@@ -207,7 +208,6 @@ if (skills !== undefined && skills.length > 0) {
         return new SkillDialog(skillDialogOptions, skill.id);
     });
 
-    decorate(injectable(), SkillDialog);
     container.bind<SkillDialog[]>(TYPES.SkillDialogs).toConstantValue(skillDialogs);
 }
 
