@@ -43,6 +43,7 @@ const cognitiveModelMap: Map<string, Object> = new Map(Object.entries(cognitiveM
 cognitiveModelMap.forEach((value: Object, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
+
 const botSettings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
@@ -52,6 +53,7 @@ const botSettings: Partial<IBotSettings> = {
     microsoftAppId: appsettings.microsoftAppId,
     microsoftAppPassword: appsettings.microsoftAppPassword
 };
+
 // Load settings
 container.bind<Partial<IBotSettings>>(TYPES.BotSettings).toConstantValue(botSettings);
 
@@ -65,10 +67,12 @@ container.bind<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider).toConst
 container.bind<BotTelemetryClient>(TYPES.BotTelemetryClient).toConstantValue(
     getTelemetryClient(container.get<IBotSettings>(TYPES.BotSettings))
 );
+
 decorate(injectable(), TelemetryLoggerMiddleware);
 container.bind<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware).toConstantValue(
     new TelemetryLoggerMiddleware(container.get<BotTelemetryClient>(TYPES.BotTelemetryClient))
 );
+
 decorate(injectable(), TelemetryInitializerMiddleware);
 container.bind<TelemetryInitializerMiddleware>(TYPES.TelemetryInitializerMiddleware).toConstantValue(
     new TelemetryInitializerMiddleware(
@@ -90,12 +94,14 @@ container.bind<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage).toC
         container.get<IBotSettings>(TYPES.BotSettings).cosmosDb
     )
 );
+
 decorate(injectable(), UserState);
 container.bind<UserState>(TYPES.UserState).toConstantValue(
     new UserState(
         container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage)
     )
 );
+
 decorate(injectable(), ConversationState);
 container.bind<ConversationState>(TYPES.ConversationState).toConstantValue(
     new ConversationState(
@@ -142,6 +148,7 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
+
 container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSettings).toConstantValue(
     adapterSettings
 );

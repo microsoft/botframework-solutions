@@ -33,6 +33,7 @@ const cognitiveModelMap: Map<string, Object> = new Map(Object.entries(cognitiveM
 cognitiveModelMap.forEach((value: Object, key: string): void => {
     cognitiveModels.set(key, value as ICognitiveModelConfiguration);
 });
+
 const botSettings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
@@ -56,10 +57,12 @@ container.bind<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider).toConst
 container.bind<BotTelemetryClient>(TYPES.BotTelemetryClient).toConstantValue(
     getTelemetryClient(container.get<IBotSettings>(TYPES.BotSettings))
 );
+
 decorate(injectable(), TelemetryLoggerMiddleware);
 container.bind<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware).toConstantValue(
     new TelemetryLoggerMiddleware(container.get<BotTelemetryClient>(TYPES.BotTelemetryClient))
 );
+
 decorate(injectable(), TelemetryInitializerMiddleware);
 container.bind<TelemetryInitializerMiddleware>(TYPES.TelemetryInitializerMiddleware).toConstantValue(
     new TelemetryInitializerMiddleware(
@@ -81,17 +84,17 @@ container.bind<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage).toC
         container.get<IBotSettings>(TYPES.BotSettings).cosmosDb
     )
 );
+
 decorate(injectable(), UserState);
 container.bind<UserState>(TYPES.UserState).toConstantValue(
     new UserState(
         container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage)
     )
 );
+
 decorate(injectable(), ConversationState);
 container.bind<ConversationState>(TYPES.ConversationState).toConstantValue(
-    new ConversationState(
-        container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage)
-    )
+    new ConversationState(container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage))
 );
 
 // Configure localized responses
@@ -118,6 +121,7 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: botSettings.microsoftAppId,
     appPassword: botSettings.microsoftAppPassword
 };
+
 container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSettings).toConstantValue(
     adapterSettings
 );
@@ -151,9 +155,7 @@ container.bind<MainDialog>(TYPES.MainDialog).to(MainDialog).inTransientScope();
 
 decorate(injectable(), SwitchSkillDialog);
 container.bind<SwitchSkillDialog>(TYPES.SwitchSkillDialog).toConstantValue(
-    new SwitchSkillDialog(
-        container.get<ConversationState>(TYPES.ConversationState)
-    )
+    new SwitchSkillDialog(container.get<ConversationState>(TYPES.ConversationState))
 );
 
 container.bind<StatePropertyAccessor<BotFrameworkSkill>>(TYPES.BotFrameworkSkill).toConstantValue(
@@ -184,6 +186,7 @@ if (skills !== undefined && skills.length > 0) {
     container.bind<SkillsConfiguration>(TYPES.SkillsConfiguration).toConstantValue(
         new SkillsConfiguration(skills, hostEndpoint)
     );
+
     const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(container.get<SkillsConfiguration>(TYPES.SkillsConfiguration));
 
     // Register AuthConfiguration to enable custom claim validation.
@@ -200,6 +203,7 @@ if (skills !== undefined && skills.length > 0) {
             skill: skill,
             conversationState: container.get<ConversationState>(TYPES.ConversationState)
         };
+
         return new SkillDialog(skillDialogOptions, skill.id);
     });
 

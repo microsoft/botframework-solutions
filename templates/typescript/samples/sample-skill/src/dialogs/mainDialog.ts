@@ -253,6 +253,7 @@ export class MainDialog extends ComponentDialog {
                             type: ActivityTypes.Trace, 
                             text: `Unknown Event ${ ev.name ? ev.name : 'undefined' } was received but not processed.`                       
                         });
+
                         break;
                     }  
                 }
@@ -293,10 +294,8 @@ export class MainDialog extends ComponentDialog {
 
             // Cancel all active dialogs
             await dc.cancelAllDialogs();
-
         } else {
             throw new Error('OAuthPrompt.SignOutUser(): not supported by the current adapter');
         }
     }
-  
 }

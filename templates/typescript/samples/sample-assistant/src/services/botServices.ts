@@ -80,6 +80,7 @@ export class BotServices {
                         return key;
                     }
                 });
+
             if (keyFound !== undefined) {
                 cognitiveModels = this.cognitiveModelSets.get(keyFound);
             }
