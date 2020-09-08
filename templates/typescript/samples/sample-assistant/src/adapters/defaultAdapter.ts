@@ -23,9 +23,10 @@ import {
     FeedbackOptions} from 'bot-solutions';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IBotSettings } from '../services/botSettings';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 
+@injectable()
 export class DefaultAdapter extends BotFrameworkAdapter {
 
     public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,

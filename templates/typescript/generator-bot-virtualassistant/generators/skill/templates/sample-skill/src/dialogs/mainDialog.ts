@@ -27,12 +27,13 @@ import { SampleDialog } from './sampleDialog';
 import { StateProperties } from '../models';
 import { SampleActionInput, SampleAction } from './sampleAction';
 import { TurnContextEx } from '../extensions/turnContextEx';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 
 /**
  * Dialog providing activity routing and message/event processing.
  */
+@injectable()
 export class MainDialog extends ComponentDialog {
 
     private stateProperties: StateProperties = new StateProperties();

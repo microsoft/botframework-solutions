@@ -23,9 +23,10 @@ import { TokenResponse } from 'botframework-schema';
 import { SkillState } from '../models/skillState';
 import { BotServices} from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
-import { inject, unmanaged } from 'inversify';
+import { inject, injectable, unmanaged } from 'inversify';
 import { TYPES } from '../types/constants';
 
+@injectable()
 export class SkillDialogBase extends ComponentDialog {
     protected settings: Partial<IBotSettings>;
     protected services: BotServices;

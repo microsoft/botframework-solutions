@@ -16,7 +16,7 @@ import { StateProperties } from '../models/stateProperties';
 import { BotServices } from '../services/botServices';
 import { LocaleTemplateManager } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 
 enum DialogIds {
@@ -24,6 +24,7 @@ enum DialogIds {
 }
 
 // Example onboarding dialog to initial user profile information.
+@injectable()
 export class OnboardingDialog extends ComponentDialog {
     private readonly services: BotServices;
     private readonly templateManager: LocaleTemplateManager;

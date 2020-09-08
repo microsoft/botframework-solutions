@@ -16,7 +16,7 @@ import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { SkillDialogBase } from './skillDialogBase';
 import { LocaleTemplateManager } from 'bot-solutions';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 import { SkillState } from '../models/skillState';
 
@@ -24,6 +24,7 @@ enum DialogIds {
     namePrompt = 'namePrompt'
 }
 
+@injectable()
 export class SampleDialog extends SkillDialogBase {
 
     private readonly nameKey: string = 'name';

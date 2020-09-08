@@ -18,10 +18,11 @@ import {
     DialogSet,
     DialogState } from 'botbuilder-dialogs';
 import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 import { IUserProfileState } from '../models/userProfileState';
 
+@injectable()
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
     private readonly conversationState: BotState;
     private readonly userState: BotState;

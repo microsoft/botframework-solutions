@@ -3,6 +3,9 @@
  * Licensed under the MIT License.
  */
 
+import { injectable } from 'inversify';
+
+@injectable()
 export class SkillState {
     public token = '';
     public timeZone: Date = new Date();

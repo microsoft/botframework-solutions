@@ -8,9 +8,10 @@ import { LuisApplication, LuisPredictionOptions, LuisRecognizer, QnAMaker, QnAMa
 import { ICognitiveModelConfiguration, ICognitiveModelSet } from 'bot-solutions';
 import { DispatchService, LuisService, QnaMakerService } from 'botframework-config';
 import { IBotSettings } from './botSettings';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 
+@injectable()
 export class BotServices {
 
     public cognitiveModelSets: Map<string, Partial<ICognitiveModelSet>> = new Map();

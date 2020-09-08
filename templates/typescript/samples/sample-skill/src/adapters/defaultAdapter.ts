@@ -22,9 +22,10 @@ import { TurnContextEx } from '../extensions/turnContextEx';
 import { AzureBlobTranscriptStore, BlobStorageSettings } from 'botbuilder-azure';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { Activity } from 'botframework-schema';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 
+@injectable()
 export class DefaultAdapter extends BotFrameworkAdapter {
 
     public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,

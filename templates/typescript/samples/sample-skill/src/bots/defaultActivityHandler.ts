@@ -16,9 +16,10 @@ import {
     Dialog,
     DialogState } from 'botbuilder-dialogs';
 import { LocaleTemplateManager, DialogEx } from 'bot-solutions';
-import { inject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
 
+@injectable()
 export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly dialog: Dialog;
     private readonly conversationState: BotState;

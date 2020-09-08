@@ -38,7 +38,7 @@ import { TokenStatus } from 'botframework-connector';
 import { Activity, ActivityTypes, ResourceResponse, IMessageActivity } from 'botframework-schema';
 import { IUserProfileState } from '../models/userProfileState';
 import { BotServices } from '../services/botServices';
-import { inject, optional } from 'inversify';
+import { inject, injectable, optional } from 'inversify';
 import { TYPES } from '../types/constants';
 import { StateProperties } from '../models/stateProperties';
 import { OnboardingDialog } from './onboardingDialog';
@@ -46,6 +46,7 @@ import { OnboardingDialog } from './onboardingDialog';
 /**
  * Dialog providing activity routing and message/event processing.
  */
+@injectable()
 export class MainDialog extends ComponentDialog {
     // Conversation state property with the active skill (if any).
     public static readonly activeSkillPropertyName: string = `${ typeof(MainDialog).name }.ActiveSkillProperty`;

@@ -71,7 +71,6 @@ container.bind<TelemetryInitializerMiddleware>(TYPES.TelemetryInitializerMiddlew
 );
 
 // Configure bot services
-decorate(injectable(), BotServices);
 container.bind<BotServices>(TYPES.BotServices).to(BotServices).inSingletonScope();
 
 // Configure storage
@@ -126,7 +125,6 @@ container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSe
     adapterSettings
 );
 
-decorate(injectable(), DefaultAdapter);
 decorate(injectable(), BotFrameworkAdapter);
 container.bind<DefaultAdapter>(TYPES.DefaultAdapter).to(DefaultAdapter).inSingletonScope();
 
@@ -150,7 +148,6 @@ container.bind<SkillHttpClient>(TYPES.SkillHttpClient).toConstantValue(
 decorate(injectable(), Dialog);
 decorate(injectable(), DialogContainer);
 decorate(injectable(), ComponentDialog);
-decorate(injectable(), MainDialog);
 container.bind<MainDialog>(TYPES.MainDialog).to(MainDialog).inTransientScope();
 
 decorate(injectable(), SwitchSkillDialog);
@@ -170,7 +167,6 @@ container.bind<StatePropertyAccessor<Partial<Activity>[]>>(TYPES.Activity).toCon
     container.get<UserState>(TYPES.UserState).createProperty<Partial<Activity>[]>('Activity')
 );
 
-decorate(injectable(), OnboardingDialog);
 container.bind<OnboardingDialog>(TYPES.OnboardingDialog).to(OnboardingDialog).inTransientScope();
 
 decorate(injectable(), AuthenticationConfiguration);
@@ -221,7 +217,6 @@ if (!container.isBound(TYPES.AuthenticationConfiguration)) {
 decorate(injectable(), ActivityHandlerBase);
 decorate(injectable(), ActivityHandler);
 decorate(injectable(), TeamsActivityHandler);
-decorate(injectable(), DefaultActivityHandler);
 container.bind<DefaultActivityHandler<MainDialog>>(TYPES.DefaultActivityHandler).to(DefaultActivityHandler).inTransientScope();
 
 // Configure SkillHandler
