@@ -179,33 +179,32 @@ if (skills !== undefined && skills.length > 0) {
     const hostEndpoint: string = appsettings.skillHostEndpoint;
     if (hostEndpoint === undefined || hostEndpoint.trim().length === 0) {
         throw new Error('\'skillHostEndpoint\' is not in the configuration');
-    } else {
-        decorate(injectable(), SkillsConfiguration);
-        container.bind<SkillsConfiguration>(TYPES.SkillsConfiguration).toConstantValue(
-            new SkillsConfiguration(skills, hostEndpoint)
-        );
-        const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(container.get<SkillsConfiguration>(TYPES.SkillsConfiguration));
-
-        // Register AuthConfiguration to enable custom claim validation.
-        container.bind<AuthenticationConfiguration>(TYPES.AuthenticationConfiguration).toConstantValue(
-            new AuthenticationConfiguration(undefined,(claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims))
-        );
-
-        const skillDialogs: SkillDialog[] = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
-            const skillDialogOptions: SkillDialogOptions = {
-                botId: appsettings.microsoftAppId,
-                conversationIdFactory: container.get<SkillConversationIdFactoryBase>(TYPES.SkillConversationIdFactory),
-                skillClient: container.get<SkillHttpClient>(TYPES.SkillHttpClient),
-                skillHostEndpoint: hostEndpoint,
-                skill: skill,
-                conversationState: container.get<ConversationState>(TYPES.ConversationState)
-            };
-            return new SkillDialog(skillDialogOptions, skill.id);
-        });
-
-        decorate(injectable(), SkillDialog);
-        container.bind<SkillDialog[]>(TYPES.SkillDialogs).toConstantValue(skillDialogs);
     }
+    decorate(injectable(), SkillsConfiguration);
+    container.bind<SkillsConfiguration>(TYPES.SkillsConfiguration).toConstantValue(
+        new SkillsConfiguration(skills, hostEndpoint)
+    );
+    const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(container.get<SkillsConfiguration>(TYPES.SkillsConfiguration));
+
+    // Register AuthConfiguration to enable custom claim validation.
+    container.bind<AuthenticationConfiguration>(TYPES.AuthenticationConfiguration).toConstantValue(
+        new AuthenticationConfiguration(undefined,(claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims))
+    );
+
+    const skillDialogs: SkillDialog[] = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
+        const skillDialogOptions: SkillDialogOptions = {
+            botId: appsettings.microsoftAppId,
+            conversationIdFactory: container.get<SkillConversationIdFactoryBase>(TYPES.SkillConversationIdFactory),
+            skillClient: container.get<SkillHttpClient>(TYPES.SkillHttpClient),
+            skillHostEndpoint: hostEndpoint,
+            skill: skill,
+            conversationState: container.get<ConversationState>(TYPES.ConversationState)
+        };
+        return new SkillDialog(skillDialogOptions, skill.id);
+    });
+
+    decorate(injectable(), SkillDialog);
+    container.bind<SkillDialog[]>(TYPES.SkillDialogs).toConstantValue(skillDialogs);
 }
 
 if (!container.isBound(TYPES.AuthenticationConfiguration)) {
