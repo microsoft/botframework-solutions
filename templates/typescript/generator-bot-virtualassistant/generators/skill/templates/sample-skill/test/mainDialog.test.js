@@ -2,6 +2,7 @@
  * Copyright(c) Microsoft Corporation.All rights reserved.
  * Licensed under the MIT License.
  */
+
 const assert = require("assert");
 const ActivityTypes = require("botbuilder").ActivityTypes;
 const skillTestBase = require("./helpers/skillTestBase");
