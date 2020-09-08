@@ -15,9 +15,9 @@ import { TYPES } from '../types/constants';
 export class BotServices {
     public cognitiveModelSets: Map<string, ICognitiveModelSet> = new Map();
 
-    public constructor(
-    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
-        @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient) {
+    public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+        @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient
+    ) {
         const luisPredictionOptions: LuisPredictionOptions = {
             telemetryClient: telemetryClient,
             logPersonalInformation: true

@@ -44,8 +44,7 @@ export class MainDialog extends ComponentDialog {
     private readonly stateAccessor: StatePropertyAccessor<SkillState>;
     
     // Constructor
-    public constructor(
-    @inject(TYPES.BotServices) services: BotServices,
+    public constructor(@inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
         @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
         @inject(TYPES.SampleDialog) sampleDialog: SampleDialog,

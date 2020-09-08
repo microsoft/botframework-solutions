@@ -29,10 +29,10 @@ export class OnboardingDialog extends ComponentDialog {
     private readonly templateManager: LocaleTemplateManager;
     private readonly accessor: StatePropertyAccessor<IUserProfileState>;
 
-    public constructor(
-    @inject(TYPES.IUserProfileState) accessor: StatePropertyAccessor<IUserProfileState>,
+    public constructor(@inject(TYPES.IUserProfileState) accessor: StatePropertyAccessor<IUserProfileState>,
         @inject(TYPES.BotServices) services: BotServices,
-        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager) {
+        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager
+    ) {
         super(OnboardingDialog.name);
         this.templateManager = templateManager;
 

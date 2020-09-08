@@ -28,8 +28,7 @@ import { TYPES } from '../types/constants';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
 
-    public constructor(
-    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+    public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
         @inject(TYPES.ConversationState) conversationState: ConversationState,
         @inject(TYPES.BotFrameworkAdapterSettings) adapterSettings: Partial<BotFrameworkAdapterSettings>,

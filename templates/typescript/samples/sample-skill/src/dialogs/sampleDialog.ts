@@ -29,8 +29,7 @@ export class SampleDialog extends SkillDialogBase {
     private readonly nameKey: string = 'name';
 
     // Constructor
-    public constructor(
-    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+    public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
         @inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
         @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,

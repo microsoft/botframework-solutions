@@ -15,8 +15,7 @@ export class BotServices {
 
     public cognitiveModelSets: Map<string, Partial<ICognitiveModelSet>> = new Map();
 
-    public constructor(
-    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+    public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
         @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient
     ) {
         const luisPredictionOptions: LuisPredictionOptions = {

@@ -59,8 +59,7 @@ export class MainDialog extends ComponentDialog {
     private previousResponseAccesor: StatePropertyAccessor<Partial<Activity>[]>;
     private activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>;
     
-    public constructor(
-    @inject(TYPES.BotServices) services: BotServices,
+    public constructor(@inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
         @inject(TYPES.IUserProfileState) userProfileState: StatePropertyAccessor<IUserProfileState>,
         @inject(TYPES.Activity) previousResponseAccessor: StatePropertyAccessor<Partial<Activity>[]>,

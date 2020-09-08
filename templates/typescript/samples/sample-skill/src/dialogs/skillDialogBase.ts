@@ -32,8 +32,7 @@ export class SkillDialogBase extends ComponentDialog {
     protected stateAccessor: StatePropertyAccessor<SkillState>;
     protected templateManager: LocaleTemplateManager;
 
-    public constructor(
-    @unmanaged() dialogId: string,
+    public constructor(@unmanaged() dialogId: string,
         @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
         @inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,

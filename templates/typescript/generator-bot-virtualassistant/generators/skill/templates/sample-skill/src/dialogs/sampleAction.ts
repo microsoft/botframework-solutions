@@ -32,8 +32,7 @@ enum DialogIds {
 export class SampleAction extends SkillDialogBase {
     private readonly nameKey: string = 'name';
 
-    public constructor(
-    @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
+    public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
         @inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
         @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
