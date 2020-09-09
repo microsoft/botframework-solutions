@@ -4,7 +4,7 @@
  */
 
 import 'reflect-metadata';
-import { decorate, injectable, Container } from 'inversify';
+import { decorate, injectable, Container, inject, optional } from 'inversify';
 import { TYPES } from './types/constants';
 import { IBotSettings } from './services/botSettings';
 import * as appsettings from './appsettings.json';
@@ -214,13 +214,14 @@ container.bind<DefaultActivityHandler<MainDialog>>(TYPES.DefaultActivityHandler)
 
 // Configure SkillHandler
 decorate(injectable(), SkillHandler);
-container.bind<SkillHandler>(TYPES.SkillHandler).toConstantValue(new SkillHandler(
-    container.get<DefaultAdapter>(TYPES.DefaultAdapter),
-    container.get<DefaultActivityHandler<MainDialog>>(TYPES.DefaultActivityHandler),
-    container.get<SkillConversationIdFactoryBase>(TYPES.SkillConversationIdFactory),
-    container.get<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider),
-    container.get<AuthenticationConfiguration>(TYPES.AuthenticationConfiguration)
-));
+decorate(inject(TYPES.DefaultAdapter), SkillHandler, 0);
+decorate(inject(TYPES.DefaultActivityHandler), SkillHandler, 1);
+decorate(inject(TYPES.SkillConversationIdFactory), SkillHandler, 2);
+decorate(inject(TYPES.SimpleCredentialProvider), SkillHandler, 3);
+decorate(inject(TYPES.AuthenticationConfiguration), SkillHandler, 4);
+decorate(inject(TYPES.Channel), SkillHandler, 5);
+decorate(optional(), SkillHandler, 5);
+container.bind<SkillHandler>(TYPES.SkillHandler).to(SkillHandler).inSingletonScope();
 
 function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
     if (settings !== undefined && settings.appInsights !== undefined && settings.appInsights.instrumentationKey !== undefined) {

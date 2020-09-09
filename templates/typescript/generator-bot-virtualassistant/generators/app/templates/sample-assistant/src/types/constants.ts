@@ -4,6 +4,7 @@
  */
 
 export const TYPES = {
+    Channel: 'Channel',
     BotSettings: Symbol('BotSettings'),
     SimpleCredentialProvider: Symbol('SimpleCredentialProvider'),
     ApplicationInsightsTelemetry: Symbol('ApplicationInsightsTelemetry'),
