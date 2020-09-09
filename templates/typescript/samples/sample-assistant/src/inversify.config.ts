@@ -11,7 +11,7 @@ import * as appsettings from './appsettings.json';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { ICognitiveModelConfiguration, LocaleTemplateManager, SkillConversationIdFactory, SwitchSkillDialog, IEnhancedBotFrameworkSkill, SkillsConfiguration } from 'bot-solutions';
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
-import { BotTelemetryClient, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, ConversationState, BotFrameworkAdapterSettings, BotFrameworkAdapter, SkillConversationIdFactoryBase, SkillHttpClient, TeamsActivityHandler, ActivityHandler, ActivityHandlerBase, SkillHandler, ChannelServiceHandler, BotFrameworkSkill, StatePropertyAccessor } from 'botbuilder';
+import { BotTelemetryClient, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, ConversationState, BotFrameworkAdapterSettings, SkillConversationIdFactoryBase, SkillHttpClient, SkillHandler, BotFrameworkSkill, StatePropertyAccessor } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { BotServices } from './services/botServices';
 import { CosmosDbPartitionedStorage } from 'botbuilder-azure';
@@ -19,13 +19,13 @@ import { join } from 'path';
 import { DefaultAdapter } from './adapters/defaultAdapter';
 import { MainDialog } from './dialogs/mainDialog';
 import { OnboardingDialog } from './dialogs/onboardingDialog';
-import { SkillDialog, SkillDialogOptions, ComponentDialog, DialogContainer, Dialog } from 'botbuilder-dialogs';
+import { SkillDialog, SkillDialogOptions } from 'botbuilder-dialogs';
 import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
 import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import { IUserProfileState } from './models/userProfileState';
 import { Activity } from 'botframework-schema';
 
-const container = new Container();
+const container = new Container({skipBaseClassChecks: true});
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
@@ -125,7 +125,6 @@ container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSe
     adapterSettings
 );
 
-decorate(injectable(), BotFrameworkAdapter);
 container.bind<DefaultAdapter>(TYPES.DefaultAdapter).to(DefaultAdapter).inSingletonScope();
 
 // Register the skills conversation ID factory, the client and the request handler
@@ -145,9 +144,6 @@ container.bind<SkillHttpClient>(TYPES.SkillHttpClient).toConstantValue(
 );
 
 // Register dialogs
-decorate(injectable(), Dialog);
-decorate(injectable(), DialogContainer);
-decorate(injectable(), ComponentDialog);
 container.bind<MainDialog>(TYPES.MainDialog).to(MainDialog).inTransientScope();
 
 decorate(injectable(), SwitchSkillDialog);
@@ -214,15 +210,10 @@ if (!container.isBound(TYPES.AuthenticationConfiguration)) {
 }
 
 // Configure bot
-decorate(injectable(), ActivityHandlerBase);
-decorate(injectable(), ActivityHandler);
-decorate(injectable(), TeamsActivityHandler);
 container.bind<DefaultActivityHandler<MainDialog>>(TYPES.DefaultActivityHandler).to(DefaultActivityHandler).inTransientScope();
 
 // Configure SkillHandler
-decorate(injectable(), ChannelServiceHandler);
 decorate(injectable(), SkillHandler);
-
 container.bind<SkillHandler>(TYPES.SkillHandler).toConstantValue(new SkillHandler(
     container.get<DefaultAdapter>(TYPES.DefaultAdapter),
     container.get<DefaultActivityHandler<MainDialog>>(TYPES.DefaultActivityHandler),

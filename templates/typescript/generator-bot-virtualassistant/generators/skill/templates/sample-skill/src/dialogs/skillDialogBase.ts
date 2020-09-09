@@ -23,22 +23,19 @@ import { TokenResponse } from 'botframework-schema';
 import { SkillState } from '../models/skillState';
 import { BotServices} from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
-import { inject, injectable, unmanaged } from 'inversify';
-import { TYPES } from '../types/constants';
 
-@injectable()
 export class SkillDialogBase extends ComponentDialog {
     protected settings: Partial<IBotSettings>;
     protected services: BotServices;
     protected stateAccessor: StatePropertyAccessor<SkillState>;
     protected templateManager: LocaleTemplateManager;
 
-    public constructor(@unmanaged() dialogId: string,
-        @inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
-        @inject(TYPES.BotServices) services: BotServices,
-        @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
-        @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
-        @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager
+    public constructor(dialogId: string,
+        settings: Partial<IBotSettings>,
+        services: BotServices,
+        stateAccessor: StatePropertyAccessor<SkillState>,
+        telemetryClient: BotTelemetryClient,
+        templateManager: LocaleTemplateManager
     ) {
         super(dialogId);
         this.services = services;

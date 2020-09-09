@@ -17,16 +17,12 @@ import {
     UserState,
     ConversationState,
     BotFrameworkAdapterSettings,
-    BotFrameworkAdapter,
-    ActivityHandler,
-    ActivityHandlerBase,
     StatePropertyAccessor } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { CosmosDbPartitionedStorage } from 'botbuilder-azure';
 import { join } from 'path';
 import { DefaultAdapter } from './adapters';
 import { BotServices } from './services/botServices';
-import { Dialog, DialogContainer, ComponentDialog } from 'botbuilder-dialogs';
 import { SampleDialog } from './dialogs/sampleDialog';
 import { SampleAction } from './dialogs/sampleAction';
 import { MainDialog } from './dialogs/mainDialog';
@@ -34,7 +30,7 @@ import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import { SimpleCredentialProvider } from 'botframework-connector';
 import { SkillState } from './models';
 
-const container = new Container();
+const container = new Container({skipBaseClassChecks: true});
 
 const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
@@ -129,9 +125,6 @@ container.bind<LocaleTemplateManager>(TYPES.LocaleTemplateManager).toConstantVal
 );
 
 // Register dialogs
-decorate(injectable(), Dialog);
-decorate(injectable(), DialogContainer);
-decorate(injectable(), ComponentDialog);
 container.bind<SampleDialog>(TYPES.SampleDialog).to(SampleDialog).inTransientScope();
 container.bind<SampleAction>(TYPES.SampleAction).to(SampleAction).inTransientScope();
 container.bind<MainDialog>(TYPES.MainDialog).to(MainDialog).inTransientScope();
@@ -146,12 +139,9 @@ container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSe
     adapterSettings
 );
 
-decorate(injectable(), BotFrameworkAdapter);
 container.bind<DefaultAdapter>(TYPES.DefaultAdapter).to(DefaultAdapter).inSingletonScope();
 
 // Configure bot
-decorate(injectable(), ActivityHandlerBase);
-decorate(injectable(), ActivityHandler);
 container.bind<DefaultActivityHandler<MainDialog>>(TYPES.DefaultActivityHandler).to(DefaultActivityHandler);
 
 function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
