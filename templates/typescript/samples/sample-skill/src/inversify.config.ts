@@ -4,20 +4,13 @@
  */
 
 import 'reflect-metadata';
-import { decorate, injectable, Container } from 'inversify';
+import { decorate, injectable, Container, inject } from 'inversify';
 import { TYPES } from './types/constants';
 import { IBotSettings } from './services/botSettings';
 import * as appsettings from './appsettings.json';
 import { ICognitiveModelConfiguration, LocaleTemplateManager } from 'bot-solutions';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
-import {
-    BotTelemetryClient,
-    NullTelemetryClient,
-    TelemetryLoggerMiddleware,
-    UserState,
-    ConversationState,
-    BotFrameworkAdapterSettings,
-    StatePropertyAccessor } from 'botbuilder';
+import { BotTelemetryClient, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, ConversationState, BotFrameworkAdapterSettings, StatePropertyAccessor } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { CosmosDbPartitionedStorage } from 'botbuilder-azure';
 import { join } from 'path';
@@ -64,16 +57,12 @@ container.bind<BotTelemetryClient>(TYPES.BotTelemetryClient).toConstantValue(
 );
 
 decorate(injectable(), TelemetryLoggerMiddleware);
-container.bind<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware).toConstantValue(
-    new TelemetryLoggerMiddleware(container.get<BotTelemetryClient>(TYPES.BotTelemetryClient))
-);
+decorate(inject(TYPES.BotTelemetryClient), TelemetryLoggerMiddleware, 0);
+container.bind<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware).to(TelemetryLoggerMiddleware).inSingletonScope();
 
 decorate(injectable(), TelemetryInitializerMiddleware);
-container.bind<TelemetryInitializerMiddleware>(TYPES.TelemetryInitializerMiddleware).toConstantValue(
-    new TelemetryInitializerMiddleware(
-        container.get<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware)
-    )
-);
+decorate(inject(TYPES.TelemetryLoggerMiddleware), TelemetryInitializerMiddleware, 0);
+container.bind<TelemetryInitializerMiddleware>(TYPES.TelemetryInitializerMiddleware).to(TelemetryInitializerMiddleware).inSingletonScope();
 
 // Configure bot services
 container.bind<BotServices>(TYPES.BotServices).to(BotServices).inSingletonScope();
@@ -84,24 +73,16 @@ container.bind<BotServices>(TYPES.BotServices).to(BotServices).inSingletonScope(
 // container.bind<Partial<MemoryStorage>>(TYPES.MemoryStorage).toConstantValue(new MemoryStorage());
 decorate(injectable(), CosmosDbPartitionedStorage);
 container.bind<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage).toConstantValue(
-    new CosmosDbPartitionedStorage(
-        container.get<IBotSettings>(TYPES.BotSettings).cosmosDb
-    )
+    new CosmosDbPartitionedStorage(container.get<IBotSettings>(TYPES.BotSettings).cosmosDb)
 );
 
 decorate(injectable(), UserState);
-container.bind<UserState>(TYPES.UserState).toConstantValue(
-    new UserState(
-        container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage)
-    )
-);
+decorate(inject(TYPES.CosmosDbPartitionedStorage), UserState, 0);
+container.bind<UserState>(TYPES.UserState).to(UserState).inSingletonScope();
 
 decorate(injectable(), ConversationState);
-container.bind<ConversationState>(TYPES.ConversationState).toConstantValue(
-    new ConversationState(
-        container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage)
-    )
-);
+decorate(inject(TYPES.CosmosDbPartitionedStorage), ConversationState, 0);
+container.bind<ConversationState>(TYPES.ConversationState).to(ConversationState).inSingletonScope();
 
 container.bind<StatePropertyAccessor<SkillState>>(TYPES.SkillState).toConstantValue(
     container.get<UserState>(TYPES.UserState).createProperty(SkillState.name)
@@ -135,10 +116,7 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appPassword: botSettings.microsoftAppPassword
 };
 
-container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSettings).toConstantValue(
-    adapterSettings
-);
-
+container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSettings).toConstantValue(adapterSettings);
 container.bind<DefaultAdapter>(TYPES.DefaultAdapter).to(DefaultAdapter).inSingletonScope();
 
 // Configure bot

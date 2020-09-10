@@ -59,16 +59,13 @@ container.bind<BotTelemetryClient>(TYPES.BotTelemetryClient).toConstantValue(
 );
 
 decorate(injectable(), TelemetryLoggerMiddleware);
-container.bind<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware).toConstantValue(
-    new TelemetryLoggerMiddleware(container.get<BotTelemetryClient>(TYPES.BotTelemetryClient))
-);
+decorate(inject(TYPES.BotTelemetryClient), TelemetryLoggerMiddleware, 0);
+container.bind<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware).to(TelemetryLoggerMiddleware).inSingletonScope();
 
 decorate(injectable(), TelemetryInitializerMiddleware);
-container.bind<TelemetryInitializerMiddleware>(TYPES.TelemetryInitializerMiddleware).toConstantValue(
-    new TelemetryInitializerMiddleware(
-        container.get<TelemetryLoggerMiddleware>(TYPES.TelemetryLoggerMiddleware)
-    )
-);
+decorate(inject(TYPES.TelemetryLoggerMiddleware), TelemetryInitializerMiddleware, 0);
+container.bind<TelemetryInitializerMiddleware>(TYPES.TelemetryInitializerMiddleware).to(TelemetryInitializerMiddleware).inSingletonScope();
+
 
 // Configure bot services
 container.bind<BotServices>(TYPES.BotServices).to(BotServices).inSingletonScope();
@@ -79,22 +76,16 @@ container.bind<BotServices>(TYPES.BotServices).to(BotServices).inSingletonScope(
 // container.bind<Partial<MemoryStorage>>(TYPES.MemoryStorage).toConstantValue(new MemoryStorage());
 decorate(injectable(), CosmosDbPartitionedStorage);
 container.bind<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage).toConstantValue(
-    new CosmosDbPartitionedStorage(
-        container.get<IBotSettings>(TYPES.BotSettings).cosmosDb
-    )
+    new CosmosDbPartitionedStorage(container.get<IBotSettings>(TYPES.BotSettings).cosmosDb)
 );
 
 decorate(injectable(), UserState);
-container.bind<UserState>(TYPES.UserState).toConstantValue(
-    new UserState(
-        container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage)
-    )
-);
+decorate(inject(TYPES.CosmosDbPartitionedStorage), UserState, 0);
+container.bind<UserState>(TYPES.UserState).to(UserState).inSingletonScope();
 
 decorate(injectable(), ConversationState);
-container.bind<ConversationState>(TYPES.ConversationState).toConstantValue(
-    new ConversationState(container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage))
-);
+decorate(inject(TYPES.CosmosDbPartitionedStorage), ConversationState, 0);
+container.bind<ConversationState>(TYPES.ConversationState).to(ConversationState).inSingletonScope();
 
 // Configure localized responses
 const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
@@ -110,8 +101,7 @@ supportedLocales.forEach((locale: string) => {
 
 decorate(injectable(), LocaleTemplateManager);
 container.bind<LocaleTemplateManager>(TYPES.LocaleTemplateManager).toConstantValue(
-    new LocaleTemplateManager(localizedTemplates,
-        container.get<IBotSettings>(TYPES.BotSettings).defaultLocale || 'en-us')
+    new LocaleTemplateManager(localizedTemplates, container.get<IBotSettings>(TYPES.BotSettings).defaultLocale || 'en-us')
 );
 
 // Register the Bot Framework Adapter with error handling enabled.
@@ -121,35 +111,28 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appPassword: botSettings.microsoftAppPassword
 };
 
-container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSettings).toConstantValue(
-    adapterSettings
-);
+container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSettings).toConstantValue(adapterSettings);
 
 container.bind<DefaultAdapter>(TYPES.DefaultAdapter).to(DefaultAdapter).inSingletonScope();
 
 // Register the skills conversation ID factory, the client and the request handler
 decorate(injectable(), SkillConversationIdFactory);
-container.bind<SkillConversationIdFactoryBase>(TYPES.SkillConversationIdFactory).toConstantValue(
-    new SkillConversationIdFactory(
-        container.get<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage)
-    )
-);
+decorate(inject(TYPES.CosmosDbPartitionedStorage), SkillConversationIdFactory, 0);
+container.bind<SkillConversationIdFactoryBase>(TYPES.SkillConversationIdFactory).to(SkillConversationIdFactory).inSingletonScope();
 
 decorate(injectable(), SkillHttpClient);
-container.bind<SkillHttpClient>(TYPES.SkillHttpClient).toConstantValue(
-    new SkillHttpClient(
-        container.get<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider),
-        container.get<SkillConversationIdFactoryBase>(TYPES.SkillConversationIdFactory)
-    )
-);
+decorate(inject(TYPES.SimpleCredentialProvider), SkillHttpClient, 0);
+decorate(inject(TYPES.SkillConversationIdFactory), SkillHttpClient, 1);
+decorate(inject(TYPES.Channel), SkillHttpClient, 2);
+decorate(optional(), SkillHttpClient, 2);
+container.bind<SkillHttpClient>(TYPES.SkillHttpClient).to(SkillHttpClient).inSingletonScope();
 
 // Register dialogs
 container.bind<MainDialog>(TYPES.MainDialog).to(MainDialog).inTransientScope();
 
 decorate(injectable(), SwitchSkillDialog);
-container.bind<SwitchSkillDialog>(TYPES.SwitchSkillDialog).toConstantValue(
-    new SwitchSkillDialog(container.get<ConversationState>(TYPES.ConversationState))
-);
+decorate(inject(TYPES.ConversationState), SwitchSkillDialog, 0);
+container.bind<SwitchSkillDialog>(TYPES.SwitchSkillDialog).to(SwitchSkillDialog).inSingletonScope();
 
 container.bind<StatePropertyAccessor<BotFrameworkSkill>>(TYPES.BotFrameworkSkill).toConstantValue(
     container.get<ConversationState>(TYPES.ConversationState).createProperty<BotFrameworkSkill>(MainDialog.activeSkillPropertyName)
@@ -176,10 +159,7 @@ if (skills !== undefined && skills.length > 0) {
     if (hostEndpoint === undefined || hostEndpoint.trim().length === 0) {
         throw new Error('\'skillHostEndpoint\' is not in the configuration');
     }
-    container.bind<SkillsConfiguration>(TYPES.SkillsConfiguration).toConstantValue(
-        new SkillsConfiguration(skills, hostEndpoint)
-    );
-
+    container.bind<SkillsConfiguration>(TYPES.SkillsConfiguration).toConstantValue(new SkillsConfiguration(skills, hostEndpoint));
     const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(container.get<SkillsConfiguration>(TYPES.SkillsConfiguration));
 
     // Register AuthConfiguration to enable custom claim validation.
