@@ -33,7 +33,7 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     private dialogStateAccessor: StatePropertyAccessor;
     private userProfileState: StatePropertyAccessor;
     private templateManager: LocaleTemplateManager;
-    
+
     public constructor(@inject(TYPES.ConversationState) conversationState: ConversationState,
         @inject(TYPES.UserState) userState: UserState,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
