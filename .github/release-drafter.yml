@@ -1,7 +1,7 @@
 name-template: 'v$NEXT_MINOR_VERSION-preview'
 change-template: '* $TITLE (#$NUMBER)'
 branches:
-  - master
+  - main
   - next
 
 template: |

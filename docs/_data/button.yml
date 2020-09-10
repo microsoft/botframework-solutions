@@ -180,7 +180,7 @@ enable_speech_uwp:
   title: Create a Voice Assistant with the Speech SDK in C# UWP
   text: This quickstart will connect to a previously authored and configured bot to enable a voice assistant experience from the client application.
   button: Learn more
-  ref: 'https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/csharp/uwp/virtual-assistant'
+  ref: 'https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/main/quickstart/csharp/uwp/virtual-assistant'
   ext_ref: true
   img: *cs_img
   alt: *cs_alt
@@ -188,7 +188,7 @@ enable_speech_java:
   title: Using Voice Assistant in Java on Windows or Linux
   text: This sample demonstrates how to recognize speech for custom voice assistants and receive activity responses.
   button: Learn more
-  ref: 'https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/java/jre/virtual-assistant'
+  ref: 'https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/main/quickstart/java/jre/virtual-assistant'
   ext_ref: true
   img: *java_img
   alt: *java_alt
