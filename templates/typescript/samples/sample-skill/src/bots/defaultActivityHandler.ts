@@ -28,7 +28,7 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private templateManager: LocaleTemplateManager;
 
     public constructor(@inject(TYPES.ConversationState) conversationState: BotState,
-        @inject(TYPES.ConversationState) userState: BotState,
+        @inject(TYPES.UserState) userState: BotState,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
         @inject(TYPES.MainDialog) dialog: T
     ) {
