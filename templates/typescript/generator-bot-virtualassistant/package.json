@@ -2,7 +2,7 @@
   "name": "generator-bot-virtualassistant",
   "version": "1.0.0",
   "description": "Project template for Virtual Assistant using the Bot Builder SDK V4.",
-  "homepage": "https://github.com/microsoft/botframework-solutions/tree/master/templates/typescript/generator-bot-virtualassistant",
+  "homepage": "https://github.com/microsoft/botframework-solutions/tree/main/templates/typescript/generator-bot-virtualassistant",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/microsoft/botframework-solutions.git"
