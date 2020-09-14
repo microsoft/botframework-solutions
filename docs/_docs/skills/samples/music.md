@@ -11,7 +11,7 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [Music skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/musicskill) integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open the Spotify app via URI.
+The [Music skill](https://github.com/microsoft/botframework-skills/tree/main/skills/csharp/experimental/musicskill) integrates with [Spotify](https://developer.spotify.com/documentation/web-api/libraries/) to look up playlists and artists and open the Spotify app via URI.
 This is dependent on the [SpotifyAPI-NET](https://github.com/JohnnyCrazy/SpotifyAPI-NET) wrapper for the Spotify Web API.
 
 ## Deployment

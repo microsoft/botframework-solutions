@@ -11,7 +11,7 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [IT Service Management skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
+The [IT Service Management skill](https://github.com/microsoft/botframework-skills/tree/main/skills/csharp/experimental/itsmskill) provides a basic skill that provides ticket and knowledge base related capabilities and supports SerivceNow.
 
 This skill demonstrates the following scenarios:
 - Create a ticket: *Create a ticket for my broken laptop*

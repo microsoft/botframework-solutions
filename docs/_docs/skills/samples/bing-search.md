@@ -11,7 +11,7 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [Bing Search Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/bingsearchskill) provides a simple Skill that integrates with the [Bing Search Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/).
+The [Bing Search Skill](https://github.com/microsoft/botframework-skills/tree/main/skills/csharp/experimental/bingsearchskill) provides a simple Skill that integrates with the [Bing Search Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/bing-web-search-api/).
 
 This skill has a very limited LUIS model (available in English, French, Italian, German, Spanish and Chinese) and demonstrates three simple scenarios:
 

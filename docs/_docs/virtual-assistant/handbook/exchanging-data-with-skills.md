@@ -85,7 +85,7 @@ The `Post` processing step will be invoked once the Skill processing has been co
 
 ## Retrieving data within a Skill
 
-Within your Skill, you then need to handle the Event triggered by the previous steps to retrieve the data and start dialog processing as usual. With the Virtual Assistant and Skill Template this would be within your `RouteStepAsync` method. The example below shows handling the `WeatherForecast` event used above and retrieving data from the `Value` property of an activity. You could then populate the state object with information used by downstream dialogs. An example Action is provided with the Skill Template and you can review the implementation [here](https://github.com/microsoft/botframework-solutions/blob/master/samples/csharp/skill/SkillSample/Dialogs/MainDialog.cs#L245.)
+Within your Skill, you then need to handle the Event triggered by the previous steps to retrieve the data and start dialog processing as usual. With the Virtual Assistant and Skill Template this would be within your `RouteStepAsync` method. The example below shows handling the `WeatherForecast` event used above and retrieving data from the `Value` property of an activity. You could then populate the state object with information used by downstream dialogs. An example Action is provided with the Skill Template and you can review the implementation [here](https://github.com/microsoft/botframework-solutions/blob/main/samples/csharp/skill/SkillSample/Dialogs/MainDialog.cs#L245.)
 
 ```csharp
 case "WeatherForecast":

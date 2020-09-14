@@ -21,7 +21,7 @@ The sample here shows a **YAML** file configured to the [Bot Framework Solutions
 trigger:
   branches:  
     include:
-    - master
+    - main
     - feature/*
 
   paths:
@@ -75,10 +75,10 @@ steps:
     summaryFileLocation: 'templates/typescript/samples/sample-assistant/coverage/cobertura-coverage.xml'
     reportDirectory: 'templates/typescript/samples/sample-assistant/coverage/'
 ```
-By default the build pipelines automatically triggers a build on each new pull request. This can be changed to run against the master branch with the following change:
+By default the build pipelines automatically triggers a build on each new pull request. This can be changed to run against the main branch with the following change:
 
 ```diff
 - pr: none
 + pr: 
-+ - master
++ - main
 ```

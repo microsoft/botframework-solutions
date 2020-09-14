@@ -1,1 +1,1 @@
-Please refer to the [Configure Pipelines with YAML files documentation](https://github.com/microsoft/botframework-solutions/blob/master/yaml/typescript/README.md) for customization instructions.
+Please refer to the [Configure Pipelines with YAML files documentation](https://github.com/microsoft/botframework-solutions/tree/main/build/yaml/typescript/README.md) for customization instructions.

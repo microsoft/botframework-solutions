@@ -23,7 +23,7 @@ When a Virtual Assistant has multiple Skills added, in order to achieve SSO, one
    Go to Virtual Assistant's Azure portal Settings tab, and click `Add Setting` to add an OAuth connection
    ![Add oauth connection]({{site.baseurl}}/assets/images/add-oauth-connection.PNG)
 
-1. Within each appropriate Skill (take [CalendarSkill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/calendarskill) for example), ensure you add an `oauthCredentials` entry within appsettings.json
+1. Within each appropriate Skill (take [CalendarSkill](https://github.com/microsoft/botframework-skills/tree/main/skills/csharp/calendarskill) for example), ensure you add an `oauthCredentials` entry within appsettings.json
 
     ```json
     "oauthCredentials": {

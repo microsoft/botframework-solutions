@@ -21,7 +21,7 @@ The sample here shows a **YAML** file configured to the [Bot Framework Solutions
 trigger:
   branches:  
     include:
-    - master
+    - main
     - feature/*
 
   paths:
@@ -81,10 +81,10 @@ steps:
     summaryFileLocation: '$(Build.SourcesDirectory)\templates\csharp\VA\VA.Tests\coverage.cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)\templates\csharp\VA\VA.Tests'
 ```
-By default the build pipelines automatically triggers a build on each new pull request. This can be changed to run against the master branch with the following change:
+By default the build pipelines automatically triggers a build on each new pull request. This can be changed to run against the main branch with the following change:
 
 ```diff
 - pr: none
 + pr: 
-+ - master
++ - main
 ```

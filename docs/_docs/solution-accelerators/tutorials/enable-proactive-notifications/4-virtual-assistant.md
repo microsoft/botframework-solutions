@@ -25,7 +25,7 @@ For messages to be delivered to a user's conversation, a **ConversationReference
 
 Update both the **Startup** and **DefaultAdapter** classes with references to **ProactiveState** and **ProactiveStateMiddleware**.
 
-#### [Startup.cs]({{site.repo}}/tree/master/samples/csharp/assistants/enterprise-assistant/VirtualAssistantSample/Startup.cs)
+#### [Startup.cs]({{site.repo}}/tree/main/samples/csharp/assistants/enterprise-assistant/VirtualAssistantSample/Startup.cs)
 {:.no_toc}
 
 ```diff
@@ -37,7 +37,7 @@ Update both the **Startup** and **DefaultAdapter** classes with references to **
 }
 ```
 
-#### [DefaultAdapter.cs]({{site.repo}}/tree/master/samples/csharp/assistants/enterprise-assistant/VirtualAssistantSample/Adapters/DefaultAdapter.cs)
+#### [DefaultAdapter.cs]({{site.repo}}/tree/main/samples/csharp/assistants/enterprise-assistant/VirtualAssistantSample/Adapters/DefaultAdapter.cs)
 {:.no_toc}
 
 ```diff

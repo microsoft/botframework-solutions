@@ -19,7 +19,7 @@ The same Activity schema supports the attachment of User Experience elements thr
 
 ## Activity schema
 
-The [Bot Framework Activity schema](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events]({{site.baseurl}}/virtual-assistant/handbook/events).
+The [Bot Framework Activity schema](https://github.com/Microsoft/botframework-sdk/blob/main/specs/botframework-activity/botframework-activity.md) for the Azure Bot Service is an application-level representation of conversational actions made by humans and bots. This schema is used for all messages, including [Events]({{site.baseurl}}/virtual-assistant/handbook/events).
 
 ## Messages and Events
 
@@ -31,7 +31,7 @@ Messages are a specific Type of Activity set through the `ActivityType` property
 
 ## Input Hints
 
-Speech scenarios require indication from the Virtual Assistant whether further input is required so the client or device can automatically open the microphone. The `inputHint` field on the [Activity](https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md) provides the mechanism to enable this.
+Speech scenarios require indication from the Virtual Assistant whether further input is required so the client or device can automatically open the microphone. The `inputHint` field on the [Activity](https://github.com/Microsoft/botframework-sdk/blob/main/specs/botframework-activity/botframework-activity.md) provides the mechanism to enable this.
 
 There are three types of Input Hint to consider within your client application.
 

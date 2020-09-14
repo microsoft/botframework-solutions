@@ -475,7 +475,7 @@ If you need a more complex prompt you can implement it through inheriting **Micr
 ### Error handling
 {:.no_toc}
 
-Use the **HandleDialogExceptions** method in [SkillDialogBase.cs]({{site.repo}}/blob/master/templates/Skill-Template/csharp/Sample/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
+Use the **HandleDialogExceptions** method in [SkillDialogBase.cs]({{site.repo}}/blob/main/templates/csharp/Skill/Skill/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
 
 ```csharp
 protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)

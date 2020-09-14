@@ -11,7 +11,7 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [Event Skill]({{site.repo}}/tree/master/skills/src/csharp/experimental/eventskill) provides a simple skill that integrates with [Eventbrite](https://www.eventbrite.com/platform/) to show information about events happening in the specified area.
+The [Event Skill]({{site.repo}}/tree/main/skills) provides a simple skill that integrates with [Eventbrite](https://www.eventbrite.com/platform/) to show information about events happening in the specified area.
 
 This skill currently supports one scenario to get local event information.
 

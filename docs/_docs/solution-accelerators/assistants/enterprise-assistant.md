@@ -9,7 +9,7 @@ toc: true
 {:.no_toc}
 Many organizations are looking to provide a centralized conversational experience across many canvases for employees. This concept allows for a consolidation of many disparate bots across the organization to a more centralized solution where a master bot handles finding the right bot to handle the conversation, thus avoiding bot explosion through parent bot/skills approach. This, in turn, gets the user productive quicker and allows for a true Enterprise Virtual Assistant Experience. 
 
-The [Enterprise Assistant sample]({{site.repo}}/tree/master/samples/csharp/assistants/enterprise-assistant) is an example of a Virtual Assistant that helps conceptualize and demonstrate how an assistant could be used in common enterprise scenarios. It also provides a starting point for those interested in creating an assistant customized for this scenario. 
+The [Enterprise Assistant sample]({{site.repo}}/tree/main/samples/csharp/assistants/enterprise-assistant) is an example of a Virtual Assistant that helps conceptualize and demonstrate how an assistant could be used in common enterprise scenarios. It also provides a starting point for those interested in creating an assistant customized for this scenario. 
 
 ![Enterprise Assistant Overview Drawing]({{site.baseurl}}/assets/images/EnterpriseAssistantSampleOverview.PNG)
 

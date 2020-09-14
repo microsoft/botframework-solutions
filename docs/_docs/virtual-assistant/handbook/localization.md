@@ -112,7 +112,7 @@ var cognitiveModels = _services.CognitiveModelSets[locale];
 
 ## Responses
 
-Responses from your assistant are generated through use of [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation#readme) and the `.lg`. files within the `Responses` folder of your assistant. We provide a number of different language variations out of the box to get you started.
+Responses from your assistant are generated through use of [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/main/experimental/language-generation#readme) and the `.lg`. files within the `Responses` folder of your assistant. We provide a number of different language variations out of the box to get you started.
 
 The provided [LocaleTemplateEngineManager](https://github.com/microsoft/botframework-solutions/blob/master/sdk/csharp/libraries/microsoft.bot.solutions/Responses/LocaleTemplateEngineManager.cs) will identify the right response based on the `CurrentUICulture`. A fallback policy is also followed to enable a specific locale, e.g. es-mx, to fallback to es-es if a specific set of es-mx responses are not available.
 

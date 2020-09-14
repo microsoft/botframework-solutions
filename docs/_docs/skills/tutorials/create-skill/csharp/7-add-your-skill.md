@@ -41,4 +41,4 @@ Once the connect command finish successfully, you can see under the `botFramewor
 
 For further documentation, please check the following links:
 - [Adding Skills]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/)
-- [Connect command]({{site.repo}}/tree/master/tools/botskills/docs/commands/connect.md)
+- [Connect command]({{site.repo}}/tree/main/tools/botskills/docs/commands/connect.md)

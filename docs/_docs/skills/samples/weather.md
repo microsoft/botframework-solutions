@@ -11,7 +11,7 @@ toc: true
 # {{ page.title }}
 {:.no_toc}
 
-The [Weather skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/weatherskill) provides a basic Skill that integrates with [Azure Maps](https://azure.microsoft.com/en-us/services/azure-maps/) to demonstrate how a weather experience can be integrated into a Virtual Assistant.
+The [Weather skill](https://github.com/microsoft/botframework-skills/tree/main/skills/csharp/experimental/weatherskill) provides a basic Skill that integrates with [Azure Maps](https://azure.microsoft.com/en-us/services/azure-maps/) to demonstrate how a weather experience can be integrated into a Virtual Assistant.
 
 ## Deployment
 {:.no_toc}

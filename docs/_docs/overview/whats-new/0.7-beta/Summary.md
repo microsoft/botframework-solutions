@@ -29,7 +29,7 @@ Virtual Assistant is updated to Bot Framework 4.6.  Some new capabilities of the
 ### Language Generation (LG) Support
 {:.no_toc}
 
-Microsoft has added support of the new [Language Generation (LG)](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation) features that have been added to the [Bot Framework 4.6](https://github.com/microsoft/botframework#Bot-Framework-SDK-v4) allowing for richer dialogs that have more dynamic, natural responses.  Microsoft has also incorporated LG into the Virtual Assistant Skills.
+Microsoft has added support of the new [Language Generation (LG)](https://github.com/Microsoft/BotBuilder-Samples/tree/main/experimental/language-generation) features that have been added to the [Bot Framework 4.6](https://github.com/microsoft/botframework#Bot-Framework-SDK-v4) allowing for richer dialogs that have more dynamic, natural responses.  Microsoft has also incorporated LG into the Virtual Assistant Skills.
 
 ### Context Switching
 {:.no_toc}
