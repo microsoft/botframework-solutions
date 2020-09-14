@@ -73,24 +73,19 @@ async function getTestAdapterDefault(settings) {
     const userState = new UserState(storage);
 
     const botServices = new BotServices(botSettings);
-    const botServicesAccesor = userState.createProperty(BotServices.name)
-    const onboardingDialog = new OnboardingDialog(botServicesAccesor, botServices, templateManager, telemetryClient);
+    const onboardingDialog = new OnboardingDialog(userState, botServices, templateManager, telemetryClient);
     const skillDialogs = [];
-    const userProfileStateAccesor = userState.createProperty('IUserProfileState');
-    const previousResponseAccesor = userState.createProperty('Activity');
     const switchSkillDialog = new SwitchSkillDialog(conversationState);
     const skillsConfig = new SkillsConfiguration([], '');
-    const activeSkillProperty = conversationState.createProperty('BotFrameworkSkill');
     const mainDialog = new MainDialog(
         botServices,
         templateManager,
-        userProfileStateAccesor,
-        previousResponseAccesor,
         onboardingDialog,
         switchSkillDialog,
         skillDialogs,
         skillsConfig,
-        activeSkillProperty
+        userState,
+        conversationState
     );
 
     const botLogic = new DefaultActivityHandler(conversationState, userState, templateManager, mainDialog);

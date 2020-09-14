@@ -5,6 +5,8 @@
 
 export const TYPES = {
     BotSettings: Symbol('BotSettings'),
+    MicrosoftAppId: Symbol('MicrosoftAppId'),
+    MicrosoftAppPassword: Symbol('MicrosoftAppPassword'),  
     SimpleCredentialProvider: Symbol('SimpleCredentialProvider'),
     BotTelemetryClient: Symbol('BotTelemetryClient'),
     TelemetryInitializerMiddleware: Symbol('TelemetryInitializerMiddleware'),
@@ -23,5 +25,4 @@ export const TYPES = {
     DefaultAdapter: Symbol('DefaultAdapter'),
     DefaultActivityHandler: Symbol('DefaultActivityHandler'),
     StatePropertyAccessor: Symbol('StatePropertyAccessor'),
-    SkillState: Symbol('SkillState')
 };

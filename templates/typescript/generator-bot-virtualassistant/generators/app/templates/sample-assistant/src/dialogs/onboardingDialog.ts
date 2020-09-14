@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { StatePropertyAccessor, RecognizerResult } from 'botbuilder';
+import { StatePropertyAccessor, RecognizerResult, UserState } from 'botbuilder';
 import {
     ComponentDialog,
     DialogTurnResult,
@@ -30,14 +30,14 @@ export class OnboardingDialog extends ComponentDialog {
     private readonly templateManager: LocaleTemplateManager;
     private readonly accessor: StatePropertyAccessor<IUserProfileState>;
 
-    public constructor(@inject(TYPES.IUserProfileState) accessor: StatePropertyAccessor<IUserProfileState>,
+    public constructor(@inject(TYPES.UserState) userState: UserState,
         @inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager
     ) {
         super(OnboardingDialog.name);
         this.templateManager = templateManager;
 
-        this.accessor = accessor;
+        this.accessor = userState.createProperty<IUserProfileState>('IUserProfileState');
         this.services = services;
 
         const onboarding: WaterfallStep[] = [

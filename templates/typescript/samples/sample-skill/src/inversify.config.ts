@@ -10,7 +10,7 @@ import { IBotSettings } from './services/botSettings';
 import * as appsettings from './appsettings.json';
 import { ICognitiveModelConfiguration, LocaleTemplateManager } from 'bot-solutions';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
-import { BotTelemetryClient, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, ConversationState, BotFrameworkAdapterSettings, StatePropertyAccessor } from 'botbuilder';
+import { BotTelemetryClient, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, ConversationState, BotFrameworkAdapterSettings } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { CosmosDbPartitionedStorage } from 'botbuilder-azure';
 import { join } from 'path';
@@ -21,7 +21,6 @@ import { SampleAction } from './dialogs/sampleAction';
 import { MainDialog } from './dialogs/mainDialog';
 import { DefaultActivityHandler } from './bots/defaultActivityHandler';
 import { SimpleCredentialProvider } from 'botframework-connector';
-import { SkillState } from './models';
 
 const container = new Container({skipBaseClassChecks: true});
 
@@ -43,13 +42,15 @@ const botSettings: Partial<IBotSettings> = {
 };
 
 // Load settings
+container.bind(TYPES.MicrosoftAppId).toConstantValue(appsettings.microsoftAppId);
+container.bind(TYPES.MicrosoftAppPassword).toConstantValue(appsettings.microsoftAppPassword);
 container.bind<Partial<IBotSettings>>(TYPES.BotSettings).toConstantValue(botSettings);
 
 // Configure configuration provider
 decorate(injectable(), SimpleCredentialProvider);
-container.bind<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider).toConstantValue(
-    new SimpleCredentialProvider(appsettings.microsoftAppId, appsettings.microsoftAppPassword)
-);
+decorate(inject(TYPES.MicrosoftAppId), SimpleCredentialProvider, 0);
+decorate(inject(TYPES.MicrosoftAppPassword), SimpleCredentialProvider, 1);
+container.bind<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider).to(SimpleCredentialProvider).inSingletonScope();
 
 // Configure telemetry
 container.bind<BotTelemetryClient>(TYPES.BotTelemetryClient).toConstantValue(
@@ -70,10 +71,10 @@ container.bind<BotServices>(TYPES.BotServices).to(BotServices).inSingletonScope(
 // Configure storage
 // Uncomment the following line for local development without Cosmos Db
 // decorate(injectable(), MemoryStorage);
-// container.bind<Partial<MemoryStorage>>(TYPES.MemoryStorage).toConstantValue(new MemoryStorage());
+// container.bind<Partial<MemoryStorage>>(TYPES.MemoryStorage).to(MemoryStorage).inSingletonScope();
 decorate(injectable(), CosmosDbPartitionedStorage);
 container.bind<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage).toConstantValue(
-    new CosmosDbPartitionedStorage(container.get<IBotSettings>(TYPES.BotSettings).cosmosDb)
+    new CosmosDbPartitionedStorage(botSettings.cosmosDb)
 );
 
 decorate(injectable(), UserState);
@@ -83,10 +84,6 @@ container.bind<UserState>(TYPES.UserState).to(UserState).inSingletonScope();
 decorate(injectable(), ConversationState);
 decorate(inject(TYPES.CosmosDbPartitionedStorage), ConversationState, 0);
 container.bind<ConversationState>(TYPES.ConversationState).to(ConversationState).inSingletonScope();
-
-container.bind<StatePropertyAccessor<SkillState>>(TYPES.SkillState).toConstantValue(
-    container.get<UserState>(TYPES.UserState).createProperty(SkillState.name)
-);
 
 // Configure localized responses
 const supportedLocales: string[] = ['en-us', 'de-de', 'es-es', 'fr-fr', 'it-it', 'zh-cn'];
@@ -102,7 +99,7 @@ supportedLocales.forEach((locale: string) => {
 
 decorate(injectable(), LocaleTemplateManager);
 container.bind<LocaleTemplateManager>(TYPES.LocaleTemplateManager).toConstantValue(
-    new LocaleTemplateManager(localizedTemplates, container.get<IBotSettings>(TYPES.BotSettings).defaultLocale || 'en-us')
+    new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
 );
 
 // Register dialogs

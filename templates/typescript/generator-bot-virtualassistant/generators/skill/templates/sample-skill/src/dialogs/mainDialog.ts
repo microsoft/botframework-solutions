@@ -8,8 +8,7 @@ import {
     ActivityTypes,
     BotFrameworkAdapter,
     BotTelemetryClient,
-    RecognizerResult,
-    StatePropertyAccessor } from 'botbuilder';
+    RecognizerResult } from 'botbuilder';
 import { LuisRecognizer } from 'botbuilder-ai';
 import {
     DialogContext,
@@ -21,7 +20,6 @@ import {
     ComponentDialog } from 'botbuilder-dialogs';
 import { ICognitiveModelSet, LocaleTemplateManager } from 'bot-solutions';
 import { TokenStatus } from 'botframework-connector';
-import { SkillState } from '../models/skillState';
 import { BotServices } from '../services/botServices';
 import { SampleDialog } from './sampleDialog';
 import { StateProperties } from '../models';
@@ -42,12 +40,10 @@ export class MainDialog extends ComponentDialog {
     private readonly sampleDialog: SampleDialog;
     private readonly sampleAction: SampleAction;
     private readonly templateManager: LocaleTemplateManager;
-    private readonly stateAccessor: StatePropertyAccessor<SkillState>;
     
     // Constructor
     public constructor(@inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
-        @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
         @inject(TYPES.SampleDialog) sampleDialog: SampleDialog,
         @inject(TYPES.SampleAction) sampleAction: SampleAction,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager
@@ -56,9 +52,6 @@ export class MainDialog extends ComponentDialog {
         this.services = services;
         this.templateManager = templateManager;
         this.telemetryClient = telemetryClient;
-
-        // Create conversationstate properties
-        this.stateAccessor = stateAccessor;
 
         const steps: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             this.introStep.bind(this),

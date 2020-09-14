@@ -6,7 +6,7 @@
 import {
     Activity,
     BotTelemetryClient,
-    StatePropertyAccessor } from 'botbuilder';
+    ConversationState } from 'botbuilder';
 import {
     DialogTurnResult,
     TextPrompt,
@@ -18,7 +18,6 @@ import { SkillDialogBase } from './skillDialogBase';
 import { LocaleTemplateManager } from 'bot-solutions';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types/constants';
-import { SkillState } from '../models/skillState';
 
 enum DialogIds {
     namePrompt = 'namePrompt'
@@ -32,11 +31,11 @@ export class SampleDialog extends SkillDialogBase {
     // Constructor
     public constructor(@inject(TYPES.BotSettings) settings: Partial<IBotSettings>,
         @inject(TYPES.BotServices) services: BotServices,
-        @inject(TYPES.SkillState) stateAccessor: StatePropertyAccessor<SkillState>,
+        @inject(TYPES.ConversationState) conversationState: ConversationState,
         @inject(TYPES.BotTelemetryClient) telemetryClient: BotTelemetryClient,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager
     ) {
-        super(SampleDialog.name, settings, services, stateAccessor, telemetryClient, templateManager);
+        super(SampleDialog.name, settings, services, conversationState, telemetryClient, templateManager);
 
         const sample: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             // NOTE: Uncomment these lines to include authentication steps to this dialog

@@ -8,7 +8,7 @@ import {
     RecognizerResult,
     StatePropertyAccessor, 
     TurnContext, 
-    BotFrameworkSkill } from 'botbuilder';
+    BotFrameworkSkill, UserState, ConversationState } from 'botbuilder';
 import {
     LuisRecognizer,
     QnAMakerDialog, 
@@ -62,24 +62,23 @@ export class MainDialog extends ComponentDialog {
     
     public constructor(@inject(TYPES.BotServices) services: BotServices,
         @inject(TYPES.LocaleTemplateManager) templateManager: LocaleTemplateManager,
-        @inject(TYPES.IUserProfileState) userProfileState: StatePropertyAccessor<IUserProfileState>,
-        @inject(TYPES.Activity) previousResponseAccessor: StatePropertyAccessor<Partial<Activity>[]>,
         @inject(TYPES.OnboardingDialog) onBoardingDialog: OnboardingDialog,
         @inject(TYPES.SwitchSkillDialog) switchSkillDialog: SwitchSkillDialog,
         @inject(TYPES.SkillDialogs) @optional() skillDialogs: SkillDialog[],
-        @inject(TYPES.SkillsConfiguration) @optional() skillsConfig: SkillsConfiguration,
-        @inject(TYPES.BotFrameworkSkill) activeSkillProperty: StatePropertyAccessor<BotFrameworkSkill>
+        @inject(TYPES.SkillsConfiguration) @optional() skillsConfig: SkillsConfiguration,        
+        @inject(TYPES.UserState) userState: UserState,
+        @inject(TYPES.ConversationState) conversationState: ConversationState
     ) {
         super(MainDialog.name);
 
-        this.services = services,
-        this.templateManager = templateManager,
-        this.skillsConfig = skillsConfig,
-        this.userProfileState = userProfileState;
-        this.previousResponseAccesor = previousResponseAccessor;
+        this.services = services;
+        this.templateManager = templateManager;
+        this.skillsConfig = skillsConfig;
+        this.userProfileState = userState.createProperty<IUserProfileState>('IUserProfileState');
+        this.previousResponseAccesor = conversationState.createProperty<Partial<Activity>[]>('Activity');
 
         // Create state property to track the active skillCreate state property to track the active skill
-        this.activeSkillProperty = activeSkillProperty;
+        this.activeSkillProperty = conversationState.createProperty<BotFrameworkSkill>(MainDialog.activeSkillPropertyName);
 
         const steps: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             this.onBoardingStep.bind(this),

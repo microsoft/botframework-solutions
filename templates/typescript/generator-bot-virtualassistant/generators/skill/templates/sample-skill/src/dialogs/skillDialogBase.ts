@@ -7,6 +7,7 @@ import {
     Activity,
     ActivityTypes,
     BotTelemetryClient,
+    ConversationState,
     StatePropertyAccessor } from 'botbuilder';
 import {
     ComponentDialog,
@@ -33,13 +34,13 @@ export class SkillDialogBase extends ComponentDialog {
     public constructor(dialogId: string,
         settings: Partial<IBotSettings>,
         services: BotServices,
-        stateAccessor: StatePropertyAccessor<SkillState>,
+        conversationState: ConversationState,
         telemetryClient: BotTelemetryClient,
         templateManager: LocaleTemplateManager
     ) {
         super(dialogId);
         this.services = services;
-        this.stateAccessor = stateAccessor;
+        this.stateAccessor = conversationState.createProperty(SkillState.name);
         this.telemetryClient = telemetryClient;
         this.settings = settings;
         this.templateManager = templateManager;

@@ -102,21 +102,20 @@ const initialize = async function() {
     const sampleDialog = new SampleDialog(
         botSettings,
         botServices,
-        stateAccessor,
+        conversationState,
         telemetryClient,
         templateManager
     );
     const sampleAction = new SampleAction(
         botSettings,
         botServices,
-        stateAccessor,
+        conversationState,
         telemetryClient,
         templateManager
     );
     const mainDialog = new MainDialog(
         botServices,
         telemetryClient,
-        stateAccessor,
         sampleDialog,
         sampleAction,
         templateManager

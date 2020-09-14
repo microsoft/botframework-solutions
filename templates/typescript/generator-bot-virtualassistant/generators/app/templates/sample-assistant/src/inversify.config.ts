@@ -11,7 +11,7 @@ import * as appsettings from './appsettings.json';
 import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { ICognitiveModelConfiguration, LocaleTemplateManager, SkillConversationIdFactory, SwitchSkillDialog, IEnhancedBotFrameworkSkill, SkillsConfiguration } from 'bot-solutions';
 import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
-import { BotTelemetryClient, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, ConversationState, BotFrameworkAdapterSettings, SkillConversationIdFactoryBase, SkillHttpClient, SkillHandler, BotFrameworkSkill, StatePropertyAccessor } from 'botbuilder';
+import { BotTelemetryClient, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, ConversationState, BotFrameworkAdapterSettings, SkillConversationIdFactoryBase, SkillHttpClient, SkillHandler } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { BotServices } from './services/botServices';
 import { CosmosDbPartitionedStorage } from 'botbuilder-azure';
@@ -22,8 +22,6 @@ import { OnboardingDialog } from './dialogs/onboardingDialog';
 import { SkillDialog, SkillDialogOptions } from 'botbuilder-dialogs';
 import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
 import { DefaultActivityHandler } from './bots/defaultActivityHandler';
-import { IUserProfileState } from './models/userProfileState';
-import { Activity } from 'botframework-schema';
 
 const container = new Container({skipBaseClassChecks: true});
 
@@ -45,13 +43,15 @@ const botSettings: Partial<IBotSettings> = {
 };
 
 // Load settings
+container.bind(TYPES.MicrosoftAppId).toConstantValue(appsettings.microsoftAppId);
+container.bind(TYPES.MicrosoftAppPassword).toConstantValue(appsettings.microsoftAppPassword);
 container.bind<Partial<IBotSettings>>(TYPES.BotSettings).toConstantValue(botSettings);
 
 // Configure configuration provider
 decorate(injectable(), SimpleCredentialProvider);
-container.bind<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider).toConstantValue(
-    new SimpleCredentialProvider(appsettings.microsoftAppId, appsettings.microsoftAppPassword)
-);
+decorate(inject(TYPES.MicrosoftAppId), SimpleCredentialProvider, 0);
+decorate(inject(TYPES.MicrosoftAppPassword), SimpleCredentialProvider, 1);
+container.bind<SimpleCredentialProvider>(TYPES.SimpleCredentialProvider).to(SimpleCredentialProvider).inSingletonScope();
 
 // Configure telemetry
 container.bind<BotTelemetryClient>(TYPES.BotTelemetryClient).toConstantValue(
@@ -73,10 +73,10 @@ container.bind<BotServices>(TYPES.BotServices).to(BotServices).inSingletonScope(
 // Configure storage
 // Uncomment the following line for local development without Cosmos Db
 // decorate(injectable(), MemoryStorage);
-// container.bind<Partial<MemoryStorage>>(TYPES.MemoryStorage).toConstantValue(new MemoryStorage());
+// container.bind<Partial<MemoryStorage>>(TYPES.MemoryStorage).to(MemoryStorage).inSingletonScope();
 decorate(injectable(), CosmosDbPartitionedStorage);
 container.bind<CosmosDbPartitionedStorage>(TYPES.CosmosDbPartitionedStorage).toConstantValue(
-    new CosmosDbPartitionedStorage(container.get<IBotSettings>(TYPES.BotSettings).cosmosDb)
+    new CosmosDbPartitionedStorage(botSettings.cosmosDb)
 );
 
 decorate(injectable(), UserState);
@@ -101,7 +101,7 @@ supportedLocales.forEach((locale: string) => {
 
 decorate(injectable(), LocaleTemplateManager);
 container.bind<LocaleTemplateManager>(TYPES.LocaleTemplateManager).toConstantValue(
-    new LocaleTemplateManager(localizedTemplates, container.get<IBotSettings>(TYPES.BotSettings).defaultLocale || 'en-us')
+    new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us')
 );
 
 // Register the Bot Framework Adapter with error handling enabled.
@@ -112,7 +112,6 @@ const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
 };
 
 container.bind<Partial<BotFrameworkAdapterSettings>>(TYPES.BotFrameworkAdapterSettings).toConstantValue(adapterSettings);
-
 container.bind<DefaultAdapter>(TYPES.DefaultAdapter).to(DefaultAdapter).inSingletonScope();
 
 // Register the skills conversation ID factory, the client and the request handler
@@ -133,19 +132,6 @@ container.bind<MainDialog>(TYPES.MainDialog).to(MainDialog).inTransientScope();
 decorate(injectable(), SwitchSkillDialog);
 decorate(inject(TYPES.ConversationState), SwitchSkillDialog, 0);
 container.bind<SwitchSkillDialog>(TYPES.SwitchSkillDialog).to(SwitchSkillDialog).inSingletonScope();
-
-container.bind<StatePropertyAccessor<BotFrameworkSkill>>(TYPES.BotFrameworkSkill).toConstantValue(
-    container.get<ConversationState>(TYPES.ConversationState).createProperty<BotFrameworkSkill>(MainDialog.activeSkillPropertyName)
-);
-
-container.bind<StatePropertyAccessor<IUserProfileState>>(TYPES.IUserProfileState).toConstantValue(
-    container.get<UserState>(TYPES.UserState).createProperty<IUserProfileState>('IUserProfileState')
-);
-
-container.bind<StatePropertyAccessor<Partial<Activity>[]>>(TYPES.Activity).toConstantValue(
-    container.get<UserState>(TYPES.UserState).createProperty<Partial<Activity>[]>('Activity')
-);
-
 container.bind<OnboardingDialog>(TYPES.OnboardingDialog).to(OnboardingDialog).inTransientScope();
 
 decorate(injectable(), AuthenticationConfiguration);
@@ -164,7 +150,7 @@ if (skills !== undefined && skills.length > 0) {
 
     // Register AuthConfiguration to enable custom claim validation.
     container.bind<AuthenticationConfiguration>(TYPES.AuthenticationConfiguration).toConstantValue(
-        new AuthenticationConfiguration(undefined,(claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims))
+        new AuthenticationConfiguration(undefined, (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims))
     );
 
     const skillDialogs: SkillDialog[] = skills.map((skill: IEnhancedBotFrameworkSkill): SkillDialog => {
@@ -184,9 +170,7 @@ if (skills !== undefined && skills.length > 0) {
 }
 
 if (!container.isBound(TYPES.AuthenticationConfiguration)) {
-    container.bind<AuthenticationConfiguration>(TYPES.AuthenticationConfiguration).toConstantValue(
-        new AuthenticationConfiguration(undefined)
-    );
+    container.bind<AuthenticationConfiguration>(TYPES.AuthenticationConfiguration).to(AuthenticationConfiguration).inSingletonScope();
 }
 
 // Configure bot

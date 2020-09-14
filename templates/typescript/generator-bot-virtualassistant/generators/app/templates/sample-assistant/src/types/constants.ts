@@ -4,7 +4,9 @@
  */
 
 export const TYPES = {
-    Channel: 'Channel',
+    Channel: Symbol('Channel'),
+    MicrosoftAppId: Symbol('MicrosoftAppId'),
+    MicrosoftAppPassword: Symbol('MicrosoftAppPassword'),    
     BotSettings: Symbol('BotSettings'),
     SimpleCredentialProvider: Symbol('SimpleCredentialProvider'),
     ApplicationInsightsTelemetry: Symbol('ApplicationInsightsTelemetry'),
@@ -30,8 +32,5 @@ export const TYPES = {
     SkillHttpClient: Symbol('SkillHttpClient'),
     EnhancedBotFrameworkSkill: Symbol('EnhancedBotFrameworkSkill'),
     SkillDialogs: Symbol('SkillDialogs'),
-    SkillHandler: Symbol('SkillHandler'),
-    BotFrameworkSkill: Symbol('BotFrameworkSkill'),
-    IUserProfileState: Symbol('IUserProfileState'),
-    Activity: Symbol('Activity')
+    SkillHandler: Symbol('SkillHandler')
 };
