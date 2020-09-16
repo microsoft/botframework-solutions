@@ -26,7 +26,7 @@ export class AllowedCallersClaimsValidator {
         this.allowedCallers = allowedCallers;
     }
 
-    public validateClaims(claims: Claim[]): Promise<void> {
+    public async validateClaims(claims: Claim[]): Promise<void> {
         // If _allowedCallers contains an "*", we allow all callers.
         if (SkillValidation.isSkillClaim(claims) && !this.allowedCallers.includes('*')) {
             // Check that the appId claim in the skill request is in the list of callers configured for this bot.
