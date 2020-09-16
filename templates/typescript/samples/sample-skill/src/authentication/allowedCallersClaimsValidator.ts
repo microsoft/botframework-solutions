@@ -26,7 +26,7 @@ export class AllowedCallersClaimsValidator {
         this.allowedCallers = allowedCallers;
     }
 
-    public validateClaims(claims: Claim[]): void {
+    public validateClaims(claims: Claim[]): Promise<void> {
         // If _allowedCallers contains an "*", we allow all callers.
         if (SkillValidation.isSkillClaim(claims) && !this.allowedCallers.includes('*')) {
             // Check that the appId claim in the skill request is in the list of callers configured for this bot.
@@ -35,5 +35,7 @@ export class AllowedCallersClaimsValidator {
                 throw new Error(`Received a request from a bot with an app ID of ${ appId }. To enable requests from this caller, add the app ID to your configuration file.`);
             }
         }
+
+        return Promise.resolve();
     }
 }

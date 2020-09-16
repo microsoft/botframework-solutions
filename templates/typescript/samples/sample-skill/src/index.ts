@@ -31,6 +31,8 @@ import { SampleAction } from './dialogs/sampleAction';
 import { SkillState } from './models';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
+import { AuthenticationConfiguration, Claim } from 'botframework-connector';
+import { AllowedCallersClaimsValidator } from './authentication';
 
 const cognitiveModels: Map<string, CognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
@@ -100,9 +102,17 @@ supportedLocales.forEach((locale: string) => {
 
 const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, settings.defaultLocale || 'en-us');
 
+// Register AuthConfiguration to enable custom claim validation.
+const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(appsettings.allowedCallers);
+const authenticationConfiguration: AuthenticationConfiguration = new AuthenticationConfiguration(
+    undefined,
+    (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+);
+
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
     appId: settings.microsoftAppId,
-    appPassword: settings.microsoftAppPassword
+    appPassword: settings.microsoftAppPassword,
+    authConfig: authenticationConfiguration
 };
 
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
