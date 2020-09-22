@@ -191,4 +191,4 @@ workingDirectory: '$(System.DefaultWorkingDirectory)/csharp-Virtual-Assistant-Sa
 displayName: 'Run update cognitive models script'
 ```
 
-For further information, you can check the [yaml](https://github.com/microsoft/botframework-solutions/tree/main/build/yaml) folder.
+For further information, you can check the [yaml]({{site.repo}}/tree/main/build/yaml) folder.

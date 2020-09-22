@@ -267,10 +267,10 @@ See the table below for a direct link to the appropriate sample project for your
 
 Name | Language | Sample Project Location | Deployment Scripts Folder |
 -------- | ---- | ----- | ----- 
-Virtual Assistant | csharp | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/main/samples/csharp/assistants/virtual-assistant) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Deployment)
-Virtual Assistant | typescript | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/main/templates/typescript/samples/sample-assistant) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/main/templates/typescript/samples/sample-assistant/deployment)
-Skill Template | csharp | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/main/samples/csharp/skill) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/main/templates/typescript/samples/sample-assistant/deployment/scripts)
-Skill Template | typescript | [Sample Project Location](https://github.com/microsoft/botframework-solutions/tree/main/templates/typescript/samples/sample-skill) | [Deployment Scripts](https://github.com/microsoft/botframework-solutions/tree/main/templates/typescript/samples/sample-skill/deployment/scripts)
+Virtual Assistant | csharp | [Sample Project Location]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant) | [Deployment Scripts]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Deployment)
+Virtual Assistant | typescript | [Sample Project Location]({{site.repo}}/tree/main/templates/typescript/samples/sample-assistant) | [Deployment Scripts]({{site.repo}}/tree/main/templates/typescript/samples/sample-assistant/deployment)
+Skill Template | csharp | [Sample Project Location]({{site.repo}}/tree/main/samples/csharp/skill) | [Deployment Scripts]({{site.repo}}/tree/main/templates/typescript/samples/sample-assistant/deployment/scripts)
+Skill Template | typescript | [Sample Project Location]({{site.repo}}/tree/main/templates/typescript/samples/sample-skill) | [Deployment Scripts]({{site.repo}}/tree/main/templates/typescript/samples/sample-skill/deployment/scripts)
 
 ### Updating your deployment scripts
 {:.no_toc}

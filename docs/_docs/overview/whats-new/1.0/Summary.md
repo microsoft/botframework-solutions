@@ -27,8 +27,6 @@ desired due to the waterfall flow of the VA since the 0.8 release.
 {:.no_toc}
 With the **1.0 GA release**, we are now utilizing Language Generation 4.9.1 GA. As part of this, there are some breaking changes to LG syntax which may require you to update your .lg files to adhere to new syntax.
 
-For full details regarding these breaking changes, please refer to the [Language Generation 4.8 Preview breaking changes](https://github.com/microsoft/BotBuilder-Samples/tree/main/experimental/language-generation#48-preview).
-
 ### Single Sign-On for Skills
 {:.no_toc}
 In the previous **0.8-beta release**, we added documentation covering how to enable single sign-on for Skills. In the **1.0 GA release**, these changes are officially included.

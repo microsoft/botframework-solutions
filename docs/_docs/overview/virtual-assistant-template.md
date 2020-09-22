@@ -58,14 +58,14 @@ Every Bot should handle a base level of conversational language understanding. C
 The LU files provide the following intents across English, Chinese, French, Italian, German, Spanish. 
 > Cancel, Confirm, Escalate, FinishTask, GoBack, Help, Reject, Repeat, SelectAny, SelectItem, SelectNone, ShowNext, ShowPrevious, StartOver, Stop
 
-You can review these within the [**Deployment\Resources**]({{site.repo}}/tree/main/templates/csharp/VA/VA/Deployment/Resources/LU) directory.
+You can review these within the [**Deployment\Resources**]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Deployment/Resources/LU) directory.
 
 ##### LUIS strongly-typed classes
 {:.no_toc}
 
 The [LuisGen](https://github.com/microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md) tool enables developers to create a strongly-typed class for their LUIS models. As a result, you can easily reference the intents and entities as class instance members.
 
-You'll find a **GeneralLuis.cs** and **DispatchLuis.cs** class as part of your project within the [**Services**]({{site.repo}}/tree/main/templates/csharp/VA/VA/Services) folder. The DispatchLuis.cs will be re-generated if you add Skills to reflect the changes made.
+You'll find a **GeneralLuis.cs** and **DispatchLuis.cs** class as part of your project within the [**Services**]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Services) folder. The DispatchLuis.cs will be re-generated if you add Skills to reflect the changes made.
 
 To learn more about LuisGen, see the [LuisGen Ttool](https://github.com/microsoft/botbuilder-tools/blob/master/packages/LUISGen/src/npm/readme.md) documentation.
 
@@ -76,14 +76,14 @@ A key design pattern used to good effect in the first wave of conversational exp
 
 [QnA Maker](https://www.qnamaker.ai/) provides the ability for non-developers to curate general knowledge in the format of question and answer pairs. This knowledge can be imported from FAQ data sources, product manuals and interactively within the QnaMaker portal.
 
-Two example QnA Maker models localized to English, Chinese, French, Italian, German, Spanish are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the **Deployment\Resources** folder or [here]({{site.repo}}/tree/main/templates/csharp/VA/VA/Deployment/Resources//QnA).
+Two example QnA Maker models localized to English, Chinese, French, Italian, German, Spanish are provided in the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) file format within the **Deployment\Resources** folder or [here]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Deployment/Resources/QnA).
 
 ##### Base Personality
 {:.no_toc}
 
 QnAMaker provides 5 different personality types which you can find [here](https://github.com/microsoft/BotBuilder-PersonalityChat/tree/master/CSharp/Datasets). The Virtual Assistant template includes the **Professional** personality and has been converted into the [LU](https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md) format to ease source control and deployment.
 
-You can review this within the [**Deployment\Resources**]({{site.repo}}/tree/main/templates/csharp/VA/VA/Deployment/Resources/QnA) directory.
+You can review this within the [**Deployment\Resources**]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Deployment/Resources/QnA) directory.
 
 ![QnA ChitChat example]({{site.baseurl}}/assets/images/qnachitchatexample.png)
 
@@ -114,13 +114,13 @@ To learn more about how multi-locale support is added, see the [localization doc
 
 The Virtual Assistant has transitioned to use the new [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/main/experimental/language-generation#readme) capability to provide a more natural conversational experience by being able to define multiple response variations and leverage context/memory to adapt these dynamically to end-users.
 
-Language Generation (LG) leverages a new [LG file format](https://github.com/microsoft/BotBuilder-Samples/tree/main/experimental/language-generation) which follows the same markdown approach as the LU file format mentioned earlier. This enables easy editing of responses by a broad range of roles.
+Language Generation (LG) leverages a new [LG file format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lg-file-format?view=azure-bot-service-4.0) which follows the same markdown approach as the LU file format mentioned earlier. This enables easy editing of responses by a broad range of roles.
 
 LG also enables Adaptive Card responses to be defined alongside responses further simplifying management and localization of responses.
 
-LG files for your Virtual Assistant can be found in your **responses** folder or [here]({{site.repo}}/tree/main/templates/csharp/VA/VA/Responses) and the Template Engine code can be found in your **Startup.cs** file.
+LG files for your Virtual Assistant can be found in your **responses** folder or [here]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Responses) and the Template Engine code can be found in your **Startup.cs** file.
 
-An example of LG in use can be found [here]({{site.repo}}/blob/main/templates/csharp/VA/VA/Dialogs/MainDialog.cs#L77) and throughout the Virtual Assistant.
+An example of LG in use can be found [here]({{site.repo}}/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs#L244) and throughout the Virtual Assistant.
 
 ## Dialogs
 
@@ -129,7 +129,7 @@ Beyond the core **MainDialog** dialog two further dialogs are provided firstly t
 ### Main Dialog
 {:.no_toc}
 
-The [**MainDialog**]({{site.repo}}/tree/main/templates/csharp/VA/VA/Dialogs) class as discussed earlier in this section is the core part of the Activity processing stack and is where all activities are processed. This is also where the Help intent is handled which returns a response as defined within the Language Generation responses. Events are also handled as part of this dialog.
+The [**MainDialog**]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs) class as discussed earlier in this section is the core part of the Activity processing stack and is where all activities are processed. This is also where the Help intent is handled which returns a response as defined within the Language Generation responses. Events are also handled as part of this dialog.
 
 #### Introduction card
 
@@ -142,12 +142,7 @@ A simple introduction card is provided as standard which you can adapt as needed
 ### Onboarding Dialog
 {:.no_toc}
 
-The [**OnboardingDialog**]({{site.repo}}/blob/main/templates/csharp/VA/VA/Dialogs/OnboardingDialog.cs) provides an example introduction Dialog experience for users starting their first conversation. It prompts for some information which is then stored in State for future use by your assistant. This dialog demonstrates how you can use prompts and state.
-
-### Escalate Dialog
-{:.no_toc}
-
-The [**EscalateDialog**]({{site.repo}}/blob/main/templates/csharp/VA/VA/Dialogs/EscalateDialog.cs) demonstrates a stubbed dialog to handle a user asking to be transferred to a human. This is where you could integrate to a human-handoff capability. The provided implementation returns a response with a placeholder telephone number.
+The [**OnboardingDialog**]({{site.repo}}/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/OnboardingDialog.cs) provides an example introduction Dialog experience for users starting their first conversation. It prompts for some information which is then stored in State for future use by your assistant. This dialog demonstrates how you can use prompts and state.
 
 ## Managing state
 
@@ -254,16 +249,7 @@ The **MainDialog** class provided in the template derives from a base class call
 
 This RouterDialog as part of the **OnContinueDialogAsync** handler invokes on the **OnInterruptDialogAsync** within your **MainDialog.cs**. This handler enables interruption logic to be processed before any utterance is processed, by default Cancel, Help, Logout and Restart are handled as part of this handler enabling top-level intent processing even when you have an active dialog.
 
-You can review this logic within [**MainDialog.cs**]({{site.repo}}/blob/main/templates/csharp/VA/VA/Dialogs/MainDialog.cs#L295).
-
-### Event processing
-{:.no_toc}
-
-Events play a central role to an assistant experience and we provide a central event handler as part of the **MainDialog** implementation. **OnEventAsync** provides support for two key events: **VA.Location** and **VA.Timezone**. These events are processed, validated and then stored in state enabling dialogs and Skills to leverage these as required to enable them to adapt to the user. For example, the Point of Interest skill can decide not to prompt for your current location if a Location is present.
-
-In addition, the standard **token/response** event is handled as per the Azure Bot Service authentication feature.
-
-This event handler can be extended as required to support your specific scenarios. You can find this in [**MainDialog.cs**]({{site.repo}}/blob/main/templates/csharp/VA/VA/Dialogs/MainDialog.cs#L208).
+You can review this logic within [**MainDialog.cs**]({{site.repo}}/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs#L201).
 
 ### Fallback responses
 {:.no_toc}
@@ -325,7 +311,7 @@ To learn more about Telemetry, see the [Analytics tutorial]({{site.baseurl}}/sol
 
 Unit testing of dialogs is an important capability for any project. A number of examples unit tests are provided as part of the Virtual Assistant and cover all capabilities provided. These can be used as a baseline to build your own additional tests.
 
-You can find these tests in a companion project to your assistant or [here]({{site.repo}}/tree/main/templates/csharp/VA/VA.Tests).
+You can find these tests in a companion project to your assistant or [here]({{site.repo}}/tree/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample.Tests).
 
 
 ## Continuous integration and deployment

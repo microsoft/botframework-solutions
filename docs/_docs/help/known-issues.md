@@ -116,7 +116,7 @@ If you are using a C# bot and Bot Framework Emulator, you will see a trace when 
 
 Otherwise, if you are using a TypeScript bot, you should remove the `showTypingMiddleware` and add the `onTurnError` handler in the `defaultAdapter`:
 
-[DefaultAdapter.ts](https://github.com/microsoft/botframework-solutions/blob/main/templates/typescript/samples/sample-assistant/src/adapters/defaultAdapter.ts)
+[DefaultAdapter.ts]({{site.repo}}/blob/main/templates/typescript/samples/sample-assistant/src/adapters/defaultAdapter.ts)
 ```typescript
     this.onTurnError = async (context: TurnContext, error: Error): Promise<void> => {
         await context.sendActivity({

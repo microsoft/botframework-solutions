@@ -26,7 +26,7 @@ With the R7 release of the Bot Framework SDK a new `QnAMakerDialog` class was in
 
 The first change is to move away from creation of `QnAMaker` instances for each QnAMaker knowledgebase as part of the `BotServices` class in your project.
 
-The specific code change is shown below, it uses a new `QnAConfiguration` property and persists the `QnAMakerEndpoint`. This can also be seen [here](https://github.com/microsoft/botframework-solutions/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Services/BotServices.cs) as part of the Sample project.
+The specific code change is shown below, it uses a new `QnAConfiguration` property and persists the `QnAMakerEndpoint`. This can also be seen [here]({{site.repo}}/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Services/BotServices.cs) as part of the Sample project.
 
 ```csharp
 foreach (var kb in config.Knowledgebases)
@@ -48,7 +48,7 @@ CognitiveModelSets.Add(language, set);
 
 The second change is to initialise a QnAMaker dialog for each registered knowledgebase as part of the `MainDialog` constructor.
 
-The specific code change is shown below, this will select the appropriate knowledgebase for the required locale and create a new dialog. Language Generation prompts are used to ensure the QnAMaker dialog uses localised responses for prompts it generates. This can also be seen [here](https://github.com/microsoft/botframework-solutions/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs#L74) as part of the Sample project.
+The specific code change is shown below, this will select the appropriate knowledgebase for the required locale and create a new dialog. Language Generation prompts are used to ensure the QnAMaker dialog uses localised responses for prompts it generates. This can also be seen [here]({{site.repo}}/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs#L173) as part of the Sample project.
 
 ```csharp
 // Register a QnAMakerDialog for each registered knowledgebase and ensure localised responses are provided.
@@ -73,7 +73,7 @@ foreach (var knowledgebase in localizedServices.QnAConfiguration)
 
 The third change is to invoke the appropriate `QnAMakerDialog` when Dispatch indicates QnAMaker should process a given utterance.
 
-The specific code change to `RouteStepAsync` is shown below and can also be seen [here](https://github.com/microsoft/botframework-solutions/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs#L331) as part of the Sample project.
+The specific code change to `RouteStepAsync` is shown below and can also be seen [here]({{site.repo}}/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Dialogs/MainDialog.cs#L378) as part of the Sample project.
 
 ```csharp
  else if (dispatchIntent == DispatchLuis.Intent.q_Faq)
@@ -92,7 +92,7 @@ else if (dispatchIntent == DispatchLuis.Intent.q_Chitchat)
 
 The final change is adding two additional LG responses to your `MainResponses.lg` file in your Response folder. These are used by the QnAMakerDialog to provide follow-up prompts supporting Active Learning.
 
-These are shown below and can also be seen [here](https://github.com/microsoft/botframework-solutions/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Responses/MainResponses.lg) as part of the Sample project.
+These are shown below and can also be seen [here]({{site.repo}}/blob/main/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Responses/MainResponses.lg) as part of the Sample project.
 
 ```markdown
 # QnaMakerAdaptiveLearningCardTitle

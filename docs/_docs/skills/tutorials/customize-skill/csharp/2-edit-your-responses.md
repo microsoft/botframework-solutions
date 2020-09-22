@@ -34,4 +34,4 @@ var supportedLocales = new List<string>() { "en-us", "de-de", "es-es", "fr-fr", 
 
 Language Generation enables multiple responses to be provided for each response type enabling the LG engine to randomly select a response at runtime. Providing multiple options enables a more natural experience for your users and the provided LG files provide a variety of options that you can customize.
 
-Learn more about the Language Generation template syntax [here](https://github.com/microsoft/BotBuilder-Samples/blob/main/experimental/language-generation).
+Learn more about the Language Generation template syntax [here](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lg-file-format?view=azure-bot-service-4.0).
