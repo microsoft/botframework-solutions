@@ -18,7 +18,7 @@ This approach supports multi-lingual responses by providing alternate .lg files 
 Edit the MainResponses.lg and SampleResponses.lg files in the Responses folder to modify the default responses used by the template.
 
 ## Add additional responses
-If you wish to add additional responses, add an additional LG file to the directory and populate as required. See [this reference](https://github.com/microsoft/botbuilder-dotnet/tree/master/doc/LanguageGeneration) for more information on Language Generation.
+If you wish to add additional responses, add an additional LG file to the directory and populate as required. See [this reference](https://docs.microsoft.com/en-us/composer/concept-language-generation) for more information on Language Generation.
 
 Within `Startup.cs` in your project root directory add the newly created LG file to the templateFiles collection.
 

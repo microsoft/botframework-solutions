@@ -16,7 +16,7 @@ Each dialog within your assistant contains a set of responses stored in supporti
 This approach supports multi-lingual responses by providing alternate .lg files for different languages (e.g. "MainResponses.de-de.lg"). By expanding MainResponses.lg or OnboardingResponses.lg in Visual Studio you can see the accompany multi-lingual response files.
 
 ## Add additional responses
-If you wish to add additional responses, add an additional LG file to the directory and populate as required. See [this reference](https://github.com/microsoft/botbuilder-dotnet/tree/master/doc/LanguageGeneration) for more information on Language Generation.
+If you wish to add additional responses, add an additional LG file to the directory and populate as required. See [this reference](https://docs.microsoft.com/en-us/composer/concept-language-generation) for more information on Language Generation.
 
 Within `Startup.cs` in your project root directory add the newly created LG file to the templateFiles collection.
 

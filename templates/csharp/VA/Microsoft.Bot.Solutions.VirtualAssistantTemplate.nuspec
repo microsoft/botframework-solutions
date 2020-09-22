@@ -10,8 +10,8 @@
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <title>Virtual Assistant Template</title>
     <projectUrl>https://github.com/Microsoft/BotFramework-Solutions</projectUrl>
-    <licenseUrl>https://github.com/Microsoft/BotBuilder-Samples/blob/master/generators/dotnet-templates/LICENSE</licenseUrl>
-    <iconUrl>https://github.com/Microsoft/BotBuilder-Samples/blob/main/generators/dotnet-templates/Microsoft.BotFramework.CSharp.CoreBot/nuget_icon.png</iconUrl>
+    <licenseUrl>https://github.com/microsoft/BotBuilder-Samples/blob/main/generators/dotnet-templates/LICENSE</licenseUrl>
+    <iconUrl>https://github.com/microsoft/BotBuilder-Samples/blob/main/generators/dotnet-templates/Microsoft.BotFramework.CSharp.CoreBot/nuget_icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <packageTypes>
       <packageType name="Template" />
