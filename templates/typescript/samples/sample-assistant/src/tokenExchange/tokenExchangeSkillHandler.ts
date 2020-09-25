@@ -109,8 +109,8 @@ export class TokenExchangeSkillHandler extends SkillHandler {
                         // AAD token exchange
                         const result = await this.tokenExchangeProvider.exchangeToken(
                             context,
-                            activity.recipient?.id,
                             this.tokenExchangeConfig.connectionName,
+                            activity.recipient?.id,
                             { uri: oauthCard.tokenExchangeResource.uri });
 
                         if (result.token !== undefined && result.token.trim().length > 0){
