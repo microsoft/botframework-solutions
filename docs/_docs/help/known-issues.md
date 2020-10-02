@@ -167,6 +167,6 @@ $ErrorActionPreference = 'Continue'
 ```
 
 See the following related documents:
-- #3662 - `update_cognitive_models.ps1 - dispatch refresh failed with Exit Code 1 Error in Deployment Automation`
-- microsoft/botbuilder-tools#1474 - `Dispatch] Dispatch refresh fails using ErrorActionPreference set as Stop`
+- [#3662](https://github.com/microsoft/botframework-solutions/issues/3662) - `update_cognitive_models.ps1 - dispatch refresh failed with Exit Code 1 Error in Deployment Automation`
+- [microsoft/botbuilder-tools#1474](https://github.com/microsoft/botbuilder-tools/issues/1474) - `Dispatch] Dispatch refresh fails using ErrorActionPreference set as Stop`
 - [Preference Variables](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-7)
