@@ -291,8 +291,27 @@ private async Task HandleTurnErrorAsync(ITurnContext turnContext, Exception exce
     _logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
     await SendErrorMessageAsync(turnContext, exception);
-    await EndSkillConversationAsync(turnContext);
-    await ClearConversationStateAsync(turnContext);
+    ...    
+}
+
+private async Task SendErrorMessageAsync(ITurnContext turnContext, Exception exception)
+{
+    try
+    {
+        _telemetryClient.TrackException(exception);
+
+        // Send a message to the user.
+        await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ErrorMessage"));
+
+        // Send a trace activity, which will be displayed in the Bot Framework Emulator.
+        // Note: we return the entire exception in the value property to help the developer;
+        // this should not be done in production.
+        await turnContext.TraceActivityAsync("OnTurnError Trace", exception.ToString(), "https://www.botframework.com/schemas/error", "TurnError");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, $"Exception caught in SendErrorMessageAsync : {ex}");
+    }
 }
 ```
 
