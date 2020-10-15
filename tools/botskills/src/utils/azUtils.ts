@@ -4,7 +4,7 @@
  */
 
 import { gte } from 'semver';
-import { ICloud } from '../models/Cloud';
+import { ICloud } from '../models/cloud';
 import { ChildProcessUtils } from './childProcessUtils';
 
 const azPreviewMessage = `Command group 'bot' is in preview. It may be changed/removed in a future release.\r\n`;
