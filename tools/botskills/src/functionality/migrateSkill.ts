@@ -7,6 +7,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IMigrateConfiguration, IAppSetting, ISkill, ISkillFileV1 } from '../models';
 import { manifestV1Validation } from '../utils/validationUtils';
+import { sanitizeAppSettingsProperties } from '../utils';
 
 export class MigrateSkill {
     public logger: ILogger;
@@ -39,7 +40,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             }
 
-            const destFile: IAppSetting = JSON.parse(readFileSync(configuration.destFile, 'UTF8'));
+            const destFile: IAppSetting = JSON.parse(sanitizeAppSettingsProperties(configuration.destFile));
 
             const destAssistantSkills: ISkill[] = destFile.botFrameworkSkills || [];
 
