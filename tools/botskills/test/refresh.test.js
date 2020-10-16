@@ -76,8 +76,8 @@ describe("The refresh command", function () {
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
                 EOL }Error: There was an error in the dispatch refresh command:${
-                EOL }Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\es-mx\\filledes-mxDispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\es-mx${
-                EOL }Error: Path to filledes-mxDispatch.json (${configuration.dispatchFolder}\\es-mx\\filledes-mxDispatch.json) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
+                EOL }Command: dispatch refresh --dispatch ${ join(configuration.dispatchFolder, 'es-mx', 'filledes-mxDispatch.dispatch') } --dataFolder ${ join(configuration.dispatchFolder, 'es-mx') +
+                EOL }Error: Path to filledes-mxDispatch.json (${ join(configuration.dispatchFolder, 'es-mx', 'filledes-mxDispatch.json') }) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
         });
 
         it("when the path to dispatch file doesn't exist", async function () {
@@ -119,7 +119,7 @@ describe("The refresh command", function () {
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
                 EOL }Error: There was an error in the dispatch refresh command:${
-                EOL }Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\${ localePlaceholder }\\filled${ localePlaceholder }Dispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\${ localePlaceholder +
+                EOL }Command: dispatch refresh --dispatch ${ join(configuration.dispatchFolder, localePlaceholder, `filled${ localePlaceholder }Dispatch.dispatch`) } --dataFolder ${ join(configuration.dispatchFolder, localePlaceholder) +
                 EOL }Error: Mocked function throws an Error`);
         });
 
@@ -145,7 +145,7 @@ describe("The refresh command", function () {
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
                 EOL }Error: There was an error in the bf luis:generate:${configuration.lgLanguage} command:${
-                EOL }Command: bf luis:generate:${configuration.lgLanguage} --in "${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.json" --out "${configuration.lgOutFolder}" --className DispatchLuis --force${
+                EOL }Command: bf luis:generate:${configuration.lgLanguage} --in "${ join(configuration.dispatchFolder, 'en-us', 'filleden-usDispatch.json') }" --out "${configuration.lgOutFolder}" --className DispatchLuis --force${
                 EOL }Error: Mocked function throws an Error`);
         });
     });

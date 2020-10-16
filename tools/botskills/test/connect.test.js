@@ -233,7 +233,7 @@ describe("The connect command", function () {
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
                 EOL }Error: An error ocurred while updating the Dispatch model:${
-                EOL }Error: Path to the Dispatch folder (${configuration.dispatchFolder}\\${configuration.languages[0]}) leads to a nonexistent folder.${
+                EOL }Error: Path to the Dispatch folder (${ join(configuration.dispatchFolder, configuration.languages[0]) }) leads to a nonexistent folder.${
                 EOL }Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         });
 

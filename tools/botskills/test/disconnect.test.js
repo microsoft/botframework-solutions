@@ -75,7 +75,7 @@ describe("The disconnect command", function () {
 
             strictEqual(errorList[0], `There was an error while disconnecting the Skill testSkill from the Assistant:${
                 EOL }Error: An error ocurred while updating the Dispatch model:${
-                EOL }Error: The path to the dispatch file doesn't exists: ${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.dispatch`);
+                EOL }Error: The path to the dispatch file doesn't exists: ${ join(configuration.dispatchFolder, 'en-us', 'filleden-usDispatch.dispatch') }`);
         });
 
         it("when the refresh execution fails", async function () {
