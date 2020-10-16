@@ -12,11 +12,13 @@ const { getNormalizedFile } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
 const emptyAppsettings = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "emptyAppsettings.json")));
 const appsettingsWithTestSkill = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "appsettingsWithTestSkill.json")));
+const authConnectionAppsettings = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "authConnectionAppsettings.json")));
 const { EOL } = require('os');
 
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "appsettings", "emptyAppsettings.json")), emptyAppsettings);
     writeFileSync(resolve(__dirname, join("mocks", "appsettings", "appsettingsWithTestSkill.json")), appsettingsWithTestSkill);
+    writeFileSync(resolve(__dirname, join("mocks", "appsettings", "authConnectionAppsettings.json")), authConnectionAppsettings);
 }
 
 describe("The connect command", function () {
@@ -290,8 +292,8 @@ describe("The connect command", function () {
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
                 EOL }Error: An error ocurred while updating the Dispatch model:${
                 EOL }Error: There was an error in the bf luis:convert command:${
-                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force${
-                EOL }Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")}) leads to a nonexistent file.`);
+                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testSkill.luis')} --name testSkill --force${
+                EOL }Error: Path to testSkill.luis (${join(configuration.luisFolder, configuration.languages[0], "testSkill.luis")}) leads to a nonexistent file.`);
         });
 
         it("when the dispatch add command fails", async function () {
@@ -324,7 +326,7 @@ describe("The connect command", function () {
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
                 EOL }Error: An error ocurred while updating the Dispatch model:${
                 EOL }Error: There was an error in the dispatch add command:${
-                EOL }Command: dispatch add --type file --name testSkill --filePath ${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")} --intentName testSkill --dataFolder ${join(configuration.dispatchFolder, configuration.languages[0])} --dispatch ${join(configuration.dispatchFolder, configuration.languages[0], "filleden-usDispatch.dispatch") +
+                EOL }Command: dispatch add --type file --name testSkill --filePath ${join(configuration.luisFolder, configuration.languages[0], "testSkill.luis")} --intentName testSkill --dataFolder ${join(configuration.dispatchFolder, configuration.languages[0])} --dispatch ${join(configuration.dispatchFolder, configuration.languages[0], "filleden-usDispatch.dispatch") +
                 EOL }Error: Mocked function throws an Error`);
         });
 
@@ -381,7 +383,7 @@ describe("The connect command", function () {
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
                 EOL }Error: An error ocurred while updating the Dispatch model:${
                 EOL }Error: There was an error in the bf luis:convert command:${
-                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force${
+                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testSkill.luis')} --name testSkill --force${
                 EOL }Error: The execution of the bf command failed with the following error:${
                 EOL }Error: Mocked function throws an Error`);
 		});
@@ -541,6 +543,9 @@ describe("The connect command", function () {
 
         it("when a wildcard intent is included in the skill manifest", async function () {
             sandbox.replace(this.connector, "executeDispatchAdd", (command, args) => {
+                return Promise.resolve("Mocked function successfully");
+            });
+            sandbox.replace(this.connector, "executeRefresh", (command, args) => {
                 return Promise.resolve("Mocked function successfully");
             });
             const configuration = {

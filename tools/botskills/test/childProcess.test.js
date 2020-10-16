@@ -8,9 +8,20 @@ const { ChildProcessUtils } = require("../lib/utils");
 const childProcessUtils = new ChildProcessUtils();
 const validOutput = "testing childProcess util";
 const unrecognizeCommand = "unrecognizeCommand";
-const { EOL } = require('os');
+const { EOL, platform } = require('os');
 
 describe("The child process util", function() {
+
+    function platformSpecificError(command) {
+        switch (platform()) {
+            case 'win32':
+                return `'${ command }' is not recognized as an internal or external command,${ EOL }operable program or batch file.${ EOL }`;
+            case 'linux':
+                return `/bin/sh: 1: ${ command }: not found${ EOL }`;
+            default:
+                return 'Unrecognized OS';
+        }
+      }
 
     describe("should resolve the promise", function() {
         describe("when execute the external command", function() {
@@ -39,7 +50,7 @@ describe("The child process util", function() {
             try {
                 unrecognizeCommandOutput = await childProcessUtils.execute(unrecognizeCommand, ['']);
             } catch(err) {
-                strictEqual(err, `'${unrecognizeCommand}' is not recognized as an internal or external command,${ EOL }operable program or batch file.${ EOL }`);
+                strictEqual(err, platformSpecificError(unrecognizeCommand));
             }
         });
 
@@ -47,7 +58,7 @@ describe("The child process util", function() {
             try {
                 unrecognizeCommandOutput = await childProcessUtils.tryExecute([unrecognizeCommand]);
             } catch(err) {
-                strictEqual(err, `'${unrecognizeCommand}' is not recognized as an internal or external command,${ EOL }operable program or batch file.${ EOL }`);
+                strictEqual(err, platformSpecificError(unrecognizeCommand));
             }
         });
 
