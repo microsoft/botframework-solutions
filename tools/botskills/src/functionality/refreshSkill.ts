@@ -69,7 +69,7 @@ export class RefreshSkill {
             ];
             luisGenerateCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
-                luisGenerateCommand.push(...[argument, argumentValue]);
+                luisGenerateCommand.push(...[argument, wrapPathWithQuotes(argumentValue)]);
             });
 
             // Force the bf luis:generate to overwrite the output file if it already exists
@@ -98,8 +98,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
         executionModelMap.set('dispatchJsonFilePath', dispatchJsonFilePath);
         executionModelMap.set('--dispatch', dispatchFilePath);
         executionModelMap.set('--dataFolder', dataFolder);
-        executionModelMap.set('--in', wrapPathWithQuotes(dispatchJsonFilePath));
-        executionModelMap.set('--out', wrapPathWithQuotes(this.configuration.lgOutFolder));
+        executionModelMap.set('--in', dispatchJsonFilePath);
+        executionModelMap.set('--out', this.configuration.lgOutFolder);
         executionModelMap.set('--className', 'DispatchLuis');
         
         return executionModelMap;

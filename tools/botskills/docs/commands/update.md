@@ -34,7 +34,7 @@ botskills update [options]
 An example on how to use it with a local Skill manifest file:
 
 ```bash
-botskills update --localManifest "./skills/customSkill/customSkillManifest.json" --cs
+botskills update --localManifest "./skills/customSkill/customSkillManifest.json" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 > **Note:** The paths to the Skill Manifest can be relative or absolute paths equally, and should be explicitly a `.json` file.
@@ -42,5 +42,5 @@ botskills update --localManifest "./skills/customSkill/customSkillManifest.json"
 An example on how to use it with a remote Skill manifest:
 
 ```bash
-botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
+botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/manifest/manifest-1.1.json" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```

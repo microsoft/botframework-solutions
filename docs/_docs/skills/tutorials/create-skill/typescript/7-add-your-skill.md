@@ -13,7 +13,7 @@ order: 7
 
 ## Validate the Skill manifest endpoint
 
-To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest. e.g.  `http://localhost:3978/src/manifest/manifest-1.1.json`
+To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest. e.g.  `http://localhost:3980/manifest/manifest-1.1.json`
 
 ## Adding your skill to an assistant
 
@@ -22,7 +22,7 @@ To add your new Skill to your assistant we provide the [botskills](https://www.n
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --ts
+botskills connect --remoteManifest "https://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --ts --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 Remember to re-publish your assistant to Azure after you’ve added a Skill unless you plan on testing locally only.
 

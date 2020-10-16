@@ -3,7 +3,7 @@ layout: tutorial
 category: Skills
 subcategory: Connect to a sample
 title: Connect skill
-order: 4
+order: 5
 ---
 
 # Tutorial: {{page.subcategory}} 
@@ -17,7 +17,7 @@ To add your new Skill to your assistant/Bot we provide a [botskills](https://www
 Run the following command from a command prompt **within the directory of your assistant/Bot**. 
 
 ```bash
-botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs
+botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 **Remember to re-publish your Assistant to Azure after you've added a Skill unless you plan on testing locally only**

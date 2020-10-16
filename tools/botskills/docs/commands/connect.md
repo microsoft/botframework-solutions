@@ -64,7 +64,7 @@ For Skills that require other Authentication connection configuration please fol
 An example on how to use it with a local Skill manifest file:
 
 ```bash
-botskills connect --localManifest "./skills/customSkill/customSkillManifest.json" --cs
+botskills connect --localManifest "./skills/customSkill/customSkillManifest.json" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 > **Note:** The paths to the Skill Manifest can be relative or absolute paths equally, and should be explicitly a `.json` file.
@@ -72,5 +72,5 @@ botskills connect --localManifest "./skills/customSkill/customSkillManifest.json
 An example on how to use it with a remote Skill manifest:
 
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
+botskills connect --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/manifest/manifest-1.1.json" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
