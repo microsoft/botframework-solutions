@@ -70,7 +70,7 @@ Once you have updated your manifest, follow these steps to update any Virtual As
 1. Run the following command from your project directory:
 
 ```node
-botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs
+botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 > This command updates the botFrameworkSkills property of your appsettings.json file with the latest manifest definitions for each connected skill, and runs dispatch refresh to update your dispatch model.

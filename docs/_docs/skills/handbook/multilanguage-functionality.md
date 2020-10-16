@@ -38,7 +38,7 @@ In this case, the intersection between the `Dispatch models` and the `languages 
 Taking into account the scenario mentioned, we will connect the `en-us` and `es-es` languages of the Skill to the Virtual Assistant
 
 ```bash
-botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs --languages "en-us,es-es"
+botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs --languages "en-us,es-es" --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 > Since `--languages` is an optional argument, it will connect `en-us` by default, unless we pass a value to the argument.
