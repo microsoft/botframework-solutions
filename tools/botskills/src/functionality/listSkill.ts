@@ -6,6 +6,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IListConfiguration, IAppSetting, ISkill } from '../models';
+import { sanitizeAppSettingsProperties } from '../utils';
 
 export class ListSkill {
     public logger: ILogger;
@@ -22,7 +23,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
                 return false;
             }
             // Take VA Skills configurations
-            const assistantAppSettingsFile: IAppSetting = JSON.parse(readFileSync(configuration.appSettingsFile, 'UTF8'));
+            const assistantAppSettingsFile: IAppSetting = JSON.parse(sanitizeAppSettingsProperties(configuration.appSettingsFile));
             if (assistantAppSettingsFile.botFrameworkSkills === undefined) {
                 this.logger.message('There are no Skills connected to the assistant.');
 
