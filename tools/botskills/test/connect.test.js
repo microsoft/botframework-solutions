@@ -12,6 +12,7 @@ const { getNormalizedFile } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
 const emptyAppsettings = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "emptyAppsettings.json")));
 const appsettingsWithTestSkill = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "appsettingsWithTestSkill.json")));
+const { EOL } = require('os');
 
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "appsettings", "emptyAppsettings.json")), emptyAppsettings);
@@ -52,8 +53,8 @@ describe("The connect command", function () {
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: Either the 'localManifest' or 'remoteManifest' argument should be passed.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: Either the 'localManifest' or 'remoteManifest' argument should be passed.`);
         });
 
         it("when there is no cognitiveModels file", async function () {
@@ -75,8 +76,8 @@ Error: Either the 'localManifest' or 'remoteManifest' argument should be passed.
             this.connector.configuration = configuration;
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
         });
 
         it("when the localManifest points to a nonexisting Skill manifest file", async function () {
@@ -100,9 +101,9 @@ Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsF
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: The 'localManifest' argument leads to a non-existing file.
-Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: The 'localManifest' argument leads to a non-existing file.${
+                EOL }Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         });
 
         it("when the remoteManifest points to a nonexisting Skill manifest URL", async function() {
@@ -150,10 +151,10 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Path to the LUIS folder (${configuration.luisFolder}) leads to a nonexistent folder.
-Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Path to the LUIS folder (${configuration.luisFolder}) leads to a nonexistent folder.${
+                EOL }Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         });
 
         it("when the .lu file path leads to a nonexistent file when using manifest v1", async function () {
@@ -177,10 +178,10 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Path to the connectableSkill.lu file leads to a nonexistent file.
-Make sure your Skill's .lu file's name matches your Skill's manifest id`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Path to the connectableSkill.lu file leads to a nonexistent file.${
+                EOL }Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         });
 
         it("when the .lu file path leads to a nonexistent file when using manifest v2", async function () {
@@ -204,9 +205,9 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Path to the LU file (${resolve(__dirname, join("mocks", "success", "en-us", "testSkill.lu"))}) leads to a nonexistent file.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Path to the LU file (${resolve(__dirname, join("mocks", "success", "en-us", "testSkill.lu"))}) leads to a nonexistent file.`);
         });
 
         it("when the dispatch folder path leads to a nonexistent folder", async function () {
@@ -230,10 +231,10 @@ Error: Path to the LU file (${resolve(__dirname, join("mocks", "success", "en-us
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Path to the Dispatch folder (${configuration.dispatchFolder}\\${configuration.languages[0]}) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Path to the Dispatch folder (${configuration.dispatchFolder}\\${configuration.languages[0]}) leads to a nonexistent folder.${
+                EOL }Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         });
 
         it("when the path to dispatch file doesn't exist", async function () {
@@ -257,9 +258,9 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             await this.connector.connectSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexistent file.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexistent file.`);
         });
 
         it("when the .luis file path leads to a nonexistent file", async function () {
@@ -286,11 +287,11 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the bf luis:convert command:
-Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force
-Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")}) leads to a nonexistent file.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: There was an error in the bf luis:convert command:${
+                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force${
+                EOL }Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")}) leads to a nonexistent file.`);
         });
 
         it("when the dispatch add command fails", async function () {
@@ -320,11 +321,11 @@ Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.la
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the dispatch add command:
-Command: dispatch add --type file --name testSkill --filePath ${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")} --intentName testSkill --dataFolder ${join(configuration.dispatchFolder, configuration.languages[0])} --dispatch ${join(configuration.dispatchFolder, configuration.languages[0], "filleden-usDispatch.dispatch")}
-Error: Mocked function throws an Error`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: There was an error in the dispatch add command:${
+                EOL }Command: dispatch add --type file --name testSkill --filePath ${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")} --intentName testSkill --dataFolder ${join(configuration.dispatchFolder, configuration.languages[0])} --dispatch ${join(configuration.dispatchFolder, configuration.languages[0], "filleden-usDispatch.dispatch") +
+                EOL }Error: Mocked function throws an Error`);
         });
 
         it("when languages argument contains non-supported cultures for the VA", async function () {
@@ -348,9 +349,9 @@ Error: Mocked function throws an Error`);
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.
-Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.${
+                EOL }Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
         });
 
         it("when the execution of an external command fails", async function () {
@@ -377,12 +378,12 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the bf luis:convert command:
-Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force
-Error: The execution of the bf command failed with the following error:
-Error: Mocked function throws an Error`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: There was an error in the bf luis:convert command:${
+                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill --force${
+                EOL }Error: The execution of the bf command failed with the following error:${
+                EOL }Error: Mocked function throws an Error`);
 		});
 
         it("when the refresh execution fails", async function () {
@@ -412,9 +413,9 @@ Error: Mocked function throws an Error`);
             await this.connector.connectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Mocked function throws an Error`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Mocked function throws an Error`);
         });
 
         it("The localManifest V1 points to a nonexisting Endpoint URL", async function() {
@@ -436,7 +437,8 @@ Error: Mocked function throws an Error`);
         
             const errorMessages = [
                 `Missing property 'endpoint' of the manifest`,
-                `There was an error while connecting the Skill to the Assistant:\nError: One or more properties are missing from your Skill Manifest`
+                `There was an error while connecting the Skill to the Assistant:${
+                    EOL }Error: One or more properties are missing from your Skill Manifest`
             ]
         
             this.connector.configuration = configuration;
@@ -467,7 +469,8 @@ Error: Mocked function throws an Error`);
         
             const errorMessages = [
                 `Missing property 'endpointUrl' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`,
-                `There was an error while connecting the Skill to the Assistant:\nError: One or more properties are missing from your Skill Manifest`
+                `There was an error while connecting the Skill to the Assistant:${
+                    EOL }Error: One or more properties are missing from your Skill Manifest`
             ]
         
             this.connector.configuration = configuration;

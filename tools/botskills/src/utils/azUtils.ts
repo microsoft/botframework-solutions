@@ -6,8 +6,9 @@
 import { gte } from 'semver';
 import { ICloud } from '../models/cloud';
 import { ChildProcessUtils } from './childProcessUtils';
+import { EOL } from 'os';
 
-const azPreviewMessage = `Command group 'bot' is in preview. It may be changed/removed in a future release.\r\n`;
+const azPreviewMessage = `Command group 'bot' is in preview. It may be changed/removed in a future release.${ EOL }`;
 
 /**
  * @returns Returns if it is a preview message (az version greater than 2.0.66)
@@ -23,7 +24,7 @@ const childProcess: ChildProcessUtils = new ChildProcessUtils();
 export async function isValidAzVersion(): Promise<boolean> {
     const azVersionCommand: string[] = ['az', '--version'];
     const azVersion: string = await childProcess.tryExecute(azVersionCommand);
-    const azVersionArr: string | undefined = azVersion.split('\r\n')
+    const azVersionArr: string | undefined = azVersion.split(EOL)
         .find((val: string): boolean => {
             return val.includes('azure-cli');
         });

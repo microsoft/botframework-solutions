@@ -6,6 +6,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IListConfiguration, IAppSetting, ISkill } from '../models';
+import { EOL } from 'os';
 
 export class ListSkill {
     public logger: ILogger;
@@ -16,8 +17,8 @@ export class ListSkill {
         try {
             // Validate configuration.appSettingsFile
             if (!existsSync(configuration.appSettingsFile)) {
-                this.logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
+                this.logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.${
+                    EOL }Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
 
                 return false;
             }
@@ -37,7 +38,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             } else {
                 let message = `The skills already connected to the assistant are the following:`;
                 assistantSkills.forEach((skillManifest: ISkill): void => {
-                    message += `\n\t- ${ skillManifest.id }`;
+                    message += `${ EOL }\t- ${ skillManifest.id }`;
                 });
 
                 this.logger.message(message);
@@ -45,7 +46,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while listing the Skills connected to your assistant:\n ${ err }`);
+            this.logger.error(`There was an error while listing the Skills connected to your assistant:${ EOL + err }`);
 
             return false;
         }

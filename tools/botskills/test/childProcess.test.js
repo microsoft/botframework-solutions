@@ -8,6 +8,7 @@ const { ChildProcessUtils } = require("../lib/utils");
 const childProcessUtils = new ChildProcessUtils();
 const validOutput = "testing childProcess util";
 const unrecognizeCommand = "unrecognizeCommand";
+const { EOL } = require('os');
 
 describe("The child process util", function() {
 
@@ -15,14 +16,14 @@ describe("The child process util", function() {
         describe("when execute the external command", function() {
             it("echo to get the validOutput value", async function() {
                 const echoOutput = await childProcessUtils.execute("echo", [validOutput]);
-                strictEqual(echoOutput, `${validOutput}\r\n`);
+                strictEqual(echoOutput, validOutput + EOL);
             });
         });
 
         describe("when try to execute the external command", function() {
             it("echo to get the validOutput value", async function() {
                 const echoOutput = await childProcessUtils.tryExecute(["echo", validOutput]);
-                strictEqual(echoOutput, `${validOutput}\r\n`);
+                strictEqual(echoOutput, validOutput + EOL);
             });
         });
 
@@ -38,7 +39,7 @@ describe("The child process util", function() {
             try {
                 unrecognizeCommandOutput = await childProcessUtils.execute(unrecognizeCommand, ['']);
             } catch(err) {
-                strictEqual(err, `'${unrecognizeCommand}' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n`);
+                strictEqual(err, `'${unrecognizeCommand}' is not recognized as an internal or external command,${ EOL }operable program or batch file.${ EOL }`);
             }
         });
 
@@ -46,7 +47,7 @@ describe("The child process util", function() {
             try {
                 unrecognizeCommandOutput = await childProcessUtils.tryExecute([unrecognizeCommand]);
             } catch(err) {
-                strictEqual(err, `'${unrecognizeCommand}' is not recognized as an internal or external command,\r\noperable program or batch file.\r\n`);
+                strictEqual(err, `'${unrecognizeCommand}' is not recognized as an internal or external command,${ EOL }operable program or batch file.${ EOL }`);
             }
         });
 
@@ -54,7 +55,7 @@ describe("The child process util", function() {
             try {
                 unrecognizeCommandOutput = await childProcessUtils.execute("dispatch", [unrecognizeCommand]);
             } catch(err) {
-                strictEqual(err, `\r\n`);
+                strictEqual(err, EOL);
             }
         });
 

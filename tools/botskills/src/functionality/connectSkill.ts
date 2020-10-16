@@ -18,6 +18,7 @@ import {
 import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils, libraries, validateLibrary } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 import { IManifest } from '../models/manifest';
+import { EOL } from 'os';
 
 export class ConnectSkill {
     private readonly childProcessUtils: ChildProcessUtils;
@@ -40,8 +41,8 @@ export class ConnectSkill {
         dispatchName: string): Promise<Map<string, string>> {
 
         if (!existsSync(this.configuration.luisFolder)) {
-            throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
-Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
+            throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.${
+                EOL }Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         }
 
         let luFile = '';
@@ -59,8 +60,8 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         // Validate 'dispatch add' arguments
         if (!existsSync(dispatchFolderPath)) {
             throw new Error(
-                `Path to the Dispatch folder (${ dispatchFolderPath }) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
+                `Path to the Dispatch folder (${ dispatchFolderPath }) leads to a nonexistent folder.${
+                    EOL }Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         } else if (!existsSync(dispatchFilePath)) {
             throw new Error(`Path to the ${ dispatchName }.dispatch file leads to a nonexistent file.`);
         }
@@ -117,8 +118,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
 
         // Validate 'bf luis:convert' arguments
         if (!existsSync(luFilePath)) {
-            throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.
-Make sure your Skill's .lu file's name matches your Skill's manifest id`);
+            throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.${
+                EOL }Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         }
 
         const executionModelMap: Map<string, string> = new Map();
@@ -160,7 +161,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         try {
             return await this.childProcessUtils.execute(cmd, commandArgs);
         } catch (err) {
-            throw new Error(`The execution of the ${ cmd } command failed with the following error:\n${ err }`);
+            throw new Error(`The execution of the ${ cmd } command failed with the following error:${ EOL + err }`);
         }
     }
 
@@ -170,7 +171,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
                 uri: path
             });
         } catch (err) {
-            throw new Error(`There was a problem while getting the remote lu file:\n${ err }`);
+            throw new Error(`There was a problem while getting the remote lu file:${ EOL + err }`);
         }
     }
 
@@ -191,8 +192,8 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         const manifestLanguages: string[] = Array.from(luisDictionary.keys());
         const availableCultures: string[] = dispatchLanguages.filter((lang: string): boolean => manifestLanguages.includes(lang));
         if (!isValidCultures(availableCultures, this.configuration.languages)) {
-            throw new Error(`Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.
-Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
+            throw new Error(`Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.${
+                EOL }Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
         }
     }
 
@@ -214,7 +215,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the bf luis:convert command:\nCommand: ${ luisConvertCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the bf luis:convert command:${ EOL }Command: ${ luisConvertCommand.join(' ') + EOL + err }`);
         }
     }
 
@@ -236,7 +237,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             });
             await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${ culture } ${ luisApp } LU file`);
         } catch (err) {
-            throw new Error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the dispatch add command:${ EOL }Command: ${ dispatchAddCommand.join(' ') + EOL + err }`);
         }
     }
 
@@ -282,7 +283,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 this.logger.warning(`Run 'botskills refresh --${ this.configuration.lgLanguage }' command to refresh your connected skills`);
             }
         } catch (err) {
-            throw new Error(`An error ocurred while updating the Dispatch model:\n${ err }`);
+            throw new Error(`An error ocurred while updating the Dispatch model:${ EOL + err }`);
         }
     }
 
@@ -315,7 +316,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             return true;
            
         } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
+            this.logger.error(`There was an error while connecting the Skill to the Assistant:${ EOL + err }`);
             return false;
         }
     }
@@ -366,7 +367,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             //this.logger.message('Configuring bot auth settings');
             //await this.authenticationUtils.authenticate(this.configuration, skillManifest, this.logger);
         } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
+            this.logger.error(`There was an error while connecting the Skill to the Assistant:${ EOL + err }`);
         }
     }
 }
