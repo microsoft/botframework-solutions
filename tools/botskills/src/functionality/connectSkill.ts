@@ -4,7 +4,7 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join, basename } from 'path';
+import { join, parse } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
@@ -83,7 +83,7 @@ export class ConnectSkill {
                     luFilePath = currentApp.url.split('file://')[1];
                     if(!existsSync(luFilePath)) {
                         luFile = luFilePath;
-                        luisFile = `${ luFile.toLowerCase() }is`;
+                        luisFile = `${ parse(luFilePath).name }.luis`;
                         luFilePath = join(this.configuration.luisFolder, culture, luFile);
                     }
                 }
@@ -109,8 +109,7 @@ export class ConnectSkill {
                 }
 
                 if (luFile.trim().length === 0) {
-                    luFile = basename(luFilePath);
-                    luisFile = `${ luFile.toLowerCase() }is`;
+                    luisFile = `${ parse(luFilePath).name }.luis`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);
             }
