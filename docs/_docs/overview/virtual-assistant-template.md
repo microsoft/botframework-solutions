@@ -61,7 +61,7 @@ All of the above is handled as part of the Deployment scripts detailed below.
 Every Bot should handle a base level of conversational language understanding. Cancellation or Help, for example, is a basic thing every Bot should handle with ease. Typically, developers need to create these base intents and provide initial training data to get started. The Virtual Assistant template provides example LU files to get you started and avoids every project having to create these each time and ensures a base level of capability out of the box.
 
 The LU files provide the following intents across English, Chinese, French, Italian, German, Spanish. 
-> Cancel, Confirm, Escalate, ExtrackName, FinishTask, GoBack, Help, Logout, None, ReadAloud, Reject, Repeat, SelectAny, SelectItem, SelectNone, ShowNext, ShowPrevious, StartOver, Stop
+> Cancel, Confirm, Escalate, ExtractName, FinishTask, GoBack, Help, Logout, None, ReadAloud, Reject, Repeat, SelectAny, SelectItem, SelectNone, ShowNext, ShowPrevious, StartOver, Stop
 
 You can review these within the [**Deployment\Resources\LU**]({{site.repo}}/tree/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/Deployment/Resources/LU) directory.
 
