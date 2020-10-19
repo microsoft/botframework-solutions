@@ -13,7 +13,7 @@ order: 7
 
 ## Validate the Skill manifest endpoint
 
-To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest. e.g.  `http://localhost:3978/src/manifest/manifest-1.1.json`
+To validate your Skill is deployed and working open up a browser window and navigate to your deployed Skill manifest. e.g.  `http://localhost:3980/manifest/manifest-1.1.json`
 
 ## Adding your skill to an assistant
 
