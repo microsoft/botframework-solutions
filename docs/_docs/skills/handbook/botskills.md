@@ -26,13 +26,14 @@ The CLI performs the following operations on your behalf:
     ```shell
     npm install -g botdispatch @microsoft/botframework-cli
     ```
+- [.NET Core runtime](https://dotnet.microsoft.com/download/dotnet-core/2.1#runtime-2.1.0): ^2.1.0
 - Install the `botskills` CLI
     ```shell
     npm install -g botskills
     ```
 
 ## Commands
-For all of this commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template.
+For all of these commands, the tool assumes that you are running the CLI within the **Virtual Assistant project directory** and have created your Bot through the template.
 
 ### Connect Skills
 {:.no_toc}
@@ -70,6 +71,7 @@ Here is an example:
 ```bash
 botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
+*Bear in mind that the skillId parameter is case sensitive*
 
 For further information, see the [Disconnect command documentation]({{site.repo}}/tree/master/tools/botskills/docs/commands/disconnect.md).
 

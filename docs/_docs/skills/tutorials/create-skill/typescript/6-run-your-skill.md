@@ -20,7 +20,7 @@ After deployment, you can run and test your Skill project using these steps:
 
     ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-openbot.png)
 
-1. Provide the messaging endpoint of your running bot (e.g: http://localhost:3978/api/messages).
+1. Provide the messaging endpoint of your running bot (e.g: http://localhost:3980/api/messages).
 1. Provide the Microsoft App ID and Microsoft App Password values from your **appsettings.json** file.
 
     ![]({{site.baseurl}}/assets/images/quickstart-virtualassistant-openbotmodal.png)

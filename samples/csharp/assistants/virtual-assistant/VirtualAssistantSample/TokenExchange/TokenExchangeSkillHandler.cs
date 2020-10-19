@@ -114,8 +114,8 @@ namespace VirtualAssistantSample.TokenExchange
                                 // AAD token exchange
                                 var result = await _tokenExchangeProvider.ExchangeTokenAsync(
                                     context,
-                                    activity.Recipient?.Id,
                                     _tokenExchangeConfig.ConnectionName,
+                                    activity.Recipient?.Id,
                                     new TokenExchangeRequest() { Uri = oauthCard.TokenExchangeResource.Uri }).ConfigureAwait(false);
 
                                 if (!string.IsNullOrEmpty(result.Token))
