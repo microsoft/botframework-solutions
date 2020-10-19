@@ -19,6 +19,7 @@ toc: true
     ```shell
     npm install -g botdispatch @microsoft/botframework-cli
     ```
+- [.NET Core runtime](https://dotnet.microsoft.com/download/dotnet-core/2.1#runtime-2.1.0): ^2.1.0
 
 ## Adding Skills
 
@@ -50,8 +51,9 @@ Run the following command to add each Skill to your Virtual Assistant. This assu
 botskills connect --remoteManifest "{{site.data.urls.SkillManifest}}" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
-The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
+The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances (defaults to `deployment/resources/skills/` inside your assistant folder). The CLI will automatically traverse locale folder hierarchies. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
 
+> Note: The Skills can be found in the [botframework-skills](https://github.com/microsoft/botframework-skills) repository.
 
 Once the connect command finish successfully, you can see under the `botFrameworkSkills` property of your Virtual Assistant's appsettings.json file that the following structure was added with the information provided in the Skill manifest.
 
@@ -74,11 +76,12 @@ If a Skill requires Authentication connections to Office/Office 365 this is comp
 
 ## Remove a Skill from your Virtual Assistant
 
-To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). You can use the `botskills list` to view the registered skills.
+To disconnect a skill from your Virtual Assistant use the following command, passing the id of the Skill as per the manifest (e.g. calendarSkill). Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration. You can use the `botskills list` to view the registered skills.
 
 ```bash
-botskills disconnect --skillId SKILL_ID
+botskills disconnect --skillId <YOUR_SKILL_ID> --cs
 ```
+*Bear in mind that the skillId parameter is case sensitive*
 
 > Note: The id of the Skill can also be aquired using the `botskills list` command. You can check the [Skill CLI documentation]({{site.baseurl}}/skills/handbook/botskills) on this command.
 
@@ -92,7 +95,9 @@ Run the following command to update a Skill to your Virtual Assistant. This assu
 botskills update --remoteManifest "{{site.data.urls.SkillManifest}}" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
-The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. This can be omitted for any of the skills we provide as the LU files are provided locally. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
+The `--luisFolder` parameter can be used to point the Skill CLI at the source LU files for trigger utterances. For Skills provided within this repo these can be found in the `Deployment/Resources/LU` folder of each Skill. The CLI will automatically traverse locale folder hierarchies. Also, you have to specify the `--cs` (for C#) or `--ts` (for TypeScript) argument for determining the coding language of your assistant, since each language takes different folder structures that need to be taken into consideration.
+
+> Note: The Skills can be found in the [botframework-skills](https://github.com/microsoft/botframework-skills) repository.
 
 ## Refresh Connected Skills
 

@@ -24,7 +24,7 @@ In this case, the intersection between the `Dispatch models` and the `languages 
 Taking into account the scenario mentioned, we will connect the `en-us` and `es-es` languages of the Skill to the Virtual Assistant
 
 ```bash
-botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/api/skill/manifest?inlineTriggerUtterances=false" --cs --languages "en-us,es-es" --luisFolder "<PATH_TO_LU_FOLDER>"
+botskills connect --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --cs --languages "en-us,es-es" --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
 
 > Since `--languages` is an optional argument, it will connect `en-us` by default, unless we pass a value to the argument.

@@ -77,7 +77,6 @@ Bot Framework Skills leverage the new Bot Framework SDK capabilities and provide
 
 Microsoft has assembled these samples to allow for acceleration of customers in building a Virtual Assistant for specific Industries or scenarios. These samples have pre-packaged skill configurations, additional capabilities and suggested channels that are leveraged in typical scenarios.
 - [Base Virtual Assistant]({{site.baseurl}}/overview/virtual-assistant-template)
-- [Automotive Assistant]() (In and out of Vehicle Experiences for Customers)
 - [Enterprise Assistant]({{site.baseurl}}/solution-accelerators/assistants/enterprise-assistant/) (Employee Focused Experiences)
 - [Hospitality Assistant]({{site.baseurl}}/solution-accelerators/assistants/hospitality-assistant/) (In Room Assistant for hotel guests)
 
