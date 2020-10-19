@@ -77,7 +77,7 @@ if($?) {
 
     # Publish zip to Azure
     Write-Host "> Publishing to Azure ..." -NoNewline
-    Invoke-Expression "az webapp deployment source config-zip --resource-group $($resourceGroup) --name $($name) --src $($zipPath) --output json" -ErrorVariable publishError -OutVariable publishOutput 2>&1 | Out-Null
+    Invoke-Expression "az webapp deployment source config-zip --resource-group $($resourceGroup) --name $($name) --src '$($zipPath)' --output json" -ErrorVariable publishError -OutVariable publishOutput 2>&1 | Out-Null
     Add-Content $logFile $publishOutput | Out-Null
     Add-Content $logFile $publishError | Out-Null
 
