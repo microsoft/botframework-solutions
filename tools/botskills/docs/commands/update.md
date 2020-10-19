@@ -42,5 +42,5 @@ botskills update --localManifest "./skills/customSkill/customSkillManifest.json"
 An example on how to use it with a remote Skill manifest:
 
 ```bash
-botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
+botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/manifest/manifest-1.1.json" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
 ```
