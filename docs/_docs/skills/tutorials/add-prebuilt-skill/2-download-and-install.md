@@ -23,6 +23,8 @@ order: 2
    npm install -g botdispatch @microsoft/botframework-cli
    ```
 
+1. [.NET Core runtime](https://dotnet.microsoft.com/download/dotnet-core/2.1#runtime-2.1.0): ^2.1.0
+
 1. Install Botskills CLI tool:
    
    ```

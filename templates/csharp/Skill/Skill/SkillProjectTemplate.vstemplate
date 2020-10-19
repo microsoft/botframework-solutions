@@ -94,7 +94,7 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="StateProperties.cs">StateProperties.cs</ProjectItem>
       </Folder>
       <Folder Name="Pipeline" TargetFolderName="Pipeline">
-        <ProjectItem ReplaceParameters="false" TargetFileName="$safeprojectname$.yml">SkillSample.yml</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.yml">SkillSample.yml</ProjectItem>
       </Folder>
       <Folder Name="Responses" TargetFolderName="Responses">
         <ProjectItem ReplaceParameters="false" TargetFileName="AllResponses.lg">AllResponses.lg</ProjectItem>
