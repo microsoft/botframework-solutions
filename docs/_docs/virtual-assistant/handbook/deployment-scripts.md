@@ -319,7 +319,7 @@ If you have an existing QnA Maker knowledge base that you want to use in your Vi
         Content-Type: application/json
         {"question":"<Your question>"}
 
-1. Run the following command from your project directory to export the .qna schema of your knowledge base and update your Dispatch model and DispatchLuis.cs file:
+1. Run the following command from your project directory to import the .qna schema of your hosted knowledge base and update your local Dispatch model and DispatchLuis.cs file:
     ```
     .\Deployment\Scripts\update_cognitive_model.ps1 -RemoteToLocal
     ```
@@ -380,7 +380,7 @@ If you have an existing LUIS application that you want to use in your Virtual As
         - Open the **Manage > Azure Resources > Authoring Resource** tab
         - For the assigned authoring resource, copy the **Location** property
 
-  1. Run the following command from your project directory to export the .lu schema of your LUIS model and update your Dispatch model and DispatchLuis.cs file:
+  1. Run the following command from your project directory to import the .lu schema of your hosted LUIS model and update your local Dispatch model and DispatchLuis.cs file:
       ```
       .\Deployment\Scripts\update_cognitive_model.ps1 -RemoteToLocal
       ```
