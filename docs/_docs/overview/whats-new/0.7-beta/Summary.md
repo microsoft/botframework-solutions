@@ -24,12 +24,12 @@ Virtual Assistant Core has many new features that have been added to follow the 
 ### Bot Framework 4.6 Support
 {:.no_toc}
 
-Virtual Assistant is updated to Bot Framework 4.6.  Some new capabilities of the SDK are highlighted in this document, but more details of Bot Framework 4.6 can be found [here](https://github.com/microsoft/botframework#Bot-Framework-SDK-v4).
+Virtual Assistant is updated to Bot Framework 4.6.  Some new capabilities of the SDK are highlighted in this document, but more details of Bot Framework 4.6 can be found [here](https://github.com/microsoft/botframework-sdk).
 
 ### Language Generation (LG) Support
 {:.no_toc}
 
-Microsoft has added support of the new [Language Generation (LG)](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation) features that have been added to the [Bot Framework 4.6](https://github.com/microsoft/botframework#Bot-Framework-SDK-v4) allowing for richer dialogs that have more dynamic, natural responses.  Microsoft has also incorporated LG into the Virtual Assistant Skills.
+Microsoft has added support of the new [Language Generation (LG)](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-language-generation?view=azure-bot-service-4.0&tabs=csharp) features that have been added to the [Bot Framework 4.6](https://github.com/microsoft/botframework-sdk) allowing for richer dialogs that have more dynamic, natural responses.  Microsoft has also incorporated LG into the Virtual Assistant and the Skills.
 
 ### Context Switching
 {:.no_toc}
@@ -44,12 +44,12 @@ Microsoft has added speech support to Virtual Assistant enabling Speech-first ex
 ### Teams Channel Support
 {:.no_toc}
 
-Microsoft has worked closely with the Microsoft Teams organization to incorporate the Microsoft Teams channel as a supported channel for Virtual Assistant. As Virtual Assistant moves forward you will continue to see enhancements to allow for smoother Teams integration as a part of Virtual Assistant. An example Manifest is provided as part of the Enterprise Assistant to simplify addition of your assistant to Teams.
+Microsoft has worked closely with the Microsoft Teams organization to incorporate the [Microsoft Teams channel]({{site.baseurl}}/clients-and-channels/tutorials/enable-teams/1-intro/) as a supported channel for Virtual Assistant. As Virtual Assistant moves forward you will continue to see enhancements to allow for smoother Teams integration as a part of Virtual Assistant. An example Manifest is provided as part of the Enterprise Assistant to simplify addition of your assistant to Teams.
 
 ### Multi-Turn QnA Maker Support
 {:.no_toc}
 
-Microsoft has added support to Virtual Assistant to allow for the support of Multi-Turn QnA Maker as a solution for more advanced FAQ experiences. Much of this comes with the support of [Bot Framework 4.6](https://github.com/microsoft/botframework#Bot-Framework-SDK-v4). More details you can review the [Multi-turn QnA Maker documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/multiturn-conversation).
+Microsoft has added support to Virtual Assistant to allow for the support of Multi-Turn QnA Maker as a solution for more advanced FAQ experiences. Much of this comes with the support of [Bot Framework 4.6](https://github.com/microsoft/botframework-sdk). More details you can review the [Multi-turn QnA Maker documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/multiturn-conversation).
 
 
 ## Skills
@@ -82,7 +82,7 @@ Microsoft has introduced the concept of Assistant Samples during this time. As w
 ### Base Virtual Assistant
 {:.no_toc}
 
-Microsoft has not necessarily released a new capability as much as the concept of an Empty Core assistant that allows for customers to build from a completely empty solution that does not incorporate any pre-installed skills. This has always been the basis of the Virtual Assistant, but we want to ensure that this is the base that customers can start with if they want to assemble a solution that one of the other examples does not fit easily to their solution.
+Microsoft has not necessarily released a new capability as much as the concept of an Empty Core assistant that allows for customers to build from a completely empty solution that does not incorporate any pre-installed skills. This has always been the basis of the Virtual Assistant, but we want to ensure that this is the base that customers can start with if they want to assemble a solution that one of the other examples does not fit easily to their solution. You can get more details around this sample [here]({{site.baseurl}}/overview/virtual-assistant-template).
 
 ### Enterprise Assistant Sample
 {:.no_toc}
@@ -123,7 +123,7 @@ This sample application can be used to quickly test your Virtual Assistant or an
 ### Teams Channel Support
 {:.no_toc}
 
-Microsoft has added Teams Channel support to our [Bot Framework 4.6](https://github.com/microsoft/botframework#Bot-Framework-SDK-v4) channel and is now supported for Out of the Box use with Virtual Assistant.
+Microsoft has added Teams Channel support to our [Bot Framework 4.6](https://github.com/microsoft/botframework-sdk) channel and is now supported for Out of the Box use with Virtual Assistant.
 
 
 ## Summary
