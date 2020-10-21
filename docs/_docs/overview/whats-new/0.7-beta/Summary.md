@@ -24,12 +24,12 @@ Virtual Assistant Core has many new features that have been added to follow the 
 ### Bot Framework 4.6 Support
 {:.no_toc}
 
-Virtual Assistant is updated to Bot Framework 4.6.  Some new capabilities of the SDK are highlighted in this document, but more details of Bot Framework 4.6 can be found [here](https://github.com/microsoft/botframework-sdk).
+Virtual Assistant is updated to Bot Framework 4.6. Some new capabilities of the SDK are highlighted in this document, but more details of Bot Framework 4.6 can be found [here](https://github.com/microsoft/botframework-sdk).
 
 ### Language Generation (LG) Support
 {:.no_toc}
 
-Microsoft has added support of the new [Language Generation (LG)](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-language-generation?view=azure-bot-service-4.0&tabs=csharp) features that have been added to the [Bot Framework 4.6](https://github.com/microsoft/botframework-sdk) allowing for richer dialogs that have more dynamic, natural responses.  Microsoft has also incorporated LG into the Virtual Assistant and the Skills.
+Microsoft has added support of the new [Language Generation (LG)](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-language-generation?view=azure-bot-service-4.0&tabs=csharp) features that have been added to the [Bot Framework 4.6](https://github.com/microsoft/botframework-sdk) allowing for richer dialogs that have more dynamic, natural responses. Microsoft has also incorporated LG into the Virtual Assistant and the Skills.
 
 ### Context Switching
 {:.no_toc}
