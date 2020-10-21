@@ -33,7 +33,7 @@ The following Skill samples are available out of the box, each with deployment s
 ### Experimental Skills
 
 These experimental Bot Framework Skills are early prototypes to help bring Skill concepts to life for demonstrations and proof-of-concepts.
-By their very nature these Skill are not complete, with only English support. If you have any feedback on these Skills, please [open a new issue](https://github.com/microsoft/botframework-skills/issues/new/choose) on the Bot Framework Skills repository.
+By their very nature these Skills are not complete, with only English support. If you have any feedback on these Skills, please [open a new issue](https://github.com/microsoft/botframework-skills/issues/new/choose) on the Bot Framework Skills repository.
 
 - [Automotive]({{site.baseurl}}/skills/samples/automotive)
 - [Bing Search]({{site.baseurl}}/skills/samples/bing-search)
