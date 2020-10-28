@@ -157,3 +157,18 @@ The workaround at this time is to run this ahead of any of the Virtual Assistant
 ```
 $env:PATH += ":/users/YOUR_USER_NAME/.dotnet/tools"
 ```
+
+## Configuring a Gateway's health probe with a TypeScript bot
+The TypeScript bot samples do not have a welcome page, therefore when the gateway tries to check its backend pool's health will result in an error 404 causing the health validation to fail, which in turn will cause an error 502 when trying to access the resource through the public IP.
+
+To workaround this:
+1. In the Azure portal, select your application gateway.
+1. Under **Health Probes**, select to add a new one
+1. Enter a name for your probe, such as *MyHealthProbe*
+1. In **Protocol**, select *HTTP*
+1. In **Host** enter your resource host, it has to be the same host you selected as target in the backend pool
+1. In **Path** enter `/api/messages`, to validate the response of the bot
+1. In **HTTP response status code match**, enter *405* which is the expected response for the TypeScript Virtual Assistant bot
+1. Finally, test and save the configuration
+
+![help_known_issues_gateway_typescript]({{site.baseurl}}/assets/images/help_known_issues_gateway_typescript.jpg)
