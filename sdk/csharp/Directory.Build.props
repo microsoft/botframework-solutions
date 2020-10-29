@@ -53,7 +53,7 @@
       Suppress a warning about upcoming deprecation of PackageLicenseUrl. When embedding licenses are supported,
       replace PackageLicenseUrl with PackageLicenseExpression.
     -->
-    <NoWarn>$(NoWarn);NU5125;NU1701;8002;NU5048</NoWarn>
+    <NoWarn>$(NoWarn);NU5125;NU1701;8002</NoWarn>
   </PropertyGroup>
   
   <ItemGroup Condition="'$(GeneratePackageOnBuild)' == 'True'">
