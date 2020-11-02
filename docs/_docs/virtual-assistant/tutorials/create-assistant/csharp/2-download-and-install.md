@@ -16,6 +16,7 @@ order: 2
     > Note that Visual Studio on Mac doesn't support VSIX packages, instead clone the [Virtual Assistant Sample](https://github.com/microsoft/botframework-solutions/tree/master/samples/csharp/assistants/virtual-assistant/VirtualAssistantSample). from our repository
 1. Download and install [.NET Core SDK v3.1](https://www.microsoft.com/net/download).  
 1. Download and install [Node Package manager](https://nodejs.org/en/).
+    > Note that Node version 10.14.1 or higher is required for the Bot Frameork CLI
 1. Download and install [PowerShell Core](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell?view=powershell-6).
 1. Download and install the Bot Framework CLI tools:
 
