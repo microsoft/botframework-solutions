@@ -32,11 +32,11 @@ Once the connect command finish successfully, you can see under the `botFramewor
     "botFrameworkSkills": {
         "id": "<SKILL_ID>",
         "appId": "<SKILL_APPID>",
-        "skillEndpoint": "<SKILL_ENDPOINT>",
+        "skillEndpoint": "https://<SKILL_ENDPOINT>/api/messages",
         "name": "<SKILL_NAME>",
         "description": "<SKILL_DESCRIPTION>"
     },
-    "skillHostEndpoint": "<VA_SKILL_ENDPOINT>"
+    "skillHostEndpoint": "https://<VA_ENDPOINT>/api/skills"
 ```
 
 For further documentation, please check the following links:
