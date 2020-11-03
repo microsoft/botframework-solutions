@@ -156,13 +156,13 @@ Any of the following parameters in the ARM template can be overridden with your 
 | contentModeratorName | [name]-cm-[suffix] |
 | contentModeratorSku | S0 |
 | contentModeratorLocation | Resource group location |
-| luisRuntimeName | [name]-luisruntime-[suffix] |
-| luisRuntimeSku | S0 |
-| luisServiceLocation | Resource group location |
+| luisPredictionName | [name]-luisprediction-[suffix] |
+| luisPredictionSku | S0 |
+| luisPredictionLocation | Resource group location |
 | useLuisAuthoring | True |
 | luisAuthoringName | [name]-luisauthoring-[suffix] |
-| luisAuthroingSku | F0 |
-| luisAuthroingLocation | N/A |
+| luisAuthoringSku | F0 |
+| luisAuthoringLocation | N/A |
 | qnaMakerServiceName | [name]-qna-[suffix] |
 | qnaMakerServiceSku | S0 |
 | qnaMakerServiceLocation | Resource group location |

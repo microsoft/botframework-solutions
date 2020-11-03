@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Virtual Assistant", "Virtua
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample", "VirtualAssistantSample\VirtualAssistantSample.csproj", "{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.FunctionalTests", "VirtualAssistantSample.FunctionalTests\VirtualAssistantSample.FunctionalTests.csproj", "{FE71DA76-FAC1-483D-9460-95DFA8993F7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualAssistantSample.Tests", "VirtualAssistantSample.Tests\VirtualAssistantSample.Tests.csproj", "{EC7F0522-143F-4864-B398-92EBA95F7C63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +21,14 @@ Global
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AF88C6C-2CF5-4F0B-A8FB-C0B2570BEE76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE71DA76-FAC1-483D-9460-95DFA8993F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE71DA76-FAC1-483D-9460-95DFA8993F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE71DA76-FAC1-483D-9460-95DFA8993F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE71DA76-FAC1-483D-9460-95DFA8993F7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC7F0522-143F-4864-B398-92EBA95F7C63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC7F0522-143F-4864-B398-92EBA95F7C63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC7F0522-143F-4864-B398-92EBA95F7C63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC7F0522-143F-4864-B398-92EBA95F7C63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
