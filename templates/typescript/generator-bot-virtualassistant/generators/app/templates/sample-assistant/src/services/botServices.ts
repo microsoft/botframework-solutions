@@ -8,8 +8,7 @@ import {
     LuisApplication,
     LuisRecognizer,
     LuisRecognizerOptionsV3,
-    QnAMakerEndpoint
-} from 'botbuilder-ai';
+    QnAMakerEndpoint } from 'botbuilder-ai';
 import { CognitiveModelConfiguration, ICognitiveModelSet } from 'bot-solutions';
 import { LuisService, QnaMakerService } from 'botframework-config';
 import { IBotSettings } from '../services/botSettings';

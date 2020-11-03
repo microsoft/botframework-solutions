@@ -8,11 +8,11 @@ import {
     RecognizerResult,
     StatePropertyAccessor, 
     TurnContext, 
-    BotFrameworkSkill} from 'botbuilder';
+    BotFrameworkSkill } from 'botbuilder';
 import {
     LuisRecognizer,
     QnAMakerDialog, 
-    QnAMakerEndpoint} from 'botbuilder-ai';
+    QnAMakerEndpoint } from 'botbuilder-ai';
 import {
     DialogContext,
     DialogTurnResult, 

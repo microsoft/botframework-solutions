@@ -11,14 +11,13 @@ import {
     ResourceResponse,
     TurnContext,
     SkillConversationReference,
-    InvokeResponse, SkillConversationIdFactoryBase
-} from 'botbuilder-core';
+    InvokeResponse,
+    SkillConversationIdFactoryBase } from 'botbuilder-core';
 import {
     AuthenticationConfiguration,
     ClaimsIdentity,
     JwtTokenValidation,
-    SimpleCredentialProvider
-} from 'botframework-connector';
+    SimpleCredentialProvider } from 'botframework-connector';
 import { ITokenExchangeConfig } from './';
 import { ActivityEx, SkillsConfiguration, IEnhancedBotFrameworkSkill } from 'bot-solutions';
 import { SkillHandler, SkillHttpClient, BotFrameworkSkill, BotFrameworkAdapter } from 'botbuilder';
