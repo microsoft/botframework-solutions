@@ -13,13 +13,19 @@ order: 3
 
 Each dialog within your assistant contains a set of responses stored in supporting Language Generation (`.lg`) files. You can edit the responses directly in the file to modify how your assistant responds. Adjust some of the responses to suit your Assistant's personality.
 
-This approach supports multi-lingual responses by providing alternate .lg files for different languages (e.g. "MainResponses.de-de.lg"). By expanding MainResponses.lg or OnboardingResponses.lg in Visual Studio you can see the accompany multi-lingual response files.
+This approach supports multi-lingual responses by providing alternate `.lg` files for different languages (e.g. _MainResponses.de-de.lg_). By expanding _MainResponses.lg_ or _OnboardingResponses.lg_ in Visual Studio you can see the accompany multi-lingual response files.
 
 ## Add additional responses
-If you wish to add additional responses, add an additional LG file to the directory and populate as required. See [this reference](https://github.com/microsoft/botbuilder-dotnet/tree/master/doc/LanguageGeneration) for more information on Language Generation.
+If you wish to add additional responses, add an additional LG file to the directory and populate as required. See [this reference](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-language-generation?view=azure-bot-service-4.0&tabs=javascript) for more information on Language Generation.
 
-Within `index.ts` in your project `src`` directory add the newly created LG file to the templateFiles collection.
+Within `AllResponses.lg` in your `Responses` directory, add the newly created LG file.
 
+```markdown
+[Main](./MainResponses.lg)
+[Onboarding](./OnboardingResponses.lg)
+```
+
+Your LG file will be added automatically in the templateFile variable of the `Startup.cs`.
 ```typescript
 // Configure localized responses
 const localizedTemplates: Map<string, string> = new Map<string, string>();
@@ -33,7 +39,7 @@ Language Generation enables multiple responses to be provided for each response 
 
 ## Randomization
 
-Within MainResponses we provide an example of occasionally using the Users name in responses, being overly familiar can be an issue hence the selective use here whereby the Name will be used at random.
+Within `MainResponses` we provide an example of occasionally using the Users name in responses, being overly familiar can be an issue hence the selective use here whereby the Name will be used at random.
 
 ```markdown
 # ConfusedMessage
@@ -49,4 +55,4 @@ Within MainResponses we provide an example of occasionally using the Users name 
     - 
 ```
 
-Learn more about the Language Generation template syntax [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-language-generation?view=azure-bot-service-4.0&tabs=csharp).
+Learn more about the Language Generation template syntax [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-language-generation?view=azure-bot-service-4.0&tabs=javascript).
