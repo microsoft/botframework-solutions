@@ -36,17 +36,25 @@ To deploy your Assistant using the Azure Resource Manager (ARM) template provide
     ./Deployment/Scripts/deploy.ps1
     ```
     
-    Parameter | Description | Required
-    --------- | ----------- | --------
-    name | **Unique** name for your bot. By default this name will be used as the base name for all your Azure Resources. | **Yes**
-    resourceGroup | The name for your Azure resource group. Default value is the name parameter. | **No**
-    location | The region for your Azure resource group and default location for all Azure services unless otherwise specified in ARM template parameters. | **Yes**
-    appId | The application ID for the Azure Active Directory App required by your bot registration. If not provided, a new app registration will be created. | **No**
-    appPassword | The password for the Azure Active Directory App required by your bot registration. It must be at least 16 characters long, contain at least 1 special character, and contain at least 1 numeric character. If using an existing app, this must be the existing password. | **Yes**
-    createLuisAuthoring | Indicates whether a new LUIS authoring resource should be created. If **false**, luisAuthoringKey parameter must be provided. | **Yes**
-    luisAuthoringKey | Key for existing LUIS Authoring Key resource. No required if **createAuthoringResource** set to true. | **No**
-    luisAuthoringRegion | The authoring region for your LUIS account. Review the [LUIS regions](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions) documentation for more information. | **Yes**
-    parametersFile | Path to [ARM parameters file](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/parameter-files) for overriding default deployment template values. | **No**
+    | Parameter | Description | Required? |
+    | --------- | ----------- | --------- |
+    | name | The name for your Azure resources. | Yes |
+    | resourceGroup | The name for your Azure resource group. Default value is the name parameter. | No
+    | location | The region for your Azure resource group and resources. | Yes |
+    | appId | The application Id for your Microsoft App Registration. | No |
+    | appPassword | The password for your Microsoft App Registration. If **appId** is provided this should be the password for your existing Microsoft App Registration. Otherwise, a new registration will be created using this password. | Yes |
+    | parametersFile | Optional configuration file for ARM Template deployment. | No |
+    | createLuisAuthoring | Indicates whether a new LUIS authoring resource should be created. If **false**, luisAuthoringKey and luisEndpoint parameters must be provided. | Yes |
+    | luisAuthoringKey | The authoring key for the LUIS portal. Must be valid key for **luisAuthoringRegion**| No |
+    | luisAuthoringRegion | The region to deploy LUIS apps. | Yes |
+    | armLuisAuthoringRegion | The region to deploy LUIS authoring resource in Azure (**only required for Azure Gov deployments**) | No |
+    | luisEndpoint | The LUIS endpoint for deploying and managing LUIS applications. Required if **createLuisAuthoring** is set to false. | No |
+    | useGov | Flag indicating if the deployment is targeting the Azure Government Cloud. Defaults to **false**.| No |
+    | qnaEndpoint | Endpoint for deploying QnA Maker knowledge bases (**only required for Azure Gov deployments. See note below for more information.**). | No |
+    | languages | Specifies which languages to deploy cognitive models in a comma separated string (e.g. "en-us,de-de,es-es"). Defaults to "en-us". | No |
+    | projDir | Location to save **appsettings.json** and **cognitivemodels.json** configuration files. Defaults to current directory. | No |
+    | logFile | Log file for any errors that occur during script execution. Defaults to **Deployment** folder | No |
+
 
 You can find more detailed deployment steps including customization instructions in the [Deployment Scripts reference]({{site.baseurl}}/virtual-assistant/handbook/deployment-scripts/). 
 
