@@ -11,10 +11,6 @@ order: 3
 
 ## Create your Virtual Assistant project
 
-1. Install the bot-virtualassistant generator
-    ```bash
-    npm install -g generator-bot-virtualassistant
-    ```
 1. Execute the generator to create a TypeScript Virtual Assistant
     ```bash
     yo bot-virtualassistant
@@ -23,7 +19,7 @@ order: 3
 ### Generate the assistant using prompts
   - `What's the name of your assistant? (sample-assistant)`
       > The name of your assistant (also used as your project's name and for the root folder's name)
-  - `What will your assistant do? ()`
+  - `What's the description of your assistant? ()`
       > The description of your assistant
   - `Which languages will your assistant use? (by default takes all the languages)`
       - [x] Chinese (`zh-cn`)
@@ -40,8 +36,8 @@ order: 3
       > Final confirmation for creating the desired assistant
 
 ### Generate the assistant using CLI parameters
-| Option                            | Description                                                                                                  |
-|-----------------------------------|--------------------------------------------------------------------------------------------------------------|
+| Option | Description |
+|--------|-------------|
 | -n, --assistantName [name] | Unique name of new assistant (by default takes `sample-assistant`) |
 | -d, --assistantDesc [description] | Description of the new assistant (by default is empty) |
 | -l, --assistantLang [languages] | Languages for the new assistant. Possible values are `de-de`, `en-us`, `es-es`, `fr-fr`, `it-it`, `zh-cn` (by default takes all the languages) | 
