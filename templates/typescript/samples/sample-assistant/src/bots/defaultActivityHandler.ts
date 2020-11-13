@@ -9,6 +9,7 @@ import {
     BotState, 
     Channels,
     ConversationState,
+    SigninStateVerificationQuery,
     StatePropertyAccessor,
     TeamsActivityHandler,
     TurnContext, 
@@ -84,7 +85,7 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
-    protected async onTeamsSigninVerifyState(turnContext: TurnContext): Promise<void> {
+    protected async handleTeamsSigninVerifyState(turnContext: TurnContext, query: SigninStateVerificationQuery): Promise<void> {
         return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
