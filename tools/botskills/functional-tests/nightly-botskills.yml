@@ -1,0 +1,350 @@
+pool:
+  vmImage: 'windows-2019'
+  name: Azure Pipelines
+  demands:
+  - msbuild
+  - visualstudio
+  
+  variables:
+  system.debug: false
+  # system.debug: System variable that can be set by the users. Set this to true to run the release in debug mode to assist in fault-finding.
+  # BuildConfiguration: Build configuration such as Debug or Release.
+  # BuildPlatform: Build platform such as Win32, x86, x64 or any cpu.
+  # VirtualAssistantBotAppId: Microsoft App Id of the Virtual Assistant bot
+  # VirtualAssistantBotAppPassword: Microsoft App Password of the Virtual Assistant bot
+  # VirtualAssistantBotName: Name of the Virtual Assistant bot
+  # SkillBotAppId: Microsoft App Id of the Skill bot
+  # SkillBotAppPassword: Microsoft App Password of the Skill bot
+  # SkillBotName: Name of the Skill bot
+  # endpoints.0.endpointUrl: Skill Manifest endpoint url
+  # endpoints.0.msAppId: Skill Manifest Microsoft App Id
+  # privacyUrl: Skill Manifest privacy url
+  # Location: Location of the bot
+  # LuisAuthoringRegion: Location of the LUIS apps
+  # ServicePrincipal: App Id of the Service Principal
+  # Azure_Tenant: Tenant's value of your Azure directory
+  # AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
+
+jobs:
+- job: Main
+  timeoutInMinutes: 0
+  steps:
+  - task: NodeTool@0
+    displayName: 'Prepare: Use Node 10.16.3'
+    inputs:
+      versionSpec: 10.16.3
+
+  - task: NuGetToolInstaller@1
+    displayName: 'Prepare: Use NuGet 4.9.1'
+
+  - task: AzureCLI@2
+    displayName: 'Prepare: Delete preexisting resources'
+    inputs:
+      azureSubscription: ''
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        # If RG exists, delete it to avoid possible App ID registration conflict.
+        $virtualassistantexists = az group exists --name $(VirtualAssistantBotName)
+        
+        if ($virtualassistantexists -eq 'true')
+        {
+            Write-Host "Resource group $(VirtualAssistantBotName) exists, there is likely an error on the previous build. Deleting."
+            az group delete --name $(VirtualAssistantBotName) --yes
+        }
+        else
+        {
+            Write-Host "Resource group $(VirtualAssistantBotName) does not exist."
+        }
+        
+        # If RG exists, delete it to avoid possible App ID registration conflict.
+        $skillexists= az group exists --name $(SkillBotName)
+        
+        if ($skillexists -eq 'true')
+        {
+            Write-Host "Resource group $(SkillBotName) exists, there is likely an error on the previous build. Deleting."
+            az group delete --name $(SkillBotName) --yes
+        }
+        else
+        {
+            Write-Host "Resource group $(SkillBotName) does not exist."
+        }
+      
+      workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+
+  - pwsh: |
+     # Install botdispatch from MyGet
+     npm install -g botdispatch @latest --registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+    displayName: 'Prepare: Install preview dispatch'
+
+  - pwsh: |
+     # Create config file
+     $path = Join-Path $env:LOCALAPPDATA "@microsoft" "botframework-cli"
+    
+     New-Item -Path $path -ItemType Directory
+    
+     $config = @{
+        telemetry = $true
+     }
+    
+     $config | ConvertTo-Json -depth 100 | Out-File $(Join-Path $path "config.json")
+    
+     # Install botframework-cli from MyGet
+     npm i -g @microsoft/botframework-cli --registry https://botbuilder.myget.org/F/botframework-cli/npm/ 
+    displayName: 'Prepare: Install preview botframework-cli'
+
+  - pwsh: |
+     Write-Host "CLI versions in use for this Nightly Build"
+     Write-Host "`r`n"
+    
+     Write-Host "BF CLI"
+     Write-Host "===="
+     bf -v
+     Write-Host "`r`n"
+    
+     Write-Host "Dispatch CLI"
+     Write-Host "===="
+     dispatch -v
+     Write-Host "`r`n"
+    displayName: 'Prepare: Get CLI versions'
+
+  - task: FileTransform@1
+    displayName: 'Prepare: Replace Skill manifest properties'
+    inputs:
+      folderPath: samples/csharp/skill/
+      fileType: json
+      targetFiles: |
+       **/wwwroot/manifest/manifest-1.0.json
+       **/wwwroot/manifest/manifest-1.1.json
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Prepare: VA - Restore dependencies'
+    inputs:
+      command: restore
+      projects: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample.sln'
+      restoreDirectory: 'samples/csharp/assistants/virtual-assistant/'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Prepare: VA - Build project'
+    inputs:
+      projects: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample.sln'
+      arguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site" /property:langversion=latest'
+      workingDirectory: 'samples/csharp/assistants/virtual-assistant/'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Prepare: Skill - Restore dependencies'
+    inputs:
+      command: restore
+      projects: samples/csharp/skill/SkillSample.sln
+      restoreDirectory: samples/csharp/skill/
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Prepare: Skill - Build project'
+    inputs:
+      projects: samples/csharp/skill/SkillSample.sln
+      arguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site" /property:langversion=latest'
+      workingDirectory: samples/csharp/skill/
+
+  - pwsh: |
+      Invoke-WebRequest -Uri https://aka.ms/installazurecliwindows -OutFile .\AzureCLI.msi; Start-Process msiexec.exe -Wait -ArgumentList '/I AzureCLI.msi /quiet'
+      
+      az login --service-principal --username "$(ServicePrincipal)" --password "$(AzureDevOps-ServicePrincipal-Secret)" --tenant "$(Azure_Tenant)"
+      
+      ./Deployment/Scripts/deploy.ps1 -name $(VirtualAssistantBotName) -location $(Location) -languages "en-us" -appId $(VirtualAssistantBotAppId) -appPassword $(VirtualAssistantBotAppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "Deployment"
+    errorActionPreference: continue
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Prepare: VA - Deploy'
+    continueOnError: true
+
+  - pwsh: |
+     $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
+    
+     Write-Host $appSettings
+    
+     $botWebAppName = $appsettings.botWebAppName 
+     $resourceGroupName= $appsettings.resourceGroupName
+    
+     Write-Host "VA Web App Name"
+     Write-Host "===="
+     Write-Host $botWebAppName
+     Write-Host "`r`n"
+     echo "##vso[task.setvariable variable=VirtualAssistantBotWebAppName;]$botWebAppName"
+    
+     Write-Host "VA Resource Group"
+     Write-Host "===="
+     Write-Host $resourceGroupName
+     echo "##vso[task.setvariable variable=VirtualAssistantBotResourceGroup;]$resourceGroupName"
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Prepare: VA - Get variables from appsettings'
+
+  - pwsh: './Deployment/Scripts/deploy.ps1 -name $(SkillBotName) -location $(Location) -languages "en-us" -appId $(SkillBotAppId) -appPassword $(SkillBotAppPassword) -createLuisAuthoring -luisAuthoringRegion $(LuisAuthoringRegion) -logFolder "Deployment"'
+    errorActionPreference: continue
+    workingDirectory: samples/csharp/skill/SkillSample
+    displayName: 'Prepare: Skill - Deploy'
+    continueOnError: true
+
+  - pwsh: |
+     $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
+    
+     Write-Host $appSettings
+    
+     $botWebAppName = $appsettings.botWebAppName 
+     $resourceGroupName= $appsettings.resourceGroupName
+     $url = "$botWebAppName.azurewebsites.net"
+    
+     Write-Host "Skill Web App Name"
+     Write-Host "===="
+     Write-Host $botWebAppName
+     echo "##vso[task.setvariable variable=SkillBotWebAppName;]$botWebAppName"
+    
+     Write-Host "URL"
+     Write-Host "===="
+     Write-Host $url
+     echo "##vso[task.setvariable variable=SkillBotWebAppUrl;]$url"
+    
+    
+     Write-Host "Skill Resource Group"
+     Write-Host "===="
+     Write-Host $resourceGroupName
+     echo "##vso[task.setvariable variable=SkillBotResourceGroup;]$resourceGroupName"
+    workingDirectory: samples/csharp/skill/SkillSample
+    displayName: 'Prepare: Skill - Get variables from appsettings'
+
+  - task: Npm@1
+    displayName: 'Build: Botskills - Install Dependencies'
+    inputs:
+      workingDir: tools/botskills
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Build: Botskills - Build project'
+    inputs:
+      command: custom
+      workingDir: tools/botskills
+      verbose: false
+      customCommand: 'run build'
+
+  - task: Npm@1
+    displayName: 'Link: Botskills'
+    inputs:
+      command: custom
+      workingDir: tools/botskills
+      verbose: false
+      customCommand: link
+
+  - task: Npm@1
+    displayName: 'Build: Botskills - Execute unit tests'
+    inputs:
+      command: custom
+      workingDir: tools/botskills
+      verbose: false
+      customCommand: 'run test-coverage-ci'
+    continueOnError: true
+
+  - task: PublishTestResults@2
+    displayName: 'Debug: Botskills - Publish test results'
+    inputs:
+      testResultsFiles: 'test-results.xml'
+      searchFolder: tools/botskills
+    continueOnError: true
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Debug: Botskills - Publish code coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: 'tools/botskills/coverage/cobertura-coverage.xml'
+      reportDirectory: tools/botskills/coverage/
+    continueOnError: true
+
+  - pwsh: |
+     # Execute botskills connect command without refresh
+     botskills connect --localManifest '..\..\..\skill\SkillSample\wwwroot\manifest\manifest-1.1.json' --luisFolder '..\..\..\skill\SkillSample\Deployment\Resources\LU\' --cs --languages 'en-us' --noRefresh
+    failOnStderr: true
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Test: Botskills - Execute connect command without refresh'
+
+  - pwsh: 'botskills list'
+    failOnStderr: true
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Test: Botskills - Execute list command'
+
+  - pwsh: |
+     # Execute botskills update command without refresh
+     botskills update --localManifest '..\..\..\skill\SkillSample\wwwroot\manifest\manifest-1.1.json' --luisFolder '..\..\..\skill\SkillSample\Deployment\Resources\LU\' --cs --languages 'en-us' --noRefresh
+    failOnStderr: true
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Test: Botskills - Execute update command without refresh'
+
+  - pwsh: |
+     $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
+    
+     Write-Host $appSettings
+    
+     $botFrameworkSkills= $appsettings.botFrameworkSkills
+    
+     Write-Host "BotFrameworkSkills connected to the Virtual Assistant"
+     Write-Host "===="
+     Write-Host $botFrameworkSkills
+    errorActionPreference: continue
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Debug: Botskills - Get connected Skills to the VA'
+
+  - pwsh: |
+     # Execute botskills refresh
+     botskills refresh --cs
+    errorActionPreference: continue
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Test: Botskills - Execute refresh command'
+
+  - pwsh: |
+     # Execute botskills disconnect command without refresh
+     botskills disconnect -i "SampleSkill" --cs --noRefresh
+    failOnStderr: true
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Test: Botskills - Execute disconnect command without refresh'
+
+  - pwsh: 'botskills list'
+    failOnStderr: true
+    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    displayName: 'Test: Botskills - Execute list command'
+
+  - task: AzureCLI@2
+    displayName: 'Cleanup: Delete resources'
+    inputs:
+      azureSubscription: ''
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+       # If RG exists, delete it to avoid possible App ID registration conflict.
+       $virtualassistantexists = az group exists --name $(VirtualAssistantBotName)
+      
+       if ($virtualassistantexists -eq 'true')
+       {
+          Write-Host "Resource group $(VirtualAssistantBotName) exists, there is likely an error on the previous build. Deleting."
+            az group delete --name $(VirtualAssistantBotName) --yes
+       }
+       else
+       {
+          Write-Host "Resource group $(VirtualAssistantBotName) does not exist."
+       }
+      
+       # If RG exists, delete it to avoid possible App ID registration conflict.
+       $skillexists= az group exists --name $(SkillBotName)
+      
+       if ($skillexists -eq 'true')
+       {
+          Write-Host "Resource group $(SkillBotName) exists, there is likely an error on the previous build. Deleting."
+            az group delete --name $(SkillBotName) --yes
+       }
+       else
+       {
+          Write-Host "Resource group $(SkillBotName) does not exist."
+       }
+      
+      workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    enabled: false
+
+  - script: 'dir ..\*.* /s'
+    displayName: 'Debug: dir workspace'
+    continueOnError: true
+    condition: always()
