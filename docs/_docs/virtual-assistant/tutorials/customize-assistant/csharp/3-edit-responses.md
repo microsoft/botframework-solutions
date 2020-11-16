@@ -25,7 +25,7 @@ Within `AllResponses.lg` in your `Responses` directory, add the newly created LG
 [Onboarding](./OnboardingResponses.lg)
 ```
 
-Your LG file will be added automatically in the templateFile variable of the `Startup.cs`.
+Your LG file will be added automatically in the `templateFile` variable of the `Startup.cs`.
 ```csharp
 // Configure localized responses
 var localizedTemplates = new Dictionary<string, string>();
