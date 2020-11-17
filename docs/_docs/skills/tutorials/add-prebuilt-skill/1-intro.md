@@ -16,7 +16,12 @@ Install Bot Framework development prerequisites and add one of the Skills provid
 
 ### Prerequisites
 
-- [Create a Virtual Assistant]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) to setup your environment.
+Have a Virtual Assistant created
+
+| Language | Document |
+|----------|------|
+| C# | [Link]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro) |
+| TypeScript | [Link]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/typescript/1-intro/) |
 
 ### Time to Complete
 
@@ -24,4 +29,4 @@ Install Bot Framework development prerequisites and add one of the Skills provid
 
 ### Scenario
 
-Add any of the sample [Skills]({{site.repo}}/tree/master/skills/csharp) provided in the Bot Framework Solutions repository to your Virtual Assistant. The Skills are only available in C# at this time but these can be added to a TypeScript based assistant.
+Add any of the sample [Skills](https://github.com/microsoft/botframework-skills/tree/main/skills/csharp) provided in the Bot Framework Skills repository to your Virtual Assistant. The Skills are only available in C# at this time but these can be added to a TypeScript based assistant.
