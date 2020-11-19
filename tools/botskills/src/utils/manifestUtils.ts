@@ -1,5 +1,5 @@
 import { IManifest } from '../models/manifest';
-import { isAbsolute, join, resolve, basename } from 'path';
+import { isAbsolute, join, resolve } from 'path';
 import { get } from 'request-promise-native';
 import { existsSync, readFileSync } from 'fs';
 import { ISkillManifestV1, IAction, IUtteranceSource } from '../models/manifestV1/skillManifestV1';

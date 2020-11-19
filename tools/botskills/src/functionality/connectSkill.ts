@@ -47,7 +47,7 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         let luFile = '';
         let luisFile = '';
         let luFilePath = '';
-        let luisFolderPath: string = join(this.configuration.luisFolder, culture);
+        const luisFolderPath: string = join(this.configuration.luisFolder, culture);
         let luisFilePath = '';
         let dispatchFolderPath = '';
         let dispatchFilePath = '';
@@ -89,7 +89,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                 else if (currentApp.url.startsWith('http')) {
                     try {
                         const remoteLuFile = await this.getRemoteLu(currentApp.url);
-                        let luisAppName: string = currentApp.url.split('/').reverse()[0];
+                        const luisAppName: string = currentApp.url.split('/').reverse()[0];
 
                         const luPath = join(this.configuration.luisFolder, culture, luisAppName.endsWith('.lu') ? luisAppName : luisAppName + '.lu');
                         this.verifyLuisFolder(culture);

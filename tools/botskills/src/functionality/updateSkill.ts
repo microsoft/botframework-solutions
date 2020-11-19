@@ -5,7 +5,7 @@
 
 import { readFileSync } from 'fs';
 import { ConsoleLogger, ILogger } from '../logger';
-import { IConnectConfiguration, IDisconnectConfiguration, ISkillManifestV2, ISkillManifestV1, IUpdateConfiguration, ISkill, IAppSetting } from '../models';
+import { IConnectConfiguration, IDisconnectConfiguration, IUpdateConfiguration, ISkill, IAppSetting } from '../models';
 import { ConnectSkill } from './connectSkill';
 import { DisconnectSkill } from './disconnectSkill';
 import { ManifestUtils } from '../utils';

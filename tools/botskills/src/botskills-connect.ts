@@ -55,24 +55,6 @@ if (process.argv.length < 3) {
     process.exit(0);
 }
 
-let botName = '';
-let localManifest: string;
-let remoteManifest: string;
-let endpointName: string;
-let noRefresh = false;
-let languages: string[];
-let luisFolder: string;
-let dispatchFolder: string;
-let outFolder: string;
-let lgOutFolder: string;
-let resourceGroup = '';
-let appSettingsFile: string;
-let cognitiveModelsFile: string;
-let lgLanguage: string;
-
-logger.isVerbose = args.verbose;
-
-// Validation of arguments
 // cs and ts validation
 const csAndTsValidationResult: string = validatePairOfArgs(args.cs, args.ts);
 if (csAndTsValidationResult) {
@@ -81,13 +63,6 @@ if (csAndTsValidationResult) {
             .replace('{1}', 'ts')
     );
     process.exit(1);
-}
-
-lgLanguage = args.cs ? 'cs' : 'ts';
-
-// noRefresh validation
-if (args.noRefresh) {
-    noRefresh = true;
 }
 
 // localManifest && remoteManifest validation
@@ -104,42 +79,44 @@ if (args.localManifest && extname(args.localManifest) !== '.json') {
     process.exit(1);
 }
 
-localManifest = args.localManifest;
-remoteManifest = args.remoteManifest;
-endpointName = args.endpointName;
+let botName = '';
+let resourceGroup = '';
+let noRefresh = false;
+const localManifest: string = args.localManifest;
+const remoteManifest: string = args.remoteManifest;
+const endpointName: string = args.endpointName;
+// Validate languages argument
+const languages: string[] = args.languages ? args.languages.split(',') : ['en-us'];
+// Validate outFolder argument
+const outFolder: string = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
+// Validate luisFolder argument
+const luisFolder: string = args.luisFolder ? sanitizePath(args.luisFolder) : join(outFolder, 'Deployment', 'Resources', 'Skills');
+// Validate dispatchFolder argument
+const dispatchFolder: string = args.dispatchFolder ? sanitizePath(args.dispatchFolder) : join(outFolder, 'Deployment', 'Resources', 'Dispatch');
+// Validate lgOutFolder argument
+const lgOutFolder: string = args.lgOutFolder ? sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services', 'DispatchLuis.ts') : join('Services', 'DispatchLuis.cs')));
+// Validate appSettingsFile argument
+const appSettingsFile: string = args.appSettingsFile || join(outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
+// Validate cognitiveModelsFile argument
+const cognitiveModelsFile: string = args.cognitiveModelsFile || join(outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
+const lgLanguage: string = args.cs ? 'cs' : 'ts';
 
-// outFolder validation -- the var is needed for reassuring 'configuration.outFolder' is not undefined
-outFolder = args.outFolder ? sanitizePath(args.outFolder) : resolve('./');
+logger.isVerbose = args.verbose;
 
-// appSettingsFile validation
-appSettingsFile = args.appSettingsFile || join(outFolder, (args.ts ? join('src', 'appsettings.json') : 'appsettings.json'));
-
-// validate the existence of the appsettings file
+// Validate noRefresh argument
+if (args.noRefresh) {
+    noRefresh = true;
+}
+// Validate the existence of the appsettings file
 if (appSettingsFile !== undefined) {
     const appSettings: IAppSetting = JSON.parse(readFileSync(appSettingsFile, 'UTF8'));
-    // use botWebAppName and resourceGroupName properties from appsettings file
+    // Use botWebAppName and resourceGroupName properties from appsettings file
     botName = appSettings.botWebAppName;
     resourceGroup = appSettings.resourceGroupName;
 } else {
     logger.error(`The 'appSettings' file doesn't exist`);
     process.exit(1);
 }
-
-// cognitiveModelsFile validation
-const cognitiveModelsFilePath: string = args.cognitiveModelsFile || join(outFolder, (args.ts ? join('src', 'cognitivemodels.json') : 'cognitivemodels.json'));
-cognitiveModelsFile = cognitiveModelsFilePath;
-
-// languages validation
-languages = args.languages ? args.languages.split(',') : ['en-us'];
-
-// luisFolder validation
-luisFolder = args.luisFolder ? sanitizePath(args.luisFolder) : join(outFolder, 'Deployment', 'Resources', 'Skills');
-
-// dispatchFolder validation
-dispatchFolder = args.dispatchFolder ? sanitizePath(args.dispatchFolder) : join(outFolder, 'Deployment', 'Resources', 'Dispatch');
-
-// lgOutFolder validation
-lgOutFolder = args.lgOutFolder ? sanitizePath(args.lgOutFolder) : join(outFolder, (args.ts ? join('src', 'Services', 'DispatchLuis.ts') : join('Services', 'DispatchLuis.cs')));
 
 // Initialize an instance of IConnectConfiguration to send the needed arguments to the connectSkill function
 const configuration: IConnectConfiguration = {
@@ -159,6 +136,4 @@ const configuration: IConnectConfiguration = {
     lgLanguage: lgLanguage,
     logger: logger
 };
-
-// End of arguments validation
 new ConnectSkill((configuration as IConnectConfiguration), logger).connectSkill();

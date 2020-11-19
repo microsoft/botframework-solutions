@@ -8,6 +8,20 @@ import { ISkillManifestV2 } from '../models/manifestV2/skillManifestV2';
 import { ILogger } from '../logger';
 import { ChildProcessUtils } from '../utils';
 
+export enum libraries {
+    BotFrameworkCLI
+}
+
+interface libraryCommand {
+    cmd: string;
+    args: string[];
+    package: string;
+}
+
+const commands: { [key: number]: libraryCommand } = {
+    0: { cmd: 'bf', args: ['-v'], package: 'https://www.npmjs.com/package/@microsoft/botframework-cli' }
+};
+
 /**
  * @param arg1 First argument of the pair of arguments.
  * @param arg2 Second argument of the pair of arguments.
@@ -86,7 +100,7 @@ export function manifestV2Validation(skillManifest: ISkillManifestV2, logger: IL
     if (skillManifest.endpoints === undefined || skillManifest.endpoints.length === 0) {
         logger.error(`Missing property 'endpoints' of the manifest`);
     } else {
-        let currentEndpoint = skillManifest.endpoints.find((endpoint): boolean =>  endpoint.name == endpointName) || skillManifest.endpoints[0];
+        const currentEndpoint = skillManifest.endpoints.find((endpoint): boolean =>  endpoint.name == endpointName) || skillManifest.endpoints[0];
         if (currentEndpoint.name === undefined || currentEndpoint.name === ''){
             logger.error(`Missing property 'name' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`);
         }
@@ -121,17 +135,3 @@ export async function validateLibrary(libs: libraries[], logger: ILogger): Promi
         });
     }));
 }
-
-export enum libraries {
-    BotFrameworkCLI
-}
-
-interface libraryCommand {
-    cmd: string;
-    args: string[];
-    package: string;
-}
-
-const commands: { [key: number]: libraryCommand } = {
-    0: { cmd: 'bf', args: ['-v'], package: 'https://www.npmjs.com/package/@microsoft/botframework-cli' }
-};

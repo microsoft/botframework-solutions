@@ -17,8 +17,8 @@ export interface ILogger {
 }
 
 export class ConsoleLogger implements ILogger {
-    private _isError: boolean = false;
-    private _isVerbose: boolean = false;
+    private _isError = false;
+    private _isVerbose = false;
     public get isError(): boolean { return this._isError; }
     public get isVerbose(): boolean { return this._isVerbose; }
     public set isVerbose(value: boolean) { this._isVerbose = value || false; }
