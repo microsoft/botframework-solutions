@@ -48,15 +48,15 @@
     "@types/node": "^10.10.1",
     "@types/request-promise-native": "^1.0.15",
     "@types/semver": "^5.5.0",
-    "@typescript-eslint/eslint-plugin": "^1.10.2",
-    "@typescript-eslint/parser": "^1.10.2",
+    "@typescript-eslint/eslint-plugin": "^4.0.1",
+    "@typescript-eslint/parser": "^4.0.1",
     "eslint": "^6.1.0",
     "eslint-plugin-only-warn": "^1.0.1",
     "mocha": "^7.1.2",
     "mocha-junit-reporter": "^1.22.0",
     "nyc": "^14.1.1",
     "sinon": "^7.3.2",
-    "typescript": "^3.2.2"
+    "typescript": "^4.0.5"
   },
   "env": {
     "mocha": true,
