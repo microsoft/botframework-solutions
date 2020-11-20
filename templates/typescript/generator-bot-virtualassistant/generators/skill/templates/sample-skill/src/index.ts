@@ -4,7 +4,6 @@
  */
 
 import {
-    BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
     ConversationState,
@@ -111,8 +110,6 @@ const defaultAdapter: DefaultAdapter = new DefaultAdapter(
     localeTemplateManager,
     telemetryInitializerMiddleware,
     telemetryClient);
-
-const adapter: BotFrameworkAdapter = defaultAdapter;
 
 let bot: DefaultActivityHandler<Dialog>;
 try {
