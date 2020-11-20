@@ -33,10 +33,10 @@
     "devDependencies": {
         "@types/node": "^10.10.1",
         "@types/restify": "^8.4.2",
-        "@typescript-eslint/eslint-plugin": "^2.0.0",
-        "@typescript-eslint/parser": "^2.0.0",
+        "@typescript-eslint/eslint-plugin": "^4.0.1",
+        "@typescript-eslint/parser": "^4.0.1",
         "copyfiles": "^2.1.0",
-        "eslint": "^5.16.0",
+        "eslint": "^6.1.0",
         "eslint-plugin-only-warn": "^1.0.1",
         "mocha": "^6.1.4",
         "mocha-junit-reporter": "^1.22.0",
