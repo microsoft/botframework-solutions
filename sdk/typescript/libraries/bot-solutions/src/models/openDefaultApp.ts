@@ -4,11 +4,11 @@
  */
 
 export class OpenDefaultApp {
-    public meetingUri: string = '';
+    public meetingUri = '';
 
-    public telephoneUri: string = '';
+    public telephoneUri = '';
 
-    public mapsUri: string = '';
+    public mapsUri = '';
 
-    public musicUri: string = '';
+    public musicUri = '';
 }

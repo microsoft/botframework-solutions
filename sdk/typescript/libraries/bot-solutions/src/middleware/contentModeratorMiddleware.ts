@@ -13,11 +13,11 @@ export class ContentModeratorMiddleware implements Middleware {
     /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    public serviceName: string = 'ContentModerator';
+    public serviceName = 'ContentModerator';
     /**
      * Key for Text Moderator result in Bot Context dictionary.
      */
-    public textModeratorResultKey: string = 'TextModeratorResult';
+    public textModeratorResultKey = 'TextModeratorResult';
     /**
      * Content Moderator service key.
      */

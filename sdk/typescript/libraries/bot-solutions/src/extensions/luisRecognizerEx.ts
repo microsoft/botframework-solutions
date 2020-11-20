@@ -19,7 +19,7 @@ export namespace LuisRecognizerEx {
         const result: Object | undefined = luisProperty.get(sentiment);
 
         if(luisProperty !== undefined && result !== undefined) {
-            let sentimentInfo: any = JSON.parse(result.toString());
+            const sentimentInfo: any = JSON.parse(result.toString());
             sentimentLabel = getSentimentType(sentimentInfo.label);
             maxScore = sentimentInfo.score !== undefined ? sentimentInfo.score : 0.0;
         }

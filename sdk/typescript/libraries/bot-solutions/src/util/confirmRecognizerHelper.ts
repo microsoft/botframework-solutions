@@ -11,7 +11,7 @@ import { PromptRecognizerResult } from 'botbuilder-dialogs';
 export namespace ConfirmRecognizerHelper {
     const valueKey = 'value';
 
-    export function confirmYerOrNo(utterance: string, locale: string = ''): PromptRecognizerResult<boolean> {
+    export function confirmYerOrNo(utterance: string, locale = ''): PromptRecognizerResult<boolean> {
         let result: PromptRecognizerResult<boolean> = { succeeded: false };
 
         if (utterance !== undefined && utterance.trim().length > 0) {

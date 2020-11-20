@@ -26,7 +26,7 @@ enum DialogIds {
  * Provides the ability to prompt for which Authentication provider the user wishes to use.
  */
 export class MultiProviderAuthDialog extends ComponentDialog {
-    private selectedAuthType: string = '';
+    private selectedAuthType = '';
     private authenticationConnections: IOAuthConnection[];
     private responseManager: ResponseManager;
 
@@ -61,8 +61,8 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             this.authenticationConnections.length > 0 && 
             this.authenticationConnections.some((c: IOAuthConnection): boolean => c.name !== undefined && c.name.trim().length > 0)) {
                 
-            for (var i = 0; i < this.authenticationConnections.length; ++i) {
-                let connection = this.authenticationConnections[i];
+            for (let i = 0; i < this.authenticationConnections.length; ++i) {
+                const connection = this.authenticationConnections[i];
 
                 // We ignore placeholder connections in config that don't have a Name
                 if (connection.name !== undefined && connection.name.trim().length > 0) {
@@ -80,7 +80,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                         this.authPromptValidator.bind(this)
                     ));
                 }
-            };
+            }
 
             this.addDialog(new WaterfallDialog(DialogIds.firstStepPrompt, authSteps));
             this.addDialog(new ChoicePrompt(DialogIds.providerPrompt));

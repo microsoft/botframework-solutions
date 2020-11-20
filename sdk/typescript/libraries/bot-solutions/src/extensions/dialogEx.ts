@@ -4,7 +4,7 @@
  * Licensed under the MIT License.
  */
 import { Dialog, DialogState, DialogSet, DialogContext, DialogTurnResult, DialogTurnStatus, DialogEvents } from 'botbuilder-dialogs';
-import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity, SkillHandler, SkillConversationReferenceKey, SkillConversationReference } from 'botbuilder';
+import { TurnContext, StatePropertyAccessor, ActivityTypes, Activity, SkillConversationReferenceKey, SkillConversationReference } from 'botbuilder';
 import { ClaimsIdentity, SkillValidation, AuthenticationConstants, GovernmentConstants } from 'botframework-connector';
 
 export namespace DialogEx {

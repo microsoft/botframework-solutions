@@ -7,7 +7,7 @@ import { join } from 'path';
 import { IResponseIdCollection } from '../responses/responseIdCollection';
 
 export class FeedbackResponses implements IResponseIdCollection {
-    public readonly name: string = this.name;
+    public readonly name: string = FeedbackResponses.name;
     public static readonly pathToResource: string = join(__dirname, 'resources');
     public static readonly commentPrompt: string = 'CommentPrompt';
     public static readonly commentReceivedMessage: string = 'CommentReceivedMessage';

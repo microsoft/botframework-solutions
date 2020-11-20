@@ -6,7 +6,6 @@
 import * as dayjs from 'dayjs';
 import { readFileSync } from 'fs';
 import { CommonResponses } from '../resources';
-import { join } from 'path';
 import { ResponsesUtil } from '../util/responsesUtil';
 
 export namespace DateTimeEx {
@@ -22,7 +21,7 @@ export namespace DateTimeEx {
         }
     }
 
-    export async function toSpeechDateString(date: Date, locale: string, includePrefix: boolean = false): Promise<string> {
+    export async function toSpeechDateString(date: Date, locale: string, includePrefix = false): Promise<string> {
         if (currentLocale !== locale) {
             currentLocale = locale;
             await importLocale(locale);
@@ -62,7 +61,7 @@ export namespace DateTimeEx {
             );
     }
 
-    export function toSpeechTimeString(date: Date, locale: string, includePrefix: boolean = false): string {
+    export function toSpeechTimeString(date: Date, locale: string, includePrefix = false): string {
         if (includePrefix) {
             const jsonPath: string = ResponsesUtil.getResourcePath(CommonResponses.name, CommonResponses.pathToResource, locale);
             const commonFile: string = readFileSync(jsonPath, 'utf8');

@@ -7,7 +7,6 @@ import { Choice, PromptOptions } from 'botbuilder-dialogs';
 import { Activity, Attachment } from 'botframework-schema';
 import { ListEx } from '../extensions';
 import { CommonResponses } from '../resources';
-import { join } from 'path';
 import { readFileSync } from 'fs';
 import { ResponsesUtil } from '../util/responsesUtil';
 
@@ -32,7 +31,7 @@ export namespace SpeechUtility {
         toProcess: PromptOptions|Activity,
         locale: string,
         readOrder: ReadPreference = ReadPreference.Enumeration,
-        maxSize: number = 4
+        maxSize = 4
     ): string {
 
         let speakStrings: string[] = [];

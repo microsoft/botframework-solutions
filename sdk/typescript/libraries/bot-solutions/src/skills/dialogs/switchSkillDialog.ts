@@ -24,7 +24,7 @@ export enum Properties {
 }
 
 export class SwitchSkillDialog extends ComponentDialog {
-    private static confirmPromptId: string = 'ConfirmSkillSwitch';
+    private static confirmPromptId = 'ConfirmSkillSwitch';
     private skillIdAccessor: StatePropertyAccessor<string>;
     private lastActivityAccessor: StatePropertyAccessor<Activity>;
 

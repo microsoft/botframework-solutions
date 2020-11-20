@@ -13,11 +13,11 @@ import { FeedbackResponses } from './feedbackResponses';
 export class FeedbackOptions {
     private _feedbackActions: CardAction[] | undefined;
     private _dismissAction: CardAction | undefined;
-    private _feedbackReceivedMessage: string = '';
-    private _commentPrompt: string = '';
-    private _commentReceivedMessage: string = '';
+    private _feedbackReceivedMessage = '';
+    private _commentPrompt = '';
+    private _commentReceivedMessage = '';
     private readonly responseManager: ResponseManager;
-    private _locale: string = 'en-us';
+    private _locale = 'en-us';
 
     /**
      * Gets or sets a value indicating whether gets or sets flag to prompt for free-form
@@ -25,7 +25,7 @@ export class FeedbackOptions {
      * Default value is false.
      * A value indicating whether gets or sets flag to prompt for free-form comments for all or select feedback choices.
      */
-    public commentsEnabled: boolean = false;
+    public commentsEnabled = false;
 
     public constructor() {
         this.responseManager = new ResponseManager(

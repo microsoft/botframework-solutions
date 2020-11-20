@@ -7,7 +7,6 @@ import { EventDebuggerMiddleware } from '../middleware';
 
 export class DefaultTestAdapter extends TestAdapter {
     public constructor() {
-        // tslint:disable-next-line: no-empty
         super(async (): Promise<void> => {});
         this.use(new EventDebuggerMiddleware());
     }

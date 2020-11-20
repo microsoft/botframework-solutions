@@ -4,7 +4,6 @@
  */
 
 import { CommonResponses } from '../resources';
-import { join } from 'path';
 import { readFileSync } from 'fs';
 import { ResponsesUtil } from '../util/responsesUtil';
 

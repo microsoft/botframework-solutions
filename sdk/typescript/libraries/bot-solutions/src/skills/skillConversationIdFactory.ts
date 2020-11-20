@@ -19,7 +19,7 @@ export class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     }
 
     public async createSkillConversationIdWithOptions(options: SkillConversationIdFactoryOptions): Promise<string> {
-        if (options === undefined) { throw new Error('The value of options is undefined');};
+        if (options === undefined) { throw new Error('The value of options is undefined');}
 
         // Create the storage key based on the SkillConversationIdFactoryOptions
         const conversationReference: Partial<ConversationReference> = TurnContext.getConversationReference(options.activity);

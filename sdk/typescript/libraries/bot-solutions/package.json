@@ -37,7 +37,7 @@
         "jwks-rsa": "1.5.0",
         "ms-rest-azure": "^2.5.0",
         "request-promise-native": "^1.0.7",
-        "p-queue": "^4.0.0",
+        "p-queue": "^6.0.0",
         "xml-js": "^1.6.11",
         "uuid": "^3.3.2",
         "@microsoft/recognizers-text": "^1.1.4",
@@ -47,10 +47,10 @@
         "@types/nock": "^10.0.3",
         "@types/request-promise-native": "^1.0.7",
         "@types/uuid": "^3.4.4",
-        "@typescript-eslint/eslint-plugin": "^1.10.2",
-        "@typescript-eslint/parser": "^1.10.2",
+        "@typescript-eslint/eslint-plugin": "^4.0.1",
+        "@typescript-eslint/parser": "^4.0.1",
         "copyfiles": "^2.1.0",
-        "eslint": "^5.16.0",
+        "eslint": "^6.1.0",
         "eslint-plugin-only-warn": "^1.0.1",
         "mocha": "^6.2.3",
         "mocha-junit-reporter": "^1.22.0",
@@ -60,7 +60,7 @@
         "restify": "^8.3.2",
         "rimraf": "^2.6.2",
         "supertest": "^4.0.2",
-        "typescript": "3.4.5"
+        "typescript": "^4.0.5"
     },
     "env": {
         "mocha": true,

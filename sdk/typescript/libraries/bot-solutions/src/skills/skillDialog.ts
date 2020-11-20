@@ -65,7 +65,7 @@ export class SkillDialog extends Dialog {
             throw new Error('Unable to cast \'options\' to SkillDialogArgs');
         }
         
-        let dialogArgs: SkillDialogArgs = options;
+        const dialogArgs: SkillDialogArgs = options;
         //let skillId = dialogArgs.skillId; //skillId is not being used, but for parity with C#, this line is commented instead of removed
         await dc.context.sendTraceActivity(`${ SkillDialog.name }.onBeginDialog()`, undefined, undefined, `Using activity of type: ${ dialogArgs.activityType }`);
         
@@ -80,7 +80,7 @@ export class SkillDialog extends Dialog {
                 skillActivity = eventActivity as Activity;
                 break;
             case ActivityTypes.Message:
-                let messageActivity = ActivityEx.createMessageActivity();
+                const messageActivity = ActivityEx.createMessageActivity();
                 messageActivity.text = dc.context.activity.text;
                 skillActivity = messageActivity as Activity;
                 break;
