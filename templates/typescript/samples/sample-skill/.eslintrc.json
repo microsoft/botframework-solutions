@@ -25,7 +25,7 @@
         "@typescript-eslint/indent": ["error", 4],
         "@typescript-eslint/interface-name-prefix": 0,
         "@typescript-eslint/no-explicit-any": 0,
-        "@typescript-eslint/consistent-type-assertions": 1,
+        "@typescript-eslint/consistent-type-assertions": ["error", { "assertionStyle": "as" }],
         "@typescript-eslint/no-use-before-define": ["error", { "functions": false, "classes": true }],
         "@typescript-eslint/ban-types": 0
     }
