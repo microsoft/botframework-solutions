@@ -137,14 +137,14 @@ export interface CognitiveModelConfiguration {
 
 export interface OAuthCredentialsConfiguration {
     /**
-     * Gets or sets the collection of LUIS models.
-     * The collection of LUIS models.
+     * Gets or sets the Microsoft App Id for OAuth.
+     * The microsoft app id for OAuth.
      */
     microsoftAppId: string;
 
     /**
-     * Gets or sets the collection of LUIS models.
-     * The collection of LUIS models.
+     * Gets or sets the Microsoft App Password for OAuth.
+     * The microsoft app password for OAuth.
      */
     microsoftAppPassword: string;
 }

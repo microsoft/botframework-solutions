@@ -121,7 +121,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         if (adapter !== undefined) {
             const tokenStatusCollection: TokenStatus[] = await adapter.getTokenStatus(
                 stepContext.context,
-                stepContext.context.activity.from.id);
+                stepContext.context.activity.from.id,
+                undefined,
+                this.oauthCredentials);
 
             const matchingProviders: TokenStatus[] = tokenStatusCollection.filter((p: TokenStatus): boolean => {
                 return (p.hasToken || false) && this.authenticationConnections.some((t: IOAuthConnection): boolean => {
@@ -232,7 +234,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         //PENDING: adapter could not be parsed to IExtendedUserTokenProvider as C# does
         const tokenProvider: BotFrameworkAdapter = context.adapter as BotFrameworkAdapter;
         if (tokenProvider !== undefined) {
-            return await tokenProvider.getTokenStatus(context, userId, includeFilter);
+            return await tokenProvider.getTokenStatus(context, userId, includeFilter, this.oauthCredentials);
         } else {
             throw new Error('Adapter does not support IExtendedUserTokenProvider');
         }
