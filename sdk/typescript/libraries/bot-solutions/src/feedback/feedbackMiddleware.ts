@@ -12,7 +12,7 @@ import {
     StatePropertyAccessor,
     TurnContext } from 'botbuilder';
 // tslint:disable-next-line: no-submodule-imports //supportsSuggestedActions not exported, botbuilder-js#1354
-import { supportsSuggestedActions } from 'botbuilder-dialogs/lib/choices/channel';
+import { supportsSuggestedActions } from 'botbuilder-dialogs';
 import { Attachment, CardAction } from 'botframework-schema';
 import { FeedbackOptions } from './feedbackOptions';
 import { FeedbackRecord } from './feedbackRecord';
