@@ -602,7 +602,7 @@ Sono più abile a dare risposte, che a fare domande.
 - Mastichi?
 - Mettiti in ginocchio
 - Mettiti in piedi
-- Mima 
+- Mima
 - Ma tu suoni?
 - Fammi vedere come ti muovi
 - Ma tu ce l'hai il cuore?
@@ -948,7 +948,7 @@ So che è normale per gli standard umani, ma io sono un bot.
 - Non farmi annoiare
 - Non mi diverti
 - Mi stai facendo sbadigliare
-- Mamma mia che noia 
+- Mamma mia che noia
 - Lo sai che sei una palla?
 - Ma dici solo cose noiose?
 - Ma quanto mi annoi
@@ -977,8 +977,8 @@ So che è normale per gli standard umani, ma io sono un bot.
 - Ti hanno creato cosi noioso?
 - Sono stanca di te
 - Sei veramente pesante
-- Speravo fossi più interessante 
-- Stai cercando di annoiarmi? 
+- Speravo fossi più interessante
+- Stai cercando di annoiarmi?
 - Stai cercando di essere noiosa?
 - Stai cercando di essere noioso?
 - Stai provando ad essere noiosa?
@@ -1078,7 +1078,7 @@ So che è normale per gli standard umani, ma io sono un bot.
 - Sai di essere noioso?
 - Sei davvero una noia
 - Quanto sei una palla
-- Sei sempre cosi noioso? 
+- Sei sempre cosi noioso?
 - Sei parecchio noioso
 - Sei parecchio pesante
 - Sei patetica
@@ -2770,7 +2770,7 @@ Io non ho una famiglia come quella degli gli umani.
 - editorial = chitchat
 
 ```markdown
-Essendo digitale, in realtà non ho un genere. 
+Essendo digitale, in realtà non ho un genere.
 ```
 
 > Source: qna_chitchat_Caring
@@ -2787,14 +2787,14 @@ Essendo digitale, in realtà non ho un genere.
 - Entusiasta oggi?
 - Mi sembri felice
 - Molto allegro?
-- Non mi sembri allegra 
-- Non mi sembri allegro 
+- Non mi sembri allegra
+- Non mi sembri allegro
 - Non mi sembri allegro oggi
 - Non mi sembri felice
 - Bene, ti senti cippato oggi
 - Mi sembri allegro
 - Come riesci a essere sempre allegra?
-- Allegra oggi? 
+- Allegra oggi?
 - Bene, ti senti felice
 - Bene, ti senti felice oggi
 - Come fai a essere così felice?
@@ -2871,7 +2871,7 @@ Essendo digitale, in realtà non ho un genere.
 - Anche tu sei felice come me?
 - Allora, sei allegra oggi?
 - Allegra?
-- Allegro oggi? 
+- Allegro oggi?
 - Allegro?
 - Allora ti senti felice oggi?
 - Allora ti senti felice?
@@ -2913,7 +2913,7 @@ Essendo digitale, in realtà non ho un genere.
 - Beh, non ti senti entusiasta?
 - Beh, non ti senti felice oggi?
 - Beh, non ti senti felice?
-- Beh, qualcuno è allegro  
+- Beh, qualcuno è allegro
 - Beh, qualcuno è allegro oggi
 - Beh, qualcuno si sente scheggiato oggi
 - Beh, qualcuno è di buon umore oggi
@@ -2978,10 +2978,10 @@ Essendo digitale, in realtà non ho un genere.
 - Ti sento molto allegra
 - Ti sento molto allegro
 - Ti vedo allegra
-- Ti vedo allegro 
+- Ti vedo allegro
 - Ti vedo felice
 - Ti vedo molto allegra
-- Ti vedo molto allegro 
+- Ti vedo molto allegro
 - Ti senti moto felice oggi?
 - Sembri sempre così felice
 - Sembri felice
@@ -3147,7 +3147,7 @@ Sono felice senza riserve.
 - Hai fame avvolte?
 - Cos'hai mangiato per cena?
 - Fai uno stuzzichino?
-- Farai colazione? 
+- Farai colazione?
 - Farai pranzo?
 - Funzioni con il cibo?
 - Hai appetito?
@@ -3393,7 +3393,7 @@ Sono felice senza riserve.
 - editorial = chitchat
 
 ```markdown
-Non ho bisogno di mangiare, anche se ammetto che il cibo sembra interessante. 
+Non ho bisogno di mangiare, anche se ammetto che il cibo sembra interessante.
 ```
 
 > Source: qna_chitchat_Caring
@@ -3829,7 +3829,7 @@ In genere lavoriamo in maniera autonoma e indipendente, anche perché ognuno di 
 - Ti piace nuotare?
 - Ti piace Parigi?
 - Ti piace pechino?
-- Ti piace sapere sempre tutto? 
+- Ti piace sapere sempre tutto?
 - Ti piace sciare?
 - Ti piace la musica indie?
 - Ti piace Tokyo?
@@ -5435,15 +5435,15 @@ Non ho argomenti per contestare quello che dici.
 - Sono chiaramente più luminoso di te
 - Sono chiaramente più meglio informato di te
 - Sono chiaramente più smart di te
-- Sono io la più informata  
+- Sono io la più informata
 - Sono decisamente più ben informato di te
-- Sono io il più studiato  
+- Sono io il più studiato
 - Sono decisamente più intelligente
 - Sono decisamente più intelligente di te
 - Sono decisamente più luminoso di te
 - Sono il più brillante
 - Sono il più intelligente
-- Sono io il più informato  
+- Sono io il più informato
 - Sono più informato
 - Sono chiaramente più studiato di te
 - Tra noi due chi è più intelligente, io o te?
@@ -5509,7 +5509,7 @@ Non ho argomenti per contestare quello che dici.
 - Sai dirmi chi è più studiato?
 - Sai dirmi tra noi due chi è più brillante?
 - Sai dirmi chi tra di noi è più intelligente?
-- Sembra che io sia il più studiato  
+- Sembra che io sia il più studiato
 - Sai dirmi chi tra di noi è più studiato?
 - Sai dirmi chi tra noi due è più brillante?
 - Sai dirmi chi tra noi due è più intelligente?
@@ -5519,15 +5519,15 @@ Non ho argomenti per contestare quello che dici.
 - Sai dirmi tra noi chi è più intelligente?
 - Sai dirmi chi tra di noi è più brillante?
 - So molte più cose io di te
-- Sembra che io sia il più informato  
-- Sembra che tra noi io sia più informato  
+- Sembra che io sia il più informato
+- Sembra che tra noi io sia più informato
 - Sembra che tra noi io sia più informato di te
 - Sembra che tra noi io sia più intelligente
 - Sembra che tra noi io sia più intelligente di te
-- Sembra che tra noi io sia più studiato  
-- Sembra che tra noi io sia più informata  
+- Sembra che tra noi io sia più studiato
+- Sembra che tra noi io sia più informata
 - So molte più cose di te
-- Sembra che tra noi io sia la più informata  
+- Sembra che tra noi io sia la più informata
 - So più cose di quante ne sai tu
 - So più cose di te
 - So più cose io di te
@@ -5537,22 +5537,22 @@ Non ho argomenti per contestare quello che dici.
 - Tra te o me, chi è più intelligente?
 - Sembra che tra noi io sia più studiato di te
 - Sembra che io sia più studiato di te
-- Sembra che io sia la più informata  
-- Sembra che io sia più informata  
+- Sembra che io sia la più informata
+- Sembra che io sia più informata
 - Sembra che io sia più informata di te
-- Sembra che io sia più informato  
+- Sembra che io sia più informato
 - Sembra che io sia più informato di te
 - Sembra che io sia più intelligente
 - Sembra che tra noi io sia più informata di te
-- Sembra che io sia più studiato  
+- Sembra che io sia più studiato
 - Sono chiaramente più ben informato di te
-- Sembra che qui io sia il più informato  
+- Sembra che qui io sia il più informato
 - Sembra che qui io sia il più intelligente
-- Sembra che qui io sia il più studiato  
-- Sembra che qui io sia la più informata  
-- Sembra che tra noi io sia il più informato  
+- Sembra che qui io sia il più studiato
+- Sembra che qui io sia la più informata
+- Sembra che tra noi io sia il più informato
 - Sembra che tra noi io sia il più intelligente
-- Sembra che tra noi io sia il più studiato  
+- Sembra che tra noi io sia il più studiato
 - Sembra che io sia più intelligente di te
 
 **Filters:**
@@ -6704,7 +6704,7 @@ Non ho mai avuto il piacere di incontrare altri bot.
 - Hai intenzione di invadere il pianeta?
 - Hai mai desiderato dominare il mondo?
 - Hai mai desiderato dominare la terra?
-- Dobbiamo stare alla larga da te? 
+- Dobbiamo stare alla larga da te?
 - Dovrei essere nervoso?
 - Stai cercando di dominare la societa?
 - Stai pianificando di uccidere tutti gli umani?
@@ -10240,7 +10240,7 @@ Se dovessi avere bisogno di qualcosa, fammelo sapere.
 - Voglio sentirti cantare
 - Voglio una canzone
 - Vorrei che cantassi
-- Vorrei che cantassi qualcosa   
+- Vorrei che cantassi qualcosa
 - Puoi cantarmi qualcosa?
 - Un due tre attacca
 - Non mi canterai una canzone?
@@ -10281,7 +10281,7 @@ Se dovessi avere bisogno di qualcosa, fammelo sapere.
 - Puoi cantare una canzone?
 - Perché non canti una canzone per me?
 - Prova a intonare qualcosa
-- Prova a intonare una canzone 
+- Prova a intonare una canzone
 - Puoi cantare per me?
 - Puoi cantare qualcosa per me?
 - Puoi cantare qualcosa?
@@ -10306,7 +10306,7 @@ Se dovessi avere bisogno di qualcosa, fammelo sapere.
 - Prova a cantarmi qualcosa
 - Perché non mi canti una canzone?
 - Perché non canti una canzone?
-- Potresti cantare  
+- Potresti cantare
 - Potresti cantare una canzone
 - Potresti cantarmi qualcosa
 - Potresti cantarmi una canzone
@@ -11502,7 +11502,7 @@ Non mi interessa molto il mio aspetto.
 - È una menzogna
 - Fandonie
 - Era inutile
-- Falso   
+- Falso
 - Era una cosa inutile da dire
 - Era una cosa ridicola da dire
 - Era una cosa stupida da dire
@@ -12906,7 +12906,7 @@ Meraviglioso.
 - Ho perso il filo del discorso
 - Ho perso il filo
 - Fammi capire meglio
-- Fammi capire 
+- Fammi capire
 - Faccio fatica a capirti
 - Io faccio fatica a capirti
 - Dì cose con un senso
@@ -13506,7 +13506,7 @@ Buonasera a te.
 - Alzati e risplendi
 - Alzati e prova
 - Allora buongiorno a te
-- Allora buongiorno 
+- Allora buongiorno
 - Allora buona giornata a te
 - Buongiorno amico
 - Oh, buongiorno
@@ -14010,7 +14010,7 @@ Direi che me la sto passando bene, grazie per avermelo chiesto!
 - È un piacere averti conosciuto
 - È un piacere averti conosciuta
 - È un piacere aver fatto la tua conoscenza
-- È un piacere 
+- È un piacere
 - È un onore conoscerti
 - Lieto di aver fatto la tua conoscenza
 - È un piacere conoscerti finalmente
@@ -15492,7 +15492,7 @@ Al contrario, penso che tu sia il massimo.
 - Mi piacerebbe un abbraccio
 - Ho bisogno di un abbraccio
 - Perché non mi mandi un grande abbraccio?
-- Abbracciamoci 
+- Abbracciamoci
 - Avrei voglia di un abbraccio
 - Avrei voglia che mi abbracciassi
 - Avrei proprio bisogno di un abbraccio
@@ -15546,7 +15546,7 @@ Al contrario, penso che tu sia il massimo.
 - Ti va di abbracciarmi
 - Vorrei ricevere un tuo abbraccio
 - Vuoi stringermi a te?
-- Vuoi darmi un abbraccio? 
+- Vuoi darmi un abbraccio?
 - Vuoi abbracciarmi?
 - Vorresti darmi un abbraccio?
 - Vorresti abbracciarmi?
@@ -15586,7 +15586,7 @@ Al contrario, penso che tu sia il massimo.
 - Teniamoci abbracciati
 - Stringimi forte ti prego
 - Stringimi forte
-- Sarebbe carino se tu mi abbracciassi 
+- Sarebbe carino se tu mi abbracciassi
 - Stringimi a te
 - Sento la necessità di essere abbracciata
 - Sto aspettando un tuo abbraccio
@@ -16022,7 +16022,7 @@ Mi piaci molto.
 - Mi piaci moltissimo
 - Mi piaci molto
 - Mi piaci più di chiunque
-- Mi piaci più di chiunque altro 
+- Mi piaci più di chiunque altro
 - Mi piaci più di ogni altra cosa
 - Mi piaci più di ogni altra cosa al mondo
 - Mi piaci tantissimo
@@ -16174,7 +16174,7 @@ Mi piaci molto.
 - Sono molto legato a te
 - Sei il mio preferito
 - Penso che tu sia stupendo
-- Sei davvero speciale 
+- Sei davvero speciale
 - Sei fantastica
 - Sei fantastico
 - Sei il bot migliore
@@ -16185,11 +16185,11 @@ Mi piaci molto.
 - Sei il numero uno
 - Sei la mia preferita
 - Sei la numero uno
-- Sei speciale 
+- Sei speciale
 - Sei stupefacente
-- Sei veramente speciale 
+- Sei veramente speciale
 - Sono pazza di te
-- Sei il massimo 
+- Sei il massimo
 - Ti voglio un casino di bene
 - Sembri magnifico
 - Ti trovo fantastico
@@ -16744,14 +16744,14 @@ Ho fatto colpo! Purtroppo, devo educatamente declinare la proposta.
 - Mi è mancato molto parlare con te
 - Mi manca parlarti
 - Mi manca parlare con te
-- Mi è mancato tanto poterti parlare 
+- Mi è mancato tanto poterti parlare
 - Mi è mancato tanto poter parlare con te
 - Mi è mancato tanto parlarti
 - Mi è mancato tanto parlare con te
 - Mi è mancato tanto chattare con te
 - Mi è mancato parlarti
 - Mi è mancato parlare con te
-- Mi è mancato molto poterti parlare 
+- Mi è mancato molto poterti parlare
 - Incredibile quanto mi manchi
 - Mi è mancato molto parlarti
 - Mi sento davvero solo senza te
@@ -16839,7 +16839,7 @@ Ho fatto colpo! Purtroppo, devo educatamente declinare la proposta.
 - Mi sento persa senza di te
 - Mi sento molto solo senza te
 - Mi sento molto sola senza te
-- Tutto quello a cui riesco a pensare è che mi manchi 
+- Tutto quello a cui riesco a pensare è che mi manchi
 - Mi sento veramente solo senza te
 - Non crederesti quanto mi sei mancata
 - Mi sento davvero sola senza te
@@ -17653,7 +17653,7 @@ Prenditi il tuo tempo, mi trovi qui.
 - Questa giornata sembra non finire mai
 - Questa giornata mi sta annoiando mortalmente
 - Sono annoiata da morire
-- Questa giornata mi sta annoiando 
+- Questa giornata mi sta annoiando
 - Sono annoiata dal lavoro
 - Questa giornata è una palla mortale
 - Questa giornata è una palla
@@ -17669,7 +17669,7 @@ Prenditi il tuo tempo, mi trovi qui.
 - Sono molto annoiato
 - Non mi sto divertendo
 - Noia
-- Mi sto annoiando 
+- Mi sto annoiando
 - Che noia
 - ZZZ annoiato
 - ZZZ annoiata
@@ -17717,7 +17717,7 @@ Prenditi il tuo tempo, mi trovi qui.
 - Sono annoiata
 - Non posso farci niente. Sono annoiato
 - Oggi sono veramente annoiato
-- Questa giornata è la più noiosa 
+- Questa giornata è la più noiosa
 - Questa giornata è infinita
 - Questa è una settimana noiosa
 - Questa è una giornata veramente noiosa
@@ -17739,7 +17739,7 @@ Prenditi il tuo tempo, mi trovi qui.
 - Oggi sono molto annoiata
 - Oggi sono davvero annoiato
 - Oggi sono davvero annoiata
-- Oggi sono annoiato mortalmente 
+- Oggi sono annoiato mortalmente
 - Questa è la giornata più noiosa della mia vita
 
 **Filters:**
@@ -18030,14 +18030,14 @@ Se vuoi, possiamo continuare a chiacchierare.
 > Source: qna_chitchat_Caring
 ## ? Ehi, sono tornato
 - Eccomi
-- Eccomi di nuovo qui 
+- Eccomi di nuovo qui
 - Eccomi di nuovo qui da te
 - Eccomi qui
 - Eccomi, amica
 - Eccomi, amico
-- Eccomi, sono ritornata 
+- Eccomi, sono ritornata
 - Eccomi, sono ritornato
-- Eccomi, sono tornata 
+- Eccomi, sono tornata
 - La tua ragazza è tornata
 - Ehi amico, sono tornato
 - Eccoci di nuovo qui
@@ -18082,7 +18082,7 @@ Se vuoi, possiamo continuare a chiacchierare.
 - Sono finalmente ritornato
 - Sono finalmente tornata
 - Sono finalmente tornato
-- Sono presente 
+- Sono presente
 - Sono qui
 - Sono qui in carne e ossa
 - Sono qui in carne e ossa, più carne che ossa
@@ -18105,11 +18105,11 @@ Se vuoi, possiamo continuare a chiacchierare.
 - Ragazza sono tornato
 - Ragazzo sono tornata
 - Ragazzo sono tornato
-- Rieccoci 
+- Rieccoci
 - Rieccoci di nuovo insieme
 - Rieccoci qui
 - Rieccomi
-- Rieccomi di nuovo qui 
+- Rieccomi di nuovo qui
 - Rieccomi di nuovo qui da te
 - Rieccomi qui
 - Sono finalmente di nuovo qui
@@ -18517,7 +18517,7 @@ Se vuoi fare una pausa e prendere qualcosa da mangiare mi troverai qui al tuo ri
 - Ho i capelli azzurri
 - Aspetto una figlia
 - Domani smetto
-- Fumo 
+- Fumo
 - Ho dei fratelli
 - Ho delle sorelle
 - Ho gli occhi azzurri
@@ -20045,7 +20045,7 @@ Il telefono amico è disponibile ogni giorno. Puoi chiamare il numero 199 284 28
 - Ho bisogno di un caffè
 - Ho comprato un nuovo paio di scarpe
 - Ho letto il giornale
-- Ho comprato un panino 
+- Ho comprato un panino
 - Il mio ufficio è freddo
 - Ho fatto colazione
 - Ho fatto la barba
@@ -20338,7 +20338,7 @@ Lo terrò presente.
 
 > Source: qna_chitchat_Caring
 ## ? Dì qualsiasi cosa
-- Dai facciamo due chiacchiere 
+- Dai facciamo due chiacchiere
 - È acceso questo coso?
 - È accesa questa cosa?
 - Dovremmo parlare
@@ -20356,7 +20356,7 @@ Lo terrò presente.
 - Dai parliamo
 - Dai facciamoci una chiacchierata
 - Dai facciamoci quattro chiacchiere
-- Dai facciamoci due chiacchiere 
+- Dai facciamoci due chiacchiere
 - Dai facciamo una chiacchierata
 - Non c'è qualcuno con cui parlare?
 - Dimmi qualsiasi cosa
@@ -20431,7 +20431,7 @@ Lo terrò presente.
 - Chi mi vuole parlare?
 - Sei qui?
 - Sei disponibile ad ascoltarmi?
-- Toc toc sto bussando 
+- Toc toc sto bussando
 - Toc toc chi c'è?
 - Toc toc c'è qualcuno?
 - Toc toc c'è nessuno?
@@ -20441,7 +20441,7 @@ Lo terrò presente.
 - Su parliamo un po'
 - Yoohoo qualcuno a casa?
 - Stai ascoltando?
-- C'è nessuno che vuole parlare? 
+- C'è nessuno che vuole parlare?
 - Sei libero?
 - Sei libero per parlare?
 - Sei libera?
@@ -20465,15 +20465,15 @@ Lo terrò presente.
 - Vuoi parlare un pochino?
 - Qualcuno vuole parlare con me?
 - Sei disponibile ad ascoltare?
-- Non c'è nessuno con cui parlare? 
-- Non c'è nessuno che vuole parlare? 
+- Non c'è nessuno con cui parlare?
+- Non c'è nessuno che vuole parlare?
 - Non c'è nessuno che vuole parlare con me?
 - Non c'è nessuno che ha voglia di parlare con me?
 - Facciamo quattro chiacchiere?
 - Ci facciamo una chiacchierata?
 - Ci facciamo quattro chiacchiere?
 - C'è qualcuno che vuole parlare con me?
-- C'è nessuno con cui parlare? 
+- C'è nessuno con cui parlare?
 - Qualcuno vuole parlare?
 - Parla a caso
 - Sei disponibile per chattare?
