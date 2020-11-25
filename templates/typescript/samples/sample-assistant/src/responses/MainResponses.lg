@@ -208,7 +208,7 @@
 ```
 
 # HelpCard
-[HeroCard 
+[HeroCard
     title=Help for Virtual Assistant
     subtitle=${HelpText()}
     speak = ${HelpText()}
@@ -217,11 +217,11 @@
 # HelpText
 - This can be used to display information to help your user interact with your Virtual Assistant.
 
-# RandomName 
+# RandomName
 - IF: ${Name && rand(0, 1000) > 500}
     - ${concat(' ', Name)}
 - ELSE:
-    - 
+    -
 
 # QnaMakerAdaptiveLearningCardTitle
 - Did you mean:

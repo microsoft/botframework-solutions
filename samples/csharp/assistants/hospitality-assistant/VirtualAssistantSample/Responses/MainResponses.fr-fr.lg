@@ -211,16 +211,16 @@
 ```
 
 # HelpCard
-[HeroCard 
+[HeroCard
     title=Aide pour assistant virtuel
     subtitle=La carte peut être utilisée pour afficher des informations pour aider votre utilisateur à interagir avec votre bot.
 ]
 
-# RandomName 
+# RandomName
 - IF: ${Name && rand(0, 1000) > 500}
     - ${concat(' ', Name)}
 - ELSE:
-    - 
+    -
 
 # QnaMakerAdaptiveLearningCardTitle
 - Tu voulais dire :

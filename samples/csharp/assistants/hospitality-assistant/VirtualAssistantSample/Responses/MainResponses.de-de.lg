@@ -216,11 +216,11 @@
   subtitle=Diese Karte kann verwendet werden, um Informationen anzuzeigen, die Ihrem Benutzer helfen, mit Ihrem Bot zu interagieren.
 ]
 
-# RandomName 
+# RandomName
 - IF: ${Name && rand(0, 1000) > 500}
     - ${concat(' ', Name)}
 - ELSE:
-    - 
+    -
 
 # QnaMakerAdaptiveLearningCardTitle
 - Meinten Sie:
