@@ -309,67 +309,67 @@
 - scegliere ultimo
 - Scegli l'ultima
 - scegliere No. 2
-- scegliere il  {DirectionalReference=in basso a sinistra}
+- scegliere il {DirectionalReference=in basso a sinistra}
 - scegliere la prima scelta
 - scegliere il quarto
-- scegliere il  {DirectionalReference=in alto a sinistra} Scelta
-- scegliere il  {DirectionalReference=in alto a destra} Uno
-- Scegliere  {DirectionalReference=in alto a destra}
-- Scegliere  {DirectionalReference=in alto a destra} Uno
-- Mi piace  {DirectionalReference=Sinistra} Uno
+- scegliere il {DirectionalReference=in alto a sinistra} Scelta
+- scegliere il {DirectionalReference=in alto a destra} Uno
+- Scegliere {DirectionalReference=in alto a destra}
+- Scegliere {DirectionalReference=in alto a destra} Uno
+- Mi piace {DirectionalReference=Sinistra} Uno
 - Mi piace il secondo
 - Mi piace secondo uno
-- Mi piace il  {DirectionalReference=Fondoschiena} Uno
+- Mi piace il {DirectionalReference=Fondoschiena} Uno
 - Mi piace il primo
 - Mi piace il terzo
 - Mi piace la terza scelta
-- Mi piace il  {DirectionalReference=in alto a destra} Uno
-- Mi piace il  {DirectionalReference=in alto a destra}
-- Mi piace  {DirectionalReference=in alto a destra}
-- Voglio  {DirectionalReference=Fondoschiena}
+- Mi piace il {DirectionalReference=in alto a destra} Uno
+- Mi piace il {DirectionalReference=in alto a destra}
+- Mi piace {DirectionalReference=in alto a destra}
+- Voglio {DirectionalReference=Fondoschiena}
 - Voglio quarto
-- Voglio  {DirectionalReference=Sinistra}
-- Voglio  {DirectionalReference=va bene} Uno
+- Voglio {DirectionalReference=Sinistra}
+- Voglio {DirectionalReference=va bene} Uno
 - Voglio il primo
 - Voglio la quarta scelta
-- Voglio che il  {DirectionalReference=Sinistra}
-- Voglio che il  {DirectionalReference=Inferiore} Scelta
-- Voglio che il  {DirectionalReference=va bene} Uno
+- Voglio che il {DirectionalReference=Sinistra}
+- Voglio che il {DirectionalReference=Inferiore} Scelta
+- Voglio che il {DirectionalReference=va bene} Uno
 - Voglio che il secondo
 - Voglio terzo
-- Voglio scegliere  {DirectionalReference=Fondoschiena} Uno
-- Voglio scegliere  {DirectionalReference=in basso a destra}
-- Voglio scegliere  {DirectionalReference=va bene}
+- Voglio scegliere {DirectionalReference=Fondoschiena} Uno
+- Voglio scegliere {DirectionalReference=in basso a destra}
+- Voglio scegliere {DirectionalReference=va bene}
 - Voglio scegliere secondo uno
 - Voglio scegliere il primo
 - Voglio scegliere il quarto
 - Voglio scegliere l'ultima scelta
-- Voglio scegliere il  {DirectionalReference=Sinistra} Uno
-- Voglio scegliere il  {DirectionalReference=Inferiore} Scelta
-- Voglio scegliere il  {DirectionalReference=va bene}
+- Voglio scegliere il {DirectionalReference=Sinistra} Uno
+- Voglio scegliere il {DirectionalReference=Inferiore} Scelta
+- Voglio scegliere il {DirectionalReference=va bene}
 - Voglio scegliere il terzo
 - optare per il primo
 - optare per l'ultima
-- optare per  {DirectionalReference=Sinistra}
-- optare per  {DirectionalReference=va bene} Uno
+- optare per {DirectionalReference=Sinistra}
+- optare per {DirectionalReference=va bene} Uno
 - optare per l'ultimo
-- optare per il  {DirectionalReference=Sinistra} Uno
-- optare per il  {DirectionalReference=Inferiore} Scelta
-- optare per il  {DirectionalReference=va bene}
+- optare per il {DirectionalReference=Sinistra} Uno
+- optare per il {DirectionalReference=Inferiore} Scelta
+- optare per il {DirectionalReference=va bene}
 - optare per la seconda
 - optare per la seconda scelta
 - selezionarne una quarta
-- Selezionare  {DirectionalReference=Inferiore} Uno
+- Selezionare {DirectionalReference=Inferiore} Uno
 - Selezionare No. 5
-- Selezionare la  {DirectionalReference=Fondoschiena} Scelta
+- Selezionare la {DirectionalReference=Fondoschiena} Scelta
 - Selezionare il primo
 - Selezionare l'ultima scelta
-- Selezionare la  {DirectionalReference=Inferiore} Uno
-- Selezionare la  {DirectionalReference=va bene} Uno
+- Selezionare la {DirectionalReference=Inferiore} Uno
+- Selezionare la {DirectionalReference=va bene} Uno
 - Selezionare la terza
-- Selezionare la  {DirectionalReference=in alto a destra}
+- Selezionare la {DirectionalReference=in alto a destra}
 - Selezionare il terzo
-- Selezionare  {DirectionalReference=Superiore}
+- Selezionare {DirectionalReference=Superiore}
 - per quanto riguarda l'ultimo
 - per quanto riguarda il terzo
 

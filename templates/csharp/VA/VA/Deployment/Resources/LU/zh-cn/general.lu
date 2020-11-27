@@ -97,8 +97,8 @@
 - 我的名字是比尔·琼斯
 - 我是约翰·史密斯。
 - ([您可以]|[请]) 给我打电话{@PersonName.Any}[.]
-- (我|我是)  {@PersonName.Any}[.]
-- (它|是的|这是)  {@PersonName.Any}[.]
+- (我|我是) {@PersonName.Any}[.]
+- (它|是的|这是) {@PersonName.Any}[.]
 - 我的名字是{@PersonName.Any}[.]
 
 

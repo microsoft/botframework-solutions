@@ -969,13 +969,13 @@ Ein ganzes Team von Leuten hat mich erschaffen.
 - Hast du eine Mutter?
 - Wie heißt deine Familie?
 - Hast du irgendwelche Brüder?
-- Hast du  irgendwelche  Cousins?
-- Hast du irgendwelche  Familie?
+- Hast du irgendwelche Cousins?
+- Hast du irgendwelche Familie?
 - Hast du irgendwelche Großeltern?
-- Hast du  irgendwelche Verwandte?
-- Hast du  irgendwelche Geschwister?
+- Hast du irgendwelche Verwandte?
 - Hast du irgendwelche Geschwister?
-- Hast du  irgendwelche Schwestern?
+- Hast du irgendwelche Geschwister?
+- Hast du irgendwelche Schwestern?
 - Hast du irgendwelche Onkel?
 - Hast du Brüder?
 - Hast du Cousins?
@@ -2260,7 +2260,7 @@ Das kann ich unmöglich beurteilen.
 - Wer von uns ist schlauer?
 - Wer von uns beiden ist schlauer?
 - Wer von uns ist intelligenter?
--  Bist du smarter?
+- Bist du smarter?
 - Bist du klüger als ich?
 - Bin ich die Klügste?
 - Bin ich smarter?
@@ -2973,7 +2973,7 @@ Ich hatte noch nicht das Vergnügen sie kennenzulernen.
 ```
 
 > Source: qna_chitchat_Caring
-## ?  Du versuchst nicht gerade, die Weltherrschaft an dich zu reissen?
+## ? Du versuchst nicht gerade, die Weltherrschaft an dich zu reissen?
 - Planst du, die Weltherrschaft an dich zu reissen?
 - Sollte ich mich sorgen?
 - Sollte ich eingeschüchtert sein?
@@ -4375,7 +4375,7 @@ Wackeldackel! Bei Wörtern, die sich reimen, muss ich immer kichern.
 ## ? Kein Gerede mehr
 - Du, hör auf zu reden
 - Bitte halte die Klappe
-- Bitte sag  mir, dass du jetzt fertig bist
+- Bitte sag mir, dass du jetzt fertig bist
 - Bitte halte einfach die Klappe
 - Bitte geh weg
 - Bitte sei ruhig
@@ -4963,7 +4963,7 @@ Danke, das ist sehr freundlich von dir.
 - Du bist echt lächerlich
 - Du bist echt dämlich
 - Du bist echt idiotisch
--  Du bist echt schrecklich
+- Du bist echt schrecklich
 - Du bist echt dumm
 - Du bist echt schlecht
 - Wertlos, wie immer
@@ -6561,7 +6561,7 @@ Ich quatsche bloß mit dir.
 - Bitte gib mir einen Check
 - Ich hätte gerne einen Faustcheck
 - Ich hätte gern einen Check
-- Ich hätte gern n  Check
+- Ich hätte gern n Check
 - Ich hätte gern n Faustcheck
 - Fistbump!
 - Gib mir 5
@@ -6650,7 +6650,7 @@ Hier ist ein High-Five!
 - Ich will deine Freundin sein
 - Ich wäre gerne deine Freundin
 - Kann ich deine Freundin sein?
--  Bist du meine beste Freundin?
+- Bist du meine beste Freundin?
 - Ich wäre gerne deine beste Freundin.
 - Es wäre toll, dein Kumpel zu sein
 - Würdest du mein bester Freund sein?
@@ -8055,11 +8055,11 @@ Wenn du eine Pause einlegen und etwas essen willst, ich bin hier, wenn du zurüc
 - Ich bin erwachsen
 - Ich bin eine Frau
 - Ich bin Sternzeichen Jungr
--  Ich bin Veganer
+- Ich bin Veganer
 - Ich bin ein Roboter
 - Ich habe Fieber
 - Ich bin bisexuell
--  Ich bin Buchhalterin
+- Ich bin Buchhalterin
 - Ich bin Wissenschaftlerin
 - Ich bin CDU-Wähler
 - Ich bin Muslima
@@ -8072,7 +8072,7 @@ Wenn du eine Pause einlegen und etwas essen willst, ich bin hier, wenn du zurüc
 - Ich bin Polizist
 - Ich bin Kommunistin
 - Ich bin Christ
--  Ich bin Köchin
+- Ich bin Köchin
 - Ich bin Buddhist
 - Ich bin Bloggerin
 - Ich bin Spieleentwickler
@@ -8081,7 +8081,7 @@ Wenn du eine Pause einlegen und etwas essen willst, ich bin hier, wenn du zurüc
 - Ich habe einen Bruder
 - Ich habe eine große Familie
 - Ich bin Single
-- Ich bin  gutaussehend
+- Ich bin gutaussehend
 - Ich parteiunabhängig
 - Ich bin DieLinke-Wähler
 - Ich bin Erzieherin
@@ -8700,7 +8700,7 @@ Wie nett!
 - Ich bin es leid, mich immer so deprimiert zu fühlen
 - Ich fühle mich heute verzwerifelt
 - Ich fühle mich heute betrübt.
-- Ich fühle mich  entmutigt
+- Ich fühle mich entmutigt
 - Ich fühle micht heute etwas entmutigt
 - Ich bin heute betrübt
 - Ich bin heute bedrückt
@@ -8750,7 +8750,7 @@ Wie nett!
 - Ich halte es nicht aus, so betrübt zu sein
 - Ich halte es nicht aus, so bedrückt zu sein
 - Ich halte es nicht aus, so entmutigt zu sein
-- Ich halte  es nicht aus, so geknickt zu sein
+- Ich halte es nicht aus, so geknickt zu sein
 - Ich halte es nicht aus, so verzweifelt zu sein
 - Ich halte es nicht aus, so deprimiert zu sein
 - Ich halte es nicht aus, so niedergeschlagen zu sein
@@ -9396,7 +9396,7 @@ Die Telefonseelsorge ist zu jeder Tages- und Nachtzeit erreichbar. Du erreichst 
 - Schöner Tag heute
 - Meine Schuhe sind rot
 - Mein Büro ist kalt
-- Bald ist mein  Geburtstag
+- Bald ist mein Geburtstag
 - Schönes Wetter
 - Ich freue mich auf den Urlaub
 - Ich freue mich auf das Spiel
