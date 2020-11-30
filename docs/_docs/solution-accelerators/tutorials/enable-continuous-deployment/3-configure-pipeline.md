@@ -11,7 +11,7 @@ order: 3
 ## {{ page.title }}
 {:.no_toc}
 
-1. Configure the Release State environment creating variables. The highlighted oness are used for the [az login](https://docs.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest#az_login) command. The rest are used to fill the `cognitivemodels.json` file
+1. Configure the Release State environment creating variables. The highlighted ones are used for the [az login](https://docs.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest#az_login) command. The rest are used to fill the `cognitivemodels.json` file
 
     ![Release Pipeline Variables]({{site.baseurl}}/assets/images/configure_release_pipeline_variables.png)
 
