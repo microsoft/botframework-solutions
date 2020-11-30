@@ -11,99 +11,96 @@ order: 3
 ## {{ page.title }}
 {:.no_toc}
 
-1. First of all, **configure the Release State environment** creating the necessary variables. The highlighted variables are the ones for the [az login](https://docs.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest#az-login) command. The rest of them are used to fill the `cognitivemodels.json` file.
+1. Configure the Release State environment creating variables. The highlighted oness are used for the [az login](https://docs.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest#az_login) command. The rest are used to fill the `cognitivemodels.json` file
 
-![Configure Release Pipeline 1]({{site.baseurl}}/assets/images/configure_release_pipeline_1.png)
+    ![Release Pipeline Variables]({{site.baseurl}}/assets/images/configure_release_pipeline_variables.png)
 
-1. Create the PowerShell task to **login your Azure account** using [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest).
-The `AzureUsername` and `AzurePassword` refers to the email and password access of your Azure account. Also, the `AzureTenant` is present in your Azure AD or you can check the ID using a PowerShell console running the command [az account list](https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest#az-account-list).
-```node
-az login --user $(AzureUsername) --password $(AzurePassword) --tenant $(AzureTenant)
-```
-![Configure Release Pipeline 2]({{site.baseurl}}/assets/images/configure_release_pipeline_2.png)
+1. Create a PowerShell task to login your Azure account using [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
+    * `AzureUserName`: email to access to your Azure account
+    * `AzurePassword`: password to access to your Azure account
+    * `AzureTenant`: present in your Azure AD or you can check the ID with [az account list](https://docs.microsoft.com/en-us/cli/azure/account?view=azure-cli-latest#az_account_list)
+    ```node
+    az login --user $(AzureUsername) --password $(AzurePassword) --tenant $(AzureTenant)
+    ```
 
-1. Create a PowerShell task to **install the dependencies** to update the Bot's services, using [npmjs](https://www.npmjs.com/).
-```node
-npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
-```
-![Configure Release Pipeline 3]({{site.baseurl}}/assets/images/configure_release_pipeline_3.png)
+1. Create a PowerShell task to install the Bot Framework CLI tools
+    ```node
+    npm install -g botdispatch @microsoft/botframework-cli
+    ```
 
-1. Create an Azure PowerShell task to **validate the resource group** created in your Azure account.
-```pwsh
-Get-AzureRmResourceGroup -Name $(ResourceGroup) -ErrorVariable notPresent -ErrorAction SilentlyContinue
-if ($notPresent)
-{
-    Write-Host "ResourceGroup $(ResourceGroup) doesn't exist"
-}
-else
-{
-    Write-Host "ResourceGroup $(ResourceGroup) exists."
-}
-```
-![Configure Release Pipeline 4]({{site.baseurl}}/assets/images/configure_release_pipeline_4.png)
-
-1. Create the necessary variables in Pipelines to avoid uploading sensitive keys into the logs,use variable groups to fill in the PowerShell task called **Update cognitive models**.This replaces the configuration of the cognitivemodels.json stored in the artifact configuration.In this case `VATest` is the example name of the folder that the artifact is located.
-```pwsh
-Set-Content -Path "$(System.DefaultWorkingDirectory)/$(Release.PrimaryArtifactSourceAlias)/drop/VATest/cognitivemodels.json" -Value '{
-    "cognitiveModels": {
-    "en": {
-      "dispatchModel": {
-      "subscriptionkey": "$(SubscriptionKey)",
-      "type": "dispatch",
-      "region": "$(Region)",
-      "authoringRegion": "$(AuthoringRegion)",
-      "appid": "$(AppId)",
-      "authoringkey": "$(LuisAuthoringKey)",
-      "name": "$(BotName)_Dispatch"
-      },
-      "languageModels": [
-      {
-          "region": "$(Region)",
-          "id": "General",
-          "name": "$(BotName)_General",
-          "authoringRegion": "$(AuthoringRegion)",
-          "authoringkey": "$(LuisAuthoringKey)",
-          "appid": "$(AppIdLanguageModels)",
-          "subscriptionkey": "$(SubscriptionKey)",
-          "version": "0.1"
-      }
-      ],
-      "knowledgebases": [
-      {
-          "kbId": "$(KbIdChitchat)",
-          "id": "Chitchat",
-          "subscriptionKey": "$(SubscriptionKeyKb)",
-          "hostname": "$(Hostname)",
-          "endpointKey": "$(EndpointKey)",
-          "name": "Chitchat"
-      },
-      {
-          "kbId": "$(KbIdFaq)",
-          "id": "Faq",
-          "subscriptionKey": "$(SubscriptionKeyKb)",
-          "hostname": "$(Hostname)",
-          "endpointKey": "$(EndpointKey)",
-          "name": "Faq"
-      }
-      ]
+1. Create an Azure PowerShell task to validate the resource group created in your Azure account
+    ```pwsh
+    Get-AzureRmResourceGroup -Name $(ResourceGroup) -ErrorVariable notPresent -ErrorAction SilentlyContinue
+    if ($notPresent)
+    {
+        Write-Host "ResourceGroup $(ResourceGroup) doesn't exist"
     }
-    },
-    "defaultLocale": "en-us"
-}' | ConvertFrom-Json
-```
-![Configure Release Pipeline 5]({{site.baseurl}}/assets/images/configure_release_pipeline_5.png)
+    else
+    {
+        Write-Host "ResourceGroup $(ResourceGroup) exists."
+    }
+    ```
 
-1. Finally, add a PowerShell task to **update the bot services**.
-```
-pwsh.exe -ExecutionPolicy Bypass -File $(System.DefaultWorkingDirectory)/csharp-Virtual-Assistant-Sample/drop/VATest/Deployment/Scripts/update_cognitive_models.ps1
-```
-![Configure Release Pipeline 6]({{site.baseurl}}/assets/images/configure_release_pipeline_6.png)
+1. Create a PowerShell task to update the `cognitivemodels.json` file stored in the artifact.
+    ```pwsh
+    Set-Content -Path "$(System.DefaultWorkingDirectory)/$(Release.PrimaryArtifactSourceAlias)/drop/VATest/cognitivemodels.json" -Value '{
+        "cognitiveModels": {
+            "en-us": {
+                "dispatchModel": {
+                    "appid": "$(AppId)",
+                    "authoringkey": "$(LuisAuthoringKey)",
+                    "authoringRegion": "$(AuthoringRegion)",
+                    "name": "$(BotName)_Dispatch",
+                    "region": "$(Region)",
+                    "subscriptionkey": "$(SubscriptionKey)",
+                    "type": "dispatch"
+                },
+                "languageModels": [
+                    {
+                        "appId": "$(AppIdLanguageModels)",
+                        "authoringkey": "$(LuisAuthoringKey)",
+                        "authoringRegion": "$(AuthoringRegion)",
+                        "id": "General",
+                        "name": "$(BotName)_General",
+                        "region": "$(Region)",
+                        "subscriptionkey": "$(SubscriptionKey)",
+                        "version": "0.1"
+                    }
+                ],
+                "knowledgebases": [
+                    {
+                        "endpointKey": "$(EndpointKey)",
+                        "hostname": "$(Hostname)",
+                        "id": "Chitchat",
+                        "kbId": "$(KbIdChitchat)",
+                        "name": "Chitchat",
+                        "subscriptionKey": "$(SubscriptionKeyKb)"
+                    },
+                    {
+                        "kbId": "$(KbIdFaq)",
+                        "id": "Faq",
+                        "subscriptionKey": "$(SubscriptionKeyKb)",
+                        "hostname": "$(Hostname)",
+                        "endpointKey": "$(EndpointKey)",
+                        "name": "Faq"
+                    }
+                ]
+            }
+        },
+        "defaultLocale": "en-us"
+    }' | ConvertFrom-Json
+    ```
 
-### YAML Sample
+1. Create a PowerShell task to update the bot services executing the `update_cognitive_models.ps1` script
+    ```pwsh
+    pwsh.exe -ExecutionPolicy Bypass -File $(System.DefaultWorkingDirectory)/csharp-Virtual-Assistant-Sample/drop/VATest/Deployment/Scripts/update_cognitive_models.ps1
+    ```
 
-This is the YAML used as example to configure the _Release Stage_ tasks, you can use it as first approach to see how works the _Release_.
+### YAML Example
+Check the [yaml]({{site.repo}}/tree/master/build/yaml) folder present in the repository.
 
-```steps:
+```yml
+steps:
 - powershell: |
    az login --user $(AzureUsername) --password $(AzurePassword) --tenant $(AzureTenant)
    
@@ -111,7 +108,7 @@ This is the YAML used as example to configure the _Release Stage_ ta
   displayName: 'Az login '
 
 - powershell: |
-   npm install -g botdispatch ludown luis-apis qnamaker luisgen@2.0.2
+   npm install -g botdispatch @microsoft/botframework-cli
    
   pwsh: true
   displayName: Commands
@@ -135,52 +132,52 @@ This is the YAML used as example to configure the _Release Stage_ ta
     azurePowerShellVersion: LatestVersion
 
 - powershell: |
-   Set-Content -Path "$(System.DefaultWorkingDirectory)/$(Release.PrimaryArtifactSourceAlias)/drop/VATest/cognitivemodels.json" -Value '{
+    Set-Content -Path "$(System.DefaultWorkingDirectory)/$(Release.PrimaryArtifactSourceAlias)/drop/VATest/cognitivemodels.json" -Value '{
         "cognitiveModels": {
-    "en": {
-        "dispatchModel": {
-        "subscriptionkey": "$(SubscriptionKey)",
-        "type": "dispatch",
-        "region": "$(Region)",
-        "authoringRegion": "$(AuthoringRegion)",
-        "appid": "$(AppId)",
-        "authoringkey": "$(LuisAuthoringKey)",
-        "name": "$(BotName)_Dispatch"
+            "en-us": {
+                "dispatchModel": {
+                    "appid": "$(AppId)",
+                    "authoringkey": "$(LuisAuthoringKey)",
+                    "authoringRegion": "$(AuthoringRegion)",
+                    "name": "$(BotName)_Dispatch",
+                    "region": "$(Region)",
+                    "subscriptionkey": "$(SubscriptionKey)",
+                    "type": "dispatch"
+                },
+                "languageModels": [
+                    {
+                        "appId": "$(AppIdLanguageModels)",
+                        "authoringkey": "$(LuisAuthoringKey)",
+                        "authoringRegion": "$(AuthoringRegion)",
+                        "id": "General",
+                        "name": "$(BotName)_General",
+                        "region": "$(Region)",
+                        "subscriptionkey": "$(SubscriptionKey)",
+                        "version": "0.1"
+                    }
+                ],
+                "knowledgebases": [
+                    {
+                        "endpointKey": "$(EndpointKey)",
+                        "hostname": "$(Hostname)",
+                        "id": "Chitchat",
+                        "kbId": "$(KbIdChitchat)",
+                        "name": "Chitchat",
+                        "subscriptionKey": "$(SubscriptionKeyKb)"
+                    },
+                    {
+                        "kbId": "$(KbIdFaq)",
+                        "id": "Faq",
+                        "subscriptionKey": "$(SubscriptionKeyKb)",
+                        "hostname": "$(Hostname)",
+                        "endpointKey": "$(EndpointKey)",
+                        "name": "Faq"
+                    }
+                ]
+            }
         },
-        "languageModels": [
-        {
-            "region": "$(Region)",
-            "id": "General",
-            "name": "$(BotName)_General",
-            "authoringRegion": "$(AuthoringRegion)",
-            "authoringkey": "$(LuisAuthoringKey)",
-            "appid": "$(AppIdLanguageModels)",
-            "subscriptionkey": "$(SubscriptionKey)",
-            "version": "0.1"
-        }
-        ],
-        "knowledgebases": [
-        {
-            "kbId": "$(KbIdChitchat)",
-            "id": "Chitchat",
-            "subscriptionKey": "$(SubscriptionKeyKb)",
-            "hostname": "$(Hostname)",
-            "endpointKey": "$(EndpointKey)",
-            "name": "Chitchat"
-        },
-        {
-            "kbId": "$(KbIdFaq)",
-            "id": "Faq",
-            "subscriptionKey": "$(SubscriptionKeyKb)",
-            "hostname": "$(Hostname)",
-            "endpointKey": "$(EndpointKey)",
-            "name": "Faq"
-        }
-        ]
-    }
-    },
-    "defaultLocale": "en-us"
-}' | ConvertFrom-Json
+        "defaultLocale": "en-us"
+    }' | ConvertFrom-Json
 pwsh: true
 workingDirectory: '$(System.DefaultWorkingDirectory)/csharp-Virtual-Assistant-Sample/drop/VATest'
 displayName: 'Update cognitivemodels.json'
@@ -190,5 +187,3 @@ pwsh: true
 workingDirectory: '$(System.DefaultWorkingDirectory)/csharp-Virtual-Assistant-Sample/drop/VATest'
 displayName: 'Run update cognitive models script'
 ```
-
-For further information, you can check the [yaml](https://github.com/microsoft/botframework-solutions/tree/master/build/yaml) folder.
