@@ -6,7 +6,6 @@ using System.Xml.Linq;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Util;
