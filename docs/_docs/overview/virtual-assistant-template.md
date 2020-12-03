@@ -233,17 +233,6 @@ Content Moderator is an optional component that enables the detection of potenti
 
 In order to enable this you need to provision the Content Moderator Azure resource. Once created, make note of the key and endpoint provided. In the DefaultAdapter.cs class, add a new line Use(new ContentModeratorMiddleware({KEY}, {REGION})) to the list of enabled middleware.
 
-#### Feedback Middleware
-{:.no_toc}
-
-Collecting feedback from users at the end of an interaction is a great way to measure how your assistant is doing with resolving end-users objectives beyond in addition to measuring dialog completion metrics. Forcing the user to complete feedback is highly disruptive to an overall experience so it's important to make this optional and not get in the way of the user.
-
-The **Feedback Middleware** provides a way to collect feedback leveraging suggested actions thus making the request optional and surfaces simple 👍 and 👎 options with an option to provide a text response too. This feedback is then stored through the usual Application Insights telemetry storage and surfaced via the accompanying PowerBI dashboard.
-
-By default, the middleware activates at the end of every dialog but you can customize this further to suit your scenario, for example only asking for feedback when LUIS or QnA prediction scores are low or perhaps at random or a limited number of times in a time period.
-
-To learn more about the Feedback capability, see the [Feedback documentation]({{site.baseurl}}/virtual-assistant/handbook/feedback/).
-
 ### Interruptions
 {:.no_toc}
 
