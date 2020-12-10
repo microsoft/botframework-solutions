@@ -14,8 +14,9 @@ import {
     TurnContext } from 'botbuilder';
 import {
     Dialog,
-    DialogState } from 'botbuilder-dialogs';
-import { LocaleTemplateManager, DialogEx } from 'bot-solutions';
+    DialogState,
+    runDialog } from 'botbuilder-dialogs';
+import { LocaleTemplateManager } from 'bot-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly dialog: Dialog;
@@ -45,7 +46,7 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
 
     protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
         await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('IntroMessage', turnContext.activity.locale));
-        await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        await runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected onMessageActivity(turnContext: TurnContext): Promise<void> {
@@ -56,14 +57,14 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
             (activity.text === undefined || activity.text.trim().length === 0)) {
             return Promise.resolve();
         }
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected onEventActivity(turnContext: TurnContext): Promise<void> {
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected onEndOfConversationActivity(turnContext: TurnContext): Promise<void> {
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 }
