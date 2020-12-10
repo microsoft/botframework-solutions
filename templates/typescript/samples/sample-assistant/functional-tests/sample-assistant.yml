@@ -19,6 +19,7 @@ variables:
   # ServicePrincipal: App Id of the Service Principal
   # Azure_Tenant: Tenant's value of your Azure directory
   # AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
+  # AzureSubscription: Your Azure subscription
 
 jobs:
 - job: Main
@@ -231,7 +232,7 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Delete test resource group if it exists'
     inputs:
-      azureSubscription: ''
+      azureSubscription: $(AzureSubscription)
       scriptType: pscore
       scriptLocation: inlineScript
       inlineScript: |
@@ -279,7 +280,7 @@ jobs:
   - task: AzureCLI@1
     displayName: 'Create Direct Line channel registration'
     inputs:
-      azureSubscription: ''
+      azureSubscription: $(AzureSubscription)
       scriptLocation: inlineScript
       inlineScript: 'az bot directline create -n "$(BOTWEBAPPNAME)" -g "$(BOTRESOURCEGROUP)" --verbose --debug --output json > "DirectLineCreate.json"'
       workingDirectory: 'templates/typescript/samples/$(BotName)'
@@ -321,7 +322,7 @@ jobs:
   - task: AzureCLI@1
     displayName: 'Delete bot resources'
     inputs:
-      azureSubscription: ''
+      azureSubscription: $(AzureSubscription)
       scriptLocation: inlineScript
       inlineScript: 'az group delete -g $(BotName) --no-wait --yes'
 
