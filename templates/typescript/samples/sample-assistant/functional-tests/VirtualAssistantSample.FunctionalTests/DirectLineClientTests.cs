@@ -19,27 +19,30 @@ namespace VirtualAssistantSample.FunctionalTests
     [TestCategory("FunctionalTests")]
     public class DirectLineClientTests
     {
-        private static readonly string TestName = "Jane Doe";
-
-        private static string _directLineSecret = string.Empty;
-        private static string _botId = string.Empty;
+        private const string TestName = "Jane Doe";
         private static DirectLineClient _client;
 
         protected Templates AllResponsesTemplates
         {
             get
             {
-                var path = CultureInfo.CurrentUICulture.Name.ToLower() == "en-us" ?
+                var currentCulture = CultureInfo.CurrentUICulture.Name.ToLower();
+                var path = string.Equals(currentCulture, "en-us", StringComparison.OrdinalIgnoreCase) ?
                     Path.Combine(".", "Responses", $"AllResponses.lg") :
-                    Path.Combine(".", "Responses", $"AllResponses.{CultureInfo.CurrentUICulture.Name.ToLower()}.lg");
+                    Path.Combine(".", "Responses", $"AllResponses.{currentCulture}.lg");
                 return Templates.ParseFile(path);
             }
         }
 
-        [TestInitialize]
-        public void Test_Initialize()
+        [ClassInitialize]
+        public static void Class_Initialize(TestContext testContext)
         {
-            GetEnvironmentVars();
+            // Get the values for the environment variables.
+            var _directLineSecret = Environment.GetEnvironmentVariable("DIRECTLINE");
+            if (string.IsNullOrWhiteSpace(_directLineSecret))
+            {
+                throw new ArgumentNullException(nameof(_directLineSecret));
+            }
 
             // Create a new Direct Line client.
             _client = new DirectLineClient(_directLineSecret);
@@ -66,30 +69,16 @@ namespace VirtualAssistantSample.FunctionalTests
             var allNamePromptVariations = AllResponsesTemplates.ExpandTemplate("NamePrompt");
             var allHaveMessageVariations = AllResponsesTemplates.ExpandTemplate("HaveNameMessage", profileState);
 
-            var conversation = await StartBotConversationAsync();
+            var conversation = await _client.Conversations.StartConversationAsync();
 
             var responses = await SendActivityAsync(conversation, CreateStartConversationEvent(fromUser));
 
             Assert.AreEqual(1, responses[0].Attachments.Count);
-            if (responses.Count == 3)
-            {
-                CollectionAssert.Contains(allNamePromptVariations as ICollection, responses[1].Text);
-            }
-            else if (responses.Count == 4)
-            {
-                CollectionAssert.Contains(allNamePromptVariations as ICollection, responses[3].Text);
-            }
-            else
-            {
-                CollectionAssert.Contains(allNamePromptVariations as ICollection, responses[2].Text);
-            }
+            CollectionAssert.Contains(allNamePromptVariations as ICollection, responses[1].Text);
 
             responses = await SendActivityAsync(conversation, CreateMessageActivity(fromUser, TestName));
 
-            if (responses.Count == 5)
-                CollectionAssert.Contains(allHaveMessageVariations as ICollection, responses[3].Text);
-            else
-                CollectionAssert.Contains(allHaveMessageVariations as ICollection, responses[4].Text);
+            CollectionAssert.Contains(allHaveMessageVariations as ICollection, responses[4].Text);
         }
 
         /// <summary>
@@ -99,7 +88,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// <returns>Task.</returns>
         public async Task Assert_Returning_User_Greeting(string fromUser)
         {
-            var conversation = await StartBotConversationAsync();
+            var conversation = await _client.Conversations.StartConversationAsync();
 
             var responses = await SendActivityAsync(conversation, CreateStartConversationEvent(fromUser));
 
@@ -116,7 +105,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// Return a Start Conversation event with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
         /// </summary>
         /// <param name="fromUser">User identifier used for the conversation and activities.</param>
-        private static Activity CreateStartConversationEvent(string fromUser)
+        private Activity CreateStartConversationEvent(string fromUser)
         {
             // An event activity to trigger the welcome message (method for using custom Web Chat).
             return new Activity
@@ -131,7 +120,7 @@ namespace VirtualAssistantSample.FunctionalTests
         /// Return a Message Activity with a customised UserId and Name enabling independent tests to not be affected by earlier functional test conversations.
         /// </summary>
         /// <param name="fromUser">User identifier used for the conversation and activities.</param>
-        private static Activity CreateMessageActivity(string fromUser, string activityText)
+        private Activity CreateMessageActivity(string fromUser, string activityText)
         {
             return new Activity
             {
@@ -142,101 +131,39 @@ namespace VirtualAssistantSample.FunctionalTests
         }
 
         /// <summary>
-        /// Starts a conversation with a bot.
-        /// </summary>
-        /// <returns>Returns the new conversation.</returns>
-        private static async Task<Conversation> StartBotConversationAsync()
-        {
-            // Start the conversation.
-            return await _client.Conversations.StartConversationAsync();
-        }
-
-        /// <summary>
         /// Sends an activity and waits for the response.
         /// </summary>
         /// <returns>Returns the bots answer.</returns>
-        private static async Task<List<Activity>> SendActivityAsync(Conversation conversation, Activity activity)
+        private async Task<List<Activity>> SendActivityAsync(Conversation conversation, Activity activity)
         {
-            List<Activity> responses;
-            int attempts = 0;
+            // Send the message activity to the bot.
+            await _client.Conversations.PostActivityAsync(conversation.ConversationId, activity);
 
-            // The do while loop is being added as in the Pipelines, the first time a test
-            // is ran, it fails with an error on the response. So, we try again and should respond as expected
-            do
-            {
-                // Send the message activity to the bot.
-                await _client.Conversations.PostActivityAsync(conversation.ConversationId, activity);
-
-                // Read the bot's message.
-                responses = await ReadBotMessagesAsync(_client, conversation.ConversationId);
-
-                attempts++;
-
-                if (attempts == 5)
-                {
-                    throw new NullReferenceException("There was an error reading the response. It might be an issue with DirectLine.");
-                }
-
-                if (responses?.FirstOrDefault()?.Attachments == null)
-                {
-                    // Wait for ten second before polling the bot again.
-                    await Task.Delay(TimeSpan.FromSeconds(10)).ConfigureAwait(false);
-                }
-            }
-            while (responses?.FirstOrDefault()?.Attachments == null);
-
-            return responses;
+            // Read the bot's message.
+            return await ReadBotMessagesAsync(_client, conversation.ConversationId);
         }
 
         /// <summary>
         /// Polls the bot continuously until it gets a response.
+        /// Reads the messages from the bot.
         /// </summary>
         /// <param name="client">The Direct Line client.</param>
         /// <param name="conversationId">The conversation ID.</param>
         /// <returns>Returns the bot's answer.</returns>
-        private static async Task<List<Activity>> ReadBotMessagesAsync(DirectLineClient client, string conversationId)
+        private async Task<List<Activity>> ReadBotMessagesAsync(DirectLineClient client, string conversationId)
         {
-            string watermark = null;
             List<Activity> botResponses = null;
 
-            // Poll the bot for replies once per second.
             // Retrieve the activity sent from the bot.
-            var activitySet = await client.Conversations.GetActivitiesAsync(conversationId, watermark);
-            watermark = activitySet?.Watermark;
-
-            // Extract the activities sent from the bot.
-            var activities = from x in activitySet.Activities
-                             where x.From.Id == _botId
-                             select x;
+            var activitySet = await client.Conversations.GetActivitiesAsync(conversationId);
 
             // Analyze each activity in the activity set.
-            if (activities.Any())
+            if (activitySet.Activities.Count > 0)
             {
-                botResponses = activities.ToList();
+                botResponses = activitySet.Activities.ToList();
             }
 
             return botResponses;
-        }
-
-        /// <summary>
-        /// Get the values for the environment variables.
-        /// </summary>
-        private void GetEnvironmentVars()
-        {
-            if (string.IsNullOrWhiteSpace(_directLineSecret) || string.IsNullOrWhiteSpace(_botId))
-            {
-                _directLineSecret = Environment.GetEnvironmentVariable("DIRECTLINEKEY");
-                if (string.IsNullOrWhiteSpace(_directLineSecret))
-                {
-                    Assert.Inconclusive("Environment variable 'DIRECTLINEKEY' not found.");
-                }
-
-                _botId = Environment.GetEnvironmentVariable("BOTID");
-                if (string.IsNullOrWhiteSpace(_botId))
-                {
-                    Assert.Inconclusive("Environment variable 'BOTID' not found.");
-                }
-            }
         }
     }
 }

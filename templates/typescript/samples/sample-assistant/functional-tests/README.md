@@ -23,11 +23,13 @@ Currently, adding this YAML in your Azure DevOps organization enables you to **v
 |      | BuildConfiguration | Build configuration such as Debug or Release |
 |      | BuildPlatform | Build platform such as Win32, x86, x64 or any cpu |
 | Bot Variable | VirtualAssistantBotAppId | Microsoft App Id of the Virtual Assistant bot |
+|      | AzureSubscription | The name of your Azure Subscription |
 |      | VirtualAssistantBotAppPassword | Microsoft App Password of the Virtual Assistant bot |
 |      | VirtualAssistantBotName | Name of the Virtual Assistant bot |
 |      | SkillBotAppId | Microsoft App Id of the Skill bot |
 |      | SkillBotAppPassword | Microsoft App Password of the Skill bot |
 |      | SkillBotName | Name of the Skill bot |
+|      | Location | Location of the bot |
 |      | endpoints.0.endpointUrl | Skill Manifest endpoint url |
 |      | endpoints.0.msAppId | Skill Manifest Microsoft App Id |
 |      | privacyUrl | Skill Manifest privacy url |

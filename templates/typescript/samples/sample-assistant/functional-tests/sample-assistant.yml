@@ -25,6 +25,7 @@ variables:
   # ServicePrincipal: App Id of the Service Principal
   # Azure_Tenant: Tenant's value of your Azure directory
   # AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
+  # AzureSubscription: Your Azure subscription
 
 jobs:
 - job: Main
@@ -38,7 +39,7 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Prepare: Delete preexisting resources'
     inputs:
-      azureSubscription: ''
+      azureSubscription: $(AzureSubscription)
       scriptType: pscore
       scriptLocation: inlineScript
       inlineScript: |
@@ -407,7 +408,7 @@ jobs:
   - task: AzureCLI@1
     displayName: 'Test: Skill - Create Direct Line registration'
     inputs:
-      azureSubscription: ''
+      azureSubscription: $(AzureSubscription)
       scriptLocation: inlineScript
       inlineScript: 'call az bot directline create -n "$(SkillBotWebAppName)" -g "$(SkillBotResourceGroup)" --verbose --debug --output json > "DirectLineCreate.json"'
       workingDirectory: 'templates/typescript/samples/functionalTests/$(SkillBotName)'
@@ -455,7 +456,7 @@ jobs:
      botskills refresh --ts --verbose
     workingDirectory: 'templates/typescript/samples/functionalTests/$(VirtualAssistantBotName)'
     displayName: 'Test: VA - Connect SkillSample'
-    
+
   - task: Npm@1
     displayName: 'Build: VA - Run npm build'
     inputs:
@@ -472,7 +473,7 @@ jobs:
   - task: AzureCLI@1
     displayName: 'Test: VA - Create Direct Line registration'
     inputs:
-      azureSubscription: ''
+      azureSubscription: $(AzureSubscription)
       scriptLocation: inlineScript
       inlineScript: 'call az bot directline create -n "$(VirtualAssistantBotWebAppName)" -g "$(VirtualAssistantBotResourceGroup)" --verbose --debug --output json > "DirectLineCreate.json"'
       workingDirectory: 'templates/typescript/samples/functionalTests/$(VirtualAssistantBotName)'

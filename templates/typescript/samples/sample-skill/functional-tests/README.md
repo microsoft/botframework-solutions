@@ -23,6 +23,7 @@ Currently, adding this YAML in your Azure DevOps organization enables you to **v
 |      | BuildPlatform | Build platform such as Win32, x86, x64 or any cpu |
 | Bot Variable | AppId | Microsoft App Id of the bot |
 |      | AppPassword | Microsoft App Password of the bot |
+|      | AzureSubscription | The name of your Azure Subscription |
 |      | BotName | Name of the bot |
 |      | Location | Location of the bot |
 |      | LuisAuthoringRegion | Location of the LUIS apps |
