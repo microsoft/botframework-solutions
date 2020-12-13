@@ -399,7 +399,7 @@ export class MainDialog extends ComponentDialog {
     private async finalStep(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         // Clear active skill in state.
         await this.activeSkillProperty.delete(stepContext.context);
-        
+
         // Restart the main dialog with a different message the second time around
         return await stepContext.replaceDialog(this.initialDialogId, this.templateManager.generateActivityForLocale('CompletedMessage'));
     }
@@ -417,11 +417,11 @@ export class MainDialog extends ComponentDialog {
                 // The following line is a workaround until the method getQnAClient of QnAMakerDialog is fixed
                 // as per issue https://github.com/microsoft/botbuilder-js/issues/1885
                 new URL(qnaEndpoint.host).hostname.split('.')[0],
-                this.templateManager.generateActivityForLocale('UnsupportedMessage') as Activity,
+                this.templateManager.generateActivityForLocale('UnsupportedMessage',undefined,locale) as Activity,
                 // Before, instead of 'undefined' a '0.3' value was used in the following line
                 undefined,
-                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle').text,
-                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText').text
+                this.templateManager.generateActivityForLocale('QnaMakerAdaptiveLearningCardTitle',undefined,locale).text,
+                this.templateManager.generateActivityForLocale('QnaMakerNoMatchText',undefined,locale).text
             );
 
             qnaDialog.id = knowledgebaseId;
