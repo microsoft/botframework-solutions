@@ -1,3 +1,3 @@
 ## Enterprise Sample for Virtual Assistant
 
-[Learn more](https://aka.ms/enterprisenotificationssampledocs) about how to deploy and test this sample.
+[Learn more](https://microsoft.github.io/botframework-solutions/solution-accelerators/assistants/enterprise-assistant/) about how to deploy and test this sample.
