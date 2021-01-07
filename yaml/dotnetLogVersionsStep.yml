@@ -1,0 +1,35 @@
+steps:
+  - pwsh: |
+     Write-Host "CLI versions in use for this Nightly Build"
+     Write-Host "`r`n"
+
+     Write-Host "BF CLI"
+     Write-Host "===="
+     bf -v
+     Write-Host "`r`n"
+
+     Write-Host "Dispatch CLI"
+     Write-Host "===="
+     dispatch -v
+     Write-Host "`r`n"
+
+     Write-Host "BotSkills CLI"
+     Write-Host "===="
+     botskills -v
+     Write-Host "`r`n"
+
+     Write-Host "BotBuilder SDK"
+     Write-Host "===="
+
+     $PackageVersion = "$(BotBuilderPackageVersion)"
+     if ($PackageVersion -eq "preview")
+     {
+        $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -PreRelease
+        $PackageVersion = $PackageList.Split(" ")[-1]
+     }
+
+     $version = "Version=""$PackageVersion"""
+     echo "##vso[task.setvariable variable=BotBuilderPackageVersion]$version"
+     Write-Host "$PackageVersion"
+
+    displayName: 'Prepare: Get CLI and SDK versions'

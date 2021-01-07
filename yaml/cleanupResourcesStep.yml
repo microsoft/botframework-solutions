@@ -1,0 +1,26 @@
+# Deletes a resource group if existing. Given the nature of this yaml pipeline structure, the RG name will be that of a bot.
+
+steps:
+- task: AzureCLI@2
+  displayName: 'Prepare: Delete resources'
+  inputs:
+    azureSubscription: $(AzureSubscription)
+    scriptType: pscore
+    scriptLocation: inlineScript
+    inlineScript: |
+     # If RG exists, delete it to avoid possible App ID registration conflict.
+     $botexists = az group exists --name $(BotName)
+
+     if ($botexists -eq 'true')
+     {
+         Write-Host "Deleting existing Resource Group $(BotName)."
+         az group delete --name $(BotName) --yes
+     }
+     else
+     {
+         Write-Host "No existing resources group $(BotName) found."
+     }
+
+    workingDirectory: $(WorkingDirectory)
+    condition: always()
+    continueOnError: true

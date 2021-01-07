@@ -1,6 +1,6 @@
 pool:
   vmImage: 'windows-2019'
-  name: Azure Pipelines
+  name: 'Azure Pipelines'
   demands:
   - msbuild
   - visualstudio
@@ -11,13 +11,14 @@ variables:
   # Azure_Tenant: Tenant's value of your Azure directory
   # AzureSubscription: Name of your Azure Subscription
   # BotBuilderPackageVersion: Version of the BotBuilder package
-  # BotLanguages: The supported languages of your bot
   # BuildConfiguration: Build configuration such as Debug or Release
   # BuildPlatform: Build platform such as Win32, x86, x64 or any cpu
+  # BotLanguages: The supported languages of your bot
   # endpoints.0.endpointUrl: Skill Manifest endpoint url
   # endpoints.0.msAppId: Skill Manifest Microsoft App Id
   # Location: Location of the bot
   # LuisAuthoringRegion: Location of the LUIS apps
+  # ServicePrincipal: App Id of the Service Principal
   # SkillBotAppId: Microsoft App Id of the Skill bot
   # SkillBotAppPassword: Microsoft App Password of the Skill bot
   # SkillBotName: Name of the Skill bot
@@ -32,30 +33,31 @@ jobs:
   dependsOn: Skill
   variables:
     BotAppId: $(VirtualAssistantBotAppId)
-    BotAppPassword: $(VirtualAssistantBotAppPassword)
     BotName: $(VirtualAssistantBotName)
-    DependenciesPath: 'samples/csharp/assistants/virtual-assistant/**/*.csproj'
-    FunctionalTestProject: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample.sln'
-    RegexReplace: '$1$(BotBuilderPackageVersion)'
-    RegexSearch: '("Microsoft\.Bot\.(?!Solutions|Connector.DirectLine)\S+"\s)(Version="\S*")'
-    SolutionName: 'VirtualAssistantSample.sln'
-    SolutionPath: 'samples/csharp/assistants/virtual-assistant/'
-    WorkingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    BotType: "Assistant"
+    BotAppPassword: $(VirtualAssistantBotAppPassword)
+    DependenciesPath: 'templates/typescript/samples/functionalTests/$(BotName)/package.json'
+    FunctionalTestProject: 'templates/typescript/samples/sample-assistant/functional-tests/VirtualAssistantSample.FunctionalTests.sln'
+    RegexReplace: '$1:$(BotBuilderPackageVersion)'
+    RegexSearch: '("(\bbotbuilder[^:]*(?:-[^:]*)?)|"(\bbotframework(?:-[^:]*))):\s(".*")'
+    SolutionPath: 'templates/typescript/samples/sample-assistant/functional-tests/VirtualAssistantSample.FunctionalTests/'
+    SolutionName: 'VirtualAssistantSample.FunctionalTests.csproj'
+    WorkingDirectory: 'templates\typescript\samples\sample-assistant'
     SKILLBOTWEBAPPURL: $[ dependencies.Skill.outputs['skillDeploy.SKILLBOTWEBAPPURL'] ]
   steps:
   - template: ../../../../../yaml/cleanupResourcesStep.yml
   - template: ../../../../../yaml/useNodeStep.yml
-  - template: ../../../../../yaml/useNugetStep.yml
   - template: ../../../../../yaml/npmInstallRequirementsStep.yml
-  - template: ../../../../../yaml/dotnetLogVersionsStep.yml
   - template: ../../../../../yaml/setConfigFileStep.yml
-  - template: ../../../../../yaml/dotnetBuildStep.yml
+  - template: ../../../../../yaml/deletePackageLockStep.yml
+  - template: ../../../../../yaml/nodeBuildStep.yml
+  - template: ../../../../../yaml/nodeLogVersionsStep.yml
   - template: ../../../../../yaml/deployStep.yml
 
   - pwsh: |
      $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
 
-     Write-Output $appSettings
+     Write-Host $appSettings
 
      $botWebAppName = $appsettings.botWebAppName
      $resourceGroupName= $appsettings.resourceGroupName
@@ -70,37 +72,39 @@ jobs:
      Write-Host "===="
      Write-Host $resourceGroupName
      echo "##vso[task.setvariable variable=BOTRESOURCEGROUP;]$resourceGroupName"
-    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
-    displayName: 'Deploy: VA - Get bot variables from appsettings'
+    workingDirectory: '$(WorkingDirectory)/src'
+    displayName: 'Deploy: VA - Get variables from appsettings'
     failOnStderr: true
 
   - pwsh: |
-     $skillManifestUrl = "https://$(SKILLBOTWEBAPPURL)/manifest/manifest-1.1.json"
+     $skillManifestUrl = "https://$(SKILLBOTWEBAPPURL).azurewebsites.net/manifest/manifest-1.1.json"
 
      Write-Host "Skill Manifest"
      Write-Host "===="
      Write-Host $skillManifestUrl
      Write-Host "`r`n"
 
-     botskills connect --remoteManifest "$skillManifestUrl" --luisFolder '..\..\..\skill\SkillSample\Deployment\Resources\LU\' --cs --languages 'en-us' --noRefresh --verbose
+     botskills connect --remoteManifest "$skillManifestUrl" --luisFolder '..\..\..\skill\SkillSample\Deployment\Resources\LU\' --ts --languages 'en-us' --noRefresh --verbose
 
-     botskills refresh --cs --verbose
+     botskills refresh --ts --verbose
 
-    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    workingDirectory: $(WorkingDirectory)
     displayName: 'Test: VA - Connect SkillSample'
     failOnStderr: false
 
-  - task: DotNetCoreCLI@2
+  - task: Npm@1
     displayName: 'Build: VA - Build project'
     inputs:
-      projects: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample.sln'
-      arguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site" /property:langversion=latest'
-      workingDirectory: 'samples/csharp/assistants/virtual-assistant/'
+      command: custom
+      workingDir: $(WorkingDirectory)
+      verbose: false
+      customCommand: 'run build'
 
   - pwsh: '.\Deployment\Scripts\publish.ps1 -name "$(BOTWEBAPPNAME)" -resourceGroup "$(BOTRESOURCEGROUP)"'
     errorActionPreference: continue
-    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    workingDirectory: $(WorkingDirectory)
     displayName: 'Test: VA - Publish with connected Skill'
+    enabled: false
     failOnStderr: true
 
   - template: ../../../../../yaml/setDirectLineStep.yml
@@ -124,9 +128,8 @@ jobs:
 
      echo "##vso[task.setvariable variable=BOTID;]$(BotName)"
 
-    workingDirectory: 'samples/csharp/assistants/virtual-assistant/VirtualAssistantSample/'
+    workingDirectory: $(WorkingDirectory)
     displayName: 'Test: VA - Get channel secrets'
-    failOnStderr: true
 
   - template: ../../../../../yaml/functionalTestsStep.yml
   - template: ../../../../../yaml/cleanupResourcesStep.yml
@@ -139,42 +142,42 @@ jobs:
 
 - job: Skill
   timeoutInMinutes: 0
-
   variables:
     BotAppId: $(SkillBotAppId)
     BotAppPassword: $(SkillBotAppPassword)
     BotName: $(SkillBotName)
-    DependenciesPath: 'samples/csharp/skill/**/*.csproj'
-    FunctionalTestProject: 'samples/csharp/skill/SkillSample.sln'
-    RegexReplace: '$1$(BotBuilderPackageVersion)'
-    RegexSearch: '("Microsoft\.Bot\.(?!Solutions|Connector.DirectLine)\S+"\s)(Version="\S*")'
-    SolutionName: 'SkillSample.sln'
-    SolutionPath: 'samples/csharp/skill/'
-    WorkingDirectory: 'samples/csharp/skill/SkillSample'
+    BotType: "Skill"
+    DependenciesPath: 'templates/typescript/samples/functionalTests/$(BotName)/package.json'
+    FunctionalTestProject: 'templates/typescript/samples/sample-skill/functional-tests/SkillSample.FunctionalTests.sln'
+    RegexReplace: '$1:$(BotBuilderPackageVersion)'
+    RegexSearch: '("(\bbotbuilder[^:]*(?:-[^:]*)?)|"(\bbotframework(?:-[^:]*))):\s(".*")'
+    SolutionName: 'SkillSample.FunctionalTests.csproj'
+    SolutionPath: 'templates/typescript/samples/sample-skill/functional-tests/SkillSample.FunctionalTests/'
+    WorkingDirectory: 'templates\typescript\samples\sample-skill'
   steps:
   - template: ../../../../../yaml/cleanupResourcesStep.yml
   - template: ../../../../../yaml/useNodeStep.yml
-  - template: ../../../../../yaml/useNugetStep.yml
   - template: ../../../../../yaml/npmInstallRequirementsStep.yml
-  - template: ../../../../../yaml/dotnetLogVersionsStep.yml
   - template: ../../../../../yaml/setConfigFileStep.yml
+  - template: ../../../../../yaml/deletePackageLockStep.yml
 
   - task: FileTransform@1
     displayName: 'Prepare: Replace Skill manifest properties'
     inputs:
-      folderPath: samples/csharp/skill/
+      folderPath: $(WorkingDirectory)
       fileType: json
       targetFiles: |
-       **/wwwroot/manifest/manifest-1.1.json
-       **/wwwroot/manifest/manifest-1.0.json
+       **/src/manifest/manifest-1.1.json
+       **/src/manifest/manifest-1.0.json
 
-  - template: ../../../../../yaml/dotnetBuildStep.yml
+  - template: ../../../../../yaml/nodeBuildStep.yml
+  - template: ../../../../../yaml/nodeLogVersionsStep.yml
   - template: ../../../../../yaml/deployStep.yml
 
   - pwsh: |
      $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
 
-     Write-Output $appSettings
+     Write-Host $appSettings
 
      $botWebAppName = $appsettings.botWebAppName
      $resourceGroupName= $appsettings.resourceGroupName
@@ -184,6 +187,7 @@ jobs:
      Write-Host "===="
      Write-Host $botWebAppName
      echo "##vso[task.setvariable variable=BOTWEBAPPNAME;]$botWebAppName"
+     echo "##vso[task.setvariable variable=SKILLWEBAPPNAME;]$botWebAppName"
 
      Write-Host "URL"
      Write-Host "===="
@@ -194,8 +198,8 @@ jobs:
      Write-Host "===="
      Write-Host $resourceGroupName
      echo "##vso[task.setvariable variable=BOTRESOURCEGROUP;]$resourceGroupName"
-    workingDirectory: samples/csharp/skill/SkillSample
-    displayName: 'Deploy: Skill - Get bot variables from appsettings'
+    workingDirectory: '$(WorkingDirectory)/src'
+    displayName: 'Deploy: Skill - Get variables from appsettings'
     name: 'skillDeploy'
     failOnStderr: false
 
@@ -214,11 +218,11 @@ jobs:
 
      Write-Host "Bot name"
      Write-Host "===="
-     Write-Host "DirectLine Bot Name: $(BOTWEBAPPNAME)"
+     Write-Host "DirectLine Bot Name: $(botWebAppName)"
      Write-Host "`r`n"
 
-     echo "##vso[task.setvariable variable=BOTID;]$(BOTWEBAPPNAME)"
-    workingDirectory: samples/csharp/skill/SkillSample
+     echo "##vso[task.setvariable variable=BOTID;]$(botWebAppName)"
+    workingDirectory: $(WorkingDirectory)
     displayName: 'Test: Skill - Get channel secrets'
     failOnStderr: true
 

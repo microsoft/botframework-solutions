@@ -18,7 +18,6 @@ To support these goals, the testing infrastructure used to validate the function
 
 - [Scenarios](#scenarios)
     - [1. Virtual Assistant greets a new user](#1-virtual-assistant-greets-a-new-user)
-    - [2. QnA model provides a response to a user](#2-qna-model-provides-a-response-to-a-user)
 - [Reference](#reference)
     - [Variables](#variables)
 - [Glossary](#glossary)
@@ -32,10 +31,6 @@ The variables section lists the set of [variables](#variables) that apply to the
 ### 1. Virtual Assistant greets a new user
 
 > A user logs in the conversation and the Virtual Assistant sends the Welcome Card.
-
-### 2. QnA model provides a response to a user
-
-> A user logs in the conversation and execute the QnA model to respond to the user.
 
 ## Reference
 

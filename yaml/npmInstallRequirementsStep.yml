@@ -1,0 +1,30 @@
+steps:
+  - pwsh: |
+     # Install botdispatch and luis-apis from MyGet
+     npm install -g botdispatch luis-apis @latest --registry https://botbuilder.myget.org/F/botbuilder-tools-daily/npm/
+    displayName: 'Prepare: Install preview dispatch, luis-apis'
+    failOnStderr: false
+
+  - pwsh: |
+     # Create config file
+     $path = Join-Path $env:LOCALAPPDATA "@microsoft" "botframework-cli"
+
+     New-Item -Path $path -ItemType Directory
+
+     $config = @{
+         telemetry = $true
+     }
+
+     $config | ConvertTo-Json -depth 100 | Out-File $(Join-Path $path "config.json")
+
+     # Install botframework-cli from MyGet
+     npm i -g @microsoft/botframework-cli@next
+    displayName: 'Prepare: Install preview botframework-cli'
+    failOnStderr: false
+
+  - pwsh: |
+     # Install botskills from MyGet
+     npm install -g botskills@latest --registry https://botbuilder.myget.org/F/aitemplates/npm/
+
+    displayName: 'Prepare: Install preview botskills'
+    failOnStderr: false

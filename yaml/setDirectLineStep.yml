@@ -1,0 +1,10 @@
+# Sets up Directline
+
+steps:
+  - task: AzureCLI@1
+    displayName: 'Test: Create Direct Line registration'
+    inputs:
+      azureSubscription: $(AzureSubscription)
+      scriptLocation: inlineScript
+      inlineScript: 'call az bot directline create -n "$(BOTWEBAPPNAME)" -g "$(BOTRESOURCEGROUP)" --verbose --debug --output json > "DirectLineCreate.json"'
+      workingDirectory: $(WorkingDirectory)

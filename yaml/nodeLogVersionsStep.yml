@@ -1,0 +1,98 @@
+steps:
+  - pwsh: |
+     Write-Host "CLI versions in use for this Nightly Build"
+     Write-Host "`r`n"
+
+     Write-Host "BF CLI"
+     Write-Host "===="
+     bf -v
+     Write-Host "`r`n"
+
+     Write-Host "Dispatch CLI"
+     Write-Host "===="
+     dispatch -v
+     Write-Host "`r`n"
+
+     Write-Host "BotSkills CLI"
+     Write-Host "===="
+     botskills -v
+     Write-Host "`r`n"
+
+     Write-Host "BF SDK and Solutions package versions being used by the VA Sample for this nightly build"
+     Write-Host "===="
+
+     $path = '$(System.DefaultWorkingDirectory)\$(workingDirectory)\package-lock.json'
+
+     $json = Get-Content $path | Out-String | ConvertFrom-Json
+
+     Write-Host "bot-solutions Version"
+     Write-Host "===="
+     $botsolutionsVersion = $json.dependencies.'bot-solutions'.version
+
+     Write-Host $botsolutionsVersion
+
+     Write-Host "botbuilder Version"
+     Write-Host "===="
+     $botbuilderVersion = $json.dependencies.botbuilder.version
+
+     Write-Host $botbuilderVersion
+
+     Write-Host "botbuilder-ai Version"
+     Write-Host "===="
+     $botbuilderaiVersion = $json.dependencies.'botbuilder-ai'.version
+
+     Write-Host $botbuilderaiVersion
+
+     Write-Host "botbuilder-applicationinsights Version"
+     Write-Host "===="
+     $botbuilderapplicationinsights = $json.dependencies.'botbuilder-applicationinsights'.version
+
+     Write-Host $botbuilderapplicationinsights
+
+     Write-Host "botbuilder-azure Version"
+     Write-Host "===="
+     $botbuilderazure = $json.dependencies.'botbuilder-azure'.version
+
+     Write-Host $botbuilderazure
+
+     Write-Host "botbuilder-dialogs Version"
+     Write-Host "===="
+     $botbuilderdialogs = $json.dependencies.'botbuilder-dialogs'.version
+
+     Write-Host $botbuilderdialogs
+
+     Write-Host "botbuilder-lg Version"
+     Write-Host "===="
+     $botbuilderlg = $json.dependencies.'botbuilder-lg'.version
+
+     Write-Host $botbuilderlg
+
+     Write-Host "botframework-config Version"
+     Write-Host "===="
+     $botframeworkconfig = $json.dependencies.'botframework-config'.version
+
+     Write-Host $botframeworkconfig
+
+     Write-Host "botframework-connector Version"
+     Write-Host "===="
+     $botframeworkconnector = $json.dependencies.'botframework-connector'.version
+
+     Write-Host $botframeworkconnector
+
+     Write-Host "botframework-schema Version"
+     Write-Host "===="
+     $botframeworkschema = $json.dependencies.'botframework-schema'.version
+
+     Write-Host $botframeworkschema
+
+     Write-Host "botframework-streaming Version"
+     Write-Host "===="
+     $botframeworkstreaming = $json.dependencies.'botframework-streaming'.version
+
+     Write-Host $botframeworkstreaming
+
+     Write-Host "generator-bot-virtualassistant Version"
+     Write-Host "===="
+     npm view generator-bot-virtualassistant version --silent
+    displayName: 'Prepare: Get CLI and SDK versions'
+    failOnStderr: false

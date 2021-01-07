@@ -1,0 +1,5 @@
+steps:
+- task: DeleteFiles@1
+  displayName: 'Prepare: Delete package-lock.json'
+  inputs:
+    Contents: '$(WorkingDirectory)/package-lock.json'

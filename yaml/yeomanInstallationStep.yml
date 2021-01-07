@@ -1,0 +1,9 @@
+  steps:
+  - pwsh: |
+     # Install generator-bot-virtualassistant from MyGet
+     npm config set registry https://botbuilder.myget.org/F/aitemplates/npm/
+
+     npm install -g yo generator-bot-virtualassistant
+
+    displayName: 'Prepare: Install yeoman, generator-bot-virtualassistant'
+    failOnStderr: false

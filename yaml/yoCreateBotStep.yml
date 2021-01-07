@@ -1,0 +1,13 @@
+# Creates an Assistant or a Skill, depending on the parameter BotType, using yeoman.
+steps:
+- powershell: |
+    if (("$(BotType)" -ne "") -and  ("$(BotType)" -eq "Skill"))
+    {
+        yo bot-virtualassistant:skill -n $(BotName) -d "" -l $(BotLanguages) -p "$(System.DefaultWorkingDirectory)/templates/typescript/samples/functionalTests" --noPrompt
+    }
+    else
+    {
+        yo bot-virtualassistant -n $(BotName) -d "" -l $(BotLanguages) -p "$(System.DefaultWorkingDirectory)/templates/typescript/samples/functionalTests" --noPrompt
+    }
+  displayName: 'Prepare: Create bots using the generator'
+  failOnStderr: false

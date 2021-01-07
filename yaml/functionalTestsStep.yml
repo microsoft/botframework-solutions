@@ -1,0 +1,10 @@
+# Executes functional test in a csproj file
+
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Test: Execute functional tests'
+    inputs:
+      command: test
+      projects: $(FunctionalTestProject)
+      arguments: '-v n --configuration $(BuildConfiguration) --filter TestCategory=FunctionalTests'
+      continueOnError: true

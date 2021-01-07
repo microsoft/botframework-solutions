@@ -1,0 +1,90 @@
+pool:
+  vmImage: 'windows-2019'
+  name: Azure Pipelines
+  demands:
+  - msbuild
+  - visualstudio
+
+variables:
+  system.debug: false
+  # AppId: Microsoft App Id of the bot
+  # AppPassword: Microsoft App Password of the bot
+  # AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
+  # Azure_Tenant: Tenant's value of your Azure directory
+  # AzureSubscription: Name of your Azure Subscription
+  # BotBuilderPackageVersion: Version of the BotBuilder package
+  # BotLanguages: The supported languages of your bot
+  # BotName: Name of the bot
+  # BuildConfiguration: Build configuration such as Debug or Release.
+  # BuildPlatform: Build platform such as Win32, x86, x64 or any cpu.
+  # Location: Location of the bot
+  # LuisAuthoringRegion: Location of the LUIS apps
+  # ServicePrincipal: App Id of the Service Principal
+  # system.debug: System variable that can be set by the users. Set this to true to run the release in debug mode to assist in fault-finding.
+
+jobs:
+- job: Main
+  timeoutInMinutes: 0
+  variables:
+    BotAppId: $(AppId)
+    BotAppPassword: $(AppPassword)
+    DependenciesPath: 'samples/csharp/skill/**/*.csproj'
+    FunctionalTestProject: 'samples/csharp/skill/SkillSample.sln'
+    RegexReplace: '$1$(BotBuilderPackageVersion)'
+    RegexSearch: '("Microsoft\.Bot\.(?!Solutions|Connector.DirectLine)\S+"\s)(Version="\S*")'
+    SolutionName: 'SkillSample.sln'
+    SolutionPath: 'samples/csharp/skill/'
+    WorkingDirectory: 'samples/csharp/skill/SkillSample/'
+  steps:
+  - template: ../../../../yaml/cleanupResourcesStep.yml
+  - template: ../../../../yaml/useNodeStep.yml
+  - template: ../../../../yaml/useNugetStep.yml
+  - template: ../../../../yaml/npmInstallRequirementsStep.yml
+  - template: ../../../../yaml/dotnetLogVersionsStep.yml
+  - template: ../../../../yaml/setConfigFileStep.yml
+  - template: ../../../../yaml/dotnetBuildStep.yml
+  - template: ../../../../yaml/deployStep.yml
+
+  - pwsh: |
+     $appsettings = Get-Content -Path "appsettings.json" | Out-String | ConvertFrom-Json
+
+     Write-Output $appSettings
+
+     $botWebAppName = $appsettings.botWebAppName
+     $resourceGroupName= $appsettings.resourceGroupName
+
+     Write-Host $botWebAppName
+     echo "##vso[task.setvariable variable=BOTWEBAPPNAME;]$botWebAppName"
+
+     Write-Host $resourceGroupName
+     echo "##vso[task.setvariable variable=BOTRESOURCEGROUP;]$resourceGroupName"
+
+    workingDirectory: samples/csharp/skill/SkillSample
+    displayName: 'Deploy: Get bot variables from appsettings'
+    failOnStderr: true
+
+  - template: ../../../../yaml/setDirectLineStep.yml
+
+  - powershell: |
+     $botName = "$(BOTWEBAPPNAME)"
+     Write-Host "DirectLine Bot Name: $botName"
+
+     $json = Get-Content "DirectLineCreate.json" | Out-String | ConvertFrom-Json
+     $key = $json.properties.properties.sites.key
+
+     echo "##vso[task.setvariable variable=DIRECTLINE;]$key"
+     echo "##vso[task.setvariable variable=BOTID;]$botName"
+
+     Write-Host "DirectLine Key: $key"
+    workingDirectory: samples/csharp/skill/SkillSample/
+    displayName: 'Deploy: Get channel secrets'
+    failOnStderr: true
+
+  - template: ../../../../yaml/functionalTestsStep.yml
+  - template: ../../../../yaml/cleanupResourcesStep.yml
+  - template: ../../../../yaml/endLogStep.yml
+
+  - script: 'dir ..\*.* /s'
+    displayName: 'Debug: dir workspace'
+    continueOnError: true
+    condition: always()

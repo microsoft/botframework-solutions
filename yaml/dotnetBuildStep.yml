@@ -1,0 +1,15 @@
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Prepare: Build project'
+    inputs:
+      projects: $(SolutionPath)$(SolutionName)
+      arguments: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactstagingdirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site" /property:langversion=latest'
+      workingDirectory: $(SolutionPath)
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Test: Execute unit tests'
+    inputs:
+      command: test
+      projects: $(SolutionPath)$(SolutionName)
+      arguments: '/p:CollectCoverage=true --filter TestCategory=UnitTests'
+      workingDirectory: $(SolutionPath)

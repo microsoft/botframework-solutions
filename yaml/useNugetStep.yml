@@ -1,0 +1,4 @@
+
+  steps:
+  - task: NuGetToolInstaller@1
+    displayName: 'Prepare: Use NuGet 4.9.1'
