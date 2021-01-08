@@ -37,9 +37,9 @@ The variables section lists the set of [variables](#variables) that apply to the
 ### Variables
 - AppId: Microsoft App Id of the bot
 - AppPassword: Microsoft App Password of the bot
-- AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
-- Azure_Tenant: Tenant's value of your Azure directory
+- AzureDevOpsServicePrincipalSecret: Secret of the Service Principal
 - AzureSubscription: the name of your Azure Subscription
+- AzureTenant: Tenant's value of your Azure directory
 - BotBuilderPackageVersion: version of the BotBuilder package
 - BotLanguages: the supported languages of your bot
 - BotName: name of the bot

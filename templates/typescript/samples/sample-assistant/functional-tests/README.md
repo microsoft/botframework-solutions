@@ -35,9 +35,9 @@ The variables section lists the set of [variables](#variables) that apply to the
 ## Reference
 
 ### Variables
-- AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
-- Azure_Tenant: Tenant's value of your Azure directory
+- AzureDevOpsServicePrincipalSecret: Secret of the Service Principal
 - AzureSubscription: the name of your Azure Subscription
+- AzureTenant: Tenant's value of your Azure directory
 - BotBuilderPackageVersion: version of the BotBuilder package
 - BotLanguages: the supported languages of your bot
 - BuildConfiguration: build configuration such as Debug or Release

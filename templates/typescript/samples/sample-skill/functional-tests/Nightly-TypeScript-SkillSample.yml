@@ -9,9 +9,9 @@ variables:
   system.debug: false
   # AppId: Microsoft App Id of the bot
   # AppPassword: Microsoft App Password of the bot
-  # AzureDevOps-ServicePrincipal-Secret: Secret of the Service Principal
+  # AzureDevOpsServicePrincipalSecret: Secret of the Service Principal
   # AzureSubscription: Name of your Azure Subscription
-  # Azure_Tenant: Tenant's value of your Azure directory
+  # AzureTenant: Tenant's value of your Azure directory
   # BotBuilderPackageVersion: Version of the BotBuilder package
   # BotLanguages: The supported languages of your bot
   # BotName: Name of the bot
