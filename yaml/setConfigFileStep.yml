@@ -1,4 +1,4 @@
-# Knom RegexReplace task https://marketplace.visualstudio.com/items?itemName=knom.regexreplace-task
+# RegexReplace task https://marketplace.visualstudio.com/items?itemName=knom.regexreplace-task
 
 steps:
   - task: knom.regexreplace-task.regex-replace.RegexReplace@3

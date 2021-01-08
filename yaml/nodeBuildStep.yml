@@ -13,32 +13,32 @@ steps:
       verbose: false
       customCommand: 'run build'
 
-#  - task: Npm@1
-#    displayName: 'Build: Run npm test'
-#    inputs:
-#      command: custom
-#      workingDir: $(WorkingDirectory)
-#      verbose: false
-#      customCommand: 'run test'
+ - task: Npm@1
+   displayName: 'Build: Run npm test'
+   inputs:
+     command: custom
+     workingDir: $(WorkingDirectory)
+     verbose: false
+     customCommand: 'run test'
 
-#  - task: Npm@1
-#    displayName: 'Build: Run npm test on unit tests with code coverage'
-#    inputs:
-#      command: custom
-#      workingDir: $(WorkingDirectory)
-#      verbose: false
-#      customCommand: 'run test-coverage-ci'
+ - task: Npm@1
+   displayName: 'Build: Run npm test on unit tests with code coverage'
+   inputs:
+     command: custom
+     workingDir: $(WorkingDirectory)
+     verbose: false
+     customCommand: 'run test-coverage-ci'
 
-#  - task: PublishTestResults@2
-#    displayName: 'Build: Publish Test Results'
-#    inputs:
-#      testResultsFiles: 'test-results.xml'
-#      searchFolder: $(WorkingDirectory)
-#      failTaskOnFailedTests: true
+ - task: PublishTestResults@2
+   displayName: 'Build: Publish Test Results'
+   inputs:
+     testResultsFiles: 'test-results.xml'
+     searchFolder: $(WorkingDirectory)
+     failTaskOnFailedTests: true
 
-#  - task: PublishCodeCoverageResults@1
-#    displayName: 'Build: Publish Code Coverage'
-#    inputs:
-#      codeCoverageTool: Cobertura
-#      summaryFileLocation: '$(WorkingDirectory)/coverage/cobertura-coverage.xml'
-#      reportDirectory: '$(WorkingDirectory)/coverage/'
+ - task: PublishCodeCoverageResults@1
+   displayName: 'Build: Publish Code Coverage'
+   inputs:
+     codeCoverageTool: Cobertura
+     summaryFileLocation: '$(WorkingDirectory)/coverage/cobertura-coverage.xml'
+     reportDirectory: '$(WorkingDirectory)/coverage/'
