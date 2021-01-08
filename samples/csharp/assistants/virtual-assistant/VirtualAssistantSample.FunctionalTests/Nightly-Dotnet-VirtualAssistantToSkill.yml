@@ -18,6 +18,7 @@ variables:
   # endpoints.0.msAppId: Skill Manifest Microsoft App Id
   # Location: Location of the bot
   # LuisAuthoringRegion: Location of the LUIS apps
+  # ServicePrincipal: App Id of the Service Principal
   # SkillBotAppId: Microsoft App Id of the Skill bot
   # SkillBotAppPassword: Microsoft App Password of the Skill bot
   # SkillBotName: Name of the Skill bot
