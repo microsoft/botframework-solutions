@@ -40,7 +40,6 @@ import { BotServices } from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 import { StateProperties } from '../models/stateProperties';
 import { OnboardingDialog } from './onboardingDialog';
-import { QnaMakerService } from 'botframework-config';
 
 /**
  * Dialog providing activity routing and message/event processing.
