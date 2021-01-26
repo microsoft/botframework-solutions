@@ -176,15 +176,26 @@ export class MainDialog extends ComponentDialog {
 
         // Set up response caching for "repeat" functionality.
         innerDc.context.onSendActivities(this.storeOutgoingActivities.bind(this));
-        if (innerDc.activeDialog?.id === this.faqDialogId) {
-            // user is in a mult turn FAQ dialog
-            const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(this.faqDialogId, localizedServices);
-            if (qnaDialog !== undefined) {
+
+        // Ensure that faq QnA dialog matching the locale of this dialogis registered
+        this.registerLocalizedQnADialog(this.faqDialogId, innerDc.context, localizedServices);
+
+        return await super.onContinueDialog(innerDc);
+    }
+
+    protected registerLocalizedQnADialog(knowledgebaseId: string, context: TurnContext, cognitiveModels: ICognitiveModelSet): string {
+        const localizedDialogId = [knowledgebaseId, context.activity.locale].filter(a => a).join('.');
+
+        let qnaDialog: Dialog = this.dialogs.find(localizedDialogId);
+        if (!qnaDialog) {
+            qnaDialog = this.tryCreateQnADialog(knowledgebaseId, cognitiveModels);
+            if (qnaDialog) {
+                qnaDialog.id = localizedDialogId;
                 this.dialogs.add(qnaDialog);
             }
         }
 
-        return await super.onContinueDialog(innerDc);
+        return localizedDialogId;
     }
 
     protected tryCreateQnADialog(knowledgebaseId: string, cognitiveModels: ICognitiveModelSet): QnAMakerDialog | undefined {
@@ -370,28 +381,12 @@ export class MainDialog extends ComponentDialog {
                 return await stepContext.beginDialog(dispatchIntentSkill, skillDialogArgs);      
             } else if (dispatchIntent === 'q_faq') {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
-                
-                const knowledgebaseId: string = this.faqDialogId;
-                const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(knowledgebaseId, localizedServices);
-                if (qnaDialog !== undefined) {
-                    this.dialogs.add(qnaDialog);
-                }
-                
-                return await stepContext.beginDialog('faq');
+                const dialogId = this.registerLocalizedQnADialog(this.faqDialogId, stepContext.context, localizedServices);
+
+                return await stepContext.beginDialog(dialogId);
             } else if (this.shouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore)) {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
-
-                const knowledgebaseId = 'chitchat';
-                const dialogId = [knowledgebaseId, stepContext.context.activity.locale].filter(a => a).join('.');
-
-                let qnaDialog: Dialog = this.dialogs.find(dialogId);
-                if (!qnaDialog) {
-                    qnaDialog = this.tryCreateQnADialog(knowledgebaseId, localizedServices);
-                    if (qnaDialog) {
-                        qnaDialog.id = dialogId;
-                        this.dialogs.add(qnaDialog);
-                    }
-                }
+                const dialogId = this.registerLocalizedQnADialog('chitchat', stepContext.context, localizedServices)
 
                 return await stepContext.beginDialog(dialogId);
             } else {
