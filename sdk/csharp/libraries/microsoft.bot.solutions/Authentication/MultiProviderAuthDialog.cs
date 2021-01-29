@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Solutions.Authentication
     /// </summary>
     public class MultiProviderAuthDialog : ComponentDialog
     {
-        private static readonly string[] acceptedLocales = new string[] { "en", "de", "es", "fr", "it", "zh" };
+        private static readonly string[] AcceptedLocales = new string[] { "en", "de", "es", "fr", "it", "zh" };
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
             _oauthCredentials = oauthCredentials;
             _responseManager = new ResponseManager(
-                acceptedLocales,
+                AcceptedLocales,
                 new AuthenticationResponses());
 
             var firstStep = new WaterfallStep[]
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Solutions.Authentication
                 {
                     var connection = _authenticationConnections[i];
 
-                    foreach (var locale in acceptedLocales)
+                    foreach (var locale in AcceptedLocales)
                     {
                         // We ignore placeholder connections in config that don't have a Name
                         if (!string.IsNullOrWhiteSpace(connection.Name))
