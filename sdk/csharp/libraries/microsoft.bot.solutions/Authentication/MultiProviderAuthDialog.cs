@@ -23,6 +23,7 @@ namespace Microsoft.Bot.Solutions.Authentication
     /// </summary>
     public class MultiProviderAuthDialog : ComponentDialog
     {
+        private static readonly string[] acceptedLocales = new string[] { "en", "de", "es", "fr", "it", "zh" };
         private string _selectedAuthType = string.Empty;
         private List<OAuthConnection> _authenticationConnections;
         private ResponseManager _responseManager;
@@ -37,7 +38,7 @@ namespace Microsoft.Bot.Solutions.Authentication
             _authenticationConnections = authenticationConnections ?? throw new ArgumentNullException(nameof(authenticationConnections));
             _oauthCredentials = oauthCredentials;
             _responseManager = new ResponseManager(
-                new string[] { "en", "de", "es", "fr", "it", "zh" },
+                acceptedLocales,
                 new AuthenticationResponses());
 
             var firstStep = new WaterfallStep[]
@@ -62,23 +63,13 @@ namespace Microsoft.Bot.Solutions.Authentication
                 {
                     var connection = _authenticationConnections[i];
 
-                    // We ignore placeholder connections in config that don't have a Name
-                    if (!string.IsNullOrWhiteSpace(connection.Name))
+                    foreach (var locale in acceptedLocales)
                     {
-                        var loginButtonActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton);
-                        var loginPromptActivity = _responseManager.GetResponse(AuthenticationResponses.LoginPrompt, new StringDictionary() { { "authType", connection.Name } });
-                        var settings = promptSettings?[i] ?? new OAuthPromptSettings
+                        // We ignore placeholder connections in config that don't have a Name
+                        if (!string.IsNullOrWhiteSpace(connection.Name))
                         {
-                            ConnectionName = connection.Name,
-                            Title = loginButtonActivity.Text,
-                            Text = loginPromptActivity.Text,
-                        };
-                        settings.OAuthAppCredentials = _oauthCredentials;
-
-                        AddDialog(new OAuthPrompt(
-                            connection.Name,
-                            settings,
-                            AuthPromptValidatorAsync));
+                            AddDialog(GetLocalizedDialog(locale, connection.Name, promptSettings?[i]));
+                        }
                     }
                 }
 
@@ -114,7 +105,7 @@ namespace Microsoft.Bot.Solutions.Authentication
         {
             if (_authenticationConnections.Count == 1)
             {
-                var result = _authenticationConnections.First().Name;
+                var result = _authenticationConnections.First().Name + "_" + CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
                 return await stepContext.NextAsync(result).ConfigureAwait(false);
             }
 
@@ -254,6 +245,24 @@ namespace Microsoft.Bot.Solutions.Authentication
 
             TelemetryClient.TrackEvent("AuthPromptValidatorAsyncFailure");
             return Task.FromResult(false);
+        }
+
+        private OAuthPrompt GetLocalizedDialog(string locale, string connectionName, OAuthPromptSettings settings)
+        {
+            var loginButtonActivity = _responseManager.GetResponse(AuthenticationResponses.LoginButton, locale);
+            var loginPromptActivity = _responseManager.GetResponse(AuthenticationResponses.LoginPrompt, locale, new StringDictionary() { { "authType", connectionName } });
+            settings = settings ?? new OAuthPromptSettings
+            {
+                ConnectionName = connectionName,
+                Title = loginButtonActivity.Text,
+                Text = loginPromptActivity.Text,
+            };
+            settings.OAuthAppCredentials = _oauthCredentials;
+
+            return new OAuthPrompt(
+                connectionName + "_" + locale,
+                settings,
+                AuthPromptValidatorAsync);
         }
 
         private static class DialogIds
