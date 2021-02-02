@@ -43,5 +43,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "登錄",
+        "speak": "登錄"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "登錄到您的{authType}帳戶",
+        "speak": "登錄到您的{authType}帳戶"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

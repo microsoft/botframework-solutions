@@ -43,5 +43,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "Iniciar sesión",
+        "speak": "Iniciar sesión"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "Inicia sesión en tu cuenta de {authType}",
+        "speak": "Inicia sesión en tu cuenta de {authType}"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

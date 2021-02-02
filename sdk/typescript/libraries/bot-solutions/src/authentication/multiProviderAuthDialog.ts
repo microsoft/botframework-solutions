@@ -28,6 +28,7 @@ enum DialogIds {
  * Provides the ability to prompt for which Authentication provider the user wishes to use.
  */
 export class MultiProviderAuthDialog extends ComponentDialog {
+    private static readonly acceptedLocales: string[] = ["en", "de", "es", "fr", "it", "zh"];
     private selectedAuthType: string = '';
     private authenticationConnections: IOAuthConnection[];
     private responseManager: ResponseManager;
@@ -42,7 +43,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         this.authenticationConnections = authenticationConnections;
 
         this.responseManager = new ResponseManager(
-            ['en', 'de', 'es', 'fr', 'it', 'zh'],
+            MultiProviderAuthDialog.acceptedLocales,
             [AuthenticationResponses]
         );
 
@@ -65,27 +66,48 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             for (var i = 0; i < this.authenticationConnections.length; ++i) {
                 let connection = this.authenticationConnections[i];
 
-                // We ignore placeholder connections in config that don't have a Name
-                if (connection.name !== undefined && connection.name.trim().length > 0) {
-                    const settings: OAuthPromptSettings = promptSettings[i] || {
-                        connectionName: connection.name,
-                        title: i18next.t('common:login'),
-                        text: i18next.t('common:loginDescription', connection.name)
-                    };
+                MultiProviderAuthDialog.acceptedLocales.forEach(locale => {
+                    this.addDialog(this.getLocalizedDialog(locale, connection.name, promptSettings[i]));
+                });
 
-                    this.addDialog(new OAuthPrompt(
-                        connection.name,
-                        settings,
-                        this.authPromptValidator.bind(this)
-                    ));
-                }
+                // // We ignore placeholder connections in config that don't have a Name
+                // if (connection.name !== undefined && connection.name.trim().length > 0) {
+                //     const settings: OAuthPromptSettings = promptSettings[i] || {
+                //         connectionName: connection.name,
+                //         title: i18next.t('common:login'),
+                //         text: i18next.t('common:loginDescription', connection.name)
+                //     };
+
+                //     this.addDialog(new OAuthPrompt(
+                //         connection.name,
+                //         settings,
+                //         this.authPromptValidator.bind(this)
+                //     ));
+                // }
             };
 
-            this.addDialog(new WaterfallDialog(DialogIds.firstStepPrompt, authSteps));
+            this.addDialog(new WaterfallDialog(DialogIds.authPrompt, authSteps));
             this.addDialog(new ChoicePrompt(DialogIds.providerPrompt));
         } else {
             throw new Error('There is no authenticationConnections value');
         }
+    }
+
+    private getLocalizedDialog(locale: string, connectionName: string, settings: OAuthPromptSettings) {
+        const loginButtonActivity: string = this.responseManager.getLocalizedResponse(AuthenticationResponses.loginButton, locale).text;
+        const loginPromptActivity : string = this.responseManager.getLocalizedResponse(AuthenticationResponses.loginPrompt, locale, new Map<string, string>([["authType", connectionName]])).text;
+        
+        settings = settings || {
+            connectionName: connectionName,
+            title: loginButtonActivity,
+            text: loginPromptActivity
+        };
+
+        return new OAuthPrompt(
+            connectionName + '_' + locale,
+            settings,
+            this.authPromptValidator.bind(this)
+        );
     }
 
     // Validators
@@ -107,7 +129,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     private async promptForProvider(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (this.authenticationConnections.length === 1) {
-            const result: string = this.authenticationConnections[0].name;
+            const result: string = this.authenticationConnections[0].name + '_' + i18next.language.split('-')[0];
 
             return await stepContext.next(result);
         }
