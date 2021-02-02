@@ -69,21 +69,6 @@ export class MultiProviderAuthDialog extends ComponentDialog {
                 MultiProviderAuthDialog.acceptedLocales.forEach(locale => {
                     this.addDialog(this.getLocalizedDialog(locale, connection.name, promptSettings[i]));
                 });
-
-                // // We ignore placeholder connections in config that don't have a Name
-                // if (connection.name !== undefined && connection.name.trim().length > 0) {
-                //     const settings: OAuthPromptSettings = promptSettings[i] || {
-                //         connectionName: connection.name,
-                //         title: i18next.t('common:login'),
-                //         text: i18next.t('common:loginDescription', connection.name)
-                //     };
-
-                //     this.addDialog(new OAuthPrompt(
-                //         connection.name,
-                //         settings,
-                //         this.authPromptValidator.bind(this)
-                //     ));
-                // }
             };
 
             this.addDialog(new WaterfallDialog(DialogIds.authPrompt, authSteps));
