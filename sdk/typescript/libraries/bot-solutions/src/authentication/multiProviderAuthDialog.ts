@@ -6,7 +6,8 @@
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStatus, FoundChoice,
     OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext,
-    OAuthPromptSettings } from 'botbuilder-dialogs';
+    OAuthPromptSettings, 
+    Dialog} from 'botbuilder-dialogs';
 import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
 import i18next from 'i18next';
@@ -16,7 +17,6 @@ import { TokenEvents } from '../tokenEvents';
 import { AuthenticationResponses } from './authenticationResponses';
 import { OAuthProviderExtensions } from './oAuthProviderExtensions';
 import { IProviderTokenResponse } from './providerTokenResponse';
-import { OAuthProvider } from './oAuthProvider';
 
 enum DialogIds {
     providerPrompt = 'ProviderPrompt',
@@ -28,7 +28,7 @@ enum DialogIds {
  * Provides the ability to prompt for which Authentication provider the user wishes to use.
  */
 export class MultiProviderAuthDialog extends ComponentDialog {
-    private static readonly acceptedLocales: string[] = ["en", "de", "es", "fr", "it", "zh"];
+    private static readonly acceptedLocales: string[] = ['en', 'de', 'es', 'fr', 'it', 'zh'];
     private selectedAuthType: string = '';
     private authenticationConnections: IOAuthConnection[];
     private responseManager: ResponseManager;
@@ -66,7 +66,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             for (var i = 0; i < this.authenticationConnections.length; ++i) {
                 let connection = this.authenticationConnections[i];
 
-                MultiProviderAuthDialog.acceptedLocales.forEach(locale => {
+                MultiProviderAuthDialog.acceptedLocales.forEach((locale): void => {
                     this.addDialog(this.getLocalizedDialog(locale, connection.name, promptSettings[i]));
                 });
             };
@@ -78,9 +78,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         }
     }
 
-    private getLocalizedDialog(locale: string, connectionName: string, settings: OAuthPromptSettings) {
+    private getLocalizedDialog(locale: string, connectionName: string, settings: OAuthPromptSettings): Dialog {
         const loginButtonActivity: string = this.responseManager.getLocalizedResponse(AuthenticationResponses.loginButton, locale).text;
-        const loginPromptActivity : string = this.responseManager.getLocalizedResponse(AuthenticationResponses.loginPrompt, locale, new Map<string, string>([["authType", connectionName]])).text;
+        const loginPromptActivity: string = this.responseManager.getLocalizedResponse(AuthenticationResponses.loginPrompt, locale, new Map<string, string>([['authType', connectionName]])).text;
         
         settings = settings || {
             connectionName: connectionName,
