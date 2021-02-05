@@ -69,6 +69,24 @@ namespace Microsoft.Bot.Solutions.Responses
         }
 
         /// <summary>
+        /// Gets a simple response from template with Text, Speak, InputHint, and SuggestedActions set.
+        /// </summary>
+        /// <param name="templateId">The name of the response template.</param>
+        /// <param name="locale">The locale for the response template.</param>
+        /// <param name="tokens">StringDictionary of tokens to replace in the response.</param>
+        /// <returns>An Activity.</returns>
+        public Activity GetResponse(
+            string templateId,
+            string locale,
+            StringDictionary tokens = null)
+        {
+            var template = GetResponseTemplate(templateId, locale);
+
+            // create the response the data items
+            return ParseResponse(template, tokens);
+        }
+
+        /// <summary>
         /// Get a response with an Adaptive Card attachment.
         /// </summary>
         /// <param name="card">The card to add to the response.</param>
