@@ -53,44 +53,44 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
 
     As global variable:
     ```shell
-        private const string QnAMakerKB = "ID_OF_YOUR_NEW_KB";
+    private const string QnAMakerKB = "ID_OF_YOUR_NEW_KB";
     ```
 
     In the method `OnContinueDialogAsync`:
     ```shell
-        if (innerDc.ActiveDialog.Id == QnAMakerKB)
+    if (innerDc.ActiveDialog.Id == QnAMakerKB)
+    {
+        // user is in a mult turn QnAMakerKB dialog
+        var qnaDialog = TryCreateQnADialog(QnAMakerKB, localizedServices);
+        if (qnaDialog != null)
         {
-            // user is in a mult turn QnAMakerKB dialog
-            var qnaDialog = TryCreateQnADialog(QnAMakerKB, localizedServices);
-            if (qnaDialog != null)
-            {
-                Dialogs.Add(qnaDialog);
-            }
+            Dialogs.Add(qnaDialog);
         }
+    }
     ```
 
     In the method `RouteStepAsync`:
     ```shell
-        if (dispatchIntent == DispatchLuis.Intent.q_QnAMaker)
+    if (dispatchIntent == DispatchLuis.Intent.q_QnAMaker)
+    {
+        stepContext.SuppressCompletionMessage(true);
+
+        var knowledgebaseId = QnAMakerKB;
+        var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
+        if (qnaDialog != null)
         {
-            stepContext.SuppressCompletionMessage(true);
-
-            var knowledgebaseId = QnAMakerKB;
-            var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
-            if (qnaDialog != null)
-            {
-                Dialogs.Add(qnaDialog);
-            }
-
-            return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
+            Dialogs.Add(qnaDialog);
         }
+
+        return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
+    }
     ```
 
     Finally, in the method `IsSkillIntent` add the following condition:
     ```shell
-        dispatchIntent.ToString().Equals(DispatchLuis.Intent.INTENT_OF_YOUR_NEW_KB.ToString(), StringComparison.InvariantCultureIgnoreCase)
+    dispatchIntent.ToString().Equals(DispatchLuis.Intent.INTENT_OF_YOUR_NEW_KB.ToString(), StringComparison.InvariantCultureIgnoreCase)
     ```
-    
+
 You can now leverage multiple QnA sources as a part of your assistant's knowledge.
 
 ## Update your local LU files for LUIS and QnAMaker
