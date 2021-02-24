@@ -52,12 +52,12 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
 1. Update the `Dialogs/MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided. Also, add the following code:
 
     As global variable:
-    ```shell
+    ```csharp
     private const string QnAMakerKB = "ID_OF_YOUR_NEW_KB";
     ```
 
     In the method `OnContinueDialogAsync`:
-    ```shell
+    ```csharp
     if (innerDc.ActiveDialog.Id == QnAMakerKB)
     {
         // user is in a mult turn QnAMakerKB dialog
@@ -70,7 +70,7 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
     ```
 
     In the method `RouteStepAsync`:
-    ```shell
+    ```csharp
     if (dispatchIntent == DispatchLuis.Intent.q_QnAMaker)
     {
         stepContext.SuppressCompletionMessage(true);
@@ -87,7 +87,7 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
     ```
 
     Finally, in the method `IsSkillIntent` add the following condition:
-    ```shell
+    ```csharp
     dispatchIntent.ToString().Equals(DispatchLuis.Intent.INTENT_OF_YOUR_NEW_KB.ToString(), StringComparison.InvariantCultureIgnoreCase)
     ```
 
