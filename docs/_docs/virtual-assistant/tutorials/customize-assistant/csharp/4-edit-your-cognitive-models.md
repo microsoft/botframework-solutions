@@ -51,7 +51,7 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
 
 1. Update the `Dialogs/MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided. Also, add the following code:
 
-    As globlal variable:
+    As global variable:
     ```shell
         private const string QnAMakerKB = "ID_OF_YOUR_NEW_KB";
     ```
@@ -88,11 +88,9 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
 
     Finally, in the method `IsSkillIntent` add the following condition:
     ```shell
-        dispatchIntent.ToString().Equals(DispatchLuis.Intent.INTENT_OF_YOUR_NEW_kb.ToString(), StringComparison.InvariantCultureIgnoreCase)
+        dispatchIntent.ToString().Equals(DispatchLuis.Intent.INTENT_OF_YOUR_NEW_KB.ToString(), StringComparison.InvariantCultureIgnoreCase)
     ```
-
     
-
 You can now leverage multiple QnA sources as a part of your assistant's knowledge.
 
 ## Update your local LU files for LUIS and QnAMaker
