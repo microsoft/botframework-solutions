@@ -49,7 +49,49 @@ You may wish to add an additional [QnA Maker](https://www.qnamaker.ai/) knowledg
         ./Deployment/Scripts/update_cognitive_models.ps1 -RemoteToLocal
     ```
 
-1. Update the `Dialogs/MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided.
+1. Update the `Dialogs/MainDialog.cs` file to include the corresponding Dispatch intent for your new QnA source following the existing examples provided. Also, add the following code:
+
+    As globlal variable:
+    ```shell
+        private const string QnAMakerKB = "ID_OF_YOUR_NEW_KB";
+    ```
+
+    In the method `OnContinueDialogAsync`:
+    ```shell
+        if (innerDc.ActiveDialog.Id == QnAMakerKB)
+        {
+            // user is in a mult turn QnAMakerKB dialog
+            var qnaDialog = TryCreateQnADialog(QnAMakerKB, localizedServices);
+            if (qnaDialog != null)
+            {
+                Dialogs.Add(qnaDialog);
+            }
+        }
+    ```
+
+    In the method `RouteStepAsync`:
+    ```shell
+        if (dispatchIntent == DispatchLuis.Intent.q_QnAMaker)
+        {
+            stepContext.SuppressCompletionMessage(true);
+
+            var knowledgebaseId = QnAMakerKB;
+            var qnaDialog = TryCreateQnADialog(knowledgebaseId, localizedServices);
+            if (qnaDialog != null)
+            {
+                Dialogs.Add(qnaDialog);
+            }
+
+            return await stepContext.BeginDialogAsync(knowledgebaseId, cancellationToken: cancellationToken);
+        }
+    ```
+
+    Finally, in the method `IsSkillIntent` add the following condition:
+    ```shell
+        dispatchIntent.ToString().Equals(DispatchLuis.Intent.INTENT_OF_YOUR_NEW_kb.ToString(), StringComparison.InvariantCultureIgnoreCase)
+    ```
+
+    
 
 You can now leverage multiple QnA sources as a part of your assistant's knowledge.
 
