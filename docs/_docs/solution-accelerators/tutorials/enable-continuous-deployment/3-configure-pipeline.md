@@ -28,6 +28,11 @@ order: 3
     npm install -g botdispatch @microsoft/botframework-cli
     ```
 
+1. Create a PowerShell task to install BotSkills CLI tool:
+    ```node
+    npm install -g botskills@latest
+    ```
+
 1. Create an Azure PowerShell task to validate the resource group created in your Azure account
     ```pwsh
     Get-AzureRmResourceGroup -Name $(ResourceGroup) -ErrorVariable notPresent -ErrorAction SilentlyContinue
@@ -109,6 +114,12 @@ steps:
 
 - powershell: |
    npm install -g botdispatch @microsoft/botframework-cli
+   
+  pwsh: true
+  displayName: Commands
+
+- powershell: |
+   npm install -g botskills@latest
    
   pwsh: true
   displayName: Commands
