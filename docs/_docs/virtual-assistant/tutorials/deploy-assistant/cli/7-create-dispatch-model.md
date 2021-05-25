@@ -36,7 +36,7 @@ order: 7
         ```
         dispatch add `
             --type "qna" `
-            --name "kb-name `
+            --name "kb-name" `
             --id "kb-id"  `
             --key "qna-subscription-key" `
             --intentName "q_kb-app-name" `
