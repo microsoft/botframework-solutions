@@ -6,6 +6,7 @@ interface ISpeechService {
     void sendTextMessage(String msg);
     void initializeSpeechSdk(boolean haveRecordAudioPermission);
     void connectAsync();
+    void disconnectAsync();
     String getConfiguration();// the String is "Configuration" as JSON
     void setConfiguration(String json);// the String is "Configuration" as JSON
     void requestWelcomeCard();
