@@ -79,10 +79,6 @@ class Copier {
     templateFiles.set(`_.nycrc`, `.nycrc`);
     templateFiles.set(`_.npmrc`, `.npmrc`);
     templateFiles.set(
-      join(`src`, `bots`, `_defaultActivityHandler.ts`),
-      join(`src`, `bots`, `defaultActivityHandler.ts`)
-    );
-    templateFiles.set(
       join(`pipeline`, `_sample-assistant.yml`),
       join(`pipeline`, `${newAssistant.assistantName}.yml`)
     );

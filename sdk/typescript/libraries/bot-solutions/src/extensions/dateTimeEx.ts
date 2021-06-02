@@ -6,9 +6,9 @@
 import * as dayjs from 'dayjs';
 import { readFileSync } from 'fs';
 import { CommonResponses } from '../resources';
-import { join } from 'path';
 import { ResponsesUtil } from '../util/responsesUtil';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DateTimeEx {
     let currentLocale: string;
     async function importLocale(locale: string): Promise<void> {

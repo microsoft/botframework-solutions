@@ -29,8 +29,8 @@
   "FeedbackReceivedMessage": {
     "replies": [
       {
-        "text": "Merci pour vos commentaires!",
-        "speak": "Merci pour vos commentaires!"
+        "text": "Merci, j'apprécie vos commentaires.",
+        "speak": "Merci, j'apprécie vos commentaires."
       }
     ],
     "inputHint": "acceptingInput"

@@ -51,10 +51,10 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         let luisFilePath = '';
         let dispatchFolderPath = '';
         let dispatchFilePath = '';
-        let useAllIntents: boolean = false;
+        let useAllIntents = false;
 
         dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
-        dispatchFilePath = join(dispatchFolderPath, `${dispatchName}.dispatch`);
+        dispatchFilePath = join(dispatchFolderPath, `${ dispatchName }.dispatch`);
 
         // Validate 'dispatch add' arguments
         if (!existsSync(dispatchFolderPath)) {
@@ -65,8 +65,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             throw new Error(`Path to the ${ dispatchName }.dispatch file leads to a nonexistent file.`);
         }
 
-        luFile = `${luisApp}.lu`;
-        luisFile = `${luisApp}.luis`;
+        luFile = `${ luisApp }.lu`;
+        luisFile = `${ luisApp }.luis`;
         luFilePath = join(this.configuration.luisFolder, culture, luFile);
         luisFilePath = join(luisFolderPath, luisFile);
 
@@ -74,7 +74,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             if (this.manifest !== undefined && this.manifest.entries !== undefined) {
 
                 const model: IModel = {id: '', name: '', contentType: '', url: '', description: ''};
-                const currentLocaleApps = this.manifest.entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model]
+                const currentLocaleApps = this.manifest.entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model];
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
 
@@ -140,7 +140,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
             useAllIntents = this.manifest.allowedIntents.some(e => e === '*');
 
             if (useAllIntents && this.manifest.allowedIntents.length > 1) {
-                this.logger.warning("Found intent with name '*'. Adding all intents.");
+                this.logger.warning('Found intent with name \'*\'. Adding all intents.');
             }
             
             if (!useAllIntents && this.manifest.allowedIntents.length > 0) {
@@ -214,7 +214,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the bf luis:convert command:\nCommand: ${ luisConvertCommand.join(' ') }\n${ err }`);
+            this.logger.error(`There was an error in the bf luis:convert command:\nCommand: ${ luisConvertCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -236,7 +236,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             });
             await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${ culture } ${ luisApp } LU file`);
         } catch (err) {
-            throw new Error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
+            this.logger.error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
         }
     }
 
@@ -272,8 +272,14 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                     const culture: string = item[0];
                     const executionModelByCulture: Map<string, string> = item[1];
                     await this.executeLuisConvert(culture, executionModelByCulture);
-                    await this.executeDispatchAdd(culture, executionModelByCulture);
+                    if (!this.logger.isError) {
+                        await this.executeDispatchAdd(culture, executionModelByCulture);
+                    }
                 }));
+
+            if (this.logger.isError) {
+                throw new Error('There were one or more issues converting the LU files. Aborting the process.');
+            }
 
             // Check if it is necessary to refresh the skill
             if (!this.configuration.noRefresh) {

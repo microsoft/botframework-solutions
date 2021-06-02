@@ -16,7 +16,7 @@ describe("Interruption", function() {
             done();
         });
 
-        it("send help and check that there is a attachment", function(done) {
+        it("send help and check that there is an attachment", function(done) {
             getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {
                 const flow = testAdapter
                 .send("Help")
@@ -28,7 +28,7 @@ describe("Interruption", function() {
             });
         });
 
-        it("send help and check that there is a attachment of the response file", function(done) {
+        it("send help and check that there is an attachment of the response file", function(done) {
             const allNamePromptVariations = getAllResponsesTemplates("en-us").expandTemplate("NamePrompt");
 
             getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {

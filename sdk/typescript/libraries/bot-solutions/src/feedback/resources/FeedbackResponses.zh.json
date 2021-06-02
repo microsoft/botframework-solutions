@@ -29,8 +29,8 @@
   "FeedbackReceivedMessage": {
     "replies": [
       {
-        "text": "感谢您的反馈！",
-        "speak": "感谢您的反馈！"
+        "text": "謝謝，感謝您的反饋。",
+        "speak": "謝謝，感謝您的反饋。"
       }
     ],
     "inputHint": "acceptingInput"

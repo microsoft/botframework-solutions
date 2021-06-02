@@ -67,7 +67,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             version: '',
             schema: '',
             allowedIntents: ['*']
-        }
+        };
     }
 
     private async getManifestFromV2(manifest: ISkillManifestV2, logger: ILogger, endpointName?: string): Promise<IManifest> {
@@ -89,7 +89,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
             schema: manifest.$schema,
             entries: Object.entries(manifest?.dispatchModels.languages),
             allowedIntents: Object.keys(manifest?.dispatchModels.intents)
-        }
+        };
     }
 
     private async processManifestV1(manifest: ISkillManifestV1): Promise<Map<string, string[]>> {
@@ -122,7 +122,7 @@ Please make sure to provide a valid path to your Skill manifest using the '--loc
                 luisApps.push(model.id);
             });
         
-            const filteredluisApps: string[] = [...new Set(luisApps)]
+            const filteredluisApps: string[] = [...new Set(luisApps)];
             acc.set(locale, filteredluisApps);
         });
 

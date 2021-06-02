@@ -4,10 +4,10 @@
  */
 
 import { CommonResponses } from '../resources';
-import { join } from 'path';
 import { readFileSync } from 'fs';
 import { ResponsesUtil } from '../util/responsesUtil';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ListEx {
     /**
      * Converts a list into a string that can be used in speech.
