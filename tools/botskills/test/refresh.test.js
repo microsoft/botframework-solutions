@@ -8,6 +8,7 @@ const { join, resolve } = require("path");
 const sandbox = require("sinon").createSandbox();
 const testLogger = require("./helpers/testLogger");
 const botskills = require("../lib/index");
+const { EOL } = require('os');
 
 describe("The refresh command", function () {
     
@@ -32,8 +33,8 @@ describe("The refresh command", function () {
             this.refresher.configuration = configuration;
             await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
-            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
+                EOL }Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
         });
 
         it("when the dispatchFolder points to a nonexistent folder", async function () {
@@ -50,9 +51,9 @@ Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsF
             await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
+                EOL }Error: Path to the Dispatch folder (${configuration.dispatchFolder}) leads to a nonexistent folder.${
+                EOL }Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         });
 
         it("when the path to dispatch.json file doesn't exist after the dispatch refresh execution", async function () {
@@ -73,10 +74,10 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: There was an error in the dispatch refresh command:
-Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\es-mx\\filledes-mxDispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\es-mx
-Error: Path to filledes-mxDispatch.json (${configuration.dispatchFolder}\\es-mx\\filledes-mxDispatch.json) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
+                EOL }Error: There was an error in the dispatch refresh command:${
+                EOL }Command: dispatch refresh --dispatch ${ join(configuration.dispatchFolder, 'es-mx', 'filledes-mxDispatch.dispatch') } --dataFolder ${ join(configuration.dispatchFolder, 'es-mx') +
+                EOL }Error: Path to filledes-mxDispatch.json (${ join(configuration.dispatchFolder, 'es-mx', 'filledes-mxDispatch.json') }) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
         });
 
         it("when the path to dispatch file doesn't exist", async function () {
@@ -93,8 +94,8 @@ Error: Path to filledes-mxDispatch.json (${configuration.dispatchFolder}\\es-mx\
             await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexistent file.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
+                EOL }Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexistent file.`);
         });
 
         it("when the dispatch external calls fails", async function () {
@@ -116,10 +117,10 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
             const errorList = this.logger.getError();
             const localePlaceholder = errorList[errorList.length - 1].includes('en-us') ? 'en-us' : 'es-es';
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: There was an error in the dispatch refresh command:
-Command: dispatch refresh --dispatch ${configuration.dispatchFolder}\\${ localePlaceholder }\\filled${ localePlaceholder }Dispatch.dispatch --dataFolder ${configuration.dispatchFolder}\\${ localePlaceholder }
-Error: Mocked function throws an Error`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
+                EOL }Error: There was an error in the dispatch refresh command:${
+                EOL }Command: dispatch refresh --dispatch ${ join(configuration.dispatchFolder, localePlaceholder, `filled${ localePlaceholder }Dispatch.dispatch`) } --dataFolder ${ join(configuration.dispatchFolder, localePlaceholder) +
+                EOL }Error: Mocked function throws an Error`);
         });
 
         it("when the luis generate external calls fails", async function () {
@@ -142,10 +143,10 @@ Error: Mocked function throws an Error`);
             await this.refresher.refreshSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:
-Error: There was an error in the bf luis:generate:${configuration.lgLanguage} command:
-Command: bf luis:generate:${configuration.lgLanguage} --in "${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.json" --out "${configuration.lgOutFolder}" --className DispatchLuis --force
-Error: Mocked function throws an Error`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
+                EOL }Error: There was an error in the bf luis:generate:${configuration.lgLanguage} command:${
+                EOL }Command: bf luis:generate:${configuration.lgLanguage} --in "${ join(configuration.dispatchFolder, 'en-us', 'filleden-usDispatch.json') }" --out "${configuration.lgOutFolder}" --className DispatchLuis --force${
+                EOL }Error: Mocked function throws an Error`);
         });
     });
 

@@ -7,6 +7,7 @@ const { strictEqual } = require("assert");
 const { join, resolve } = require("path");
 const testLogger = require("./helpers/testLogger");
 const botskills = require("../lib/index");
+const { EOL } = require('os');
 
 describe("The list command", function () {
 
@@ -25,8 +26,8 @@ describe("The list command", function () {
             await this.lister.listSkill(config);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `The 'appSettingsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
+            strictEqual(errorList[errorList.length - 1], `The 'appSettingsFile' argument is absent or leads to a non-existing file.${
+                EOL }Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
         });
     });
 
@@ -64,8 +65,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             await this.lister.listSkill(config);
             const messageList = this.logger.getMessage();
             
-            strictEqual(messageList[messageList.length - 1], `The skills already connected to the assistant are the following:
-\t- testSkill`);
+            strictEqual(messageList[messageList.length - 1], `The skills already connected to the assistant are the following:${ EOL }\t- testSkill`);
 		});
 	});
 });

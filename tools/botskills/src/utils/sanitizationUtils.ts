@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-const regexTrailingBackslash = /.*?(\\)+$/;
+const regexTrailingBackslash = /.*?(\\|\/)+$/;
 
 /**
  * @param path Path to sanitize.

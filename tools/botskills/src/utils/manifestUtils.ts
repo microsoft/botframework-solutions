@@ -7,6 +7,7 @@ import { ISkillManifestV2, IModel, IEndpoint } from '../models/manifestV2/skillM
 import { ILogger } from '../logger/logger';
 import { manifestV2Validation, manifestV1Validation } from './validationUtils';
 import { IConnectConfiguration } from '../models';
+import { EOL } from 'os';
 
 export class ManifestUtils {
     public async getManifest(rawManifest: string, logger: ILogger, endpointName?: string): Promise<IManifest> {
@@ -35,7 +36,7 @@ export class ManifestUtils {
             uri: manifestURI,
             json: false
         }).catch( err=> { 
-            throw new Error(`There was a problem while getting the remote manifest:\n${ err }`);
+            throw new Error(`There was a problem while getting the remote manifest:${ EOL + err }`);
         });
     }
     
@@ -44,8 +45,8 @@ export class ManifestUtils {
         const skillManifestPath: string = isAbsolute(manifestPath) ? manifestPath : join(resolve('./'), manifestPath);
     
         if (!existsSync(skillManifestPath)) {
-            throw new Error(`The 'localManifest' argument leads to a non-existing file.
-Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
+            throw new Error(`The 'localManifest' argument leads to a non-existing file.${
+                EOL }Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         }
     
         return readFileSync(skillManifestPath, 'UTF8');

@@ -12,6 +12,7 @@ const botskills = require("../lib/index");
 const { getNormalizedFile } = require("./helpers/normalizeUtils");
 const emptyAppsettings = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "emptyAppsettings.json")));
 const appsettingsWithTestSkill = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "appsettingsWithTestSkill.json")));
+const { EOL } = require('os');
 
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "appsettings", "emptyAppsettings.json")), emptyAppsettings);
@@ -52,8 +53,8 @@ describe("The update command", function () {
             await this.updater.updateSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
-Error: The Skill doesn't exist in the Assistant, run 'botskills connect --localManifest "${configuration.localManifest}" --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:${
+                EOL }Error: The Skill doesn't exist in the Assistant, run 'botskills connect --localManifest "${configuration.localManifest}" --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
         });
 
         it("when the remote skill to update is not present in the assistant manifest", async function() {
@@ -81,8 +82,8 @@ Error: The Skill doesn't exist in the Assistant, run 'botskills connect --localM
             await this.updater.updateSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
-Error: The Skill doesn't exist in the Assistant, run 'botskills connect --remoteManifest "${configuration.remoteManifest}" --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:${
+                EOL }Error: The Skill doesn't exist in the Assistant, run 'botskills connect --remoteManifest "${configuration.remoteManifest}" --luisFolder "${configuration.luisFolder}" --${configuration.lgLanguage}'`);
         });
 
         it("when the localManifest points to a nonexisting Skill manifest file", async function () {
@@ -106,9 +107,9 @@ Error: The Skill doesn't exist in the Assistant, run 'botskills connect --remote
             await this.updater.updateSkill(configuration);
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:
-Error: The 'localManifest' argument leads to a non-existing file.
-Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while updating the Skill from the Assistant:${
+                EOL }Error: The 'localManifest' argument leads to a non-existing file.${
+                EOL }Please make sure to provide a valid path to your Skill manifest using the '--localManifest' argument.`);
         });
 
         it("when the remoteManifest points to a nonexisting Skill manifest URL", async function() {
