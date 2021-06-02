@@ -97,8 +97,8 @@
 - 我的名字是比尔·琼斯
 - 我是约翰·史密斯。
 - ([您可以]|[请]) 给我打电话{@PersonName.Any}[.]
-- (我|我是)  {@PersonName.Any}[.]
-- (它|是的|这是)  {@PersonName.Any}[.]
+- (我|我是) {@PersonName.Any}[.]
+- (它|是的|这是) {@PersonName.Any}[.]
 - 我的名字是{@PersonName.Any}[.]
 
 
@@ -324,7 +324,7 @@
 ## SelectItem
 - 选择最后一个
 - 选择2号
-- 选择 {DirectionalReference=左下角} 
+- 选择 {DirectionalReference=左下角}
 - 选择第一选择
 - 选择第四个
 - 选择 {DirectionalReference=左上角} 选择
@@ -337,38 +337,38 @@
 - 我喜欢第三个
 - 我喜欢第三个选择
 - 我喜欢的 {DirectionalReference=右上角} 一个
-- 我喜欢的 {DirectionalReference=右上角} 
-- 我喜欢 {DirectionalReference=右上角} 
-- 我想要 {DirectionalReference=底部} 
+- 我喜欢的 {DirectionalReference=右上角}
+- 我喜欢 {DirectionalReference=右上角}
+- 我想要 {DirectionalReference=底部}
 - 我想要第四
-- 我想要 {DirectionalReference=离开} 
+- 我想要 {DirectionalReference=离开}
 - 我想要 {DirectionalReference=对} 一个
 - 我想要的第一个
 - 我想要第四个选择
-- 我想 {DirectionalReference=离开} 
+- 我想 {DirectionalReference=离开}
 - 我想 {DirectionalReference=降低} 选择
 - 我想 {DirectionalReference=对} 一个
 - 我想要第二个
 - 我想要第三个
 - 我想选择 {DirectionalReference=底部} 一个
-- 我想选择 {DirectionalReference=右下角} 
-- 我想选择 {DirectionalReference=对} 
+- 我想选择 {DirectionalReference=右下角}
+- 我想选择 {DirectionalReference=对}
 - 我想选择第二个
 - 我想选择第一个
 - 我想选择第四个
 - 我想选择最后的选择
 - 我想选择的 {DirectionalReference=离开} 一个
 - 我想选择的 {DirectionalReference=降低} 选择
-- 我想选择的 {DirectionalReference=对} 
+- 我想选择的 {DirectionalReference=对}
 - 我想选择第三
 - 选择第一个
 - 选择最后一个
-- 选择 {DirectionalReference=离开} 
+- 选择 {DirectionalReference=离开}
 - 选择 {DirectionalReference=对} 一个
 - 选择最后一个
 - 选择 {DirectionalReference=离开} 一个
 - 选择 {DirectionalReference=降低} 选择
-- 选择 {DirectionalReference=对} 
+- 选择 {DirectionalReference=对}
 - 选择第二个
 - 选择第二个选项
 - 选择第四个
@@ -379,7 +379,7 @@
 - 选择最后一个选项
 - 选择第三个
 - 选择第三个
-- 选择 {DirectionalReference=上} 
+- 选择 {DirectionalReference=上}
 - 那最后一个呢？
 - 那第三个呢？
 

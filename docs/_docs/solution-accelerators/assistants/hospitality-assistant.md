@@ -83,15 +83,15 @@ The majority of the skills connected to this sample are [experimental skills]({{
 To configure this sample follow the steps below:
 1. Clone the [Hospitality Assistant sample]({{site.repo}}/tree/master/samples/csharp/assistants/hospitality-assistant).
 1. Follow the [Create your Virtual Assistant tutorial]({{site.baseurl}}/virtual-assistant/tutorials/create-assistant/csharp/1-intro/) to deploy your assistant. Use the sample project you cloned instead of the Virtual Assistant template to include the hospitality customizations in this project.
-1. Clone the following skills from our repository:
+1. Clone the following Skills from [Bot Framework Skills](https://github.com/microsoft/botframework-skills) repository:
     - [Hospitality Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/hospitalityskill)
     - [Point of Interest Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/pointofinterestskill)
     - [Weather Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/weatherskill)
-    - [Bing Search Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/bing-search)
+    - [Bing Search Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/bingsearchskill)
     - [News Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/newsskill)
     - [Restaurant Booking Skill](https://github.com/microsoft/botframework-skills/tree/master/skills/csharp/experimental/restaurantbookingskill)
 1. [Deploy each one of these skills]({{site.baseurl}}/skills/tutorials/create-skill/csharp/4-provision-your-azure-resources/) separately, using the deployment script included in the skill directory.
-1. [Add each skill]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) using the botskills connect CLI tool.
+1. [Add each skill]({{site.baseurl}}/skills/handbook/add-skills-to-a-virtual-assistant/) using the [Botskills CLI tool](https://www.npmjs.com/package/botskills).
 
 ## Download transcripts
 

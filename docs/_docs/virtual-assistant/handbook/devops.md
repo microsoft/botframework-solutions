@@ -30,47 +30,36 @@ When you want to test changes to your LUIS models and QnA Maker knowledgebases i
     .\Deployment\Scripts\update_cognitive_models.ps1 -RemoteToLocal
     ```
 
-    > This script downloads your modified LUIS models in the .lu schema so it can be published to production by your build pipeline. If you are running this script from a Virtual Assistant project, it also runs `dispatch refresh` and `luisgen` to update your Dispatch model and DispatchLuis.cs files.
+    > This script downloads your modified LUIS models in the `.lu` schema so it can be published to production by your build pipeline. If you are running this script from a Virtual Assistant project, it also runs [`dispatch refresh`](https://www.npmjs.com/package/botdispatch#refreshing-your-dispatch-model) and [`bf luis:generate:cs`](https://www.npmjs.com/package/@microsoft/botframework-cli#bf-luisgeneratecs) to update your Dispatch model and DispatchLuis.cs files.
 
-1. Check in your updated .lu files to source control. 
+1. Check in your updated `.lu` files to source control. 
     > Your changes should go through a peer review to validate there will be no conflicts. You can also share your LUIS app and/or transcripts of the bot conversation with your changes to help in this conversation.
 
 1. Run your build pipeline to deploy your updated files to your production environment. 
     > This pipeline should update your LUIS models, QnA Maker knowledgebases, and Dispatch model as needed.
 
-## I've changed my skill LUIS model. What next?
+## I've changed my skill LUIS model. What's next?
 {:.no_toc}
 
 If you have added or removed an intent from your skill LUIS model, follow these steps to update your skill manifest:
 
-1. Open the manifestTemplate.json file.
-1. If you have added new intents, either add them to an existing `action` or add a new action for the intent like this:
+1. Open the `manifest-1.1.json` file of your skill.
+1. If you have added new intents, either add them to an existing `intents` or add a new action for the intent like this:
 
-```json
-"actions": [
-    {
-    "id": "toDoSkill_addToDo",
-    "definition": {
-        "description": "Add a task",
-        "slots": [],
-        "triggers": {
-            "utteranceSources": [
-                {
-                    "locale": "en-us",
-                    "source": [ "todo#AddToDo" ]
-                }
-            ]
-        }
+    ```json
+    "intents": {
+      "AddToDo": "#/activities/message",
+      "ShowToDo": "#/activities/message",
+      "MarkToDo": "#/activities/message",
+      "DeleteToDo": "#/activities/message",
+      "*": "#/activities/message"
     }
-},
-```
+    ```
 
-Once you have updated your manifest, follow these steps to update any Virtual Assistants that are using your skill:
+1. Once you have updated your manifest, run the following command from your project directory to update any Virtual Assistants that are using your skill:
 
-1. Run the following command from your project directory:
+    ```node
+    botskills update --remoteManifest "http://<YOUR_SKILL_NAME>.azurewebsites.net/manifest/manifest-1.1.json" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
+    ```
 
-```node
-botskills update --remoteManifest "http://<YOUR_SKILL_MANIFEST>.azurewebsites.net/api/skill/manifest" --cs --luisFolder "<PATH_TO_LU_FOLDER>"
-```
-
-> This command updates the botFrameworkSkills property of your appsettings.json file with the latest manifest definitions for each connected skill, and runs dispatch refresh to update your dispatch model.
+    > This command updates the `botFrameworkSkills` property of your Virtual Assistant's `appsettings.json` file with the latest manifest definitions for each connected skill, and runs `dispatch refresh` to update your dispatch model.
