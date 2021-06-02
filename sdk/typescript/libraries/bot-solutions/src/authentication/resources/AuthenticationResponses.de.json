@@ -43,5 +43,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "Einloggen",
+        "speak": "Einloggen"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "Melden Sie sich in Ihrem {authType}-Konto an",
+        "speak": "Melden Sie sich in Ihrem {authType}-Konto an"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }

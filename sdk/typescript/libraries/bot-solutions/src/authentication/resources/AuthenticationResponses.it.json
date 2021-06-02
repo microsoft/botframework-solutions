@@ -43,5 +43,23 @@
       }
     ],
     "inputHint": "expectingInput"
+  },
+  "LoginButton": {
+    "replies": [
+      {
+        "text": "Accesso",
+        "speak": "Accesso"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
+  "LoginPrompt": {
+    "replies": [
+      {
+        "text": "Accedi al tuo account {authType}",
+        "speak": "Accedi al tuo account {authType}"
+      }
+    ],
+    "inputHint": "acceptingInput"
   }
 }
