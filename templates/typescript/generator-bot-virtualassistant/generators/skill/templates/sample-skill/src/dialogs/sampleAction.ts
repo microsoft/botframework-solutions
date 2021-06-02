@@ -8,10 +8,10 @@ import {
     WaterfallDialog,
     TextPrompt } from 'botbuilder-dialogs';
 import { SkillDialogBase } from './skillDialogBase';
-import { BotTelemetryClient, StatePropertyAccessor, Activity } from 'botbuilder';
+import { StatePropertyAccessor, Activity } from 'botbuilder';
 import { BotServices } from '../services/botServices';
 import { LocaleTemplateManager } from 'bot-solutions';
-import { SkillState } from '../models/skillState';
+import { SkillState } from '../models';
 import { IBotSettings } from '../services/botSettings';
 
 export class SampleActionInput {
@@ -27,16 +27,13 @@ enum DialogIds {
 }
 
 export class SampleAction extends SkillDialogBase {
-    private readonly nameKey: string = 'name';
-
     public constructor(
         settings: Partial<IBotSettings>,
         services: BotServices,
         stateAccessor: StatePropertyAccessor<SkillState>,
-        telemetryClient: BotTelemetryClient,
         templateManager: LocaleTemplateManager
     ) {
-        super(SampleAction.name, settings, services, stateAccessor, telemetryClient, templateManager);
+        super(SampleAction.name, settings, services, stateAccessor, templateManager);
         
         const sample: ((sc: WaterfallStepContext) => Promise<DialogTurnResult>)[] = [
             this.promptForName.bind(this),
@@ -59,13 +56,13 @@ export class SampleAction extends SkillDialogBase {
             return await stepContext.next(actionInput.name);
         }
 
-        const prompt: Partial<Activity> = this.templateManager.generateActivityForLocale('NamePrompt', stepContext.context.activity.locale);
+        const prompt: Partial<Activity> = this.templateEngine.generateActivityForLocale('NamePrompt', stepContext.context.activity.locale);
         return await stepContext.prompt(DialogIds.namePrompt, { prompt: prompt });
     }
 
     private async greetUser(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         const data: Object = { name: stepContext.result as string };
-        const response: Partial<Activity> = this.templateManager.generateActivityForLocale('HaveNameMessage', stepContext.context.activity.locale, data);
+        const response: Partial<Activity> = this.templateEngine.generateActivityForLocale('HaveNameMessage', stepContext.context.activity.locale, data);
         await stepContext.context.sendActivity(response);
 
         // Pass the response which we'll return to the user onto the next step
