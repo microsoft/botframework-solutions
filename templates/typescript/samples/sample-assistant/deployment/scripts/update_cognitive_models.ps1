@@ -5,11 +5,11 @@ Param(
     [switch] $useGov,
     [switch] $useLuisGen = $true,
     [string] $configFile = $(Join-Path (Get-Location) 'src' 'cognitivemodels.json'),
-    [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'resources' 'Dispatch'),
-    [string] $luisFolder = $(Join-Path $PSScriptRoot '..' 'resources' 'LU'),
-    [string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
-    [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'resources' 'QnA'),
-    [string] $lgOutFolder = $(Join-Path (Get-Location) 'src' 'services'),
+    [string] $dispatchFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'Dispatch'),
+    [string] $luisFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'LU'),
+	[string] $qnaEndpoint = "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0",
+    [string] $qnaFolder = $(Join-Path $PSScriptRoot '..' 'Resources' 'QnA'),
+    [string] $lgOutFolder = $(Join-Path (Get-Location) 'src' 'Services'),
     [string] $logFile = $(Join-Path $PSScriptRoot .. "update_cognitive_models_log.txt"),
     [string[]] $excludedKbFromDispatch = @("chitchat")
 )
