@@ -16,11 +16,9 @@ import {
 import { AzureBlobTranscriptStore } from 'botbuilder-azure';
 import {
     EventDebuggerMiddleware,
-    FeedbackMiddleware,
     LocaleTemplateManager,
     SetLocaleMiddleware, 
-    SetSpeakMiddleware,
-    FeedbackOptions} from 'bot-solutions';
+    SetSpeakMiddleware } from 'bot-solutions';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IBotSettings } from '../services/botSettings.js';
 
@@ -65,7 +63,6 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         this.use(new TranscriptLoggerMiddleware(transcriptStore));
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new ShowTypingMiddleware());
-        this.use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
         this.use(new EventDebuggerMiddleware());
         this.use(new SetSpeakMiddleware());
     }
