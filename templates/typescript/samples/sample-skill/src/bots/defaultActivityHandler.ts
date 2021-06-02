@@ -8,6 +8,7 @@ import {
     ActivityHandler,
     ActivityTypes,
     BotState,
+    ChannelAccount,
     Channels,
     StatePropertyAccessor, 
     TurnContext } from 'botbuilder';
@@ -42,8 +43,15 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     }
 
     protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        await turnContext.sendActivity(this.templateManager.generateActivityForLocale('IntroMessage'));
-        await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        const membersAdded: ChannelAccount[] = turnContext.activity.membersAdded;
+        for (const member of membersAdded) {
+            if (member.id !== turnContext.activity.recipient.id) {
+                await turnContext.sendActivity(this.templateManager.generateActivityForLocale('IntroMessage'));
+                await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+            }
+        }
+        // By calling next() you ensure that the next BotHandler is run.
+        await next();
     }
 
     protected onMessageActivity(turnContext: TurnContext): Promise<void> {

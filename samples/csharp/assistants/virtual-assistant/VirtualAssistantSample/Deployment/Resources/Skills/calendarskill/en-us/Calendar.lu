@@ -502,7 +502,7 @@
 - book a meeting at 6 o'clock
 - book a meeting at {FromTime=7:00pm}
 - book a meeting at {FromTime=8am}
-- book a meeting at {FromTime=9:35am} 
+- book a meeting at {FromTime=9:35am}
 - book a meeting for {FromDate=tomorrow} {FromTime=6pm} with lucy chen
 - book a meeting with Jack
 - book a meeting with Lily at {FromTime=11am}

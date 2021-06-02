@@ -17,7 +17,7 @@
     "botServiceSku": {
       "value": "F0"
     },
-    "luisRuntimeSku": {
+    "luisPredictionSku": {
       "value": "F0"
     }
   }

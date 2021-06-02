@@ -67,11 +67,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AuthenticationResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Feedback\FeedbackResponses.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FeedbackResponses.resx</DependentUpon>
-    </Compile>
     <Compile Update="Resources\CommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -80,22 +75,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.de.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.es.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.it.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>FeedbackResponses.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\CommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>

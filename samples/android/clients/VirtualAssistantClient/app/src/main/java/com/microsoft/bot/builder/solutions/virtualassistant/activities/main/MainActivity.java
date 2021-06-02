@@ -1,7 +1,11 @@
 package com.microsoft.bot.builder.solutions.virtualassistant.activities.main;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.assist.AssistContent;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.AnimationDrawable;
@@ -72,6 +76,7 @@ import client.model.BotConnectorActivity;
 import client.model.CardAction;
 import events.ActivityReceived;
 import events.BotListening;
+import events.Connected;
 import events.Disconnected;
 import events.Recognized;
 import events.RecognizedIntermediateResult;
@@ -519,7 +524,35 @@ public class MainActivity extends BaseActivity
     // EventBus: the connection disconnected
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventDisconnected(Disconnected event) {
-        resetSpeechService();
+        try {
+            chatAdapter.resetChat();
+            suggActionsAdapter.clear();
+            speechServiceBinder.clearSuggestedActions();
+            speechServiceBinder.disconnectAsync();
+        } catch (RemoteException exception) {
+            Log.e(LOGTAG, exception.getMessage());
+        }
+
+        String cancelErrorFormat =
+                "CANCELED: Reason = %d\n" +
+                "CANCELED: ErrorCode = %d\n" +
+                "CANCELED: ErrorDetails = %s\n" +
+                "CANCELED: Did you update the subscription key and region?";
+        String cancelErrorMessage = String.format(cancelErrorFormat, event.cancellationReason, event.errorCode, event.errorDetails);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.msg_canceled)
+                .setMessage(cancelErrorMessage)
+                .setPositiveButton(R.string.settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Navigate user to settings to update speech key/region
+                        Context context = ((Dialog) dialogInterface).getContext();
+                        startActivityForResult(SettingsActivity.getNewIntent(context), REQUEST_CODE_SETTINGS);
+                    }
+                })
+                .setNegativeButton(R.string.cancel,null)
+                .show();
     }
 
     // EventBus: the Bot is listening
