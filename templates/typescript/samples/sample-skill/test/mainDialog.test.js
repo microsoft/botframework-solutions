@@ -22,6 +22,10 @@ describe("main dialog", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
                     channelId: "emulator",
