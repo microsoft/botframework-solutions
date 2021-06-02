@@ -11,6 +11,7 @@ const {
     UserState
 } = require("botbuilder");
 const { join } = require("path");
+const { TemplatesParser } = require("botbuilder-lg");
 const {
     ApplicationInsightsTelemetryClient
 } = require("botbuilder-applicationinsights");
@@ -102,25 +103,21 @@ const initialize = async function() {
         botSettings,
         botServices,
         stateAccessor,
-        telemetryClient,
         templateManager
     );
     const sampleAction = new SampleAction(
         botSettings,
         botServices,
         stateAccessor,
-        telemetryClient,
         templateManager
     );
     const mainDialog = new MainDialog(
         botServices,
-        telemetryClient,
-        stateAccessor,
         sampleDialog,
         sampleAction,
         templateManager
     );
-    this.bot = new DefaultActivityHandler(conversationState, userState, templateManager, mainDialog);
+    this.bot = new DefaultActivityHandler(conversationState, userState, templateManager, telemetryClient, mainDialog);
 };
 
 /**
@@ -166,8 +163,12 @@ const getTelemetryClient = function(settings) {
     return new NullTelemetryClient();
 };
 
-const getTemplates = function(locale, name) {
-    return templateManager.lgPerLocale.get(locale).expandTemplate(name);
+const getTemplates = function(locale, name, data) {
+    const path = locale === 'en-us'
+        ? join(__dirname, '..', '..', 'lib', 'responses', 'AllResponses.lg')
+        : join(__dirname, '..', '..', 'lib', 'responses', `AllResponses.${locale}.lg`)
+    
+    return TemplatesParser.parseFile(path).expandTemplate(name, data);
 };
 
 module.exports = {

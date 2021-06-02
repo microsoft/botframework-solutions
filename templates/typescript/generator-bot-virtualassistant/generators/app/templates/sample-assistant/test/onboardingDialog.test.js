@@ -5,8 +5,8 @@
 
 const assert = require('assert');
 const { MemoryStorage } = require('botbuilder-core')
-const { getAllResponsesTemplates, getTestAdapterDefault } = require('./helpers/botTestBase');
 const testNock = require('./helpers/testBase');
+const { getAllResponsesTemplates, getTestAdapterDefault } = require('./helpers/botTestBase');
 let testStorage = new MemoryStorage();
 
 describe("Onboarding Dialog", function () {
@@ -26,21 +26,21 @@ describe("Onboarding Dialog", function () {
 
             getTestAdapterDefault({ storage: testStorage }).then((testAdapter) => {
                 const flow = testAdapter
-                    .send({
-                        type: "conversationUpdate",
-                        membersAdded: [
-                            {
-                                id: "1",
-                                name: "user"
-                            }
-                        ],
-                    })
-                    .assertReply((activity, description) => {
-                        assert.strictEqual(1, activity.attachments.length)
-                    })
-                    .assertReplyOneOf(allNamePromptVariations)
-                    .send(testName)
-                    .assertReplyOneOf(allHaveMessageVariations)
+                .send({
+                    type: "conversationUpdate",
+                    membersAdded: [
+                        {
+                            id: "1",
+                            name: "user"
+                        }
+                    ],
+                })
+                .assertReply((activity, description) => {
+                    assert.strictEqual(1, activity.attachments.length)
+                })
+                .assertReplyOneOf(allNamePromptVariations)
+                .send(testName)
+                .assertReplyOneOf(allHaveMessageVariations)
 
                 return testNock.resolveWithMocks('onboardingDialog_init', done, flow);
             });

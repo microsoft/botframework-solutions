@@ -288,9 +288,7 @@ Error: Path to the nonExistenceen-usDispatch.dispatch file leads to a nonexisten
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the bf luis:convert command:
-Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill
-Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")}) leads to a nonexistent file.`);
+Error: There were one or more issues converting the LU files. Aborting the process.`);
         });
 
         it("when the dispatch add command fails", async function () {
@@ -322,9 +320,7 @@ Error: Path to testskill.luis (${join(configuration.luisFolder, configuration.la
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the dispatch add command:
-Command: dispatch add --type file --name testSkill --filePath ${join(configuration.luisFolder, configuration.languages[0], "testskill.luis")} --intentName testSkill --dataFolder ${join(configuration.dispatchFolder, configuration.languages[0])} --dispatch ${join(configuration.dispatchFolder, configuration.languages[0], "filleden-usDispatch.dispatch")}
-Error: Mocked function throws an Error`);
+Error: There were one or more issues converting the LU files. Aborting the process.`);
         });
 
         it("when languages argument contains non-supported cultures for the VA", async function () {
@@ -379,10 +375,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
 
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:
 Error: An error ocurred while updating the Dispatch model:
-Error: There was an error in the bf luis:convert command:
-Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testskill.luis')} --name testSkill
-Error: The execution of the bf command failed with the following error:
-Error: Mocked function throws an Error`);
+Error: There were one or more issues converting the LU files. Aborting the process.`);
 		});
 
         it("when the refresh execution fails", async function () {
@@ -420,7 +413,7 @@ Error: Mocked function throws an Error`);
         it("The localManifest V1 points to a nonexisting Endpoint URL", async function() {
             const configuration = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpoint.json")),
+                localManifest: resolve(__dirname, join("mocks", "manifests", "v1", "invalidEndpoint.json")),
                 remoteManifest: "",
                 languages: "",
                 luisFolder: "",
@@ -436,7 +429,7 @@ Error: Mocked function throws an Error`);
         
             const errorMessages = [
                 `Missing property 'endpoint' of the manifest`,
-                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
+                `There was an error while connecting the Skill to the Assistant:\nError: One or more properties are missing from your Skill Manifest`
             ]
         
             this.connector.configuration = configuration;
@@ -447,42 +440,11 @@ Error: Mocked function throws an Error`);
                 strictEqual(errorMessage, errorMessages[index]);
             });
         });
-    
-        it("The localManifest V1 points to a Endpoint URL with uppercase scenario", async function() {
-            const configuration = {
-                botName: "",
-                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpointManifest.json")),
-                remoteManifest: "",
-                languages: "",
-                luisFolder: "",
-                dispatchFolder: "",
-                outFolder: "",
-                lgOutFolder: "",
-                resourceGroup: "",
-                appSettingsFile: "",
-                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
-                lgLanguage: "",
-                logger: this.logger
-            };
-        
-            const errorMessages = [
-                `The 'endpoint' property contains some characters not allowed.`,
-                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
-            ]
-        
-            this.connector.configuration = configuration;
-            await this.connector.connectSkill();
-            const errorList = this.logger.getError();
-        
-            errorList.forEach((errorMessage, index) => {
-                strictEqual(errorMessage, errorMessages[index]);
-            });
-        });
-    
+
         it("The localManifest V2 points to a nonexisting Endpoint URL", async function() {
             const configuration = {
                 botName: "",
-                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpointV2.json")),
+                localManifest: resolve(__dirname, join("mocks", "manifests", "v2", "invalidEndpoint.json")),
                 remoteManifest: "",
                 languages: "",
                 luisFolder: "",
@@ -498,38 +460,7 @@ Error: Mocked function throws an Error`);
         
             const errorMessages = [
                 `Missing property 'endpointUrl' at the selected endpoint. If you didn't select any endpoint, the first one is taken by default`,
-                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
-            ]
-        
-            this.connector.configuration = configuration;
-            await this.connector.connectSkill();
-            const errorList = this.logger.getError();
-        
-            errorList.forEach((errorMessage, index) => {
-                strictEqual(errorMessage, errorMessages[index]);
-            });
-        });
-    
-        it("The localManifest V2 points to a Endpoint URL with uppercase scenario", async function() {
-            const configuration = {
-                botName: "",
-                localManifest: resolve(__dirname, join("mocks", "skills", "invalidEndpointManifestV2.json")),
-                remoteManifest: "",
-                languages: "",
-                luisFolder: "",
-                dispatchFolder: "",
-                outFolder: "",
-                lgOutFolder: "",
-                resourceGroup: "",
-                appSettingsFile: "",
-                cognitiveModelsFile : resolve(__dirname, "mocks", "cognitivemodels", "cognitivemodelsWithTwoDispatch.json"),
-                lgLanguage: "",
-                logger: this.logger
-            };
-        
-            const errorMessages = [
-                `The 'endpointUrl' property contains some characters not allowed at the selected endpoint. If you didn't select any endpoint, the first one is taken by default.`,
-                `There was an error while connecting the Skill to the Assistant:\nError: Your Skill Manifest is not compatible. Please note that the minimum supported manifest version is 2.1.`
+                `There was an error while connecting the Skill to the Assistant:\nError: One or more properties are missing from your Skill Manifest`
             ]
         
             this.connector.configuration = configuration;

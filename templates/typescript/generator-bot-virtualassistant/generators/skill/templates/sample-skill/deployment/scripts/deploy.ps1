@@ -19,6 +19,87 @@ Param(
 	[string] $logFile = $(Join-Path $PSScriptRoot .. "deploy_log.txt")
 )
 
+function ParseValidationResult
+(
+    [ValidateNotNullOrEmpty()]
+    [System.Collections.ArrayList]
+    $ValidationResult
+)
+{
+    # If there is a single ErrorRecord item in the validation result array, then we take that to mean that
+    # the stderr output stream from running the 'az group deployment validate' command spat out an error.
+    #
+    if ($ValidationResult.Count -eq 1 -and $ValidationResult[0] -is [System.Management.Automation.ErrorRecord])
+    {
+        # There are two error formats we could be dealing with:
+        # 1) We are dealing with a locally-throw exception with a regular exception message; or
+        # 2) A JSON service error was returned, and the exception message contains the JSON payload.
+
+        # Per GitHub Issue https://github.com/Azure/azure-cli/issues/13037, validation errors are not returned as
+        # valid JSON. To handle this, parse out the error code and message manually and return an object containing
+        # the parsed details.
+        #
+        $expression = "('code'\s*:\s*['`"]{1}(?<code>[^'`"]*)['`"]{1})|('message'\s*:\s*`"(?<message>[^`"]*)`")"
+        $regex = New-Object System.Text.RegularExpressions.Regex($expression)
+        $matches = $regex.Matches($ValidationResult[0].Exception.Message)
+        
+        # Here, we parse out only successful match groups where the name matches the capture group names in the expression above.
+        #
+        $groupNames = @("code", "message")
+        $groups = if ($matches) { $matches.Groups | Where-Object { $_.Success -and $groupNames -contains $_.Name } } else { $null }
+
+        # If we don't have any matches, then assume this is a non-service error, and take the exception message as-is.
+        #
+        # If we do match on at least one property, then build a Hashtable object that contains the unique properties.
+        # In JSON representation, this will look like the following:
+        #
+        # {
+        #     "code": "ErrorCode",
+        #     "message": "Description of the returned validation error code."
+        # }
+        #
+        # From that, we can concatenate the service error properties into a single message string.
+        #
+        if (-not $groups -or $groups.Count -eq 0)
+        {
+            $validationError = @{
+                "message" = $ValidationResult[0].Exception.Message
+            }
+        }
+        else
+        {
+            $serviceError = @{}
+            foreach ($group in $groups)
+            {
+                $serviceError[$group.Name] = $group.Value
+            }
+
+            $messageComponents = @()
+            foreach ($groupName in $groupNames)
+            {
+                if ($serviceError[$groupName])
+                {
+                    $messageComponents += $serviceError[$groupName]
+                }
+            }
+
+            $validationError = @{
+                "message" = [String]::Join(" : ", $messageComponents)
+            }
+        }
+
+        return @{
+            "error" = $validationError
+        }
+    }
+
+    # If a single ErrorRecord was not returned in the validation results array, then we assume that the validation
+    # operation was successful, and that the contents of the array are each line of the returned JSON payload.
+    # In this case, pipe all lines into ConvertFrom-Json to return the parsed PSCustomObject.
+    #
+    return $ValidationResult | ConvertFrom-Json
+}
+
 # Src folder path
 $srcDir = $(Join-Path $projDir "src")
 
@@ -93,7 +174,7 @@ if (-not $luisAuthoringKey) {
         else {
             $createLuisAuthoring = $true
         }
-    } 
+    }
 }
 else {
     $createLuisAuthoring = $false
@@ -142,72 +223,94 @@ Write-Host "Done." -ForegroundColor Green
 
 # Deploy Azure services (deploys LUIS, QnA Maker, Content Moderator, CosmosDB)
 if ($parametersFile) {
-	Write-Host "> Validating Azure deployment ..." -NoNewline
-	$validation = az deployment group validate `
-		--resource-group $resourcegroup `
-		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-		--parameters "@$($parametersFile)" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
-        --output json
+    Write-Host "> Validating Azure deployment ..." -NoNewline
 
-	if ($validation) {    
-		$validation >> $logFile
-		$validation = $validation | ConvertFrom-Json
-	
-		if (-not $validation.error) {
-            Write-Host "Done." -ForegroundColor Green
-			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
-			$deployment = az deployment group create `
-				--name $timestamp `
-				--resource-group $resourceGroup `
-				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-				--parameters "@$($parametersFile)" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
-                --output json 2>> $logFile | Out-Null
+    # To explain the syntax here:
+    # - 'az deployment group validate' is being executed with supplied parameters prefixed with '--'
+    # - 2>&1 merges the stderr output stream into stdout, ensuring all output from the executed command comes through stdout
+    # - stdout is piped into Tee-Object to write the contents of stdout to our log file, and capture the piped contents in a variable, $validation
+    # - The stream is finally piped on into Out-Null so that it does not get rendered to the host
+    #
+    az deployment group validate `
+        --resource-group $resourcegroup `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+        --parameters "@$($parametersFile)" `
+        --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+        --output json `
+        2>&1 `
+        | Tee-Object -FilePath $logFile -OutVariable validation `
+        | Out-Null
 
-            Write-Host "Done." -ForegroundColor Green
-		}
-		else {
-			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor Red
-			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor Red
-			Write-Host "! Log: $($logFile)" -ForegroundColor Red
-			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
-			Break
-		}
-	}
+    # OutVariable always outputs the contents of the piped output stream as System.Collections.ArrayList, so now let's parse into
+    # a format that is a little easier to evaluate.
+    #
+    $validation = ParseValidationResult -ValidationResult $validation
+
+    if ($validation.error) {
+        Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor Red
+        Write-Host "! Error: $($validation.error.message)"  -ForegroundColor Red
+        Write-Host "! Log: $($logFile)" -ForegroundColor Red
+        Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
+        break
+    }
+
+    Write-Host "Done." -ForegroundColor Green
+
+    Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
+
+    az deployment group create `
+        --name $timestamp `
+        --resource-group $resourceGroup `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+        --parameters "@$($parametersFile)" `
+        --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+        --output json 2>> $logFile | Out-Null
+
+    Write-Host "Done." -ForegroundColor Green
 }
 else {
-	Write-Host "> Validating Azure deployment ..." -NoNewline
-	$validation = az deployment group validate `
-		--resource-group $resourcegroup `
-		--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-		--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
-        --output json
+    Write-Host "> Validating Azure deployment ..." -NoNewline
 
-	if ($validation) {
-		$validation >> $logFile
-		$validation = $validation | ConvertFrom-Json
+    # To explain the syntax here:
+    # - 'az deployment group validate' is being executed with supplied parameters prefixed with '--'
+    # - 2>&1 merges the stderr output stream into stdout, ensuring all output from the executed command comes through stdout
+    # - stdout is piped into Tee-Object to write the contents of stdout to our log file, and capture the piped contents in a variable, $validation
+    # - The stream is finally piped on into Out-Null so that it does not get rendered to the host
+    #
+    az deployment group validate `
+        --resource-group $resourcegroup `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+        --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+        --output json `
+        2>&1 `
+        | Tee-Object -FilePath $logFile -OutVariable validation `
+        | Out-Null
 
-		if (-not $validation.error) {
-            Write-Host "Done." -ForegroundColor Green
-			Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
-			$deployment = az deployment group create `
-				--name $timestamp `
-				--resource-group $resourceGroup `
-				--template-file "$(Join-Path $PSScriptRoot '..' 'Resources' 'template.json')" `
-				--parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
-                --output json 2>> $logFile | Out-Null
+    # OutVariable always outputs the contents of the piped output stream as System.Collections.ArrayList, so now let's parse into
+    # a format that is a little easier to evaluate.
+    #
+    $validation = ParseValidationResult -ValidationResult $validation
 
-            Write-Host "Done." -ForegroundColor Green
-		}
-		else {
-			Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor Red
-			Write-Host "! Error: $($validation.error.message)"  -ForegroundColor Red
-			Write-Host "! Log: $($logFile)" -ForegroundColor Red
-			Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
-			Break
-		}
-	}
+    if ($validation.error) {
+        Write-Host "! Template is not valid with provided parameters. Review the log for more information." -ForegroundColor Red
+        Write-Host "! Error: $($validation.error.message)"  -ForegroundColor Red
+        Write-Host "! Log: $($logFile)" -ForegroundColor Red
+        Write-Host "+ To delete this resource group, run 'az group delete -g $($resourceGroup) --no-wait'" -ForegroundColor Magenta
+        break
+    }
+
+    Write-Host "Done." -ForegroundColor Green
+
+    Write-Host "> Deploying Azure services (this could take a while)..." -ForegroundColor Yellow -NoNewline
+
+    az deployment group create `
+        --name $timestamp `
+        --resource-group $resourceGroup `
+        --template-file "$(Join-Path $PSScriptRoot '..' 'resources' 'template.json')" `
+        --parameters name=$name microsoftAppId=$appId microsoftAppPassword="`"$($appPassword)`"" luisAuthoringLocation=$armLuisAuthoringRegion useLuisAuthoring=$createLuisAuthoring `
+        --output json 2>> $logFile | Out-Null
+
+    Write-Host "Done." -ForegroundColor Green
 }
 
 # Get deployment outputs
@@ -254,19 +357,19 @@ if ($outputs)
 	
 	if ($outputs.qnaMaker.value.key) { $qnaSubscriptionKey = $outputs.qnaMaker.value.key }
     if (-not $luisAuthoringKey) { $luisAuthoringKey = $outputs.luis.value.authoringKey }
-    if (-not $luisEndpoint) { $luisEndpoint = $outputs.luis.value.endpoint }
+    if (-not $luisEndpoint) { $luisEndpoint = $outputs.luis.value.authoringEndpoint }
 
     Write-Host "Done." -ForegroundColor Green
 
 	# Delay to let QnA Maker finish setting up
 	Start-Sleep -s 30
 
-	# Deploy cognitive models
+    # Deploy cognitive models
     if ($useGov) {
-		Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($srcDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)' -useGov"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($srcDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.predictionAccountName)' -luisAccountRegion '$($outputs.luis.value.predictionRegion)' -luisSubscriptionKey '$($outputs.luis.value.predictionKey)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)' -useGov"
     }
     else {
-        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($srcDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.accountName)' -luisAccountRegion '$($outputs.luis.value.region)' -luisSubscriptionKey '$($outputs.luis.value.key)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)'"
+        Invoke-Expression "& '$(Join-Path $PSScriptRoot 'deploy_cognitive_models.ps1')' -name $($name) -resourceGroup $($resourceGroup) -outFolder '$($srcDir)' -languages '$($languages)' -luisAuthoringRegion '$($luisAuthoringRegion)' -luisAuthoringKey '$($luisAuthoringKey)' -luisAccountName '$($outputs.luis.value.predictionAccountName)' -luisAccountRegion '$($outputs.luis.value.predictionRegion)' -luisSubscriptionKey '$($outputs.luis.value.predictionKey)' -luisEndpoint '$($luisEndpoint)' -qnaSubscriptionKey '$($qnaSubscriptionKey)' -qnaEndpoint '$($qnaEndpoint)'"
     }
 	
     # Publish bot

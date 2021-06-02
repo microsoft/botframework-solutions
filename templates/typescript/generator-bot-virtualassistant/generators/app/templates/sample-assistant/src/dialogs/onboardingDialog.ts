@@ -13,7 +13,7 @@ import {
 import { IUserProfileState } from '../models/userProfileState';
 import { StateProperties } from '../models/stateProperties';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateManager, DialogContextEx } from 'bot-solutions';
+import { LocaleTemplateManager } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
 
 enum DialogIds {
@@ -53,7 +53,7 @@ export class OnboardingDialog extends ComponentDialog {
         }
         
         return await sc.prompt(DialogIds.NamePrompt, {
-                prompt: this.templateManager.generateActivityForLocale('NamePrompt', sc.context.activity.locale),
+            prompt: this.templateManager.generateActivityForLocale('NamePrompt', sc.context.activity.locale),
         });
     }
 
@@ -81,7 +81,7 @@ export class OnboardingDialog extends ComponentDialog {
             }
         }
 
-        // Captialize name
+        // Capitalize name
         userProfile.name = name.toLowerCase()
             .split(' ')
             .map((word: string): string => word.charAt(0)

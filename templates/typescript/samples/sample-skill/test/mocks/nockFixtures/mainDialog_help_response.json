@@ -2,16 +2,25 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "help",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "help",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "help",
-            "topScoringIntent": {
-                "intent": "None",
-                "score": 0.873317
-            },
-            "entities": []
+            "prediction": {
+                "topIntent": "None",
+                "intents": {
+                    "None": {
+                        "score": 0.873317
+                    }
+                },
+                "entities": {}
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -19,15 +28,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "119",
+            "102",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "c65270f7-f705-4921-a3c2-876984f7eeaa",
+            "767f65bd-23ba-4fc4-9564-66d610c17a81",
             "Request-Id",
-            "c65270f7-f705-4921-a3c2-876984f7eeaa",
+            "767f65bd-23ba-4fc4-9564-66d610c17a81",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -35,7 +44,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 15:15:26 GMT",
+            "Thu, 16 Jul 2020 18:23:43 GMT",
             "Connection",
             "close"
         ]
@@ -43,16 +52,25 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "help",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "help",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "help",
-            "topScoringIntent": {
-                "intent": "Help",
-                "score": 0.9882712
-            },
-            "entities": []
+            "prediction": {
+                "topIntent": "Help",
+                "intents": {
+                    "Help": {
+                        "score": 0.9895731
+                    }
+                },
+                "entities": {}
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -60,15 +78,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "120",
+            "103",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "9faca270-9610-4c1c-9646-fa9010760c89",
+            "c8558b3d-ce58-4ac1-9b4e-c8bd74658d03",
             "Request-Id",
-            "9faca270-9610-4c1c-9646-fa9010760c89",
+            "c8558b3d-ce58-4ac1-9b4e-c8bd74658d03",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -76,7 +94,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 15:15:26 GMT",
+            "Thu, 16 Jul 2020 18:23:44 GMT",
             "Connection",
             "close"
         ]

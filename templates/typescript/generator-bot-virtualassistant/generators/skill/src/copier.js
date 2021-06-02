@@ -81,6 +81,14 @@ class Copier {
       join(`pipeline`, `${newSkill.skillName}.yml`)
     );
     templateFiles.set(
+      join(`src`, `_cognitivemodels.json`),
+      join(`src`, `cognitivemodels.json`)
+    );
+    templateFiles.set(
+      join(`src`, `dialogs`, `_mainDialog.ts`),
+      join(`src`, `dialogs`, `mainDialog.ts`)
+    );
+    templateFiles.set(
       join(`src`, `manifest`, `_manifest-1.0.json`),
       join(`src`, `manifest`, `manifest-1.0.json`)
     );
