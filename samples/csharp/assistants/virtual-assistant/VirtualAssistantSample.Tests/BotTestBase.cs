@@ -13,7 +13,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
-using Microsoft.Bot.Solutions.Feedback;
 using Microsoft.Bot.Solutions.Responses;
 using Microsoft.Bot.Solutions.Skills.Dialogs;
 using Microsoft.Bot.Solutions.Testing;
@@ -139,8 +138,7 @@ namespace VirtualAssistantSample.Tests
         public TestFlow GetTestFlow(bool includeUserProfile = true)
         {
             var sp = Services.BuildServiceProvider();
-            var adapter = sp.GetService<TestAdapter>()
-                .Use(new FeedbackMiddleware(sp.GetService<ConversationState>(), sp.GetService<IBotTelemetryClient>()));
+            var adapter = sp.GetService<TestAdapter>();
 
             var userState = sp.GetService<UserState>();
             var userProfileState = userState.CreateProperty<UserProfileState>(nameof(UserProfileState));

@@ -9,7 +9,6 @@
 export * from './authentication';
 export * from './dialogs';
 export * from './extensions';
-export * from './feedback';
 export * from './middleware';
 export * from './proactive';
 export * from './resources';
