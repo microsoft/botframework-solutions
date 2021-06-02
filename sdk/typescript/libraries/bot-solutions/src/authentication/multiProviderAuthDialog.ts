@@ -7,7 +7,7 @@ import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStatus, FoundChoice,
     OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext,
     OAuthPromptSettings } from 'botbuilder-dialogs';
-import { TokenStatus } from 'botframework-connector/lib/tokenApi/models';
+import { TokenStatus } from 'botframework-connector';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
 import i18next from 'i18next';
 import { IOAuthConnection } from '../authentication';
