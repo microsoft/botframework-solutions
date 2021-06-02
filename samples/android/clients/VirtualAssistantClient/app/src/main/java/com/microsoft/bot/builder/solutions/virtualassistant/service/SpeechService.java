@@ -119,6 +119,11 @@ public class SpeechService extends Service {
             }
 
             @Override
+            public void disconnectAsync() {
+                if (speechSdk != null) speechSdk.disconnectAsync();
+            }
+
+            @Override
             public void startLocationUpdates() {
                 SpeechService.this.startLocationUpdates();
             }
@@ -376,7 +381,7 @@ public class SpeechService extends Service {
             Log.d(TAG_FOREGROUND_SERVICE, "resetting SpeechSDK");
             shouldListenAgain = false;
             previousRequestWasTyped = false;
-            speechSdk.reset();
+            speechSdk.disconnectAsync();
         }
         speechSdk = new SpeechSdk();
         File directory = getExternalFilesDir(null);

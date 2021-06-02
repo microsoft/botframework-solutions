@@ -7,7 +7,7 @@ const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
 const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, BotFrameworkSkill } = require('botbuilder');
-const { EventDebuggerMiddleware, FeedbackMiddleware, Locales, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
+const { EventDebuggerMiddleware, Locales, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
 const i18next = require('i18next');
 const i18nextNodeFsBackend = require('i18next-node-fs-backend');
 const { BotServices } = require('../../lib/services/botServices');
@@ -130,7 +130,6 @@ async function getTestAdapterDefault(settings) {
     adapter.use(new SetLocaleMiddleware(botSettings.defaultLocale || 'en-us'));
     adapter.use(new EventDebuggerMiddleware());
     adapter.use(new AutoSaveStateMiddleware(conversationState, userState));
-    adapter.use(new FeedbackMiddleware(conversationState, telemetryClient));
     return adapter;
 }
 

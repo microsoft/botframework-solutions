@@ -211,16 +211,16 @@
 ```
 
 # HelpCard
-[HeroCard 
+[HeroCard
     title=虚拟助理的帮助
     subtitle=此卡可用于显示信息，以帮助用户与您的机器人进行交互。
 ]
 
-# RandomName 
+# RandomName
 - IF: ${Name && rand(0, 1000) > 500}
     - ${concat(' ', Name)}
 - ELSE:
-    - 
+    -
 
 # QnaMakerAdaptiveLearningCardTitle
 - 你的意思是：

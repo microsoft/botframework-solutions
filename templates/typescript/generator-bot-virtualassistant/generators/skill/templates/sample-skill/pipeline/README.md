@@ -1,1 +1,1 @@
-Please refer to the [Configure Pipelines with YAML files documentation](https://github.com/microsoft/botframework-solutions/blob/master/yaml/typescript/README.md) for customization instructions.
+Please refer to the [Enable Continuous Integration](https://microsoft.github.io/botframework-solutions/solution-accelerators/tutorials/enable-continuous-integration/typescript/1-intro/) for customization instructions.

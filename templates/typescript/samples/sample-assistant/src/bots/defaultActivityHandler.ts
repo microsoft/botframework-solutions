@@ -6,7 +6,8 @@
 import {
     Activity,
     ActivityTypes,
-    BotState, 
+    BotState,
+    ChannelAccount,
     Channels,
     ConversationState,
     StatePropertyAccessor,
@@ -59,18 +60,26 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         await this.userState.saveChanges(turnContext, false);
     }
 
-    protected async membersAdded(turnContext: TurnContext): Promise<void> {
-        const userProfile: IUserProfileState = await this.userProfileState.get(turnContext, () => { name: ''; });
+    protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
+        const membersAdded: ChannelAccount[] = turnContext.activity.membersAdded;
+        for (const member of membersAdded) {
+            if (member.id !== turnContext.activity.recipient.id) {
+                const userProfile: IUserProfileState = await this.userProfileState.get(turnContext, () => {
+                    name: '';
+                });
+                if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
+                    // Send new user intro card.
+                    await turnContext.sendActivity(this.templateManager.generateActivityForLocale('NewUserIntroCard', userProfile));
+                } else {
+                    // Send returning user intro card.
+                    await turnContext.sendActivity(this.templateManager.generateActivityForLocale('ReturningUserIntroCard', userProfile));
+                }
 
-        if (userProfile.name === undefined || userProfile.name.trim().length === 0) {
-            // Send new user intro card.
-            await turnContext.sendActivity(this.templateManager.generateActivityForLocale('NewUserIntroCard', userProfile));
-        } else {
-            // Send returning user intro card.
-            await turnContext.sendActivity(this.templateManager.generateActivityForLocale('ReturningUserIntroCard', userProfile));
+                await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+            }
         }
-        
-        await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        // By calling next() you ensure that the next BotHandler is run.
+        await next();
     }
 
     protected async onMessageActivity(turnContext: TurnContext): Promise<void> {
