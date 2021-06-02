@@ -349,31 +349,31 @@
 
 > # Phrase list definitions
 
-@ phraselist StopList(interchangeable) = 
+@ phraselist StopList(interchangeable) =
 	- stop,pause,paused,stopped,pauses,discontinue,pausing,play,drop,next,stopping,previous,rest,hold,help
 
-@ phraselist AnswerList(interchangeable) = 
+@ phraselist AnswerList(interchangeable) =
 	- what,when,how,who,?,why,where,which,whom
 
-@ phraselist ShuffleList(interchangeable) = 
+@ phraselist ShuffleList(interchangeable) =
 	- shuffle,shuffled,shuffling,randomize,random,rearrange,mix,mixed,mixing
 
-@ phraselist VolumeList(interchangeable) = 
+@ phraselist VolumeList(interchangeable) =
 	- loud,louder,quiet,lower,volume,sound,quieter,mute
 
-@ phraselist ExcludeList(interchangeable) = 
+@ phraselist ExcludeList(interchangeable) =
 	- remove,disgusting,awful,don't like,hate,don't play
 
-@ phraselist SongInfoHelperList(interchangeable) = 
+@ phraselist SongInfoHelperList(interchangeable) =
 	- play,listen,put on,I want to listen to,by,of,form,please play,please,could you please,play something,play some,can you,can you play some,can you play,?,.,please play the song,please play the track,turn on,play something by,play anything by,something from,something by,anything from,anything by,start playing,play the track,the track,the song,artist,the artist,band,the band,the group,group,i want to play some,i want to play,some,give me,give me some,lets play,let's play,can we get some,can we play some,i want a little,play the song,track,song,play the,how about,play a little,turn on a little,crank some,crank a little,switch to,a bit,for a bit,now,turn on a bit of
 
-@ phraselist FromBy(interchangeable) = 
+@ phraselist FromBy(interchangeable) =
 	- from,by,sang by,from the artist,by the artist,of,by the band,from the band,from the group,by the group
 
 
 > # List entities
 
-@ list GenreList = 
+@ list GenreList =
 	- genre_list :
 		- schlager
 		- deathrash metal
@@ -2508,7 +2508,7 @@
 		- 60s
 
 
-@ list VolumeDirection = 
+@ list VolumeDirection =
 	- Down :
 		- lower
 		- down
