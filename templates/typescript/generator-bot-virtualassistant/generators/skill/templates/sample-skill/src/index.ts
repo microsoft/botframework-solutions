@@ -31,6 +31,7 @@ import { SampleAction } from './dialogs/sampleAction';
 import { SkillState } from './models';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
+import { readFileSync, existsSync } from 'fs';
 import { AuthenticationConfiguration, Claim } from 'botframework-connector';
 import { AllowedCallersClaimsValidator } from './authentication';
 
@@ -183,4 +184,17 @@ server.get('/api/messages', async (req: restify.Request, res: restify.Response):
         // route to bot activity handler.
         await bot.run(turnContext);
     });
+});
+
+// Enable endpoint to reach any file inside the bot manifest's folder
+server.get('/manifest/:file', (req: restify.Request, res: restify.Response): void => {
+    const manifestFilename: string = req.params.file;
+    const manifestFilePath: string = join(__dirname, 'manifest', manifestFilename);
+    if (!existsSync(manifestFilePath)) {
+        res.send(404);
+        return;
+    }
+
+    const manifest: Object = JSON.parse(readFileSync(manifestFilePath, 'UTF8'));
+    res.send(200, manifest);
 });
