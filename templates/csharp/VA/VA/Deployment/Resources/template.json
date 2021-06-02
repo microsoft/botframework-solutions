@@ -91,15 +91,15 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
     },
-    "luisRuntimeName": {
+    "luisPredictionName": {
       "type": "string",
-      "defaultValue": "[concat(parameters('name'), '-luisruntime-', parameters('suffix'))]"
+      "defaultValue": "[concat(parameters('name'), '-luisprediction-', parameters('suffix'))]"
     },
-    "luisRuntimeSku": {
+    "luisPredictionSku": {
       "type": "string",
       "defaultValue": "S0"
     },
-    "luisRuntimeLocation": {
+    "luisPredictionLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]"
     },
@@ -328,15 +328,15 @@
     },
     {
       "apiVersion": "2016-02-01-preview",
-      "name": "[parameters('luisRuntimeName')]",
-      "location": "[parameters('luisRuntimeLocation')]",
+      "name": "[parameters('luisPredictionName')]",
+      "location": "[parameters('luisPredictionLocation')]",
       "type": "Microsoft.CognitiveServices/accounts",
       "kind": "LUIS",
       "sku": {
-        "name": "[parameters('luisRuntimeSku')]"
+        "name": "[parameters('luisPredictionSku')]"
       },
       "properties": {
-        "customSubDomainName": "[parameters('luisRuntimeName')]"
+        "customSubDomainName": "[parameters('luisPredictionName')]"
       },
       "tags": {
         "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
@@ -358,7 +358,7 @@
         "[parameters('resourceTagName')]": "[parameters('resourceTagValue')]"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName'))]"
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('luisPredictionName'))]"
       ],
       "condition": "[parameters('useLuisAuthoring')]"
     },
@@ -488,12 +488,12 @@
     "luis": {
       "type": "object",
       "value": {
-        "accountName": "[parameters('luisRuntimeName')]",
-        "region": "[parameters('luisRuntimeLocation')]",
-        "key": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisRuntimeName')),'2016-02-01-preview').key1]",
+        "predictionAccountName": "[parameters('luisPredictionName')]",
+        "predictionRegion": "[parameters('luisPredictionLocation')]",
+        "predictionKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisPredictionName')),'2016-02-01-preview').key1]",
         "authoringRegion": "[parameters('luisAuthoringLocation')]",
         "authoringKey": "[if(parameters('useLuisAuthoring'), listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').key1, '')]",
-        "endpoint": "[if(parameters('useLuisAuthoring'), reference(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').endpoint, '')]"
+        "authoringEndpoint": "[if(parameters('useLuisAuthoring'), reference(resourceId('Microsoft.CognitiveServices/accounts', parameters('luisAuthoringName')),'2016-02-01-preview').endpoint, '')]"
       }
     },
     "qnaMaker": {

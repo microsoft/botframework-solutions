@@ -9,45 +9,47 @@ import {
     BotState, 
     Channels,
     ConversationState,
+    SigninStateVerificationQuery,
     StatePropertyAccessor,
     TeamsActivityHandler,
     TurnContext, 
-    UserState } from 'botbuilder';
+    UserState, 
+    BotTelemetryClient } from 'botbuilder';
 import {
     Dialog,
     DialogSet,
-    DialogState } from 'botbuilder-dialogs';
-import { DialogEx, LocaleTemplateManager, TokenEvents } from 'bot-solutions';
+    DialogState,
+    runDialog } from 'botbuilder-dialogs';
+import { LocaleTemplateManager, TokenEvents } from 'bot-solutions';
 import { IUserProfileState } from '../models/userProfileState';
 
 export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandler {
+
+    private readonly dialog: Dialog;
+    private readonly dialogs: DialogSet;
     private readonly conversationState: BotState;
     private readonly userState: BotState;
-    private readonly solutionName: string = 'sampleAssistant';
-    private readonly rootDialogId: string;
-    private readonly dialogs: DialogSet;
-    private readonly dialog: Dialog;
-    private dialogStateAccessor: StatePropertyAccessor;
-    private userProfileState: StatePropertyAccessor;
-    private templateManager: LocaleTemplateManager;
+    private readonly dialogStateAccessor: StatePropertyAccessor<DialogState>;
+    private readonly userProfileState: StatePropertyAccessor<IUserProfileState>;
+    private readonly templateManager: LocaleTemplateManager;
 
     public constructor(
         conversationState: ConversationState,
         userState: UserState,
         templateManager: LocaleTemplateManager,
-        dialog: T
+        dialog: T,
+        telemetryClient: BotTelemetryClient
     ) {
         super();
         this.dialog = dialog;
-        this.rootDialogId = this.dialog.id;
+        this.dialog.telemetryClient = telemetryClient;
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
+        this.userProfileState = userState.createProperty<IUserProfileState>('UserProfileState');
         this.templateManager = templateManager;
         this.dialogs = new DialogSet(this.dialogStateAccessor);
         this.dialogs.add(this.dialog);
-        this.userProfileState = userState.createProperty<DialogState>('UserProfileState');
-
         super.onMembersAdded(this.membersAdded.bind(this));
     }
 
@@ -70,7 +72,7 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
             await turnContext.sendActivity(this.templateManager.generateActivityForLocale('ReturningUserIntroCard', turnContext.activity.locale, userProfile));
         }
         
-        await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        await runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected async onMessageActivity(turnContext: TurnContext): Promise<void> {
@@ -81,11 +83,11 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
             (activity.text === undefined || activity.text.trim().length === 0)) {
             return Promise.resolve();
         }
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
-    protected async onTeamsSigninVerifyState(turnContext: TurnContext): Promise<void> {
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+    protected async handleTeamsSigninVerifyState(turnContext: TurnContext, query: SigninStateVerificationQuery): Promise<void> {
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected async onEventActivity(turnContext: TurnContext): Promise<void> {
@@ -96,7 +98,7 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
         switch (ev.name) {
             case TokenEvents.tokenResponseEventName:
                 // Forward the token response activity to the dialog waiting on the stack.
-                await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+                await runDialog(this.dialog, turnContext, this.dialogStateAccessor);
                 break;
             default:
                 await turnContext.sendActivity({ type: ActivityTypes.Trace, text: `Unknown Event '${ ev.name ?? 'undefined' }' was received but not processed.` });
@@ -105,6 +107,6 @@ export class DefaultActivityHandler<T extends Dialog> extends TeamsActivityHandl
     }
 
     protected async onEndOfConversationActivity(turnContext: TurnContext): Promise<void>{
-        await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        await runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 }

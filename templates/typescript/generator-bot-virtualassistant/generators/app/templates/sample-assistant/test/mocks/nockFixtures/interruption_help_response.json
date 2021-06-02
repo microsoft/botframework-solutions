@@ -2,37 +2,52 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "Help",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "Help",
-            "topScoringIntent": {
-                "intent": "l_general",
-                "score": 0.999744
-            },
-            "entities": [
-                {
-                    "entity": "help",
-                    "type": "builtin.personName",
-                    "startIndex": 0,
-                    "endIndex": 3
-                }
-            ],
-            "connectedServiceResult": {
-                "query": "Help",
-                "topScoringIntent": {
-                    "intent": "Help",
-                    "score": 0.9876724
-                },
-                "entities": [
-                    {
-                        "entity": "help",
-                        "type": "builtin.personName",
-                        "startIndex": 0,
-                        "endIndex": 3
+            "prediction": {
+                "topIntent": "l_general",
+                "intents": {
+                    "l_general": {
+                        "score": 0.9994039,
+                        "childApp": {
+                            "topIntent": "Help",
+                            "intents": {
+                                "Help": {
+                                    "score": 0.9871105
+                                }
+                            },
+                            "entities": {
+                                "personName": [
+                                    "Help"
+                                ],
+                                "$instance": {
+                                    "personName": [
+                                        {
+                                            "type": "builtin.personName",
+                                            "text": "Help",
+                                            "startIndex": 0,
+                                            "length": 4,
+                                            "modelTypeId": 2,
+                                            "modelType": "Prebuilt Entity Extractor",
+                                            "recognitionSources": [
+                                                "model"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
-                ]
+                },
+                "entities": {}
             }
         },
         "rawHeaders": [
@@ -41,15 +56,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "553",
+            "405",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "3583ab97-b19c-4ecf-8c50-ee07fba6a263",
+            "7e3d5c73-b882-4444-9aa4-5118ff2c01c0",
             "Request-Id",
-            "3583ab97-b19c-4ecf-8c50-ee07fba6a263",
+            "7e3d5c73-b882-4444-9aa4-5118ff2c01c0",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|2",
+            "CognitiveServices.LUIS.Transaction=2",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -57,7 +72,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 19:10:56 GMT",
+            "Wed, 15 Jul 2020 16:37:11 GMT",
             "Connection",
             "close"
         ]
@@ -65,23 +80,44 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Help",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "Help",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "Help",
-            "topScoringIntent": {
-                "intent": "Help",
-                "score": 0.9876724
-            },
-            "entities": [
-                {
-                    "entity": "help",
-                    "type": "builtin.personName",
-                    "startIndex": 0,
-                    "endIndex": 3
+            "prediction": {
+                "topIntent": "Help",
+                "intents": {
+                    "Help": {
+                        "score": 0.9871105
+                    }
+                },
+                "entities": {
+                    "personName": [
+                        "Help"
+                    ],
+                    "$instance": {
+                        "personName": [
+                            {
+                                "type": "builtin.personName",
+                                "text": "Help",
+                                "startIndex": 0,
+                                "length": 4,
+                                "modelTypeId": 2,
+                                "modelType": "Prebuilt Entity Extractor",
+                                "recognitionSources": [
+                                    "model"
+                                ]
+                            }
+                        ]
+                    }
                 }
-            ]
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -89,15 +125,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "245",
+            "310",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "d52f32a6-ed5b-4fd3-a2c8-c80eb77832b2",
+            "e0a396ac-b2fc-44f8-947f-c70c03268ea9",
             "Request-Id",
-            "d52f32a6-ed5b-4fd3-a2c8-c80eb77832b2",
+            "e0a396ac-b2fc-44f8-947f-c70c03268ea9",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -105,7 +141,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 19:10:57 GMT",
+            "Wed, 15 Jul 2020 16:37:12 GMT",
             "Connection",
             "close"
         ]

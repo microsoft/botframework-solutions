@@ -5,6 +5,7 @@
 
 import { SentimentType } from '../models';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace LuisRecognizerEx {
     export const sentiment = 'sentiment';
     export const positiveSentiment = 'positive';

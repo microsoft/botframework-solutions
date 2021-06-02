@@ -17,6 +17,6 @@ export * from './responses';
 export * from './skills';
 export * from './taskExtensions';
 export * from './util';
-export * from './botSettings';
+export * from './botSettingsBase';
 export * from './cognitiveModelSet';
 export * from './tokenEvents';

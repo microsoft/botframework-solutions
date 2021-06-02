@@ -272,8 +272,14 @@ export class ConnectSkill {
                     const culture: string = item[0];
                     const executionModelByCulture: Map<string, string> = item[1];
                     await this.executeLuisConvert(culture, executionModelByCulture);
-                    await this.executeDispatchAdd(culture, executionModelByCulture);
+                    if (!this.logger.isError) {
+                        await this.executeDispatchAdd(culture, executionModelByCulture);
+                    }
                 }));
+
+            if (this.logger.isError) {
+                throw new Error('There were one or more issues converting the LU files. Aborting the process.');
+            }
 
             // Check if it is necessary to refresh the skill
             if (!this.configuration.noRefresh) {
