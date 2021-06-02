@@ -10,6 +10,7 @@ import { Activity, ActivityTypes, IEventActivity } from 'botframework-schema';
 /**
  * Event prompt that enables Bots to wait for a incoming event matching a given name to be received.
  */
+//OBSOLETE: This class is being deprecated. For more information, refer to https://aka.ms/bfvarouting.
 export class EventPrompt extends ActivityPrompt {
     public eventName: string;
 

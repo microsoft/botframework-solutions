@@ -95,7 +95,7 @@ export class FeedbackOptions {
 
     /**
      * Gets message to show when a user provides some feedback.
-     * Default value is "Thanks for your feedback!".
+     * Default value is "Thanks, I appreciate your feedback.".
      * @returns A feedbackReceivedMessage as `string`.
      */
     public get feedbackReceivedMessage(): string {

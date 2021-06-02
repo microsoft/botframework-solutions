@@ -50,7 +50,7 @@ export class SwitchSkillDialog extends ComponentDialog {
             outerDc.context.activity.text = lastActivity.text;
         }
 
-        if (!!result && skillId !== undefined) {
+        if (result && skillId !== undefined) {
             // If user decided to switch, replace current skill dialog with new skill dialog.
             const skillDialogOptions: BeginSkillDialogOptions = {
                 activity: outerDc.context.activity
@@ -75,10 +75,7 @@ export class SwitchSkillDialog extends ComponentDialog {
         if (options === undefined) {
             throw new Error (`You must provide options of type ${ typeof(SwitchSkillDialogOptions).toString() }`); 
         }
-
-        if (options.skill !== undefined) {
-            await this.skillIdAccessor.set(stepContext.context, options.skill.id);
-        }
+        await this.skillIdAccessor.set(stepContext.context, options.skill.id);
         await this.lastActivityAccessor.set(stepContext.context, stepContext.context.activity);
 
         return await stepContext.prompt(SwitchSkillDialog.confirmPromptId, options);
