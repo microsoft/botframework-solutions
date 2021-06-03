@@ -14,7 +14,7 @@ import {
     StatePropertyAccessor,
     TeamsActivityHandler,
     TurnContext, 
-    UserState, 
+    UserState,
     BotTelemetryClient } from 'botbuilder';
 import {
     Dialog,

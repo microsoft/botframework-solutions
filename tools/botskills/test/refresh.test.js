@@ -145,7 +145,7 @@ describe("The refresh command", function () {
 
             strictEqual(errorList[errorList.length - 1], `There was an error while refreshing any Skill from the Assistant:${
                 EOL }Error: There was an error in the bf luis:generate:${configuration.lgLanguage} command:${
-                EOL }Command: bf luis:generate:${configuration.lgLanguage} --in "${ join(configuration.dispatchFolder, 'en-us', 'filleden-usDispatch.json') }" --out "${configuration.lgOutFolder}" --className DispatchLuis --force${
+                EOL }Command: bf luis:generate:${configuration.lgLanguage} --in "${ join(configuration.dispatchFolder, 'en-us', 'filleden-usDispatch.json') }" --out "${configuration.lgOutFolder}" --className "DispatchLuis" --force${
                 EOL }Error: Mocked function throws an Error`);
         });
     });

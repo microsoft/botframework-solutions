@@ -1,4 +1,4 @@
-﻿[FindPointOfInterest](./secondary/poi_navigation_find_poi.lu)
+[FindPointOfInterest](./secondary/poi_navigation_find_poi.lu)
 [GetDirections](./secondary/poi_navigation_get_directions.lu)
 [FindParking](./secondary/poi_navigation_find_parking.lu)
 

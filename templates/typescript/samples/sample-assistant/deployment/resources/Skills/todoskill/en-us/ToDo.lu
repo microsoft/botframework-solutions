@@ -1,4 +1,4 @@
-﻿> # Intent definitions
+> # Intent definitions
 
 ## AddToDo
 - add {TaskContent=schedule car maintenance} to my {ListType=to do} list

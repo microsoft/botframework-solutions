@@ -37,7 +37,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
     public constructor(
         authenticationConnections: IOAuthConnection[],
         locale: string,
-        promptSettings?: OAuthPromptSettings[],
+        promptSettings: OAuthPromptSettings[],
         oauthCredentials?: AppCredentials
     ) {
         super(MultiProviderAuthDialog.name);
@@ -116,7 +116,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
 
     private async promptForProvider(stepContext: WaterfallStepContext): Promise<DialogTurnResult> {
         if (this.authenticationConnections.length === 1) {
-            const result: string = this.authenticationConnections[0].name;
+            const result: string = this.authenticationConnections[0].name + '_' + stepContext.context.activity.locale.split('-')[0];
 
             return await stepContext.next(result);
         }
