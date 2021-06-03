@@ -181,15 +181,26 @@ export class MainDialog extends ComponentDialog {
 
         // Set up response caching for "repeat" functionality.
         innerDc.context.onSendActivities(this.storeOutgoingActivities.bind(this));
-        if (innerDc.activeDialog?.id === this.faqDialogId) {
-            // user is in a mult turn FAQ dialog
-            const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(this.faqDialogId, localizedServices, innerDc.context.activity.locale);
-            if (qnaDialog !== undefined) {
+
+        // Ensure that faq QnA dialog matching the locale of this dialogis registered
+        this.registerLocalizedQnADialog(this.faqDialogId, innerDc.context, localizedServices);
+
+        return await super.onContinueDialog(innerDc);
+    }
+
+    protected registerLocalizedQnADialog(knowledgebaseId: string, context: TurnContext, cognitiveModels: ICognitiveModelSet): string {
+        const localizedDialogId = [knowledgebaseId, context.activity.locale].filter(a => a).join('.');
+
+        let qnaDialog: Dialog = this.dialogs.find(localizedDialogId);
+        if (!qnaDialog) {
+            qnaDialog = this.tryCreateQnADialog(knowledgebaseId, cognitiveModels, context.activity.locale);
+            if (qnaDialog) {
+                qnaDialog.id = localizedDialogId;
                 this.dialogs.add(qnaDialog);
             }
         }
 
-        return await super.onContinueDialog(innerDc);
+        return localizedDialogId;
     }
 
     
@@ -387,26 +398,14 @@ export class MainDialog extends ComponentDialog {
 
             if (dispatchIntent === 'q_faq') {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
-                
-                const knowledgebaseId: string = this.faqDialogId;
-                const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(knowledgebaseId, localizedServices, activity.locale);
-                if (qnaDialog !== undefined) {
-                    this.dialogs.add(qnaDialog);
-                }
-                
-                return await stepContext.beginDialog(knowledgebaseId);
-            }
+                const dialogId = this.registerLocalizedQnADialog(this.faqDialogId, stepContext.context, localizedServices);
 
-            if (this.shouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore)) {
+                return await stepContext.beginDialog(dialogId);
+            } else if (this.shouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore)) {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
+                const dialogId = this.registerLocalizedQnADialog('chitchat', stepContext.context, localizedServices)
 
-                const knowledgebaseId = 'chitchat';
-                const qnaDialog: QnAMakerDialog | undefined = this.tryCreateQnADialog(knowledgebaseId, localizedServices, activity.locale);
-                if (qnaDialog !== undefined) {
-                    this.dialogs.add(qnaDialog);
-                }
-
-                return await stepContext.beginDialog(knowledgebaseId);
+                return await stepContext.beginDialog(dialogId);
             } else {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
                 await stepContext.context.sendActivity(this.templateManager.generateActivityForLocale('UnsupportedMessage', stepContext.context.activity.locale, userProfile));

@@ -39,6 +39,7 @@ To test this skill you will need to follow the ServiceNow configuration steps sh
     - In API's Resources, click New to add a resource
     - In the resource, select GET for HTTP method and input `(function process(/*RESTAPIRequest*/ request, /*RESTAPIResponse*/ response) { return gs.getUserID(); })(request, response);` in Script
     - Update the serviceNowGetUserId of appsetting.json: `"serviceNowGetUserId": "YOUR_API_NAMESPACE/YOUR_API_ID"`
+    ![ServiceNow Developer Portal Screenshot]({{site.baseurl}}/assets/images/itsm_servicenow_developer_portal.png)
 - Register an Application and OAuth configuration by following [these instructions](https://docs.servicenow.com/bundle/london-platform-administration/page/administer/security/task/t_CreateEndpointforExternalClients.html#t_CreateEndpointforExternalClients). Keep the generated Client ID and Client Secret to be used in the following OAuth Connection step.
     - Redirect URL is https://token.botframework.com/.auth/web/redirect
 - Add an OAuth Connection in the Settings pane of your Web App Bot named 'ServiceNow' using Service Provider 'Generic Oauth 2'

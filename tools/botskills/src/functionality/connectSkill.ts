@@ -15,7 +15,7 @@ import {
     ISkill,
     IModel
 } from '../models';
-import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils, libraries, validateLibrary } from '../utils';
+import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils, libraries, validateLibrary, sanitizeAppSettingsProperties  } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 import { IManifest } from '../models/manifest';
 import { EOL } from 'os';
@@ -125,7 +125,7 @@ export class ConnectSkill {
         executionModelMap.set('luisApp', luisApp);
         executionModelMap.set('luisFile', luisFile);
         executionModelMap.set('luisFilePath', luisFilePath);
-        executionModelMap.set('--in', wrapPathWithQuotes(luFilePath));
+        executionModelMap.set('--in', luFilePath);
         executionModelMap.set('--culture', culture);
         executionModelMap.set('--out', luisFilePath);
         executionModelMap.set('--type', 'file');
@@ -206,7 +206,7 @@ export class ConnectSkill {
             const luisConvertCommandArguments: string[] = ['--in', '--culture', '--out', '--name'];
             luisConvertCommandArguments.forEach((argument: string): void => {
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
-                luisConvertCommand.push(...[argument, argumentValue]);
+                luisConvertCommand.push(...[argument, wrapPathWithQuotes(argumentValue)]);
             });
             luisConvertCommand.push('--force');
             await this.runCommand(luisConvertCommand, `Parsing ${ culture } ${ luisApp } LU file`);
@@ -347,7 +347,7 @@ export class ConnectSkill {
     private async connectSkillManifest(cognitiveModelsFile: ICognitiveModel, skillManifest: IManifest): Promise<void> {
         try {
             // Take VA Skills configurations
-            const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+            const assistantSkillsFile: IAppSetting = JSON.parse(sanitizeAppSettingsProperties(this.configuration.appSettingsFile));
             const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is already connected to the assistant

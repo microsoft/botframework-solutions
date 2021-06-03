@@ -49,7 +49,10 @@
     <PackageProjectUrl>https://github.com/Microsoft/botframework-solutions</PackageProjectUrl>
  
 <PackageLicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/main/icon.png</PackageIconUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/Microsoft/botframework-solutions</RepositoryUrl>
     <LicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</LicenseUrl>
     <PackageTags>bots;ai;botframework;botbuilder</PackageTags>
@@ -61,4 +64,9 @@
     -->
     <NoWarn>$(NoWarn);NU5125;NU1701;8002</NoWarn>
   </PropertyGroup>
+  
+  <ItemGroup Condition="'$(GeneratePackageOnBuild)' == 'True'">
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  
 </Project>

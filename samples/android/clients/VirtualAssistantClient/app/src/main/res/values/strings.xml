@@ -12,12 +12,15 @@
     <string name="msg_listening" translatable="false">I am listening…</string>
     <string name="msg_listening_not" translatable="false">I am no longer listening…</string>
     <string name="msg_disconnected" translatable="false">Reconnecting to Service</string>
+    <string name="msg_canceled" translatable="false">Session Canceled</string>
+    <string name="msg_check_key_region" translatable="false">Check Speech Key/Region!</string>
 
     <!-- GENERAL STRINGS -->
     <string name="bot_input_hint" translatable="false">Type a message to the bot</string>
     <string name="ok">OK</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="settings">Settings</string>
 
     <!-- NAVIGATION DRAWER MENU -->
     <string name="navigation_drawer_open">Open navigation drawer</string>

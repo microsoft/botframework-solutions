@@ -1,6 +1,6 @@
 ﻿# CompletedMessage
-- I’m here if you need anything else.
-- Let me know if there’s anything else you need.
+- I'm here if you need anything else.
+- Let me know if there's anything else you need.
 - Let me know if I can help you with anything else.
 - All done. Let me know if I can do anything else.
 
@@ -8,18 +8,18 @@
 - OK${RandomName()}, cancelling your request. Let me know if I can do anything else for you.
 - OK, cancelling your request. Let me know if I can do anything else for you.
 - No problem, let me know if I can help you with anything else.
-- Sure, I’ll cancel your request. Let me know if I can help with anything else
+- Sure, I'll cancel your request. Let me know if I can help with anything else
 
 # UnsupportedMessage
 - I'm sorry, I'm not able to help with that.
-- Sorry, that’s not something I can help with yet.
-- Apologies, I don’t know how to do that right now.
-- Unfortunately I can’t help you with that right now. Apologies.
-- Sorry${RandomName()}, that’s not something I can help with yet.
-- Apologies${RandomName()}, I don’t know how to do that right now.
+- Sorry, that's not something I can help with yet.
+- Apologies, I don't know how to do that right now.
+- Unfortunately I can't help you with that right now. Apologies.
+- Sorry${RandomName()}, that's not something I can help with yet.
+- Apologies${RandomName()}, I don't know how to do that right now.
 
 # ConfusedMessage
-- I'm sorry, I didn’t understand that. Can you give me some more information?
+- I'm sorry, I didn't understand that. Can you give me some more information?
 - Sorry, I didn't get that. Can you tell me more?
 - Sorry${RandomName()}, I didn't get that. Can you tell me more?
 - Apologies, I didn't quite understand. Can you give me more information?
@@ -46,12 +46,12 @@
 
 # LogoutMessage
 - OK${RandomName()}, you're signed out.
-- Alright${RandomName()}, you’re signed out.
-- No problem${RandomName()}, I’ve signed you out.
+- Alright${RandomName()}, you're signed out.
+- No problem${RandomName()}, I've signed you out.
 - OK, you're signed out.
 - Alright, signed out.
-- Sure, you’ve been signed out.
-- No problem, I’ve signed you out.
+- Sure, you've been signed out.
+- No problem, I've signed you out.
 
 # SkillSwitchPrompt
 - Would you like to switch to the ${Skill}?
@@ -208,7 +208,7 @@
 ```
 
 # HelpCard
-[HeroCard 
+[HeroCard
     title=Help for Virtual Assistant
     subtitle=${HelpText()}
     speak = ${HelpText()}
@@ -217,11 +217,11 @@
 # HelpText
 - This can be used to display information to help your user interact with your Virtual Assistant.
 
-# RandomName 
+# RandomName
 - IF: ${Name && rand(0, 1000) > 500}
     - ${concat(' ', Name)}
 - ELSE:
-    - 
+    -
 
 # QnaMakerAdaptiveLearningCardTitle
 - Did you mean:

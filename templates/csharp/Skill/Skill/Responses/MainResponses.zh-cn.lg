@@ -59,7 +59,7 @@
 > ------------ Attachment templates ------------
 
 # HelpCard
-[HeroCard 
+[HeroCard
     title= ${HelpTitle()}
     subtitle= ${HelpSubtitle()}
 ]

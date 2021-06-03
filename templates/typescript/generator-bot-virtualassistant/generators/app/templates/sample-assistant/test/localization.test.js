@@ -20,8 +20,16 @@ describe("Localization", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
                     locale: "es-es"
                 })
                 .assertReply(function (activity, description) {
@@ -57,8 +65,16 @@ describe("Localization", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
                     locale: "de-de"
                 })
                 .assertReply(function (activity, description) {
@@ -94,8 +110,16 @@ describe("Localization", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
                     locale: "fr-fr"
                 })
                 .assertReply(function (activity, description) {
@@ -131,8 +155,16 @@ describe("Localization", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
                     locale: "it-it"
                 })
                 .assertReply(function (activity, description) {
@@ -168,8 +200,16 @@ describe("Localization", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
                     locale: "en-us"
                 })
                 .assertReply(function (activity, description) {
@@ -205,8 +245,16 @@ describe("Localization", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
                     locale: "zh-cn"
                 })
                 .assertReply(function (activity, description) {
@@ -240,15 +288,23 @@ describe("Localization", function() {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
                     locale: "en-uk"
                 })
                 .assertReply(function (activity, description) {
                     assert.strictEqual(1, activity.attachments.length);
                 });
 
-                 return testNock.resolveWithMocks('localization_response_en-uk', done, flow);
+                return testNock.resolveWithMocks('localization_response_en-uk', done, flow);
             });
         });
     });

@@ -22,37 +22,45 @@ Follow the [Best practices for building a language understanding app](https://do
 ### Use the General LUIS model for common utterances
 {:.no_toc}
 
-If there is an utterance that you expect would be applied to multiple Skills, take advantage of the General LUIS model provided to manage this entity at the top-level. The following intents are currently available:
+If there is an utterance that you expect would be applied to multiple Skills, take advantage of the General LUIS model provided to manage this entity at the top-level. You will find the `General.lu` which contains the following available intents:
 
 * Cancel
+* Confirm
 * Escalate
-* Goodbye
-* Greeting
+* ExtractName
+* FinishTask
+* GoBack
 * Help
 * Logout
-* Next
 * None
-* Previous
-* Restart
+* ReadAloud
+* Reject
+* Repeat
+* SelectAny
+* SelectItem
+* SelectNone
+* ShowNext
+* ShowPrevious
+* StartOver
+* Stop
 
 ### Update LUIS model
 {:.no_toc}
 
-You can update you LUIS model in LUIS portal. Or modify the **.lu** file then convert it to **.json** and upload to LUIS portal manually, or use **update_cognitive_models.ps1**
+You can update your LUIS model in the [LUIS portal](https://www.luis.ai/). Or modify the `.lu` file, convert it to `.json` and upload it to the LUIS portal manually, or just use `update_cognitive_models.ps1`.
 
-How to convert **.json** to **.lu**:
+To convert a `.lu` file(s) to a LUIS application JSON model or vice versa, use [bf luis:convert](https://www.npmjs.com/package/@microsoft/botframework-cli#bf-luisconvert) command:
 ```bash
-ludown refresh -i YOUR_BOT_NAME.json
-```
-How to convert **.lu** to **.json**:
-```bash
-ludown parse toluis --in YOUR_BOT_NAME.lu
+bf luis:convert `
+    --in "path-to-file" `
+    --culture "culture-code" `
+    --out "output-file-name.luis or folder name"
 ```
 
 ### Test LUIS model
 {:.no_toc}
 
-The unit test use a mock LUIS model. So if you need to test your LUIS model, you can implement a test tool by [LUIS API](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f) to test it automatically.
+The unit tests use a mock LUIS model. So if you need to test your LUIS model, you can implement a test tool by [LUIS API](https://westus.dev.cognitive.microsoft.com/docs/services/5890b47c39e2bb17b84a55ff/operations/5890b47c39e2bb052c5b9c2f) to test it automatically.
 
 ## Conversational design
 
@@ -73,20 +81,20 @@ Speech & Text responses are stored as part of the provided LG files for each pro
 ```markdown
 # NoTitle
 [Activity
-    Text = @{NoTitle.Text}
-    Speak = @{NoTitle.Text}
-    InputHint = expectingInput
+    Text = ${NoTitleText()}
+    Speak = ${NoTitleText()}
+    InputHint = expecting
 ]
 
-# NoTitle.Text
+# NoTitleText
 - What's the subject of the meeting?
 - What is the subject of the meeting?
 - Let me know what subject you want to provide for the meeting?
 ```
 
-Vary your responses, by providing additional responses to each LG element, your Skill will sound more natural and provide a dynamic conversation. This is shown above.
+Vary your responses, by providing additional responses to each LG element, your Skill will sound more natural and provide a dynamic conversation.
 
-Write how people speak. A skill should only provide relevant context when read aloud. Use visual aids to offer more data to a user.
+Write how people speak. A Skill should only provide relevant context when read aloud. Use visual aids to offer more data to a user.
 
 #### Visual
 {:.no_toc}
@@ -97,58 +105,53 @@ The example below shows two key concepts:
 - Text blocks in the Card can reference other LG elements to provide a variety of responses, in the example below one of two responses will be randomly selected.
 - Data can be passed in to the LG rendering, in this case the `title` parameter is used within the second `TextBlock` element. When generating an activity you can pass data items - e.g. `var response = TemplateEngine.GenerateActivityForLocale("HaveNameMessage", data);`
 
-# ExampleAdaptiveCard.Text
+```markdown
+# ExampleAdaptiveCardText
 - Hello World
 - Hello There
 
-# ExampleAdaptiveCard(title)
-```json
+# ExampleAdaptiveCard
 {
-    "type": "AdaptiveCard",
-    "id":"ExampleAdaptiveCard",
-    "body": [
+  "type": "AdaptiveCard",
+  "id":"ExampleAdaptiveCard",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
         {
-            "type": "Container",
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "@{ExampleAdaptiveCard.Text}",
-                    "size": "Medium",
-                    "wrap": true
-                }
-            ],
-            "style": "good",
-            "bleed": true
-        },
-        {
-            "type": "TextBlock",
-            "size": "Medium",
-            "weight": "Bolder",
-            "text": "{title}"
+          "type": "TextBlock",
+          "text": "${ExampleAdaptiveCardText()}",
+          "size": "Medium",
+          "wrap": true
         }
-    ],
-    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-    "version": "1.0"
+      ],
+      "style": "good",
+      "bleed": true
+    },
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "${Title}"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0"
 }
 ```
 
 ## Support skill fallback
-
-Currently if you want to support skill switching scenarios like this in Virtual Assistant:
+A commonly asked scenario is how to enable a Virtual Assistant to appropriately switch Skills if a user’s utterances require it, like in the following example:
 ```
 - User: What's my meetings today?
-
-- Bot (Virtual Assistant, Calendar skill): [Meetings], do you want to hear the first one?
-
+- Bot (Virtual Assistant -> Calendar Skill): [Meetings], do you want to hear the first one?
 - User: What tasks do I have?
-
 - Bot (Virtual Assistant): Are you sure to switch to todoSkill?
-
 - User: Yes, please.
-
-- Bot (Virtual Assistant, To Do skill): [To do list].
+- Bot (Virtual Assistant -> To Do skill): [To do list].
 ```
-You can make this happen by sending the FallbackEvent back to Virtual Assistant, to confirm whether other skills are able to handle this utterance.
+
+This can be enabled by sending a `FallbackEvent` back to the Virtual Assistant, to validate whether other Skills are able to handle this utterance.
 
 ```csharp
 protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
@@ -176,7 +179,8 @@ protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, Can
 }
 ```
 
-If other skills can handle it, Virtual Assistant will cancel current skill and pass user input to the proper skill. If not, Virtual Assistant will send back a FallbackHandledEvent to continue current skill.
+If it can be routed to another Skill, the Virtual Assistant will cancel the current Skill and pass user input to the newly activated Skill. Otherwise, the Virtual Assistant returns a `FallbackHandledEVent` to the current Skill in order for it to continue.
+
 ```json
 {
   "body": [
@@ -198,13 +202,13 @@ If other skills can handle it, Virtual Assistant will cancel current skill and p
                   "size": "Large",
                   "weight": "Bolder",
                   "color": "Accent",
-                  "text": "{Name}"
+                  "text": "${Name}"
                 },
                 {
                   "id": "AvailableDetails",
                   "type": "TextBlock",
                   "spacing": "None",
-                  "text": "{AvailableDetails}",
+                  "text": "${AvailableDetails}",
                   "isSubtle": true
                 },
                 {
@@ -212,7 +216,7 @@ If other skills can handle it, Virtual Assistant will cancel current skill and p
                   "type": "TextBlock",
                   "spacing": "None",
                   "color": "Dark",
-                  "text": "{Street}, {City}",
+                  "text": "${Street}, ${City}",
                   "isSubtle": true,
                   "wrap": true
                 },
@@ -221,7 +225,7 @@ If other skills can handle it, Virtual Assistant will cancel current skill and p
                   "type": "TextBlock",
                   "spacing": "None",
                   "color": "Dark",
-                  "text": "{Hours}",
+                  "text": "${Hours}",
                   "isSubtle": true,
                   "wrap": true
                 },
@@ -229,7 +233,7 @@ If other skills can handle it, Virtual Assistant will cancel current skill and p
                   "id": "Provider",
                   "type": "TextBlock",
                   "horizontalAlignment": "Right",
-                  "text": "Provided by **{Provider}**",
+                  "text": "Provided by **${Provider}**",
                   "isSubtle": true
                 }
               ],
@@ -246,7 +250,7 @@ If other skills can handle it, Virtual Assistant will cancel current skill and p
         {
           "id": "Image",
           "type": "Image",
-          "url": "{ImageUrl}"
+          "url": "${ImageUrl}"
         }
       ]
     }
@@ -259,18 +263,18 @@ If other skills can handle it, Virtual Assistant will cancel current skill and p
         "event": {
           "name": "IPA.ActiveLocation",
           "text": "Find a route",
-          "value": "{Name}"
+          "value": "${Name}"
         }
       }
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "version": "1.0",
-  "speak": "{Index}, {Name} is located at {Street}"
+  "speak": "${Index}, ${Name} is located at ${Street}"
 }
 ```
 
-In the Point of Interest Skill, a route state model is passed to a Microsoft.Bot.Solutions method to render the populated card.
+In the [Point of Interest Skill](https://github.com/microsoft/botframework-skills/tree/main/skills/csharp/pointofinterestskill), a route state model is passed to a Microsoft.Bot.Solutions method to render the populated card.
 
 ```csharp
 // Populate card data model
@@ -465,7 +469,7 @@ protected async Task<bool> ChoiceValidator(PromptValidatorContext<FoundChoice> p
 }
 ```
 
-If you need a more complex prompt you can implement it through inheriting **Microsoft.Bot.Builder.Dialogs.Prompt<T>**. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
+If you need a more complex prompt you can implement it through inheriting **Microsoft.Bot.Builder.Dialogs.Prompt**. Or read [Create your own prompts to gather user input](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-primitive-prompts?view=azure-bot-service-4.0&tabs=csharp) to learn more about custom prompt.
 
 ### Enable long running tasks
 {:.no_toc}
@@ -475,24 +479,24 @@ If you need a more complex prompt you can implement it through inheriting **Micr
 ### Error handling
 {:.no_toc}
 
-Use the **HandleDialogExceptions** method in [SkillDialogBase.cs]({{site.repo}}/blob/master/templates/Skill-Template/csharp/Sample/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
+Use the `HandleDialogExceptionsAsync` method in [SkillDialogBase.cs]({{site.repo}}/blob/master/samples/csharp/skill/SkillSample/Dialogs/SkillDialogBase.cs) to send a trace back to the [Bot Framework Emulator](https://aka.ms/botframework-emulator), logging the exception, and sending a friendly error response to the user.
 
 ```csharp
-protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception ex)
+protected async Task HandleDialogExceptionsAsync(WaterfallStepContext sc, Exception ex, CancellationToken cancellationToken)
 {
-	// send trace back to emulator
-	var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
-	await sc.Context.SendActivityAsync(trace);
+    // send trace back to emulator
+    var trace = new Activity(type: ActivityTypes.Trace, text: $"DialogException: {ex.Message}, StackTrace: {ex.StackTrace}");
+    await sc.Context.SendActivityAsync(trace, cancellationToken);
 
-	// log exception
-	TelemetryClient.TrackExceptionEx(ex, sc.Context.Activity, sc.ActiveDialog?.Id);
+    // log exception
+    TelemetryClient.TrackException(ex, new Dictionary<string, string> { { nameof(sc.ActiveDialog), sc.ActiveDialog?.Id } });
 
-	// send error message to bot user
-	await sc.Context.SendActivityAsync(ResponseManager.GetResponse(SharedResponses.ErrorMessage));
+    // send error message to bot user
+    await sc.Context.SendActivityAsync(TemplateEngine.GenerateActivityForLocale("ErrorMessage"), cancellationToken);
 
-	// clear state
-	var state = await ConversationStateAccessor.GetAsync(sc.Context);
-	state.Clear();
+    // clear state
+    var state = await StateAccessor.GetAsync(sc.Context, cancellationToken: cancellationToken);
+    state.Clear();
 }
 ```
 
@@ -501,55 +505,9 @@ protected async Task HandleDialogExceptions(WaterfallStepContext sc, Exception e
 
 Save your data in different scope of states. Read [Save user and conversation data](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-state?view=azure-bot-service-4.0&tabs=csharp) to learn about user and conversation state.
 
-For dialog state, you can save your data in **stepContext.State.Dialog[YOUR_DIALOG_STATE_KEY]**.
+For dialog state, you can save your data in `stepContext.State.Dialog[YOUR_DIALOG_STATE_KEY]`.
 
 ### Manage Dialogs
 {:.no_toc}
 
 Use dialog options to transfer data among dialogs. Read [Create advanced conversation flow using branches and loops](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0&tabs=csharp) to learn more about dialog management.
-
-## Skill switching within a Virtual Assistant
-A commonly asked scenario is how to enable a Virtual Assistant to appropriately switch Skills if a user's utterances require it, like in the following example:
-```
-- User: What meetings do I have today?
-
-- Bot (Virtual Assistant -> Calendar skill): [Show meetings]. Do you want to hear the first one?
-
-- User: What tasks do I have?
-
-- Bot (Virtual Assistant): Are you sure want to switch to the To Do Skill?
-
-- User: Yes, please.
-
-- Bot (Virtual Assistant -> To Do skill): [To do list].
-```
-This can be enabled by sending a FallbackEvent back to the Virtual Assistant, to validate whether other Skills are able to handle this utterance.
-
-```csharp
-protected async Task<DialogTurnResult> SendFallback(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
-{
-	try
-	{
-		var state = await EmailStateAccessor.GetAsync(sc.Context);
-
-		// Send Fallback Event
-		if (sc.Context.Adapter is EmailSkillWebSocketBotAdapter remoteInvocationAdapter)
-		{
-			await remoteInvocationAdapter.SendRemoteFallbackEventAsync(sc.Context, cancellationToken).ConfigureAwait(false);
-
-			// Wait for the FallbackHandle event
-			return await sc.PromptAsync(Actions.FallbackEventPrompt, new PromptOptions()).ConfigureAwait(false);
-		}
-
-		return await sc.NextAsync();
-	}
-	catch (Exception ex)
-	{
-		await HandleDialogExceptions(sc, ex);
-
-		return new DialogTurnResult(DialogTurnStatus.Cancelled, CommonUtil.DialogTurnResultCancelAllDialogs);
-	}
-}
-```
-
-If it can be routed to another Skill, the Virtual Assistant will cancel the current Skill and pass user input to the newly activated Skill. Otherwise, the Virtual Assistant returns a FallbackHandledEVent to the current Skill in order for it to continue.

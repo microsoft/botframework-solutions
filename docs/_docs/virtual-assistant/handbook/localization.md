@@ -12,77 +12,79 @@ toc: true
 {{ page.description }}
 
 ## Getting the locale
-To capture the user's locale, the Virtual Assistant uses the SetLocaleMiddleware. For each message that comes in from the user, the CurrentUICulture is set equal to the Activity's locale property. If Activity.Locale is not available on the activity, the DefaultLocale from cognitivemodel.json is used instead.
+To capture the user's locale, the Virtual Assistant uses the `SetLocaleMiddleware`. For each message that comes in from the user, the `CurrentUICulture` is set equal to the Activity's locale property. If Activity.Locale is not available on the activity, the `defaultLocale` property from `cognitivemodels.json` is used instead.
 
 ## Cognitive Models
-Each cognitive model used by the assistant (i.e. LUIS, QnA Maker, Dispatch) should be deployed in each language you want to support. The configuration for these models should be included in the cognitiveModels collection in cognitivemodels.json.
+Each cognitive model used by the assistant (i.e. LUIS, QnA Maker, Dispatch) should be deployed in each language you want to support. The configuration for these models should be included in the `cognitiveModels` collection in the `cognitivemodels.json` file.
 
 **Example cognitivemodels.json**
-```
+```json
 {
-    "defaultLocale": "en-us"
+    "defaultLocale": "en-us",
     "cognitiveModels": {
-        "en": {
+        "en-us": {
             "dispatchModel": {
-                "authoringkey": "",
                 "appid": "",
+                "authoringkey": "",
+                "authoringRegion": "",
                 "name": "",
-                "subscriptionkey": "",
                 "region": "",
-                "authoringRegion": ""
+                "subscriptionkey": "",
+                "type": "dispatch"
             },
             "languageModels": [
                 {
-                    "subscriptionkey": "",
                     "appid": "",
-                    "id": "",
-                    "version": "",
-                    "region": "",
-                    "name": "",
                     "authoringkey": "",
-                    "authoringRegion": ""
+                    "authoringRegion": "",
+                    "id": "",
+                    "name": "",
+                    "region": "",
+                    "subscriptionkey": "",
+                    "version": ""
                 }
             ],
             "knowledgebases": [
                 {
                     "endpointKey": "",
-                    "kbId": "",
                     "hostname": "",
-                    "subscriptionKey": "",
+                    "id": "",
+                    "kbId": "",
                     "name": "",
-                    "id": ""
+                    "subscriptionKey": ""
                 }
             ]
         },
-        "es": {
+        "es-es": {
             "dispatchModel": {
-                "authoringkey": "",
                 "appid": "",
+                "authoringkey": "",
+                "authoringRegion": "",
                 "name": "",
-                "subscriptionkey": "",
                 "region": "",
-                "authoringRegion": ""
+                "subscriptionkey": "",
+                "type": "dispatch"
             },
             "languageModels": [
                 {
-                    "subscriptionkey": "",
                     "appid": "",
-                    "id": "",
-                    "version": "",
-                    "region": "",
-                    "name": "",
                     "authoringkey": "",
-                    "authoringRegion": ""
+                    "authoringRegion": "",
+                    "id": "",
+                    "name": "",
+                    "region": "",
+                    "subscriptionkey": "",
+                    "version": ""
                 }
             ],
             "knowledgebases": [
                 {
                     "endpointKey": "",
-                    "kbId": "",
                     "hostname": "",
-                    "subscriptionKey": "",
+                    "id": "",
+                    "kbId": "",
                     "name": "",
-                    "id": ""
+                    "subscriptionKey": ""
                 }
             ]
         }
@@ -90,7 +92,7 @@ Each cognitive model used by the assistant (i.e. LUIS, QnA Maker, Dispatch) shou
 }
 ```
 
-These cognitive models are loaded into a dictionary in Startup.cs as part of the BotSettings.cs class:
+These cognitive models are loaded into a dictionary in `Startup.cs` as part of the `BotSettings.cs` class:
 
 **Startup.cs**
 ```csharp
@@ -100,21 +102,34 @@ Configuration.Bind(settings);
 
 **BotSettingsBase.cs**
 ```csharp
-public Dictionary<string, CognitiveModelConfiguration> CognitiveModels { get; set; }
+public Dictionary<string, CognitiveModelConfiguration> CognitiveModels { get; set; } = new Dictionary<string, CognitiveModelConfiguration>();
 ```
 
-Then in MainDialog.cs, the CurrentUICulture local is used to select the appropriate set of cognitive models to use:
+Then in `BotServices.cs`, the `CurrentUICulture` local is used to select the appropriate set of cognitive models to use in the `GetCognitiveModels()` method:
 
 ```csharp
-var locale = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-var cognitiveModels = _services.CognitiveModelSets[locale];
+public CognitiveModelSet GetCognitiveModels()
+{
+    // Get cognitive models for locale
+    var locale = CultureInfo.CurrentUICulture.Name.ToLower();
+
+    var cognitiveModel = CognitiveModelSets.ContainsKey(locale)
+        ? CognitiveModelSets[locale]
+        : CognitiveModelSets.Where(key => key.Key.StartsWith(locale.Substring(0, 2))).FirstOrDefault().Value
+        ?? throw new Exception($"There's no matching locale for '{locale}' or its root language '{locale.Substring(0, 2)}'. " +
+                                "Please review your available locales in your cognitivemodels.json file.");
+
+    return cognitiveModel;
+}
 ```
 
 ## Responses
 
-Responses from your assistant are generated through use of [Language Generation](https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation#readme) and the `.lg`. files within the `Responses` folder of your assistant. We provide a number of different language variations out of the box to get you started.
+Responses from your assistant are generated through use of [Language Generation](https://docs.microsoft.com/en-us/composer/concept-language-generation) and the `.lg` files within the `Responses` folder of your assistant. We provide a number of different language variations out of the box to get you started.
 
-The provided [LocaleTemplateEngineManager](https://github.com/microsoft/botframework-solutions/blob/master/sdk/csharp/libraries/microsoft.bot.solutions/Responses/LocaleTemplateEngineManager.cs) will identify the right response based on the `CurrentUICulture`. A fallback policy is also followed to enable a specific locale, e.g. es-mx, to fallback to es-es if a specific set of es-mx responses are not available.
+The provided [LocaleTemplateManager](https://github.com/microsoft/botframework-solutions/blob/master/sdk/csharp/libraries/microsoft.bot.solutions/Responses/LocaleTemplateManager.cs) will identify the right response based on the `CurrentUICulture.
+
+> A fallback policy is also followed to enable a specific locale, e.g. `es-mx`, to fallback to `es-es` if a specific set of `es-mx` responses are not available.
 
 ## Channel Support
 The localization approach is currently supported in the following channels:

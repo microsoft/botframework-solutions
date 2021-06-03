@@ -16,7 +16,7 @@ import {
     IAppSetting,
     ISkill
 } from '../models';
-import { getDispatchNames } from '../utils';
+import { getDispatchNames, sanitizeAppSettingsProperties } from '../utils';
 import { EOL } from 'os';
 
 export class DisconnectSkill {
@@ -98,7 +98,7 @@ export class DisconnectSkill {
             }
 
             // Take VA Skills configurations
-            const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+            const assistantSkillsFile: IAppSetting = JSON.parse(sanitizeAppSettingsProperties(this.configuration.appSettingsFile));
             const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
 
             // Check if the skill is present in the assistant

@@ -6,7 +6,8 @@
 import { BotFrameworkAdapter, TurnContext } from 'botbuilder';
 import { Choice, ChoicePrompt, ComponentDialog, DialogTurnResult, DialogTurnStatus, FoundChoice,
     OAuthPrompt, PromptValidatorContext, WaterfallDialog, WaterfallStep, WaterfallStepContext,
-    OAuthPromptSettings } from 'botbuilder-dialogs';
+    OAuthPromptSettings,
+    Dialog } from 'botbuilder-dialogs';
 import { TokenStatus } from 'botframework-connector';
 import { ActionTypes, Activity, ActivityTypes, TokenResponse } from 'botframework-schema';
 import { IOAuthConnection } from '../authentication';
@@ -27,6 +28,7 @@ enum DialogIds {
  * Provides the ability to prompt for which Authentication provider the user wishes to use.
  */
 export class MultiProviderAuthDialog extends ComponentDialog {
+    private static readonly acceptedLocales: string[] = ['en', 'de', 'es', 'fr', 'it', 'zh'];
     private selectedAuthType: string = '';
     private authenticationConnections: IOAuthConnection[];
     private responseManager: ResponseManager;
@@ -44,7 +46,7 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         this.authenticationConnections = authenticationConnections;
         this.oauthCredentials = oauthCredentials;
         this.responseManager = new ResponseManager(
-            ['en', 'de', 'es', 'fr', 'it', 'zh'],
+            MultiProviderAuthDialog.acceptedLocales,
             [AuthenticationResponses]
         );
 
@@ -67,23 +69,9 @@ export class MultiProviderAuthDialog extends ComponentDialog {
             for (var i = 0; i < this.authenticationConnections.length; ++i) {
                 let connection = this.authenticationConnections[i];
 
-                // We ignore placeholder connections in config that don't have a Name
-                if (connection.name !== undefined && connection.name.trim().length > 0) {
-                    const loginButtonActivity: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.loginButton, locale);
-                    const loginPromptActivity: Partial<Activity> = this.responseManager.getResponse(AuthenticationResponses.loginPrompt, locale, new Map<string, string>([['authType', connection.name]]));
-                    const settings: OAuthPromptSettings = promptSettings !== undefined ? promptSettings[i] : {
-                        connectionName: connection.name,
-                        title: loginButtonActivity.text || '',
-                        text: loginPromptActivity.text  || ''
-                    };
-                    settings.oAuthAppCredentials = this.oauthCredentials;
-
-                    this.addDialog(new OAuthPrompt(
-                        connection.name,
-                        settings,
-                        this.authPromptValidator.bind(this)
-                    ));
-                }
+                MultiProviderAuthDialog.acceptedLocales.forEach((locale): void => {
+                    this.addDialog(this.getLocalizedDialog(locale, connection.name, promptSettings[i]));
+                });
             };
 
             this.addDialog(new WaterfallDialog(DialogIds.authPrompt, authSteps));
@@ -91,6 +79,23 @@ export class MultiProviderAuthDialog extends ComponentDialog {
         } else {
             throw new Error('There is no authenticationConnections value');
         }
+    }
+
+    private getLocalizedDialog(locale: string, connectionName: string, settings: OAuthPromptSettings): Dialog {
+        const loginButtonActivity: string = this.responseManager.getLocalizedResponse(AuthenticationResponses.loginButton, locale).text;
+        const loginPromptActivity: string = this.responseManager.getLocalizedResponse(AuthenticationResponses.loginPrompt, locale, new Map<string, string>([['authType', connectionName]])).text;
+        
+        settings = settings || {
+            connectionName: connectionName,
+            title: loginButtonActivity,
+            text: loginPromptActivity
+        };
+
+        return new OAuthPrompt(
+            connectionName + '_' + locale,
+            settings,
+            this.authPromptValidator.bind(this)
+        );
     }
 
     // Validators
