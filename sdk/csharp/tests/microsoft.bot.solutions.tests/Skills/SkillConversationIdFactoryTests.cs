@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Solutions.Tests.Skills
         public void SkillConversationIdFactoryNullStorageTest()
         {
             var ex = Assert.ThrowsException<ArgumentNullException>(() => new SkillConversationIdFactory(null));
-            Assert.IsTrue(ex.Message.Contains("Value cannot be null.\r\nParameter name: storage"));
+            Assert.IsTrue(ex.Message.Contains("Value cannot be null. (Parameter 'storage')"));
         }
 
         [TestMethod]
