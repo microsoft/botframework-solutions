@@ -49,7 +49,7 @@
     <PackageProjectUrl>https://github.com/Microsoft/botframework-solutions</PackageProjectUrl>
  
 <PackageLicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</PackageLicenseUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/main/icon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>icon.png</PackageIcon>
