@@ -44,6 +44,15 @@
     ],
     "inputHint": "acceptingInput"
   },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "A token could not be retrieved for {authType}, please link your account to your Assistant and try again",
+        "speak": "A token could not be retrieved for {authType}, please link your account to your Assistant and try again"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "LoginButton": {
     "replies": [
       {

@@ -2,37 +2,52 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "I want to talk to a human",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "I want to talk to a human",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "I want to talk to a human",
-            "topScoringIntent": {
-                "intent": "l_general",
-                "score": 0.8587723
-            },
-            "entities": [
-                {
-                    "entity": "a human",
-                    "type": "builtin.personName",
-                    "startIndex": 18,
-                    "endIndex": 24
-                }
-            ],
-            "connectedServiceResult": {
-                "query": "I want to talk to a human",
-                "topScoringIntent": {
-                    "intent": "Escalate",
-                    "score": 0.9560153
-                },
-                "entities": [
-                    {
-                        "entity": "a human",
-                        "type": "builtin.personName",
-                        "startIndex": 18,
-                        "endIndex": 24
+            "prediction": {
+                "topIntent": "l_general",
+                "intents": {
+                    "l_general": {
+                        "score": 0.9899604,
+                        "childApp": {
+                            "topIntent": "Escalate",
+                            "intents": {
+                                "Escalate": {
+                                    "score": 0.954071641
+                                }
+                            },
+                            "entities": {
+                                "personName": [
+                                    "a human"
+                                ],
+                                "$instance": {
+                                    "personName": [
+                                        {
+                                            "type": "builtin.personName",
+                                            "text": "a human",
+                                            "startIndex": 18,
+                                            "length": 7,
+                                            "modelTypeId": 2,
+                                            "modelType": "Prebuilt Entity Extractor",
+                                            "recognitionSources": [
+                                                "model"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
                     }
-                ]
+                },
+                "entities": {}
             }
         },
         "rawHeaders": [
@@ -41,15 +56,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "610",
+            "443",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "231d2dba-9f81-4e5f-9882-9b9abb75307c",
+            "03eb41bd-6726-4d62-a7f6-5ea599fefd3f",
             "Request-Id",
-            "231d2dba-9f81-4e5f-9882-9b9abb75307c",
+            "03eb41bd-6726-4d62-a7f6-5ea599fefd3f",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|2",
+            "CognitiveServices.LUIS.Transaction=2",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -57,7 +72,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 19:11:05 GMT",
+            "Wed, 15 Jul 2020 16:37:20 GMT",
             "Connection",
             "close"
         ]
@@ -65,23 +80,44 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "I want to talk to a human",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "I want to talk to a human",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "I want to talk to a human",
-            "topScoringIntent": {
-                "intent": "Escalate",
-                "score": 0.9560153
-            },
-            "entities": [
-                {
-                    "entity": "a human",
-                    "type": "builtin.personName",
-                    "startIndex": 18,
-                    "endIndex": 24
+            "prediction": {
+                "topIntent": "Escalate",
+                "intents": {
+                    "Escalate": {
+                        "score": 0.954071641
+                    }
+                },
+                "entities": {
+                    "personName": [
+                        "a human"
+                    ],
+                    "$instance": {
+                        "personName": [
+                            {
+                                "type": "builtin.personName",
+                                "text": "a human",
+                                "startIndex": 18,
+                                "length": 7,
+                                "modelTypeId": 2,
+                                "modelType": "Prebuilt Entity Extractor",
+                                "recognitionSources": [
+                                    "model"
+                                ]
+                            }
+                        ]
+                    }
                 }
-            ]
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -89,15 +125,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "275",
+            "348",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "cf3731ba-288f-4498-8137-447c152ec4ce",
+            "b44066bb-aa7f-4a5d-819e-044c754fc4f4",
             "Request-Id",
-            "cf3731ba-288f-4498-8137-447c152ec4ce",
+            "b44066bb-aa7f-4a5d-819e-044c754fc4f4",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -105,7 +141,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 19:11:06 GMT",
+            "Wed, 15 Jul 2020 16:37:21 GMT",
             "Connection",
             "close"
         ]

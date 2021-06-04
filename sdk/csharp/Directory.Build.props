@@ -37,10 +37,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="images\icon.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
   <PropertyGroup>
     <!-- Rules found at: https://aka.ms/Microsoft-NuGet-Compliance -->
     <PackageProjectUrl>https://github.com/Microsoft/botframework-solutions</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/main/icon.png</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/microsoft/botframework-solutions/master/LICENSE</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageIcon>icon.png</PackageIcon>
@@ -55,9 +59,5 @@
     -->
     <NoWarn>$(NoWarn);NU5125;NU1701;8002</NoWarn>
   </PropertyGroup>
-  
-  <ItemGroup Condition="'$(GeneratePackageOnBuild)' == 'True'">
-    <None Include="icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
   
 </Project>

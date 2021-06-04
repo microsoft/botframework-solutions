@@ -13,7 +13,7 @@ import {
 import { IUserProfileState } from '../models/userProfileState';
 import { StateProperties } from '../models/stateProperties';
 import { BotServices } from '../services/botServices';
-import { LocaleTemplateManager, DialogContextEx } from 'bot-solutions';
+import { LocaleTemplateManager } from 'bot-solutions';
 import { LuisRecognizer } from 'botbuilder-ai';
 
 enum DialogIds {
@@ -53,7 +53,7 @@ export class OnboardingDialog extends ComponentDialog {
         }
         
         return await sc.prompt(DialogIds.NamePrompt, {
-            prompt: this.templateManager.generateActivityForLocale('NamePrompt'),
+            prompt: this.templateManager.generateActivityForLocale('NamePrompt', sc.context.activity.locale),
         });
     }
 
@@ -63,7 +63,7 @@ export class OnboardingDialog extends ComponentDialog {
 
         let generalResult: RecognizerResult | undefined = sc.context.turnState.get(StateProperties.GeneralResult);
         if (generalResult === undefined) {
-            const localizedServices = this.services.getCognitiveModels();
+            const localizedServices = this.services.getCognitiveModels(sc.context.activity.locale as string);
             generalResult = await localizedServices.luisServices.get('General')?.recognize(sc.context);
             if (generalResult) {
                 sc.context.turnState.set(StateProperties.GeneralResult, generalResult);
@@ -81,7 +81,7 @@ export class OnboardingDialog extends ComponentDialog {
             }
         }
 
-        // Captialize name
+        // Capitalize name
         userProfile.name = name.toLowerCase()
             .split(' ')
             .map((word: string): string => word.charAt(0)
@@ -90,7 +90,7 @@ export class OnboardingDialog extends ComponentDialog {
 
         await this.accessor.set(sc.context, userProfile);
 
-        await sc.context.sendActivity(this.templateManager.generateActivityForLocale('HaveNameMessage', userProfile));
+        await sc.context.sendActivity(this.templateManager.generateActivityForLocale('HaveNameMessage', sc.context.activity.locale, userProfile));
 
         return await sc.endDialog();
     }

@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Ein Token konnte nicht für {AuthType} abgerufen werden, bitte verlinken Sie Ihr Konto mit Ihrem Assistenten und versuchen Sie es erneut",
+        "speak": "Ein Token konnte nicht für {AuthType} abgerufen werden, bitte verlinken Sie Ihr Konto mit Ihrem Assistenten und versuchen Sie es erneut"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "LoginButton": {
     "replies": [
       {

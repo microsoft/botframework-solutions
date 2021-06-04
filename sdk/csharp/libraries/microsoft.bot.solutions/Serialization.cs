@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Rest.Serialization;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Solutions
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class Serialization
     {
         private static JsonSerializerSettings settings = new JsonSerializerSettings

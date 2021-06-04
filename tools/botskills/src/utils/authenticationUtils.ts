@@ -16,6 +16,7 @@ import {
     ISkillManifestV1
 } from '../models';
 import { ChildProcessUtils, isValidAzVersion } from './';
+import { EOL } from 'os';
 
 export class AuthenticationUtils {
     public childProcessUtils: ChildProcessUtils;
@@ -279,17 +280,17 @@ export class AuthenticationUtils {
             logger.warning(`Could not configure authentication connection automatically.`);
             if (currentCommand.length > 0) {
                 logger.warning(
-                    `There was an error while executing the following command:\n\t${ currentCommand.join(' ') }\n${ err.message || err }`
+                    `There was an error while executing the following command:${ EOL }\t${ currentCommand.join(' ') + EOL + err.message || err }`
                 );
                 logger.warning(`You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${ manifest.authenticationConnections.map((authConn: IAuthenticationConnection): string => authConn.serviceProviderId)
         .join(', ') }`);
-                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${ this.docLink }`);
+                logger.warning(`For more information on setting up the authentication configuration manually go to:${ EOL + this.docLink }`);
             } else if (manifest.authenticationConnections && manifest.authenticationConnections.length > 0) {
                 logger.warning(`${ err.message || err } You must configure one of the following connection types MANUALLY in the Azure Portal:
         ${ manifest.authenticationConnections.map((authConn: IAuthenticationConnection): string => authConn.serviceProviderId)
         .join(', ') }`);
-                logger.warning(`For more information on setting up the authentication configuration manually go to:\n${ this.docLink }`);
+                logger.warning(`For more information on setting up the authentication configuration manually go to:${ EOL + this.docLink }`);
             } else {
                 logger.warning(err.message || err);
             }

@@ -3,7 +3,14 @@
  * Licensed under the MIT License.
  */
 
-import { ConversationReference, SkillConversationIdFactoryBase, Storage, SkillConversationIdFactoryOptions, SkillConversationReference, StoreItems, TurnContext } from 'botbuilder';
+import {
+    ConversationReference,
+    SkillConversationIdFactoryBase,
+    Storage,
+    SkillConversationIdFactoryOptions,
+    SkillConversationReference,
+    StoreItems,
+    TurnContext } from 'botbuilder';
 
 /**
  * A SkillConversationIdFactory that uses IStorage to store and retrieve ConversationReference instances.
@@ -19,22 +26,20 @@ export class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     }
 
     public async createSkillConversationIdWithOptions(options: SkillConversationIdFactoryOptions): Promise<string> {
-        if (options === undefined) { throw new Error('The value of options is undefined');};
+        if (options === undefined) { throw new Error('The value of options is undefined'); };
 
         // Create the storage key based on the SkillConversationIdFactoryOptions
-        const conversationReference: Partial<ConversationReference> = TurnContext.getConversationReference(options.activity);
-        if (conversationReference === undefined) { throw new Error('The value of conversationReference is undefined'); }
-        if (conversationReference.conversation === undefined) { throw new Error('The value of conversationReference.conversation is undefined'); }
+        const conversationReference: ConversationReference = TurnContext.getConversationReference(options.activity) as ConversationReference;
         const storageKey = `${ conversationReference.conversation.id }-${ options.botFrameworkSkill.id }-${ conversationReference.channelId }-skillconvo`;
 
         // Create the SkillConversationReference
         const skillConversationReference: SkillConversationReference = {
-            conversationReference: conversationReference as ConversationReference,
+            conversationReference: conversationReference,
             oAuthScope: options.fromBotOAuthScope
         };
 
         // Store the SkillConversationReference
-        const skillConversationInfo: StoreItems = {} as StoreItems;
+        const skillConversationInfo: StoreItems = {};
         skillConversationInfo[storageKey] = skillConversationReference;
         await this.storage.write(skillConversationInfo); 
 

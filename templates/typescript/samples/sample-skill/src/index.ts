@@ -4,7 +4,6 @@
  */
 
 import {
-    BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
     ConversationState,
@@ -18,11 +17,8 @@ import { CosmosDbPartitionedStorageOptions, CosmosDbPartitionedStorage } from 'b
 import {
     Dialog } from 'botbuilder-dialogs';
 import {
-    ICognitiveModelConfiguration,
-    Locales,
+    CognitiveModelConfiguration,
     LocaleTemplateManager } from 'bot-solutions';
-import i18next from 'i18next';
-import i18nextNodeFsBackend from 'i18next-node-fs-backend';
 import { join } from 'path';
 import * as restify from 'restify';
 import { DefaultAdapter } from './adapters';
@@ -32,39 +28,32 @@ import * as cognitiveModelsRaw from './cognitivemodels.json';
 import { MainDialog } from './dialogs/mainDialog';
 import { SampleDialog } from './dialogs/sampleDialog';
 import { SampleAction } from './dialogs/sampleAction';
-import { SkillState } from './models/skillState';
+import { SkillState } from './models';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
+import { readFileSync, existsSync } from 'fs';
+import { AuthenticationConfiguration, Claim } from 'botframework-connector';
+import { AllowedCallersClaimsValidator } from './authentication';
 
-// Configure internationalization and default locale
-i18next.use(i18nextNodeFsBackend)
-    .init({
-        lowerCaseLng: true,
-        fallbackLng: 'en-us',
-        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn']
-    })
-    .then(async (): Promise<void> => {
-        await Locales.addResourcesFromPath(i18next, 'common');
-    });
-
-const cognitiveModels: Map<string, ICognitiveModelConfiguration> = new Map();
+const cognitiveModels: Map<string, CognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
 const cognitiveModelMap: Map<string, Object> = new Map(Object.entries(cognitiveModelDictionary));
 cognitiveModelMap.forEach((value: Object, key: string): void => {
-    cognitiveModels.set(key, value as ICognitiveModelConfiguration);
+    cognitiveModels.set(key, value as CognitiveModelConfiguration);
 });
 
 // Load settings
-const botSettings: Partial<IBotSettings> = {
+const settings: Partial<IBotSettings> = {
     appInsights: appsettings.appInsights,
     blobStorage: appsettings.blobStorage,
     cognitiveModels: cognitiveModels,
     cosmosDb: appsettings.cosmosDb,
     defaultLocale: cognitiveModelsRaw.defaultLocale,
     microsoftAppId: appsettings.microsoftAppId,
-    microsoftAppPassword: appsettings.microsoftAppPassword
+    microsoftAppPassword: appsettings.microsoftAppPassword,
+    oauthConnections: appsettings.oauthConnections
 };
-if (botSettings.appInsights === undefined) {
+if (settings.appInsights === undefined) {
     throw new Error('There is no appInsights value in appsettings file');
 }
 
@@ -79,25 +68,25 @@ function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient
 }
 
 // Configure telemetry
-const telemetryClient: BotTelemetryClient = getTelemetryClient(botSettings);
+const telemetryClient: BotTelemetryClient = getTelemetryClient(settings);
 const telemetryLoggerMiddleware: TelemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
 const telemetryInitializerMiddleware: TelemetryInitializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 
-if (botSettings.cosmosDb === undefined) {
+if (settings.cosmosDb === undefined) {
     throw new Error();
 }
 
 // Configure storage
 const cosmosDbStorageOptions: CosmosDbPartitionedStorageOptions = {
-    authKey: botSettings.cosmosDb.authKey,
-    containerId: botSettings.cosmosDb.containerId,
-    databaseId: botSettings.cosmosDb.databaseId,
-    cosmosDbEndpoint: botSettings.cosmosDb.cosmosDbEndpoint
+    authKey: settings.cosmosDb.authKey,
+    containerId: settings.cosmosDb.containerId,
+    databaseId: settings.cosmosDb.databaseId,
+    cosmosDbEndpoint: settings.cosmosDb.cosmosDbEndpoint
 };
 const storage: CosmosDbPartitionedStorage =  new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
 const userState: UserState = new UserState(storage);
 const conversationState: ConversationState = new ConversationState(storage);
-const stateAccessor: StatePropertyAccessor<SkillState> = userState.createProperty(SkillState.name);
+const stateAccessor: StatePropertyAccessor<SkillState> = conversationState.createProperty(SkillState.name);
 
 // Configure localized responses
 const localizedTemplates: Map<string, string> = new Map<string, string>();
@@ -112,52 +101,55 @@ supportedLocales.forEach((locale: string) => {
     localizedTemplates.set(locale, localTemplateFile);
 });
 
-const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, botSettings.defaultLocale || 'en-us');
+const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, settings.defaultLocale || 'en-us');
+
+// Register AuthConfiguration to enable custom claim validation.
+const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(appsettings.allowedCallers);
+const authenticationConfiguration: AuthenticationConfiguration = new AuthenticationConfiguration(
+    undefined,
+    (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+);
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {
-    appId: botSettings.microsoftAppId,
-    appPassword: botSettings.microsoftAppPassword
+    appId: settings.microsoftAppId,
+    appPassword: settings.microsoftAppPassword,
+    authConfig: authenticationConfiguration
 };
 
 const defaultAdapter: DefaultAdapter = new DefaultAdapter(
-    botSettings,
-    adapterSettings,
+    settings,
     localeTemplateManager,
+    conversationState,
     telemetryInitializerMiddleware,
-    telemetryClient);
-
-const adapter: BotFrameworkAdapter = defaultAdapter;
+    telemetryClient,
+    adapterSettings);
 
 let bot: DefaultActivityHandler<Dialog>;
 try {
     // Configure bot services
-    const botServices: BotServices = new BotServices(botSettings, telemetryClient);
+    const botServices: BotServices = new BotServices(settings as IBotSettings, telemetryClient);
 
     // Register dialogs
     const sampleDialog: SampleDialog = new SampleDialog(
-        botSettings,
+        settings,
         botServices,
         stateAccessor,
-        telemetryClient,
         localeTemplateManager
     );
     const sampleAction: SampleAction = new SampleAction(
-        botSettings,
+        settings,
         botServices,
         stateAccessor,
-        telemetryClient,
         localeTemplateManager
     );
     const mainDialog: MainDialog = new MainDialog(
         botServices,
-        telemetryClient,
-        stateAccessor,
         sampleDialog,
         sampleAction,
         localeTemplateManager
     );
 
-    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, mainDialog);
+    bot = new DefaultActivityHandler(conversationState, userState, localeTemplateManager, telemetryClient, mainDialog);
 } catch (err) {
     throw err;
 }
@@ -192,4 +184,17 @@ server.get('/api/messages', async (req: restify.Request, res: restify.Response):
         // route to bot activity handler.
         await bot.run(turnContext);
     });
+});
+
+// Enable endpoint to reach any file inside the bot manifest's folder
+server.get('/manifest/:file', (req: restify.Request, res: restify.Response): void => {
+    const manifestFilename: string = req.params.file;
+    const manifestFilePath: string = join(__dirname, 'manifest', manifestFilename);
+    if (!existsSync(manifestFilePath)) {
+        res.send(404);
+        return;
+    }
+
+    const manifest: Object = JSON.parse(readFileSync(manifestFilePath, 'UTF8'));
+    res.send(200, manifest);
 });

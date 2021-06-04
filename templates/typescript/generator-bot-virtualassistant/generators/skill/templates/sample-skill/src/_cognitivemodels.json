@@ -1,0 +1,29 @@
+{
+  "cognitiveModels": {
+    "en-us": {
+      "languageModels": [
+        {
+          "id": "general",
+          "name": "",
+          "appId": "",
+          "version": "0.1",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        },
+        {
+          "id": "<%=skillNameCamelCase%>",
+          "name": "",
+          "appId": "",
+          "version": "0.1",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}

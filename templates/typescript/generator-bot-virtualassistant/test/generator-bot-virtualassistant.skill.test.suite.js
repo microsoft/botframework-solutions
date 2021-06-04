@@ -27,14 +27,18 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
     var manifest1_1;
     const manifestPath1_0 = join(`src`, `manifest`, `manifest-1.0.json`);
     const manifestPath1_1 = join(`src`, `manifest`, `manifest-1.1.json`);
+    const mainDialogPath = join(`src`, `dialogs`, `mainDialog.ts`);
+    const cognitiveModelsPath = join(`src`, `cognitiveModels.json`);    
 
     const templatesFiles = [
         `package.json`,
         `.eslintrc.json`,
         `.gitignore`,
         `.nycrc`,
+        mainDialogPath,
         manifestPath1_0,
         manifestPath1_1,
+        cognitiveModelsPath
     ];
 
     const commonDirectories = [
@@ -89,7 +93,7 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
             ])
             .on('ready', generator => {
                 generator.spawnCommandSync = sinon.spy();
-            });;
+            });
 
             packageJSON = require(join(skillGenerationPath, skillName, `package.json`));
             manifest1_0 = require(join(skillGenerationPath, skillName, manifestPath1_0));
@@ -194,6 +198,26 @@ describe(`The generator-bot-virtualassistant skill tests`, function() {
 
             it(`a description property with given description`, function(done) {
                 assert.strictEqual(packageJSON.description, skillDesc);
+                done();
+            });
+        });
+
+        describe(`and have in the mainDialog file`, function() {
+            it(`an line with the following structure`, function(done) {
+                assert.fileContent(
+                    join(skillGenerationPath, skillName, mainDialogPath),
+                    `const skillLuis: LuisRecognizer | undefined = localizedServices.luisServices ? localizedServices.luisServices.get('${skillNameCamelCase}') : undefined;`
+                );
+                done();
+            });
+        });
+
+        describe(`and have in the cognitiveModels file`, function() {
+            it(`an id property with the given name`, function(done) {
+                assert.fileContent(
+                    join(skillGenerationPath, skillName, cognitiveModelsPath),
+                    `"id": "${skillNameCamelCase}",`
+                );
                 done();
             });
         });

@@ -18,7 +18,7 @@ botskills update [options]
 | -r, --remoteManifest [url] | URL to remote Skill Manifest |
 | --cs | Determine your Virtual Assistant project structure to be a csharp-like structure |
 | --ts | Determine your Virtual Assistant project structure to be a TypeScript-like structure |
-| --noRefresh [true\|FALSE] | (OPTIONAL) Determine whether the model of your skills connected are not going to be trained (by default they are trained) |
+| --noRefresh [true\|FALSE] | (OPTIONAL) Determine whether the skills models connected to the Virtual Assistant are not going to be trained and published in an existing dispatch model (by default they are trained) |
 | -e, --endpointName [name] | (OPTIONAL) Name of the endpoint to connect to your assistant (case sensitive) (default to using the first endpoint) |
 | --languages [languages] | (OPTIONAL) Comma separated list of locales used for LUIS culture (defaults to `en-us`) |
 | --luisFolder [path] | (OPTIONAL) Path to the folder containing your Skills' `.lu` files (defaults to `./deployment/resources/skills/en-us` inside your Virtual Assistant folder) |

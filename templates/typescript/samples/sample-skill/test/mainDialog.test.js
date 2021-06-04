@@ -59,7 +59,7 @@ describe("main dialog", function() {
             const testAdapter = skillTestBase.getTestAdapter();
             const flow = testAdapter
                 .send("sample dialog")
-                .assertReplyOneOf(skillTestBase.getTemplates('FirstPromptText'))
+                .assertReplyOneOf(skillTestBase.getTemplates('en-us','FirstPromptText'))
                 .send("Unhandled message")
                 .assertReplyOneOf(allResponseVariations);
 

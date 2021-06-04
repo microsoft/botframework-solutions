@@ -1,0 +1,353 @@
+## GetDirections
+
+> bring to
+
+- bring me to {Address=736} {Address=jamison lane} {Address=camargo village} {Address=52132}
+- bring me to an {Keyword=art gallery}
+- bring me to an {Keyword=art museum}
+- bring me to {Keyword=azadi tower} at {Address=wjtesvrfx} and {Address=dbargpnwmsif}
+- bring me to {Address=bragg court}
+- go ahead and bring me to {Address=297} {Address=polhemus place} in {Address=pointe-lebel} {Address=manitoba}
+- go ahead and bring me to a {Keyword=bed and breakfast} on {Address=main street east} {Address=nokomis}
+- go ahead and bring me to a {Keyword=circus}
+- go ahead and bring me to a {Keyword=realtor}
+- go ahead and bring me to {Address=fair street}
+- go ahead and bring me to {Address=herkimer court}
+- {Keyword=great wall} at {Address=1046} {Address=georgia avenue} {Address=benton county} bring us there
+- how about you bring me to {Address=1218} {Address=skidmore lane} {Address=laurel county}
+- how about you bring me to {Address=1549} {Address=cobek court} {Address=70212} {Address=anderson city} in {Address=madagascar}
+- how about you bring me to {Address=1616} {Address=24th avenue} in {Address=balance of greene county} {Address=new brunswick}
+- plz bring me to {Address=morris street}
+- plz bring me to the the junction of {Address=ratcliff city} and {Address=rivesville town} near my current location
+- plz bring up a {Keyword=dim sum restaurant} at {Address=eastborough} and {Address=ramsey city} in that city
+- plz bring up a {Keyword=public house} at {Address=le flore} and {Address=belzoni city} near my place
+
+> direct/directions
+
+- a {Keyword=railroad station} at the intersection of {Address=balance of beaver county} and {Address=balance of appling county} in that town directions please
+- {Keyword=aeropostale} on {Address=franklin court} in city plz direct me there
+- affordable {Keyword=dress pants} in {Address=mcclusky city} plz direct me there
+- affordable {Keyword=dress pants} in {Address=ramona town} plz direct me there
+- {Keyword=al-aqsa mosque} at {Address=1421} {Address=linda lane} {Address=66096} {Address=washburn city} in {Address=czech republic} plz direct me there
+- {Keyword=al-aqsa mosque} at {Address=967} {Address=navy walk} {Address=52279} in {Address=columbus village} give me directions there
+- {Keyword=alhambra} at {Address=56th street} {Address=uintah} give me directions there
+- {Keyword=allan gardens conservatory} in {Address=milledgeville} give me directions there
+- city of {Address=dellroy village} give me directions
+- city of {Address=erlanger} directions please
+- i need directions to {Keyword=bob evans}
+- could you send me the directions to {Address=belmont}
+- could you send me the directions to {Address=granby}
+- could you send me the directions to {Address=gustavia}
+- direct me to {Keyword=noah's bagels}
+- direct me to {Keyword=panera bread}
+- direct me to {Address=parkville avenue}
+- direct me to {Address=pin oak drive}
+- direct me with the shortest route to {Address=rocanville}
+- direct me with the shortest route to {Address=waynesboro city}
+- direct me with the shortest route to {Address=white county}
+- directions 2 {Address=dooley street}
+- directions 2 {Address=route 32}
+- directions 2 {Keyword=rus fast foods}
+- directions for {Keyword=mcdonald}
+- directions for {Address=mount vernon city}
+- directions for {Address=oxford road}
+- directions for {Keyword=potatopia}
+- directions for {Address=schenectady avenue}
+- get me directions to {Address=29th street}
+- get me directions to {Address=728} {Address=avenue c} {Address=leclercville} {Address=az} {Address=guatemala}
+- get me directions to a {Keyword=bakery}
+- get me directions to a {Keyword=day camp} close {Keyword=manchester victoria station}
+- get me directions to a {Keyword=dessert restaurant}
+- give directions to {Address=1380} {Address=grant street} {Address=28720} {Address=edna city} {Address=canada}
+- give directions to {Address=1614} on {Address=atlantic avenue}
+- give directions to {Address=2nd avenue}
+- {Address=holt court} in my vicinity give me directions there
+- {Address=honduras} direct me there
+- i need directions to {Keyword=bonanza steakhouse}
+- i need directions to {Address=briarwood drive}
+- i need directions to {Keyword=curzon street railway station} at {Address=dpfw} and {Address=zxebw}
+- i need directions to {Keyword=denny's}
+- i need directions to {Keyword=dunkin' donuts}
+- i need directions to {Address=evans street}
+- i need directions to {Keyword=gyro}
+- navigational directions for {Keyword=columbus city schools central enrollment center} {Address=fairview road} and {Address=columbus place}
+- navigational directions for {Keyword=columbus city schools central enrollment center} {Address=preston court} and {Address=rost place}
+- navigational directions for {Keyword=columbus city schools central enrollment center} {Address=rapelye street} and {Address=bank street}
+- navigational directions for {Keyword=loco prepaid} {Address=48th street} and {Address=woodhull street}
+- please why don't you give me directions to {Keyword=newport tower} close to the intersection of {Address=lawton street} and {Address=palm court} {Address=san felipe town}
+- plz directions 2 a {Keyword=park} at {Address=empire boulevard} and {Address=sutter avenue} {Address=lyerly town}
+- plz directions 2 an {Keyword=appliance store} at the the junction of {Address=neoga} and {Address=st-felix-de-valois}
+- plz directions for {Keyword=grand canyon} not that far from the intersection {Address=spencer place} and {Address=front street south} in {Address=burke city} {Address=delaware}
+- plz directions for {Keyword=gump's} at {Address=mulvane} and {Address=salaberry-de-valleyfield}
+- {Keyword=schnbrunn palace} on {Address=fairview place} in the vicinity please can you give me directions to it
+- start directing me to {Keyword=victoria falls}
+- start directing me to {Keyword=villa emo}
+- start directing me to {Keyword=westminster}
+- start direction to {Keyword=starbucks}
+- {Address=stockholm} directions
+- switch on directing me to {Keyword=al-aqsa mosque}
+- switch on directing me to {Keyword=bajrakli mosque}
+- switch on directing me to {Keyword=cherun-meru}
+- the intersection of {Address=queen} and {Address=south civic center drive} in {Address=balance of ziebach county} directions please
+- the intersection of {Address=s high st} and {Address=erb} in {Address=balance of seminole county} directions please
+- the intersection of {Address=seldom seen rd} and {Address=s high st} in {Address=mcfarland} directions please
+- what are directions to {Address=jackson city} {Address=thailand} plz
+- what are directions to {Address=lakeview drive} in {Address=conquest}, {Address=maine}, {Address=north korea}
+- what are directions to {Keyword=pancheros mexican grill}
+- what are directions to {Keyword=panda express}
+- what are directions to {Keyword=takakkaw falls} near the intersection of {Address=sands street} and {Address=paerdegat 1st street} in {Address=ryland heights} {Address=quebec}
+- {Address=coffey street} within walking distance of {Keyword=uob plaza one} in {Address=balance of morrow county} direct me there
+
+> drive
+
+- a {Keyword=bakery} close to {Address=bay 14th street} and {Address=route 44} in {Address=boulder city city} {Address=oregon} tell me how i would drive there plz
+- a {Keyword=bakery} drive us there
+- {Address=balance of rush county} {Address=latvia} tell me how i would drive there
+- {Keyword=canadian war museum} at {Address=1512} {Address=just court} {Address=mannford} in {Address=minnesota} drive us there
+- city of {Address=boyle} drive me there
+- city of {Address=haywood county} tell me how i would drive there
+- drive me to the intersection of {Address=schaefer street} and {Address=warsoff place}
+- drive me to {Address=waterdown}
+- drive me to {Address=windsor town} using the quickest path
+- drive me to {Address=winthrop town}
+- drive me to {Keyword=zaxby's}
+- {Keyword=dubailand} at {Address=694} {Address=gunnison court} {Address=apalachicola} in {Address=quebec} drive us there
+- {Keyword=devil's tower} at {Address=brighton 8th place} and {Address=duryea place} in {Address=pelahatchie town} {Address=north dakota} drive us there plz
+- {Address=dewitt avenue} and {Address=brook lane} in {Address=etna borough} please drive us there
+- {Keyword=dhanbad} at {Address=94} {Address=lawrence street} {Address=94375} {Address=halkirk} {Address=idaho} {Address=aruba} drive us there
+- {Address=dickson county} map drive us there
+
+> go
+
+- {Address=1286} {Address=sycamore street} {Address=burrton city} in {Address=nj} how can i go there
+- {Address=93} {Address=bay 40th street} {Address=71400} {Address=payson village} {Address=north korea} how can i go there
+- {Address=936} {Address=howard alley} {Address=ulm town} in {Address=maryland} how can i go there
+- {Address=950} {Address=rosewood drive} in {Address=kenmore city} how can i go there
+- {Address=99th fwy} and {Address=rd. t} in {Address=appomattox} how can i go there
+- {Address=99th ter} and {Address=west lawrence cswy}  how can i go there please
+- a {Keyword=bakery} at {Address=1715} {Address=riverdale avenue} {Address=stone park village} {Address=iowa} how can i go there
+- a {Keyword=bar and grill} not so far from {Keyword=fulton opera house} how can i go there
+- a {Keyword=bar and lounge} at {Address=1262} {Address=schenck court} {Address=46186} {Address=freeman city} {Address=fl} {Address=sri lanka} how can i go there
+- a {Keyword=bar and lounge} at {Address=633} {Address=bay 49th street} {Address=lawrence county} {Address=illinois} how can i go there
+- a {Keyword=restaurant} at {Address=o'brien place} and {Address=malta street} in {Address=les boules} {Address=north carolina} how can i go there plz
+- a {Keyword=yoga class} at {Address=331} {Address=5th street north} {Address=77187} {Address=logan city} {Address=missouri} {Address=republic of congo} how can i go there
+- actually start going to {Keyword=anchor inn}
+- actually start going to {Keyword=ayers rock}
+- actually start going to {Keyword=berlaymont building}
+- actually start going to {Keyword=bucharest mall}
+- actually turn on going to {Keyword=golden gate bridge}
+- actually turn on going to {Keyword=jefferson arch}
+- actually turn on going to {Keyword=louvre}
+- actually turn on going to {Keyword=point lobos state reserve}
+- city of {Address=eden village} how can i go there
+- go 2 {Address=1223} {Address=2nd street east} in {Address=carillon} {Address=arizona}
+- go 2 a {Keyword=bus stop}
+- go 2 a {Keyword=fitness center} at the the junction of {Address=garden street} and {Address=white avenue}
+- go 2 a {Keyword=fusion restaurant}
+- go 2 a {Keyword=garage}
+- {Address=gibbs village} map how can i go there
+- {Keyword=gifts from the earth} on {Address=post court} in town please how can i go there
+- {Keyword=hadrian's wall} here please how can i go there
+- let's go to a {Keyword=monarch tavern} at {Address=rochester avenue} and {Address=jackson court}
+- let's go to a {Keyword=panera bread} at {Address=mc keever place} and {Address=johnson street}
+- let's go to a {Keyword=phone store}
+- let's go to a {Keyword=rococoa} at {Address=lincoln avenue} and {Address=seeley street}
+- plz we are going to an {Keyword=afghan restaurant} at {Address=heyward street} and {Address=quentin street} {Address=brookneal town} {Address=missouri}
+- plz we are going to {Keyword=notre-dame de montral} at the intersection of {Address=mother gaston boulevard} and {Address=elmwood avenue} {Address=sturgis} {Address=ne}
+- start go to {Keyword=starbucks}
+- start going
+- switch on going to {Keyword=york minster} in {Address=edgewood city}
+- switch on going to {Keyword=york minster} in {Address=sault ste. marie city}
+- turn on going to {Address=ketchikan}
+- turn on going to {Keyword=lds church office building} in {Address=ione city}
+- turn on going to {Keyword=macy's} in {Address=stephens county}
+- turn on going to {Address=mattawa}
+- we are going to {Address=route 41}
+- we are going to {Address=stuyvesant avenue}
+- we are going to {Address=suydam street}
+- we are going to the a {Keyword=square} at {Address=166} {Address=brighton 7th street} called {Keyword=ten restaurant and wine bar}
+- we are going to the city of {Address=balance of chittenden county} please
+- we are going to {Keyword=torre mayor} at {Address=w seminole dr} and {Address=university}
+- we are going to {Keyword=twice the deal pizza}
+- we are going to {Address=victoria}
+
+> guide
+
+- {Address=92} {Address=beech street} not too far from {Keyword=great mosque of djenn} in {Address=balance of oliver county} guide me there
+- {Address=balboa road north} and {Address=l ave.} please guide me there
+- {Address=bamako} location guide me there
+- {Keyword=bank of china tower} at the junction of {Address=kingsborough 1st walk} and {Address=beekman place} guide me there
+- {Address=briarwood court} {Address=meservey} guide me there
+- {Address=briarwood drive} and {Address=brevoort place} please guide me there
+- {Address=brighton 4 place} and {Address=canton court} is the intersection guide me there
+- {Keyword=cheap jack's} at {Address=rutland county} and {Address=balance of love county} in city can you guide me there
+- {Keyword=chili} can you guide me there
+- {Keyword=chili's} at {Address=t blvd} and {Address=86th boulevard south} can you guide me there please
+- {Keyword=chris mellor insurance brokers ltd} around me can you guide me there
+- city of {Address=balance of edgecombe county} guide me there
+- guide me
+- {Address=poplar street} not too far from {Keyword=ggantija} guide me there
+- the {Keyword=ad agency} at the the intersection of {Address=sellersburg} and {Address=fremont county} can you guide me there
+
+> head
+
+- head to a {Keyword=beauty salon}
+- head to a {Keyword=bus station}
+- head to a {Keyword=copy center}
+- head to {Keyword=firehouse subs} not that far from {Keyword=casa mila}
+- head to {Address=hill street}
+- head to {Address=ketchikan gateway borough}
+- head to {Address=lake street}
+- head to {Address=lenexa city}
+- head to {Keyword=duke of wellington} on {Address=h gtwy} and {Address=ln. s}
+- head to {Address=durham county} map
+- head to {Keyword=duthie park winter gardens} at the the intersection of {Address=barbey street} and {Address=hickory lane} plz
+- head to {Address=garden street} and {Address=brighton 8th place} is the intersection
+- head to {Address=gateway 46} and {Address=o ave} is the intersection
+- head to {Address=georgia avenue} and {Address=mill road} in {Address=blue springs town} now
+- head to {Keyword=georgian food}
+
+> navigate/navigation
+
+- {Keyword=always plumbing & heating ltd} at {Address=fort liard} and {Address=alexandria} around me navigation please
+- navigate to {Address=argyle road} in my area
+- navigate to  {Keyword=arizona-sonora desert museum} at {Address=1877} {Address=division avenue} {Address=bean station city} {Address=ga} in {Address=mauritania}
+- navigate to {Address=arlington county} map
+- navigate to {Keyword=ashabori} at {Address=981} at {Address=van siclen court}
+- navigate to {Keyword=ashabori} at {Address=weldon street} and {Address=route 20} {Address=cuyahoga heights village} please
+- {Address=canal blvd.} and {Address=l cswy} navigate me there
+- {Keyword=can-west global place} at {Address=1551} {Address=4th avenue} in {Address=st. george} {Address=south dakota} {Address=saint vincent and the grenadines} navigate me there
+- {Address=cape coral city} map navigate me there
+- {Keyword=capella tower} at {Address=31} {Address=furman avenue} {Address=74889} {Address=balance of cedar county} in {Address=martinique} navigate me there
+- {Keyword=capitol} at {Address=castleberry town} and {Address=columbus} navigate me there
+- {Address=charlotte court house town} {Address=sc} start navigation
+- {Keyword=chateau laurier} at {Address=1916} {Address=maujer street} in {Address=aberdeen} start navigation
+- city of {Address=lonoke city} navigation please
+- {Keyword=city tower} at {Address=856} {Address=van sinderen avenue} {Address=kaysville city} {Address=in} in navigation please
+- {Address=clock tower road} and {Address=e noble st} in {Address=new perlican} navigation please
+- {Keyword=cluny bistro and boulangerie} at {Address=n dr.} and {Address=36th way z} navigate me there
+- {Address=cswy e} and {Address=blvd x} navigate me there
+- {Address=hamlin} navigation please
+- {Keyword=hot rod cafe} at {Address=j 90th boulevard east} and {Address=5th n road north f} navigate me there
+- {Address=n fwy} and {Address=6th place} navigate me there
+- navigate
+- navigate 2 a {Keyword=kosher restaurant}
+- navigate 2 a {Keyword=pizzeria} at {Address=fleet walk} and {Address=indiana place} {Address=balance of bedford county} {Address=tn}
+- navigate 2 {Address=cambridge drive}
+- navigate 2 {Keyword=carrabba's italian grill} in my vicinity
+- navigate 2 city of {Address=mbinepsa}
+- navigate to {Address=dumont avenue}
+- navigate to {Address=elko town}
+- navigation to {Address=abu dhabi}
+- navigation to {Address=margate}
+- navigation to {Address=nodaway city}
+- please why don't you navigate me to a {Keyword=fusion restaurant} at {Address=campus road} and {Address=lawton street}
+- please why don't you navigate me to {Address=konawa city} {Address=guatemala}
+- please why don't you navigate to {Keyword=bucharest mall} at {Address=doughty street} {Address=attala county}
+- {Keyword=santa maria novella} at {Address=1035} {Address=seeley street} {Address=63052} {Address=richburg village} in {Address=austria} navigate me there
+- switch on navigating to a {Keyword=fitness store}
+- switch on navigating to a {Keyword=florist}
+- switch on navigating to a {Keyword=french restaurant}
+- {Keyword=terminal tower} at {Address=b crse} and {Address=e expy} navigate me there
+- {Keyword=terminal tower} in {Address=clark county} start navigation
+- {Address=terrell hills} {Address=india} start navigation
+- will you how about you navigate me to {Keyword=victoria & julia's flowers} on dakota place in humphrey city
+- {Address=z blvd.} and {Address=bnd 972} navigate me there
+
+> point
+
+- point me the way to {Address=sidney place}
+- point me the way to {Keyword=sydney tower}
+- point me the way to {Address=teulon}
+- point me the way to {Address=williamsburg village}
+- point me to {Keyword=coconut cream pie} not too far from {Address=marquette city}
+- point me to {Keyword=college park} at {Address=crawford avenue} {Address=balance of riley county}
+- point me to {Address=columbia} and {Address=university avenue} please
+- point me to {Keyword=columbus downtown high school} at {Address=62nd street} and {Address=route 20} please
+- point me to {Address=covert street} and {Address=brighton 5th walk} in {Address=les boules}
+- point me to {Keyword=cozy kitty accommodations} at {Address=highland view avenue} and {Address=laurel lane}
+- point me to {Keyword=cracker barrel} on {Address=bainbridge street} and {Address=creamer street} plz
+- point me to {Address=crawford avenue} and {Address=7th avenue} in {Address=newark village}
+- point us to {Keyword=great mosque of djenn} close-by {Keyword=kangaroo creek farm}
+- point us to {Keyword=great wall} at {Address=1776} {Address=cooke court} {Address=43636} {Address=dodge city town} {Address=mo} {Address=ghana}
+- point us to {Keyword=great wall} close {Address=kane street} and {Address=margaret court} {Address=idanha city} please
+- point us to {Keyword=gros morne national park} at {Address=5th n st.} and {Address=r ct} in {Address=owen}
+- point us to {Address=grove street} in {Address=balance of hopkins county} {Address=new york state}
+- point us to {Address=gtwy 38} and {Address=elgin street west} is the intersection
+
+> route
+
+- find a route
+- give me the toll free route to {Keyword=six mile lake provincial park}
+- please why don't you find a route to the {Keyword=food bank} at {Address=teton county} and {Address=balance of greene county} in this area
+- route me to {Address=balance of boise county}
+- route me to {Address=bay 14th street}
+- route me to {Address=beaver street}
+- route me to {Keyword=big pita}
+- route me to {Address=breckenridge town}
+- route me to {Keyword=cathedral of christ the saviour} in {Address=benjamin}
+- route me to {Keyword=cheesecake factory}
+- show me toll free routes to {Address=cleveland} {Address=ns}
+- show me toll free routes to {Address=gull bay} {Address=massachusetts}
+- route us to {Keyword=habitat '67} around {Keyword=ids center}
+- route us to {Keyword=hong kong fashions} on {Address=state street} in {Address=scranton} {Address=ri}
+- route us to {Keyword=hot rod cafe} at {Address=2nd pkwy.} and {Address=west 118th pl} please
+- route us to {Keyword=hot rod cafe} at the intersection of {Address=98th boulevard east w} and {Address=w 14th dr}
+
+> take
+
+- {Address=changchun} take me there with the most scenic route
+- {Address=guelph} take me there with the most scenic route
+- {Address=guiyang} take me there with the most scenic route
+- {Address=gyeonggi} take me there with the most scenic route
+- {Address=proton station} take me there with the most scenic route
+- take the fastest route to {Address=kingston town}
+- take the fastest route to {Address=monetta}
+- take the fastest route to {Address=oriska}
+- take the shortest route to {Address=eston}
+- take the traffic free route to {Address=balance of campbell county}
+- please take me to a {Keyword=school} at the the intersection of {Address=tombstone city} and {Address=keene}
+- please take me to the city of {Address=minidoka city}
+- please take me to the city of {Address=mount carroll}
+- please why don't you take me to {Keyword=roosevelt campobello international park} not that far from {Address=bay 38th street} and {Address=kings place} {Address=balance of summit county} {Address=ab}
+- plz what roads will take me to a {Keyword=british restaurant} near the intersection {Address=homestead drive} and {Address=west avenue} in {Address=murray} {Address=yt}
+- {Address=polhemus place} in {Address=washington} take me there
+- {Address=sunnyside avenue} nearby {Keyword=fort knox} take me there
+- take me to {Address=grainola town}
+- take me to {Address=gray}
+- take me to {Address=grovetown}
+- take me to {Address=gruver city}
+- take me to {Address=zeeland}
+- take me to {Keyword=zehrs} {Address=king city}
+- take me to {Keyword=zoup!}
+- take the construction free way to {Address=fremont county}
+- take the fastest way to {Address=union city}
+- take the shortest way to {Address=clayton town}
+- {Address=xiangyang} take me there with the most scenic route
+- start taking me to {Keyword=west edmonton mall}
+- turn on taking me to {Keyword=donglin temple}
+- turn on taking me to {Keyword=jagannath temple}
+
+> way
+
+- a way to {Keyword=skool} at {Address=monitor street} and {Address=hewes street} please
+- a way to {Keyword=amir} at {Address=north blvd} and {Address=cir g} please
+- a way to {Keyword=amsouth tower} close-by {Address=mckibbin street} in {Address=bryce canyon city town} {Address=florida} please
+- a way to an {Keyword=afghan restaurant} at {Address=1103} {Address=woods place} in {Address=idaho springs city}
+- a way to an {Keyword=afghan restaurant} at {Address=467} {Address=adams street} {Address=26108} {Address=mannington} in {Address=saint vincent and the grenadines}
+- a way to an {Keyword=albanian restaurant} at {Address=3rd avenue} and {Address=brighton 5th court} in {Address=river heights} plz
+- a way to an {Keyword=albanian restaurant} not that far from {Address=alabama avenue} in {Address=ryley} {Address=georgia} please
+- a way to an {Keyword=all you can eat buffet} on {Address=sherlock place}
+- a way to an {Keyword=art store} in city of {Address=nelson county}
+- a way to an {Keyword=asian restaurant} at {Address=407} {Address=12th street} {Address=anamoose city} {Address=kentucky} {Address=us}
+- a way to {Keyword=angel falls} on {Address=sheffield avenue} and {Address=bayard street}
+- find a {Keyword=nursery school} on the way to {Address=peers}
+- find a {Keyword=office} on the way to {Address=delphos city}
+- provide me with the construction free way to {Address=city} please
+- provide me a way to {Keyword=my thai} at {Address=304} {Address=1st street} {Address=94627} in {Address=midway city}
+- provide me a way to {Address=n front st} and {Address=northwoods blvd} please
+- provide me a way to {Address=n hampton dr} and {Address=old henderson rd} in {Address=friend city}
+- find us a way to {Address=nain} map
+- please find us a way to {Keyword=signal hill} at {Address=whitwell place} and {Address=amherst street} in {Address=grand ridge town}
+- please find us a way to {Keyword=torre colpatria} close-by {Address=ovington avenue} and {Address=atkins avenue} {Address=carver county}
+- find us a way to {Address=plymouth street} and {Address=summer street} in {Address=middleton city} please

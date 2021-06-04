@@ -17,6 +17,7 @@ const appShowReplyUrl = JSON.stringify(require(resolve(__dirname, join("mocks", 
 const unrecognizedWarningPrefix = 'The following scopes were not recognized:';
 const authConnectionAppsettings = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "authConnectionAppsettings.json")));
 const noAuthConnectionAppsettings = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "noAuthConnectionAppsettings.json")));
+const { EOL } = require('os');
 
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "appsettings", "noAuthConnectionAppsettings.json")), noAuthConnectionAppsettings);
@@ -85,8 +86,8 @@ describe("The authentication util", function() {
             await authenticationUtils.authenticate(configuration, require(configuration.localManifest), configuration.logger);
 
             const warningList = configuration.logger.getWarning();
-            strictEqual(warningList[warningList.length - 1], `For more information on setting up the authentication configuration manually go to:
-https://aka.ms/vamanualauthsteps`);
+            strictEqual(warningList[warningList.length - 1], `For more information on setting up the authentication configuration manually go to:${
+                EOL }https://aka.ms/vamanualauthsteps`);
             strictEqual(warningList[warningList.length - 2], `There's no Azure Active Directory v2 authentication connection in your Skills manifest. You must configure one of the following connection types MANUALLY in the Azure Portal:
         Google`);
         });
@@ -119,11 +120,13 @@ https://aka.ms/vamanualauthsteps`);
             await authenticationUtils.authenticate(configuration, require(configuration.localManifest), configuration.logger);
             
             const warningList = configuration.logger.getWarning();
-            strictEqual(warningList[warningList.length - 1], `For more information on setting up the authentication configuration manually go to:
-https://aka.ms/vamanualauthsteps`);
+            strictEqual(warningList[warningList.length - 1], `For more information on setting up the authentication configuration manually go to:${
+                EOL }https://aka.ms/vamanualauthsteps`);
             strictEqual(warningList[warningList.length - 2], `You must configure one of the following connection types MANUALLY in the Azure Portal:
         Azure Active Directory v2`);
-            strictEqual(warningList[warningList.length - 3], `There was an error while executing the following command:\n\taz ad app show --id  --output json\nMocked function throws an Error`)
+            strictEqual(warningList[warningList.length - 3], `There was an error while executing the following command:${
+                EOL }\taz ad app show --id  --output json${
+                EOL }Mocked function throws an Error`)
         });
 
         it("when the scopes are not configured automatically", async function() {

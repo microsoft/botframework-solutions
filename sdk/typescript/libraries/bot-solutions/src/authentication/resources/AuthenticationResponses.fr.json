@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Un jeton n’a pas pu être récupéré pour {authType}, veuillez lier votre compte à votre Assistant et réessayer",
+        "speak": "Un jeton n’a pas pu être récupéré pour {authType}, veuillez lier votre compte à votre Assistant et réessayer"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "LoginButton": {
     "replies": [
       {
