@@ -68,7 +68,6 @@ namespace VirtualAssistantSample.Adapters
             Use(new EventDebuggerMiddleware());
             Use(new SetSpeakMiddleware());
             Use(new ProactiveStateMiddleware(proactiveState));
-            Use(new FeedbackMiddleware(conversationState, telemetryClient, new FeedbackOptions()));
         }
 
         private async Task HandleTurnErrorAsync(ITurnContext turnContext, Exception exception)
