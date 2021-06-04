@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Impossibile recuperare un token per {authType}, collegare l'account all'assistente e riprovare",
+        "speak": "Impossibile recuperare un token per {authType}, collegare l'account all'assistente e riprovare"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "LoginButton": {
     "replies": [
       {

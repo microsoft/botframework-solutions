@@ -6,10 +6,8 @@
 const { join } = require('path');
 const { ActivityTypes } = require('botframework-schema');
 const { TestAdapter } = require('botbuilder-core');
-const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState, BotFrameworkSkill } = require('botbuilder');
-const { EventDebuggerMiddleware, Locales, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
-const i18next = require('i18next');
-const i18nextNodeFsBackend = require('i18next-node-fs-backend');
+const { AutoSaveStateMiddleware, ConversationState, MemoryStorage, NullTelemetryClient, TelemetryLoggerMiddleware, UserState } = require('botbuilder');
+const { EventDebuggerMiddleware, LocaleTemplateManager, SetLocaleMiddleware, SwitchSkillDialog, SkillsConfiguration } = require('bot-solutions');
 const { BotServices } = require('../../lib/services/botServices');
 const { DefaultActivityHandler } = require('../../lib/bots/defaultActivityHandler');
 const { OnboardingDialog } = require('../../lib/dialogs/onboardingDialog');
@@ -49,27 +47,10 @@ supportedLocales.forEach((locale) => {
 const templateManager = new LocaleTemplateManager(localizedTemplates, 'en-us');
 const testUserProfileState = { name: 'Bot' };
 
-async function initConfiguration() {
-    // Configure internationalization and default locale
-    await i18next.use(i18nextNodeFsBackend)
-    .init({
-        fallbackLng: 'en-us',
-        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
-        backend: {
-            loadPath: join(__dirname, '..', '..', 'lib', 'locales', '{{lng}}.json')
-        }
-    })
-    .then(async () => {
-        await Locales.addResourcesFromPath(i18next, 'common');
-        await i18next.changeLanguage('en-us');
-    });
-}
-
 async function getTestAdapterDefault(settings) {
     // validate settings
     if (!settings) settings = {};
     
-    await initConfiguration();
     const botSettings = {
         microsoftAppId: appSettings.microsoftAppId,
         microsoftAppPassword: appSettings.microsoftAppPassword,
@@ -122,7 +103,8 @@ async function getTestAdapterDefault(settings) {
             type: ActivityTypes.Trace,
             text: error.stack
         });
-        await context.sendActivity(i18next.t('main.error'));
+        
+        await context.sendActivity(templateManager.generateActivityForLocale('ErrorMessage', context.activity.locale));
         telemetryClient.trackException({ exception: error });
     };
     

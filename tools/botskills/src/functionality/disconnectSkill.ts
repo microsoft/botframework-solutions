@@ -17,6 +17,7 @@ import {
     ISkill
 } from '../models';
 import { getDispatchNames, sanitizeAppSettingsProperties } from '../utils';
+import { EOL } from 'os';
 
 export class DisconnectSkill {
     private readonly configuration: IDisconnectConfiguration;
@@ -82,7 +83,7 @@ export class DisconnectSkill {
                 this.logger.warning(`Run 'botskills refresh --${ this.configuration.lgLanguage }' command to refresh your connected skills`);
             }
         } catch (err) {
-            throw new Error(`An error ocurred while updating the Dispatch model:\n${ err }`);
+            throw new Error(`An error ocurred while updating the Dispatch model:${ EOL + err }`);
         }
     }
 
@@ -90,8 +91,8 @@ export class DisconnectSkill {
         try {
             // Validate configuration.appSettingsFile
             if (!existsSync(this.configuration.appSettingsFile)) {
-                this.logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
+                this.logger.error(`The 'appSettingsFile' argument is absent or leads to a non-existing file.${
+                    EOL }Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
 
                 return false;
             }
@@ -106,18 +107,18 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             );
 
             if (!skillToRemove) {
-                this.logger.warning(`The skill '${ this.configuration.skillId }' is not present in the assistant Skills configuration file.
-Run 'botskills list --appSettingsFile "<YOUR-APPSETTINGS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+                this.logger.warning(`The skill '${ this.configuration.skillId }' is not present in the assistant Skills configuration file.${
+                    EOL }Run 'botskills list --appSettingsFile "<YOUR-APPSETTINGS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
 
                 return false;
             } else if (!this.configuration.lgLanguage || !(['cs', 'ts'].includes(this.configuration.lgLanguage))) {
-                this.logger.error(`The 'lgLanguage' argument is incorrect.
-It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
+                this.logger.error(`The 'lgLanguage' argument is incorrect.${
+                    EOL }It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
 
                 return false;
             } else if (!this.configuration.lgOutFolder || !existsSync(this.configuration.lgOutFolder)) {
-                this.logger.error(`The 'lgOutFolder' argument is absent or leads to a non-existing folder.
-Please make sure to provide a valid path to your Luis Generate output folder using the '--lgOutFolder' argument.`);
+                this.logger.error(`The 'lgOutFolder' argument is absent or leads to a non-existing folder.${
+                    EOL }Please make sure to provide a valid path to your Luis Generate output folder using the '--lgOutFolder' argument.`);
 
                 return false;
             } else {
@@ -138,7 +139,7 @@ Please make sure to provide a valid path to your Luis Generate output folder usi
                 return true;
             }
         } catch (err) {
-            this.logger.error(`There was an error while disconnecting the Skill ${ this.configuration.skillId } from the Assistant:\n${ err }`);
+            this.logger.error(`There was an error while disconnecting the Skill ${ this.configuration.skillId } from the Assistant:${ EOL + err }`);
 
             return false;
         }

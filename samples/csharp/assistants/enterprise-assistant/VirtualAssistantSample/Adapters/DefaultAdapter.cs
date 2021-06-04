@@ -1,38 +1,62 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
+using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Solutions.Middleware;
 using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.Responses;
+using Microsoft.Bot.Solutions.Skills;
+using Microsoft.Extensions.Logging;
+using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Services;
 
 namespace VirtualAssistantSample.Adapters
 {
     public class DefaultAdapter : BotFrameworkHttpAdapter
     {
+        private readonly ConversationState _conversationState;
+        private readonly ILogger _logger;
+        private readonly IBotTelemetryClient _telemetryClient;
+        private readonly LocaleTemplateManager _templateEngine;
+        private readonly SkillHttpClient _skillClient;
+        private readonly SkillsConfiguration _skillsConfig;
+        private readonly BotSettings _settings;
+
         public DefaultAdapter(
             BotSettings settings,
             ICredentialProvider credentialProvider,
             IChannelProvider channelProvider,
-            LocaleTemplateManager templateFile,
+            AuthenticationConfiguration authConfig,
+            LocaleTemplateManager templateEngine,
             ConversationState conversationState,
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
-            ProactiveState proactiveState)
-            : base(credentialProvider, channelProvider)
+            ILogger<BotFrameworkHttpAdapter> logger,
+            ProactiveState proactiveState,
+            SkillsConfiguration skillsConfig = null,
+            SkillHttpClient skillClient = null)
+            : base(credentialProvider, authConfig, channelProvider, logger: logger)
         {
-            OnTurnError = async (turnContext, exception) =>
-            {
-                await turnContext.SendActivityAsync(new Activity(type: ActivityTypes.Trace, text: $"Exception Message: {exception.Message}, Stack: {exception.StackTrace}"));
-                await turnContext.SendActivityAsync(templateFile.GenerateActivityForLocale("ErrorMessage", settings.DefaultLocale));
-                telemetryClient.TrackException(exception);
-            };
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _templateEngine = templateEngine ?? throw new ArgumentNullException(nameof(templateEngine));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            _skillClient = skillClient;
+            _skillsConfig = skillsConfig;
+            _settings = settings;
+
+            OnTurnError = HandleTurnErrorAsync;
 
             Use(telemetryMiddleware);
 
@@ -43,9 +67,81 @@ namespace VirtualAssistantSample.Adapters
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
             Use(new SetSpeakMiddleware());
-
-            // SAMPLE: Proactive notifications
             Use(new ProactiveStateMiddleware(proactiveState));
+        }
+
+        private async Task HandleTurnErrorAsync(ITurnContext turnContext, Exception exception)
+        {
+            // Log any leaked exception from the application.
+            _logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
+
+            await SendErrorMessageAsync(turnContext, exception);
+            await EndSkillConversationAsync(turnContext);
+            await ClearConversationStateAsync(turnContext);
+        }
+
+        private async Task SendErrorMessageAsync(ITurnContext turnContext, Exception exception)
+        {
+            try
+            {
+                _telemetryClient.TrackException(exception);
+
+                // Send a message to the user.
+                await turnContext.SendActivityAsync(_templateEngine.GenerateActivityForLocale("ErrorMessage"));
+
+                // Send a trace activity, which will be displayed in the Bot Framework Emulator.
+                // Note: we return the entire exception in the value property to help the developer;
+                // this should not be done in production.
+                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.ToString(), "https://www.botframework.com/schemas/error", "TurnError");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception caught in SendErrorMessageAsync : {ex}");
+            }
+        }
+
+        private async Task EndSkillConversationAsync(ITurnContext turnContext)
+        {
+            if (_skillClient == null || _skillsConfig == null)
+            {
+                return;
+            }
+
+            try
+            {
+                // Inform the active skill that the conversation is ended so that it has a chance to clean up.
+                // Note: the root bot manages the ActiveSkillPropertyName, which has a value while the root bot
+                // has an active conversation with a skill.
+                var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(MainDialog.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
+                if (activeSkill != null)
+                {
+                    var endOfConversation = Activity.CreateEndOfConversationActivity();
+                    endOfConversation.Code = "RootSkillError";
+                    endOfConversation.ApplyConversationReference(turnContext.Activity.GetConversationReference(), true);
+
+                    await _conversationState.SaveChangesAsync(turnContext, true);
+                    await _skillClient.PostActivityAsync(_settings.MicrosoftAppId, activeSkill, _skillsConfig.SkillHostEndpoint, (Activity)endOfConversation, CancellationToken.None);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception caught on attempting to send EndOfConversation : {ex}");
+            }
+        }
+
+        private async Task ClearConversationStateAsync(ITurnContext turnContext)
+        {
+            try
+            {
+                // Delete the conversationState for the current conversation to prevent the
+                // bot from getting stuck in a error-loop caused by being in a bad state.
+                // ConversationState should be thought of as similar to "cookie-state" for a Web page.
+                await _conversationState.DeleteAsync(turnContext);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
+            }
         }
     }
 }

@@ -60,10 +60,18 @@ namespace LinkedAccounts.Web.Controllers
             // as coming from this web-site and protecting against scenarios where a URL is shared with someone else
             string trustedOrigin = $"{this.HttpContext.Request.Scheme}://{this.HttpContext.Request.Host}";
 
+            var userId = UserId.GetUserId(this.HttpContext, this.User);
             request.Content = new StringContent(
-                JsonConvert.SerializeObject(new { TrustedOrigins = new string[] { trustedOrigin } }),
-                    Encoding.UTF8,
-                    "application/json");
+                JsonConvert.SerializeObject(new
+                {
+                    User = new
+                    {
+                        Id = userId
+                    },
+                    TrustedOrigins = new string[] { trustedOrigin }
+                }),
+                Encoding.UTF8,
+                "application/json");
 
             var response = await client.SendAsync(request);
             string token = string.Empty;
@@ -74,7 +82,6 @@ namespace LinkedAccounts.Web.Controllers
                 var body = await response.Content.ReadAsStringAsync();
                 token = JsonConvert.DeserializeObject<DirectLineToken>(body).token;
 
-                var userId = UserId.GetUserId(this.HttpContext, this.User);
                 this.HttpContext.Session.SetString("userId", userId);
 
                 // Retrieve the status

@@ -8,29 +8,31 @@ import {
     ActivityHandler,
     ActivityTypes,
     BotState,
-    ChannelAccount,
+    BotTelemetryClient,
     Channels,
     StatePropertyAccessor, 
     TurnContext } from 'botbuilder';
 import {
     Dialog,
-    DialogState } from 'botbuilder-dialogs';
-import { LocaleTemplateManager, DialogEx } from 'bot-solutions';
+    DialogState,
+    runDialog } from 'botbuilder-dialogs';
+import { LocaleTemplateManager } from 'bot-solutions';
 
 export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     private readonly dialog: Dialog;
     private readonly conversationState: BotState;
     private readonly userState: BotState;
-    private dialogStateAccessor: StatePropertyAccessor<DialogState>;
-    private templateManager: LocaleTemplateManager;
+    private readonly dialogStateAccessor: StatePropertyAccessor<DialogState>;
+    private readonly templateEngine: LocaleTemplateManager;
 
-    public constructor(conversationState: BotState, userState: BotState, templateManager: LocaleTemplateManager, dialog: T) {
+    public constructor(conversationState: BotState, userState: BotState, templateManager: LocaleTemplateManager, telemetryClient: BotTelemetryClient, dialog: T) {
         super();
         this.dialog = dialog;
+        this.dialog.telemetryClient = telemetryClient;
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialogStateAccessor = conversationState.createProperty<DialogState>('DialogState');
-        this.templateManager = templateManager;
+        this.templateEngine = templateManager;
         super.onMembersAdded(this.membersAdded.bind(this));
     }
 
@@ -43,15 +45,8 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
     }
 
     protected async membersAdded(turnContext: TurnContext, next: () => Promise<void>): Promise<void> {
-        const membersAdded: ChannelAccount[] = turnContext.activity.membersAdded;
-        for (const member of membersAdded) {
-            if (member.id !== turnContext.activity.recipient.id) {
-                await turnContext.sendActivity(this.templateManager.generateActivityForLocale('IntroMessage'));
-                await DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
-            }
-        }
-        // By calling next() you ensure that the next BotHandler is run.
-        await next();
+        await turnContext.sendActivity(this.templateEngine.generateActivityForLocale('IntroMessage', turnContext.activity.locale));
+        await runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected onMessageActivity(turnContext: TurnContext): Promise<void> {
@@ -62,14 +57,14 @@ export class DefaultActivityHandler<T extends Dialog> extends ActivityHandler {
             (activity.text === undefined || activity.text.trim().length === 0)) {
             return Promise.resolve();
         }
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected onEventActivity(turnContext: TurnContext): Promise<void> {
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 
     protected onEndOfConversationActivity(turnContext: TurnContext): Promise<void> {
-        return DialogEx.run(this.dialog, turnContext, this.dialogStateAccessor);
+        return runDialog(this.dialog, turnContext, this.dialogStateAccessor);
     }
 }

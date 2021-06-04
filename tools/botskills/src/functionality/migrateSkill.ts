@@ -7,6 +7,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ConsoleLogger, ILogger} from '../logger';
 import { IMigrateConfiguration, IAppSetting, ISkill, ISkillFileV1 } from '../models';
 import { manifestV1Validation } from '../utils/validationUtils';
+import { EOL } from 'os';
 import { sanitizeAppSettingsProperties } from '../utils';
 
 export class MigrateSkill {
@@ -18,16 +19,16 @@ export class MigrateSkill {
         try {
             // Validate configuration.destFile
             if (!existsSync(configuration.destFile)) {
-                this.logger.error(`The 'destFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--destFile' argument.`);
+                this.logger.error(`The 'destFile' argument is absent or leads to a non-existing file.${
+                    EOL }Please make sure to provide a valid path to your Assistant Skills configuration file using the '--destFile' argument.`);
 
                 return false;
             }
 
             // Validate configuration.sourceFile
             if (!existsSync(configuration.sourceFile)) {
-                this.logger.error(`The 'sourceFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--sourceFile' argument.`);
+                this.logger.error(`The 'sourceFile' argument is absent or leads to a non-existing file.${
+                    EOL }Please make sure to provide a valid path to your Assistant Skills configuration file using the '--sourceFile' argument.`);
 
                 return false;
             }
@@ -73,7 +74,7 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             this.logger.warning(`You may now delete the skills.json file.`);
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while migrating the Skills:\n ${ err }`);
+            this.logger.error(`There was an error while migrating the Skills:${ EOL + err }`);
 
             return false;
         }

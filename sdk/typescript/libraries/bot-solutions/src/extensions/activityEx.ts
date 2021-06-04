@@ -13,6 +13,7 @@ import {
     IEventActivity,
     IMessageActivity } from 'botframework-schema';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace ActivityEx {
     export function createReply(source: Activity, text?: string, locale?: string): Activity {
         const reply: string = text || '';

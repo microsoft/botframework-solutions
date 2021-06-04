@@ -12,6 +12,7 @@ const { getNormalizedFile } = require("./helpers/normalizeUtils");
 const botskills = require("../lib/index");
 const filledDispatch = getNormalizedFile(resolve(__dirname, join("mocks", "success", "dispatch", "en-us", "filleden-usDispatch.dispatch")));
 const appsettingsWithTestSkill = getNormalizedFile(resolve(__dirname, join("mocks", "appsettings", "appsettingsWithTestSkill.json")));
+const { EOL } = require('os');
 
 function undoChangesInTemporalFiles() {
     writeFileSync(resolve(__dirname, join("mocks", "success", "dispatch", "en-us", "filleden-usDispatchNoJson.dispatch")), filledDispatch);
@@ -50,9 +51,9 @@ describe("The disconnect command", function () {
             this.disconnector.configuration = configuration;
             await this.disconnector.disconnectSkill();
             const errorList = this.logger.getError();
-            strictEqual(errorList[errorList.length - 1], `There was an error while disconnecting the Skill ${configuration.skillId} from the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while disconnecting the Skill ${configuration.skillId} from the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsFile}). Please provide the '--cognitiveModelsFile' argument.`);
         });
 
         it("when the dispatchFolder points to a nonexistent path", async function () {
@@ -72,9 +73,9 @@ Error: Could not find the cognitiveModels file (${configuration.cognitiveModelsF
             await this.disconnector.disconnectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[0], `There was an error while disconnecting the Skill testSkill from the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: The path to the dispatch file doesn't exists: ${configuration.dispatchFolder}\\en-us\\filleden-usDispatch.dispatch`);
+            strictEqual(errorList[0], `There was an error while disconnecting the Skill testSkill from the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: The path to the dispatch file doesn't exists: ${ join(configuration.dispatchFolder, 'en-us', 'filleden-usDispatch.dispatch') }`);
         });
 
         it("when the refresh execution fails", async function () {
@@ -97,9 +98,9 @@ Error: The path to the dispatch file doesn't exists: ${configuration.dispatchFol
             await this.disconnector.disconnectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `There was an error while disconnecting the Skill ${configuration.skillId} from the Assistant:
-Error: An error ocurred while updating the Dispatch model:
-Error: Mocked function throws an Error`);
+            strictEqual(errorList[errorList.length - 1], `There was an error while disconnecting the Skill ${configuration.skillId} from the Assistant:${
+                EOL }Error: An error ocurred while updating the Dispatch model:${
+                EOL }Error: Mocked function throws an Error`);
         });
 
         it("when the lgOutFolder argument is invalid ", async function () {
@@ -119,8 +120,8 @@ Error: Mocked function throws an Error`);
             await this.disconnector.disconnectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `The 'lgOutFolder' argument is absent or leads to a non-existing folder.
-Please make sure to provide a valid path to your Luis Generate output folder using the '--lgOutFolder' argument.`);
+            strictEqual(errorList[errorList.length - 1], `The 'lgOutFolder' argument is absent or leads to a non-existing folder.${
+                EOL }Please make sure to provide a valid path to your Luis Generate output folder using the '--lgOutFolder' argument.`);
         });
 
         it("when the lgLanguage argument is invalid", async function () {
@@ -140,8 +141,8 @@ Please make sure to provide a valid path to your Luis Generate output folder usi
             await this.disconnector.disconnectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `The 'lgLanguage' argument is incorrect.
-It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
+            strictEqual(errorList[errorList.length - 1], `The 'lgLanguage' argument is incorrect.${
+                EOL }It should be either 'cs' or 'ts' depending on your assistant's language. Please provide either the argument '--cs' or '--ts'.`);
         });
 
         it("when the appsettingsFile argument is missing", async function () {
@@ -161,8 +162,8 @@ It should be either 'cs' or 'ts' depending on your assistant's language. Please 
             await this.disconnector.disconnectSkill();
             const errorList = this.logger.getError();
 
-            strictEqual(errorList[errorList.length - 1], `The 'appSettingsFile' argument is absent or leads to a non-existing file.
-Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
+            strictEqual(errorList[errorList.length - 1], `The 'appSettingsFile' argument is absent or leads to a non-existing file.${
+                EOL }Please make sure to provide a valid path to your Assistant Skills configuration file using the '--appSettingsFile' argument.`);
         });
     });
 
@@ -206,8 +207,8 @@ Please make sure to provide a valid path to your Assistant Skills configuration 
             await this.disconnector.disconnectSkill();
             const errorList = this.logger.getWarning();
 
-            strictEqual(errorList[errorList.length - 1], `The skill '${ configuration.skillId }' is not present in the assistant Skills configuration file.
-Run 'botskills list --appSettingsFile "<YOUR-APPSETTINGS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
+            strictEqual(errorList[errorList.length - 1], `The skill '${ configuration.skillId }' is not present in the assistant Skills configuration file.${
+                EOL }Run 'botskills list --appSettingsFile "<YOUR-APPSETTINGS-FILE-PATH>"' in order to list all the skills connected to your assistant`);
         });
     });
 

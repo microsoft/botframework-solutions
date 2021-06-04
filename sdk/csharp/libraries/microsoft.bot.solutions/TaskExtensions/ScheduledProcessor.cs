@@ -3,12 +3,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using NCrontab;
 
 namespace Microsoft.Bot.Solutions.TaskExtensions
 {
+    [ExcludeFromCodeCoverageAttribute]
     public abstract class ScheduledProcessor : BackgroundService
     {
         private const int DelayBetweenTasks = 100;

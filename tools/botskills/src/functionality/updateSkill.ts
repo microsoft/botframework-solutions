@@ -9,6 +9,7 @@ import { ConnectSkill } from './connectSkill';
 import { DisconnectSkill } from './disconnectSkill';
 import { ManifestUtils, sanitizeAppSettingsProperties } from '../utils';
 import { IManifest } from '../models/manifest';
+import { EOL } from 'os';
 
 export class UpdateSkill {
     private readonly configuration: IUpdateConfiguration;
@@ -71,7 +72,7 @@ export class UpdateSkill {
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while updating the Skill from the Assistant:\n${ err }`);
+            this.logger.error(`There was an error while updating the Skill from the Assistant:${ EOL + err }`);
 
             return false;
         }

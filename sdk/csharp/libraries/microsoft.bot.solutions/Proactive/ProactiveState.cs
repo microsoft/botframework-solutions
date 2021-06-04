@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Builder;
 
 namespace Microsoft.Bot.Solutions.Proactive
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class ProactiveState : BotState
     {
         /// <summary>The key used to cache the state information in the turn context.</summary>

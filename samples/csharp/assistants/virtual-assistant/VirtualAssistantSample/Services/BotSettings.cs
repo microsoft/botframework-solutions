@@ -9,5 +9,6 @@ namespace VirtualAssistantSample.Services
     public class BotSettings : BotSettingsBase
     {
         public TokenExchangeConfig TokenExchangeConfig { get; set; }
+        public bool LogPersonalData { get; set; }
     }
 }

@@ -4,15 +4,16 @@
 namespace Microsoft.Bot.Solutions
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.ApplicationInsights.Extensibility;
-    using Microsoft.Bot.Builder.AI.QnA;
     using Microsoft.Bot.Builder.Azure;
-    using Microsoft.Bot.Configuration;
     using Microsoft.Bot.Solutions.Authentication;
+    using Microsoft.Bot.Solutions.Services;
 
     /// <summary>
     /// Base class representing the configuration for a bot.
     /// </summary>
+    [ExcludeFromCodeCoverageAttribute]
     public class BotSettingsBase
     {
         /// <summary>
@@ -174,11 +175,8 @@ namespace Microsoft.Bot.Solutions
             /// <value>
             /// The collection of QnA Maker knowledgebases.
             /// </value>
-#pragma warning disable CS0618 // Type or member is obsolete
-
             // TODO #3139: Add required cognitive model class in Solutions SDK.
             public List<QnAMakerService> Knowledgebases { get; set; }
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         public class OAuthCredentialsConfiguration

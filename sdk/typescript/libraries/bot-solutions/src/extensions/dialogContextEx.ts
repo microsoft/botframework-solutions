@@ -5,6 +5,7 @@
 
 import { DialogContext } from 'botbuilder-dialogs';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DialogContextEx {
     export const suppressDialogCompletionKey = 'suppressDialogCompletionMessage';
     

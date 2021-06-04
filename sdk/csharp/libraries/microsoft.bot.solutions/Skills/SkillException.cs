@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.Bot.Solutions.Skills
 {
@@ -38,6 +39,7 @@ namespace Microsoft.Bot.Solutions.Skills
         Other,
     }
 
+    [ExcludeFromCodeCoverageAttribute]
     public class SkillException : Exception
     {
         public SkillException(SkillExceptionType exceptionType, string message, Exception innerException)

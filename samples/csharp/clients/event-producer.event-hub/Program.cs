@@ -57,7 +57,7 @@ namespace EventProducer
             {
                 var message = "{'userid':'" + userId + "','message':'You have a new notification!'}";
                 Console.WriteLine($"Sending message: {message}");
-                await eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(message)));
+                await eventHubClient.SendAsync(new Microsoft.Azure.EventHubs.EventData(Encoding.UTF8.GetBytes(message)));
             }
             catch (Exception ex)
             {

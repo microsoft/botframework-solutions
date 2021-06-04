@@ -244,6 +244,8 @@ public class SpeechSdk {
                     configuration.speechRegion);
         }
 
+        dialogServiceConfig.setProperty(PropertyId.Conversation_From_Id, from_user.getId());
+
         dialogServiceConfig.setProperty("SPEECH-RecoLanguage", configuration.srLanguage);
         if (!(configuration.customVoiceDeploymentIds == null || configuration.customVoiceDeploymentIds.isEmpty())) {
             dialogServiceConfig.setProperty(PropertyId.Conversation_Custom_Voice_Deployment_Ids, configuration.customVoiceDeploymentIds);

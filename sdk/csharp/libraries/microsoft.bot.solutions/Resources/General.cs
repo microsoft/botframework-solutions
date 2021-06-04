@@ -6,10 +6,13 @@
 // </auto-generated>
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+
 namespace Luis
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class General: IRecognizerConvert
     {
         public string Text;

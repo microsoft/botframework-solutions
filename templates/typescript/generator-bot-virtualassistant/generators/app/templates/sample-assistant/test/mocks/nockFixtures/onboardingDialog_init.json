@@ -2,23 +2,53 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Jane Doe",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "Jane Doe",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "Jane Doe",
-            "topScoringIntent": {
-                "intent": "q_chitchat",
-                "score": 0.9702615
-            },
-            "entities": [
-                {
-                    "entity": "jane doe",
-                    "type": "builtin.personName",
-                    "startIndex": 0,
-                    "endIndex": 7
-                }
-            ]
+            "prediction": {
+                "topIntent": "l_general",
+                "intents": {
+                    "l_general": {
+                        "score": 0.9973737,
+                        "childApp": {
+                            "topIntent": "Confirm",
+                            "intents": {
+                                "Confirm": {
+                                    "score": 0.135677218
+                                }
+                            },
+                            "entities": {
+                                "personName": [
+                                    "Jane Doe"
+                                ],
+                                "$instance": {
+                                    "personName": [
+                                        {
+                                            "type": "builtin.personName",
+                                            "text": "Jane Doe",
+                                            "startIndex": 0,
+                                            "length": 8,
+                                            "modelTypeId": 2,
+                                            "modelType": "Prebuilt Entity Extractor",
+                                            "recognitionSources": [
+                                                "model"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "entities": {}
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -26,15 +56,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "259",
+            "425",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "9ba5d506-662e-433f-82ae-c53659970f20",
+            "d672a1af-9976-43f1-b559-a6a97f66bce3",
             "Request-Id",
-            "9ba5d506-662e-433f-82ae-c53659970f20",
+            "d672a1af-9976-43f1-b559-a6a97f66bce3",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=2",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -42,7 +72,76 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 19:11:07 GMT",
+            "Wed, 15 Jul 2020 16:37:23 GMT",
+            "Connection",
+            "close"
+        ]
+    },
+    {
+        "scope": "https://westus.api.cognitive.microsoft.com:443",
+        "method": "POST",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "Jane Doe",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
+        "status": 200,
+        "response": {
+            "query": "Jane Doe",
+            "prediction": {
+                "topIntent": "Confirm",
+                "intents": {
+                    "Confirm": {
+                        "score": 0.135677218
+                    }
+                },
+                "entities": {
+                    "personName": [
+                        "Jane Doe"
+                    ],
+                    "$instance": {
+                        "personName": [
+                            {
+                                "type": "builtin.personName",
+                                "text": "Jane Doe",
+                                "startIndex": 0,
+                                "length": 8,
+                                "modelTypeId": 2,
+                                "modelType": "Prebuilt Entity Extractor",
+                                "recognitionSources": [
+                                    "model"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "rawHeaders": [
+            "Cache-Control",
+            "no-store, proxy-revalidate, no-cache, max-age=0, private",
+            "Pragma",
+            "no-cache",
+            "Content-Length",
+            "330",
+            "Content-Type",
+            "application/json; charset=utf-8",
+            "Apim-Request-Id",
+            "bd236b28-d87c-43c1-9d9a-fe5378c96dbf",
+            "Request-Id",
+            "bd236b28-d87c-43c1-9d9a-fe5378c96dbf",
+            "CSP-Billing-Usage",
+            "CognitiveServices.LUIS.Transaction=1",
+            "Strict-Transport-Security",
+            "max-age=31536000; includeSubDomains; preload",
+            "X-Content-Type-Options",
+            "nosniff",
+            "X-Frame-Options",
+            "SAMEORIGIN",
+            "Date",
+            "Wed, 15 Jul 2020 16:37:24 GMT",
             "Connection",
             "close"
         ]

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Responses\Test.json" />
     <None Remove="Responses\TestResponses.es.lg" />
     <None Remove="Responses\TestResponses.lg" />
   </ItemGroup>
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Responses\Test.json" />
     <EmbeddedResource Include="Responses\TestResponses.es.json" />
     <EmbeddedResource Include="Responses\TestResponses.json" />
   </ItemGroup>

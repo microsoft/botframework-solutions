@@ -5,8 +5,10 @@
 
 import { Choice, PromptOptions } from 'botbuilder-dialogs';
 import { Activity, Attachment } from 'botframework-schema';
-import i18next from 'i18next';
 import { ListEx } from '../extensions';
+import { CommonResponses } from '../resources';
+import { readFileSync } from 'fs';
+import { ResponsesUtil } from '../util/responsesUtil';
 
 /**
  * Read order of list items.
@@ -27,6 +29,7 @@ export namespace SpeechUtility {
 
     export function listToSpeechReadyString(
         toProcess: PromptOptions|Activity,
+        locale: string,
         readOrder: ReadPreference = ReadPreference.Enumeration,
         maxSize: number = 4
     ): string {
@@ -48,15 +51,17 @@ export namespace SpeechUtility {
             parent = activity.speak || '';
         }
 
-        return listToSpeech(parent, speakStrings, readOrder, maxSize);
+        return listToSpeech(parent, speakStrings, readOrder, maxSize, locale);
     }
 
-    function listToSpeech(parent: string, selectionStrings: string[], readOrder: ReadPreference, maxSize: number): string {
+    function listToSpeech(parent: string, selectionStrings: string[], readOrder: ReadPreference, maxSize: number, locale: string): string {
 
         const result: string = `${ parent } ` || '';
 
         const itemDetails: string[] = [];
         const readSize: number = Math.min(selectionStrings.length, maxSize);
+        const jsonPath: string = ResponsesUtil.getResourcePath(CommonResponses.name, CommonResponses.pathToResource, locale);
+        const commonFile: string = readFileSync(jsonPath, 'utf8');
 
         if (readSize === 1) {
             itemDetails.push(selectionStrings[0]);
@@ -65,20 +70,20 @@ export namespace SpeechUtility {
                 let readFormat = '';
                 if (index === 0) {
                     if (readOrder === ReadPreference.Chronological) {
-                        readFormat = i18next.t('common:latestItem');
+                        readFormat = JSON.parse(commonFile)['latestItem'];
                     } else {
-                        readFormat = i18next.t('common:firstItem');
+                        readFormat = JSON.parse(commonFile)['firstItem'];
                     }
                 } else {
                     if (index === readSize - 1) {
-                        readFormat = i18next.t('common:lastItem');
+                        readFormat = JSON.parse(commonFile)['lastItem'];
                     } else {
                         if (index === 1) {
-                            readFormat = i18next.t('common:secondItem');
+                            readFormat = JSON.parse(commonFile)['secondItem'];
                         } else if (index === 2) {
-                            readFormat = i18next.t('common:thirdItem');
+                            readFormat = JSON.parse(commonFile)['thirdItem'];
                         } else if (index === 3) {
-                            readFormat = i18next.t('common:fourthItem');
+                            readFormat = JSON.parse(commonFile)['fourthItem'];
                         }
                     }
                 }
@@ -88,6 +93,7 @@ export namespace SpeechUtility {
             }
         }
 
-        return result + ListEx.toSpeechString(itemDetails, i18next.t('common:and'));
+
+        return result + ListEx.toSpeechString(itemDetails, JSON.parse(commonFile)['and'], locale);
     }
 }

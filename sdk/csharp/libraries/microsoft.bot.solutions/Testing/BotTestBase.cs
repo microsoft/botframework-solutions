@@ -3,12 +3,14 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Microsoft.Bot.Solutions.Responses;
 
 namespace Microsoft.Bot.Solutions.Testing
 {
     [Obsolete("This class is being deprecated. Please use Microsoft.Bot.Solutions.Responses.LocaleTemplateManager to handle response generation.")]
+    [ExcludeFromCodeCoverageAttribute]
     public abstract class BotTestBase
     {
         private static readonly Regex ResponseTokensRegex = new Regex(@"\{(\w+)\}", RegexOptions.Compiled);

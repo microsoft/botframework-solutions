@@ -7,6 +7,7 @@ import { join } from 'path';
 import { ConsoleLogger, ILogger } from '../logger';
 import { ICognitiveModel, IRefreshConfiguration } from '../models';
 import { ChildProcessUtils, getDispatchNames, isCloudGovernment, libraries, validateLibrary, wrapPathWithQuotes } from '../utils';
+import { EOL } from 'os';
 
 export class RefreshSkill {
     public logger: ILogger;
@@ -54,7 +55,7 @@ export class RefreshSkill {
                 throw new Error(`Path to ${ dispatchJsonFile } (${ dispatchJsonFilePath }) leads to a nonexistent file. This may be due to a problem with the 'dispatch refresh' command.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the dispatch refresh command:\nCommand: ${ dispatchRefreshCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the dispatch refresh command:${ EOL }Command: ${ dispatchRefreshCommand.join(' ') + EOL + err }`);
         }
     }
 
@@ -76,7 +77,7 @@ export class RefreshSkill {
             luisGenerateCommand.push('--force');
             await this.runCommand(luisGenerateCommand, `Executing luisgen for the ${ dispatchName } file`);
         } catch (err) {
-            throw new Error(`There was an error in the bf luis:generate:${ this.configuration.lgLanguage } command:\nCommand: ${ luisGenerateCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the bf luis:generate:${ this.configuration.lgLanguage } command:${ EOL }Command: ${ luisGenerateCommand.join(' ') + EOL + err }`);
         }
     }
     
@@ -87,8 +88,8 @@ export class RefreshSkill {
         const dispatchJsonFilePath: string = join(this.configuration.dispatchFolder, culture, dispatchJsonFile);
         const dataFolder: string = join(this.configuration.dispatchFolder, culture);
         if (!existsSync(this.configuration.dispatchFolder)) {
-            throw new Error(`Path to the Dispatch folder (${ this.configuration.dispatchFolder }) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
+            throw new Error(`Path to the Dispatch folder (${ this.configuration.dispatchFolder }) leads to a nonexistent folder.${
+                EOL }Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         } else if (!existsSync(dispatchFilePath)) {
             throw new Error(`Path to the ${ dispatchFile } file leads to a nonexistent file.`);
         }
@@ -144,7 +145,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
 
             return true;
         } catch (err) {
-            this.logger.error(`There was an error while refreshing any Skill from the Assistant:\n${ err }`);
+            this.logger.error(`There was an error while refreshing any Skill from the Assistant:${ EOL + err }`);
 
             return false;
         }

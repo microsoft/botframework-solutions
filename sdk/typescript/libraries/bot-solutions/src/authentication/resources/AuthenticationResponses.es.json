@@ -44,6 +44,15 @@
     ],
     "inputHint": "expectingInput"
   },
+  "NoLinkedAccount": {
+    "replies": [
+      {
+        "text": "Un token no se pudo recuperar para {authType}, por favor vincule su cuenta a su asistente y vuelva a intentarlo",
+        "speak": "Un token no se pudo recuperar para {authType}, por favor vincule su cuenta a su asistente y vuelva a intentarlo"
+      }
+    ],
+    "inputHint": "acceptingInput"
+  },
   "LoginButton": {
     "replies": [
       {

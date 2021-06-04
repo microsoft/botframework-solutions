@@ -5,11 +5,11 @@
 
 const assert = require('assert');
 const testNock = require('./helpers/testBase');
-const { getTestAdapterDefault, testUserProfileState } = require('./helpers/botTestBase');
+const { getTestAdapterDefault, testUserProfileState, getAllResponsesTemplates } = require('./helpers/botTestBase');
 
 describe("Main Dialog", function () {
 	describe("intro card", function() {
-		it("send a 'conversationUpdate' and verify intro message card is received", function(done) {
+		it("test intro message", function(done) {
 			getTestAdapterDefault().then((testAdapter) => {
                 const flow = testAdapter
                 .send({
@@ -40,7 +40,7 @@ describe("Main Dialog", function () {
 	});
 
 	describe("help", function () {
-		it("send 'Help' and verify help message card is received", function (done) {
+		it("test help intent", function (done) {
 			getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
 					.send('Help')
@@ -48,13 +48,13 @@ describe("Main Dialog", function () {
 						assert.strictEqual(1, activity.attachments.length);
 					});
 
-				testNock.resolveWithMocks('mainDialog_help_response', done, flow);
+					return testNock.resolveWithMocks('mainDialog_help_response', done, flow);
 			});
 		});
 	});
 
 	describe("escalating", function () {
-        it("send 'I want to talk to a human' and check you get the expected response", function (done) {
+        it("test escalate intent", function (done) {
             getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
 					.send('I want to talk to a human')	
@@ -62,21 +62,28 @@ describe("Main Dialog", function () {
 						assert.strictEqual(1, activity.attachments.length);
 					});
 
-				testNock.resolveWithMocks('mainDialog_escalate_response', done, flow);
+				return testNock.resolveWithMocks('mainDialog_escalate_response', done, flow);
 			});
         });
     });
 	
+	/*
+	ChitChat is the default fallback which will not be configured at functional test time so a mock ensures QnAMaker returns no answer
+	enabling the unsupported message to be returned.
+	*/
     xdescribe("confused", function () {
-        it("send an unhandled message", function (done) {
+        it("test unhandled message", function (done) {
+			const allFirstPromptVaritions = getAllResponsesTemplates("en-us").expandTemplate("FirstPromptMessage");
 			const allResponseVariations = getAllResponsesTemplates("en-us").expandTemplate("UnsupportedMessage", testUserProfileState);
 
 			getTestAdapterDefault().then((testAdapter) => {
 				const flow = testAdapter
-                .send('Unhandled message')
-                .assertReplyOneOf(allResponseVariations);
-                    
-                testNock.resolveWithMocks('mainDialog_unhandled_response', done, flow);
+					.send('')
+					.assertReplyOneOf(allFirstPromptVaritions)
+					.send("Unhandled message")
+					.assertReplyOneOf(allResponseVariations)      
+				
+				return testNock.resolveWithMocks('mainDialog_unhandled_response', done, flow);
             });
         });
     });

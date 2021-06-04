@@ -58,8 +58,12 @@
 
 # EscalateMessage
 [HeroCard
-  subtitle=Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.
+  subtitle= ${EscalatedText()}
+  speak = ${EscalatedText()}
 ]
+
+# EscalatedText
+- Our agents are available 24/7 at 1(800)555-1234. Or connect with us through Microsoft Teams.
 
 # NewUserIntroCard
 [Activity
@@ -206,8 +210,12 @@
 # HelpCard
 [HeroCard
     title=Help for Virtual Assistant
-    subtitle=This card can be used to display information to help your user interact with your bot.
+    subtitle=${HelpText()}
+    speak = ${HelpText()}
 ]
+
+# HelpText
+- This can be used to display information to help your user interact with your Virtual Assistant.
 
 # RandomName
 - IF: ${Name && rand(0, 1000) > 500}

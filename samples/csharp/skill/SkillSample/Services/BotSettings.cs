@@ -7,5 +7,6 @@ namespace SkillSample.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public bool LogPersonalData { get; set; }
     }
 }

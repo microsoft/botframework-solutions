@@ -4,11 +4,13 @@
  */
 
 import * as dayjs from 'dayjs';
-import i18next from 'i18next';
+import { readFileSync } from 'fs';
+import { CommonResponses } from '../resources';
+import { ResponsesUtil } from '../util/responsesUtil';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DateTimeEx {
     let currentLocale: string;
-
     async function importLocale(locale: string): Promise<void> {
         try {
             const localeImport: string = locale === 'zh' ?
@@ -20,8 +22,7 @@ export namespace DateTimeEx {
         }
     }
 
-    export async function toSpeechDateString(date: Date, includePrefix: boolean = false): Promise<string> {
-        const locale: string = i18next.language;
+    export async function toSpeechDateString(date: Date, locale: string, includePrefix: boolean = false): Promise<string> {
         if (currentLocale !== locale) {
             currentLocale = locale;
             await importLocale(locale);
@@ -30,8 +31,10 @@ export namespace DateTimeEx {
         utcDate.setHours(date.getHours());
         utcDate.setMinutes(date.getMinutes());
         utcDate.setSeconds(date.getSeconds());
+        const jsonPath = ResponsesUtil.getResourcePath(CommonResponses.name, CommonResponses.pathToResource, locale);
+        const commonFile: string = readFileSync(jsonPath, 'utf8');
         if (date.toUTCString() === utcDate.toUTCString()) {
-            return i18next.t('common:today');
+            return JSON.parse(commonFile)['today'];
         }
 
         const nextDate: Date = new Date();
@@ -40,30 +43,32 @@ export namespace DateTimeEx {
         nextDate.setMinutes(date.getMinutes());
         nextDate.setSeconds(date.getSeconds());
         if (date.toUTCString() === nextDate.toUTCString()) {
-            return i18next.t('common:tomorrow');
+            return JSON.parse(commonFile)['tomorrow'];
         }
 
-        const prefix: string = i18next.t('common:spokenDatePrefix');
+        const prefix: string = JSON.parse(commonFile)['spokenDatePrefix'];
         if (includePrefix && prefix) {
             return `${ prefix } ${ dayjs(date)
                 .locale(locale)
                 .format(
-                    i18next.t('common:spokenDateFormat')
+                    JSON.parse(commonFile)['spokenDateFormat']
                 ) }`;
         }
 
         return dayjs(date)
             .locale(locale)
             .format(
-                i18next.t('common:spokenDateFormat')
+                JSON.parse(commonFile)['spokenDateFormat']
             );
     }
 
-    export function toSpeechTimeString(date: Date, includePrefix: boolean = false): string {
+    export function toSpeechTimeString(date: Date, locale: string, includePrefix: boolean = false): string {
         if (includePrefix) {
+            const jsonPath: string = ResponsesUtil.getResourcePath(CommonResponses.name, CommonResponses.pathToResource, locale);
+            const commonFile: string = readFileSync(jsonPath, 'utf8');
             const prefix: string = date.getHours() === 1
-                ? i18next.t('common:spokenTimePrefixOne')
-                : i18next.t('common:spokenTimePrefixMoreThanOne');
+                ? JSON.parse(commonFile)['spokenTimePrefixOne']
+                : JSON.parse(commonFile)['spokenTimePrefixMoreThanOne'];
 
             if (prefix) {
                 return `${ prefix } ${ date.toLocaleTimeString() }`;

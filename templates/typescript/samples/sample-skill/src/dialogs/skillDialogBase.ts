@@ -6,7 +6,6 @@
 import {
     Activity,
     ActivityTypes,
-    BotTelemetryClient,
     StatePropertyAccessor } from 'botbuilder';
 import {
     ComponentDialog,
@@ -20,7 +19,7 @@ import {
     MultiProviderAuthDialog,
     LocaleTemplateManager } from 'bot-solutions';
 import { TokenResponse } from 'botframework-schema';
-import { SkillState } from '../models/skillState';
+import { SkillState } from '../models';
 import { BotServices} from '../services/botServices';
 import { IBotSettings } from '../services/botSettings';
 
@@ -28,30 +27,28 @@ export class SkillDialogBase extends ComponentDialog {
     protected settings: Partial<IBotSettings>;
     protected services: BotServices;
     protected stateAccessor: StatePropertyAccessor<SkillState>;
-    protected templateManager: LocaleTemplateManager;
+    protected templateEngine: LocaleTemplateManager;
 
     public constructor(
         dialogId: string,
         settings: Partial<IBotSettings>,
         services: BotServices,
         stateAccessor: StatePropertyAccessor<SkillState>,
-        telemetryClient: BotTelemetryClient,
-        templateManager: LocaleTemplateManager
+        templateEngine: LocaleTemplateManager
     ) {
         super(dialogId);
         this.services = services;
         this.stateAccessor = stateAccessor;
-        this.telemetryClient = telemetryClient;
         this.settings = settings;
-        this.templateManager = templateManager;
+        this.templateEngine = templateEngine;
 
         // NOTE: Uncomment the following if your skill requires authentication
-        // if (!services.authenticationConnections.any())
+        // if (!settings.oauthConnections || settings.oauthConnections.length === 0)
         // {
-        //     throw new Error("You must configure an authentication connection in your bot file before using this component.");
+        //    throw new Error('You must configure an authentication connection in your bot file before using this component.');
         // }
-        //
-        // this.addDialog(new MultiProviderAuthDialog(services));
+        
+        // this.addDialog(new MultiProviderAuthDialog(settings.oauthConnections, this.settings.defaultLocale as string, []));
     }
 
     protected async getAuthToken(sc: WaterfallStepContext): Promise<DialogTurnResult> {
@@ -75,7 +72,7 @@ export class SkillDialogBase extends ComponentDialog {
 
             if (providerTokenResponse !== undefined) {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const state: any = await this.stateAccessor.get(sc.context);
+                const state: SkillState = await this.stateAccessor.get(sc.context, new SkillState());
                 state.token = providerTokenResponse.tokenResponse.token;
             }
 
@@ -124,11 +121,11 @@ export class SkillDialogBase extends ComponentDialog {
         });
 
         // send error message to bot user
-        await sc.context.sendActivity(this.templateManager.generateActivityForLocale('ErrorMessage'));
+        await sc.context.sendActivity(this.templateEngine.generateActivityForLocale('ErrorMessage', sc.context.activity.locale));
 
         // clear state
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const state: any = await this.stateAccessor.get(sc.context);
+        const state: SkillState = await this.stateAccessor.get(sc.context, new SkillState());
         state.clear();
     }
 }

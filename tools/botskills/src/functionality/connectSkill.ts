@@ -4,7 +4,7 @@
  */
 
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import { join, parse } from 'path';
 import { get } from 'request-promise-native';
 import { ConsoleLogger, ILogger } from '../logger';
 import {
@@ -18,6 +18,7 @@ import {
 import { ChildProcessUtils, getDispatchNames, isValidCultures, wrapPathWithQuotes, isCloudGovernment, ManifestUtils, libraries, validateLibrary, sanitizeAppSettingsProperties  } from '../utils';
 import { RefreshSkill } from './refreshSkill';
 import { IManifest } from '../models/manifest';
+import { EOL } from 'os';
 
 export class ConnectSkill {
     private readonly childProcessUtils: ChildProcessUtils;
@@ -40,8 +41,8 @@ export class ConnectSkill {
         dispatchName: string): Promise<Map<string, string>> {
 
         if (!existsSync(this.configuration.luisFolder)) {
-            throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.
-Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
+            throw new Error(`Path to the LUIS folder (${ this.configuration.luisFolder }) leads to a nonexistent folder.${
+                EOL }Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         }
 
         let luFile = '';
@@ -51,22 +52,22 @@ Remember to use the argument '--luisFolder' for your Skill's LUIS folder.`);
         let luisFilePath = '';
         let dispatchFolderPath = '';
         let dispatchFilePath = '';
-        let useAllIntents: boolean = false;
+        let useAllIntents = false;
 
         dispatchFolderPath = join(this.configuration.dispatchFolder, culture);
-        dispatchFilePath = join(dispatchFolderPath, `${dispatchName}.dispatch`);
+        dispatchFilePath = join(dispatchFolderPath, `${ dispatchName }.dispatch`);
 
         // Validate 'dispatch add' arguments
         if (!existsSync(dispatchFolderPath)) {
             throw new Error(
-                `Path to the Dispatch folder (${ dispatchFolderPath }) leads to a nonexistent folder.
-Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
+                `Path to the Dispatch folder (${ dispatchFolderPath }) leads to a nonexistent folder.${
+                    EOL }Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch folder.`);
         } else if (!existsSync(dispatchFilePath)) {
             throw new Error(`Path to the ${ dispatchName }.dispatch file leads to a nonexistent file.`);
         }
 
-        luFile = `${luisApp}.lu`;
-        luisFile = `${luisApp}.luis`;
+        luFile = `${ luisApp }.lu`;
+        luisFile = `${ luisApp }.luis`;
         luFilePath = join(this.configuration.luisFolder, culture, luFile);
         luisFilePath = join(luisFolderPath, luisFile);
 
@@ -74,7 +75,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
             if (this.manifest !== undefined && this.manifest.entries !== undefined) {
 
                 const model: IModel = {id: '', name: '', contentType: '', url: '', description: ''};
-                const currentLocaleApps = this.manifest.entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model]
+                const currentLocaleApps = this.manifest.entries.find((entry: [string, IModel[]]): boolean => entry[0] === culture) || [model];
                 const localeApps: IModel[] = currentLocaleApps[1];
                 const currentApp: IModel = localeApps.find((model: IModel): boolean => model.id === luisApp) || model;
 
@@ -82,7 +83,7 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                     luFilePath = currentApp.url.split('file://')[1];
                     if(!existsSync(luFilePath)) {
                         luFile = luFilePath;
-                        luisFile = `${ luFile.toLowerCase() }is`;
+                        luisFile = `${ parse(luFilePath).name }.luis`;
                         luFilePath = join(this.configuration.luisFolder, culture, luFile);
                     }
                 }
@@ -107,9 +108,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
                     throw new Error(`Path to the LU file (${ luFilePath }) leads to a nonexistent file.`);
                 }
 
-                if (luFile.trim.length === 0) {
-                    luFile = luFilePath.split('\\').reverse()[0];
-                    luisFile = `${ luFile.toLowerCase() }is`;
+                if (luFile.trim().length === 0) {
+                    luisFile = `${ parse(luFilePath).name }.luis`;
                 }
                 luisFilePath = join(luisFolderPath, luisFile);
             }
@@ -117,8 +117,8 @@ Remember to use the argument '--dispatchFolder' for your Assistant's Dispatch fo
 
         // Validate 'bf luis:convert' arguments
         if (!existsSync(luFilePath)) {
-            throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.
-Make sure your Skill's .lu file's name matches your Skill's manifest id`);
+            throw new Error(`Path to the ${ luFile } file leads to a nonexistent file.${
+                EOL }Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         }
 
         const executionModelMap: Map<string, string> = new Map();
@@ -140,7 +140,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
             useAllIntents = this.manifest.allowedIntents.some(e => e === '*');
 
             if (useAllIntents && this.manifest.allowedIntents.length > 1) {
-                this.logger.warning("Found intent with name '*'. Adding all intents.");
+                this.logger.warning('Found intent with name \'*\'. Adding all intents.');
             }
             
             if (!useAllIntents && this.manifest.allowedIntents.length > 0) {
@@ -160,7 +160,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         try {
             return await this.childProcessUtils.execute(cmd, commandArgs);
         } catch (err) {
-            throw new Error(`The execution of the ${ cmd } command failed with the following error:\n${ err }`);
+            throw new Error(`The execution of the ${ cmd } command failed with the following error:${ EOL + err }`);
         }
     }
 
@@ -170,7 +170,7 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
                 uri: path
             });
         } catch (err) {
-            throw new Error(`There was a problem while getting the remote lu file:\n${ err }`);
+            throw new Error(`There was a problem while getting the remote lu file:${ EOL + err }`);
         }
     }
 
@@ -191,8 +191,8 @@ Make sure your Skill's .lu file's name matches your Skill's manifest id`);
         const manifestLanguages: string[] = Array.from(luisDictionary.keys());
         const availableCultures: string[] = dispatchLanguages.filter((lang: string): boolean => manifestLanguages.includes(lang));
         if (!isValidCultures(availableCultures, this.configuration.languages)) {
-            throw new Error(`Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.
-Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
+            throw new Error(`Some of the cultures provided to connect from the Skill are not available or aren't supported by your VA.${
+                EOL }Make sure you have a Dispatch for the cultures you are trying to connect, and that your Skill has a LUIS model for that culture`);
         }
     }
 
@@ -208,12 +208,13 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 const argumentValue: string = executionModelByCulture.get(argument) as string;
                 luisConvertCommand.push(...[argument, wrapPathWithQuotes(argumentValue)]);
             });
+            luisConvertCommand.push('--force');
             await this.runCommand(luisConvertCommand, `Parsing ${ culture } ${ luisApp } LU file`);
             if (!existsSync(luisFilePath)) {
                 throw new Error(`Path to ${ luisFile } (${ luisFilePath }) leads to a nonexistent file.`);
             }
         } catch (err) {
-            throw new Error(`There was an error in the bf luis:convert command:\nCommand: ${ luisConvertCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the bf luis:convert command:${ EOL }Command: ${ luisConvertCommand.join(' ') + EOL + err }`);
         }
     }
 
@@ -235,7 +236,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             });
             await this.runCommand(dispatchAddCommand, `Executing dispatch add for the ${ culture } ${ luisApp } LU file`);
         } catch (err) {
-            throw new Error(`There was an error in the dispatch add command:\nCommand: ${ dispatchAddCommand.join(' ') }\n${ err }`);
+            throw new Error(`There was an error in the dispatch add command:${ EOL }Command: ${ dispatchAddCommand.join(' ') + EOL + err }`);
         }
     }
 
@@ -271,8 +272,14 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                     const culture: string = item[0];
                     const executionModelByCulture: Map<string, string> = item[1];
                     await this.executeLuisConvert(culture, executionModelByCulture);
-                    await this.executeDispatchAdd(culture, executionModelByCulture);
+                    if (!this.logger.isError) {
+                        await this.executeDispatchAdd(culture, executionModelByCulture);
+                    }
                 }));
+
+            if (this.logger.isError) {
+                throw new Error('There were one or more issues converting the LU files. Aborting the process.');
+            }
 
             // Check if it is necessary to refresh the skill
             if (!this.configuration.noRefresh) {
@@ -281,7 +288,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
                 this.logger.warning(`Run 'botskills refresh --${ this.configuration.lgLanguage }' command to refresh your connected skills`);
             }
         } catch (err) {
-            throw new Error(`An error ocurred while updating the Dispatch model:\n${ err }`);
+            throw new Error(`An error ocurred while updating the Dispatch model:${ EOL + err }`);
         }
     }
 
@@ -314,7 +321,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             return true;
            
         } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
+            this.logger.error(`There was an error while connecting the Skill to the Assistant:${ EOL + err }`);
             return false;
         }
     }
@@ -365,7 +372,7 @@ Make sure you have a Dispatch for the cultures you are trying to connect, and th
             //this.logger.message('Configuring bot auth settings');
             //await this.authenticationUtils.authenticate(this.configuration, skillManifest, this.logger);
         } catch (err) {
-            this.logger.error(`There was an error while connecting the Skill to the Assistant:\n${ err }`);
+            this.logger.error(`There was an error while connecting the Skill to the Assistant:${ EOL + err }`);
         }
     }
 }

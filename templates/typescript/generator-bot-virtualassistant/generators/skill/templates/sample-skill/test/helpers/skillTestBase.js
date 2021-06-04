@@ -11,6 +11,7 @@ const {
     UserState
 } = require("botbuilder");
 const { join } = require("path");
+const { TemplatesParser } = require("botbuilder-lg");
 const {
     ApplicationInsightsTelemetryClient
 } = require("botbuilder-applicationinsights");
@@ -22,8 +23,6 @@ const {
     LocaleTemplateManager,
 } = require("bot-solutions");
 const { ActivityTypes } = require("botframework-schema");
-const i18next = require("i18next");
-const i18nextNodeFsBackend = require("i18next-node-fs-backend");
 const SkillState = require("../../lib/models/skillState").SkillState;
 const DefaultActivityHandler = require("../../lib/bots/defaultActivityHandler.js").DefaultActivityHandler;
 const MainDialog = require("../../lib/dialogs/mainDialog.js").MainDialog;
@@ -76,14 +75,6 @@ const setupEnvironment = function(testMode) {
 };
 
 const configuration = async function() {
-    // Configure internationalization and default locale
-    await i18next.use(i18nextNodeFsBackend).init({
-        fallbackLng: 'en-us',
-        preload: ['de-de', 'en-us', 'es-es', 'fr-fr', 'it-it', 'zh-cn'],
-    });
-    await Locales.addResourcesFromPath(i18next, "common");
-    await i18next.changeLanguage('en-us');
-
     setupEnvironment(TEST_MODE);
 };
 
@@ -112,25 +103,21 @@ const initialize = async function() {
         botSettings,
         botServices,
         stateAccessor,
-        telemetryClient,
         templateManager
     );
     const sampleAction = new SampleAction(
         botSettings,
         botServices,
         stateAccessor,
-        telemetryClient,
         templateManager
     );
     const mainDialog = new MainDialog(
         botServices,
-        telemetryClient,
-        stateAccessor,
         sampleDialog,
         sampleAction,
         templateManager
     );
-    this.bot = new DefaultActivityHandler(conversationState, userState, templateManager, mainDialog);
+    this.bot = new DefaultActivityHandler(conversationState, userState, templateManager, telemetryClient, mainDialog);
 };
 
 /**
@@ -176,8 +163,12 @@ const getTelemetryClient = function(settings) {
     return new NullTelemetryClient();
 };
 
-const getTemplates = function(name) {
-    return templateManager.lgPerLocale.get(i18next.language).expandTemplate(name);
+const getTemplates = function(locale, name, data) {
+    const path = locale === 'en-us'
+        ? join(__dirname, '..', '..', 'lib', 'responses', 'AllResponses.lg')
+        : join(__dirname, '..', '..', 'lib', 'responses', `AllResponses.${locale}.lg`)
+    
+    return TemplatesParser.parseFile(path).expandTemplate(name, data);
 };
 
 module.exports = {

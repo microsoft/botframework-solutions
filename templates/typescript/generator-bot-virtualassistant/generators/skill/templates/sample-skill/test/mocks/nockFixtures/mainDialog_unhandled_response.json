@@ -2,16 +2,25 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "sample dialog",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "sample dialog",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "sample dialog",
-            "topScoringIntent": {
-                "intent": "Sample",
-                "score": 0.9705775
-            },
-            "entities": []
+            "prediction": {
+                "topIntent": "Sample",
+                "intents": {
+                    "Sample": {
+                        "score": 0.9705775
+                    }
+                },
+                "entities": {}
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -19,15 +28,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "131",
+            "116",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "60b1ca77-38b9-420e-b72f-cfa30a10194a",
+            "5f5dd332-b971-41fe-9cd3-5ea9a43b0a3f",
             "Request-Id",
-            "60b1ca77-38b9-420e-b72f-cfa30a10194a",
+            "5f5dd332-b971-41fe-9cd3-5ea9a43b0a3f",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -35,7 +44,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 15:15:27 GMT",
+            "Thu, 16 Jul 2020 18:23:45 GMT",
             "Connection",
             "close"
         ]
@@ -43,16 +52,25 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "sample dialog",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "sample dialog",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "sample dialog",
-            "topScoringIntent": {
-                "intent": "Confirm",
-                "score": 0.12141446
-            },
-            "entities": []
+            "prediction": {
+                "topIntent": "Confirm",
+                "intents": {
+                    "Confirm": {
+                        "score": 0.148891255
+                    }
+                },
+                "entities": {}
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -60,15 +78,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "133",
+            "120",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "797f1506-ab96-49cf-8e59-126ca1539b71",
+            "e5d44eb9-a07a-44b2-87a9-f9d82239dc13",
             "Request-Id",
-            "797f1506-ab96-49cf-8e59-126ca1539b71",
+            "e5d44eb9-a07a-44b2-87a9-f9d82239dc13",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -76,7 +94,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 15:15:27 GMT",
+            "Thu, 16 Jul 2020 18:23:45 GMT",
             "Connection",
             "close"
         ]
@@ -84,16 +102,25 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Unhandled message",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "Unhandled message",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "Unhandled message",
-            "topScoringIntent": {
-                "intent": "None",
-                "score": 0.833009
-            },
-            "entities": []
+            "prediction": {
+                "topIntent": "None",
+                "intents": {
+                    "None": {
+                        "score": 0.833009
+                    }
+                },
+                "entities": {}
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -101,15 +128,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "132",
+            "115",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "3d3e9d15-5edc-48b3-96cf-5d16ff349c73",
+            "8773612c-2273-4762-9b39-0c6dca4d2397",
             "Request-Id",
-            "3d3e9d15-5edc-48b3-96cf-5d16ff349c73",
+            "8773612c-2273-4762-9b39-0c6dca4d2397",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -117,7 +144,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 15:15:28 GMT",
+            "Thu, 16 Jul 2020 18:23:46 GMT",
             "Connection",
             "close"
         ]
@@ -125,16 +152,25 @@
     {
         "scope": "https://westus.api.cognitive.microsoft.com:443",
         "method": "POST",
-        "path": "/luis/v2.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554?verbose=false&staging=false&spellCheck=false&log=true",
-        "body": "Unhandled message",
+        "path": "/luis/prediction/v3.0/apps/f7c2ee78-8679-4a3e-b384-0cd10c67e554/slots/production/predict?verbose=true&log=true&show-all-intents=false",
+        "body": {
+            "query": "Unhandled message",
+            "options": {
+                "preferExternalEntities": true
+            }
+        },
         "status": 200,
         "response": {
             "query": "Unhandled message",
-            "topScoringIntent": {
-                "intent": "Confirm",
-                "score": 0.12141446
-            },
-            "entities": []
+            "prediction": {
+                "topIntent": "Confirm",
+                "intents": {
+                    "Confirm": {
+                        "score": 0.148891255
+                    }
+                },
+                "entities": {}
+            }
         },
         "rawHeaders": [
             "Cache-Control",
@@ -142,15 +178,15 @@
             "Pragma",
             "no-cache",
             "Content-Length",
-            "137",
+            "124",
             "Content-Type",
             "application/json; charset=utf-8",
             "Apim-Request-Id",
-            "bac86884-fc71-44b0-9a02-0545ed9afb64",
+            "bc3a75d7-1823-480b-b4a2-3acf12f4f74d",
             "Request-Id",
-            "bac86884-fc71-44b0-9a02-0545ed9afb64",
+            "bc3a75d7-1823-480b-b4a2-3acf12f4f74d",
             "CSP-Billing-Usage",
-            "CognitiveServices.LUIS.Transaction|1",
+            "CognitiveServices.LUIS.Transaction=1",
             "Strict-Transport-Security",
             "max-age=31536000; includeSubDomains; preload",
             "X-Content-Type-Options",
@@ -158,7 +194,7 @@
             "X-Frame-Options",
             "SAMEORIGIN",
             "Date",
-            "Tue, 07 Apr 2020 15:15:29 GMT",
+            "Thu, 16 Jul 2020 18:23:46 GMT",
             "Connection",
             "close"
         ]

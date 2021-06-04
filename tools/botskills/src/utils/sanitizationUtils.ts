@@ -4,8 +4,7 @@
  */
 
 import { readFileSync } from 'fs';
-
-const regexTrailingBackslash = /.*?(\\)+$/;
+const regexTrailingBackslash = /.*?(\\|\/)+$/;
 
 /**
  * @param path Path to sanitize.
