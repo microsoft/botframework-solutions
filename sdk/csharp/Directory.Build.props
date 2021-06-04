@@ -37,9 +37,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <!--<ItemGroup>
+  <ItemGroup>
     <None Include="images\icon.png" Pack="true" PackagePath="\"/>
-  </ItemGroup>-->
+  </ItemGroup>
 
   <PropertyGroup>
     <!-- Rules found at: https://aka.ms/Microsoft-NuGet-Compliance -->
@@ -59,9 +59,5 @@
     -->
     <NoWarn>$(NoWarn);NU5125;NU1701;8002</NoWarn>
   </PropertyGroup>
-  
-  <ItemGroup Condition="'$(GeneratePackageOnBuild)' == 'True'">
-    <None Include="icon.png" Pack="true" PackagePath="\" />
-  </ItemGroup>
   
 </Project>
