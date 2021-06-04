@@ -40,7 +40,6 @@ describe(`The generator-bot-virtualassistant tests`, function() {
         join(`src`, `adapters`),
         join(`src`, `bots`),
         join(`src`, `dialogs`),
-        join(`src`, `locales`),
         join(`src`, `models`),
         join(`src`, `responses`),
         join(`src`, `services`),
@@ -136,16 +135,6 @@ describe(`The generator-bot-virtualassistant tests`, function() {
                 done();
             });
         });
-
-        describe(`and have in the bot`, function() {
-            it(`a private property with the given name`, function(done) {
-                assert.fileContent(
-                  join(assistantGenerationPath, assistantName, botPath),
-                  `private readonly solutionName: string = '${assistantNameCamelCase}';`
-                );
-                done();
-            });      
-        }); 
     });
     
     describe(`should not create`, function () {

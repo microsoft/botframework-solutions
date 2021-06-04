@@ -18,8 +18,17 @@ describe("Main Dialog", function () {
                         {
                             id: "1",
                             name: "user"
+                        },
+                        {
+                            id: "2",
+                            name: "bot"
                         }
                     ],
+                    channelId: "emulator",
+                    recipient: {
+                        id: "1"
+                    },
+                    locale: "en-us"
                 })
 				.assertReply(function (activity, description) {
 					assert.strictEqual(1, activity.attachments.length);

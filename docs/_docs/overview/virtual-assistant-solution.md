@@ -14,13 +14,11 @@ Customers and partners have increasing need to deliver advanced conversational a
 
 At its core, the [Virtual Assistant]({{site.baseurl}}//overview/virtual-assistant-template) (available in C# and TypeScript) is a project template with the best practices for developing a bot on the Microsoft Azure platform.
 
-Common assistant scenarios are provided as reusable conversational skills, increasing developer productivity and enabling a vibrant ecosystem of reusable components. Individual skills can be added to an assistant to enable new scenarios, for example: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models and responses for multiple languages, dialogs, and code.
+Common assistant scenarios are provided as reusable conversational skills, increasing developer productivity and enabling a vibrant ecosystem of reusable components. Individual skills can be added to an assistant to enable new scenarios, extending the Virtual Assistant experience with reusable [Bot Framework Skills]({{site.baseurl}}/overview/skills), for example: finding a point of interest, checking off an item on a to-do list, or replying to an email. Skills are fully customizable and consist of language models and responses for multiple languages, dialogs, and code.
 
 Owning and enriching customer relationships and providing insights is vital to the goals of the Virtual Assistant. This contrasts with established in-market assistants that do not enable white-labelling, customization or privacy placed in control of the customer.
 
 Further skills can be created and made available either through your own assistant or made available through a broader ecosystem enabling assistant owners to curate the capabilities that make sense for their scenario and work across industries.
-
-Extend a Virtual Assistant experience with reusable [Bot Framework Skills]({{site.baseurl}}/overview/skills), fulfilling common scenarios such as finding a nearby point of interest, checking off an item on a to-do list, or replying to an email. Skills can be fully customized and samples are available, enabling you to get started with multiple languages, dialogs, and code.
 
 Review analytics captured from the out-of-the-box Application Insights telemetry using the [Virtual Assistant Analytics Power BI template]({{site.baseurl}}/solution-accelerators/tutorials/view-analytics/1-intro).
 
@@ -54,7 +52,7 @@ The Virtual Assistant Solution Accelerator architecture is flexible and can be i
 ### Extend with Bot Framework Skills
 {:.no_toc}
 
-A Virtual Assistant often needs to extend it's capabilities with specialized Skills. Typically, an organization needs to manage their own language models, dialogs, API integration, and generated responses.
+A Virtual Assistant often needs to extend its capabilities with specialized Skills. Typically, an organization needs to manage their own language models, dialogs, API integration, and generated responses.
 This is further complicated should you require your Virtual Assistant to support multiple languages. The Solution Accelerator includes a Skill capability that enables external bots to be plugged into an existing Virtual Assistant.
 
 
@@ -70,14 +68,13 @@ The [Virtual Assistant core template]({{site.baseurl}}/overview/virtual-assistan
 ### Skills
 {:.no_toc}
 
-Bot Framework Skills leverage the new Bot Framework SDK capabilities and provide re-usable conversational skill building-blocks covering conversational use-cases enabling you to add extensive functionality to a Bot within minutes. Skills include LUIS models, Dialogs and Integration code and delivered in source code form enabling you to customize and extend as required. Provided are Calendar, Email, To Do, Point of Interest skills and a number of other experimental skills. You can find more details in the [Skills]() section of this site.
+Bot Framework Skills leverage the new Bot Framework SDK capabilities and provide re-usable conversational skill building-blocks covering conversational use-cases enabling you to add extensive functionality to a Bot within minutes. Skills include LUIS models, Dialogs and Integration code and delivered in source code form enabling you to customize and extend as required. Provided are Calendar, Email, To Do, Point of Interest skills and a number of other experimental skills. You can find more details in the [Skills]({{site.baseurl}}/overview/skills) section of this site.
 
 ### Assistant Solution Accelerators
 {:.no_toc}
 
 Microsoft has assembled these samples to allow for acceleration of customers in building a Virtual Assistant for specific Industries or scenarios. These samples have pre-packaged skill configurations, additional capabilities and suggested channels that are leveraged in typical scenarios.
 - [Base Virtual Assistant]({{site.baseurl}}/overview/virtual-assistant-template)
-- [Automotive Assistant]() (In and out of Vehicle Experiences for Customers)
 - [Enterprise Assistant]({{site.baseurl}}/solution-accelerators/assistants/enterprise-assistant/) (Employee Focused Experiences)
 - [Hospitality Assistant]({{site.baseurl}}/solution-accelerators/assistants/hospitality-assistant/) (In Room Assistant for hotel guests)
 

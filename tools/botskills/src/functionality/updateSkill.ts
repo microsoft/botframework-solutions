@@ -3,12 +3,11 @@
  * Licensed under the MIT License.
  */
 
-import { readFileSync } from 'fs';
 import { ConsoleLogger, ILogger } from '../logger';
 import { IConnectConfiguration, IDisconnectConfiguration, ISkillManifestV2, ISkillManifestV1, IUpdateConfiguration, ISkill, IAppSetting } from '../models';
 import { ConnectSkill } from './connectSkill';
 import { DisconnectSkill } from './disconnectSkill';
-import { ManifestUtils } from '../utils';
+import { ManifestUtils, sanitizeAppSettingsProperties } from '../utils';
 import { IManifest } from '../models/manifest';
 import { EOL } from 'os';
 
@@ -29,7 +28,7 @@ export class UpdateSkill {
             const rawManifest: string = await this.manifestUtils.getRawManifestFromResource(this.configuration);
             const skillManifest: IManifest = await this.manifestUtils.getManifest(rawManifest, this.logger);
 
-            const assistantSkillsFile: IAppSetting = JSON.parse(readFileSync(this.configuration.appSettingsFile, 'UTF8'));
+            const assistantSkillsFile: IAppSetting = JSON.parse(sanitizeAppSettingsProperties(this.configuration.appSettingsFile));
             const assistantSkills: ISkill[] = assistantSkillsFile.botFrameworkSkills !== undefined ? assistantSkillsFile.botFrameworkSkills : [];
             // Check if the skill is already connected to the assistant
             if (assistantSkills.find((assistantSkill: ISkill): boolean => assistantSkill.id === skillManifest.id)) {

@@ -27,3 +27,5 @@ Learn how to create a build pipeline on **Azure DevOps** using a **YAML** file a
 
 ### Scenario
 A personalized build pipeline in **Azure DevOps** usign a **YAML** file. This tutorial is based on a sample Virtual Assistant in the [Bot Framework Solutions repository]({{site.repo}}).
+
+For further information, read [What is Azure Pipelines?](https://docs.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops).

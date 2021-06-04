@@ -1,1 +1,1 @@
-Please refer to the [Virtual Assistant Template documentation](http://aka.ms/virtualassistantdocs) for deployment and customization instructions.
+Please refer to the Virtual Assistant Template documentation for [deployment](https://microsoft.github.io/botframework-solutions/virtual-assistant/tutorials/create-assistant/typescript/4-provision-you-azure-resources/) and [customization](https://microsoft.github.io/botframework-solutions/virtual-assistant/tutorials/customize-assistant/typescript/1-intro/) instructions.

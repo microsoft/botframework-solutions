@@ -42,15 +42,15 @@
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.9.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.11.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
@@ -67,11 +67,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AuthenticationResponses.tt</DependentUpon>
     </Compile>
-    <Compile Update="Feedback\FeedbackResponses.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FeedbackResponses.resx</DependentUpon>
-    </Compile>
     <Compile Update="Resources\CommonStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -80,22 +75,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.de.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.es.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.fr.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.it.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Feedback\FeedbackResponses.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>FeedbackResponses.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Update="Resources\CommonStrings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonStrings.Designer.cs</LastGenOutput>

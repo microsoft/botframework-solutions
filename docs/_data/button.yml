@@ -177,34 +177,26 @@ enable_msteams:
 
 # Enable speech
 enable_speech_uwp:
-  title: Create a voice-first virtual assistant with the Speech SDK, UWP
-  text: Develop a C# Universal Windows Platform (UWP) application by using the Speech SDK.
+  title: Create a Voice Assistant with the Speech SDK in C# UWP
+  text: This quickstart will connect to a previously authored and configured bot to enable a voice assistant experience from the client application.
   button: Learn more
-  ref: 'https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-csharp-uwp'
+  ref: 'https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/csharp/uwp/virtual-assistant'
   ext_ref: true
   img: *cs_img
   alt: *cs_alt
 enable_speech_java:
-  title: Create a voice-first virtual assistant with the Speech SDK, Java
-  text: Develop a Java console application by using the Cognitive Services Speech SDK.
+  title: Using Voice Assistant in Java on Windows or Linux
+  text: This sample demonstrates how to recognize speech for custom voice assistants and receive activity responses.
   button: Learn more
-  ref: 'https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-java-jre'
+  ref: 'https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/java/jre/virtual-assistant'
   ext_ref: true
   img: *java_img
   alt: *java_alt
-enable_speech_android_java:
-  title: Create a voice-first virtual assistant in Java on Android by using the Speech SDK
-  text: Build a voice-first virtual assistant with Java for Android using the Speech SDK.
-  button: Learn more
-  ref: 'https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/quickstart-virtual-assistant-java-android'
-  ext_ref: true
-  img: *android_img
-  alt: *android_alt
 enable_speech_android:
   title: Virtual Assistant Client on Android
   text: Connect your Direct Line Speech-enabled bot to a sample Android application.
   button: Learn more
-  ref: 'https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio'
+  ref: 'https://microsoft.github.io/botframework-solutions/clients-and-channels/clients/virtual-assistant-client'
   ext_ref: true
   img: *android_img
   alt: *android_alt
@@ -226,25 +218,6 @@ enable_msteams_app_studio:
   ext_ref: true
   img: *msteams_img
   alt: *msteams_alt
-
-# CICD
-azure_pipelines:
-  title: What is Azure Pipelines?
-  text: Azure Pipelines is a cloud service that you can use to automatically build and test your code project and make it available to other users
-  button: Learn more
-  ref: 'https://docs.microsoft.com/en-us/azure/devops/pipelines/get-started/what-is-azure-pipelines?view=azure-devops'
-  ext_ref: true
-enable_cd:
-  title: Enable continuous deployment
-  text: Use release pipelines in Azure DevOps to continuously deliver your bot solution
-  button: Learn more
-  ref: 'solution-accelerators/tutorials/enable-continuous-deployment/1-intro/'
-release_pipelines:
-  title: What are release pipelines?
-  text: Release pipelines in Azure Pipelines help your team continuously deliver software to your customers at a faster pace and with lower risk
-  button: Learn more
-  ref: 'https://docs.microsoft.com/en-us/azure/devops/pipelines/release/?view=azure-devops'
-  ext_ref: true
 
 # Telemetry
 telemetry_add:

@@ -47,8 +47,8 @@ export class SkillDialogBase extends ComponentDialog {
         // {
         //    throw new Error('You must configure an authentication connection in your bot file before using this component.');
         // }
-        //
-        // this.addDialog(new MultiProviderAuthDialog(settings.oauthConnections, this.settings.defaultLocale as string));
+        
+        // this.addDialog(new MultiProviderAuthDialog(settings.oauthConnections, this.settings.defaultLocale as string, []));
     }
 
     protected async getAuthToken(sc: WaterfallStepContext): Promise<DialogTurnResult> {

@@ -2,15 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Adapters;
-using Microsoft.Bot.Schema;
-using Microsoft.Bot.Solutions.Feedback;
-using Microsoft.Bot.Solutions.Middleware;
-using Microsoft.Bot.Solutions.Proactive;
 using Microsoft.Bot.Solutions.TaskExtensions;
-using Microsoft.Bot.Solutions.Util;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

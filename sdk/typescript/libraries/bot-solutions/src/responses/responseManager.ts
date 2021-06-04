@@ -56,6 +56,20 @@ export class ResponseManager {
     }
 
     /**
+     * Gets a simple response from template with Text, Speak, InputHint, and SuggestedActions set.
+     * @param templateId The name of the response template.
+     * @param locale The locale for the response template.
+     * @param tokens string map of tokens to replace in the response.
+     * @returns An Activity.
+     */
+    public getLocalizedResponse(templateId: string, locale: string, tokens?: Map<string, string>): Partial<Activity> {
+        const template: ResponseTemplate = this.getResponseTemplate(templateId, locale);
+
+        // create the response the data items
+        return this.parseResponse(template, tokens);
+    }
+
+    /**
      * Gets the Text of a response.
      * @param templateId The name of the response template.
      * @param tokens string map of tokens to replace in the response.

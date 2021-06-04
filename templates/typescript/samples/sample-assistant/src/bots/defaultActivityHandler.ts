@@ -6,14 +6,15 @@
 import {
     Activity,
     ActivityTypes,
-    BotState, 
+    BotState,
+    ChannelAccount,
     Channels,
     ConversationState,
     SigninStateVerificationQuery,
     StatePropertyAccessor,
     TeamsActivityHandler,
     TurnContext, 
-    UserState, 
+    UserState,
     BotTelemetryClient } from 'botbuilder';
 import {
     Dialog,

@@ -292,7 +292,7 @@ describe("The connect command", function () {
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
                 EOL }Error: An error ocurred while updating the Dispatch model:${
                 EOL }Error: There was an error in the bf luis:convert command:${
-                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testSkill.luis')} --name testSkill --force${
+                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture "${configuration.languages[0]}" --out "${join(configuration.luisFolder, configuration.languages[0], 'testSkill.luis')}" --name "testSkill" --force${
                 EOL }Error: Path to testSkill.luis (${join(configuration.luisFolder, configuration.languages[0], "testSkill.luis")}) leads to a nonexistent file.`);
         });
 
@@ -383,7 +383,7 @@ describe("The connect command", function () {
             strictEqual(errorList[errorList.length - 1], `There was an error while connecting the Skill to the Assistant:${
                 EOL }Error: An error ocurred while updating the Dispatch model:${
                 EOL }Error: There was an error in the bf luis:convert command:${
-                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture ${configuration.languages[0]} --out ${join(configuration.luisFolder, configuration.languages[0], 'testSkill.luis')} --name testSkill --force${
+                EOL }Command: bf luis:convert --in "${join(configuration.luisFolder, configuration.languages[0], "testSkill.lu")}" --culture "${configuration.languages[0]}" --out "${join(configuration.luisFolder, configuration.languages[0], 'testSkill.luis')}" --name "testSkill" --force${
                 EOL }Error: The execution of the bf command failed with the following error:${
                 EOL }Error: Mocked function throws an Error`);
 		});
