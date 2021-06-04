@@ -37,9 +37,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <None Include="images\icon.png" Pack="true" PackagePath="\"/>
-  </ItemGroup>
+  </ItemGroup>-->
 
   <PropertyGroup>
     <!-- Rules found at: https://aka.ms/Microsoft-NuGet-Compliance -->
