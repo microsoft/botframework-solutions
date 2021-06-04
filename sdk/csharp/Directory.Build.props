@@ -36,10 +36,7 @@
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
-  
-  <PropertyGroup>
-    <PackageIcon>icon.png</PackageIcon>
-  </PropertyGroup>
+
   <ItemGroup>
     <None Include="images\icon.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
