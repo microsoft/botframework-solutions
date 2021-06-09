@@ -1,6 +1,6 @@
 {
     "name": "bot-solutions",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Shared library for Conversational AI Virtual Assistants and Skills.",
     "homepage": "https://github.com/microsoft/botframework-solutions",
     "author": "Microsoft",

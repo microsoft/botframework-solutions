@@ -21,7 +21,6 @@
     "dependencies": {
         "@microsoft/microsoft-graph-client": "^1.3.0",
         "@microsoft/microsoft-graph-types": "^1.5.0",
-        "bot-solutions": "^1.0.0",
         "botbuilder": "^4.13.5",
         "botbuilder-ai": "^4.13.5",
         "botbuilder-applicationinsights": "^4.13.5",
@@ -29,6 +28,7 @@
         "botbuilder-azure-blobs": "^4.13.5-preview",
         "botbuilder-dialogs": "^4.13.5",
         "botbuilder-lg": "^4.13.5",
+        "bot-solutions": "^1.1.0",
         "botframework-config": "^4.13.5-deprecated",
         "botframework-connector": "^4.13.5",
         "restify": "^8.5.1"

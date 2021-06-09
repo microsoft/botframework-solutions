@@ -19,7 +19,6 @@
         "test-coverage-ci": "nyc --reporter=cobertura mocha --reporter mocha-junit-reporter"
     },
     "dependencies": {
-        "bot-solutions": "^1.0.0",
         "botbuilder": "^4.13.5",
         "botbuilder-ai": "^4.13.5",
         "botbuilder-applicationinsights": "^4.13.5",
@@ -27,6 +26,7 @@
         "botbuilder-azure-blobs": "^4.13.5-preview",
         "botbuilder-dialogs": "^4.13.5",
         "botbuilder-lg": "^4.13.5",
+        "bot-solutions": "^1.1.0",
         "botframework-config": "^4.13.5-deprecated",
         "botframework-connector": "^4.13.5",
         "dotenv": "^6.0.0",
