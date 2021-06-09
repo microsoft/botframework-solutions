@@ -403,7 +403,7 @@ export class MainDialog extends ComponentDialog {
                 return await stepContext.beginDialog(dialogId);
             } else if (this.shouldBeginChitChatDialog(stepContext, dispatchIntent, dispatchScore)) {
                 DialogContextEx.suppressCompletionMessage(stepContext, true);
-                const dialogId = this.registerLocalizedQnADialog('chitchat', stepContext.context, localizedServices)
+                const dialogId = this.registerLocalizedQnADialog('chitchat', stepContext.context, localizedServices);
 
                 return await stepContext.beginDialog(dialogId);
             } else {

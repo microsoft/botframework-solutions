@@ -14,18 +14,19 @@ import {
     UserState,
     TelemetryLoggerMiddleware,
     SkillHttpClient,
+    SkillConversationIdFactory,
     BotFrameworkSkill } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } from 'botbuilder-applicationinsights';
-import { CosmosDbPartitionedStorage, CosmosDbPartitionedStorageOptions } from 'botbuilder-azure';
+import { CosmosDbPartitionedStorage } from 'botbuilder-azure';
 import { Dialog, SkillDialog, SkillDialogOptions } from 'botbuilder-dialogs';
 import {
     CognitiveModelConfiguration,
+    CosmosDbPartitionedStorageOptions,
     LocaleTemplateManager,
     SwitchSkillDialog,
     IEnhancedBotFrameworkSkill,
-    SkillsConfiguration, 
-    SkillConversationIdFactory } from 'bot-solutions';
-import { SimpleCredentialProvider, AuthenticationConfiguration, Claim } from 'botframework-connector';
+    SkillsConfiguration } from 'bot-solutions';
+import { SimpleCredentialProvider, AuthenticationConfiguration, allowedCallersClaimsValidator } from 'botframework-connector';
 import { join } from 'path';
 import * as restify from 'restify';
 import { DefaultAdapter } from './adapters/defaultAdapter';
@@ -39,7 +40,6 @@ import { IBotSettings } from './services/botSettings';
 import { Activity } from 'botframework-schema';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 import { IUserProfileState } from './models/userProfileState';
-import { AllowedCallersClaimsValidator } from './authentication/allowedCallersClaimsValidator';
 import { ITokenExchangeConfig, TokenExchangeSkillHandler } from './tokenExchange';
 
 function getTelemetryClient(settings: Partial<IBotSettings>): BotTelemetryClient {
@@ -78,10 +78,10 @@ const credentialProvider: SimpleCredentialProvider = new SimpleCredentialProvide
 const skillsConfig: SkillsConfiguration = new SkillsConfiguration(appsettings.botFrameworkSkills as IEnhancedBotFrameworkSkill[], appsettings.skillHostEndpoint);
 
 // Register AuthConfiguration to enable custom claim validation.
-const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(skillsConfig);
+const allowedCallers: string[] = [...skillsConfig.skills.values()].map(skill => skill.appId);
 const authenticationConfiguration = new AuthenticationConfiguration(
     undefined,
-    (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+    allowedCallersClaimsValidator(allowedCallers)
 );
 
 // Configure telemetry
