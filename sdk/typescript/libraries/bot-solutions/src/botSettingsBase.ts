@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-import { CosmosDbPartitionedStorageOptions } from 'botbuilder-azure';
+import { CosmosClientOptions } from '@azure/cosmos';
 import { LuisService, QnaMakerService } from 'botframework-config';
 import { IOAuthConnection } from './authentication';
 
@@ -147,4 +147,54 @@ export interface OAuthCredentialsConfiguration {
      * The microsoft app password for OAuth.
      */
     microsoftAppPassword: string;
+}
+
+/**
+ * Cosmos DB Partitioned Storage Options.
+ */
+export interface CosmosDbPartitionedStorageOptions {
+    /**
+     * The CosmosDB endpoint.
+     */
+    cosmosDbEndpoint?: string;
+    /**
+     * The authentication key for Cosmos DB.
+     */
+    authKey?: string;
+    /**
+     * The database identifier for Cosmos DB instance.
+     */
+    databaseId: string;
+    /**
+     * The container identifier.
+     */
+    containerId: string;
+    /**
+     * The options for the CosmosClient.
+     */
+    cosmosClientOptions?: CosmosClientOptions;
+    /**
+     * The throughput set when creating the Container. Defaults to 400.
+     */
+    containerThroughput?: number;
+    /**
+     * The suffix to be added to every key. See cosmosDbKeyEscape.escapeKey
+     *
+     * Note: compatibilityMode must be set to 'false' to use a KeySuffix.
+     * When KeySuffix is used, keys will NOT be truncated but an exception will
+     * be thrown if the key length is longer than allowed by CosmosDb.
+     *
+     * The keySuffix must contain only valid CosmosDb key characters.
+     * (e.g. not: '\\', '?', '/', '#', '*')
+     */
+    keySuffix?: string;
+    /**
+     * Early version of CosmosDb had a max key length of 255.  Keys longer than
+     * this were truncated in cosmosDbKeyEscape.escapeKey.  This remains the default
+     * behavior of cosmosDbPartitionedStorage, but can be overridden by setting
+     * compatibilityMode to false.
+     *
+     * compatibilityMode cannot be true if keySuffix is used.
+     */
+    compatibilityMode?: boolean;
 }

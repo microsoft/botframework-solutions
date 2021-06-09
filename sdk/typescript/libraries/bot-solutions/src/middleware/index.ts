@@ -9,4 +9,3 @@ export * from './consoleOutputMiddleware';
 export * from './contentModeratorMiddleware';
 export * from './eventDebuggerMiddleware';
 export * from './setLocaleMiddleware';
-export * from './setSpeakMiddleware';

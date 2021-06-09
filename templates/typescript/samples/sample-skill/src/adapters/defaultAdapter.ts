@@ -8,6 +8,7 @@ import {
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
     ConversationState,
+    SetSpeakMiddleware,
     ShowTypingMiddleware,
     TelemetryException,
     TelemetryLoggerMiddleware,
@@ -17,7 +18,6 @@ import {
     EventDebuggerMiddleware,
     SetLocaleMiddleware,
     LocaleTemplateManager,
-    SetSpeakMiddleware,
     ActivityEx } from 'bot-solutions';
 import { IBotSettings } from '../services/botSettings';
 import { TurnContextEx } from '../extensions/turnContextEx';
@@ -71,7 +71,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         this.use(new ShowTypingMiddleware());
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        this.use(new SetSpeakMiddleware());
+        this.use(new SetSpeakMiddleware('en-US-JennyNeural', true));
     }
 
     private async handleTurnError(turnContext: TurnContext, error: Error): Promise<void> {

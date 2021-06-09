@@ -66,7 +66,7 @@ namespace VirtualAssistantSample.Adapters
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new SetSpeakMiddleware());
+            Use(new SetSpeakMiddleware("en-US-JennyNeural", true));
             Use(new ProactiveStateMiddleware(proactiveState));
         }
 

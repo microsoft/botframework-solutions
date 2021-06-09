@@ -7,7 +7,6 @@ import {
     Activity,
     ActivityTypes,
     BotState,
-    ChannelAccount,
     Channels,
     ConversationState,
     SigninStateVerificationQuery,
