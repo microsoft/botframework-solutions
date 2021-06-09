@@ -15,7 +15,7 @@ import {
     TranscriptStore,
     TurnContext,
     TelemetryException } from 'botbuilder';
-import { AzureBlobTranscriptStore } from 'botbuilder-azure';
+import { BlobsTranscriptStore } from 'botbuilder-azure-blobs';
 import {
     EventDebuggerMiddleware,
     LocaleTemplateManager,
@@ -67,10 +67,7 @@ export class DefaultAdapter extends BotFrameworkAdapter {
             throw new Error('There is no blobStorage value in appsettings file');
         }
 
-        const transcriptStore: TranscriptStore = new AzureBlobTranscriptStore({
-            containerName: settings.blobStorage.container,
-            storageAccountOrConnectionString: settings.blobStorage.connectionString
-        });
+        const transcriptStore: TranscriptStore = new BlobsTranscriptStore(settings.blobStorage.connectionString, settings.blobStorage.container);
 
         this.use(telemetryMiddleware);
 
