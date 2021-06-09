@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Bot.Builder.Community.Adapters.Google;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +26,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VirtualAssistantSample.Adapters;
-using VirtualAssistantSample.Authentication;
 using VirtualAssistantSample.Bots;
 using VirtualAssistantSample.Dialogs;
 using VirtualAssistantSample.Services;
@@ -74,7 +74,8 @@ namespace VirtualAssistantSample
             services.AddSingleton(skillsConfig);
 
             // Register AuthConfiguration to enable custom claim validation.
-            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(skillsConfig) });
+            var allowedCallers = (from skill in skillsConfig.Skills.Values select skill.AppId).ToList();
+            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(allowedCallers) });
 
             // Configure telemetry
             services.AddApplicationInsightsTelemetry();

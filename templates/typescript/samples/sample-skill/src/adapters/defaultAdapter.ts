@@ -8,6 +8,7 @@ import {
     BotFrameworkAdapterSettings,
     BotTelemetryClient,
     ConversationState,
+    SetSpeakMiddleware,
     ShowTypingMiddleware,
     TelemetryException,
     TelemetryLoggerMiddleware,
@@ -17,11 +18,10 @@ import {
     EventDebuggerMiddleware,
     SetLocaleMiddleware,
     LocaleTemplateManager,
-    SetSpeakMiddleware,
     ActivityEx } from 'bot-solutions';
 import { IBotSettings } from '../services/botSettings';
 import { TurnContextEx } from '../extensions/turnContextEx';
-import { AzureBlobTranscriptStore, BlobStorageSettings } from 'botbuilder-azure';
+import { BlobsTranscriptStore } from 'botbuilder-azure-blobs';
 import { TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
 
 export class DefaultAdapter extends BotFrameworkAdapter {
@@ -65,13 +65,12 @@ export class DefaultAdapter extends BotFrameworkAdapter {
         
         // Uncomment the following line for local development without Azure Storage
         // this.use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
-        const blobStorageSettings: BlobStorageSettings = { containerName: settings.blobStorage.container, storageAccountOrConnectionString: settings.blobStorage.connectionString};
-        this.use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(blobStorageSettings)));
+        this.use(new TranscriptLoggerMiddleware(new BlobsTranscriptStore(settings.blobStorage.connectionString, settings.blobStorage.container)));
         this.use(new TelemetryLoggerMiddleware(telemetryClient, true));
         this.use(new ShowTypingMiddleware());
         this.use(new SetLocaleMiddleware(settings.defaultLocale || 'en-us'));
         this.use(new EventDebuggerMiddleware());
-        this.use(new SetSpeakMiddleware());
+        this.use(new SetSpeakMiddleware('en-US-JennyNeural', true));
     }
 
     private async handleTurnError(turnContext: TurnContext, error: Error): Promise<void> {

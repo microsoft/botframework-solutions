@@ -13,11 +13,12 @@ import {
     UserState, 
     TelemetryLoggerMiddleware } from 'botbuilder';
 import { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware, TelemetryInitializerMiddleware } from 'botbuilder-applicationinsights';
-import { CosmosDbPartitionedStorageOptions, CosmosDbPartitionedStorage } from 'botbuilder-azure';
+import { CosmosDbPartitionedStorage } from 'botbuilder-azure';
 import {
     Dialog } from 'botbuilder-dialogs';
 import {
     CognitiveModelConfiguration,
+    CosmosDbPartitionedStorageOptions,
     LocaleTemplateManager } from 'bot-solutions';
 import { join } from 'path';
 import * as restify from 'restify';
@@ -32,8 +33,7 @@ import { SkillState } from './models';
 import { BotServices } from './services/botServices';
 import { IBotSettings } from './services/botSettings';
 import { readFileSync, existsSync } from 'fs';
-import { AuthenticationConfiguration, Claim } from 'botframework-connector';
-import { AllowedCallersClaimsValidator } from './authentication';
+import { AuthenticationConfiguration, allowedCallersClaimsValidator } from 'botframework-connector';
 
 const cognitiveModels: Map<string, CognitiveModelConfiguration> = new Map();
 const cognitiveModelDictionary: { [key: string]: Object } = cognitiveModelsRaw.cognitiveModels;
@@ -104,10 +104,9 @@ supportedLocales.forEach((locale: string) => {
 const localeTemplateManager: LocaleTemplateManager = new LocaleTemplateManager(localizedTemplates, settings.defaultLocale || 'en-us');
 
 // Register AuthConfiguration to enable custom claim validation.
-const allowedCallersClaimsValidator: AllowedCallersClaimsValidator = new AllowedCallersClaimsValidator(appsettings.allowedCallers);
 const authenticationConfiguration: AuthenticationConfiguration = new AuthenticationConfiguration(
     undefined,
-    (claims: Claim[]) => allowedCallersClaimsValidator.validateClaims(claims)
+    allowedCallersClaimsValidator(appsettings.allowedCallers)
 );
 
 const adapterSettings: Partial<BotFrameworkAdapterSettings> = {

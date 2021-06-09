@@ -4,7 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Azure.Blobs;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
@@ -48,12 +48,12 @@ namespace SkillSample.Adapters
 
             // Uncomment the following line for local development without Azure Storage
             // Use(new TranscriptLoggerMiddleware(new MemoryTranscriptStore()));
-            Use(new TranscriptLoggerMiddleware(new AzureBlobTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
+            Use(new TranscriptLoggerMiddleware(new BlobsTranscriptStore(settings.BlobStorage.ConnectionString, settings.BlobStorage.Container)));
             Use(new TelemetryLoggerMiddleware(telemetryClient, logPersonalInformation: true));
             Use(new ShowTypingMiddleware());
             Use(new SetLocaleMiddleware(settings.DefaultLocale ?? "en-us"));
             Use(new EventDebuggerMiddleware());
-            Use(new SetSpeakMiddleware());
+            Use(new SetSpeakMiddleware("en-US-JennyNeural", true));
         }
 
         private async Task HandleTurnErrorAsync(ITurnContext turnContext, Exception exception)

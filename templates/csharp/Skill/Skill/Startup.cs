@@ -21,7 +21,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using $safeprojectname$.Adapters;
-using $safeprojectname$.Authentication;
 using $safeprojectname$.Bots;
 using $safeprojectname$.Dialogs;
 using $safeprojectname$.Services;
@@ -72,7 +71,10 @@ namespace $safeprojectname$
             services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
 
             // Register AuthConfiguration to enable custom claim validation.
-            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>()) });
+            services.AddSingleton(sp => new AuthenticationConfiguration
+            {
+                ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>().GetSection("allowedCallers").Get<List<string>>())
+            });
 
             // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();

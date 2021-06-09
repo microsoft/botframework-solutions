@@ -15,14 +15,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.ContentModerator" Version="2.0.0" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Language" Version="1.0.1-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.9.3" />
-    <PackageReference Include="Microsoft.Bot.Solutions" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure.Blobs" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Solutions" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>

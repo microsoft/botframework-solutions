@@ -21,7 +21,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SkillSample.Adapters;
-using SkillSample.Authentication;
 using SkillSample.Bots;
 using SkillSample.Dialogs;
 using SkillSample.Services;
@@ -75,7 +74,10 @@ namespace SkillSample
             services.AddSingleton<IChannelProvider, ConfigurationChannelProvider>();
 
             // Register AuthConfiguration to enable custom claim validation.
-            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>()) });
+            services.AddSingleton(sp => new AuthenticationConfiguration
+            {
+                ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>().GetSection("allowedCallers").Get<List<string>>())
+            });
 
             // Configure configuration provider
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();

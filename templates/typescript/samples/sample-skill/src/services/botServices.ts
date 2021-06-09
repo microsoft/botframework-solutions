@@ -33,7 +33,7 @@ export class BotServices {
                 apiVersion: 'v3'
             };
 
-            let set: Partial<ICognitiveModelSet> = {
+            const set: Partial<ICognitiveModelSet> = {
                 luisServices: new Map(),
                 qnaConfiguration: new Map(),
                 qnaServices: new Map()

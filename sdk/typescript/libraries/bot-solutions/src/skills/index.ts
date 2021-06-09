@@ -6,5 +6,4 @@
 export * from './dialogs';
 export * from './models';
 export * from './skillException';
-export * from './skillConversationIdFactory';
 export * from './skillsConfiguration';
