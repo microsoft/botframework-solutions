@@ -33,6 +33,7 @@ namespace $safeprojectname$.Dialogs
 
         private readonly LocaleTemplateManager _templateManager;
         private readonly BotServices _services;
+        private readonly BotSettings _settings;
         private readonly OnboardingDialog _onboardingDialog;
         private readonly SwitchSkillDialog _switchSkillDialog;
         private readonly SkillsConfiguration _skillsConfig;
@@ -44,6 +45,7 @@ namespace $safeprojectname$.Dialogs
             IServiceProvider serviceProvider)
             : base(nameof(MainDialog))
         {
+            _settings = serviceProvider.GetService<BotSettings>();
             _services = serviceProvider.GetService<BotServices>();
             _templateManager = serviceProvider.GetService<LocaleTemplateManager>();
             _skillsConfig = serviceProvider.GetService<SkillsConfiguration>();
@@ -189,7 +191,8 @@ namespace $safeprojectname$.Dialogs
                     activeLearningCardTitle: _templateManager.GenerateActivityForLocale("QnaMakerAdaptiveLearningCardTitle").Text,
                     cardNoMatchText: _templateManager.GenerateActivityForLocale("QnaMakerNoMatchText").Text)
                 {
-                    Id = knowledgebaseId
+                    Id = knowledgebaseId,
+                    LogPersonalInformation = _settings.LogPersonalData
                 };
             }
             else
