@@ -77,12 +77,16 @@ const credentialProvider: SimpleCredentialProvider = new SimpleCredentialProvide
 // Register the skills configuration class.
 const skillsConfig: SkillsConfiguration = new SkillsConfiguration(appsettings.botFrameworkSkills as IEnhancedBotFrameworkSkill[], appsettings.skillHostEndpoint);
 
+let authenticationConfiguration = new AuthenticationConfiguration();
+
 // Register AuthConfiguration to enable custom claim validation.
-const allowedCallers: string[] = [...skillsConfig.skills.values()].map(skill => skill.appId);
-const authenticationConfiguration = new AuthenticationConfiguration(
-    undefined,
-    allowedCallersClaimsValidator(allowedCallers)
-);
+if (skillsConfig.skills.size > 0) {
+    const allowedCallers: string[] = [...skillsConfig.skills.values()].map(skill => skill.appId);
+    authenticationConfiguration = new AuthenticationConfiguration(
+        undefined,
+        allowedCallersClaimsValidator(allowedCallers)
+    );
+}
 
 // Configure telemetry
 const telemetryClient: BotTelemetryClient = getTelemetryClient(settings);
