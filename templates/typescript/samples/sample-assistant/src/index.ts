@@ -80,9 +80,9 @@ const skillsConfig: SkillsConfiguration = new SkillsConfiguration(appsettings.bo
 let authenticationConfiguration = new AuthenticationConfiguration();
 
 // Register AuthConfiguration to enable custom claim validation.
-if(skillsConfig.skills.size > 0){
+if (skillsConfig.skills.size > 0) {
     const allowedCallers: string[] = [...skillsConfig.skills.values()].map(skill => skill.appId);
-    const authenticationConfiguration = new AuthenticationConfiguration(
+    authenticationConfiguration = new AuthenticationConfiguration(
         undefined,
         allowedCallersClaimsValidator(allowedCallers)
     );
