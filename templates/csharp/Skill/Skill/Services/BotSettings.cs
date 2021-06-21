@@ -7,5 +7,6 @@ namespace $safeprojectname$.Services
 {
     public class BotSettings : BotSettingsBase
     {
+        public bool LogPersonalData { get; set; }
     }
 }

@@ -27,9 +27,6 @@
       <Folder Name="Adapters" TargetFolderName="Adapters">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultAdapter.cs">DefaultAdapter.cs</ProjectItem>
       </Folder>
-      <Folder Name="Authentication" TargetFolderName="Authentication">
-        <ProjectItem ReplaceParameters="true" TargetFileName="AllowedCallersClaimsValidator.cs">AllowedCallersClaimsValidator.cs</ProjectItem>
-      </Folder>
       <Folder Name="Bots" TargetFolderName="Bots">
         <ProjectItem ReplaceParameters="true" TargetFileName="DefaultActivityHandler.cs">DefaultActivityHandler.cs</ProjectItem>
       </Folder>
@@ -101,7 +98,12 @@
         <ProjectItem ReplaceParameters="true" TargetFileName="MainDialog.cs">MainDialog.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="OnboardingDialog.cs">OnboardingDialog.cs</ProjectItem>
       </Folder>
+      <Folder Name="Extensions" TargetFolderName="Extensions">
+        <ProjectItem ReplaceParameters="true" TargetFileName="InvokeActivityExtensions.cs">InvokeActivityExtensions.cs</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="InvokeResponseExtensions.cs">InvokeResponseExtensions.cs</ProjectItem>
+      </Folder>
       <Folder Name="Models" TargetFolderName="Models">
+        <ProjectItem ReplaceParameters="true" TargetFileName="SkillCardActionData.cs">SkillCardActionData.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="StateProperties.cs">StateProperties.cs</ProjectItem>
         <ProjectItem ReplaceParameters="true" TargetFileName="UserProfileState.cs">UserProfileState.cs</ProjectItem>
       </Folder>

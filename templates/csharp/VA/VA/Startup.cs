@@ -58,7 +58,10 @@ namespace $safeprojectname$
             services.AddSingleton(Configuration);
 
             // Load settings
-            var settings = new BotSettings();
+            var settings = new BotSettings()
+            {
+                LogPersonalData = Configuration.GetSection("logPersonalInfo")?.Value.ToLower() == "true"
+            };
             Configuration.Bind(settings);
             services.AddSingleton(settings);
 
@@ -82,7 +85,8 @@ namespace $safeprojectname$
             services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
             services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
             services.AddSingleton<TelemetryInitializerMiddleware>();
-            services.AddSingleton<TelemetryLoggerMiddleware>();
+            
+            services.AddSingleton<TelemetryLoggerMiddleware>(s => new TelemetryLoggerMiddleware(s.GetService<IBotTelemetryClient>(), settings.LogPersonalData));
 
             // Configure bot services
             services.AddSingleton<BotServices>();
