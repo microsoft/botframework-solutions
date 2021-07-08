@@ -119,6 +119,7 @@ foreach ($langCode in $languageMap.Keys) {
                     --key $kb.subscriptionKey `
                     --intentName "q_$($kb.id)" `
                     --dispatch $dispatchFile `
+		    --endpointUrl $qnaEndpoint `
                     --dataFolder $(Join-Path $dispatchFolder $langCode) 2>> $logFile | Out-Null
                 Write-Host "Done." -ForegroundColor Green
             }
@@ -217,6 +218,7 @@ foreach ($langCode in $languageMap.Keys) {
                     --id $kb.kbId  `
                     --key $kb.subscriptionKey  `
                     --intentName "q_$($kb.id)" `
+		    --endpointUrl $qnaEndpoint `
                     --dispatch $(Join-Path $dispatchFolder $langCode "$($dispatch.name).dispatch") `
                     --dataFolder $(Join-Path $dispatchFolder $langCode))  2>> $logFile | Out-Null
                 Write-Host "Done." -ForegroundColor Green
