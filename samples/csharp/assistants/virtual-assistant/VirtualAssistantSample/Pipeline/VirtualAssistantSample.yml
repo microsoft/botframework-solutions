@@ -57,7 +57,7 @@ steps:
     summaryFileLocation: '$(Build.SourcesDirectory)\VirtualAssistantSample.Tests\coverage.cobertura.xml'
     reportDirectory: '$(Build.SourcesDirectory)\VirtualAssistantSample.Tests'
 
- - task: CopyFiles@2
+- task: CopyFiles@2
   displayName: 'Copy VA'
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample'
