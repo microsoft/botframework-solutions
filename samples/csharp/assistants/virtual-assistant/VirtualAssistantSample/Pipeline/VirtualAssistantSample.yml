@@ -1,31 +1,28 @@
 # specific branch build
 trigger:
-  branches:  
+  branches:
     include:
     - master
     - feature/*
-  
+
 pool:
-   name: Hosted VS2017
-   demands:
-    - msbuild
-    - visualstudio
+   vmimage: 'windows-2019'
 
 variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 2.2.100'
+- task: DotNetCoreInstaller@2
+  displayName: 'Use .NET Core sdk 3.1'
   inputs:
-    version: 2.2.100
+    version: 3.1.x
   continueOnError: true
 
 - task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.9.1'
+  displayName: 'Use NuGet 5.3.0'
   inputs:
-    versionSpec: 4.9.1
+    versionSpec: 5.3.0
 
 - task: NuGetCommand@2
   displayName: 'NuGet restore'
