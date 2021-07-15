@@ -60,7 +60,8 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy VA'
   inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)\templates\Virtual-Assistant-Template\csharp\Sample\VirtualAssistantSample'
+    # if your working directory is not root, you may change the following path
+    SourceFolder: '$(System.DefaultWorkingDirectory)\VirtualAssistantSample'
     Contents: '**\*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)\VA'
 
