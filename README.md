@@ -1,3 +1,7 @@
+# The Virtual Assistant template and samples have been replace by the [Enterprise Assistant Template](https://docs.microsoft.com/en-us/composer/templates/enterprise-assistant-overview) in [Bot Framework Composer](https://docs.microsoft.com/en-us/composer/introduction?tabs=v2x). All new projects should use this template instead. This repo will be archived and no longer actively supported on March 31, 2022. The existing assets will remain for reference but will no longer be available in the Visual Studio Marketplace or NuGet repository.
+
+# Questions regarding the Enterprise Assistant Template and/or migration support can be directed to the [BotFramework-Components](https://github.com/microsoft/botframework-components) or [BotFramework-Composer](https://github.com/Microsoft/BotFramework-Composer) repositories.
+
 ![Bot Framework Solutions](/docs/assets/images/bot_framework_solutions_header.png)
 
 This repository is the home for a set of templates and solutions to help build conversational experiences using [Azure Bot Service](https://aka.ms/azurebotservice) and [Bot Framework](https://botframework.com).
