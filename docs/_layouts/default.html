@@ -14,19 +14,19 @@
 <body class="ms-Fabric">
     {% include header.html %}
 	<div class="container-fluid px-6 py-9">
-	<div class="ms-MessageBar ms-MessageBar--error">
-	  <div class="ms-MessageBar-content">
-	    <div class="ms-MessageBar-icon">
-	      <i class="ms-Icon ms-Icon--ErrorBadge"></i>
-	    </div>
-	    <div class="ms-MessageBar-text">
-	      This site is obsolete and should be used for reference only. The information in this documentation is not guaranteed to work for Bot Framework SDK versions past 4.9.1.
-	    </div>
-	  </div>
-	</div>
         <div class="row">
             {% include nav.html %}
             <main id="markdown-content" class="col-12 col-md-8 px-2 markdown-body">
+	    	<div class="ms-MessageBar ms-MessageBar--error">
+		  <div class="ms-MessageBar-content">
+		    <div class="ms-MessageBar-icon">
+		      <i class="ms-Icon ms-Icon--ErrorBadge"></i>
+		    </div>
+		    <div class="ms-MessageBar-text">
+		      This site is obsolete and should be used for reference only. The information in this documentation is not guaranteed to work for Bot Framework SDK versions past 4.9.1.
+		    </div>
+		  </div>
+		</div>
                 {{ content }}
             </main>
             <nav id="toc-content" class="col-2 d-none d-md-block">
